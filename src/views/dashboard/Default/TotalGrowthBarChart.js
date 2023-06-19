@@ -21,10 +21,6 @@ import chartData from './chart-data/total-growth-bar-chart';
 const status = [
   {
     value: 'today',
-    label: 'Today'
-  },
-  {
-    value: 'month',
     label: 'This Month'
   },
   {
@@ -33,7 +29,7 @@ const status = [
   }
 ];
 
-// ==============================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||============================== //
+// ==============================|| DASHBOARD DEFAULT -  BAR CHART ||============================== //
 
 const TotalGrowthBarChart = ({ isLoading }) => {
   const [value, setValue] = useState('today');
@@ -100,11 +96,11 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                 <Grid item>
                   <Grid container direction="column" spacing={1}>
                     <Grid item>
-                      <Typography variant="subtitle2">Total Growth</Typography>
+                      <Typography variant="h4">Job Statistics</Typography>
                     </Grid>
-                    <Grid item>
+                    {/* <Grid item>
                       <Typography variant="h3">$2,324.00</Typography>
-                    </Grid>
+                    </Grid> */}
                   </Grid>
                 </Grid>
                 <Grid item>

@@ -17,9 +17,9 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
-  id: 'pages',
-  title: 'Pages',
-  // caption: 'Pages Caption',
+  // id: '',
+  // title: '',
+  // caption: '',
   type: 'group',
   children: [
     // {
@@ -27,7 +27,6 @@ const pages = {
     //   title: 'Authentication',
     //   type: 'collapse',
     //   icon: icons.IconKey,
-
     //   children: [
     //     {
     //       id: 'login3',
@@ -134,19 +133,18 @@ const pages = {
     },
     {
       id: 'leavemanagement',
-      title: 'Leave Management',
+      title: 'Leave Management , Attendance',
       type: 'item',
       icon: icons.PermIdentityOutlinedIcon,
       url: '/leavemanagement',
-    }
-    //   children: [
-    //     {
-    //       id: 'userlist',
-    //       title: 'User List',
-    //       type: 'item',
-    //       url: '/UserList'
-    //     },
-    //   ]
+    },
+     {
+      id: 'performance',
+      title: 'Performance',
+      type: 'item',
+      icon: icons.IconKey,
+      url:'/performance',
+     }
      
   ]
 };
