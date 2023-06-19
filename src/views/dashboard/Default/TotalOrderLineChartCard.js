@@ -2,40 +2,34 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
-
-// third-party
-import Chart from 'react-apexcharts';
+import { styled, useTheme } from '@mui/material/styles';
+import { Avatar, Box, Grid, Menu, MenuItem, Typography } from '@mui/material';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
-import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-
-import ChartDataMonth from './chart-data/total-order-month-line-chart';
-import ChartDataYear from './chart-data/total-order-year-line-chart';
+import SkeletonEarningCard from 'ui-component/cards/Skeleton/EarningCard';
 
 // assets
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import EarningIcon from 'assets/images/icons/earning.svg';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import GetAppTwoToneIcon from '@mui/icons-material/GetAppOutlined';
+// import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
+import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
+// import ArchiveTwoToneIcon from '@mui/icons-material/ArchiveOutlined';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.dark,
+  backgroundColor: theme.palette.secondary.dark,
   color: '#fff',
   overflow: 'hidden',
   position: 'relative',
-  '&>div': {
-    position: 'relative',
-    zIndex: 5
-  },
   '&:after': {
     content: '""',
     position: 'absolute',
     width: 210,
     height: 210,
-    background: theme.palette.primary[800],
+    background: theme.palette.secondary[800],
     borderRadius: '50%',
-    zIndex: 1,
     top: -85,
     right: -95,
     [theme.breakpoints.down('sm')]: {
@@ -46,10 +40,9 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   '&:before': {
     content: '""',
     position: 'absolute',
-    zIndex: 1,
     width: 210,
     height: 210,
-    background: theme.palette.primary[800],
+    background: theme.palette.secondary[800],
     borderRadius: '50%',
     top: -125,
     right: -15,
@@ -61,20 +54,25 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   }
 }));
 
-// ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
+// ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const EarningCard = ({ isLoading }) => {
   const theme = useTheme();
 
-  const [timeValue, setTimeValue] = useState(false);
-  const handleChangeTime = (event, newValue) => {
-    setTimeValue(newValue);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
   };
 
   return (
     <>
       {isLoading ? (
-        <SkeletonTotalOrderCard />
+        <SkeletonEarningCard />
       ) : (
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
@@ -87,76 +85,90 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                       sx={{
                         ...theme.typography.commonAvatar,
                         ...theme.typography.largeAvatar,
-                        backgroundColor: theme.palette.primary[800],
-                        color: '#fff',
+                        backgroundColor: theme.palette.secondary[800],
                         mt: 1
                       }}
                     >
-                      <LocalMallOutlinedIcon fontSize="inherit" />
+                      <img src={EarningIcon} alt="Notification" />
                     </Avatar>
                   </Grid>
                   <Grid item>
-                    <Button
-                      disableElevation
-                      variant={timeValue ? 'contained' : 'text'}
-                      size="small"
-                      sx={{ color: 'inherit' }}
-                      onClick={(e) => handleChangeTime(e, true)}
+                    <Avatar
+                      variant="rounded"
+                      sx={{
+                        ...theme.typography.commonAvatar,
+                        ...theme.typography.mediumAvatar,
+                        backgroundColor: theme.palette.secondary.dark,
+                        color: theme.palette.secondary[200],
+                        zIndex: 1
+                      }}
+                      aria-controls="menu-earning-card"
+                      aria-haspopup="true"
+                      onClick={handleClick}
                     >
-                      Month
-                    </Button>
-                    <Button
-                      disableElevation
-                      variant={!timeValue ? 'contained' : 'text'}
-                      size="small"
-                      sx={{ color: 'inherit' }}
-                      onClick={(e) => handleChangeTime(e, false)}
+                      <MoreHorizIcon fontSize="inherit" />
+                    </Avatar>
+                    <Menu
+                      id="menu-earning-card"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                      variant="selectedMenu"
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right'
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right'
+                      }}
                     >
-                      Year
-                    </Button>
+                      <MenuItem onClick={handleClose}>
+                        <GetAppTwoToneIcon sx={{ mr: 1.75 }} /> Import Card
+                      </MenuItem>
+                      {/* <MenuItem onClick={handleClose}>
+                        <FileCopyTwoToneIcon sx={{ mr: 1.75 }} /> Copy Data
+                      </MenuItem> */}
+                      <MenuItem onClick={handleClose}>
+                        <PictureAsPdfTwoToneIcon sx={{ mr: 1.75 }} /> Export
+                      </MenuItem>
+                      {/* <MenuItem onClick={handleClose}>
+                        <ArchiveTwoToneIcon sx={{ mr: 1.75 }} /> Archive File
+                      </MenuItem> */}
+                    </Menu>
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item sx={{ mb: 0.75 }}>
+              <Grid item>
                 <Grid container alignItems="center">
-                  <Grid item xs={6}>
-                    <Grid container alignItems="center">
-                      <Grid item>
-                        {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$108</Typography>
-                        ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>$961</Typography>
-                        )}
-                      </Grid>
-                      <Grid item>
-                        <Avatar
-                          sx={{
-                            ...theme.typography.smallAvatar,
-                            cursor: 'pointer',
-                            backgroundColor: theme.palette.primary[200],
-                            color: theme.palette.primary.dark
-                          }}
-                        >
-                          <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                        </Avatar>
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          sx={{
-                            fontSize: '1rem',
-                            fontWeight: 500,
-                            color: theme.palette.primary[200]
-                          }}
-                        >
-                          Total Order
-                        </Typography>
-                      </Grid>
-                    </Grid>
+                  <Grid item>
+                    <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>5</Typography>
                   </Grid>
-                  <Grid item xs={6}>
-                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
+                  <Grid item>
+                    <Avatar
+                      sx={{
+                        cursor: 'pointer',
+                        ...theme.typography.smallAvatar,
+                        backgroundColor: theme.palette.secondary[200],
+                        color: theme.palette.secondary.dark
+                      }}
+                    >
+                      <ArrowUpwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
+                    </Avatar>
                   </Grid>
                 </Grid>
+              </Grid>
+              <Grid item sx={{ mb: 1.25 }}>
+                <Typography
+                  sx={{
+                    fontSize: '1rem',
+                    fontWeight: 500,
+                    color: theme.palette.secondary[200]
+                  }}
+                >
+                  TOTAL PROJECTS
+                </Typography>
               </Grid>
             </Grid>
           </Box>
@@ -166,8 +178,8 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
   );
 };
 
-TotalOrderLineChartCard.propTypes = {
+EarningCard.propTypes = {
   isLoading: PropTypes.bool
 };
 
-export default TotalOrderLineChartCard;
+export default EarningCard;
