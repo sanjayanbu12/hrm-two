@@ -1,0 +1,195 @@
+{
+  "projects": [
+    {
+      "name": "HRM",
+      "lead": "Deva",
+      "scrum": "Prem",
+      "status": "Not-Started",
+      "description": "Abt",
+      "powner": "Prem",
+      "memb": [
+        {
+          "name": "Prem",
+          "role": "HR"
+        }
+      ],
+      "id": 5
+    },
+    {
+      "name": "new",
+      "lead": "Deva",
+      "scrum": "Ajay",
+      "status": "Not-Started",
+      "description": "Abt",
+      "powner": "Ajay",
+      "memb": [
+        {
+          "name": "Deva",
+          "role": "Software Associate"
+        },
+        {
+          "name": "Ajay",
+          "role": "Software Associate"
+        }
+      ],
+      "id": 6
+    },
+    {
+      "name": "Task",
+      "lead": "Ajay",
+      "scrum": "Prem",
+      "status": "In-progress",
+      "description": "HI",
+      "powner": "Prem",
+      "memb": [
+        {
+          "name": "Ajay",
+          "role": "Software Associate"
+        },
+        {
+          "name": "Deva",
+          "role": "Software Associate"
+        },
+        {
+          "name": "Prem",
+          "role": "HR"
+        }
+      ],
+      "id": 7
+    },
+    {
+      "name": "Task Management",
+      "lead": "Deva",
+      "scrum": "Prem",
+      "status": "In-progress",
+      "description": "Task management",
+      "powner": "Ajay",
+      "memb": [
+        {
+          "name": "Deva",
+          "role": "Software Associate"
+        }
+      ],
+      "id": 8
+    },
+    {
+      "name": "E-Commerce",
+      "lead": "Deva",
+      "scrum": "Prem",
+      "status": "Completed",
+      "description": "Berry",
+      "powner": "Prem",
+      "memb": [
+        {
+          "name": "Ajay",
+          "role": "Software Associate"
+        }
+      ],
+      "id": 9
+    }
+  ],
+  "employees": [
+    {
+      "name": "Deva",
+      "role": "Software Associate"
+    },
+    {
+      "name": "Ajay",
+      "role": "Software Associate"
+    },
+    {
+      "name": "Prem",
+      "role": "HR"
+    }
+  ],
+  "users": [
+    {
+      "firstname": "ajay",
+      "lastname": "b",
+      "email": "ajay@gmail.copm",
+      "password": "sadd",
+      "id": 1,
+      "role": "user"
+    },
+    {
+      "firstname": "ajay",
+      "lastname": "b",
+      "email": "ajay@gmail.com",
+      "password": "123544",
+      "role": "user",
+      "id": 2
+    },
+    {
+      "firstname": "asas",
+      "lastname": "ajay",
+      "email": "ajau@gmail.com",
+      "password": "55555",
+      "role": "user",
+      "id": 3
+    },
+    {
+      "firstname": "hhh",
+      "lastname": "b",
+      "email": "ajay@gmail.com",
+      "password": "558555",
+      "role": "user",
+      "id": 4
+    }
+  ],
+  "EmployeeForm": [
+    {
+      "name": "Kishore",
+      "lastname": "M",
+      "company": "SNS SQUARE",
+      "dept": "HR",
+      "desi": "Software Developer",
+      "mail": "Ksr@gmail.com",
+      "mob": "78894222",
+      "join": "2023-06-09",
+      "report": "Prem",
+      "dob": "2023-06-14",
+      "type": "Full Time",
+      "id": 1
+    },
+    {
+      "name": "Sanjay",
+      "lastname": "A",
+      "company": "SNS SQUARE",
+      "dept": "Technical",
+      "desi": "Data Analyst",
+      "mail": "siva@gmail.com",
+      "mob": "789456123",
+      "join": "2023-06-10",
+      "report": "Jothi Mani",
+      "dob": "2023-06-16",
+      "type": "Internship",
+      "id": 2
+    },
+    {
+      "name": "Sivamani",
+      "lastname": "A",
+      "company": "SNS SQUARE",
+      "dept": "Technical",
+      "desi": "Software Developer",
+      "mail": "siva@gmail.com",
+      "mob": "789456123",
+      "join": "2023-06-10",
+      "report": "Jothi Mani",
+      "dob": "2023-06-16",
+      "type": "Internship",
+      "id": 3
+    }
+  ],
+  "task": [
+    {
+      "id": "bd180ba9-585c-4aa6-9a12-3b0a5a6ddb5a",
+      "project": "Project 1",
+      "issueType": "QA Task",
+      "summary": "good",
+      "reporter": "Priya",
+      "assignee": "Priya",
+      "priority": "Medium"
+    }
+  ],
+  "recyclebin": []
+}
