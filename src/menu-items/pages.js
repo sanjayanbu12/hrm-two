@@ -45,11 +45,14 @@ const pages = {
     //     }
     //   ]
     // },
-    // {
-    //   id: 'sample',
-    //   title: 'Samples',
-    //   type: 'collapse',
-    //   icon: icons.AccountTreeOutlinedIcon,
+    {
+      id: 'recruitment',
+      title: 'Recruitment',
+      type: 'item',
+      url:'/recruitment',
+      icon: icons.AccountTreeOutlinedIcon
+  },
+      
 
     //   children: [
     //     {
@@ -57,7 +60,7 @@ const pages = {
     //       title: 'Sample List',
     //       type: 'item',
     //       url: '/samplelist'
-    //     },
+    
     //     {
     //       id: 'newsample',
     //       title: 'Add Sample',
@@ -66,48 +69,48 @@ const pages = {
     //     }
     //   ]
     // },
-    {
-      id: 'projects',
-      title: 'Projects',
-      type: 'collapse',
-      icon: icons.AccountTreeOutlinedIcon,
+//    {
+//       id: 'projects',
+//       title: 'Projects',
+//       type: 'collapse',
+//       icon: icons.AccountTreeOutlinedIcon,
+// },
 
-      children: [
-        {
-          id: 'projectlist',
-          title: 'Project List',
-          type: 'item',
-          url: '/projectlist'
-        },
-        {
-          id: 'newproject',
-          title: 'Add Project',
-          type: 'item',
-          url: '/newproject'
-        }
-      ]
-    },
-    {
-      id: 'tasks',
-      title: 'Tasks',
-      type: 'collapse',
-      icon: icons.AssignmentOutlinedIcon,
+    //   children: [
+    //     {
+    //       id: 'projectlist',
+    //       title: 'Project List',
+    //       type: 'item',
+    //       url: '/projectlist'
+    //     },
+    //     {
+    //       id: 'newproject',
+    //       title: 'Add Project',
+    //       type: 'item',
+    //       url: '/newproject'
+    //     }
+    //   ]
+    // {
+    //   id: 'tasks',
+    //   title: 'Tasks',
+    //   type: 'collapse',
+    //   icon: icons.AssignmentOutlinedIcon,
 
-      children: [
-        {
-          id: 'tasklist',
-          title: 'Task List',
-          type: 'item',
-          url: '/tasklist'
-        },
-        {
-          id: 'addtask',
-          title: 'Add Task',
-          type: 'item',
-          url: '/addtask'
-        }
-      ]
-    },
+    //   children: [
+    //     {
+    //       id: 'tasklist',
+    //       title: 'Task List',
+    //       type: 'item',
+    //       url: '/tasklist'
+    //     },
+    //     {
+    //       id: 'addtask',
+    //       title: 'Add Task',
+    //       type: 'item',
+    //       url: '/addtask'
+    //     }
+    //   ]
+    // },
     {
       id: 'employees',
       title: 'Employees',
@@ -130,20 +133,21 @@ const pages = {
       ]
     },
     {
-      id: 'users',
-      title: 'Users',
-      type: 'collapse',
+      id: 'leavemanagement',
+      title: 'Leave Management',
+      type: 'item',
       icon: icons.PermIdentityOutlinedIcon,
-
-      children: [
-        {
-          id: 'userlist',
-          title: 'User List',
-          type: 'item',
-          url: '/UserList'
-        },
-      ]
+      url: '/leavemanagement',
     }
+    //   children: [
+    //     {
+    //       id: 'userlist',
+    //       title: 'User List',
+    //       type: 'item',
+    //       url: '/UserList'
+    //     },
+    //   ]
+     
   ]
 };
 

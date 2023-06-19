@@ -3,18 +3,10 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-import ProjectList from 'views/projects/ProjectList';
-import AddProject from 'views/projects/AddProject';
-import Projectdetails from 'views/projects/Projectdetails';
-import SampleList from 'views/sample/SampleList';
-import SampleForm from 'views/sample/SampleForm';
-import UserList from 'views/User/UserList';
-import UserForm from 'views/User/UserForm';
 import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
-import TaskList from 'views/task/TaskList';
-import AddTaskForm from 'views/task/AddTaskForm';
-import Recyclebin from 'views/task/Recyclebin';
+import Recruitment from 'views/recruitment/Recruitment'
+import Leavemanagement from 'views/leavemanagement/Leavemanagement';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -49,40 +41,40 @@ const MainRoutes = {
       ]
     },
     {
-      path: '/samplelist',
-      element: <SampleList />
+      path: '/recruitment',
+      element: <Recruitment />
     },
     {
-      path: '/tasklist',
-      element: <TaskList />
+      path: '/leavemanagement',
+      element: <Leavemanagement />
     },
-    {
-      path: '/newsample',
-      element: <SampleForm />
-    },
-    {
-      path: '/projectlist',
-      element: <ProjectList />
-    },
-    {
-      path: "/newproject",
-      element: <AddProject />
-    },
-    {
-      path: "/editproject/:id",
-      element: <AddProject />
-    },
-    {
-      path: "/projectdetails/:id",
-      element: <Projectdetails />
-    },
-    {
-      path: '/UserList',
-      element: <UserList />
-    },
-    {
-      path: '/userform/:id',
-      element: <UserForm />},
+    // {
+    //   path: '/newsample',
+    //   element: <SampleForm />
+    // },
+    // {
+    //   path: '/projectlist',
+    //   element: <ProjectList />
+    // },
+    // {
+    //   path: "/newproject",
+    //   element: <AddProject />
+    // },
+    // {
+    //   path: "/editproject/:id",
+    //   element: <AddProject />
+    // },
+    // {
+    //   path: "/projectdetails/:id",
+    //   element: <Projectdetails />
+    // },
+    // {
+    //   path: '/UserList',
+    //   element: <UserList />
+    // },
+    // {
+    //   path: '/userform/:id',
+    //   element: <UserForm />},
       {
       path: '/Addemployeetable',
       element: <Addemployeetable />
@@ -91,22 +83,6 @@ const MainRoutes = {
       path: '/newemployee',
       element: <EmployeeForm />
     },
-    {
-      path: '/editemployee/:id',
-      element: <EmployeeForm />
-    },
-   {
-      path: '/addtask',
-      element: <AddTaskForm/>
-    },
-    {
-      path: "/edittask/:id",
-      element: <AddTaskForm/>
-    },
-    {
-      path: '/recyclebin',
-      element: <Recyclebin />,
-    }
     
   ]
 };
