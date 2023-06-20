@@ -44,14 +44,28 @@ const pages = {
     //     }
     //   ]
     // },
+
     {
       id: 'recruitment',
       title: 'Recruitment',
-      type: 'item',
-      url:'/recruitment',
-      icon: icons.AccountTreeOutlinedIcon
-  },
-      
+      type: 'collapse',
+      icon: icons.AccountTreeOutlinedIcon,
+
+      children: [
+        {
+          id: 'RecruitmentTable',
+          title: 'Recruitment Table',
+          type: 'item',
+          url: '/RecruitmentTable'
+        },
+        {
+          id: 'Recruitment Form',
+          title: 'Recruitment Form',
+          type: 'item',
+          url: '/RecruitmentForm'
+        }
+      ]
+    },
 
     //   children: [
     //     {
@@ -59,7 +73,7 @@ const pages = {
     //       title: 'Sample List',
     //       type: 'item',
     //       url: '/samplelist'
-    
+
     //     {
     //       id: 'newsample',
     //       title: 'Add Sample',
@@ -68,12 +82,12 @@ const pages = {
     //     }
     //   ]
     // },
-//    {
-//       id: 'projects',
-//       title: 'Projects',
-//       type: 'collapse',
-//       icon: icons.AccountTreeOutlinedIcon,
-// },
+    //    {
+    //       id: 'projects',
+    //       title: 'Projects',
+    //       type: 'collapse',
+    //       icon: icons.AccountTreeOutlinedIcon,
+    // },
 
     //   children: [
     //     {
@@ -142,7 +156,7 @@ const pages = {
       title: 'Leave Management',
       type: 'collapse',
       icon: icons.PermIdentityOutlinedIcon,
-    
+
       children: [
         {
           id: 'leavetracker',
@@ -164,14 +178,13 @@ const pages = {
         },
       ]
     },
-     {
+    {
       id: 'performance',
       title: 'Performance',
       type: 'item',
       icon: icons.IconKey,
-      url:'/performance',
-     }
-     
+      url: '/performance'
+    }
   ]
 };
 
