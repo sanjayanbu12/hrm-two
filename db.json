@@ -178,6 +178,20 @@
       "dob": "2023-06-16",
       "type": "Internship",
       "id": 3
+    },
+    {
+      "name": "Task",
+      "lastname": "Task Management",
+      "company": "MALE",
+      "dept": "HR",
+      "desi": "Software Developer",
+      "mail": "sanjay@gmail.com",
+      "mob": "E-Commerce",
+      "join": "2023-06-14",
+      "report": "Priya",
+      "dob": "2002-01-20",
+      "type": "Full Time",
+      "id": 4
     }
   ],
   "task": [

@@ -290,23 +290,6 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.company}>
-                <InputLabel id="demo-simple-select-label">Company</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Company"
-                  value={company}
-                  // error={errors && errors.company}
-                  // helperText={errors && errors.company}
-                  onChange={(e) => handleCompany(e)}
-                >
-                  <MenuItem value="SNS SQUARE">SNS SQUARE</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.company}</FormHelperText>
-              </FormControl>
-            </Grid>
 
             <Grid item xs={4}>
               <TextField
@@ -320,6 +303,26 @@ const EmployeeForm = () => {
                 onChange={(e) => handleEmail(e)}
               />
             </Grid>
+
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.company}>
+                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Gender"
+                  value={company}
+                  // error={errors && errors.company}
+                  // helperText={errors && errors.company}
+                  onChange={(e) => handleCompany(e)}
+                >
+                  <MenuItem value="MALE">MALE</MenuItem>
+                  <MenuItem value="FEMALE">FEMALE</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.company}</FormHelperText>
+              </FormControl>
+            </Grid>
+
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.dept}>
                 <InputLabel id="demo-simple-select-label">Department</InputLabel>
