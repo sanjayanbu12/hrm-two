@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Recruitment = () => {
+const Recruitment  = () => {
   return (
-    <div>Recruitment</div>
+    <div>Recruitment Dashboard</div>
   )
 }
 
