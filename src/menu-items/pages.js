@@ -149,7 +149,13 @@ const pages = {
           title: 'Attendance Tracker',
           type: 'item',
           url: '/attendancetracker'
-        }
+        },
+        {
+          id: 'wfhtracker',
+          title: 'WFH Tracker',
+          type: 'item',
+          url: '/wfhtracker'
+        },
       ]
     },
      {
