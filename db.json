@@ -192,6 +192,20 @@
       "dob": "2002-01-20",
       "type": "Full Time",
       "id": 4
+    },
+    {
+      "name": "Task Management",
+      "lastname": "Task Management",
+      "company": "FEMALE",
+      "dept": "Technical",
+      "desi": "AWS",
+      "mail": "san@gmail.com",
+      "mob": "9003386363",
+      "join": "2023-06-23",
+      "report": "Prem",
+      "dob": "2023-06-14",
+      "type": "Contract work",
+      "id": 5
     }
   ],
   "task": [

@@ -28,7 +28,7 @@ const Addemployeetable = () => {
   }, [])
   
   return (
-    <MainCard title="Employees List">
+    <MainCard title="Employee List">
       <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
         <Button
           onClick={() => {
