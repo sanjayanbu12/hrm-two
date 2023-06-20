@@ -6,7 +6,8 @@ import Loadable from 'ui-component/Loadable';
 import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/Recruitment'
-import Leavemanagement from 'views/leavemanagement/Leavemanagement';
+import LeaveTracker from 'views/leavemanagement/LeaveTracker';
+import AttendanceTracker from 'views/leavemanagement/AttendanceTracker'
 import Performance from 'views/performance/Performance';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -45,8 +46,12 @@ const MainRoutes = {
       element: <Recruitment />
     },
     {
-      path: '/leavemanagement',
-      element: <Leavemanagement />
+      path: '/leavetracker',
+      element: <LeaveTracker />
+    },
+    {
+      path: '/attendancetracker',
+      element: <AttendanceTracker />
     },
     {
       path: '/performance',

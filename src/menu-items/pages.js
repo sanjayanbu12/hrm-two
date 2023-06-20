@@ -125,7 +125,7 @@ const pages = {
         },
         {
           id: 'newemployee',
-          title: 'Add New Emp',
+          title: 'Add New Employees',
           type: 'item',
           url: '/newemployee'
         }
@@ -133,10 +133,24 @@ const pages = {
     },
     {
       id: 'leavemanagement',
-      title: 'Leave Management , Attendance',
-      type: 'item',
+      title: 'Leave Management',
+      type: 'collapse',
       icon: icons.PermIdentityOutlinedIcon,
-      url: '/leavemanagement',
+    
+      children: [
+        {
+          id: 'leavetracker',
+          title: 'Leave Tracker',
+          type: 'item',
+          url: '/leavetracker'
+        },
+        {
+          id: 'attendancetracker',
+          title: 'Attendance Tracker',
+          type: 'item',
+          url: '/attendancetracker'
+        }
+      ]
     },
      {
       id: 'performance',
