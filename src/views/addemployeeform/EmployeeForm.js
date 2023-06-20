@@ -128,8 +128,7 @@ const EmployeeForm = () => {
   }, []);
 
   const finalSubmit = async () => {
-    if(id)
-    {
+    if (id) {
       try {
         const updatedtask = {
           name,
@@ -144,7 +143,7 @@ const EmployeeForm = () => {
           dob,
           type
         };
-        
+
         await validationSchema.validate(
           {
             name,
@@ -161,9 +160,8 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('http://localhost:3001/employeeform/'+id, updatedtask);
-       
-       
+        await axios.put('http://localhost:3001/employeeform/' + id, updatedtask);
+
         setName('');
         setLastname('');
         setCompany('');
@@ -178,9 +176,9 @@ const EmployeeForm = () => {
 
         Swal.fire({
           icon: 'success',
-          text: 'Employee Updated Successfully',
+          text: 'Employee Updated Successfully'
         }).then(() => {
-          navigate('/Addemployeetable')
+          navigate('/Addemployeetable');
         });
       } catch (error) {
         if (error instanceof yup.ValidationError) {
@@ -194,9 +192,7 @@ const EmployeeForm = () => {
           console.log(error);
         }
       }
-    }
-    else
-    {
+    } else {
       try {
         const task = {
           name,
@@ -211,8 +207,8 @@ const EmployeeForm = () => {
           dob,
           type
         };
-      console.log("task", task);
-        
+        console.log('task', task);
+
         await validationSchema.validate(
           {
             name,
@@ -230,7 +226,7 @@ const EmployeeForm = () => {
           { abortEarly: false }
         );
         await axios.post('http://localhost:3001/employeeform', task);
-         
+
         setName('');
         setLastname('');
         setCompany('');
@@ -244,11 +240,10 @@ const EmployeeForm = () => {
         setType('');
         Swal.fire({
           icon: 'success',
-          text: 'Employee Created Successfully',
+          text: 'Employee Created Successfully'
         }).then(() => {
-          navigate('/Addemployeetable')
+          navigate('/Addemployeetable');
         });
-
       } catch (error) {
         if (error instanceof yup.ValidationError) {
           const validationErrors = {};
@@ -262,228 +257,221 @@ const EmployeeForm = () => {
         }
       }
     }
-    
   };
 
-  //   const sample = () => {
-  //     console.log("sample")
-  //   }
 
   return (
     <MainCard title="Employee Form">
-      <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: '350px' }}
-              id="outlined-basic"
-              label="First Name"
-              variant="outlined"
-              value={name}
-              error={errors && errors.name}
-              helperText={errors && errors.name}
-              onChange={(e) => handleName(e)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: '350px' }}
-              id="outlined-basic"
-              label="Last Name"
-              variant="outlined"
-              value={lastname}
-              error={errors && errors.lastname}
-              helperText={errors && errors.lastname}
-              onChange={(e) => handleLastname(e)}
-            />
-          </Grid>
+      <form>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="First Name"
+                variant="outlined"
+                value={name}
+                error={errors && errors.name}
+                helperText={errors && errors.name}
+                onChange={(e) => handleName(e)}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Last Name"
+                variant="outlined"
+                value={lastname}
+                error={errors && errors.lastname}
+                helperText={errors && errors.lastname}
+                onChange={(e) => handleLastname(e)}
+              />
+            </Grid>
 
-          <Grid item xs={4}>
-            <FormControl error={errors && errors.company}>
-              <InputLabel id="demo-simple-select-label">Company</InputLabel>
-              <Select
-                sx={{ width: '350px' }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Company"
-                value={company}
-                // error={errors && errors.company}
-                // helperText={errors && errors.company}
-                onChange={(e) => handleCompany(e)}
-              >
-                <MenuItem value="SNS SQUARE">SNS SQUARE</MenuItem>
-              </Select>
-              <FormHelperText>{errors && errors.company}</FormHelperText>
-            </FormControl>
-          </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.company}>
+                <InputLabel id="demo-simple-select-label">Company</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Company"
+                  value={company}
+                  // error={errors && errors.company}
+                  // helperText={errors && errors.company}
+                  onChange={(e) => handleCompany(e)}
+                >
+                  <MenuItem value="SNS SQUARE">SNS SQUARE</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.company}</FormHelperText>
+              </FormControl>
+            </Grid>
 
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: '350px' }}
-              id="outlined-basic"
-              label="Email"
-              variant="outlined"
-              value={mail}
-              error={errors && errors.mail}
-              helperText={errors && errors.mail}
-              onChange={(e) => handleEmail(e)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl error={errors && errors.dept}>
-              <InputLabel id="demo-simple-select-label">Department</InputLabel>
-              <Select
-                sx={{ width: '350px' }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Department"
-                value={dept}
-                // error={errors && errors.dept}
-                // helperText={errors && errors.dept}
-                onChange={(e) => handleDept(e)}
-              >
-                <MenuItem value="HR">HR</MenuItem>
-                <MenuItem value="Technical">Technical</MenuItem>
-                <MenuItem value="Sales">Sales</MenuItem>
-              </Select>
-              <FormHelperText>{errors && errors.dept}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: '350px' }}
-              id="outlined-basic"
-              label="Mobile"
-              variant="outlined"
-              value={mob}
-              error={errors && errors.mob}
-              helperText={errors && errors.mob}
-              onChange={(e) => handleMob(e)}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl error={errors && errors.desi}>
-              <InputLabel id="demo-simple-select-label">Designation</InputLabel>
-              <Select
-                sx={{ width: '350px' }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Designation"
-                value={desi}
-                // error={errors && errors.desi}
-                // helperText={errors && errors.desi}
-                onChange={(e) => handleDesi(e)}
-              >
-                <MenuItem value="HR">HR</MenuItem>
-                <MenuItem value="Software Developer">Software Developer</MenuItem>
-                <MenuItem value="AWS">AWS</MenuItem>
-                <MenuItem value="Data Analyst">Data Analyst</MenuItem>
-                <MenuItem value="Audit">Audit</MenuItem>
-              </Select>
-              <FormHelperText>{errors && errors.desi}</FormHelperText>
-            </FormControl>
-          </Grid>
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: '350px' }}
-              id="outlined-start-adornment"
-              label="Joining Date"
-              variant="outlined"
-              type="date"
-              value={join}
-              error={errors && errors.join}
-              helperText={errors && errors.join}
-              onChange={(e) => handleJoin(e)}
-              InputProps={{
-                startAdornment: <InputAdornment position="start"></InputAdornment>
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <FormControl error={errors && errors.report}>
-              <InputLabel id="demo-simple-select-label">Reporting To</InputLabel>
-              <Select
-                sx={{ width: '350px' }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Reporting To"
-                value={report}
-                // error={errors && errors.report}
-                // helperText={errors && errors.report}
-                onChange={(e) => handleReport(e)}
-              >
-                <MenuItem value="Jothi Mani">Jothi Mani</MenuItem>
-                <MenuItem value="Prem">Prem</MenuItem>
-                <MenuItem value="Priya">Priya</MenuItem>
-                <MenuItem value="Gayathri">Gayathri</MenuItem>
-                <MenuItem value="Harish">Harish</MenuItem>
-              </Select>
-              <FormHelperText>{errors && errors.report}</FormHelperText>
-            </FormControl>
-          </Grid>
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Email"
+                variant="outlined"
+                value={mail}
+                error={errors && errors.mail}
+                helperText={errors && errors.mail}
+                onChange={(e) => handleEmail(e)}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.dept}>
+                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Department"
+                  value={dept}
+                  // error={errors && errors.dept}
+                  // helperText={errors && errors.dept}
+                  onChange={(e) => handleDept(e)}
+                >
+                  <MenuItem value="HR">HR</MenuItem>
+                  <MenuItem value="Technical">Technical</MenuItem>
+                  <MenuItem value="Sales">Sales</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.dept}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Mobile"
+                variant="outlined"
+                value={mob}
+                error={errors && errors.mob}
+                helperText={errors && errors.mob}
+                onChange={(e) => handleMob(e)}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.desi}>
+                <InputLabel id="demo-simple-select-label">Designation</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Designation"
+                  value={desi}
+                  // error={errors && errors.desi}
+                  // helperText={errors && errors.desi}
+                  onChange={(e) => handleDesi(e)}
+                >
+                  <MenuItem value="HR">HR</MenuItem>
+                  <MenuItem value="Software Developer">Software Developer</MenuItem>
+                  <MenuItem value="AWS">AWS</MenuItem>
+                  <MenuItem value="Data Analyst">Data Analyst</MenuItem>
+                  <MenuItem value="Audit">Audit</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.desi}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-start-adornment"
+                label="Joining Date"
+                variant="outlined"
+                type="date"
+                value={join}
+                error={errors && errors.join}
+                helperText={errors && errors.join}
+                onChange={(e) => handleJoin(e)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.report}>
+                <InputLabel id="demo-simple-select-label">Reporting To</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Reporting To"
+                  value={report}
+                  // error={errors && errors.report}
+                  // helperText={errors && errors.report}
+                  onChange={(e) => handleReport(e)}
+                >
+                  <MenuItem value="Jothi Mani">Jothi Mani</MenuItem>
+                  <MenuItem value="Prem">Prem</MenuItem>
+                  <MenuItem value="Priya">Priya</MenuItem>
+                  <MenuItem value="Gayathri">Gayathri</MenuItem>
+                  <MenuItem value="Harish">Harish</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.report}</FormHelperText>
+              </FormControl>
+            </Grid>
 
-          <Grid item xs={4}>
-            <TextField
-              sx={{ width: '350px' }}
-              id="outlined-basic"
-              label="DOB"
-              variant="outlined"
-              type="date"
-              value={dob}
-              error={errors && errors.dob}
-              helperText={errors && errors.dob}
-              onChange={(e) => handleDob(e)}
-              InputProps={{
-                startAdornment: <InputAdornment position="start"></InputAdornment>
-              }}
-            />
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="DOB"
+                variant="outlined"
+                type="date"
+                value={dob}
+                error={errors && errors.dob}
+                helperText={errors && errors.dob}
+                onChange={(e) => handleDob(e)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>
+                }}
+              />
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.type}>
+                <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Work Type"
+                  value={type}
+                  // error={errors && errors.type}
+                  // helperText={errors && errors.type}
+                  onChange={(e) => handleType(e)}
+                >
+                  <MenuItem value="Full Time">Full Time</MenuItem>
+                  <MenuItem value="Contract work">Contract Work</MenuItem>
+                  <MenuItem value="Internship">Internship</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.type}</FormHelperText>
+              </FormControl>
+            </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <FormControl error={errors && errors.type}>
-              <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
-              <Select
-                sx={{ width: '350px' }}
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Work Type"
-                value={type}
-                // error={errors && errors.type}
-                // helperText={errors && errors.type}
-                onChange={(e) => handleType(e)}
-              >
-                <MenuItem value="Full Time">Full Time</MenuItem>
-                <MenuItem value="Contract work">Contract Work</MenuItem>
-                <MenuItem value="Internship">Internship</MenuItem>
-              </Select>
-              <FormHelperText>{errors && errors.type}</FormHelperText>
-            </FormControl>
-          </Grid>
-        </Grid>
-      </Box>
-      <Box sx={{ flexGrow: 1, marginTop: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <Button
-              variant="contained"
-              sx={{
-                boxShadow: 'none',
-                width: '350px',
-                borderRadius: 2,
-                padding: 1.5,
-                background: theme.palette.secondary.dark,
-                color: theme.palette.secondary.light,
-                '&:hover': {
+        </Box>
+        <Box sx={{ flexGrow: 1, marginTop: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={4}>
+              <Button
+                variant="contained"
+                sx={{
+                  boxShadow: 'none',
+                  minWidth: '100%',
+                  borderRadius: 2,
+                  padding: 1.5,
                   background: theme.palette.secondary.dark,
-                  color: theme.palette.secondary.light
-                }
-              }}
-              onClick={(e) => finalSubmit(e)}
-            >
-              {id ? 'Update' : 'Save'}
-            </Button>
+                  color: theme.palette.secondary.light,
+                  '&:hover': {
+                    background: theme.palette.secondary.dark,
+                    color: theme.palette.secondary.light
+                  }
+                }}
+                onClick={(e) => finalSubmit(e)}
+              >
+                {id ? 'Update' : 'Save'}
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
+        </Box>
+      </form>
     </MainCard>
   );
 };

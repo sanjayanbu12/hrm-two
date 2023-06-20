@@ -17,9 +17,9 @@ const icons = {
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
-  id: 'pages',
-  title: 'Pages',
-  // caption: 'Pages Caption',
+  // id: '',
+  // title: '',
+  // caption: '',
   type: 'group',
   children: [
     // {
@@ -27,7 +27,6 @@ const pages = {
     //   title: 'Authentication',
     //   type: 'collapse',
     //   icon: icons.IconKey,
-
     //   children: [
     //     {
     //       id: 'login3',
@@ -45,11 +44,14 @@ const pages = {
     //     }
     //   ]
     // },
-    // {
-    //   id: 'sample',
-    //   title: 'Samples',
-    //   type: 'collapse',
-    //   icon: icons.AccountTreeOutlinedIcon,
+    {
+      id: 'recruitment',
+      title: 'Recruitment',
+      type: 'item',
+      url:'/recruitment',
+      icon: icons.AccountTreeOutlinedIcon
+  },
+      
 
     //   children: [
     //     {
@@ -57,7 +59,7 @@ const pages = {
     //       title: 'Sample List',
     //       type: 'item',
     //       url: '/samplelist'
-    //     },
+    
     //     {
     //       id: 'newsample',
     //       title: 'Add Sample',
@@ -66,48 +68,48 @@ const pages = {
     //     }
     //   ]
     // },
-    {
-      id: 'projects',
-      title: 'Projects',
-      type: 'collapse',
-      icon: icons.AccountTreeOutlinedIcon,
+//    {
+//       id: 'projects',
+//       title: 'Projects',
+//       type: 'collapse',
+//       icon: icons.AccountTreeOutlinedIcon,
+// },
 
-      children: [
-        {
-          id: 'projectlist',
-          title: 'Project List',
-          type: 'item',
-          url: '/projectlist'
-        },
-        {
-          id: 'newproject',
-          title: 'Add Project',
-          type: 'item',
-          url: '/newproject'
-        }
-      ]
-    },
-    {
-      id: 'tasks',
-      title: 'Tasks',
-      type: 'collapse',
-      icon: icons.AssignmentOutlinedIcon,
+    //   children: [
+    //     {
+    //       id: 'projectlist',
+    //       title: 'Project List',
+    //       type: 'item',
+    //       url: '/projectlist'
+    //     },
+    //     {
+    //       id: 'newproject',
+    //       title: 'Add Project',
+    //       type: 'item',
+    //       url: '/newproject'
+    //     }
+    //   ]
+    // {
+    //   id: 'tasks',
+    //   title: 'Tasks',
+    //   type: 'collapse',
+    //   icon: icons.AssignmentOutlinedIcon,
 
-      children: [
-        {
-          id: 'tasklist',
-          title: 'Task List',
-          type: 'item',
-          url: '/tasklist'
-        },
-        {
-          id: 'addtask',
-          title: 'Add Task',
-          type: 'item',
-          url: '/addtask'
-        }
-      ]
-    },
+    //   children: [
+    //     {
+    //       id: 'tasklist',
+    //       title: 'Task List',
+    //       type: 'item',
+    //       url: '/tasklist'
+    //     },
+    //     {
+    //       id: 'addtask',
+    //       title: 'Add Task',
+    //       type: 'item',
+    //       url: '/addtask'
+    //     }
+    //   ]
+    // },
     {
       id: 'employees',
       title: 'Employees',
@@ -123,27 +125,41 @@ const pages = {
         },
         {
           id: 'newemployee',
-          title: 'Add New Emp',
+          title: 'Add New Employees',
           type: 'item',
           url: '/newemployee'
         }
       ]
     },
     {
-      id: 'users',
-      title: 'Users',
+      id: 'leavemanagement',
+      title: 'Leave Management',
       type: 'collapse',
       icon: icons.PermIdentityOutlinedIcon,
-
+    
       children: [
         {
-          id: 'userlist',
-          title: 'User List',
+          id: 'leavetracker',
+          title: 'Leave Tracker',
           type: 'item',
-          url: '/UserList'
+          url: '/leavetracker'
         },
+        {
+          id: 'attendancetracker',
+          title: 'Attendance Tracker',
+          type: 'item',
+          url: '/attendancetracker'
+        }
       ]
-    }
+    },
+     {
+      id: 'performance',
+      title: 'Performance',
+      type: 'item',
+      icon: icons.IconKey,
+      url:'/performance',
+     }
+     
   ]
 };
 
