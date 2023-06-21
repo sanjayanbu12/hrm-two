@@ -5,22 +5,15 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
 
 const Addemployeetable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [edata, setedata] = useState([]);
-  const fetchEmployees = () => {
-    fetch('http://localhost:3001/api/getEmployee')
-      .then((res) => {
-        return res.json();
-      })
-      .then((resp) => {
-        setedata(resp);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const fetchEmployees = async() => {
+    const res=await axios.get(`http://localhost:3001/api/getEmployee`)
+    setedata(res.data.getData)
   };
 
   useEffect(() => {
