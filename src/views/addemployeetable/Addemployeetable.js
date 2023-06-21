@@ -11,7 +11,7 @@ const Addemployeetable = () => {
   const navigate = useNavigate();
   const [edata, setedata] = useState([]);
   const fetchEmployees = () => {
-    fetch('http://localhost:3001/EmployeeForm')
+    fetch('http://localhost:3001/api/getEmployee')
       .then((res) => {
         return res.json();
       })
@@ -59,7 +59,7 @@ const Addemployeetable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {edata.map((x) => (
+            {edata.length>0?edata.map((x) => (
               <TableRow key={x.id}>
                 <TableCell component="th" scope="row" align="center">
                   {x.employeeid}
@@ -71,7 +71,7 @@ const Addemployeetable = () => {
                 <TableCell align="center">
                 </TableCell>
               </TableRow>
-            ))}
+            )):<h3>no data is found</h3>}
           </TableBody>
         </Table>
       </TableContainer>

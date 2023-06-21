@@ -105,7 +105,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/employeeform/' + id)
+    fetch('http://localhost:3001/api/getEmployee' + id)
       .then((res) => {
         return res.json();
       })
@@ -160,7 +160,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('http://localhost:3001/employeeform/' + id, updatedtask);
+        await axios.put('http://localhost:3001/api/updateEmployee/' + id, updatedtask);
 
         setName('');
         setLastname('');
@@ -226,7 +226,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('http://localhost:3001/employeeform', task);
+        await axios.post('http://localhost:3001/api/createEmployee', task);
 
         setName('');
         setLastname('');
