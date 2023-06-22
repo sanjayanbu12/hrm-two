@@ -49,7 +49,6 @@ const Addemployeetable = () => {
               <TableCell align="center">Department Name</TableCell>
               <TableCell align="center">Designation</TableCell>
               <TableCell align="center">Work Type</TableCell>
-              <TableCell align="center">Blood</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
