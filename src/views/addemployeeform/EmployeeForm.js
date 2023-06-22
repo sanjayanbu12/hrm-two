@@ -105,7 +105,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/getEmployee' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/getEmployee' + id)
       .then((res) => {
         return res.json();
       })
@@ -160,7 +160,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('http://localhost:3001/api/updateEmployee/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/api/updateEmployee/' + id, updatedtask);
 
         setName('');
         setLastname('');
@@ -226,7 +226,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('http://localhost:3001/api/createEmployee', task);
+        await axios.post('https://hrm-backend-square.onrender.com/api/createEmployee', task);
 
         setName('');
         setLastname('');

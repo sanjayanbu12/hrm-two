@@ -12,7 +12,7 @@ const Addemployeetable = () => {
   const navigate = useNavigate();
   const [edata, setedata] = useState([]);
   const fetchEmployees = async() => {
-    const res=await axios.get(`http://localhost:3001/api/getEmployee`)
+    const res=await axios.get(`https://hrm-backend-square.onrender.com/api/getEmployee`)
     setedata(res.data.getData)
   };
 
