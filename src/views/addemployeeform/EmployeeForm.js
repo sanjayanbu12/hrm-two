@@ -17,6 +17,10 @@ const EmployeeForm = () => {
   const [desi, setDesi] = useState('');
   const [mail, setMail] = useState('');
   const [mob, setMob] = useState('');
+  const [altmob,setaltMob] = useState('');
+  const [peraddress,setperAddress] = useState('');
+  const [temaddress,settemAddress] = useState('');
+  const [bloodgroup,setBloodgroup] = useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -75,6 +79,35 @@ const EmployeeForm = () => {
       mob: ''
     }));
   };
+  const handleBloodgroup = (e) => {
+    setBloodgroup(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      bloodgroup: ''
+    }));
+  };
+  const handleperAddress = (e) => {
+    setperAddress(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      peraddress: ''
+    }));
+  };
+  const handletemAddress = (e) => {
+    settemAddress(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      temaddress: ''
+    }));
+  };
+  
+  const handlealtMob = (e) => {
+    setaltMob(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      altmobmob: ''
+    }));
+  };
 
   const handleJoin = (e) => {
     setJoin(e.target.value);
@@ -118,6 +151,10 @@ const EmployeeForm = () => {
         setDesi(resp.desi);
         setMail(resp.mail);
         setMob(resp.mob);
+        setaltMob(resp.altmob);
+        setperAddress(resp.peraddress);
+        settemAddress(resp.temaddress);
+        setBloodgroup(resp.bloodgroup);
         setJoin(resp.join);
         setReport(resp.report);
         setDob(resp.dob);
@@ -139,6 +176,10 @@ const EmployeeForm = () => {
           desi,
           mail,
           mob,
+          altmob,
+          peraddress,
+          temaddress,
+          bloodgroup,
           join,
           report,
           dob,
@@ -154,6 +195,10 @@ const EmployeeForm = () => {
             desi,
             mail,
             mob,
+            altmob,
+            peraddress,
+            temaddress,
+            bloodgroup,
             join,
             report,
             dob,
@@ -165,11 +210,15 @@ const EmployeeForm = () => {
 
         setName('');
         setLastname('');
-        setCompany('');
+        setGender('');
         setDept('');
         setDesi('');
         setMail('');
         setMob('');
+        setaltMob(''),
+        setperAddress(''),
+        settemAddress(''),
+        setBloodgroup(''),
         setJoin('');
         setReport('');
         setDob('');
@@ -203,6 +252,10 @@ const EmployeeForm = () => {
           desi,
           mail,
           mob,
+          altmob,
+          peraddress,
+          temaddress,
+          bloodgroup,
           join,
           report,
           dob,
@@ -216,10 +269,14 @@ const EmployeeForm = () => {
             name,
             lastname,
             gender,
+            altmob,
             dept,
             desi,
             mail,
             mob,
+            peraddress,
+            temaddress,
+            bloodgroup,
             join,
             report,
             dob,
@@ -236,6 +293,10 @@ const EmployeeForm = () => {
         setDesi('');
         setMail('');
         setMob('');
+        setaltMob(''),
+        setperAddress(''),
+        settemAddress(''),
+        setBloodgroup(''),
         setJoin('');
         setReport('');
         setDob('');
@@ -292,6 +353,42 @@ const EmployeeForm = () => {
             </Grid>
 
             <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.gender}>
+                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Gender"
+                  value={gender}
+                  onChange={(e) => handleGender(e)}
+                >
+                  <MenuItem value="MALE">MALE</MenuItem>
+                  <MenuItem value="FEMALE">FEMALE</MenuItem>
+                  <MenuItem value="OTHERS">OTHERS</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.gender}</FormHelperText>
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Date Of Birth"
+                variant="outlined"
+                type="date"
+                value={dob}
+                error={errors && errors.dob}
+                helperText={errors && errors.dob}
+                onChange={(e) => handleDob(e)}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>
+                }}
+              />
+            </Grid>
+           
+
+            <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -305,42 +402,6 @@ const EmployeeForm = () => {
             </Grid>
 
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.gender}>
-                <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Gender"
-                  value={gender}
-                  onChange={(e) => handleGender(e)}
-                >
-                  <MenuItem value="MALE">MALE</MenuItem>
-                  <MenuItem value="FEMALE">FEMALE</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.gender}</FormHelperText>
-              </FormControl>
-            </Grid>
-
-            <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.dept}>
-                <InputLabel id="demo-simple-select-label">Department</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Department"
-                  value={dept}
-                  // error={errors && errors.dept}
-                  // helperText={errors && errors.dept}
-                  onChange={(e) => handleDept(e)}
-                >
-                  <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="Technical">Technical</MenuItem>
-                  <MenuItem value="Sales">Sales</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.dept}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -352,6 +413,41 @@ const EmployeeForm = () => {
                 onChange={(e) => handleMob(e)}
               />
             </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label=" Alternate Mobile"
+                variant="outlined"
+                value={altmob}
+                error={errors && errors.altmob}
+                helperText={errors && errors.altmob}
+                onChange={(e) => handlealtMob(e)}
+              />
+            </Grid>
+         
+
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.dept}>
+                <InputLabel id="demo-simple-select-label">Department</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Department"
+                  value={dept}
+                  error={errors && errors.dept}
+                  helperText={errors && errors.dept}
+                  onChange={(e) => handleDept(e)}
+                >
+                  <MenuItem value="HR">HR</MenuItem>
+                  <MenuItem value="Developing">Developing</MenuItem>
+                  <MenuItem value="Sales">Sales</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.dept}</FormHelperText>
+              </FormControl>
+            </Grid>
+
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.desi}>
                 <InputLabel id="demo-simple-select-label">Designation</InputLabel>
@@ -373,6 +469,60 @@ const EmployeeForm = () => {
                 <FormHelperText>{errors && errors.desi}</FormHelperText>
               </FormControl>
             </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Permanent Address"
+                variant="outlined"
+                value={peraddress}
+                error={errors && errors.peraddress}
+                helperText={errors && errors.peraddress}
+                onChange={(e) => handleperAddress(e)}
+              />
+            </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Temporary Address"
+                variant="outlined"
+                value={temaddress}
+                error={errors && errors.temaddress}
+                helperText={errors && errors.temaddress}
+                onChange={(e) => handletemAddress(e)}
+              />
+            </Grid>
+       
+
+       
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.bloodgroup}>
+                <InputLabel id="demo-simple-select-label">Blood Group</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Blood Group"
+                  value={bloodgroup}
+                  error={errors && errors.bloodgroup}
+                  helperText={errors && errors.bloodgroup}
+                  onChange={(e) => handleBloodgroup(e)}
+                >
+                  <MenuItem value="A+VE">A+VE</MenuItem>
+                  <MenuItem value="A-VE">A-VE</MenuItem>
+                  <MenuItem value="B+VE">B+VE</MenuItem>
+                  <MenuItem value="B-VE">B-VE</MenuItem>
+                  <MenuItem value="O+VE">O+VE</MenuItem>
+                  <MenuItem value="O-VE">O-VE</MenuItem>
+                  <MenuItem value="AB+VE">O+VE</MenuItem>
+                  <MenuItem value="AB-VE">AB-VE</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.bloodgroup}</FormHelperText>
+              </FormControl>
+            </Grid>
+
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
@@ -411,22 +561,6 @@ const EmployeeForm = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="DOB"
-                variant="outlined"
-                type="date"
-                value={dob}
-                error={errors && errors.dob}
-                helperText={errors && errors.dob}
-                onChange={(e) => handleDob(e)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"></InputAdornment>
-                }}
-              />
-            </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.type}>
                 <InputLabel id="demo-simple-select-label">Work Type</InputLabel>

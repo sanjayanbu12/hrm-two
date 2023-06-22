@@ -49,6 +49,7 @@ const Addemployeetable = () => {
               <TableCell align="center">Department Name</TableCell>
               <TableCell align="center">Designation</TableCell>
               <TableCell align="center">Work Type</TableCell>
+              <TableCell align="center">Blood</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -61,7 +62,7 @@ const Addemployeetable = () => {
                 <TableCell align="center">{x.dept}</TableCell>
                 <TableCell align="center">{x.desi}</TableCell>
                 <TableCell align="center">{x.type}</TableCell>
-                <TableCell align="center">
+                <TableCell align="center">{x.bloodgroup}
                 </TableCell>
               </TableRow>
             )):<h3>no data is found</h3>}
