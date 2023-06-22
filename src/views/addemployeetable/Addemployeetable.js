@@ -5,22 +5,15 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
+import axios from 'axios';
 
 const Addemployeetable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [edata, setedata] = useState([]);
-  const fetchEmployees = () => {
-    fetch('http://localhost:3001/EmployeeForm')
-      .then((res) => {
-        return res.json();
-      })
-      .then((resp) => {
-        setedata(resp);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+  const fetchEmployees = async() => {
+    const res=await axios.get(`https://hrm-backend-square.onrender.com/api/getEmployee`)
+    setedata(res.data.getData)
   };
 
   useEffect(() => {
@@ -59,7 +52,7 @@ const Addemployeetable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {edata.map((x) => (
+            {edata.length>0?edata.map((x) => (
               <TableRow key={x.id}>
                 <TableCell component="th" scope="row" align="center">
                   {x.employeeid}
@@ -71,7 +64,7 @@ const Addemployeetable = () => {
                 <TableCell align="center">
                 </TableCell>
               </TableRow>
-            ))}
+            )):<h3>no data is found</h3>}
           </TableBody>
         </Table>
       </TableContainer>

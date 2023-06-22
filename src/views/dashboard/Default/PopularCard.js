@@ -7,7 +7,6 @@ import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 
 // ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
-
 const PopularCard = ({ isLoading }) => {
   const [selectedDate, setSelectedDate] = useState(new Date());
 
