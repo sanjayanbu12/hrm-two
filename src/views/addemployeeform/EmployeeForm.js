@@ -205,7 +205,8 @@ const EmployeeForm = () => {
           join,
           report,
           dob,
-          type
+          type,
+          employeeid:"ID: "+Math.floor(Math.random()*100000)
         };
         console.log('task', task);
 
@@ -221,7 +222,7 @@ const EmployeeForm = () => {
             join,
             report,
             dob,
-            type
+            type,
           },
           { abortEarly: false }
         );

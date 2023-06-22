@@ -62,7 +62,7 @@ const Addemployeetable = () => {
             {edata.map((x) => (
               <TableRow key={x.id}>
                 <TableCell component="th" scope="row" align="center">
-                  {x.id}
+                  {x.employeeid}
                 </TableCell>
                 <TableCell align="center">{x.name}</TableCell>
                 <TableCell align="center">{x.dept}</TableCell>
