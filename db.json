@@ -220,6 +220,20 @@
       "dob": "2023-06-09",
       "type": "Contract work",
       "id": 6
+    },
+    {
+      "name": "Sanjay",
+      "lastname": "A",
+      "company": "MALE",
+      "dept": "HR",
+      "desi": "Software Developer",
+      "mail": "san@gmail.com",
+      "mob": "9003386363",
+      "join": "2023-06-30",
+      "report": "Priya",
+      "dob": "2023-06-09",
+      "type": "Full Time",
+      "id": 7
     }
   ],
   "task": [

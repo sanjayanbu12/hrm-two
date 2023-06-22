@@ -118,17 +118,17 @@ const pages = {
 
       children: [
         {
+          id: 'newemployee',
+          title: 'Employee Self Services',
+          type: 'item',
+          url: '/newemployee'
+        },
+        {
           id: 'employeelist',
-          title: 'Employee List',
+          title: 'Employee Information Management',
           type: 'item',
           url: '/Addemployeetable'
         },
-        {
-          id: 'newemployee',
-          title: 'Add New Employees',
-          type: 'item',
-          url: '/newemployee'
-        }
       ]
     },
     {
