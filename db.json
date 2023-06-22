@@ -138,32 +138,6 @@
   ],
   "EmployeeForm": [
     {
-      "name": "Kishore",
-      "lastname": "M",
-      "company": "SNS SQUARE",
-      "dept": "HR",
-      "desi": "Software Developer",
-      "mail": "Ksr@gmail.com",
-      "mob": "78894222",
-      "join": "2023-06-09",
-      "report": "Prem",
-      "dob": "2023-06-14",
-      "type": "Full Time",
-      "id": 1
-    },
-    {
-      "name": "Sanjay",
-      "lastname": "A",
-      "company": "SNS SQUARE",
-      "dept": "Technical",
-      "desi": "Data Analyst",
-      "mail": "siva@gmail.com",
-      "mob": "789456123",
-      "join": "2023-06-10",
-      "report": "Jothi Mani",
-      "dob": "2023-06-16",
-      "type": "Internship",
-      "id": 2
     }
   ],
   "task": [
