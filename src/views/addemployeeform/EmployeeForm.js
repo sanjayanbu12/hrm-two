@@ -12,7 +12,7 @@ const EmployeeForm = () => {
   const theme = useTheme();
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
-  const [company, setCompany] = useState('');
+  const [gender, setGender] = useState('');
   const [dept, setDept] = useState('');
   const [desi, setDesi] = useState('');
   const [mail, setMail] = useState('');
@@ -46,11 +46,12 @@ const EmployeeForm = () => {
       lastname: ''
     }));
   };
-  const handleCompany = (e) => {
-    setCompany(e.target.value);
+
+  const handleGender = (e) => {
+    setGender(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      company: ''
+      gender: ''
     }));
   };
   const handleDept = (e) => {
@@ -105,7 +106,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/getEmployee' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/getEmployee/' + id)
       .then((res) => {
         return res.json();
       })
@@ -133,7 +134,7 @@ const EmployeeForm = () => {
         const updatedtask = {
           name,
           lastname,
-          company,
+          gender,
           dept,
           desi,
           mail,
@@ -148,7 +149,7 @@ const EmployeeForm = () => {
           {
             name,
             lastname,
-            company,
+            gender,
             dept,
             desi,
             mail,
@@ -206,7 +207,7 @@ const EmployeeForm = () => {
           report,
           dob,
           type,
-          employeeid:"ID: "+Math.floor(Math.random()*100000)
+          employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
 
@@ -214,7 +215,7 @@ const EmployeeForm = () => {
           {
             name,
             lastname,
-            company,
+            gender,
             dept,
             desi,
             mail,
@@ -222,7 +223,7 @@ const EmployeeForm = () => {
             join,
             report,
             dob,
-            type,
+            type
           },
           { abortEarly: false }
         );
@@ -230,7 +231,7 @@ const EmployeeForm = () => {
 
         setName('');
         setLastname('');
-        setCompany('');
+        setGender('');
         setDept('');
         setDesi('');
         setMail('');
@@ -259,7 +260,6 @@ const EmployeeForm = () => {
       }
     }
   };
-
 
   return (
     <MainCard title="Employee Self Services">
@@ -291,7 +291,6 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
@@ -306,21 +305,19 @@ const EmployeeForm = () => {
             </Grid>
 
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.company}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.gender}>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Gender"
-                  value={company}
-                  // error={errors && errors.company}
-                  // helperText={errors && errors.company}
-                  onChange={(e) => handleCompany(e)}
+                  value={gender}
+                  onChange={(e) => handleGender(e)}
                 >
                   <MenuItem value="MALE">MALE</MenuItem>
                   <MenuItem value="FEMALE">FEMALE</MenuItem>
                 </Select>
-                <FormHelperText>{errors && errors.company}</FormHelperText>
+                <FormHelperText>{errors && errors.gender}</FormHelperText>
               </FormControl>
             </Grid>
 
