@@ -197,7 +197,7 @@ const EmployeeForm = () => {
         const task = {
           name,
           lastname,
-          company,
+          gender,
           dept,
           desi,
           mail,
