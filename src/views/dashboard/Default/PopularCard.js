@@ -2,33 +2,18 @@ import { CardContent, Grid, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
 import { gridSpacing } from 'store/constant';
-import React from 'react';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
-import moment from 'moment';
-import 'react-big-calendar/lib/css/react-big-calendar.css';
-
-// Set up the localizer using moment.js
-const localizer = momentLocalizer(moment);
-
-// Custom styles for the calendar
-const calendarStyle = {
-  height: 300,
-  borderRadius: '8px',
-  backgroundColor: '#fff',
-  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-};
-
-// Custom event style
-const eventStyle = {
-  color: '#fff',
-  borderRadius: '4px',
-  border: 'none',
-};
+import React, { useState } from 'react';
+import ReactCalendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 // ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
 
 const PopularCard = ({ isLoading }) => {
-  // ...
+  const [selectedDate, setSelectedDate] = useState(new Date());
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+  };
 
   return (
     <>
@@ -37,7 +22,6 @@ const PopularCard = ({ isLoading }) => {
       ) : (
         <MainCard content={false}>
           <CardContent>
-            {/* Existing code */}
             <Grid container spacing={gridSpacing}>
               <Grid item xs={12}>
                 <Grid container alignContent="center" justifyContent="space-between">
@@ -46,24 +30,16 @@ const PopularCard = ({ isLoading }) => {
                   </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12.5}>
                 {/* Add the Calendar component */}
-                <Calendar
-                  localizer={localizer}
-                  events={[]} // Provide your calendar events here
-                  startAccessor="start"
-                  endAccessor="end"
-                  style={calendarStyle}
-                  eventPropGetter={() => ({
-                    style: {
-                      ...eventStyle,
-                      backgroundColor: '#FF4081',
-                    },
-                  })}
+                <ReactCalendar
+                  onChange={handleDateChange}
+                  value={selectedDate}
+                  calendarType="US" // Specify the calendar type (e.g., 'US', 'ISO 8601')
+                  className="custom-calendar"
                 />
               </Grid>
             </Grid>
-
           </CardContent>
         </MainCard>
       )}

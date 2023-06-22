@@ -148,7 +148,6 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                             color: theme.palette.primary[100]
                           }}
                         >
-                          
                           TOTAL EMPLOYEES
                         </Typography>
                       </Grid>
