@@ -117,17 +117,23 @@ const pages = {
       icon: icons.BadgeOutlinedIcon,
 
       children: [
-        {
-          id: 'newemployee',
-          title: 'Employee Self Services',
-          type: 'item',
-          url: '/newemployee'
-        },
+        // {
+        //   id: 'newemployee',
+        //   title: 'Employee Self Services',
+        //   type: 'item',
+        //   url: '/newemployee'
+        // },
         {
           id: 'employeelist',
           title: 'Employee Information Management',
           type: 'item',
-          url: '/Addemployeetable'
+          url: '/addemployeetable'
+        },
+        {
+          id: 'employeeperformance',
+          title: 'Employee Performance',
+          type: 'item',
+          url: '/employeeperformance'
         },
       ]
     },

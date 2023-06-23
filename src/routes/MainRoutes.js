@@ -10,6 +10,7 @@ import LeaveTracker from 'views/leavemanagement/LeaveTracker';
 import AttendanceTracker from 'views/leavemanagement/AttendanceTracker'
 import Performance from 'views/performance/Performance';
 import WfhTracker from 'views/leavemanagement/WfhTracker';
+import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -80,6 +81,11 @@ const MainRoutes = {
       path: '/Addemployeetable',
       element: <Addemployeetable />
     },
+    {
+      path: '/employeeperformance',
+      element: <Employeeperformance />
+    },
+
     {
       path: '/newemployee',
       element: <EmployeeForm />
