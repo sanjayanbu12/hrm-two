@@ -1,54 +1,86 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import { Table, TableCell, TableRow, TableBody, Grid, TableHead, TableContainer, Paper, Button } from '@mui/material';
-
-// Mock data for demonstration purposes
-const candidates = [
-  { id: 1, JobRole: 'Software Associate', No: 10, Dead: 'July 17', status: 'In Progress', Success: '70%', Select: 8 },
-  { id: 2, JobRole: 'Data Analyst', No: 12, Dead: 'July 22', status: 'Interview Scheduled', Success: '80%', Select: 5 },
-  { id: 3, JobRole: 'HR Generlist', No: 15, Dead: 'July 05', status: 'Hired', Success: '87%', Select: 12 },
-  { id: 4, JobRole: 'Software Tester', No: 13, Dead: 'Aug 17', status: 'Rejected', Success: '78%', Select: 11 }
-];
-
+import { Table, TableCell, TableRow, TableBody, Grid, TableHead, TableContainer, Paper, Button, Box } from '@mui/material';
+import axios from 'axios';
+import AddIcon from '@mui/icons-material/Add';
+import { useTheme } from '@mui/material/styles';
+import { useNavigate } from 'react-router';
 const RecruitmentTable = () => {
-  const [candidateList, setCandidateList] = useState([]);
+  const [RecruitmentList, setRecruitmentList] = useState([]);
+  const theme = useTheme();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate fetching data from an API
-    setCandidateList(candidates);
+    axios
+      .get('http://localhost:3002/recruitform')
+      .then((res) => {
+        setRecruitmentList(res.data);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log('Error retrieving user data: ', error);
+      });
   }, []);
 
   return (
-    <MainCard title="Recruitment">
+    <MainCard title="Recruitment Table">
+      <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+        <Button
+          onClick={() => {
+            navigate('/RecruitmentForm');
+          }}
+          sx={{
+            padding: 0.6,
+            background: '#673ab7',
+            color: '#efebe9',
+            '&:hover': {
+              color: theme.palette.secondary.light,
+              background: 'green'
+            }
+          }}
+        >
+          <AddIcon />
+          Add New Job
+        </Button>
+      </Box>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <TableContainer component={Paper}>
             <Table>
               <TableHead>
                 <TableRow>
-                  {/* <TableCell>ID</TableCell> */}
+                  <TableCell>ID</TableCell>
                   <TableCell>Job Role</TableCell>
                   <TableCell>No of Openings</TableCell>
+                  <TableCell>Worktype</TableCell>
                   <TableCell>Deadline</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Selected</TableCell>
-                  <TableCell>Success</TableCell>
-                  <TableCell>Action</TableCell>
+                  <TableCell>Remaining</TableCell>
+                  {/* <TableCell>Action</TableCell> */}
                 </TableRow>
               </TableHead>
               <TableBody>
-                {candidateList.map((candidate) => (
-                  <TableRow key={candidate.id}>
-                    {/* <TableCell>{candidate.id}</TableCell> */}
-                    <TableCell>{candidate.JobRole}</TableCell>
-                    <TableCell>{candidate.No}</TableCell>
-                    <TableCell>{candidate.Dead}</TableCell>
-                    <TableCell>{candidate.status}</TableCell>
-                    <TableCell>{candidate.Select}</TableCell>
-                    <TableCell>{candidate.Success}</TableCell>
-                    <TableCell>
-                      <Button variant="contained">Edit</Button>
-                    </TableCell>
+                {RecruitmentList.map((x) => (
+                  <TableRow key={x.id}>
+                    <TableCell>{x.id}</TableCell>
+                    <TableCell>{x.Jobrole}</TableCell>
+                    <TableCell>{x.Openings}</TableCell>
+                    <TableCell>{x.Worktype}</TableCell>
+                    <TableCell>{x.Deadline}</TableCell>
+                    <TableCell>{x.Status}</TableCell>
+                    <TableCell>{x.Selected}</TableCell>
+                    <TableCell>{x.Remaining}</TableCell>
+                    {/* <TableCell> */}
+                    {/* <Button
+                        variant="contained"
+                        onClick={() => {
+                          navigate('/RecruitmentForm');
+                        }}
+                      >
+                        Edit
+                      </Button> */}
+                    {/* </TableCell> */}
                   </TableRow>
                 ))}
               </TableBody>

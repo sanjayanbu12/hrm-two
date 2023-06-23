@@ -4,14 +4,15 @@ import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
-
+import PersonIcon from '@mui/icons-material/Person';
 // constant
 const icons = {
   IconKey,
   BadgeOutlinedIcon,
   AssignmentOutlinedIcon,
   PermIdentityOutlinedIcon,
-  AccountTreeOutlinedIcon
+  AccountTreeOutlinedIcon,
+  PersonIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -59,12 +60,19 @@ const pages = {
           url: '/RecruitmentTable'
         },
         {
-          id: 'Recruitment Form',
+          id: 'RecruitmentForm',
           title: 'Recruitment Form',
           type: 'item',
           url: '/RecruitmentForm'
         }
       ]
+    },
+    {
+      id: 'jobs',
+      title: 'Jobs',
+      type: 'item',
+      icon: icons.PersonIcon,
+      url: '/jobs'
     },
 
     //   children: [

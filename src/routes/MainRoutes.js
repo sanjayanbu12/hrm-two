@@ -35,7 +35,7 @@ const MainRoutes = {
       ]
     },
     {
-      path: '/recruitmenttable',
+      path: '/recruitmentTable',
       element: <RecruitmentTable />
     },
     {
