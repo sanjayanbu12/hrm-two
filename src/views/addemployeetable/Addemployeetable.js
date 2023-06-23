@@ -1,7 +1,7 @@
 import MainCard from 'ui-component/cards/MainCard';
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,Box, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
@@ -11,15 +11,15 @@ const Addemployeetable = () => {
   const theme = useTheme();
   const navigate = useNavigate();
   const [edata, setedata] = useState([]);
-  const fetchEmployees = async() => {
-    const res=await axios.get(`https://hrm-backend-square.onrender.com/api/getEmployee`)
-    setedata(res.data.getData)
+  const fetchEmployees = async () => {
+    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/getEmployee`);
+    setedata(res.data.getData);
   };
 
   useEffect(() => {
     fetchEmployees();
-  }, [])
-  
+  }, []);
+
   return (
     <MainCard title="Employee Information Management">
       <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
@@ -52,19 +52,20 @@ const Addemployeetable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {edata.length>0?edata.map((x) => (
-              <TableRow key={x.id}>
-                <TableCell component="th" scope="row" align="center">
-                  {x.employeeid}
-                </TableCell>
-                <TableCell align="center">{x.name}</TableCell>
-                <TableCell align="center">{x.dept}</TableCell>
-                <TableCell align="center">{x.desi}</TableCell>
-                <TableCell align="center">{x.type}</TableCell>
-                <TableCell align="center">
-                </TableCell>
-              </TableRow>
-            )):<h3>no data is found</h3>}
+            { 
+              edata.map((x) => (
+                <TableRow key={x.id}>
+                  <TableCell component="th" scope="row" align="center">
+                    {x.employeeid}
+                  </TableCell>
+                  <TableCell align="center">{x.name}</TableCell>
+                  <TableCell align="center">{x.dept}</TableCell>
+                  <TableCell align="center">{x.desi}</TableCell>
+                  <TableCell align="center">{x.type}</TableCell>
+                  <TableCell align="center"></TableCell>
+                </TableRow>
+              ))
+            }
           </TableBody>
         </Table>
       </TableContainer>
