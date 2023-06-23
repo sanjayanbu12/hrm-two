@@ -3,22 +3,14 @@ import { useState } from 'react';
 
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
+import { Box,Button, Grid, Typography } from '@mui/material';
 
 // third-party
-import Chart from 'react-apexcharts';
+// import Chart from 'react-apexcharts';
 
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-
-import ChartDataMonth from './chart-data/total-order-month-line-chart';
-import ChartDataYear from './chart-data/total-order-year-line-chart';
-
-// assets
-import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: theme.palette.primary.dark,
   color: '#fff',
@@ -31,7 +23,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
   '&:after': {
     content: '""',
     position: 'absolute',
-    width: 210,
+    width: 290,
     height: 210,
     background: theme.palette.primary[800],
     borderRadius: '50%',
@@ -60,10 +52,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     }
   }
 }));
-
-// ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
-
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const EarningCardCard = ({ isLoading }) => {
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = useState(false);
@@ -81,7 +70,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
             <Grid container direction="column">
               <Grid item>
                 <Grid container justifyContent="space-between">
-                  <Grid item>
+                  {/* <Grid item>
                     <Avatar
                       variant="rounded"
                       sx={{
@@ -94,7 +83,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                     >
                       <LocalMallOutlinedIcon fontSize="inherit" />
                     </Avatar>
-                  </Grid>
+                  </Grid> */}
                   <Grid item>
                     <Button
                       disableElevation
@@ -103,7 +92,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                       sx={{ color: 'inherit' }}
                       onClick={(e) => handleChangeTime(e, true)}
                     >
-                      FRESHER
+                      ACTIVE
                     </Button>
                     <Button
                       disableElevation
@@ -112,7 +101,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                       sx={{ color: 'inherit' }}
                       onClick={(e) => handleChangeTime(e, false)}
                     >
-                      EXPERIENCED
+                      ON LEAVE
                     </Button>
                   </Grid>
                 </Grid>
@@ -123,12 +112,12 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                     <Grid container alignItems="center">
                       <Grid item>
                         {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>10</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>15</Typography>
                         ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>10</Typography>
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2</Typography>
                         )}
                       </Grid>
-                      <Grid item>
+                      {/* <Grid item>
                         <Avatar
                           sx={{
                             ...theme.typography.smallAvatar,
@@ -139,7 +128,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                         >
                           <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
                         </Avatar>
-                      </Grid>
+                      </Grid> */}
                       <Grid item xs={12}>
                         <Typography
                           sx={{
@@ -148,14 +137,14 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                             color: theme.palette.primary[100]
                           }}
                         >
-                          TOTAL EMPLOYEES
+                          Projects
                         </Typography>
                       </Grid>
                     </Grid>
                   </Grid>
-                  <Grid item xs={6}>
+                  {/* <Grid item xs={6}>
                     {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Grid>
@@ -166,8 +155,8 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
   );
 };
 
-TotalOrderLineChartCard.propTypes = {
+EarningCardCard.propTypes = {
   isLoading: PropTypes.bool
 };
 
-export default TotalOrderLineChartCard;
+export default EarningCardCard;

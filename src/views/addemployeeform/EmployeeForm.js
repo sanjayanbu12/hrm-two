@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 
+
 const EmployeeForm = () => {
   const theme = useTheme();
   const [name, setName] = useState('');
@@ -303,7 +304,7 @@ const EmployeeForm = () => {
         setType('');
         Swal.fire({
           icon: 'success',
-          text: 'Employee Created Successfully'
+          text: 'Employee Information'
         }).then(() => {
           navigate('/Addemployeetable');
         });
@@ -323,7 +324,7 @@ const EmployeeForm = () => {
   };
 
   return (
-    <MainCard title="Employee Self Services">
+    <MainCard title="Employee Information">
       <form>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
