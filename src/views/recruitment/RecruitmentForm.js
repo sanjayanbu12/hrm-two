@@ -143,9 +143,92 @@ const RecruitmentForm = () => {
   }, [id]);
 
   const finalSubmit = async () => {
-    if (id) {
-      try {
-        const updatedtask = {
+    // if (id) {
+    // try {
+    //     const updatedtask = {
+    //       Jobrole,
+    //       Openings,
+    //       Company,
+    //       Status,
+    //       Description,
+    //       Requirements,
+    //       Experience,
+    //       Deadline,
+    //       Worktype,
+    //       Skills,
+    //       Education,
+    //       Location
+    //     };
+
+    //     await validationSchema.validate(
+    //       {
+    //         Jobrole,
+    //         Openings,
+    //         Company,
+    //         Status,
+    //         Description,
+    //         Requirements,
+    //         Experience,
+    //         Deadline,
+    //         Worktype,
+    //         Skills,
+    //         Education,
+    //         Location
+    //       },
+    //       { abortEarly: false }
+    //     );
+    //     await axios.put('http://localhost:3002/recruitform/' + id, updatedtask);
+    //     setJobrole('');
+    //     setOpenings('');
+    //     setCompany('');
+    //     setStatus('');
+    //     setDescription('');
+    //     setRequirements('');
+    //     setExperience('');
+    //     setDeadline('');
+    //     setWorktype('');
+    //     setSkills('');
+    //     setEducation('');
+    //     setLocation('');
+
+    //     Swal.fire({
+    //       icon: 'success',
+    //       text: 'Updated Successfully'
+    //     }).then(() => {
+    //       navigate('/RecruitmentTable');
+    //     });
+    //   } catch (error) {
+    //     if (error instanceof yup.ValidationError) {
+    //       const validationErrors = {};
+    //       error.inner.forEach((err) => {
+    //         validationErrors[err.path] = err.message;
+    //         console.log(validationErrors);
+    //       });
+    //       setErrors(validationErrors);
+    //     } else {
+    //       console.log(error);
+    //     }
+    //   }
+    // } else {
+    try {
+      const task = {
+        Jobrole,
+        Openings,
+        Company,
+        Status,
+        Description,
+        Requirements,
+        Experience,
+        Deadline,
+        Worktype,
+        Skills,
+        Education,
+        Location
+      };
+      console.log('task', task);
+
+      await validationSchema.validate(
+        {
           Jobrole,
           Openings,
           Company,
@@ -158,123 +241,39 @@ const RecruitmentForm = () => {
           Skills,
           Education,
           Location
-        };
+        },
+        { abortEarly: false }
+      );
+      await axios.post('http://localhost:3002/recruitform', task);
 
-        await validationSchema.validate(
-          {
-            Jobrole,
-            Openings,
-            Company,
-            Status,
-            Description,
-            Requirements,
-            Experience,
-            Deadline,
-            Worktype,
-            Skills,
-            Education,
-            Location
-          },
-          { abortEarly: false }
-        );
-        await axios.put('http://localhost:3002/recruitform/' + id, updatedtask);
-        setJobrole('');
-        setOpenings('');
-        setCompany('');
-        setStatus('');
-        setDescription('');
-        setRequirements('');
-        setExperience('');
-        setDeadline('');
-        setWorktype('');
-        setSkills('');
-        setEducation('');
-        setLocation('');
-
-        Swal.fire({
-          icon: 'success',
-          text: 'Updated Successfully'
-        }).then(() => {
-          navigate('/RecruitmentTable');
+      setJobrole('');
+      setOpenings('');
+      setCompany('');
+      setStatus('');
+      setDescription('');
+      setRequirements('');
+      setExperience('');
+      setDeadline('');
+      setWorktype('');
+      setSkills('');
+      setEducation('');
+      setLocation('');
+      Swal.fire({
+        icon: 'success',
+        text: 'Add Recruitment'
+      }).then(() => {
+        navigate('/RecruitmentTable');
+      });
+    } catch (error) {
+      if (error instanceof yup.ValidationError) {
+        const validationErrors = {};
+        error.inner.forEach((err) => {
+          validationErrors[err.path] = err.message;
+          console.log(validationErrors);
         });
-      } catch (error) {
-        if (error instanceof yup.ValidationError) {
-          const validationErrors = {};
-          error.inner.forEach((err) => {
-            validationErrors[err.path] = err.message;
-            console.log(validationErrors);
-          });
-          setErrors(validationErrors);
-        } else {
-          console.log(error);
-        }
-      }
-    } else {
-      try {
-        const task = {
-          Jobrole,
-          Openings,
-          Company,
-          Status,
-          Description,
-          Requirements,
-          Experience,
-          Deadline,
-          Worktype,
-          Skills,
-          Education,
-          Location
-        };
-        console.log('task', task);
-
-        await validationSchema.validate(
-          {
-            Jobrole,
-            Openings,
-            Company,
-            Status,
-            Description,
-            Requirements,
-            Experience,
-            Deadline,
-            Worktype,
-            Skills,
-            Education,
-            Location
-          },
-          { abortEarly: false }
-        );
-        await axios.post('http://localhost:3002/recruitform', task);
-
-        setJobrole('');
-        setOpenings('');
-        setCompany('');
-        setStatus('');
-        setDescription('');
-        setRequirements('');
-        setExperience('');
-        setDeadline('');
-        setWorktype('');
-        setSkills('');
-        setEducation('');
-        setLocation('');
-        Swal.fire({
-          icon: 'success',
-          text: 'Add Recruitment'
-        }).then(() => {
-          navigate('/RecruitmentTable');
-        });
-      } catch (error) {
-        if (error instanceof yup.ValidationError) {
-          const validationErrors = {};
-          error.inner.forEach((err) => {
-            validationErrors[err.path] = err.message;
-            console.log(validationErrors);
-          });
-          setErrors(validationErrors);
-        } else {
-          console.log(error);
-        }
+        setErrors(validationErrors);
+      } else {
+        console.log(error);
       }
     }
   };

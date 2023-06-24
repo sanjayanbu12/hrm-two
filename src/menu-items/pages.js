@@ -68,11 +68,11 @@ const pages = {
       ]
     },
     {
-      id: 'jobs',
+      id: 'Jobs',
       title: 'Jobs',
       type: 'item',
       icon: icons.PersonIcon,
-      url: '/jobs'
+      url: '/Jobs'
     },
 
     //   children: [

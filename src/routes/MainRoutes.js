@@ -58,6 +58,10 @@ const MainRoutes = {
       path:'/wfhtracker',
       element: <WfhTracker />
     },
+    {
+      path: '/jobdetails',
+      element: <Jobdetails />
+    },
     // {
     //   path: '/projectlist',
     //   element: <ProjectList />

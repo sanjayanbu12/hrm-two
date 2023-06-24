@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import MainCard from 'ui-component/cards/MainCard';
 
-const Jobs = () => {
+const Jobdetails = () => {
   const [cardData, setCardData] = useState([]);
   const navigate = useNavigate();
 
@@ -21,12 +21,12 @@ const Jobs = () => {
   }, []);
 
   return (
-    <MainCard title="Job List">
+    <MainCard title="Job Details">
       <Card>
         {cardData.map((item, index) => (
           <Card
             onClick={() => {
-              navigate('/jobdetails');
+              navigate('/jobs');
             }}
             key={index}
             sx={{ mb: 1.5 }}
@@ -39,10 +39,28 @@ const Jobs = () => {
                 No.of.Openings :{item.Openings}
               </Typography>
               <Typography sx={{ lineHeight: '2' }} variant="h5" component="h3">
-                Skills :{item.Skills}
+                Company :{item.Company}
               </Typography>
               <Typography sx={{ lineHeight: '2' }} variant="h5" component="h3">
-                Experience :{item.Experience} Years
+                Location:{item.Location}
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h4">
+                Worktype: {item.Worktype}
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h4">
+                Qualification : {item.Education}
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h4">
+                Experience: {item.Experience} Years
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h4">
+                Requirements: {item.Requirements}
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h4">
+                Description: {item.Description}
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h4">
+                Last Date to Apply: {item.Deadline}
               </Typography>
             </CardContent>
           </Card>
@@ -52,4 +70,4 @@ const Jobs = () => {
   );
 };
 
-export default Jobs;
+export default Jobdetails;
