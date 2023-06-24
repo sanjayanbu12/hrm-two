@@ -7,7 +7,6 @@ import validationSchema from '../recruitment/RecruitmentValidation';
 import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
-
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -21,6 +20,7 @@ const RecruitmentForm = () => {
   const [Worktype, setWorktype] = useState('');
   const [Skills, setSkills] = useState('');
   const [Education, setEducation] = useState('');
+  const [Location, setLocation] = useState('');
   const [errors, setErrors] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
@@ -30,6 +30,13 @@ const RecruitmentForm = () => {
     setErrors((prev) => ({
       ...prev,
       Requirements: ''
+    }));
+  };
+  const handleLocation = (e) => {
+    setLocation(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      Location: ''
     }));
   };
   const handleWorktype = (e) => {
@@ -96,11 +103,20 @@ const RecruitmentForm = () => {
     }));
   };
   const handleDeadline = (e) => {
-    setDeadline(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      Deadline: ''
-    }));
+    const selectedDate = e.target.value;
+    const currentDate = new Date().toISOString().split('T')[0];
+    if (selectedDate < currentDate) {
+      setErrors((prev) => ({
+        ...prev,
+        Deadline: 'Please select a future date.'
+      }));
+    } else {
+      setDeadline(selectedDate);
+      setErrors((prev) => ({
+        ...prev,
+        Deadline: ''
+      }));
+    }
   };
   useEffect(() => {
     fetch('http://localhost:3002/recruitform/' + id)
@@ -119,6 +135,7 @@ const RecruitmentForm = () => {
         setWorktype(resp.Worktype);
         setSkills(resp.Skills);
         setEducation(resp.Education);
+        setLocation(resp.Location);
       })
       .catch((err) => {
         console.log(err.message);
@@ -139,7 +156,8 @@ const RecruitmentForm = () => {
           Deadline,
           Worktype,
           Skills,
-          Education
+          Education,
+          Location
         };
 
         await validationSchema.validate(
@@ -154,7 +172,8 @@ const RecruitmentForm = () => {
             Deadline,
             Worktype,
             Skills,
-            Education
+            Education,
+            Location
           },
           { abortEarly: false }
         );
@@ -170,6 +189,7 @@ const RecruitmentForm = () => {
         setWorktype('');
         setSkills('');
         setEducation('');
+        setLocation('');
 
         Swal.fire({
           icon: 'success',
@@ -202,7 +222,8 @@ const RecruitmentForm = () => {
           Deadline,
           Worktype,
           Skills,
-          Education
+          Education,
+          Location
         };
         console.log('task', task);
 
@@ -218,7 +239,8 @@ const RecruitmentForm = () => {
             Deadline,
             Worktype,
             Skills,
-            Education
+            Education,
+            Location
           },
           { abortEarly: false }
         );
@@ -235,6 +257,7 @@ const RecruitmentForm = () => {
         setWorktype('');
         setSkills('');
         setEducation('');
+        setLocation('');
         Swal.fire({
           icon: 'success',
           text: 'Add Recruitment'
@@ -329,6 +352,25 @@ const RecruitmentForm = () => {
                   <MenuItem value="Sns Square">SNS Square</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Company}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
+                <InputLabel id="demo-simple-select-label">Location</InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Location"
+                  value={Location}
+                  // error={errors && errors.Status}
+                  // helperText={errors && errors.Status}
+                  onChange={(e) => handleLocation(e)}
+                >
+                  <MenuItem value=""></MenuItem>
+                  <MenuItem value="Coimbatore">Coimbatore</MenuItem>
+                  <MenuItem value="Bengaluru">Bengaluru</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>

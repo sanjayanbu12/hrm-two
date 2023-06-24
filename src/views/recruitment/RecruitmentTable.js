@@ -53,11 +53,9 @@ const RecruitmentTable = () => {
                   <TableCell>Job Role</TableCell>
                   <TableCell>No of Openings</TableCell>
                   <TableCell>Worktype</TableCell>
+                  <TableCell>Location</TableCell>
                   <TableCell>Deadline</TableCell>
-                  <TableCell>Status</TableCell>
-                  <TableCell>Selected</TableCell>
-                  <TableCell>Remaining</TableCell>
-                  {/* <TableCell>Action</TableCell> */}
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -67,20 +65,11 @@ const RecruitmentTable = () => {
                     <TableCell>{x.Jobrole}</TableCell>
                     <TableCell>{x.Openings}</TableCell>
                     <TableCell>{x.Worktype}</TableCell>
+                    <TableCell>{x.Location}</TableCell>
                     <TableCell>{x.Deadline}</TableCell>
-                    <TableCell>{x.Status}</TableCell>
-                    <TableCell>{x.Selected}</TableCell>
-                    <TableCell>{x.Remaining}</TableCell>
-                    {/* <TableCell> */}
-                    {/* <Button
-                        variant="contained"
-                        onClick={() => {
-                          navigate('/RecruitmentForm');
-                        }}
-                      >
-                        Edit
-                      </Button> */}
-                    {/* </TableCell> */}
+                    <TableCell>
+                      <Button variant="contained">View</Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

@@ -181,14 +181,17 @@
   "recruitform": [
     {
       "Jobrole": "Software Associate",
-      "Openings": "1",
+      "Openings": "12",
       "Company": "Sns Square",
       "Status": "Interview Scheduled",
-      "Remaining": "1",
-      "Count": "5",
-      "Selected": "0",
-      "Deadline": "2023-06-30",
+      "Description": "Good Communication",
+      "Requirements": "coding",
+      "Experience": "1",
+      "Deadline": "2023-06-28",
       "Worktype": "Full time",
+      "Skills": "Java",
+      "Education": "PG",
+      "Location": "Coimbatore",
       "id": 1
     }
   ]
