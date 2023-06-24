@@ -119,7 +119,7 @@ const RecruitmentForm = () => {
     }
   };
   useEffect(() => {
-    fetch('http://localhost:3002/recruitform/' + id)
+    fetch('http://localhost:3002/recruitform/')
       .then((res) => {
         return res.json();
       })

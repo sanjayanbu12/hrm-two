@@ -193,7 +193,36 @@
       "Education": "PG",
       "Location": "Coimbatore",
       "id": 1
+    },
+    {
+      "Jobrole": "Data Analyst",
+      "Openings": "5",
+      "Company": "Sns Square",
+      "Status": "Progress",
+      "Description": "gfgf",
+      "Requirements": "thghg",
+      "Experience": "3",
+      "Deadline": "2023-07-01",
+      "Worktype": "Internship",
+      "Skills": "rtrt",
+      "Education": "mca",
+      "Location": "Bengaluru",
+      "id": 2
+    },
+    {
+      "Jobrole": "Software Associate",
+      "Openings": "4",
+      "Company": "Sns Square",
+      "Status": "Interview Scheduled",
+      "Description": "wewe",
+      "Requirements": "swe",
+      "Experience": "3",
+      "Deadline": "2023-06-29",
+      "Worktype": "Internship",
+      "Skills": "eweew",
+      "Education": "mca",
+      "Location": "Bengaluru",
+      "id": 3
     }
-  
   ]
 }
