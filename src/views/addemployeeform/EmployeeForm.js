@@ -162,7 +162,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/getEmployee/' + id)
       .then((res) => {
         return res.json();
       })
@@ -234,7 +234,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/api/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/api/updateEmployee/' + id, updatedtask);
 
         setName('');
         setLastname('');
@@ -278,19 +278,19 @@ const EmployeeForm = () => {
           name,
           lastname,
           gender,
-          dept,
-          desi,
           mail,
+          password,
+          conpassword,
+          dob,
           mob,
           altmob,
+          dept,
+          desi,
           peraddress,
           temaddress,
           bloodgroup,
-          password,
-          conpassword,
           join,
           report,
-          dob,
           type,
           employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
@@ -318,7 +318,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('https://hrm-backend-square.onrender.com/api/', task);
+        await axios.post('https://hrm-backend-square.onrender.com/api/createEmployee', task);
 
         setName('');
         setLastname('');
@@ -445,7 +445,9 @@ const EmployeeForm = () => {
                 onChange={(e) => handleconPassword(e)}
               />
             </Grid>
-            
+
+
+
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}

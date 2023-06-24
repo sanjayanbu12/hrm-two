@@ -32,8 +32,7 @@ const Addemployeetable = () =>
   // const[curentPage,setCurrentPage]=useState(1)
 
   const fetchEmployees = async() => {
-    const res=await axios.get(`https://hrm-backend-square.onrender.com/api/`)
-    console.log(`this is res `+res)
+    const res=await axios.get(`https://hrm-backend-square.onrender.com/api/getEmployee`)
     setedata(res.data.getData)
   };
 
