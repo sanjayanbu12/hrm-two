@@ -223,6 +223,21 @@
       "Education": "mca",
       "Location": "Bengaluru",
       "id": 3
+    },
+    {
+      "Jobrole": "HR",
+      "Openings": "5",
+      "Company": "Sns Square",
+      "Status": "Interview Scheduled",
+      "Description": "CONSULTANT",
+      "Requirements": "wdde",
+      "Experience": "3",
+      "Deadline": "2023-06-30",
+      "Worktype": "Full time",
+      "Skills": "java",
+      "Education": "mca",
+      "Location": "Bengaluru",
+      "id": 4
     }
   ]
 }
