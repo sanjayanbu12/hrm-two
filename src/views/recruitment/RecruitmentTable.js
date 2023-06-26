@@ -11,16 +11,25 @@ import {
   Paper,
   Button,
   Box,
-  CircularProgress
+  CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  Typography
 } from '@mui/material';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
+import { GridDeleteIcon } from '@mui/x-data-grid';
+import { Edit } from '@mui/icons-material';
+// import { useParams } from 'react-router-dom';
 
 const RecruitmentTable = () => {
   const [RecruitmentList, setRecruitmentList] = useState([]);
   const [Loader, setLoader] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [selectedJob, setSelectedJob] = useState(null);
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -36,8 +45,15 @@ const RecruitmentTable = () => {
         console.log('Error retrieving user data: ', error);
       });
   }, []);
-  const View = (id) => {
-    navigate(`/View/${id}`);
+
+  const handleView = (id) => {
+    const job = RecruitmentList.find((item) => item._id === id);
+    setSelectedJob(job);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
   };
 
   return (
@@ -92,7 +108,7 @@ const RecruitmentTable = () => {
                         <TableRow
                           key={x._id}
                           onClick={() => {
-                            View(x._id);
+                            handleView(x._id);
                           }}
                         >
                           <TableCell>{x._id}</TableCell>
@@ -107,12 +123,61 @@ const RecruitmentTable = () => {
                   </Table>
                 </TableContainer>
               ) : (
-                <h3>NO DATA </h3>
+                <h3>NO DATA</h3>
               )}
             </Grid>
           </Grid>
         </div>
       )}
+
+      {/* Dialog Box */}
+      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        {selectedJob && (
+          <>
+            <DialogTitle variant="h2">Recruitment Details</DialogTitle>
+            <DialogContent>
+              <Typography sx={{ lineHeight: '1' }} variant="h3" component="h4">
+                Job Role: {selectedJob.Jobrole}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h1">
+                No. of Openings: {selectedJob.Openings}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h3">
+                Company: {selectedJob.Company}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h3">
+                Location: {selectedJob.Location}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Worktype: {selectedJob.Worktype}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Qualification: {selectedJob.Education}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Experience: {selectedJob.Experience} Years
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Requirements: {selectedJob.Requirements}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Description: {selectedJob.Description}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Last Date to Apply: {selectedJob.Deadline}
+              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                <Button variant="outlined" endIcon={<Edit />}>
+                  Edit
+                </Button>
+                <Button variant="contained" color="error" startIcon={<GridDeleteIcon />}>
+                  Delete
+                </Button>
+              </Box>
+            </DialogContent>
+          </>
+        )}
+      </Dialog>
     </MainCard>
   );
 };
