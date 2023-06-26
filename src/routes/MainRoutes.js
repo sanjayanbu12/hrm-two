@@ -63,6 +63,14 @@ const MainRoutes = {
       element: <Jobdetails />
     },
     // {
+    //   path: '/jobs',
+    //   element: <Jobs />
+    // },
+    // {
+    //   path: '/jobdetails/:id',
+    //   element: <Jobdetails />
+    // },
+    // {
     //   path: '/projectlist',
     //   element: <ProjectList />
     // },

@@ -67,13 +67,13 @@ const pages = {
         }
       ]
     },
-    {
-      id: 'Jobs',
-      title: 'Jobs',
-      type: 'item',
-      icon: icons.PersonIcon,
-      url: '/Jobs'
-    },
+    // {
+    //   id: 'Jobs',
+    //   title: 'Jobs',
+    //   type: 'item',
+    //   icon: icons.PersonIcon,
+    //   url: '/Jobs'
+    // },
 
     //   children: [
     //     {

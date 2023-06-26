@@ -3,7 +3,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router';
 
-const Jobdetails = () => {
+const View = () => {
   const [Carddata, setCarddata] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
@@ -22,12 +22,12 @@ const Jobdetails = () => {
 
   return (
     <div>
-      <h1>Job Details</h1>
+      <h1>Details</h1>
       <Card
         onClick={() => {
-          navigate('/jobs');
+          navigate('/recruitmenttable');
         }}
-        sx={{ mb: 1.5 }}
+        sx={{ mb: 3, padding: '15px' }}
       >
         <CardContent>
           <Typography sx={{ lineHeight: '1.5' }} variant="h1" component="h4">
@@ -66,4 +66,4 @@ const Jobdetails = () => {
   );
 };
 
-export default Jobdetails;
+export default View;
