@@ -23,7 +23,7 @@ const EmployeeForm = () => {
   const [temaddress,settemAddress] = useState('');
   const [bloodgroup,setBloodgroup] = useState('');
   const [password,setPassword] =useState('');
-  const [confirmpassword,setconfirmPassword] =useState('');
+  const [confirmPassword,setconfirmPassword] =useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -97,7 +97,7 @@ const EmployeeForm = () => {
     setconfirmPassword(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      confirmpassword: ''
+      confirmPassword: ''
     }));
   };
 
@@ -128,7 +128,7 @@ const EmployeeForm = () => {
     setaltMob(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      altmobmob: ''
+      altmob: ''
     }));
   };
 
@@ -162,7 +162,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/getEmployee/' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/allemployee/' + id)
       .then((res) => {
         return res.json();
       })
@@ -175,7 +175,7 @@ const EmployeeForm = () => {
         seteMail(resp.mail);
         setMob(resp.mob);
         setPassword(resp.password);
-        setconfirmPassword(resp.conpassword);
+        setconfirmPassword(resp.confirmPassword);
         setaltMob(resp.altmob);
         setperAddress(resp.peraddress);
         settemAddress(resp.temaddress);
@@ -205,7 +205,7 @@ const EmployeeForm = () => {
           peraddress,
           temaddress,
           bloodgroup,
-          password,confirmpassword,
+          password,confirmPassword,
           join,
           report,
           dob,
@@ -226,7 +226,7 @@ const EmployeeForm = () => {
             temaddress,
             bloodgroup,
             password,
-            confirmpassword,
+            confirmPassword,
             join,
             report,
             dob,
@@ -234,7 +234,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/api/updateEmployee/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, updatedtask);
 
         setName('');
         setLastname('');
@@ -280,7 +280,7 @@ const EmployeeForm = () => {
           gender,
           email,
           password,
-          confirmpassword,
+          confirmPassword,
           dob,
           mob,
           altmob,
@@ -292,7 +292,7 @@ const EmployeeForm = () => {
           join,
           report,
           type,
-          employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
+          // employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
 
@@ -310,7 +310,7 @@ const EmployeeForm = () => {
             temaddress,
             bloodgroup,
             password,
-            confirmpassword,
+            confirmPassword,
             join,
             report,
             dob,
@@ -318,7 +318,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('https://hrm-backend-square.onrender.com/api/createEmployee', task);
+        await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
 
         setName('');
         setLastname('');
@@ -413,8 +413,8 @@ const EmployeeForm = () => {
                 label="Email"
                 variant="outlined"
                 value={email}
-                error={errors && errors.mail}
-                helperText={errors && errors.mail}
+                error={errors && errors.email}
+                helperText={errors && errors.email}
                 onChange={(e) => handleEmail(e)}
               />
             </Grid>
@@ -439,9 +439,9 @@ const EmployeeForm = () => {
                 id="outlined-basic"
                 label="Confirm Password"
                 variant="outlined"
-                value={confirmpassword}
-                error={errors && errors.conpassword}
-                helperText={errors && errors.conpassword}
+                value={confirmPassword}
+                error={errors && errors.confirmPassword}
+                helperText={errors && errors.confirmPassword}
                 onChange={(e) => handleconPassword(e)}
               />
             </Grid>
