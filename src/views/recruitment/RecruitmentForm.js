@@ -43,7 +43,7 @@ const RecruitmentForm = () => {
     setWorktype(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      Experirence: ''
+      Worktype: ''
     }));
   };
   const handleJobrole = (e) => {
@@ -78,14 +78,14 @@ const RecruitmentForm = () => {
     setEducation(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      Status: ''
+      Education: ''
     }));
   };
   const handleSkills = (e) => {
     setSkills(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      Status: ''
+      Skills: ''
     }));
   };
   const handleDescription = (e) => {
@@ -286,7 +286,7 @@ const RecruitmentForm = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Jobrole}>
                 <InputLabel id="demo-simple-select-label">Jobrole</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -302,7 +302,7 @@ const RecruitmentForm = () => {
                   <MenuItem value="Software Associate">Software Associate</MenuItem>
                   <MenuItem value="Digital Marketing">Digital Marketing</MenuItem>
                 </Select>
-                <FormHelperText>{errors && errors.Worktype}</FormHelperText>
+                <FormHelperText>{errors && errors.Jobrole}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
@@ -356,7 +356,7 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
                 <InputLabel id="demo-simple-select-label">Location</InputLabel>
                 <Select
                   labelId="demo-simple-select-label"
@@ -411,15 +411,15 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Description}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
                 <TextField
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Education"
                   value={Education}
                   type="value"
-                  error={errors && errors.Description}
-                  helperText={errors && errors.Description}
+                  error={errors && errors.Education}
+                  helperText={errors && errors.Education}
                   onChange={(e) => handleEducation(e)}
                 />
               </FormControl>
@@ -451,15 +451,15 @@ const RecruitmentForm = () => {
               />
             </Grid>
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Description}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
                 <TextField
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Skills"
                   value={Skills}
                   type="value"
-                  error={errors && errors.Description}
-                  helperText={errors && errors.Description}
+                  error={errors && errors.Skills}
+                  helperText={errors && errors.Skills}
                   onChange={(e) => handleSkills(e)}
                 />
               </FormControl>

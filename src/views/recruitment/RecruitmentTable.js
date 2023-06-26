@@ -23,6 +23,7 @@ import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
 import { GridDeleteIcon } from '@mui/x-data-grid';
 import { Edit } from '@mui/icons-material';
+import Swal from 'sweetalert2';
 // import { useParams } from 'react-router-dom';
 
 const RecruitmentTable = () => {
@@ -34,7 +35,10 @@ const RecruitmentTable = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios
+    fetchdata();
+  }, []);
+  const fetchdata = async () => {
+    await axios
       .get('https://hrm-backend-square.onrender.com/rec/getRec')
       .then((res) => {
         setRecruitmentList(res.data.getData);
@@ -44,18 +48,44 @@ const RecruitmentTable = () => {
       .catch((error) => {
         console.log('Error retrieving user data: ', error);
       });
-  }, []);
-
+  };
   const handleView = (id) => {
     const job = RecruitmentList.find((item) => item._id === id);
     setSelectedJob(job);
     setOpen(true);
   };
-
   const handleClose = () => {
     setOpen(false);
+    setSelectedJob(null);
   };
 
+  const handleDelete = (id) => {
+    Swal.fire({
+      icon: 'warning',
+      text: 'Are you sure you want to delete this recruitment?',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      showClass: null // Remove default overlay
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+          await fetchdata(); // Fetch updated data
+          handleClose(); // Close the dialog box
+          navigate('/Recruitmenttable'); // Navigate to the RecruitmentTable page
+          Swal.fire({
+            icon: 'success',
+            text: 'Recruitment deleted successfully.'
+          });
+        } catch (error) {
+          console.log('Error deleting recruitment:', error);
+        }
+      }
+    });
+  };
   return (
     <MainCard title="Recruitment Table">
       {Loader ? (
@@ -170,7 +200,7 @@ const RecruitmentTable = () => {
                 <Button variant="outlined" endIcon={<Edit />}>
                   Edit
                 </Button>
-                <Button variant="contained" color="error" startIcon={<GridDeleteIcon />}>
+                <Button variant="contained" color="error" onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />}>
                   Delete
                 </Button>
               </Box>
