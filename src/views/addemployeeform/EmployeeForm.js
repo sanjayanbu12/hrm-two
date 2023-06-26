@@ -16,14 +16,14 @@ const EmployeeForm = () => {
   const [gender, setGender] = useState('');
   const [dept, setDept] = useState('');
   const [desi, setDesi] = useState('');
-  const [mail, setMail] = useState('');
+  const [email, seteMail] = useState('');
   const [mob, setMob] = useState('');
   const [altmob,setaltMob] = useState('');
   const [peraddress,setperAddress] = useState('');
   const [temaddress,settemAddress] = useState('');
   const [bloodgroup,setBloodgroup] = useState('');
   const [password,setPassword] =useState('');
-  const [conpassword,setconPassword] =useState('');
+  const [confirmpassword,setconfirmPassword] =useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -33,10 +33,10 @@ const EmployeeForm = () => {
   const navigate = useNavigate();
 
   const handleEmail = (e) => {
-    setMail(e.target.value);
+    seteMail(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      mail: ''
+      email: ''
     }));
   };
   const handleName = (e) => {
@@ -94,10 +94,10 @@ const EmployeeForm = () => {
   };
 
   const handleconPassword = (e) => {
-    setconPassword(e.target.value);
+    setconfirmPassword(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      conpassword: ''
+      confirmpassword: ''
     }));
   };
 
@@ -172,10 +172,10 @@ const EmployeeForm = () => {
         setCompany(resp.company);
         setDept(resp.dept);
         setDesi(resp.desi);
-        setMail(resp.mail);
+        seteMail(resp.mail);
         setMob(resp.mob);
         setPassword(resp.password);
-        setconPassword(resp.conpassword);
+        setconfirmPassword(resp.conpassword);
         setaltMob(resp.altmob);
         setperAddress(resp.peraddress);
         settemAddress(resp.temaddress);
@@ -199,13 +199,13 @@ const EmployeeForm = () => {
           gender,
           dept,
           desi,
-          mail,
+          email,
           mob,
           altmob,
           peraddress,
           temaddress,
           bloodgroup,
-          password,conpassword,
+          password,confirmpassword,
           join,
           report,
           dob,
@@ -219,14 +219,14 @@ const EmployeeForm = () => {
             gender,
             dept,
             desi,
-            mail,
+            email,
             mob,
             altmob,
             peraddress,
             temaddress,
             bloodgroup,
             password,
-            conpassword,
+            confirmpassword,
             join,
             report,
             dob,
@@ -241,14 +241,14 @@ const EmployeeForm = () => {
         setGender('');
         setDept('');
         setDesi('');
-        setMail('');
+        seteMail('');
         setMob('');
         setaltMob(''),
         setperAddress(''),
         settemAddress(''),
         setBloodgroup(''),
         setPassword(''),
-        setconPassword(''),
+        setconfirmPassword(''),
         setJoin('');
         setReport('');
         setDob('');
@@ -278,9 +278,9 @@ const EmployeeForm = () => {
           name,
           lastname,
           gender,
-          mail,
+          email,
           password,
-          conpassword,
+          confirmpassword,
           dob,
           mob,
           altmob,
@@ -304,13 +304,13 @@ const EmployeeForm = () => {
             altmob,
             dept,
             desi,
-            mail,
+            email,
             mob,
             peraddress,
             temaddress,
             bloodgroup,
             password,
-            conpassword,
+            confirmpassword,
             join,
             report,
             dob,
@@ -325,14 +325,14 @@ const EmployeeForm = () => {
         setGender('');
         setDept('');
         setDesi('');
-        setMail('');
+        seteMail('');
         setMob('');
         setaltMob(''),
         setperAddress(''),
         settemAddress(''),
         setBloodgroup(''),
         setPassword(''),
-        setconPassword(''),
+        setconfirmPassword(''),
         setJoin('');
         setReport('');
         setDob('');
@@ -412,7 +412,7 @@ const EmployeeForm = () => {
                 id="outlined-basic"
                 label="Email"
                 variant="outlined"
-                value={mail}
+                value={email}
                 error={errors && errors.mail}
                 helperText={errors && errors.mail}
                 onChange={(e) => handleEmail(e)}
@@ -439,7 +439,7 @@ const EmployeeForm = () => {
                 id="outlined-basic"
                 label="Confirm Password"
                 variant="outlined"
-                value={conpassword}
+                value={confirmpassword}
                 error={errors && errors.conpassword}
                 helperText={errors && errors.conpassword}
                 onChange={(e) => handleconPassword(e)}
