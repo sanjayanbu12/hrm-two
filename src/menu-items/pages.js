@@ -151,10 +151,16 @@ const pages = {
     
       children: [
         {
-          id: 'leavetracker',
-          title: 'Leave Tracker',
+          id: 'leavetrackerform',
+          title: 'Leave Tracker Form',
           type: 'item',
-          url: '/leavetracker'
+          url: '/leavetrackerform'
+        },
+        {
+          id: 'viewcalendar',
+          title: 'View Calendar',
+          type: 'item',
+          url: '/viewcalendar'
         },
         {
           id: 'attendancetracker',
@@ -163,10 +169,10 @@ const pages = {
           url: '/attendancetracker'
         },
         {
-          id: 'wfhtracker',
-          title: 'WFH Tracker',
+          id: 'leavetrackerlist',
+          title: 'Leave Tracker List',
           type: 'item',
-          url: '/wfhtracker'
+          url: '/leavetrackerlist'
         },
       ]
     },

@@ -6,11 +6,12 @@ import Loadable from 'ui-component/Loadable';
 import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/Recruitment'
-import LeaveTracker from 'views/leavemanagement/LeaveTracker';
+import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import AttendanceTracker from 'views/leavemanagement/AttendanceTracker'
 import Performance from 'views/performance/Performance';
-import WfhTracker from 'views/leavemanagement/WfhTracker';
+import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
+import ViewCalendar from 'views/leavemanagement/ViewCalendar';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -39,8 +40,12 @@ const MainRoutes = {
       element: <Recruitment />
     },
     {
-      path: '/leavetracker',
-      element: <LeaveTracker />
+      path: '/leavetrackerform',
+      element: <LeaveTrackerForm />
+    },
+    {
+      path: '/viewcalendar',
+      element: <ViewCalendar />
     },
     {
       path: '/attendancetracker',
@@ -51,8 +56,8 @@ const MainRoutes = {
       element: <Performance />
     },
     {
-      path:'/wfhtracker',
-      element: <WfhTracker />
+      path:'/LeaveTrackerList',
+      element: <LeaveTrackerList />
     },
     // {
     //   path: '/projectlist',
