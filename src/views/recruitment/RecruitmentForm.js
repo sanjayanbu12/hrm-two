@@ -119,23 +119,25 @@ const RecruitmentForm = () => {
     }
   };
   useEffect(() => {
-    fetch('http://localhost:3002/recruitform/')
+    axios
+      .get('https://hrm-backend-square.onrender.com/rec/getRec')
       .then((res) => {
-        return res.json();
-      })
-      .then((resp) => {
-        setJobrole(resp.Jobrole);
-        setOpenings(resp.Openings);
-        setCompany(resp.Company);
-        setStatus(resp.Status);
-        setDescription(resp.Description);
-        setRequirements(resp.Requirements);
-        setExperience(resp.Experience);
-        setDeadline(resp.Deadline);
-        setWorktype(resp.Worktype);
-        setSkills(resp.Skills);
-        setEducation(resp.Education);
-        setLocation(resp.Location);
+        console.log('This is res data', res.data.getData);
+
+        const responseData = res.data.getData; // Assuming the data is nested under 'getData'
+
+        setJobrole(responseData.Jobrole);
+        setOpenings(responseData.Openings);
+        setCompany(responseData.Company);
+        setStatus(responseData.Status);
+        setDescription(responseData.Description);
+        setRequirements(responseData.Requirements);
+        setExperience(responseData.Experience);
+        setDeadline(responseData.Deadline);
+        setWorktype(responseData.Worktype);
+        setSkills(responseData.Skills);
+        setEducation(responseData.Education);
+        setLocation(responseData.Location);
       })
       .catch((err) => {
         console.log(err.message);
@@ -244,7 +246,7 @@ const RecruitmentForm = () => {
         },
         { abortEarly: false }
       );
-      await axios.post('http://localhost:3002/recruitform', task);
+      await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
 
       setJobrole('');
       setOpenings('');

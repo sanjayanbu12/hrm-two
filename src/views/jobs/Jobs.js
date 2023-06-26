@@ -9,17 +9,17 @@ const Jobs = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3002/recruitform')
+      .get('https://hrm-backend-square.onrender.com/rec/getRec')
       .then((res) => {
-        setCarddata(res.data);
-        console.log(res.data);
+        setCarddata(res.data.getData); // Update this line
+        console.log('this is useeffect', res.data.getData);
       })
       .catch((error) => {
         console.log('Error retrieving user data:', error);
       });
   }, []);
-  const LoadDetail = () => {
-    navigate('/jobdetails');
+  const LoadDetail = (id) => {
+    navigate(`/jobdetails/${id}`);
   };
   // const View = async (id) => {
   //   try {
@@ -37,7 +37,7 @@ const Jobs = () => {
         Carddata.map((item) => (
           <Card
             onClick={() => {
-              LoadDetail(item.id);
+              LoadDetail(item._id);
             }}
             key={item.id}
             sx={{ mb: 1.5 }}

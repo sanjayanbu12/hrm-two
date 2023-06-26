@@ -12,10 +12,10 @@ const RecruitmentTable = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:3002/recruitform')
+      .get('https://hrm-backend-square.onrender.com/rec/getRec')
       .then((res) => {
-        setRecruitmentList(res.data);
-        console.log(res.data);
+        setRecruitmentList(res.data.getData);
+        console.log(res.data.getData + ` this is data `);
       })
       .catch((error) => {
         console.log('Error retrieving user data: ', error);
@@ -60,8 +60,8 @@ const RecruitmentTable = () => {
               </TableHead>
               <TableBody>
                 {RecruitmentList.map((x) => (
-                  <TableRow key={x.id}>
-                    <TableCell>{x.id}</TableCell>
+                  <TableRow key={x._id}>
+                    <TableCell>{x._id}</TableCell>
                     <TableCell>{x.Jobrole}</TableCell>
                     <TableCell>{x.Openings}</TableCell>
                     <TableCell>{x.Worktype}</TableCell>
