@@ -16,12 +16,14 @@ const EmployeeForm = () => {
   const [gender, setGender] = useState('');
   const [dept, setDept] = useState('');
   const [desi, setDesi] = useState('');
-  const [mail, setMail] = useState('');
+  const [email, seteMail] = useState('');
   const [mob, setMob] = useState('');
   const [altmob,setaltMob] = useState('');
   const [peraddress,setperAddress] = useState('');
   const [temaddress,settemAddress] = useState('');
   const [bloodgroup,setBloodgroup] = useState('');
+  const [password,setPassword] =useState('');
+  const [confirmPassword,setconfirmPassword] =useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -31,10 +33,10 @@ const EmployeeForm = () => {
   const navigate = useNavigate();
 
   const handleEmail = (e) => {
-    setMail(e.target.value);
+    seteMail(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      mail: ''
+      email: ''
     }));
   };
   const handleName = (e) => {
@@ -73,6 +75,8 @@ const EmployeeForm = () => {
       desi: ''
     }));
   };
+
+  
   const handleMob = (e) => {
     setMob(e.target.value);
     setErrors((prev) => ({
@@ -80,6 +84,24 @@ const EmployeeForm = () => {
       mob: ''
     }));
   };
+
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      password: ''
+    }));
+  };
+
+  const handleconPassword = (e) => {
+    setconfirmPassword(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      confirmPassword: ''
+    }));
+  };
+
+
   const handleBloodgroup = (e) => {
     setBloodgroup(e.target.value);
     setErrors((prev) => ({
@@ -106,7 +128,7 @@ const EmployeeForm = () => {
     setaltMob(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      altmobmob: ''
+      altmob: ''
     }));
   };
 
@@ -140,7 +162,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/getEmployee/' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/allemployee/' + id)
       .then((res) => {
         return res.json();
       })
@@ -150,8 +172,10 @@ const EmployeeForm = () => {
         setCompany(resp.company);
         setDept(resp.dept);
         setDesi(resp.desi);
-        setMail(resp.mail);
+        seteMail(resp.mail);
         setMob(resp.mob);
+        setPassword(resp.password);
+        setconfirmPassword(resp.confirmPassword);
         setaltMob(resp.altmob);
         setperAddress(resp.peraddress);
         settemAddress(resp.temaddress);
@@ -175,12 +199,13 @@ const EmployeeForm = () => {
           gender,
           dept,
           desi,
-          mail,
+          email,
           mob,
           altmob,
           peraddress,
           temaddress,
           bloodgroup,
+          password,confirmPassword,
           join,
           report,
           dob,
@@ -194,12 +219,14 @@ const EmployeeForm = () => {
             gender,
             dept,
             desi,
-            mail,
+            email,
             mob,
             altmob,
             peraddress,
             temaddress,
             bloodgroup,
+            password,
+            confirmPassword,
             join,
             report,
             dob,
@@ -207,19 +234,21 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/api/updateEmployee/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, updatedtask);
 
         setName('');
         setLastname('');
         setGender('');
         setDept('');
         setDesi('');
-        setMail('');
+        seteMail('');
         setMob('');
         setaltMob(''),
         setperAddress(''),
         settemAddress(''),
         setBloodgroup(''),
+        setPassword(''),
+        setconfirmPassword(''),
         setJoin('');
         setReport('');
         setDob('');
@@ -249,19 +278,21 @@ const EmployeeForm = () => {
           name,
           lastname,
           gender,
-          dept,
-          desi,
-          mail,
+          email,
+          password,
+          confirmPassword,
+          dob,
           mob,
           altmob,
+          dept,
+          desi,
           peraddress,
           temaddress,
           bloodgroup,
           join,
           report,
-          dob,
           type,
-          employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
+          // employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
 
@@ -273,11 +304,13 @@ const EmployeeForm = () => {
             altmob,
             dept,
             desi,
-            mail,
+            email,
             mob,
             peraddress,
             temaddress,
             bloodgroup,
+            password,
+            confirmPassword,
             join,
             report,
             dob,
@@ -285,19 +318,21 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('https://hrm-backend-square.onrender.com/api/createEmployee', task);
+        await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
 
         setName('');
         setLastname('');
         setGender('');
         setDept('');
         setDesi('');
-        setMail('');
+        seteMail('');
         setMob('');
         setaltMob(''),
         setperAddress(''),
         settemAddress(''),
         setBloodgroup(''),
+        setPassword(''),
+        setconfirmPassword(''),
         setJoin('');
         setReport('');
         setDob('');
@@ -375,6 +410,48 @@ const EmployeeForm = () => {
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
+                label="Email"
+                variant="outlined"
+                value={email}
+                error={errors && errors.email}
+                helperText={errors && errors.email}
+                onChange={(e) => handleEmail(e)}
+              />
+            </Grid>
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Password"
+                variant="outlined"
+                value={password}
+                error={errors && errors.password}
+                helperText={errors && errors.password}
+                onChange={(e) => handlePassword(e)}
+              />
+            </Grid>
+
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Confirm Password"
+                variant="outlined"
+                value={confirmPassword}
+                error={errors && errors.confirmPassword}
+                helperText={errors && errors.confirmPassword}
+                onChange={(e) => handleconPassword(e)}
+              />
+            </Grid>
+
+
+
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
                 label="Date Of Birth"
                 variant="outlined"
                 type="date"
@@ -389,18 +466,7 @@ const EmployeeForm = () => {
             </Grid>
            
 
-            <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Email"
-                variant="outlined"
-                value={mail}
-                error={errors && errors.mail}
-                helperText={errors && errors.mail}
-                onChange={(e) => handleEmail(e)}
-              />
-            </Grid>
+          
 
             <Grid item xs={4}>
               <TextField
