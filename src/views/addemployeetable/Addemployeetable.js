@@ -1,9 +1,10 @@
 import MainCard from 'ui-component/cards/MainCard';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,IconButton, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
@@ -15,6 +16,8 @@ import { gridSpacing } from 'store/constant';
 import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
+
+
 
 
 
@@ -40,6 +43,13 @@ const Addemployeetable = () =>
   useEffect(() => {
     fetchEmployees();
   }, [])
+
+  const Edit = (id) => {
+    console.log(id);
+    navigate(`/newemployee/ id`);
+  };
+
+
 
   const handleSearch = (event) => {
     setSearchText(event.target.value);
@@ -141,6 +151,9 @@ const Addemployeetable = () =>
                 <TableCell align="center">{x.desi}</TableCell>
                 <TableCell align="center">{x.type}</TableCell>
                 <TableCell align="center">
+                <IconButton aria-label="edit" onClick={() => Edit(x.id)}>
+                    <EditIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
           ))

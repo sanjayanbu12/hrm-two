@@ -85,9 +85,13 @@ const MainRoutes = {
       path: '/employeeperformance',
       element: <Employeeperformance />
     },
-
     {
       path: '/newemployee',
+      element: <EmployeeForm />
+    },
+
+    {
+      path: '/newemployee/:id',
       element: <EmployeeForm />
     },
     
