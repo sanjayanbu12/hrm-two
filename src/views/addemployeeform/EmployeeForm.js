@@ -162,7 +162,7 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/addemployee' + id)
       .then((res) => {
         return res.json();
       })
@@ -234,7 +234,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/api/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee' + id, updatedtask);
 
         setName('');
         setLastname('');
@@ -318,7 +318,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('https://hrm-backend-square.onrender.com/api/', task);
+        await axios.post('https://hrm-backend-square.onrender.com/api/addemployee',task);
 
         setName('');
         setLastname('');
