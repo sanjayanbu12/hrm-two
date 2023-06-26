@@ -18,6 +18,9 @@ const Jobs = () => {
         console.log('Error retrieving user data:', error);
       });
   }, []);
+  const LoadDetail = () => {
+    navigate('/jobdetails');
+  };
   // const View = async (id) => {
   //   try {
   //     await axios.get(`http://localhost:3002/recruitform/${id}`);
@@ -30,30 +33,31 @@ const Jobs = () => {
   return (
     <div>
       <h1>Job List </h1>
-      {Carddata.map((item) => (
-        <Card
-          onClick={() => {
-            navigate('/jobdetails');
-          }}
-          key={item.id}
-          sx={{ mb: 1.5 }}
-        >
-          <CardContent>
-            <Typography sx={{ lineHeight: '1.5' }} variant="h1" component="h4">
-              Jobrole: {item.Jobrole}
-            </Typography>
-            <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h1">
-              No.of.Openings :{item.Openings}
-            </Typography>
-            <Typography sx={{ lineHeight: '2' }} variant="h5" component="h3">
-              Skills :{item.Skills}
-            </Typography>
-            <Typography sx={{ lineHeight: '2' }} variant="h5" component="h3">
-              Experience :{item.Experience} Years
-            </Typography>
-          </CardContent>
-        </Card>
-      ))}
+      {Carddata &&
+        Carddata.map((item) => (
+          <Card
+            onClick={() => {
+              LoadDetail(item.id);
+            }}
+            key={item.id}
+            sx={{ mb: 1.5 }}
+          >
+            <CardContent>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h1" component="h4">
+                Jobrole: {item.Jobrole}
+              </Typography>
+              <Typography sx={{ lineHeight: '1.5' }} variant="h5" component="h1">
+                No.of.Openings :{item.Openings}
+              </Typography>
+              <Typography sx={{ lineHeight: '2' }} variant="h5" component="h3">
+                Skills :{item.Skills}
+              </Typography>
+              <Typography sx={{ lineHeight: '2' }} variant="h5" component="h3">
+                Experience :{item.Experience} Years
+              </Typography>
+            </CardContent>
+          </Card>
+        ))}
     </div>
   );
 };
