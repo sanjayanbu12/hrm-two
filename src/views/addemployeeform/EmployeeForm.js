@@ -162,33 +162,33 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/allemployee/' + id)
-      .then((res) => {
-        return res.json();
-      })
-      .then((resp) => {
-        setName(resp.name);
-        setLastname(resp.lastname);
-        setCompany(resp.company);
-        setDept(resp.dept);
-        setDesi(resp.desi);
-        seteMail(resp.mail);
-        setMob(resp.mob);
-        setPassword(resp.password);
-        setconfirmPassword(resp.confirmPassword);
-        setaltMob(resp.altmob);
-        setperAddress(resp.peraddress);
-        settemAddress(resp.temaddress);
-        setBloodgroup(resp.bloodgroup);
-        setJoin(resp.join);
-        setReport(resp.report);
-        setDob(resp.dob);
-        setType(resp.type);
+    fetch('https://hrm-backend-square.onrender.com/api/getemployee/'+id)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data );
+        setName(data.name);
+        setLastname(data.lastname);
+        setGender(data.gender);
+        setDept(data.dept);
+        setDesi(data.desi);
+        seteMail(data.email);
+        setPassword(data.password)
+        setconfirmPassword(data.confirmPassword)
+        setMob(data.mob);
+        setaltMob(data.altmob);
+        setperAddress(data.peraddress);
+        settemAddress(data.temaddress);
+        setBloodgroup(data.bloodgroup);
+        setJoin(data.join);
+        setReport(data.report);
+        setDob(data.dob);
+        setType(data.type);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
+  
 
   const finalSubmit = async () => {
     if (id) {
@@ -197,20 +197,18 @@ const EmployeeForm = () => {
           name,
           lastname,
           gender,
-          dept,
-          desi,
           email,
+          dob,
           mob,
           altmob,
+          dept,
+          desi,
           peraddress,
           temaddress,
           bloodgroup,
-          password,
-          confirmPassword,
           join,
           report,
-          dob,
-          type
+          type,
         };
 
         await validationSchema.validate(
@@ -419,33 +417,35 @@ const EmployeeForm = () => {
                 onChange={(e) => handleEmail(e)}
               />
             </Grid>
-
-            <Grid item xs={4}>
+          
+           {!id && <div style={{ flexGrow: 1,display:'flex',marginTop:'17px',marginLeft:'11px' }}> 
+           <Grid container spacing={2}>
+            <Grid item xs={6 }>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                value={password}
+                value={id?'Cannot update Password':password}
                 error={errors && errors.password}
                 helperText={errors && errors.password}
                 onChange={(e) => handlePassword(e)}
               />
             </Grid>
-
-
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
                 label="Confirm Password"
                 variant="outlined"
-                value={confirmPassword}
-                error={errors && errors.confirmPassword}
+                value={id?'Cannot update Password':confirmPassword}
+                error={ errors && errors.confirmPassword}
                 helperText={errors && errors.confirmPassword}
                 onChange={(e) => handleconPassword(e)}
               />
             </Grid>
+            </Grid>
+            </div> }
 
 
 

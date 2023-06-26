@@ -45,8 +45,10 @@ const Addemployeetable = () =>
   }, [])
 
   const Edit = (id) => {
-    console.log(id);
-    navigate(`/newemployee/ id`);
+    navigate(`/newemployee/${id}`);
+  };
+  const Add = () => {
+    navigate(`/newemployee`);
   };
 
 
@@ -93,9 +95,8 @@ const Addemployeetable = () =>
     
       <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
         <Button
-          onClick={() => {
-            navigate('/newemployee');
-          }}
+          onClick= 
+            {() => Add()}
           sx={{
             padding: 1.5,
             background: 'rgba(33, 150, 243, 0.04)',
@@ -151,7 +152,7 @@ const Addemployeetable = () =>
                 <TableCell align="center">{x.desi}</TableCell>
                 <TableCell align="center">{x.type}</TableCell>
                 <TableCell align="center">
-                <IconButton aria-label="edit" onClick={() => Edit(x.id)}>
+                <IconButton aria-label="edit" onClick={() => Edit(x._id)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
