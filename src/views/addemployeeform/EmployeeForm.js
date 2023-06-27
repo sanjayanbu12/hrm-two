@@ -418,34 +418,32 @@ const EmployeeForm = () => {
               />
             </Grid>
           
-           {!id && <div style={{ flexGrow: 1,display:'flex',marginTop:'17px',marginLeft:'11px' }}> 
-           <Grid container spacing={2}>
-            <Grid item xs={6 }>
+        
+            <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
                 label="Password"
                 variant="outlined"
-                value={id?'Cannot update Password':password}
+                value={password}
                 error={errors && errors.password}
                 helperText={errors && errors.password}
                 onChange={(e) => handlePassword(e)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
                 label="Confirm Password"
                 variant="outlined"
-                value={id?'Cannot update Password':confirmPassword}
+                value={confirmPassword}
                 error={ errors && errors.confirmPassword}
                 helperText={errors && errors.confirmPassword}
                 onChange={(e) => handleconPassword(e)}
               />
             </Grid>
-            </Grid>
-            </div> }
+          
 
 
 
