@@ -9,7 +9,6 @@ import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import { updatevalidationSchema } from './updateValidate';
 
-
 const EmployeeForm = () => {
   const theme = useTheme();
   const [name, setName] = useState('');
@@ -19,12 +18,12 @@ const EmployeeForm = () => {
   const [desi, setDesi] = useState('');
   const [email, seteMail] = useState('');
   const [mob, setMob] = useState('');
-  const [altmob,setaltMob] = useState('');
-  const [peraddress,setperAddress] = useState('');
-  const [temaddress,settemAddress] = useState('');
-  const [bloodgroup,setBloodgroup] = useState('');
-  const [password,setPassword] =useState('');
-  const [confirmPassword,setconfirmPassword] =useState('');
+  const [altmob, setaltMob] = useState('');
+  const [peraddress, setperAddress] = useState('');
+  const [temaddress, settemAddress] = useState('');
+  const [bloodgroup, setBloodgroup] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setconfirmPassword] = useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -77,7 +76,6 @@ const EmployeeForm = () => {
     }));
   };
 
-  
   const handleMob = (e) => {
     setMob(e.target.value);
     setErrors((prev) => ({
@@ -102,7 +100,6 @@ const EmployeeForm = () => {
     }));
   };
 
-
   const handleBloodgroup = (e) => {
     setBloodgroup(e.target.value);
     setErrors((prev) => ({
@@ -124,7 +121,7 @@ const EmployeeForm = () => {
       temaddress: ''
     }));
   };
-  
+
   const handlealtMob = (e) => {
     setaltMob(e.target.value);
     setErrors((prev) => ({
@@ -163,18 +160,18 @@ const EmployeeForm = () => {
   };
 
   useEffect(() => {
-    fetch('https://hrm-backend-square.onrender.com/api/getemployee/'+id)
+    fetch('https://hrm-backend-square.onrender.com/api/getemployee/' + id)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data );
+        console.log(data);
         setName(data.name);
         setLastname(data.lastname);
         setGender(data.gender);
         setDept(data.dept);
         setDesi(data.desi);
         seteMail(data.email);
-        setPassword(data.password)
-        setconfirmPassword(data.confirmPassword)
+        setPassword(data.password);
+        setconfirmPassword(data.confirmPassword);
         setMob(data.mob);
         setaltMob(data.altmob);
         setperAddress(data.peraddress);
@@ -189,7 +186,6 @@ const EmployeeForm = () => {
         console.log(err.message);
       });
   }, []);
-  
 
   const finalSubmit = async () => {
     if (id) {
@@ -209,7 +205,7 @@ const EmployeeForm = () => {
           bloodgroup,
           join,
           report,
-          type,
+          type
         };
 
         await updatevalidationSchema.validate(
@@ -241,13 +237,7 @@ const EmployeeForm = () => {
         setDesi('');
         seteMail('');
         setMob('');
-        setaltMob(''),
-        setperAddress(''),
-        settemAddress(''),
-        setBloodgroup(''),
-        setPassword(''),
-        setconfirmPassword(''),
-        setJoin('');
+        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), setPassword(''), setconfirmPassword(''), setJoin('');
         setReport('');
         setDob('');
         setType('');
@@ -289,7 +279,7 @@ const EmployeeForm = () => {
           bloodgroup,
           join,
           report,
-          type,
+          type
           // employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
@@ -325,13 +315,7 @@ const EmployeeForm = () => {
         setDesi('');
         seteMail('');
         setMob('');
-        setaltMob(''),
-        setperAddress(''),
-        settemAddress(''),
-        setBloodgroup(''),
-        setPassword(''),
-        setconfirmPassword(''),
-        setJoin('');
+        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), setPassword(''), setconfirmPassword(''), setJoin('');
         setReport('');
         setDob('');
         setType('');
@@ -416,36 +400,37 @@ const EmployeeForm = () => {
                 onChange={(e) => handleEmail(e)}
               />
             </Grid>
-          
-        
-            <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Password"
-                variant="outlined"
-                value={password}
-                error={!id && errors && errors.password}
-                helperText={!id && errors && errors.password}
-                onChange={(e) => handlePassword(e)}
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Confirm Password"
-                variant="outlined"
-                value={confirmPassword}
-                error={ !id && errors && errors.confirmPassword}
-                helperText={!id && errors && errors.confirmPassword}
-                onChange={(e) => handleconPassword(e)}
-              />
-            </Grid>
-          
 
-
-
+            {!id && (
+              <div style={{ flexGrow: 1, display: 'flex', marginTop: '17px', marginLeft: '11px' }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      sx={{ minWidth: '100%' }}
+                      id="outlined-basic"
+                      label="Password"
+                      variant="outlined"
+                      value={id ? 'Cannot update Password' : password}
+                      error={errors && errors.password}
+                      helperText={errors && errors.password}
+                      onChange={(e) => handlePassword(e)}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      sx={{ minWidth: '100%' }}
+                      id="outlined-basic"
+                      label="Confirm Password"
+                      variant="outlined"
+                      value={id ? 'Cannot update Password' : confirmPassword}
+                      error={errors && errors.confirmPassword}
+                      helperText={errors && errors.confirmPassword}
+                      onChange={(e) => handleconPassword(e)}
+                    />
+                  </Grid>
+                </Grid>
+              </div>
+            )}
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
@@ -462,9 +447,6 @@ const EmployeeForm = () => {
                 }}
               />
             </Grid>
-           
-
-          
 
             <Grid item xs={4}>
               <TextField
@@ -491,7 +473,6 @@ const EmployeeForm = () => {
                 onChange={(e) => handlealtMob(e)}
               />
             </Grid>
-         
 
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.dept}>
@@ -560,9 +541,7 @@ const EmployeeForm = () => {
                 onChange={(e) => handletemAddress(e)}
               />
             </Grid>
-       
 
-       
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.bloodgroup}>
                 <InputLabel id="demo-simple-select-label">Blood Group</InputLabel>
