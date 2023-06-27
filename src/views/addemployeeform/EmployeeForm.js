@@ -7,6 +7,7 @@ import { validationSchema } from './Validation';
 import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
+import { updatevalidationSchema } from './updateValidate';
 
 
 const EmployeeForm = () => {
@@ -211,7 +212,7 @@ const EmployeeForm = () => {
           type,
         };
 
-        await validationSchema.validate(
+        await updatevalidationSchema.validate(
           {
             name,
             lastname,
@@ -224,8 +225,6 @@ const EmployeeForm = () => {
             peraddress,
             temaddress,
             bloodgroup,
-            password,
-            confirmPassword,
             join,
             report,
             dob,
