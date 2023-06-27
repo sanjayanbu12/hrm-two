@@ -426,8 +426,8 @@ const EmployeeForm = () => {
                 label="Password"
                 variant="outlined"
                 value={password}
-                error={errors && errors.password}
-                helperText={errors && errors.password}
+                error={!id && errors && errors.password}
+                helperText={!id && errors && errors.password}
                 onChange={(e) => handlePassword(e)}
               />
             </Grid>
@@ -438,8 +438,8 @@ const EmployeeForm = () => {
                 label="Confirm Password"
                 variant="outlined"
                 value={confirmPassword}
-                error={ errors && errors.confirmPassword}
-                helperText={errors && errors.confirmPassword}
+                error={ !id && errors && errors.confirmPassword}
+                helperText={!id && errors && errors.confirmPassword}
                 onChange={(e) => handleconPassword(e)}
               />
             </Grid>
