@@ -26,32 +26,29 @@ const pages = {
     //   id: 'authentication',
     //   title: 'Authentication',
     //   type: 'collapse',
-    //   icon: icons.IconKey,
-    //   children: [
-    //     {
-    //       id: 'login3',
-    //       title: 'Login',
-    //       type: 'item',
-    //       url: '/pages/login/login3',
-    //       target: true
-    //     },
-    //     {
-    //       id: 'register3',
-    //       title: 'Register',
-    //       type: 'item',
-    //       url: '/pages/register/register3',
-    //       target: true
-    //     }
-    //   ]
+    //   icon: icons.IconKey
     // },
     {
       id: 'recruitment',
       title: 'Recruitment',
-      type: 'item',
-      url:'/recruitment',
-      icon: icons.AccountTreeOutlinedIcon
-  },
-      
+      type: 'collapse',
+      url: '/recruitment',
+      icon: icons.AccountTreeOutlinedIcon,
+      children: [
+        {
+          id: 'recruitmenttable',
+          title: 'Recruitment Table',
+          type: 'item',
+          url: '/recruitmenttable'
+        },
+        {
+          id: 'recruitmentform',
+          title: 'Recruitment Form',
+          type: 'item',
+          url: '/recruitmentform'
+        }
+      ]
+    },
 
     //   children: [
     //     {
@@ -59,7 +56,7 @@ const pages = {
     //       title: 'Sample List',
     //       type: 'item',
     //       url: '/samplelist'
-    
+
     //     {
     //       id: 'newsample',
     //       title: 'Add Sample',
@@ -68,12 +65,12 @@ const pages = {
     //     }
     //   ]
     // },
-//    {
-//       id: 'projects',
-//       title: 'Projects',
-//       type: 'collapse',
-//       icon: icons.AccountTreeOutlinedIcon,
-// },
+    //    {
+    //       id: 'projects',
+    //       title: 'Projects',
+    //       type: 'collapse',
+    //       icon: icons.AccountTreeOutlinedIcon,
+    // },
 
     //   children: [
     //     {
@@ -134,7 +131,7 @@ const pages = {
           title: 'Employee Performance',
           type: 'item',
           url: '/employeeperformance'
-        },
+        }
       ]
     },
     {
@@ -142,7 +139,7 @@ const pages = {
       title: 'Leave Management',
       type: 'collapse',
       icon: icons.PermIdentityOutlinedIcon,
-    
+
       children: [
         {
           id: 'leavetracker',
@@ -161,17 +158,16 @@ const pages = {
           title: 'WFH Tracker',
           type: 'item',
           url: '/wfhtracker'
-        },
+        }
       ]
     },
-     {
+    {
       id: 'performance',
       title: 'Performance',
       type: 'item',
       icon: icons.IconKey,
-      url:'/performance',
-     }
-     
+      url: '/performance'
+    }
   ]
 };
 
