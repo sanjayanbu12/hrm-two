@@ -5,13 +5,15 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
-import Recruitment from 'views/recruitment/Recruitment'
+import Recruitment from 'views/recruitment/RecruitmentTable';
 import LeaveTracker from 'views/leavemanagement/LeaveTracker';
-import AttendanceTracker from 'views/leavemanagement/AttendanceTracker'
+import AttendanceTracker from 'views/leavemanagement/AttendanceTracker';
 import Performance from 'views/performance/Performance';
 import WfhTracker from 'views/leavemanagement/WfhTracker';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
+import RecruitmentForm from 'views/recruitment/RecruitmentForm';
+import RecruitmentTable from 'views/recruitment/RecruitmentTable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -52,8 +54,16 @@ const MainRoutes = {
       element: <Performance />
     },
     {
-      path:'/wfhtracker',
+      path: '/wfhtracker',
       element: <WfhTracker />
+    },
+    {
+      path: '/Recruitmenttable',
+      element: <RecruitmentTable />
+    },
+    {
+      path: '/Recruitmentform',
+      element: <RecruitmentForm />
     },
     // {
     //   path: '/projectlist',
@@ -78,7 +88,7 @@ const MainRoutes = {
     // {
     //   path: '/userform/:id',
     //   element: <UserForm />},
-      {
+    {
       path: '/Addemployeetable',
       element: <Addemployeetable />
     },
@@ -98,8 +108,7 @@ const MainRoutes = {
     {
       path: '/viewdetails',
       element: <Viewdetails />
-    },
-    
+    }
   ]
 };
 
