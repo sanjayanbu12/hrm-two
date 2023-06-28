@@ -60,6 +60,7 @@ const RecruitmentTable = () => {
   };
 
   const handleDelete = (id) => {
+    handleClose()
     Swal.fire({
       icon: 'warning',
       text: 'Are you sure you want to delete this recruitment?',
@@ -67,15 +68,14 @@ const RecruitmentTable = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      showClass: null // Remove default overlay
+      cancelButtonText: 'Cancel'
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
-          await fetchdata(); // Fetch updated data
-          handleClose(); // Close the dialog box
-          navigate('/Recruitmenttable'); // Navigate to the RecruitmentTable page
+          await fetchdata();
+          handleClose();
+          navigate('/Recruitmenttable');
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
@@ -89,12 +89,7 @@ const RecruitmentTable = () => {
   return (
     <MainCard title="Recruitment Table">
       {Loader ? (
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          height="100vh" // Set the height of the container
-        >
+        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
           <CircularProgress />
         </Box>
       ) : (
