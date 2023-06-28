@@ -1,9 +1,10 @@
 import MainCard from 'ui-component/cards/MainCard';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper,IconButton, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
 import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
@@ -15,6 +16,8 @@ import { gridSpacing } from 'store/constant';
 import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
+
+
 
 
 
@@ -40,6 +43,15 @@ const Addemployeetable = () =>
   useEffect(() => {
     fetchEmployees();
   }, [])
+
+  const Edit = (id) => {
+    navigate(`/newemployee/${id}`);
+  };
+  const Add = () => {
+    navigate(`/newemployee`);
+  };
+
+
 
   const handleSearch = (event) => {
     setSearchText(event.target.value);
@@ -83,9 +95,8 @@ const Addemployeetable = () =>
     
       <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
         <Button
-          onClick={() => {
-            navigate('/newemployee');
-          }}
+          onClick= 
+            {() => Add()}
           sx={{
             padding: 1.5,
             background: 'rgba(33, 150, 243, 0.04)',
@@ -141,6 +152,9 @@ const Addemployeetable = () =>
                 <TableCell align="center">{x.desi}</TableCell>
                 <TableCell align="center">{x.type}</TableCell>
                 <TableCell align="center">
+                <IconButton aria-label="edit" onClick={() => Edit(x._id)}>
+                    <EditIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
           ))

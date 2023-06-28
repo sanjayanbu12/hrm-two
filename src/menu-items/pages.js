@@ -124,12 +124,6 @@ const pages = {
         //   url: '/newemployee'
         // },
         {
-          id: 'newemployee',
-          title: 'Employee Self Services',
-          type: 'item',
-          url: '/newemployee'
-        },
-        {
           id: 'employeelist',
           title: 'Employee Information Management',
           type: 'item',
