@@ -15,13 +15,15 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
-  Typography
+  Typography,
+  TextField,
+  InputAdornment
 } from '@mui/material';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
-import { GridDeleteIcon } from '@mui/x-data-grid';
+import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
 import { Edit } from '@mui/icons-material';
 import Swal from 'sweetalert2';
 // import { useParams } from 'react-router-dom';
@@ -94,12 +96,29 @@ const RecruitmentTable = () => {
         </Box>
       ) : (
         <div>
-          <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+          <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: '700px', mb: 2, display: 'flex' }}>
+            <TextField
+              label="Search"
+              variant="outlined"
+              // value={searchText}
+              // onChange={handleSearch}
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <GridSearchIcon />
+                  </InputAdornment>
+                )
+              }}
+            />
             <Button
               onClick={() => {
                 navigate('/RecruitmentForm');
               }}
               sx={{
+                width: '300px',
+                height: '40px',
+                borderRadius: '10px',
                 padding: 0.6,
                 background: '#673ab7',
                 color: '#efebe9',
@@ -110,7 +129,7 @@ const RecruitmentTable = () => {
               }}
             >
               <AddIcon />
-              Add New Job
+              Add New
             </Button>
           </Box>
           <Grid container spacing={2}>
@@ -136,7 +155,7 @@ const RecruitmentTable = () => {
                             handleView(x._id);
                           }}
                         >
-                          <TableCell>{x._id}</TableCell>
+                          <TableCell>{x.uuid}</TableCell>
                           <TableCell>{x.Jobrole}</TableCell>
                           <TableCell>{x.Openings}</TableCell>
                           <TableCell>{x.Worktype}</TableCell>
@@ -190,6 +209,15 @@ const RecruitmentTable = () => {
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
                 Last Date to Apply: {selectedJob.Deadline}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Application Count: {selectedJob.id}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Selected: {selectedJob.id}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
+                Remaining: {selectedJob.id}
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                 <Button variant="outlined" endIcon={<Edit />}>

@@ -436,7 +436,7 @@ const RecruitmentForm = () => {
                 onChange={(e) => handleExperience(e)}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -449,7 +449,7 @@ const RecruitmentForm = () => {
                 onChange={(e) => handleRequirements(e)}
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
                 <TextField
                   labelId="demo-simple-select-label"
@@ -463,7 +463,7 @@ const RecruitmentForm = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12}>
               <FormControl sx={{ minWidth: '100%' }}>
                 <TextField
                   labelId="demo-simple-select-label"
@@ -471,6 +471,7 @@ const RecruitmentForm = () => {
                   label="Description"
                   value={Description}
                   type="value"
+                  multilinerows={2}
                   // error={errors && errors.Description}
                   // helperText={errors && errors.Description}
                   onChange={(e) => handleDescription(e)}
