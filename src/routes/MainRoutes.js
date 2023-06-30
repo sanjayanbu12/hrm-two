@@ -110,7 +110,7 @@ const MainRoutes = {
       element: <EmployeeForm />
     },
     {
-      path: '/viewdetails',
+      path: '/viewdetails/:employeeid',
       element: <Viewdetails />
     }
   ]
