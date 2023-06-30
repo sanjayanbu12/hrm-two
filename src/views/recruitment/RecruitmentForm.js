@@ -120,12 +120,12 @@ const RecruitmentForm = () => {
   };
   useEffect(() => {
     axios
-      .get('https://hrm-backend-square.onrender.com/rec/getRec')
+      .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
       .then((res) => {
-        console.log('This is res data', res.data.getData);
+        console.log('This is res data',res.data.data);
 
-        const responseData = res.data.getData; // Assuming the data is nested under 'getData'
-
+        const responseData = res.data.data; 
+        console.log(responseData)
         setJobrole(responseData.Jobrole);
         setOpenings(responseData.Openings);
         setCompany(responseData.Company);
@@ -145,96 +145,14 @@ const RecruitmentForm = () => {
   }, [id]);
 
   const finalSubmit = async () => {
-    // if (id) {
-    // try {
-    //     const updatedtask = {
-    //       Jobrole,
-    //       Openings,
-    //       Company,
-    //       Status,
-    //       Description,
-    //       Requirements,
-    //       Experience,
-    //       Deadline,
-    //       Worktype,
-    //       Skills,
-    //       Education,
-    //       Location
-    //     };
-
-    //     await validationSchema.validate(
-    //       {
-    //         Jobrole,
-    //         Openings,
-    //         Company,
-    //         Status,
-    //         Description,
-    //         Requirements,
-    //         Experience,
-    //         Deadline,
-    //         Worktype,
-    //         Skills,
-    //         Education,
-    //         Location
-    //       },
-    //       { abortEarly: false }
-    //     );
-    //     await axios.put('http://localhost:3002/recruitform/' + id, updatedtask);
-    //     setJobrole('');
-    //     setOpenings('');
-    //     setCompany('');
-    //     setStatus('');
-    //     setDescription('');
-    //     setRequirements('');
-    //     setExperience('');
-    //     setDeadline('');
-    //     setWorktype('');
-    //     setSkills('');
-    //     setEducation('');
-    //     setLocation('');
-
-    //     Swal.fire({
-    //       icon: 'success',
-    //       text: 'Updated Successfully'
-    //     }).then(() => {
-    //       navigate('/RecruitmentTable');
-    //     });
-    //   } catch (error) {
-    //     if (error instanceof yup.ValidationError) {
-    //       const validationErrors = {};
-    //       error.inner.forEach((err) => {
-    //         validationErrors[err.path] = err.message;
-    //         console.log(validationErrors);
-    //       });
-    //       setErrors(validationErrors);
-    //     } else {
-    //       console.log(error);
-    //     }
-    //   }
-    // } else {
-    try {
-      const task = {
-        Jobrole,
-        Openings,
-        Company,
-        Status,
-        Description,
-        Requirements,
-        Experience,
-        Deadline,
-        Worktype,
-        Skills,
-        Education,
-        Location
-      };
-      console.log('task', task);
-
-      await validationSchema.validate(
-        {
+    if (id) {
+      try {
+        const updatedtask = {
           Jobrole,
           Openings,
           Company,
           Status,
+          Description,
           Requirements,
           Experience,
           Deadline,
@@ -242,39 +160,122 @@ const RecruitmentForm = () => {
           Skills,
           Education,
           Location
-        },
-        { abortEarly: false }
-      );
-      await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
+        };
 
-      setJobrole('');
-      setOpenings('');
-      setCompany('');
-      setStatus('');
-      setDescription('');
-      setRequirements('');
-      setExperience('');
-      setDeadline('');
-      setWorktype('');
-      setSkills('');
-      setEducation('');
-      setLocation('');
-      Swal.fire({
-        icon: 'success',
-        text: 'Add Recruitment'
-      }).then(() => {
-        navigate('/RecruitmentTable');
-      });
-    } catch (error) {
-      if (error instanceof yup.ValidationError) {
-        const validationErrors = {};
-        error.inner.forEach((err) => {
-          validationErrors[err.path] = err.message;
-          console.log(validationErrors);
+        await validationSchema.validate(
+          {
+            Jobrole,
+            Openings,
+            Company,
+            Status,
+            Description,
+            Requirements,
+            Experience,
+            Deadline,
+            Worktype,
+            Skills,
+            Education,
+            Location
+          },
+          { abortEarly: false }
+        );
+        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/'+ id, updatedtask);
+        setJobrole('');
+        setOpenings('');
+        setCompany('');
+        setStatus('');
+        setDescription('');
+        setRequirements('');
+        setExperience('');
+        setDeadline('');
+        setWorktype('');
+        setSkills('');
+        setEducation('');
+        setLocation('');
+
+        Swal.fire({
+          icon: 'success',
+          text: 'Updated Successfully'
+        }).then(() => {
+          navigate('/RecruitmentTable');
         });
-        setErrors(validationErrors);
-      } else {
-        console.log(error);
+      } catch (error) {
+        if (error instanceof yup.ValidationError) {
+          const validationErrors = {};
+          error.inner.forEach((err) => {
+            validationErrors[err.path] = err.message;
+            console.log(validationErrors);
+          });
+          setErrors(validationErrors);
+        } else {
+          console.log(error);
+        }
+      }
+    } else {
+      try {
+        const task = {
+          Jobrole,
+          Openings,
+          Company,
+          Status,
+          Description,
+          Requirements,
+          Experience,
+          Deadline,
+          Worktype,
+          Skills,
+          Education,
+          Location
+        };
+        console.log('task', task);
+
+        await validationSchema.validate(
+          {
+            Jobrole,
+            Openings,
+            Company,
+            Status,
+            Requirements,
+            Experience,
+            Deadline,
+            Worktype,
+            Skills,
+            Education,
+            Location
+          },
+          { abortEarly: false }
+        );
+        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
+
+        setJobrole('');
+        setOpenings('');
+        setCompany('');
+        setStatus('');
+        setDescription('');
+        setRequirements('');
+        setExperience('');
+        setDeadline('');
+        setWorktype('');
+        setSkills('');
+        setEducation('');
+        setLocation('');
+        Swal.fire({
+          icon: 'success',
+          text: 'Add Recruitment'
+        }).then(() => {
+          navigate('/RecruitmentTable');
+        });
+      } catch (error) {
+        if (error instanceof yup.ValidationError) {
+          const validationErrors = {};
+          error.inner.forEach((err) => {
+            validationErrors[err.path] = err.message;
+            console.log(validationErrors);
+          });
+          setErrors(validationErrors);
+        } else {
+          console.log(error);
+        }
       }
     }
   };

@@ -24,8 +24,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
 import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
-import { Edit } from '@mui/icons-material';
 import Swal from 'sweetalert2';
+import { Edit } from '@mui/icons-material';
 // import { useParams } from 'react-router-dom';
 
 const RecruitmentTable = () => {
@@ -41,16 +41,16 @@ const RecruitmentTable = () => {
     fetchdata();
   }, []);
   const fetchdata = async () => {
-    await axios
-      .get('https://hrm-backend-square.onrender.com/rec/getRec')
-      .then((res) => {
-        setRecruitmentList(res.data.getData);
-        setLoader(false);
-        console.log(res.data.getData + ` this is data `);
-      })
-      .catch((error) => {
-        console.log('Error retrieving user data: ', error);
-      });
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
+      const newData = response.data.getData;
+  
+      setRecruitmentList(newData);
+      setLoader(false);
+      console.log(newData + ' this is the new data');
+    } catch (error) {
+      console.log('Error retrieving user data:', error);
+    }
   };
   const handleView = (id) => {
     const job = RecruitmentList.find((item) => item._id === id);
@@ -68,6 +68,9 @@ const RecruitmentTable = () => {
     const lowersearchText = Search.toLowerCase();
     return Object.values(job).some((value) => value && value.toString().toLowerCase().includes(lowersearchText));
   });
+  const handleEdit = (id) => {
+    navigate(`/recruitmentform/${id}`);
+  };
   const handleDelete = (id) => {
     handleClose();
     Swal.fire({
@@ -105,15 +108,17 @@ const RecruitmentTable = () => {
         <div>
           <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: '700px', mb: 2, display: 'flex' }}>
             <TextField
+              sx={{ width: '300px' }}
               label="Search"
               variant="outlined"
+              color="info"
               value={Search}
               onChange={handleSearch}
               size="small"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <GridSearchIcon />
+                    <GridSearchIcon color="primary" />
                   </InputAdornment>
                 )
               }}
@@ -236,7 +241,7 @@ const RecruitmentTable = () => {
                 Remaining: {selectedJob.id}
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                <Button variant="outlined" endIcon={<Edit />}>
+                <Button variant="outlined" onClick={() => handleEdit(selectedJob._id)} endIcon={<Edit />}>
                   Edit
                 </Button>
                 <Button variant="contained" color="error" onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />}>
