@@ -41,16 +41,16 @@ const RecruitmentTable = () => {
     fetchdata();
   }, []);
   const fetchdata = async () => {
-    await axios
-      .get('https://hrm-backend-square.onrender.com/rec/getRec')
-      .then((res) => {
-        setRecruitmentList(res.data.getData);
-        setLoader(false);
-        console.log(res.data.getData + ` this is data `);
-      })
-      .catch((error) => {
-        console.log('Error retrieving user data: ', error);
-      });
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
+      const newData = response.data.getData;
+  
+      setRecruitmentList(newData);
+      setLoader(false);
+      console.log(newData + ' this is the new data');
+    } catch (error) {
+      console.log('Error retrieving user data:', error);
+    }
   };
   const handleView = (id) => {
     const job = RecruitmentList.find((item) => item._id === id);
@@ -241,7 +241,7 @@ const RecruitmentTable = () => {
                 Remaining: {selectedJob.id}
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                <Button variant="outlined" onClick={() => handleEdit(selectedJob.id)} endIcon={<Edit />}>
+                <Button variant="outlined" onClick={() => handleEdit(selectedJob._id)} endIcon={<Edit />}>
                   Edit
                 </Button>
                 <Button variant="contained" color="error" onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />}>

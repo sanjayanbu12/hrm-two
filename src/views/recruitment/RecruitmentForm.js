@@ -122,10 +122,10 @@ const RecruitmentForm = () => {
     axios
       .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
       .then((res) => {
-        console.log('This is res data', res.data.getData);
+        console.log('This is res data',res.data.data);
 
-        const responseData = res.data.getData; // Assuming the data is nested under 'getData'
-
+        const responseData = res.data.data; 
+        console.log(responseData)
         setJobrole(responseData.Jobrole);
         setOpenings(responseData.Openings);
         setCompany(responseData.Company);
@@ -179,7 +179,7 @@ const RecruitmentForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/'+ id, updatedtask);
         setJobrole('');
         setOpenings('');
         setCompany('');
