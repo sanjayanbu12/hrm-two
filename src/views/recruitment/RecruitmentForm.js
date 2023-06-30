@@ -473,8 +473,6 @@ const RecruitmentForm = () => {
                   value={Description}
                   type="value"
                   multilinerows={2}
-                  // error={errors && errors.Description}
-                  // helperText={errors && errors.Description}
                   onChange={(e) => handleDescription(e)}
                 />
               </FormControl>

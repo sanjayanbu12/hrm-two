@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router';
 import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
 import Swal from 'sweetalert2';
 import { Edit } from '@mui/icons-material';
+// import { fontSize } from '@mui/system';
 // import { useParams } from 'react-router-dom';
 
 const RecruitmentTable = () => {
@@ -44,7 +45,6 @@ const RecruitmentTable = () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
       const newData = response.data.getData;
-  
       setRecruitmentList(newData);
       setLoader(false);
       console.log(newData + ' this is the new data');
@@ -188,7 +188,7 @@ const RecruitmentTable = () => {
                   </Table>
                 </TableContainer>
               ) : (
-                <h3>NO DATA</h3>
+                <p>NO DATA</p>
               )}
             </Grid>
           </Grid>
@@ -201,46 +201,46 @@ const RecruitmentTable = () => {
           <>
             <DialogTitle variant="h2">Recruitment Details</DialogTitle>
             <DialogContent>
-              <Typography sx={{ lineHeight: '1' }} variant="h3" component="h4">
-                Job Role: {selectedJob.Jobrole}
+              <Typography sx={{ lineHeight: '3', fontSize:'20px' }}>
+                <b> Job Role:</b> {selectedJob.Jobrole}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h1">
-                No. of Openings: {selectedJob.Openings}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b>No. of Openings:</b> {selectedJob.Openings}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h3">
-                Company: {selectedJob.Company}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Company:</b> {selectedJob.Company}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h3">
-                Location: {selectedJob.Location}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Location:</b>  {selectedJob.Location}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Worktype: {selectedJob.Worktype}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Worktype:</b>  {selectedJob.Worktype}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Qualification: {selectedJob.Education}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Qualification:</b>  {selectedJob.Education}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Experience: {selectedJob.Experience} Years
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Experience:</b>  {selectedJob.Experience} Years
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Requirements: {selectedJob.Requirements}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Requirements:</b>  {selectedJob.Requirements}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Description: {selectedJob.Description}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Description:</b>  {selectedJob.Description}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Last Date to Apply: {selectedJob.Deadline}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Last Date to Apply:</b>  {selectedJob.Deadline}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Application Count: {selectedJob.id}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Application Count:</b> {selectedJob.id}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Selected: {selectedJob.id}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Selected:</b> {selectedJob.id}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="h5" component="h4">
-                Remaining: {selectedJob.id}
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b>Remaining:</b> {selectedJob.id}
               </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'flex start', gap: '15px' }}>
                 <Button variant="outlined" onClick={() => handleEdit(selectedJob._id)} endIcon={<Edit />}>
                   Edit
                 </Button>
