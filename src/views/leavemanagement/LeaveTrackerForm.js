@@ -1,125 +1,161 @@
-import React from 'react';
-import { Form, Upload, Breadcrumb, Statistic, Input, Col, Select, Row, Button, DatePicker } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
-import './LeaveTrackerForm.css';
+import React, { useState } from 'react';
+import { Box, Button, Grid, FormControl, InputLabel, MenuItem, Select, TextField, Card } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
-const dateFormat = 'YYYY/MM/DD';
-const { TextArea } = Input;
-const { Option } = Select;
-const { Dragger } = Upload;
+const LeaveTrackerForm = () => {
+  const navigate = useNavigate();
+  const [leaveType, setLeaveType] = useState('');
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [numOfDays, setNumOfDays] = useState('');
+  const [reason, setReason] = useState('');
+  const [status, setStatus] = useState('');
+  const [file, setFile] = useState(null);
 
-class LeaveTrackerForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
-  handleSubmit = (values) => {
-    console.log('Form values:', values);
-    // Save the form data to the server or perform any required action
+  const handleLeaveType = (event) => {
+    setLeaveType(event.target.value);
   };
 
-  render() {
-    return (
-      <React.Fragment>
-        <Row>
-          <Col id="responsive-div1" span={16}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
-              <Breadcrumb.Item>Leave Management</Breadcrumb.Item>
-              <Breadcrumb.Item>Apply Leave</Breadcrumb.Item>
-            </Breadcrumb>
-            <div style={{ padding: 24, background: '#fff', minHeight: 360, marginRight: '20px' }}>
-              <Form
-                onFinish={this.handleSubmit}
-                labelCol={{ span: 6 }}
-                wrapperCol={{ span: 12 }}
-                layout="horizontal"
-              >
-                {/* Form fields for Leave Type, Start Date, End Date, Number of Days, Reason, Status */}
-                <Form.Item
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleNumOfDays = (event) => {
+    setNumOfDays(event.target.value);
+  };
+
+  const handleReason = (event) => {
+    setReason(event.target.value);
+  };
+
+  const handleStatus = (event) => {
+    setStatus(event.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    // Submit the form data to the LeaveTrackerList module or perform any other desired action
+    const formData = {
+      leaveType,
+      startDate,
+      endDate,
+      numOfDays,
+      reason,
+      status,
+      file,
+    };
+
+    console.log(formData);
+
+    // Navigate to the LeaveTrackerList component
+    navigate('/leavetrackerlist');
+  };
+
+  return (
+    <Card>
+      <Box p={2}>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <FormControl fullWidth>
+                <InputLabel id="leave-type-label">Leave Type</InputLabel>
+                <Select
+                  labelId="leave-type-label"
+                  id="leave-type-select"
+                  value={leaveType}
+                  onChange={handleLeaveType}
                   label="Leave Type"
-                  name="leaveType"
-                  rules={[{ required: true, message: 'Please select leave type!' }]}
                 >
-                  <Select placeholder="Select leave type">
-                    <Option key="Casual">Casual</Option>
-                    <Option key="Annual">Annual</Option>
-                    <Option key="Sick">Sick</Option>
-                    <Option key="Maternity">Maternity</Option>
-                    <Option key="Paternity">Paternity</Option>
-                    <Option key="Other">Other</Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  label="Start Date"
-                  name="startDate"
-                  rules={[{ required: true, message: 'Please select start date!' }]}
-                >
-                  <DatePicker format={dateFormat} />
-                </Form.Item>
-                <Form.Item
-                  label="End Date"
-                  name="endDate"
-                  rules={[{ required: true, message: 'Please select end date!' }]}
-                >
-                  <DatePicker format={dateFormat} />
-                </Form.Item>
-                <Form.Item
-                  label="No. of Days"
-                  name="numberOfDays"
-                  rules={[{ required: true, message: 'Please enter number of days!' }]}
-                >
-                  <Input />
-                </Form.Item>
-                <Form.Item
-                  label="Reason"
-                  name="reason"
-                  rules={[{ required: true, message: 'Please enter reason!' }]}
-                >
-                  <TextArea rows={4} />
-                </Form.Item>
-                <Form.Item
+                  <MenuItem value="Casual">Casual</MenuItem>
+                  <MenuItem value="Annual">Annual</MenuItem>
+                  <MenuItem value="Sick">Sick</MenuItem>
+                  <MenuItem value="Maternity">Maternity</MenuItem>
+                  <MenuItem value="Paternity">Paternity</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="start-date"
+                label="Start Date"
+                type="date"
+                value={startDate}
+                onChange={handleStartDateChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="end-date"
+                label="End Date"
+                type="date"
+                value={endDate}
+                onChange={handleEndDateChange}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="num-of-days"
+                label="Number of Days"
+                type="number"
+                value={numOfDays}
+                onChange={handleNumOfDays}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                id="reason"
+                label="Reason"
+                value={reason}
+                onChange={handleReason}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <FormControl fullWidth>
+                <InputLabel id="status-label">Status</InputLabel>
+                <Select
+                  labelId="status-label"
+                  id="status-select"
+                  value={status}
+                  onChange={handleStatus}
                   label="Status"
-                  name="status"
-                  rules={[{ required: true, message: 'Please select status!' }]}
                 >
-                  <Select placeholder="Select status">
-                    <Option key="1">Approve</Option>
-                    <Option key="2">Reject</Option>
-                    <Option key="3">Pending</Option>
-                  </Select>
-                </Form.Item>
-                <Form.Item
-                  label="Uploaded File/Folder"
-                  name="fileList"
-                  valuePropName="fileList"
-                  getValueFromEvent={event => event.fileList}
-                >
-                  <Dragger>
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                  </Dragger>
-                </Form.Item>
-                <Form.Item wrapperCol={{ offset: 6, span: 12 }}>
-                  <Button type="primary" htmlType="submit">
-                    Submit
-                  </Button>
-                  <Button style={{ marginLeft: '10px' }}>Cancel</Button>
-                </Form.Item>
-              </Form>
-            </div>
-          </Col>
-          <Col id="responsive-div2" span={8}>
-            {/* Remaining Leave Statistic */}
-            <Statistic title="Remaining Leave" value={10} suffix="/ 20" />
-          </Col>
-        </Row>
-      </React.Fragment>
-    );
-  }
-}
+                  <MenuItem value="Pending">Pending</MenuItem>
+                  <MenuItem value="Approved">Approved</MenuItem>
+                  <MenuItem value="Rejected">Rejected</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={12}>
+              <input type="file" onChange={handleFileChange} />
+            </Grid>
+            <Grid item xs={12}>
+              <Button variant="contained" type="submit">Submit</Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
+    </Card>
+  );
+};
 
 export default LeaveTrackerForm;
