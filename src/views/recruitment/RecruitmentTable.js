@@ -33,6 +33,7 @@ const RecruitmentTable = () => {
   const [Loader, setLoader] = useState(true);
   const [open, setOpen] = useState(false);
   const [selectedJob, setSelectedJob] = useState(null);
+  const [Search, setSearch] = useState('');
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -60,7 +61,13 @@ const RecruitmentTable = () => {
     setOpen(false);
     setSelectedJob(null);
   };
-
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+  const filteredjob = RecruitmentList.filter((job) => {
+    const lowersearchText = Search.toLowerCase();
+    return Object.values(job).some((value) => value && value.toString().toLowerCase().includes(lowersearchText));
+  });
   const handleDelete = (id) => {
     handleClose();
     Swal.fire({
@@ -100,8 +107,8 @@ const RecruitmentTable = () => {
             <TextField
               label="Search"
               variant="outlined"
-              // value={searchText}
-              // onChange={handleSearch}
+              value={Search}
+              onChange={handleSearch}
               size="small"
               InputProps={{
                 endAdornment: (
@@ -148,21 +155,30 @@ const RecruitmentTable = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {RecruitmentList.map((x) => (
-                        <TableRow
-                          key={x._id}
-                          onClick={() => {
-                            handleView(x._id);
-                          }}
-                        >
-                          <TableCell>{x.uuid}</TableCell>
-                          <TableCell>{x.Jobrole}</TableCell>
-                          <TableCell>{x.Openings}</TableCell>
-                          <TableCell>{x.Worktype}</TableCell>
-                          <TableCell>{x.Location}</TableCell>
-                          <TableCell>{x.Deadline}</TableCell>
+                      {RecruitmentList.length > 0 && filteredjob.length > 0 ? (
+                        RecruitmentList.map &&
+                        filteredjob.map((x) => (
+                          <TableRow
+                            key={x._id}
+                            onClick={() => {
+                              handleView(x._id);
+                            }}
+                          >
+                            <TableCell>{x.uuid}</TableCell>
+                            <TableCell>{x.Jobrole}</TableCell>
+                            <TableCell>{x.Openings}</TableCell>
+                            <TableCell>{x.Worktype}</TableCell>
+                            <TableCell>{x.Location}</TableCell>
+                            <TableCell>{x.Deadline}</TableCell>
+                          </TableRow>
+                        ))
+                      ) : (
+                        <TableRow>
+                          <TableCell colSpan={8} align="center">
+                            No data found
+                          </TableCell>
                         </TableRow>
-                      ))}
+                      )}{' '}
                     </TableBody>
                   </Table>
                 </TableContainer>
