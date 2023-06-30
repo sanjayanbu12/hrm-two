@@ -62,6 +62,10 @@ const MainRoutes = {
       element: <RecruitmentTable />
     },
     {
+      path: '/Recruitmentform/:id',
+      element: <RecruitmentForm />
+    },
+    {
       path: '/Recruitmentform',
       element: <RecruitmentForm />
     },

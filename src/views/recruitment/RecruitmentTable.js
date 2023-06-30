@@ -24,8 +24,8 @@ import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
 import { useNavigate } from 'react-router';
 import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
-import { Edit } from '@mui/icons-material';
 import Swal from 'sweetalert2';
+import { Edit } from '@mui/icons-material';
 // import { useParams } from 'react-router-dom';
 
 const RecruitmentTable = () => {
@@ -68,6 +68,9 @@ const RecruitmentTable = () => {
     const lowersearchText = Search.toLowerCase();
     return Object.values(job).some((value) => value && value.toString().toLowerCase().includes(lowersearchText));
   });
+  const handleEdit = (id) => {
+    navigate(`/recruitmentform/${id}`);
+  };
   const handleDelete = (id) => {
     handleClose();
     Swal.fire({
@@ -105,15 +108,17 @@ const RecruitmentTable = () => {
         <div>
           <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: '700px', mb: 2, display: 'flex' }}>
             <TextField
+              sx={{ width: '300px' }}
               label="Search"
               variant="outlined"
+              color="info"
               value={Search}
               onChange={handleSearch}
               size="small"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
-                    <GridSearchIcon />
+                    <GridSearchIcon color="primary" />
                   </InputAdornment>
                 )
               }}
@@ -236,7 +241,7 @@ const RecruitmentTable = () => {
                 Remaining: {selectedJob.id}
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
-                <Button variant="outlined" endIcon={<Edit />}>
+                <Button variant="outlined" onClick={() => handleEdit(selectedJob.id)} endIcon={<Edit />}>
                   Edit
                 </Button>
                 <Button variant="contained" color="error" onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />}>
