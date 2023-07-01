@@ -11,16 +11,16 @@ import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
-import EarningCard from 'ui-component/cards/Skeleton/EarningCard';
-import TotalOrderLineChartCard from 'views/dashboard/Default/TotalIncomeDarkCard';
+import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
+import EarningCard from 'views/dashboard/Default/EarningCard';
 // import CircularProgress from '@mui/material/CircularProgress';
 // import {Stack} from '@mui/material';
 
 const Addemployeetable = () => {
-//   const [isLoading, setLoading] = useState(true);
-// useEffect(() => {
-//   setLoading(false);
-// }, []);
+  const [isLoading, setLoading] = useState(true);
+useEffect(() => {
+  setLoading(false);
+}, []);
 
 
   const theme = useTheme();
@@ -106,7 +106,7 @@ const Addemployeetable = () => {
           color: theme.palette.secondary.dark,
         },
         // Add custom CSS properties
-        top:'-10px'
+        top:'40px'
       }}
       
     >
@@ -130,7 +130,7 @@ const Addemployeetable = () => {
       }}
       // Add custom CSS properties
       sx={{
-        top:'-60px',
+        top:'-20px',
       }}
     />
   </Box>
