@@ -201,7 +201,7 @@ const RecruitmentTable = () => {
           <>
             <DialogTitle variant="h2">Recruitment Details</DialogTitle>
             <DialogContent>
-              <Typography sx={{ lineHeight: '3', fontSize:'20px' }}>
+              <Typography sx={{ lineHeight: '3', fontSize: '20px' }}>
                 <b> Job Role:</b> {selectedJob.Jobrole}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
@@ -211,25 +211,25 @@ const RecruitmentTable = () => {
                 <b> Company:</b> {selectedJob.Company}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Location:</b>  {selectedJob.Location}
+                <b> Location:</b> {selectedJob.Location}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Worktype:</b>  {selectedJob.Worktype}
+                <b> Worktype:</b> {selectedJob.Worktype}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Qualification:</b>  {selectedJob.Education}
+                <b> Qualification:</b> {selectedJob.Education}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Experience:</b>  {selectedJob.Experience} Years
+                <b> Experience:</b> {selectedJob.Experience} Years
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Requirements:</b>  {selectedJob.Requirements}
+                <b> Requirements:</b> {selectedJob.Requirements}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Description:</b>  {selectedJob.Description}
+                <b> Description:</b> {selectedJob.Description}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Last Date to Apply:</b>  {selectedJob.Deadline}
+                <b> Last Date to Apply:</b> {selectedJob.Deadline}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> Application Count:</b> {selectedJob.id}
@@ -241,10 +241,28 @@ const RecruitmentTable = () => {
                 <b>Remaining:</b> {selectedJob.id}
               </Typography>
               <Box sx={{ display: 'flex', justifyContent: 'flex start', gap: '15px' }}>
-                <Button variant="outlined" onClick={() => handleEdit(selectedJob._id)} endIcon={<Edit />}>
+                <Button
+                  onClick={() => handleEdit(selectedJob._id)}
+                  endIcon={<Edit />}
+                  sx={{
+                    color: '#f5f5f5',
+                    background: '#6200ea',
+                    '&:hover': {
+                      color: theme.palette.secondary.light,
+                      background: '#6200ea'
+                    }
+                  }}
+                >
                   Edit
                 </Button>
-                <Button variant="contained" color="error" onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />}>
+                <Button onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />} sx={{
+                    color: '#f5f5f5',
+                    background: '#d50000',
+                    '&:hover': {
+                      color: theme.palette.secondary.light,
+                      background: '#d50000'
+                    }
+                  }}>
                   Delete
                 </Button>
               </Box>
