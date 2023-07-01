@@ -154,6 +154,8 @@ const RecruitmentTable = () => {
                         <TableCell>ID</TableCell>
                         <TableCell>Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
+                        <TableCell>Application Count</TableCell>
+                        <TableCell>Selected</TableCell>
                         <TableCell>Worktype</TableCell>
                         <TableCell>Location</TableCell>
                         <TableCell>Deadline</TableCell>
@@ -168,10 +170,13 @@ const RecruitmentTable = () => {
                             onClick={() => {
                               handleView(x._id);
                             }}
+                            sx={{"&:hover":{cursor:'pointer'}}}
                           >
                             <TableCell>{x.uuid}</TableCell>
                             <TableCell>{x.Jobrole}</TableCell>
                             <TableCell>{x.Openings}</TableCell>
+                            <TableCell>0</TableCell>
+                            <TableCell>0</TableCell>
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{x.Deadline}</TableCell>
@@ -199,7 +204,36 @@ const RecruitmentTable = () => {
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         {selectedJob && (
           <>
-            <DialogTitle variant="h2">Recruitment Details</DialogTitle>
+            <DialogTitle variant="h2">Recruitment Details  <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop:'0px'}}>
+                <Button
+                  onClick={() => handleEdit(selectedJob._id)}
+                  endIcon={<Edit />}
+                  sx={{
+                    color: '#6a1b9a',
+                    background: '#e1bee7',
+                    '&:hover': {
+                      color: theme.palette.secondary.light,
+                      background: '#6200ea'
+                    }
+                  }}
+                >
+                  Edit
+                </Button>
+                <Button
+                  onClick={() => handleDelete(selectedJob._id)}
+                  startIcon={<GridDeleteIcon />}
+                  sx={{
+                    color: '#f5f5f5',
+                    background: '#212121',
+                    '&:hover': {
+                      color: theme.palette.secondary.light,
+                      background: '#d50000'
+                    }
+                  }}
+                >
+                  Delete
+                </Button>
+              </Box></DialogTitle>
             <DialogContent>
               <Typography sx={{ lineHeight: '3', fontSize: '20px' }}>
                 <b> Job Role:</b> {selectedJob.Jobrole}
@@ -232,44 +266,14 @@ const RecruitmentTable = () => {
                 <b> Last Date to Apply:</b> {selectedJob.Deadline}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Application Count:</b> {selectedJob.id}
+                <b> Application Count:</b> 
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Selected:</b> {selectedJob.id}
+                <b> Selected:</b> 
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b>Remaining:</b> {selectedJob.id}
+                <b>Remaining:</b>
               </Typography>
-              <Box sx={{ display: 'flex', justifyContent: 'flex start', gap: '15px' }}>
-                <Button
-                  onClick={() => handleEdit(selectedJob._id)}
-                  endIcon={<Edit />}
-                  sx={{
-                    color: '#f5f5f5',
-                    background: '#6200ea',
-                    '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#6200ea'
-                    }
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => handleDelete(selectedJob._id)}
-                  startIcon={<GridDeleteIcon />}
-                  sx={{
-                    color: '#f5f5f5',
-                    background: '#d50000',
-                    '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#d50000'
-                    }
-                  }}
-                >
-                  Delete
-                </Button>
-              </Box>
             </DialogContent>
           </>
         )}
