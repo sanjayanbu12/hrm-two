@@ -1,21 +1,16 @@
-import MainCard from 'ui-component/cards/MainCard';
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
-import EditIcon from '@mui/icons-material/Edit';
 import { useTheme } from '@mui/material/styles';
 import axios from 'axios';
-import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
-import EarningCard from 'views/dashboard/Default/EarningCard';
-// import PopularCard from 'views/dashboard/Default/PopularCard';
-// import TotalIncomeDarkCard from 'views/dashboard/Default/TotalIncomeDarkCard';
-// import TotalGrowthBarChart from 'views/dashboard/Default/TotalGrowthBarChart';
+import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
+import { Pagination } from '@mui/lab';
 
 const Addemployeetable = () => {
   const [isLoading, setLoading] = useState(true);
@@ -27,7 +22,8 @@ const Addemployeetable = () => {
   const navigate = useNavigate();
   const [edata, setedata] = useState([]);
   const [searchText, setSearchText] = useState('');
-  // const[curentPage,setCurrentPage]=useState(1)
+  const [currentPage, setCurrentPage] = useState(1);
+  const rowsPerPage = 3;
 
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
@@ -48,7 +44,7 @@ const Addemployeetable = () => {
 
   const handleSearch = (event) => {
     setSearchText(event.target.value);
-    // setCurrentPage(1);
+    setCurrentPage(1);
   };
 
   const filteredEmployees = edata.filter((employee) => {

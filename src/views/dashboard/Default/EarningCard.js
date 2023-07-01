@@ -137,7 +137,7 @@ const EarningCardCard = ({ isLoading }) => {
                             color: theme.palette.primary[100]
                           }}
                         >
-                          Projects
+                          EMPLOYEES
                         </Typography>
                       </Grid>
                     </Grid>
