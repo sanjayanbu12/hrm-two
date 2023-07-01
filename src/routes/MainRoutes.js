@@ -6,10 +6,10 @@ import Loadable from 'ui-component/Loadable';
 import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/RecruitmentTable';
-import LeaveTracker from 'views/leavemanagement/LeaveTracker';
+import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
+import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
 import AttendanceTracker from 'views/leavemanagement/AttendanceTracker';
 import Performance from 'views/performance/Performance';
-import WfhTracker from 'views/leavemanagement/WfhTracker';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
@@ -42,8 +42,12 @@ const MainRoutes = {
       element: <Recruitment />
     },
     {
-      path: '/leavetracker',
-      element: <LeaveTracker />
+      path: '/leavetrackerform',
+      element: <LeaveTrackerForm />
+    },
+    {
+      path: '/leavetrackerlist',
+      element: <LeaveTrackerList />
     },
     {
       path: '/attendancetracker',
@@ -53,10 +57,10 @@ const MainRoutes = {
       path: '/performance',
       element: <Performance />
     },
-    {
-      path: '/wfhtracker',
-      element: <WfhTracker />
-    },
+    // {
+    //   path: '/wfhtracker',
+    //   element: <WfhTracker />
+    // },
     {
       path: '/Recruitmenttable',
       element: <RecruitmentTable />

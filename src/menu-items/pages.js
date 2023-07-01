@@ -142,10 +142,16 @@ const pages = {
 
       children: [
         {
-          id: 'leavetracker',
-          title: 'Leave Tracker',
+          id: 'leavetrackerform',
+          title: 'Leave Tracker Form',
           type: 'item',
-          url: '/leavetracker'
+          url: '/leavetrackerform'
+        },
+        {
+          id: 'leavetrackerlist',
+          title: 'Leave Tracker List',
+          type: 'item',
+          url: '/leavetrackerlist'
         },
         {
           id: 'attendancetracker',
@@ -153,12 +159,12 @@ const pages = {
           type: 'item',
           url: '/attendancetracker'
         },
-        {
-          id: 'wfhtracker',
-          title: 'WFH Tracker',
-          type: 'item',
-          url: '/wfhtracker'
-        }
+        // {
+        //   id: 'wfhtracker',
+        //   title: 'WFH Tracker',
+        //   type: 'item',
+        //   url: '/wfhtracker'
+        // }
       ]
     },
     {
