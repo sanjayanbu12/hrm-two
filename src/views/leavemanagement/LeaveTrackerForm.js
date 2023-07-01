@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
-import { Box, Button, Grid, FormControl, InputLabel, MenuItem, Select, TextField, Card } from '@material-ui/core';
+import { Box, Button, Grid, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import MainCard from 'ui-component/cards/MainCard';
+import axios from 'axios';
 
 const LeaveTrackerForm = () => {
   const navigate = useNavigate();
   const [leaveType, setLeaveType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const [numOfDays, setNumOfDays] = useState('');
+  const [numberOfDays, setNumberOfDays] = useState('');
   const [reason, setReason] = useState('');
   const [status, setStatus] = useState('');
-  const [file, setFile] = useState(null);
+  const [document, setDocument] = useState(null);
 
   const handleLeaveType = (event) => {
     setLeaveType(event.target.value);
@@ -24,8 +26,8 @@ const LeaveTrackerForm = () => {
     setEndDate(event.target.value);
   };
 
-  const handleNumOfDays = (event) => {
-    setNumOfDays(event.target.value);
+  const handleNumberOfDays = (event) => {
+    setNumberOfDays(event.target.value);
   };
 
   const handleReason = (event) => {
@@ -37,33 +39,42 @@ const LeaveTrackerForm = () => {
   };
 
   const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
+    setDocument(event.target.files[0]);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Submit the form data to the LeaveTrackerList module or perform any other desired action
+    // Create form data object
     const formData = {
       leaveType,
       startDate,
       endDate,
-      numOfDays,
+      numberOfDays,
       reason,
       status,
-      file,
+      document,
     };
 
-    console.log(formData);
-
-    // Navigate to the LeaveTrackerList component
-    navigate('/leavetrackerlist');
+    try {
+      await axios.post('https://hrm-backend-square.onrender.com/api/leave', formData);
+      setLeaveType('');
+      setStartDate('');
+      setEndDate('');
+      setNumberOfDays('');
+      setReason('');
+      setStatus('');
+      setDocument('');
+      navigate('/leavetrackerlist');
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   return (
-    <Card>
-      <Box p={2}>
-        <form onSubmit={handleSubmit}>
+    <MainCard title="LeaveTrackerForm">
+      <form onSubmit={handleSubmit}>
+        <Box p={2}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FormControl fullWidth>
@@ -113,20 +124,11 @@ const LeaveTrackerForm = () => {
             <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
-                id="num-of-days"
+                id="number-of-days"
                 label="Number of Days"
                 type="number"
-                value={numOfDays}
-                onChange={handleNumOfDays}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                id="reason"
-                label="Reason"
-                value={reason}
-                onChange={handleReason}
+                value={numberOfDays}
+                onChange={handleNumberOfDays}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -146,15 +148,33 @@ const LeaveTrackerForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <input type="file" onChange={handleFileChange} />
+              <TextField
+                fullWidth
+                id="reason"
+                label="Reason"
+                multiline
+                rows={4}
+                value={reason}
+                onChange={handleReason}
+              />
             </Grid>
             <Grid item xs={12}>
-              <Button variant="contained" type="submit">Submit</Button>
+              <input
+                accept="application/pdf"
+                id="document"
+                type="file"
+                onChange={handleFileChange}
+              />
             </Grid>
           </Grid>
-        </form>
-      </Box>
-    </Card>
+        </Box>
+        <Box p={2} display="flex" justifyContent="flex-end">
+          <Button type="submit" variant="contained" color="primary">
+            Submit
+          </Button>
+        </Box>
+      </form>
+    </MainCard>
   );
 };
 
