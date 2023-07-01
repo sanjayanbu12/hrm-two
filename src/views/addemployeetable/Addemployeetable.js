@@ -11,6 +11,8 @@ import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
+import EarningCard from 'ui-component/cards/Skeleton/EarningCard';
+import TotalOrderLineChartCard from 'views/dashboard/Default/TotalIncomeDarkCard';
 // import CircularProgress from '@mui/material/CircularProgress';
 // import {Stack} from '@mui/material';
 
@@ -68,20 +70,30 @@ const Addemployeetable = () => {
     <>
   <MainCard title="Employee Information Management">
 
-        <Grid container spacing={gridSpacing}>
-          <Grid item xs={12}>
-            <Grid container spacing={gridSpacing} sx={{ gap: '50px', margin: ' 0px 10px' }}>
-              <Grid item lg={4} md={4} sm={6} xs={12}>
-                {/* EarningCard component */}
-              </Grid>
-              <Grid item lg={4} md={6} sm={6} xs={12}>
-
-                {/* TotalOrderLineChartCard component */}
+  <Grid container spacing={gridSpacing}>
+      <Grid item xs={12}>
+        <Grid container spacing={gridSpacing} sx={{
+          gap:'50px',
+          margin:' 0px 10px',
+        }}>
+          
+          <Grid item lg={4} md={4} sm={6} xs={12}>
+            <EarningCard isLoading={isLoading} />
+          </Grid>
+          <Grid item lg={4} md={6} sm={6} xs={12}>
+            <TotalOrderLineChartCard isLoading={isLoading} />
+          </Grid>
+          {/* <Grid item lg={4} md={12} sm={12} xs={12}>
+            <Grid container spacing={gridSpacing}>
+              <Grid item lg={80} md={64} sm={44} xs={32}>
+                <TotalIncomeDarkCard isLoading={isLoading} />
               </Grid>
             </Grid>
-          </Grid>
+          </Grid> */}
         </Grid>
-        
+      </Grid>
+      </Grid>
+
 <div>
   <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
     <Button
