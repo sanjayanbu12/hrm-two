@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import {  useParams,useNavigate } from 'react-router';
 import axios from 'axios';
-import { Button} from '@mui/material';
+import { Button,Stack} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 import MainCard from 'ui-component/cards/MainCard';
 
 
@@ -30,6 +31,25 @@ const Viewdetails = () => {
   const Edit = (id) => {
     navigate(`/newemployee/${id}`);
   };
+
+  const back = () => {
+    navigate(`/Addemployeetable`);
+  };
+
+  if (!employeedetails) {
+    return (
+      <div>
+        {' '}
+        <Stack
+          sx={{ color: 'grey.500', width: '100%', height: '80vh', justifyContent: 'center', alignItems: 'center' }}
+          spacing={9}
+          direction="row"
+        >
+          <CircularProgress color="secondary" />
+        </Stack>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -65,6 +85,21 @@ const Viewdetails = () => {
         <p><b>Blood Group:</b> {employeedetails.bloodgroup}</p>
         <p><b>Joining Date:</b> {employeedetails.join}</p>
         <p><b>Work Type:</b> {employeedetails.type}</p>
+
+
+<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <Button
+        sx={{
+          color: '#5e35b1',
+          '&:hover': {
+            backgroundColor: '#ede7f6',
+          },
+        }}
+        onClick={back}
+      >
+        Back
+      </Button>
+      </div>
 
       </div>
     )}

@@ -11,6 +11,8 @@ import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
+// import CircularProgress from '@mui/material/CircularProgress';
+// import {Stack} from '@mui/material';
 
 const Addemployeetable = () => {
 //   const [isLoading, setLoading] = useState(true);
@@ -24,7 +26,8 @@ const Addemployeetable = () => {
   const [edata, setedata] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 3;
+  const rowsPerPage = 6;
+  // const[loader,setLoader]=useState(true)
 
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
@@ -60,9 +63,11 @@ const Addemployeetable = () => {
   const indexOfFirstEmployee = indexOfLastEmployee - rowsPerPage;
   const currentEmployees = filteredEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
+
   return (
     <>
-      <MainCard title="Employee Information Management">
+  <MainCard title="Employee Information Management">
+
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
             <Grid container spacing={gridSpacing} sx={{ gap: '50px', margin: ' 0px 10px' }}>
@@ -76,6 +81,7 @@ const Addemployeetable = () => {
             </Grid>
           </Grid>
         </Grid>
+        
 <div>
   <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
     <Button
