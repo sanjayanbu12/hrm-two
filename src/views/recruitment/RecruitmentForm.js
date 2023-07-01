@@ -403,6 +403,7 @@ const RecruitmentForm = () => {
                   // helperText={errors && errors.Status}
                   onChange={(e) => handleStatus(e)}
                 >
+                   <MenuItem value="New">New</MenuItem>
                   <MenuItem value="Interview Scheduled">Interview Scheduled</MenuItem>
                   <MenuItem value="Progress">Progress</MenuItem>
                   <MenuItem value="Completed">Completed</MenuItem>
@@ -465,7 +466,7 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-  <FormControl sx={{ width: '480px', height: '100px' }}>
+  <FormControl sx={{ width: '980px', height: '100px' }}>
     <TextField
       labelId="demo-simple-select-label"
       id="demo-simple-select"
@@ -480,15 +481,13 @@ const RecruitmentForm = () => {
 </Grid>
           </Grid>
         </Box>
-        <Box sx={{ flexGrow: 1, marginTop: 2 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={4}>
+        <Box sx={{ display:'flex' ,justifyContent:'center',gap:'800px'}}>
+         
               <Button
                 variant="contained"
                 sx={{
                   align: 'center',
                   boxShadow: 'none',
-                  minWidth: '100%',
                   borderRadius: 2,
                   padding: 1.5,
                   background: theme.palette.secondary.dark,
@@ -501,9 +500,13 @@ const RecruitmentForm = () => {
                 onClick={(e) => finalSubmit(e)}
               >
                 {id ? 'Update' : 'Save'}
-              </Button>
-            </Grid>
-          </Grid>
+              </Button> <Button variant='contained' onClick={()=>{navigate('/recruitmenttable')}}
+                sx={{
+                  align: 'center',
+                  boxShadow: 'none',
+                  borderRadius: 2,
+                  padding: 1.5,
+                }}>Back</Button>
         </Box>
       </form>
     </MainCard>

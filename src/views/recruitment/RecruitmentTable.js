@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router';
 import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
 import Swal from 'sweetalert2';
 import { Edit } from '@mui/icons-material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 // import { fontSize } from '@mui/system';
 // import { useParams } from 'react-router-dom';
@@ -152,7 +153,6 @@ const RecruitmentTable = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>ID</TableCell>
                         <TableCell>Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
                         <TableCell>Application Count</TableCell>
@@ -160,20 +160,14 @@ const RecruitmentTable = () => {
                         <TableCell>Worktype</TableCell>
                         <TableCell>Location</TableCell>
                         <TableCell>Deadline</TableCell>
+                        <TableCell>Action</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {RecruitmentList.length > 0 && filteredjob.length > 0 ? (
                         RecruitmentList.map &&
                         filteredjob.map((x) => (
-                          <TableRow
-                            key={x._id}
-                            onClick={() => {
-                              handleView(x._id);
-                            }}
-                            sx={{ '&:hover': { cursor: 'pointer' } }}
-                          >
-                            <TableCell>{x.uuid}</TableCell>
+                          <TableRow key={x._id}>
                             <TableCell>{x.Jobrole}</TableCell>
                             <TableCell>{x.Openings}</TableCell>
                             <TableCell>0</TableCell>
@@ -181,6 +175,11 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{x.Deadline}</TableCell>
+                            <TableCell 
+                            onClick={() => {
+                              handleView(x._id);
+                            }}
+                            sx={{ '&:hover': { cursor: 'pointer' },alignItems:'center' }}><Button><VisibilityIcon /></Button></TableCell>
                           </TableRow>
                         ))
                       ) : (
