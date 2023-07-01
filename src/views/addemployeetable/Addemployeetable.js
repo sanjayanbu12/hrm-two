@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, IconButton, Box, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box, Button } from '@mui/material';
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import { useTheme } from '@mui/material/styles';
@@ -13,10 +13,11 @@ import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
 
 const Addemployeetable = () => {
-  const [isLoading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+//   const [isLoading, setLoading] = useState(true);
+// useEffect(() => {
+//   setLoading(false);
+// }, []);
+
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -35,85 +36,88 @@ const Addemployeetable = () => {
     fetchEmployees();
   }, []);
 
-  const Edit = (id) => {
-    navigate(`/newemployee/${id}`);
-  };
-  const Add = () => {
-    navigate(`/newemployee`);
-  };
-
   const handleSearch = (event) => {
     setSearchText(event.target.value);
     setCurrentPage(1);
   };
 
   const filteredEmployees = edata.filter((employee) => {
-    const lowersearchText = searchText.toLowerCase();
-    return Object.values(employee).some((value) => value && value.toString().toLowerCase().includes(lowersearchText));
+    const lowerSearchText = searchText.toLowerCase();
+    return Object.values(employee).some((value) => value && value.toString().toLowerCase().includes(lowerSearchText));
   });
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const idclick = (employeeid) => {
+    console.log(employeeid + 'sjs');
+    const selectedId = edata.find((data) => data.employeeid === employeeid);
+    navigate(`/viewdetails/${employeeid}`, { state: { data: selectedId } });
+  };
+
+  const indexOfLastEmployee = currentPage * rowsPerPage;
+  const indexOfFirstEmployee = indexOfLastEmployee - rowsPerPage;
+  const currentEmployees = filteredEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
   return (
     <>
       <MainCard title="Employee Information Management">
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12}>
-            <Grid
-              container
-              spacing={gridSpacing}
-              sx={{
-                gap: '50px',
-                margin: ' 0px 10px'
-              }}
-            >
+            <Grid container spacing={gridSpacing} sx={{ gap: '50px', margin: ' 0px 10px' }}>
               <Grid item lg={4} md={4} sm={6} xs={12}>
-                <EarningCard isLoading={isLoading} />
+                {/* EarningCard component */}
               </Grid>
               <Grid item lg={4} md={6} sm={6} xs={12}>
-                <TotalOrderLineChartCard isLoading={isLoading} />
+
+                {/* TotalOrderLineChartCard component */}
               </Grid>
-              {/* <Grid item lg={4} md={12} sm={12} xs={12}>
-            <Grid container spacing={gridSpacing}>
-              <Grid item lg={80} md={64} sm={44} xs={32}>
-                <TotalIncomeDarkCard isLoading={isLoading} />
-              </Grid>
-            </Grid>
-          </Grid> */}
             </Grid>
           </Grid>
         </Grid>
+<div>
+  <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+    <Button
+      onClick={() => navigate(`/newemployee`)}
+      sx={{
+        padding: 1.5,
+        background: 'rgba(33, 150, 243, 0.04)',
+        color: theme.palette.secondary.dark,
+        '&:hover': {
+          color: theme.palette.secondary.dark,
+        },
+        // Add custom CSS properties
+        top:'-10px'
+      }}
+      
+    >
+      <AddIcon />
+      Add New Employee
+    </Button>
+  </Box>
+  <Box sx={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center', mb: 2, display: 'flex' }}>
+    <TextField
+      label="Search"
+      variant="outlined"
+      value={searchText}
+      onChange={handleSearch}
+      size="small"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <SearchIcon />
+          </InputAdornment>
+        ),
+      }}
+      // Add custom CSS properties
+      sx={{
+        top:'-60px',
+      }}
+    />
+  </Box>
+</div>
 
-        <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-          <Button
-            onClick={() => Add()}
-            sx={{
-              padding: 1.5,
-              background: 'rgba(33, 150, 243, 0.04)',
-              color: theme.palette.secondary.dark,
-              '&:hover': {
-                color: theme.palette.secondary.dark
-              }
-            }}
-          >
-            <AddIcon />
-            Add New Employee
-          </Button>
-        </Box>
-        <Box sx={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center', mb: 2, display: 'flex' }}>
-          <TextField
-            label="Search"
-            variant="outlined"
-            value={searchText}
-            onChange={handleSearch}
-            size="small"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <SearchIcon />
-                </InputAdornment>
-              )
-            }}
-          />
-        </Box>
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
@@ -123,27 +127,25 @@ const Addemployeetable = () => {
                 <TableCell align="center">Department Name</TableCell>
                 <TableCell align="center">Designation</TableCell>
                 <TableCell align="center">Work Type</TableCell>
+                {/* <TableCell align="center"></TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
-              {edata.length > 0 && filteredEmployees.length > 0 ? (
-                edata.map &&
-                filteredEmployees.map((x) => (
-                  // edata.length>0?
-                  // edata.map((x) => (
+              {currentEmployees.length > 0 ? (
+                currentEmployees.map((x) => (
                   <TableRow key={x.id}>
-                    <TableCell component="th" scope="row" align="center">
+                    <TableCell component="th" scope="row" align="center" onClick={() => idclick(x._id)}>
                       {x.employeeid}
                     </TableCell>
-                    <TableCell align="center">{x.name}</TableCell>
+                    <TableCell align="center" onClick={() => idclick(x._id)}>
+                      {x.name}
+                    </TableCell>
                     <TableCell align="center">{x.dept}</TableCell>
                     <TableCell align="center">{x.desi}</TableCell>
                     <TableCell align="center">{x.type}</TableCell>
-                    <TableCell align="center">
-                      <IconButton aria-label="edit" onClick={() => Edit(x._id)}>
-                        <EditIcon />
-                      </IconButton>
-                    </TableCell>
+                    {/* <TableCell align="center">
+                      Edit button
+                    </TableCell> */}
                   </TableRow>
                 ))
               ) : (
@@ -156,6 +158,20 @@ const Addemployeetable = () => {
             </TableBody>
           </Table>
         </TableContainer>
+        <Box sx={{ display: 'flex', justifyContent: 'end', mt: 2,
+        padding: 1.5,
+        background: 'rgba(33, 150, 243, 0.04)',
+        color: theme.palette.secondary.dark,
+        '&:hover': {
+          color: theme.palette.secondary.dark,
+        },
+      }}>
+          <Pagination
+            count={Math.ceil(filteredEmployees.length / rowsPerPage)}
+            page={currentPage}
+            onChange={handlePageChange}
+          />
+        </Box>
       </MainCard>
     </>
   );
