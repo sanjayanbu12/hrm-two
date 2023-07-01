@@ -26,6 +26,7 @@ import { useNavigate } from 'react-router';
 import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
 import Swal from 'sweetalert2';
 import { Edit } from '@mui/icons-material';
+
 // import { fontSize } from '@mui/system';
 // import { useParams } from 'react-router-dom';
 
@@ -170,7 +171,7 @@ const RecruitmentTable = () => {
                             onClick={() => {
                               handleView(x._id);
                             }}
-                            sx={{"&:hover":{cursor:'pointer'}}}
+                            sx={{ '&:hover': { cursor: 'pointer' } }}
                           >
                             <TableCell>{x.uuid}</TableCell>
                             <TableCell>{x.Jobrole}</TableCell>
@@ -204,11 +205,14 @@ const RecruitmentTable = () => {
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         {selectedJob && (
           <>
-            <DialogTitle variant="h2">Recruitment Details  <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop:'0px'}}>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
+              <DialogTitle variant="h2">RecruitmentForm Details</DialogTitle>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '5px', marginRight: '35px' }}>
                 <Button
                   onClick={() => handleEdit(selectedJob._id)}
                   endIcon={<Edit />}
                   sx={{
+                    height: '40px',
                     color: '#6a1b9a',
                     background: '#e1bee7',
                     '&:hover': {
@@ -223,8 +227,9 @@ const RecruitmentTable = () => {
                   onClick={() => handleDelete(selectedJob._id)}
                   startIcon={<GridDeleteIcon />}
                   sx={{
+                    height: '40px',
                     color: '#f5f5f5',
-                    background: '#212121',
+                    background: '#6a1b9a',
                     '&:hover': {
                       color: theme.palette.secondary.light,
                       background: '#d50000'
@@ -233,9 +238,10 @@ const RecruitmentTable = () => {
                 >
                   Delete
                 </Button>
-              </Box></DialogTitle>
+              </Box>
+            </Box>
             <DialogContent>
-              <Typography sx={{ lineHeight: '3', fontSize: '20px' }}>
+              <Typography sx={{ lineHeight: '4', fontSize: '20px' }}>
                 <b> Job Role:</b> {selectedJob.Jobrole}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
@@ -266,10 +272,10 @@ const RecruitmentTable = () => {
                 <b> Last Date to Apply:</b> {selectedJob.Deadline}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Application Count:</b> 
+                <b> Application Count:</b>
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Selected:</b> 
+                <b> Selected:</b>
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b>Remaining:</b>
