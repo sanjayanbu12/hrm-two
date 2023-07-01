@@ -465,20 +465,19 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Description"
-                  value={Description}
-                  type="value"
-                  multilinerows={2}
-                  // error={errors && errors.Description}
-                  // helperText={errors && errors.Description}
-                  onChange={(e) => handleDescription(e)}
-                />
-              </FormControl>
-            </Grid>
+  <FormControl sx={{ width: '480px', height: '100px' }}>
+    <TextField
+      labelId="demo-simple-select-label"
+      id="demo-simple-select"
+      label="Description"
+      value={Description}
+      type="value"
+      multiline
+      rows={3}
+      onChange={(e) => handleDescription(e)}
+    />
+  </FormControl>
+</Grid>
           </Grid>
         </Box>
         <Box sx={{ flexGrow: 1, marginTop: 2 }}>
