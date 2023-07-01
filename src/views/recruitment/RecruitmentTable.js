@@ -255,14 +255,18 @@ const RecruitmentTable = () => {
                 >
                   Edit
                 </Button>
-                <Button onClick={() => handleDelete(selectedJob._id)} startIcon={<GridDeleteIcon />} sx={{
+                <Button
+                  onClick={() => handleDelete(selectedJob._id)}
+                  startIcon={<GridDeleteIcon />}
+                  sx={{
                     color: '#f5f5f5',
                     background: '#d50000',
                     '&:hover': {
                       color: theme.palette.secondary.light,
                       background: '#d50000'
                     }
-                  }}>
+                  }}
+                >
                   Delete
                 </Button>
               </Box>
