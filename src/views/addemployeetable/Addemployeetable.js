@@ -140,15 +140,17 @@ const Addemployeetable = () => {
               {currentEmployees.length > 0 ? (
                 currentEmployees.map((x) => (
                   <TableRow key={x.id}>
-                    <TableCell component="th" scope="row" align="center" onClick={() => idclick(x._id)}>
+                    <TableCell component="th" scope="row" align="center" onClick={() => idclick(x._id)}
+                  sx={{"&:hover":{cursor:'pointer'}}}
+                     >
                       {x.employeeid}
                     </TableCell>
-                    <TableCell align="center" onClick={() => idclick(x._id)}>
+                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>
                       {x.name}
                     </TableCell>
-                    <TableCell align="center">{x.dept}</TableCell>
-                    <TableCell align="center">{x.desi}</TableCell>
-                    <TableCell align="center">{x.type}</TableCell>
+                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>{x.dept}</TableCell>
+                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>{x.desi}</TableCell>
+                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>{x.type}</TableCell>
                     {/* <TableCell align="center">
                       Edit button
                     </TableCell> */}
