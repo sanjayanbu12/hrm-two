@@ -26,7 +26,7 @@ const Addemployeetable = () => {
   const [edata, setedata] = useState([]);
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 6;
+  const rowsPerPage = 5;
   // const[loader,setLoader]=useState(true)
 
   const fetchEmployees = async () => {
