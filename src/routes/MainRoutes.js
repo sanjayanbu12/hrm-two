@@ -43,10 +43,6 @@ const MainRoutes = {
       element: <Recruitment />
     },
     {
-      path: '/applicationtracker',
-      element: <ApplicationTracker />
-    },
-    {
       path: '/leavetrackerform',
       element: <LeaveTrackerForm />
     },
@@ -77,6 +73,10 @@ const MainRoutes = {
     {
       path: '/Recruitmentform',
       element: <RecruitmentForm />
+    },
+    {
+      path: '/Applicationtracker',
+      element: <ApplicationTracker />
     },
     // {
     //   path: '/projectlist',

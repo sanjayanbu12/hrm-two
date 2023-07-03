@@ -127,7 +127,7 @@ const RecruitmentTable = () => {
             />
             <Button
               onClick={() => {
-                navigate('/RecruitmentForm');
+                navigate('/recruitmentform');
               }}
               sx={{
                 width: '300px',
