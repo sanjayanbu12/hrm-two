@@ -94,10 +94,10 @@ const pages = {
           url: '/leavetrackerlist'
         },
         {
-          id: 'attendancetracker',
-          title: 'Attendance Tracker',
+          id: 'leavetoday',
+          title: 'LeaveToday',
           type: 'item',
-          url: '/attendancetracker'
+          url: '/leavetoday'
         },
        
       ]
