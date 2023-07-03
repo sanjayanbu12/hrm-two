@@ -27,7 +27,6 @@ import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
 import Swal from 'sweetalert2';
 import { Edit } from '@mui/icons-material';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-
 // import { fontSize } from '@mui/system';
 // import { useParams } from 'react-router-dom';
 
@@ -66,6 +65,7 @@ const RecruitmentTable = () => {
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
+
   const filteredjob = RecruitmentList.filter((job) => {
     const lowersearchText = Search.toLowerCase();
     return Object.values(job).some((value) => value && value.toString().toLowerCase().includes(lowersearchText));
@@ -175,11 +175,16 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{x.Deadline}</TableCell>
-                            <TableCell 
-                            onClick={() => {
-                              handleView(x._id);
-                            }}
-                            sx={{ '&:hover': { cursor: 'pointer' },alignItems:'center' }}><Button><VisibilityIcon /></Button></TableCell>
+                            <TableCell
+                              onClick={() => {
+                                handleView(x._id);
+                              }}
+                              sx={{ '&:hover': { cursor: 'pointer' }, alignItems: 'center' }}
+                            >
+                              <Button>
+                                <VisibilityIcon />
+                              </Button>
+                            </TableCell>
                           </TableRow>
                         ))
                       ) : (

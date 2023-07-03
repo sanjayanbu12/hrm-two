@@ -7,6 +7,7 @@ import validationSchema from '../recruitment/RecruitmentValidation';
 import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
+import TableRowsIcon from '@mui/icons-material/TableRows';
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -21,6 +22,7 @@ const RecruitmentForm = () => {
   const [Skills, setSkills] = useState('');
   const [Education, setEducation] = useState('');
   const [Location, setLocation] = useState('');
+  const [Year, setYear] = useState('');
   const [errors, setErrors] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
@@ -60,6 +62,7 @@ const RecruitmentForm = () => {
       Openings: ''
     }));
   };
+
   const handleCompany = (e) => {
     setCompany(e.target.value);
     setErrors((prev) => ({
@@ -79,6 +82,13 @@ const RecruitmentForm = () => {
     setErrors((prev) => ({
       ...prev,
       Education: ''
+    }));
+  };
+  const handleYear = (e) => {
+    setYear(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      Year: ''
     }));
   };
   const handleSkills = (e) => {
@@ -137,7 +147,9 @@ const RecruitmentForm = () => {
         setWorktype(responseData.Worktype);
         setSkills(responseData.Skills);
         setEducation(responseData.Education);
+        setYear(responseData.Year);
         setLocation(responseData.Location);
+        
       })
       .catch((err) => {
         console.log(err.message);
@@ -159,6 +171,7 @@ const RecruitmentForm = () => {
           Worktype,
           Skills,
           Education,
+          Year,
           Location
         };
 
@@ -175,6 +188,7 @@ const RecruitmentForm = () => {
             Worktype,
             Skills,
             Education,
+            Year,
             Location
           },
           { abortEarly: false }
@@ -191,6 +205,7 @@ const RecruitmentForm = () => {
         setWorktype('');
         setSkills('');
         setEducation('');
+        setYear('');
         setLocation('');
 
         Swal.fire({
@@ -225,6 +240,7 @@ const RecruitmentForm = () => {
           Worktype,
           Skills,
           Education,
+          Year,
           Location
         };
         console.log('task', task);
@@ -241,6 +257,7 @@ const RecruitmentForm = () => {
             Worktype,
             Skills,
             Education,
+            Year,
             Location
           },
           { abortEarly: false }
@@ -258,6 +275,7 @@ const RecruitmentForm = () => {
         setWorktype('');
         setSkills('');
         setEducation('');
+        setYear('');
         setLocation('');
         Swal.fire({
           icon: 'success',
@@ -413,17 +431,42 @@ const RecruitmentForm = () => {
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
-                <TextField
+              <InputLabel id="demo-simple-select-label">Education</InputLabel>
+                <Select
                   labelId="demo-simple-select-label"
-                  id="demo-simple-select"
                   label="Education"
                   value={Education}
                   type="value"
                   error={errors && errors.Education}
                   helperText={errors && errors.Education}
                   onChange={(e) => handleEducation(e)}
-                />
+                >
+                    <MenuItem value="BCA">BCA</MenuItem>
+                <MenuItem value="MCA">MCA</MenuItem>
+                <MenuItem value="BBA">BBA</MenuItem>
+                <MenuItem value="MBA">MBA</MenuItem>
+                <MenuItem value="B.Tech">B.Tech</MenuItem>
+                <MenuItem value="M.Tech">M.Tech</MenuItem>
+                <MenuItem value="B.Sc.">B.Sc.</MenuItem>
+                <MenuItem value="M.Sc">M.Sc</MenuItem>
+                <MenuItem value="BE">BE</MenuItem>
+                <MenuItem value="ME">ME</MenuItem>
+                <MenuItem value="Others">Others</MenuItem>
+                  </Select> 
               </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id="outlined-basic"
+                label="Year of Passing"
+                variant="outlined"
+                value={Year}
+                type="value"
+                // error={errors && errors.Year}
+                // helperText={errors && errors.Year}
+                onChange={(e) => handleYear(e)}
+              />
             </Grid>
             <Grid item xs={4}>
               <TextField
@@ -438,7 +481,7 @@ const RecruitmentForm = () => {
                 onChange={(e) => handleExperience(e)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -451,7 +494,7 @@ const RecruitmentForm = () => {
                 onChange={(e) => handleRequirements(e)}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
                 <TextField
                   labelId="demo-simple-select-label"
@@ -506,7 +549,7 @@ const RecruitmentForm = () => {
                   boxShadow: 'none',
                   borderRadius: 2,
                   padding: 1.5,
-                }}>Back</Button>
+                }}><TableRowsIcon/></Button>
         </Box>
       </form>
     </MainCard>
