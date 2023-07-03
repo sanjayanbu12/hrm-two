@@ -2,9 +2,9 @@ import React from 'react';
 import { Card, CardWrapper } from 'react-swipeable-cards';
 
 const leaveData = [
-  { id: 1, name: 'John Doe' },
-  { id: 2, name: 'Jane Smith' },
-  { id: 3, name: 'Adam Johnson' },
+  { id: 1, name: 'Ajay', position: 'Developer' },
+  { id: 2, name: 'Sanjay', position: 'Manager' },
+  { id: 3, name: 'Kishore', position: 'Designer' },
 ];
 
 const LeaveToday = () => {
@@ -23,7 +23,7 @@ const LeaveToday = () => {
     alignItems: 'center',
     textAlign: 'center',
     cursor: 'grab',
-    position: 'relative',
+    marginBottom: '20px',
   };
 
   const cardContentStyle = {
@@ -35,9 +35,9 @@ const LeaveToday = () => {
   const leaveSymbolStyle = {
     fontSize: '40px',
     marginTop: '10px',
-    color: '#21A957',
+    color: 'purple', // or 'violet'
   };
-
+  
   const cardTitleStyle = {
     fontSize: '18px',
     fontWeight: 'bold',
@@ -46,6 +46,11 @@ const LeaveToday = () => {
 
   const cardNameStyle = {
     fontSize: '22px',
+  };
+
+  const cardPositionStyle = {
+    fontSize: '16px',
+    color: '#888888',
   };
 
   return (
@@ -66,6 +71,7 @@ const LeaveToday = () => {
                 <span style={leaveSymbolStyle}>&#10004;</span>
                 <h3 style={cardTitleStyle}>On Leave Today</h3>
                 <h2 style={cardNameStyle}>{employee.name}</h2>
+                <p style={cardPositionStyle}>{employee.position}</p>
               </div>
             </Card>
           ))}
