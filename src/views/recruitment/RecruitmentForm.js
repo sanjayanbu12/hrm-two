@@ -7,7 +7,6 @@ import validationSchema from '../recruitment/RecruitmentValidation';
 import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
-import TableRowsIcon from '@mui/icons-material/TableRows';
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -549,7 +548,7 @@ const RecruitmentForm = () => {
                   boxShadow: 'none',
                   borderRadius: 2,
                   padding: 1.5,
-                }}><TableRowsIcon/></Button>
+                }}>Table</Button>
         </Box>
       </form>
     </MainCard>

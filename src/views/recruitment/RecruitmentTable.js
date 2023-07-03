@@ -246,43 +246,46 @@ const RecruitmentTable = () => {
             </Box>
             <DialogContent>
               <Typography sx={{ lineHeight: '4', fontSize: '20px' }}>
-                <b> Job Role:</b> {selectedJob.Jobrole}
+                <b> Job Role</b><b style={{marginLeft:'200px',paddingRight:'10px'}}>:</b>{selectedJob.Jobrole}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b>No. of Openings:</b> {selectedJob.Openings}
+                <b>No. of Openings</b><b style={{marginLeft:'178px',paddingRight:'10px'}}>:</b> {selectedJob.Openings}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Company:</b> {selectedJob.Company}
+                <b> Company</b><b style={{marginLeft:'220px',paddingRight:'10px'}}>:</b> {selectedJob.Company}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Location:</b> {selectedJob.Location}
+                <b> Location</b><b style={{marginLeft:'225px',paddingRight:'10px'}}>:</b> {selectedJob.Location}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Worktype:</b> {selectedJob.Worktype}
+                <b> Worktype</b><b style={{marginLeft:'221px',paddingRight:'10px'}}>:</b> {selectedJob.Worktype}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Qualification:</b> {selectedJob.Education}
+                <b> Qualification</b><b style={{marginLeft:'200px',paddingRight:'10px'}}>:</b> {selectedJob.Education}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Experience:</b> {selectedJob.Experience} Years
+                <b> Year of Passing</b><b style={{marginLeft:'180px',paddingRight:'10px'}}>:</b> {!selectedJob.Year? <span>Not Mentioned </span>:selectedJob.Year}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Requirements:</b> {selectedJob.Requirements}
+                <b> Experience</b><b style={{marginLeft:'211px',paddingRight:'10px'}}>:</b> {selectedJob.Experience} Years
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Description:</b> {selectedJob.Description}
+                <b> Requirements</b><b style={{marginLeft:'193px',paddingRight:'10px'}}>:</b> {selectedJob.Requirements}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Last Date to Apply:</b> {selectedJob.Deadline}
+                <b> Description</b><b style={{marginLeft:'210px',paddingRight:'10px'}}>:</b> {selectedJob.Description}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Application Count:</b>
+                <b> Last Date to Apply</b><b style={{marginLeft:'168px',paddingRight:'10px'}}>:</b> {selectedJob.Deadline}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Selected:</b>
+                <b> Application Count</b><b style={{marginLeft:'170px',paddingRight:'10px'}}>:</b>
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b>Remaining:</b>
+                <b> Selected</b><b style={{marginLeft:'228px',paddingRight:'10px'}}>:</b>
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b>Remaining</b><b style={{marginLeft:'215px',paddingRight:'10px'}}>:</b>
               </Typography>
             </DialogContent>
           </>

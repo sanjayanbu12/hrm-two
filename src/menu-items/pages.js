@@ -36,16 +36,22 @@ const pages = {
       icon: icons.AccountTreeOutlinedIcon,
       children: [
         {
+          id: 'recruitmentform',
+          title: 'Recruitment Form',
+          type: 'item',
+          url: '/recruitmentform'
+        },
+        {
           id: 'recruitmenttable',
           title: 'Recruitment Table',
           type: 'item',
           url: '/recruitmenttable'
         },
         {
-          id: 'recruitmentform',
-          title: 'Recruitment Form',
+          id: 'applicationtracker',
+          title: 'Application Tracker',
           type: 'item',
-          url: '/recruitmentform'
+          url: '/applicationtracker'
         }
       ]
     },

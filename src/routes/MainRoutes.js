@@ -14,6 +14,7 @@ import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
 import RecruitmentTable from 'views/recruitment/RecruitmentTable';
+import ApplicationTracker from 'views/recruitment/ApplicationTracker';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -40,6 +41,10 @@ const MainRoutes = {
     {
       path: '/recruitment',
       element: <Recruitment />
+    },
+    {
+      path: '/applicationtracker',
+      element: <ApplicationTracker />
     },
     {
       path: '/leavetrackerform',
