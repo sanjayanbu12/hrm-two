@@ -7,8 +7,6 @@ import { Button,Stack} from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import MainCard from 'ui-component/cards/MainCard';
 
-
-
 const Viewdetails = () => {
   const [employeedetails, setEmployeeDetails] = useState();
   const { employeeid } = useParams();
@@ -25,7 +23,7 @@ const Viewdetails = () => {
       console.log(error)
     }
   }
-
+  
 
   const navigate=useNavigate()
   const Edit = (id) => {
@@ -72,22 +70,34 @@ const Viewdetails = () => {
 
     {employeedetails && (
       <div>
-        <p><b>Employee ID:</b> {employeedetails.employeeid}</p>
-        <p><b>First Name:</b> {employeedetails.name}</p>
-        <p><b>Last Name:</b> {employeedetails.lastname}</p>
-        <p><b>Gender:</b> {employeedetails.gender}</p>
-        <p><b>Email:</b> {employeedetails.email}</p>
-        <p><b>Date of Birth:</b> {employeedetails.dob}</p>
-        <p><b>Mobile Number:</b> {employeedetails.mob}</p>
-        <p><b>Alternate Mobile Number:</b> {employeedetails.altmob}</p>
-        <p><b>Department:</b> {employeedetails.dept}</p>
-        <p><b>Permanent Address:</b> {employeedetails.peraddress}</p>
-        <p><b>Blood Group:</b> {employeedetails.bloodgroup}</p>
-        <p><b>Joining Date:</b> {employeedetails.join}</p>
-        <p><b>Work Type:</b> {employeedetails.type}</p>
+        <p><b>Employee ID<span style={{  position: 'absolute',left:'490px'}}>:</span></b><span style={{ position: 'absolute', left:'510px' }}>{employeedetails.employeeid}</span></p>
+        <p><b>First Name<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.name}</span></p>
+        <p><b>Last Name<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.lastname}</span></p>
+        <p><b>Gender<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.gender}</span></p>
+        <p><b>Email<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.email}</span></p>
+        <p><b>Date of Birth<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.dob}</span></p>
+        <p><b>Mobile Number<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.mob}</span></p>
+        <p><b>Alternate Mobile Number<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.altmob}</span></p>
+        <p><b>Department<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.dept}</span></p>
+
+        <p><b>Permanent Address<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.peraddress}</span></p>
+       
+        <p><b>Blood Group<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.bloodgroup}</span></p>
+
+        <p><b>Joining Date<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.join}</span></p>
+
+        <p><b>Work Type<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.type}</span></p>
 
 
-<div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+<div style={{
+    position: 'fixed',
+    bottom: 30,
+    right: 50,
+    zIndex: 9999,
+    display: 'flex',
+    justifyContent: 'flex-end',
+  }}
+>
         <Button
         sx={{
           color: '#5e35b1',
