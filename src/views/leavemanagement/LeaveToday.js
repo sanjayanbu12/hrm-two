@@ -31,11 +31,10 @@ const LeaveToday = () => {
     flexDirection: 'column',
     alignItems: 'center',
   };
-
   const leaveSymbolStyle = {
     fontSize: '40px',
     marginTop: '10px',
-    color: 'purple', // or 'violet'
+    color: 'rgba(103, 58, 183, 0.85)', // Set the tick color here
   };
   
   const cardTitleStyle = {
