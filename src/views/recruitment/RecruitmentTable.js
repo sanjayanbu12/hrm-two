@@ -264,6 +264,9 @@ const RecruitmentTable = () => {
                 <b> Qualification:</b> {selectedJob.Education}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Year of Passing:</b> {selectedJob.Year}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> Experience:</b> {selectedJob.Experience} Years
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
