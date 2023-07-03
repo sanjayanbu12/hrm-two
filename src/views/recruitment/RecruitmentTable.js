@@ -165,7 +165,7 @@ const RecruitmentTable = () => {
                     </TableHead>
                     <TableBody>
                       {RecruitmentList.length > 0 && filteredjob.length > 0 ? (
-                        RecruitmentList.map &&
+                        RecruitmentList.map && 
                         filteredjob.map((x) => (
                           <TableRow key={x._id}>
                             <TableCell>{x.Jobrole}</TableCell>
@@ -179,7 +179,7 @@ const RecruitmentTable = () => {
                               onClick={() => {
                                 handleView(x._id);
                               }}
-                              sx={{ '&:hover': { cursor: 'pointer' }, alignItems: 'center' }}
+                              sx={{ '&:hover': { cursor: 'pointer' }, alignItems: 'left' }}
                             >
                               <Button>
                                 <VisibilityIcon />
