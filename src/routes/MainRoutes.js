@@ -8,7 +8,7 @@ import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/RecruitmentTable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
-import LeaveToday from 'views/leavemanagement/LeaveToday';
+import ApproveLeave from 'views/leavemanagement/ApproveLeave';
 import Performance from 'views/performance/Performance';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
@@ -57,10 +57,10 @@ const MainRoutes = {
       path: '/leavetrackerlist',
       element: <LeaveTrackerList />
     },
-    {
-      path: '/leavetoday',
-      element: <LeaveToday />
-    },
+    // {
+    //   path: '/leavetoday',
+    //   element: <LeaveToday />
+    // },
     {
       path: '/attendanceManagement',
       element: <AttendanceSystem/>

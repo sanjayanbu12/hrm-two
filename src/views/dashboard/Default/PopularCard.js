@@ -47,6 +47,7 @@
 // };
 
 // export default PopularCard;
+
 import { CardContent, Grid, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
@@ -137,7 +138,7 @@ const PopularCard = ({ isLoading }) => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <h2>Leave Today</h2>
+                <h3>Leave Today</h3>
               </Grid>
               {leaveData.length === 0 ? (
                 <Grid item xs={12}>
