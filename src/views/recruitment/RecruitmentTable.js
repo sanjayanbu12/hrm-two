@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import MainCard from 'ui-component/cards/MainCard';
+import React, { useState, useEffect } from 'react'
+import MainCard from 'ui-component/cards/MainCard'
 import {
   Table,
   TableCell,
@@ -17,64 +17,65 @@ import {
   DialogContent,
   Typography,
   TextField,
-  InputAdornment
-} from '@mui/material';
-import axios from 'axios';
-import AddIcon from '@mui/icons-material/Add';
-import { useTheme } from '@mui/material/styles';
-import { useNavigate } from 'react-router';
-import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid';
-import Swal from 'sweetalert2';
-import { Edit } from '@mui/icons-material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+  InputAdornment,
+  Tooltip
+} from '@mui/material'
+import axios from 'axios'
+import AddIcon from '@mui/icons-material/Add'
+import { useTheme } from '@mui/material/styles'
+import { useNavigate } from 'react-router'
+import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid'
+import Swal from 'sweetalert2'
+import { Edit } from '@mui/icons-material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
 // import { fontSize } from '@mui/system';
 // import { useParams } from 'react-router-dom';
 
 const RecruitmentTable = () => {
-  const [RecruitmentList, setRecruitmentList] = useState([]);
-  const [Loader, setLoader] = useState(true);
-  const [open, setOpen] = useState(false);
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [Search, setSearch] = useState('');
-  const theme = useTheme();
-  const navigate = useNavigate();
+  const [RecruitmentList, setRecruitmentList] = useState([])
+  const [Loader, setLoader] = useState(true)
+  const [open, setOpen] = useState(false)
+  const [selectedJob, setSelectedJob] = useState(null)
+  const [Search, setSearch] = useState('')
+  const theme = useTheme()
+  const navigate = useNavigate()
 
   useEffect(() => {
-    fetchdata();
-  }, []);
+    fetchdata()
+  }, [])
   const fetchdata = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
-      const newData = response.data.getData;
-      setRecruitmentList(newData);
-      setLoader(false);
-      console.log(newData + ' this is the new data');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec')
+      const newData = response.data.getData
+      setRecruitmentList(newData)
+      setLoader(false)
+      console.log(newData + ' this is the new data')
     } catch (error) {
-      console.log('Error retrieving user data:', error);
+      console.log('Error retrieving user data:', error)
     }
-  };
-  const handleView = (id) => {
-    const job = RecruitmentList.find((item) => item._id === id);
-    setSelectedJob(job);
-    setOpen(true);
-  };
+  }
+  const handleView = id => {
+    const job = RecruitmentList.find(item => item._id === id)
+    setSelectedJob(job)
+    setOpen(true)
+  }
   const handleClose = () => {
-    setOpen(false);
-    setSelectedJob(null);
-  };
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
-  };
+    setOpen(false)
+    setSelectedJob(null)
+  }
+  const handleSearch = e => {
+    setSearch(e.target.value)
+  }
 
-  const filteredjob = RecruitmentList.filter((job) => {
-    const lowersearchText = Search.toLowerCase();
-    return Object.values(job).some((value) => value && value.toString().toLowerCase().includes(lowersearchText));
-  });
-  const handleEdit = (id) => {
-    navigate(`/recruitmentform/${id}`);
-  };
-  const handleDelete = (id) => {
-    handleClose();
+  const filteredjob = RecruitmentList.filter(job => {
+    const lowersearchText = Search.toLowerCase()
+    return Object.values(job).some(value => value && value.toString().toLowerCase().includes(lowersearchText))
+  })
+  const handleEdit = id => {
+    navigate(`/recruitmentform/${id}`)
+  }
+  const handleDelete = id => {
+    handleClose()
     Swal.fire({
       icon: 'warning',
       text: 'Are you sure you want to delete this recruitment?',
@@ -83,27 +84,27 @@ const RecruitmentTable = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel'
-    }).then(async (result) => {
+    }).then(async result => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
-          await fetchdata();
-          handleClose();
-          navigate('/Recruitmenttable');
+          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
+          await fetchdata()
+          handleClose()
+          navigate('/Recruitmenttable')
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
-          });
+          })
         } catch (error) {
-          console.log('Error deleting recruitment:', error);
+          console.log('Error deleting recruitment:', error)
         }
       }
-    });
-  };
+    })
+  }
   return (
-    <MainCard title="Recruitment Table">
+    <MainCard title='Recruitment Table'>
       {Loader ? (
-        <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
           <CircularProgress />
         </Box>
       ) : (
@@ -111,23 +112,24 @@ const RecruitmentTable = () => {
           <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: '700px', mb: 2, display: 'flex' }}>
             <TextField
               sx={{ width: '300px' }}
-              label="Search"
-              variant="outlined"
-              color="info"
+              label='Search'
+              variant='outlined'
+              color='info'
               value={Search}
               onChange={handleSearch}
-              size="small"
+              size='small'
+             
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position="end">
-                    <GridSearchIcon color="primary" />
+                  <InputAdornment position='end'>
+                 <GridSearchIcon color='primary' />
                   </InputAdornment>
                 )
               }}
             />
             <Button
               onClick={() => {
-                navigate('/recruitmentform');
+                navigate('/recruitmentform')
               }}
               sx={{
                 width: '300px',
@@ -166,7 +168,7 @@ const RecruitmentTable = () => {
                     <TableBody>
                       {RecruitmentList.length > 0 && filteredjob.length > 0 ? (
                         RecruitmentList.map &&
-                        filteredjob.map((x) => (
+                        filteredjob.map(x => (
                           <TableRow key={x._id}>
                             <TableCell>{x.Jobrole}</TableCell>
                             <TableCell>{x.Openings}</TableCell>
@@ -177,19 +179,21 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Deadline}</TableCell>
                             <TableCell
                               onClick={() => {
-                                handleView(x._id);
+                                handleView(x._id)
                               }}
-                              sx={{ '&:hover': { cursor: 'pointer' }, alignItems: 'left' }}
+                              sx={{ '&:hover': { cursor: 'pointer' } }}
                             >
                               <Button>
-                                <VisibilityIcon />
+                                <Tooltip title='Click to View'>
+                                  <VisibilityIcon />
+                                </Tooltip>
                               </Button>
                             </TableCell>
                           </TableRow>
                         ))
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={8} align="center">
+                          <TableCell colSpan={8} align='center'>
                             No data found
                           </TableCell>
                         </TableRow>
@@ -206,11 +210,11 @@ const RecruitmentTable = () => {
       )}
 
       {/* Dialog Box */}
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+      <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
         {selectedJob && (
           <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
-              <DialogTitle variant="h2">RecruitmentForm Details</DialogTitle>
+              <DialogTitle variant='h2'>RecruitmentForm Details</DialogTitle>
               <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '5px', marginRight: '35px' }}>
                 <Button
                   onClick={() => handleEdit(selectedJob._id)}
@@ -250,56 +254,56 @@ const RecruitmentTable = () => {
                 <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>
                 {selectedJob.Jobrole}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b>No. of Openings</b>
                 <b style={{ marginLeft: '178px', paddingRight: '10px' }}>:</b> {selectedJob.Openings}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Company</b>
                 <b style={{ marginLeft: '220px', paddingRight: '10px' }}>:</b> {selectedJob.Company}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Location</b>
                 <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Location}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Worktype</b>
                 <b style={{ marginLeft: '221px', paddingRight: '10px' }}>:</b> {selectedJob.Worktype}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Qualification</b>
                 <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Year of Passing</b>
                 <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b>{' '}
                 {!selectedJob.Year ? <span>Not Mentioned </span> : selectedJob.Year}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Experience</b>
                 <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.Experience} Years
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Requirements</b>
                 <b style={{ marginLeft: '193px', paddingRight: '10px' }}>:</b> {selectedJob.Requirements}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Description</b>
                 <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b> {selectedJob.Description}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Last Date to Apply</b>
                 <b style={{ marginLeft: '168px', paddingRight: '10px' }}>:</b> {selectedJob.Deadline}
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Application Count</b>
                 <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b>
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Selected</b>
                 <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b>
               </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b>Remaining</b>
                 <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b>
               </Typography>
@@ -308,7 +312,7 @@ const RecruitmentTable = () => {
         )}
       </Dialog>
     </MainCard>
-  );
-};
+  )
+}
 
-export default RecruitmentTable;
+export default RecruitmentTable
