@@ -542,13 +542,19 @@ const RecruitmentForm = () => {
                 onClick={(e) => finalSubmit(e)}
               >
                 {id ? 'Update' : 'Save'}
-              </Button> <Button variant='contained' onClick={()=>{navigate('/recruitmenttable')}}
+              </Button> <Button onClick={()=>{navigate('/recruitmenttable')}}
                 sx={{
                   align: 'center',
                   boxShadow: 'none',
                   borderRadius: 2,
                   padding: 1.5,
-                }}>Table</Button>
+                  background:'#673ab7',
+                  color:'#f5f5f5',
+                  '&:hover': {
+                     background:'#673ab7',
+                  color:'#f5f5f5'
+                  }
+                }}>Back</Button>
         </Box>
       </form>
     </MainCard>

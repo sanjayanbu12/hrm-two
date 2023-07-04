@@ -18,7 +18,7 @@ import {
   Typography,
   TextField,
   InputAdornment,
-  Tooltip
+  Tooltip,
 } from '@mui/material'
 import axios from 'axios'
 import AddIcon from '@mui/icons-material/Add'
@@ -140,7 +140,7 @@ const RecruitmentTable = () => {
                 color: '#efebe9',
                 '&:hover': {
                   color: theme.palette.secondary.light,
-                  background: 'green'
+                  background: '#673ab7'
                 }
               }}
             >
@@ -215,7 +215,7 @@ const RecruitmentTable = () => {
           <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
               <DialogTitle variant='h2'>RecruitmentForm Details</DialogTitle>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '5px', marginRight: '35px' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '5px', marginRight: '15px' }}>
                 <Button
                   onClick={() => handleEdit(selectedJob._id)}
                   endIcon={<Edit />}
@@ -224,8 +224,7 @@ const RecruitmentTable = () => {
                     color: '#6a1b9a',
                     background: '#e1bee7',
                     '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#6200ea'
+                      background: '#e1bee7'
                     }
                   }}
                 >
@@ -236,11 +235,10 @@ const RecruitmentTable = () => {
                   startIcon={<GridDeleteIcon />}
                   sx={{
                     height: '40px',
-                    color: '#f5f5f5',
-                    background: '#6a1b9a',
+                    color: '#6a1b9a',
+                    background: '#e1bee7',
                     '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#d50000'
+                      background: '#e1bee7'
                     }
                   }}
                 >
