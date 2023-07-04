@@ -523,11 +523,14 @@ const RecruitmentForm = () => {
 </Grid>
           </Grid>
         </Box>
-        <Box sx={{ display:'flex' ,justifyContent:'center',gap:'800px'}}>
+        <Box sx={{ display:'flex' ,justifyContent:'center',gap:'850px',marginTop:'20px'}}>
          
               <Button
                 variant="contained"
+                size='small'
                 sx={{
+                  height:'3px',
+                  weight:'3px',
                   align: 'center',
                   boxShadow: 'none',
                   borderRadius: 2,
@@ -542,8 +545,10 @@ const RecruitmentForm = () => {
                 onClick={(e) => finalSubmit(e)}
               >
                 {id ? 'Update' : 'Save'}
-              </Button> <Button onClick={()=>{navigate('/recruitmenttable')}}
+              </Button> <Button  size='small'onClick={()=>{navigate('/recruitmenttable')}}
                 sx={{
+                  height:'3px',
+                  weight:'3px',
                   align: 'center',
                   boxShadow: 'none',
                   borderRadius: 2,
