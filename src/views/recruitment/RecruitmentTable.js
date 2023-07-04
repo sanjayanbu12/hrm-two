@@ -174,13 +174,13 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{x.Deadline}</TableCell>
-                         <TableCell align="left" >
+                         <TableCell align="left"  sx={{ '&:hover': { cursor: 'pointer' } }}>
                            <Box sx={{display:'flex',justifyContent:'center',gap:'15px'}}>
                                 <Tooltip title='Click to View'>
                                   <VisibilityIcon fontSize='small' onClick={() => {
                                 handleView(x._id)
                               }}
-                              sx={{ '&:hover': { cursor: 'pointer' } }}color='success'/>
+                             color='success'/>
                                 </Tooltip>
                                <Tooltip title='Edit'><Edit fontSize='small' color="primary" onClick={()=>handleEdit(x._id)}/></Tooltip>
                                <Tooltip title='Delete'><GridDeleteIcon fontSize='small' onClick={()=>handleDelete(x._id)} color='error'/></Tooltip>
