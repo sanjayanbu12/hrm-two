@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import MainCard from 'ui-component/cards/MainCard'
 import {
   Table,
@@ -28,9 +29,6 @@ import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid'
 import Swal from 'sweetalert2'
 import { Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-// import { fontSize } from '@mui/system';
-// import { useParams } from 'react-router-dom';
-
 const RecruitmentTable = () => {
   const [RecruitmentList, setRecruitmentList] = useState([])
   const [Loader, setLoader] = useState(true)
@@ -61,7 +59,6 @@ const RecruitmentTable = () => {
   }
   const handleClose = () => {
     setOpen(false)
-    setSelectedJob(null)
   }
   const handleSearch = e => {
     setSearch(e.target.value)
@@ -90,7 +87,7 @@ const RecruitmentTable = () => {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
           await fetchdata()
           handleClose()
-          navigate('/Recruitmenttable')
+         
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
@@ -162,7 +159,7 @@ const RecruitmentTable = () => {
                         <TableCell>Worktype</TableCell>
                         <TableCell>Location</TableCell>
                         <TableCell>Deadline</TableCell>
-                        <TableCell>Action</TableCell>
+                        <TableCell align='center'>Action</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -177,18 +174,17 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{x.Deadline}</TableCell>
-                            <TableCell
-                              onClick={() => {
+                         <TableCell align="left" >
+                           <Box sx={{display:'flex',justifyContent:'center',gap:'15px'}}>
+                                <Tooltip title='Click to View'>
+                                  <VisibilityIcon fontSize='small' onClick={() => {
                                 handleView(x._id)
                               }}
-                              sx={{ '&:hover': { cursor: 'pointer' } }}
-                            >
-                              <Button>
-                                <Tooltip title='Click to View'>
-                                  <VisibilityIcon />
+                              sx={{ '&:hover': { cursor: 'pointer' } }}color='success'/>
                                 </Tooltip>
-                              </Button>
-                            </TableCell>
+                               <Tooltip title='Edit'><Edit fontSize='small' color="primary" onClick={()=>handleEdit(x._id)}/></Tooltip>
+                               <Tooltip title='Delete'><GridDeleteIcon fontSize='small' onClick={()=>handleDelete(x._id)} color='error'/></Tooltip>
+                               </Box> </TableCell>
                           </TableRow>
                         ))
                       ) : (
@@ -215,36 +211,6 @@ const RecruitmentTable = () => {
           <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
               <DialogTitle variant='h2'>RecruitmentForm Details</DialogTitle>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: '15px', marginTop: '5px', marginRight: '15px' }}>
-                <Button
-                  onClick={() => handleEdit(selectedJob._id)}
-                  endIcon={<Edit />}
-                  sx={{
-                    height: '40px',
-                    color: '#6a1b9a',
-                    background: '#e1bee7',
-                    '&:hover': {
-                      background: '#e1bee7'
-                    }
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  onClick={() => handleDelete(selectedJob._id)}
-                  startIcon={<GridDeleteIcon />}
-                  sx={{
-                    height: '40px',
-                    color: '#6a1b9a',
-                    background: '#e1bee7',
-                    '&:hover': {
-                      background: '#e1bee7'
-                    }
-                  }}
-                >
-                  Delete
-                </Button>
-              </Box>
             </Box>
             <DialogContent>
               <Typography sx={{ lineHeight: '4', fontSize: '20px' }}>
