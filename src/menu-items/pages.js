@@ -4,6 +4,7 @@ import BadgeOutlinedIcon from '@mui/icons-material/BadgeOutlined';
 import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
+import EventNoteIcon from '@mui/icons-material/EventNote';
 
 // constant
 const icons = {
@@ -11,23 +12,18 @@ const icons = {
   BadgeOutlinedIcon,
   AssignmentOutlinedIcon,
   PermIdentityOutlinedIcon,
-  AccountTreeOutlinedIcon
+  AccountTreeOutlinedIcon,
+  EventNoteIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
-  // id: '',
-  // title: '',
-  // caption: '',
+ 
+
   type: 'group',
   children: [
-    // {
-    //   id: 'authentication',
-    //   title: 'Authentication',
-    //   type: 'collapse',
-    //   icon: icons.IconKey
-    // },
+   
     {
       id: 'recruitment',
       title: 'Recruitment',
@@ -56,63 +52,6 @@ const pages = {
       ]
     },
 
-    //   children: [
-    //     {
-    //       id: 'sampleslist',
-    //       title: 'Sample List',
-    //       type: 'item',
-    //       url: '/samplelist'
-
-    //     {
-    //       id: 'newsample',
-    //       title: 'Add Sample',
-    //       type: 'item',
-    //       url: '/newsample'
-    //     }
-    //   ]
-    // },
-    //    {
-    //       id: 'projects',
-    //       title: 'Projects',
-    //       type: 'collapse',
-    //       icon: icons.AccountTreeOutlinedIcon,
-    // },
-
-    //   children: [
-    //     {
-    //       id: 'projectlist',
-    //       title: 'Project List',
-    //       type: 'item',
-    //       url: '/projectlist'
-    //     },
-    //     {
-    //       id: 'newproject',
-    //       title: 'Add Project',
-    //       type: 'item',
-    //       url: '/newproject'
-    //     }
-    //   ]
-    // {
-    //   id: 'tasks',
-    //   title: 'Tasks',
-    //   type: 'collapse',
-    //   icon: icons.AssignmentOutlinedIcon,
-
-    //   children: [
-    //     {
-    //       id: 'tasklist',
-    //       title: 'Task List',
-    //       type: 'item',
-    //       url: '/tasklist'
-    //     },
-    //     {
-    //       id: 'addtask',
-    //       title: 'Add Task',
-    //       type: 'item',
-    //       url: '/addtask'
-    //     }
-    //   ]
-    // },
     {
       id: 'employees',
       title: 'Employees',
@@ -120,12 +59,7 @@ const pages = {
       icon: icons.BadgeOutlinedIcon,
 
       children: [
-        // {
-        //   id: 'newemployee',
-        //   title: 'Employee Self Services',
-        //   type: 'item',
-        //   url: '/newemployee'
-        // },
+      
         {
           id: 'employeelist',
           title: 'Employee Information Management',
@@ -165,12 +99,22 @@ const pages = {
           type: 'item',
           url: '/attendancetracker'
         },
-        // {
-        //   id: 'wfhtracker',
-        //   title: 'WFH Tracker',
-        //   type: 'item',
-        //   url: '/wfhtracker'
-        // }
+       
+      ]
+    },
+    {
+      id: 'Attendance Management',
+      title: 'Attendance Management',
+      type: 'collapse',
+      icon: icons.EventNoteIcon,
+
+      children: [
+        {
+          id: 'Attendance Regulation',
+          title: 'Attendance Regulation',
+          type: 'item',
+          url: '/attendanceManagement'
+        },
       ]
     },
     {

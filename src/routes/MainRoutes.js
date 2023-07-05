@@ -15,6 +15,8 @@ import Viewdetails from 'views/addemployeetable/Viewdetails';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
 import RecruitmentTable from 'views/recruitment/RecruitmentTable';
 import ApplicationTracker from 'views/recruitment/ApplicationTracker';
+import AttendanceSystem from 'views/attendanceManagement/AttendanceSystem';
+
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -59,13 +61,14 @@ const MainRoutes = {
       element: <AttendanceTracker />
     },
     {
+      path: '/attendanceManagement',
+      element: <AttendanceSystem/>
+    },
+    {
       path: '/performance',
       element: <Performance />
     },
-    // {
-    //   path: '/wfhtracker',
-    //   element: <WfhTracker />
-    // },
+   
     {
       path: '/Recruitmenttable',
       element: <RecruitmentTable />
@@ -78,29 +81,7 @@ const MainRoutes = {
       path: '/Recruitmentform',
       element: <RecruitmentForm />
     },
-    // {
-    //   path: '/projectlist',
-    //   element: <ProjectList />
-    // },
-    // {
-    //   path: "/newproject",
-    //   element: <AddProject />
-    // },
-    // {
-    //   path: "/editproject/:id",
-    //   element: <AddProject />
-    // },
-    // {
-    //   path: "/projectdetails/:id",
-    //   element: <Projectdetails />
-    // },
-    // {
-    //   path: '/UserList',
-    //   element: <UserList />
-    // },
-    // {
-    //   path: '/userform/:id',
-    //   element: <UserForm />},
+
     {
       path: '/Addemployeetable',
       element: <Addemployeetable />
