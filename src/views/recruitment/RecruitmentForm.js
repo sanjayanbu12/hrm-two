@@ -1,5 +1,5 @@
 import MainCard from 'ui-component/cards/MainCard';
-import { Grid, TextField, Box, Button, MenuItem, Select, FormControl, InputLabel, InputAdornment, FormHelperText } from '@mui/material';
+import { Grid, TextField, Box, Button, MenuItem, Select, FormControl, InputLabel, InputAdornment, FormHelperText, Tooltip } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -7,6 +7,7 @@ import validationSchema from '../recruitment/RecruitmentValidation';
 import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -559,7 +560,7 @@ const RecruitmentForm = () => {
                      background:'#673ab7',
                   color:'#f5f5f5'
                   }
-                }}>Back</Button>
+                }}><Tooltip title="view table"><WysiwygIcon /></Tooltip></Button>
         </Box>
       </form>
     </MainCard>
