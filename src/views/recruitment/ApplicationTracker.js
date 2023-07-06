@@ -1,28 +1,39 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
-import axios from 'axios'
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import MainCard from 'ui-component/cards/MainCard'
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, MenuItem, Select } from '@mui/material';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import MainCard from 'ui-component/cards/MainCard';
+import DoneIcon from '@mui/icons-material/Done';
+import PauseIcon from '@mui/icons-material/Pause';
+import CloseIcon from '@mui/icons-material/Close';
 
 const ApplicationTracker = () => {
-  const [Data, setData] = useState([])
+  const [Data, setData] = useState([]);
 
   useEffect(() => {
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
   const fetchData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
-      const newData =response.data.getData
+      const newData = response.data.getData;
       setData(newData);
-      console.log(Data)
       console.log(newData, ' this is the new data');
     } catch (error) {
       console.log('Error retrieving user data:', error);
     }
-  };  
+  };
+
+  const handleStatusChange = (event, id) => {
+    const updatedData = Data.map((item) => {
+      if (item._id === id) {
+        return { ...item, status: event.target.value };
+      }
+      return item;
+    });
+    setData(updatedData);
+  };
+
   return (
     <MainCard title='Application Tracker'>
       <TableContainer component={Paper}>
@@ -39,21 +50,39 @@ const ApplicationTracker = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Data.map(x => (
+            {Data.map((x) => (
               <TableRow key={x._id}>
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
-                <TableCell>-</TableCell>
-                <TableCell>-</TableCell>
+                <TableCell>
+                  {x.photo && <img src={x.photo} alt=".jpeg" style={{ width: '100px' }} />}
+                </TableCell>
+                <TableCell>
+                  {x.resume && (
+                    <a href={x.resume} target="_blank" rel="noopener noreferrer">
+                      View Resume
+                    </a>
+                  )}
+                </TableCell>
                 <TableCell>{x.phone}</TableCell>
                 <TableCell>{x.email}</TableCell>
-                <TableCell>-</TableCell>
+                <TableCell>
+                  <Select 
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Status" sx={{width:"80px",height:'30px',alignItems:'center'}}value={x.status || ''} onChange={(event) => handleStatusChange(event, x._id)}>
+                    <MenuItem value="Select"><DoneIcon color='success'/> </MenuItem>
+                    <MenuItem value="Hold">< PauseIcon color='primary'/></MenuItem>
+                    <MenuItem value="Reject"><CloseIcon color='error'/></MenuItem>
+                  </Select>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
     </MainCard>
-  )
-}
-export default ApplicationTracker
+  );
+};
+
+export default ApplicationTracker;
