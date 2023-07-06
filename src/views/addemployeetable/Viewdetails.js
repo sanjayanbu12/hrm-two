@@ -30,6 +30,23 @@ const Viewdetails = () => {
     navigate(`/newemployee/${id}`);
   };
 
+  const formatteddob = employeedetails?.dob
+  ? new Date(employeedetails.dob).toLocaleString(undefined, {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    })
+  : '';
+  const formattedjoin = employeedetails?.join
+  ? new Date(employeedetails.join).toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    
+})
+:'';
+
+
   const back = () => {
     navigate(`/Addemployeetable`);
   };
@@ -75,7 +92,7 @@ const Viewdetails = () => {
         <p><b>Last Name<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.lastname}</span></p>
         <p><b>Gender<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.gender}</span></p>
         <p><b>Email<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.email}</span></p>
-        <p><b>Date of Birth<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.dob}</span></p>
+        <p><b>Date of Birth<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{formatteddob}</span></p>
         <p><b>Mobile Number<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.mob}</span></p>
         <p><b>Alternate Mobile Number<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.altmob}</span></p>
         <p><b>Department<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.dept}</span></p>
@@ -84,7 +101,7 @@ const Viewdetails = () => {
        
         <p><b>Blood Group<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.bloodgroup}</span></p>
 
-        <p><b>Joining Date<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.join}</span></p>
+        <p><b>Joining Date<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{formattedjoin}</span></p>
 
         <p><b>Work Type<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.type}</span></p>
 

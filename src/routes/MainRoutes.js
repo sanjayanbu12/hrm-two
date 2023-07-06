@@ -17,6 +17,7 @@ import RecruitmentTable from 'views/recruitment/RecruitmentTable';
 import ApplicationTracker from 'views/recruitment/ApplicationTracker';
 import AttendanceSystem from 'views/attendanceManagement/AttendanceSystem';
 
+import Newevent from 'views/dashboard/Default/Newevent';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -102,6 +103,10 @@ const MainRoutes = {
     {
       path: '/viewdetails/:employeeid',
       element: <Viewdetails />
+    },
+    {
+      path: '/newevent',
+      element: <Newevent />
     }
   ]
 };

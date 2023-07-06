@@ -1,7 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router';
 import MainCard from 'ui-component/cards/MainCard';
-import { CardContent, Grid, Typography } from '@mui/material';
+import { CardContent, Grid, Typography,Button,Box } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
+import { useTheme } from '@mui/material/styles';
+import AddIcon from '@mui/icons-material/Add';
 
 const Upcomingevents = () => {
   const upcomingEvents = [
@@ -13,6 +16,9 @@ const Upcomingevents = () => {
   ];
   const isLoading = false;
 
+  const theme = useTheme();
+  const navigate = useNavigate();
+
   return (
     <>
       {isLoading ? (
@@ -21,11 +27,34 @@ const Upcomingevents = () => {
         </MainCard>
       ) : (
         <MainCard content={false}>
+
           <CardContent>
-            <Typography variant="h4" style={{ marginBottom: '30px' }}>
+            <Typography variant="h4" style={{ marginBottom: '20px' }}>
               Upcoming Events
             </Typography>
-            <Grid container spacing={2} style={{ gap: '20px' }}>
+           <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+    <Button
+      onClick={() => navigate(`/newevent`)}
+      sx={{
+        padding: 1.5,
+        background: 'rgba(33, 150, 243, 0.04)',
+        color: theme.palette.secondary.dark,
+        '&:hover': {
+          color: theme.palette.secondary.dark,
+        },
+        top:'-30px',
+        right:'10px',
+      }}
+      
+    >
+      <AddIcon />
+      New Event
+    </Button>
+ </Box>
+ 
+
+            
+            <Grid container spacing={2} style={{ gap: '30px' }}>
               {upcomingEvents.map((event, index) => {
                 const eventDate = new Date(event.date);
                 const month = eventDate.toLocaleString('en-US', { month: 'long' });
