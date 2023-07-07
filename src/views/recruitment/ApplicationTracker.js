@@ -1,10 +1,7 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, MenuItem, Select } from '@mui/material';
+import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import DoneIcon from '@mui/icons-material/Done';
-import PauseIcon from '@mui/icons-material/Pause';
-import CloseIcon from '@mui/icons-material/Close';
 
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
@@ -29,17 +26,6 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handleStatusChange =  (e, id) => {
-    const updatedData = Data.map((item) => {
-      if (item._id === id) {
-        return { ...item, status: e.target.value };
-      }
-      return item;
-    });
-    setData(updatedData);
-    // await axios.post(`https://hrm-backend-square.onrender.com/ats/${}`)
-  };
-
   return (
     <MainCard title='Application Tracker'>
       <TableContainer component={Paper}>
@@ -52,7 +38,6 @@ const ApplicationTracker = () => {
               <TableCell>Resume</TableCell>
               <TableCell>Mobile No</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -78,23 +63,6 @@ const ApplicationTracker = () => {
                 </TableCell>
                 <TableCell>{x.phone}</TableCell>
                 <TableCell>{x.email}</TableCell>
-                <TableCell>
-                  <Select
-                    sx={{ width: '80px', height: '30px', alignItems: 'center' }}
-                    value={x.status || ''}
-                    onChange={(e) => handleStatusChange(e, x._id)}
-                  >
-                    <MenuItem value="Select">
-                      <DoneIcon color="success" />
-                    </MenuItem>
-                    <MenuItem value="Hold">
-                      <PauseIcon color="primary" />
-                    </MenuItem>
-                    <MenuItem value="Reject">
-                      <CloseIcon color="error" />
-                    </MenuItem>
-                  </Select>
-                </TableCell>
               </TableRow>
             ))}
           </TableBody>
