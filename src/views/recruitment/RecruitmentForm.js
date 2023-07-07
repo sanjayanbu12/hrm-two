@@ -304,23 +304,17 @@ const RecruitmentForm = () => {
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Jobrole}>
-                <InputLabel id="demo-simple-select-label">Jobrole</InputLabel>
-                <Select
+              <FormControl sx={{ minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-label"></InputLabel>
+                <TextField
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
                   label="Jobrole"
                   value={Jobrole}
-                  // error={errors && errors.Status}
-                  // helperText={errors && errors.Status}
+                  error={errors && errors.Jobrole}
+                  helperText={errors && errors.Jobrole}
                   onChange={(e) => handleJobrole(e)}
-                >
-                  <MenuItem value="Data Analyst">Data Analyst</MenuItem>
-                  <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="Software Associate">Software Associate</MenuItem>
-                  <MenuItem value="Digital Marketing">Digital Marketing</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.Jobrole}</FormHelperText>
+                />
               </FormControl>
             </Grid>
             <Grid item xs={4}>

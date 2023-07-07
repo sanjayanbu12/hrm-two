@@ -17,10 +17,10 @@ const ApplicationTracker = () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
       const newData = response.data.getData.map((item) => {
-        const photoUrl = `data:image/jpeg;base64,${item.photo.data}`;
-        console.log(photoUrl)
+        // const photoUrl = `data:image/jpeg;base64,${item.photo.data}`;
+        // console.log(photoUrl)
         const resumeUrl = `data:application/pdf;base64,${item.resume.data}`;
-        return { ...item, photoUrl, resumeUrl };
+        return { ...item, resumeUrl };
       });
       setData(newData);
       console.log(newData, ' this is the new data');
@@ -37,7 +37,7 @@ const ApplicationTracker = () => {
       return item;
     });
     setData(updatedData);
-    // await axios.post(`https://hrm-backend-square.onrender.com/ats/${id}`)
+    // await axios.post(`https://hrm-backend-square.onrender.com/ats/${}`)
   };
 
   return (
@@ -61,8 +61,12 @@ const ApplicationTracker = () => {
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
                 <TableCell>
-                  {x.photoUrl && (
-                    <img src={x.photoUrl} alt=" " style={{ width: '100px' }} />
+                  {x.photo && (
+                    <img
+                    src={`data:image/jpeg;base64,${x.photo.data}`}
+                    alt=" "
+                    style={{ width: '100px' }}
+                  />
                   )}
                 </TableCell>
                 <TableCell>
