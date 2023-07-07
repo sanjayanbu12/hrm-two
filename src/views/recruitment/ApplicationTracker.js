@@ -16,7 +16,12 @@ const ApplicationTracker = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
-      const newData = response.data.getData;
+      const newData = response.data.getData.map((item) => {
+        const photoUrl = `data:image/jpeg;base64,${item.photo.data}`;
+        console.log(photoUrl)
+        const resumeUrl = `data:application/pdf;base64,${item.resume.data}`;
+        return { ...item, photoUrl, resumeUrl };
+      });
       setData(newData);
       console.log(newData, ' this is the new data');
     } catch (error) {
@@ -24,7 +29,7 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handleStatusChange = (e, id) => {
+  const handleStatusChange =  (e, id) => {
     const updatedData = Data.map((item) => {
       if (item._id === id) {
         return { ...item, status: e.target.value };
@@ -32,6 +37,7 @@ const ApplicationTracker = () => {
       return item;
     });
     setData(updatedData);
+    // await axios.post(`https://hrm-backend-square.onrender.com/ats/${id}`)
   };
 
   return (
@@ -55,11 +61,13 @@ const ApplicationTracker = () => {
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
                 <TableCell>
-                  {x.photo && <img src={x.photo} alt=".jpeg" style={{ width: '100px' }} />}
+                  {x.photoUrl && (
+                    <img src={x.photoUrl} alt=" " style={{ width: '100px' }} />
+                  )}
                 </TableCell>
                 <TableCell>
-                  {x.resume && (
-                    <a href={x.resume} target="_blank" rel="noopener noreferrer">
+                  {x.resumeUrl && (
+                    <a href={x.resumeUrl} download={`${x.name}-resume.pdf`}>
                       View Resume
                     </a>
                   )}
@@ -67,11 +75,20 @@ const ApplicationTracker = () => {
                 <TableCell>{x.phone}</TableCell>
                 <TableCell>{x.email}</TableCell>
                 <TableCell>
-                  <Select 
-                 sx={{width:"80px",height:'30px',alignItems:'center'}}value={x.status || ''} onChange={(e) => handleStatusChange(e, x._id)}>
-                    <MenuItem value="Select"><DoneIcon color='success'/> </MenuItem>
-                    <MenuItem value="Hold">< PauseIcon color='primary'/></MenuItem>
-                    <MenuItem value="Reject"><CloseIcon color='error'/></MenuItem>
+                  <Select
+                    sx={{ width: '80px', height: '30px', alignItems: 'center' }}
+                    value={x.status || ''}
+                    onChange={(e) => handleStatusChange(e, x._id)}
+                  >
+                    <MenuItem value="Select">
+                      <DoneIcon color="success" />
+                    </MenuItem>
+                    <MenuItem value="Hold">
+                      <PauseIcon color="primary" />
+                    </MenuItem>
+                    <MenuItem value="Reject">
+                      <CloseIcon color="error" />
+                    </MenuItem>
                   </Select>
                 </TableCell>
               </TableRow>
