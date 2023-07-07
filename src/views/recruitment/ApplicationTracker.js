@@ -63,7 +63,7 @@ const ApplicationTracker = () => {
                 <TableCell>
                   {x.photo && (
                     <img
-                    src={`data:image/jpeg;base64,${x.photo.data}`}
+                    src={`data:image/jpeg;base64,${x.photo.data.data}`}
                     alt=" "
                     style={{ width: '100px' }}
                   />
