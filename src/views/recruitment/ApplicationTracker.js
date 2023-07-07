@@ -24,10 +24,10 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handleStatusChange = (event, id) => {
+  const handleStatusChange = (e, id) => {
     const updatedData = Data.map((item) => {
       if (item._id === id) {
-        return { ...item, status: event.target.value };
+        return { ...item, status: e.target.value };
       }
       return item;
     });
@@ -68,7 +68,7 @@ const ApplicationTracker = () => {
                 <TableCell>{x.email}</TableCell>
                 <TableCell>
                   <Select 
-                 sx={{width:"80px",height:'30px',alignItems:'center'}}value={x.status || ''} onChange={(event) => handleStatusChange(event, x._id)}>
+                 sx={{width:"80px",height:'30px',alignItems:'center'}}value={x.status || ''} onChange={(e) => handleStatusChange(e, x._id)}>
                     <MenuItem value="Select"><DoneIcon color='success'/> </MenuItem>
                     <MenuItem value="Hold">< PauseIcon color='primary'/></MenuItem>
                     <MenuItem value="Reject"><CloseIcon color='error'/></MenuItem>
