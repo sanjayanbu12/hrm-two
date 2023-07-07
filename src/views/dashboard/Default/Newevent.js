@@ -81,7 +81,7 @@ function Newevent() {
 
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>New Event</DialogTitle>
-        <DialogContent>
+        <DialogContent sx={{ width: '400px' }}>
       
          <TextField
             autoFocus
@@ -90,7 +90,8 @@ function Newevent() {
             fullWidth
             value={eventTitle}
             onChange={(e) => setEventTitle(e.target.value)}
-            sx={{width:'400px'}}
+            sx={{width:'316px', marginBottom: "16px"}}
+            
           />
 
 
@@ -104,7 +105,7 @@ function Newevent() {
             fullWidth
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
-            sx={{width:'200px'}}
+            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
           />
 
           <TextField
@@ -117,7 +118,7 @@ function Newevent() {
             fullWidth
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
-            sx={{width:'200px'}}
+            sx={{width:'150px', marginBottom: "16px"}}
           />
 
           <TextField
@@ -130,7 +131,7 @@ function Newevent() {
             type="time"
             value={startTime}
             onChange={(e) => setStartTime(e.target.value)}
-            sx={{width:'200px'}}
+            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
           />
 
           <TextField
@@ -143,10 +144,10 @@ function Newevent() {
             type="time"
             value={endTime}
             onChange={(e) => setEndTime(e.target.value)}
-            sx={{width:'200px'}}
+            sx={{width:'150px',marginBottom: "16px",}}
           />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ justifyContent: "center" }}>
           <Button onClick={handleClose}>Cancel</Button>
           <Button onClick={handleCreateEvent}>Create</Button>
         </DialogActions>
