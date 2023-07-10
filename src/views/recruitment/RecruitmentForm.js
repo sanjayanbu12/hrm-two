@@ -31,10 +31,10 @@ const RecruitmentForm = () => {
   const [Experience, setExperience] = useState('')
   const [Deadline, setDeadline] = useState('')
   const [Worktype, setWorktype] = useState('')
-  const [Skills, setSkills] = useState('')
-  const [Education, setEducation] = useState('')
-  const [Location, setLocation] = useState('')
-  const [Year, setYear] = useState('')
+  const [Skills, setSkills] = useState('');
+  const [Education, setEducation] = useState('');
+  const [Location, setLocation] = useState('');
+  const [Year, setYear] = useState('');
   const [errors, setErrors] = useState('')
   const { id } = useParams()
   const navigate = useNavigate()
@@ -240,10 +240,10 @@ const RecruitmentForm = () => {
         setExperience(responseData.Experience)
         setDeadline(responseData.Deadline)
         setWorktype(responseData.Worktype)
-        setSkills(responseData.Skills)
-        setEducation(responseData.Education)
-        setYear(responseData.Year)
-        setLocation(responseData.Location)
+        setSkills(responseData.Skills.join(','));
+        setEducation(responseData.Education.join(','));
+        setYear(responseData.Year);
+        setLocation(responseData.Location);
       })
       .catch(err => {
         console.log(err.message)
@@ -465,7 +465,7 @@ const RecruitmentForm = () => {
                   options={Locations}
                   limitTags={1}
                   disableCloseOnSelect
-                 
+                    value={Location ? String(Location).split(",") : []}
                   onChange={(e, Value1) => handleLocation(e, Value1)}
                   renderInput={params => <TextField {...params} label='Location'  value={Location} error={errors && errors.Location} />}
                 />
@@ -496,7 +496,7 @@ const RecruitmentForm = () => {
                   options={Educations}
                   limitTags={2}
                   disableCloseOnSelect
-                 
+                  value={Education ? String(Education).split(",") : []}
                   onChange={(e, newValue) => handleEducation(e, newValue)}
                   renderInput={params => <TextField {...params} label='Education' value={Education} error={errors && errors.Education} />}
                 />
@@ -511,7 +511,7 @@ const RecruitmentForm = () => {
                   options={Years}
                   limitTags={2}
                   disableCloseOnSelect
-                 
+                  value={Year ? String(Year).split(",") : []}
                   onChange={(e, Value2) => handleYear(e, Value2)}
                   renderInput={params => <TextField {...params} label='Year of Passing' value={Year} error={errors && errors.Year} />}
                 />
@@ -563,7 +563,7 @@ const RecruitmentForm = () => {
                   options={Skill}
                   limitTags={2}
                   disableCloseOnSelect
-
+                  value={Skills ? String(Skills).split(",") : []}
                   onChange={(e, Value) => handleSkills(e, Value)}
                   renderInput={params => <TextField {...params} label='Skills' value={Skills} error={errors && errors.Skills} />}
                 />
