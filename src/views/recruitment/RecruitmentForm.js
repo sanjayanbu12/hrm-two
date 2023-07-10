@@ -460,7 +460,7 @@ const RecruitmentForm = () => {
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
-                <Autocomplete
+                <Autocomplete 
                   multiple
                   options={Locations}
                   limitTags={1}
