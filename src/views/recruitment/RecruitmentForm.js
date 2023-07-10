@@ -498,7 +498,7 @@ const RecruitmentForm = () => {
                   disableCloseOnSelect
                   value={Location ? String(Location).split(',') : []}
                   onChange={(e, Value1) => handleLocation(e, Value1)}
-                  renderInput={params => <TextField {...params} label='Location' value={Location} error={errors && errors.Location} />}
+                  renderInput={params => <TextField {...params} label='Location'  value={Location} error={errors && errors.Location} />}
                 />
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
