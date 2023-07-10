@@ -191,9 +191,9 @@ const RecruitmentForm = () => {
     setSkills(value.join(','))
     setErrors(prev => ({
       ...prev,
-      skills: ''
-    }));
-  };
+      Skills: ''
+    }))
+  }
   const handleDescription = e => {
     setDescription(e.target.value)
     setErrors(prev => ({
