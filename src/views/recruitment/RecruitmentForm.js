@@ -242,7 +242,7 @@ const RecruitmentForm = () => {
         setWorktype(responseData.Worktype)
         setSkills(responseData.Skills.join(','));
         setEducation(responseData.Education.join(','));
-        setYear(responseData.Year);
+        setYear(responseData.Year.join(','));
         setLocation(responseData.Location);
       })
       .catch(err => {
