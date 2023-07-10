@@ -9,6 +9,7 @@ export const validationSchema = yup.object().shape({
   Worktype: yup.string().required('Worktype is required'),
   Skills: yup.string().required('Skills is required'),
   Education: yup.string().required('Education is required'),
-  Location: yup.string().required('Location is required')
+  Location: yup.string().required('Location is required'),
+  Year: yup.string().required('Year is required')
 });
 export default validationSchema;
