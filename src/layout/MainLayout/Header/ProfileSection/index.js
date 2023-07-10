@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
+import axios from 'axios';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -39,7 +39,7 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
-
+ axios.defaults.withCredentials=true
   // const [sdm, setSdm] = useState(true);
   // const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -49,7 +49,26 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
-    navigate('/pages/login/login3');
+    try {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/auth/logout', null, {
+        withCredentials: true // Include cookies in the request
+      });
+      if (response.status === 200) {
+        // Logout successful
+        navigate('/pages/login/login3');
+      } else {
+        // Handle error during logout
+        console.error('Logout error:', response.data);
+      }
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message === 'cookies expired please login again') {
+        // Handle specific error message indicating expired cookies
+        navigate('/pages/login/login3');
+      } else {
+        // Handle other errors
+        console.error('Logout error:', error);
+      }
+    }
   };
 
   const handleClose = (event) => {
