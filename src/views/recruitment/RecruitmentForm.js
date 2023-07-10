@@ -142,18 +142,18 @@ const RecruitmentForm = () => {
     setErrors((prev) => ({
       ...prev,
       Location: ''
-    }));
-  };
-  const handleWorktype = (e) => {
-    setWorktype(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleWorktype = e => {
+    setWorktype(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Worktype: ''
-    }));
-  };
-  const handleJobrole = (e) => {
-    setJobrole(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleJobrole = e => {
+    setJobrole(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Jobrole: ''
     }));
@@ -201,7 +201,7 @@ const RecruitmentForm = () => {
     setSkills(value.join(','));
     setErrors((prev) => ({
       ...prev,
-      Skills: ''
+      skills: ''
     }));
   };
   
@@ -239,18 +239,18 @@ const RecruitmentForm = () => {
     const selectedDate = e.target.value;
     const currentDate = new Date().toISOString().split('T')[0];
     if (selectedDate < currentDate) {
-      setErrors((prev) => ({
+      setErrors(prev => ({
         ...prev,
         Deadline: 'Please select a future date.'
-      }));
+      }))
     } else {
-      setDeadline(selectedDate);
-      setErrors((prev) => ({
+      setDeadline(selectedDate)
+      setErrors(prev => ({
         ...prev,
         Deadline: ''
-      }));
+      }))
     }
-  };
+  }
   useEffect(() => {
     axios
       .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
@@ -273,10 +273,10 @@ const RecruitmentForm = () => {
         setYear(responseData.Year.join(','));
         setLocation(responseData.Location);
       })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, [id]);
+      .catch(err => {
+        console.log(err.message)
+      })
+  }, [id])
 
   const finalSubmit = async () => {
     if (id) {
@@ -295,7 +295,7 @@ const RecruitmentForm = () => {
           Education,
           Year,
           Location
-        };
+        }
 
         await validationSchema.validate(
           {
@@ -339,14 +339,14 @@ const RecruitmentForm = () => {
         });
       } catch (error) {
         if (error instanceof yup.ValidationError) {
-          const validationErrors = {};
-          error.inner.forEach((err) => {
-            validationErrors[err.path] = err.message;
-            console.log(validationErrors);
-          });
-          setErrors(validationErrors);
+          const validationErrors = {}
+          error.inner.forEach(err => {
+            validationErrors[err.path] = err.message
+            console.log(validationErrors)
+          })
+          setErrors(validationErrors)
         } else {
-          console.log(error);
+          console.log(error)
         }
       }
     } else {
@@ -365,8 +365,8 @@ const RecruitmentForm = () => {
           Education,
           Year,
           Location
-        };
-        console.log('task', task);
+        }
+        console.log('task', task)
 
         await validationSchema.validate(
           {
@@ -384,8 +384,8 @@ const RecruitmentForm = () => {
             Location
           },
           { abortEarly: false }
-        );
-        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
+        )
+        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task)
 
         setJobrole('');
         setOpenings('');
@@ -408,18 +408,18 @@ const RecruitmentForm = () => {
         });
       } catch (error) {
         if (error instanceof yup.ValidationError) {
-          const validationErrors = {};
-          error.inner.forEach((err) => {
-            validationErrors[err.path] = err.message;
-            console.log(validationErrors);
-          });
-          setErrors(validationErrors);
+          const validationErrors = {}
+          error.inner.forEach(err => {
+            validationErrors[err.path] = err.message
+            console.log(validationErrors)
+          })
+          setErrors(validationErrors)
         } else {
-          console.log(error);
+          console.log(error)
         }
       }
     }
-  };
+  }
 
   return (
     <MainCard title="Job Description Form">
@@ -428,64 +428,64 @@ const RecruitmentForm = () => {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
                 <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Jobrole"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Jobrole'
                   value={Jobrole}
                   error={errors && errors.Jobrole}
                   helperText={errors && errors.Jobrole}
-                  onChange={(e) => handleJobrole(e)}
+                  onChange={e => handleJobrole(e)}
                 />
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="No of Openings"
-                variant="outlined"
+                id='outlined-basic'
+                label='No of Openings'
+                variant='outlined'
                 value={Openings}
-                type="number"
+                type='number'
                 error={errors && errors.Openings}
                 helperText={errors && errors.Openings}
-                onChange={(e) => handleOpenings(e)}
+                onChange={e => handleOpenings(e)}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
-                <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
+                <InputLabel id='demo-simple-select-label'>Work Type</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Work Type"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Work Type'
                   value={Worktype}
                   // error={errors && errors.Status}
                   // helperText={errors && errors.Status}
-                  onChange={(e) => handleWorktype(e)}
+                  onChange={e => handleWorktype(e)}
                 >
-                  <MenuItem value=""></MenuItem>
-                  <MenuItem value="Internship">Internship</MenuItem>
-                  <MenuItem value="Full time">Full Time</MenuItem>
-                  <MenuItem value="Trainee">Trainee</MenuItem>
+                  <MenuItem value=''></MenuItem>
+                  <MenuItem value='Internship'>Internship</MenuItem>
+                  <MenuItem value='Full time'>Full Time</MenuItem>
+                  <MenuItem value='Trainee'>Trainee</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Worktype}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Company}>
-                <InputLabel id="demo-simple-select-label">Company</InputLabel>
+                <InputLabel id='demo-simple-select-label'>Company</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Company"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Company'
                   value={Company}
                   // error={errors && errors.Company}
                   // helperText={errors && errors.Company}
-                  onChange={(e) => handleCompany(e)}
+                  onChange={e => handleCompany(e)}
                 >
-                  <MenuItem value="Sns Square">SNS Square</MenuItem>
+                  <MenuItem value='Sns Square'>SNS Square</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Company}</FormHelperText>
               </FormControl>
@@ -508,16 +508,16 @@ const RecruitmentForm = () => {
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 sx={{ minWidth: '100%' }}
-                id="outlined-start-adornment"
-                label="Deadline"
-                variant="outlined"
-                type="date"
+                id='outlined-start-adornment'
+                label='Deadline'
+                variant='outlined'
+                type='date'
                 value={Deadline}
                 error={errors && errors.Deadline}
                 helperText={errors && errors.Deadline}
-                onChange={(e) => handleDeadline(e)}
+                onChange={e => handleDeadline(e)}
                 InputProps={{
-                  startAdornment: <InputAdornment position="start"></InputAdornment>
+                  startAdornment: <InputAdornment position='start'></InputAdornment>
                 }}
               />
             </Grid>
@@ -669,6 +669,6 @@ const RecruitmentForm = () => {
         </Box>
       </form>
     </MainCard>
-  );
-};
-export default RecruitmentForm;
+  )
+}
+export default RecruitmentForm
