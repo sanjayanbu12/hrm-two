@@ -123,15 +123,11 @@ const RecruitmentForm = () => {
     'Any PG',
     'Others'
   ]
-  const Locations=[
-    'Coimbatore',
-    'Chennai',
-    'Bengaluru',
-]
-const Years = [];
-for (let year = 2010; year <= 2035; year++) {
-  Years.push(year);
-}
+  const Locations = ['Coimbatore', 'Chennai', 'Bengaluru']
+  const Years = []
+  for (let year = 2010; year <= 2035; year++) {
+    Years.push(year)
+  }
 
   const handleRequirements = e => {
     setRequirements(e.target.value)
@@ -140,7 +136,7 @@ for (let year = 2010; year <= 2035; year++) {
       Requirements: ''
     }))
   }
-  const handleLocation = (e,Value1) => {
+  const handleLocation = (e, Value1) => {
     setLocation(Value1.join(','))
     setErrors(prev => ({
       ...prev,
@@ -184,7 +180,7 @@ for (let year = 2010; year <= 2035; year++) {
       Education: ''
     }))
   }
-  const handleYear = (e,Value2)=> {
+  const handleYear = (e, Value2) => {
     setYear(Value2.join(','))
     setErrors(prev => ({
       ...prev,
@@ -287,13 +283,14 @@ for (let year = 2010; year <= 2035; year++) {
             Year,
             Location
           },
-          { abortEarly: false }
+          {
+            abortEarly: false
+          }
         )
         await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedtask)
         setJobrole('')
         setOpenings('')
         setCompany('')
-
         setDescription('')
         setRequirements('')
         setExperience('')
@@ -328,7 +325,6 @@ for (let year = 2010; year <= 2035; year++) {
           Jobrole,
           Openings,
           Company,
-
           Description,
           Requirements,
           Experience,
@@ -346,7 +342,6 @@ for (let year = 2010; year <= 2035; year++) {
             Jobrole,
             Openings,
             Company,
-
             Requirements,
             Experience,
             Deadline,
@@ -470,8 +465,9 @@ for (let year = 2010; year <= 2035; year++) {
                   options={Locations}
                   limitTags={1}
                   disableCloseOnSelect
+                 
                   onChange={(e, Value1) => handleLocation(e, Value1)}
-                  renderInput={params => <TextField {...params} label='Location' value={Location} error={errors && errors.Location} />}
+                  renderInput={params => <TextField {...params} label='Location'  value={Location} error={errors && errors.Location} />}
                 />
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
@@ -500,6 +496,7 @@ for (let year = 2010; year <= 2035; year++) {
                   options={Educations}
                   limitTags={2}
                   disableCloseOnSelect
+                 
                   onChange={(e, newValue) => handleEducation(e, newValue)}
                   renderInput={params => <TextField {...params} label='Education' value={Education} error={errors && errors.Education} />}
                 />
@@ -514,6 +511,7 @@ for (let year = 2010; year <= 2035; year++) {
                   options={Years}
                   limitTags={2}
                   disableCloseOnSelect
+                 
                   onChange={(e, Value2) => handleYear(e, Value2)}
                   renderInput={params => <TextField {...params} label='Year of Passing' value={Year} error={errors && errors.Year} />}
                 />
@@ -565,6 +563,7 @@ for (let year = 2010; year <= 2035; year++) {
                   options={Skill}
                   limitTags={2}
                   disableCloseOnSelect
+
                   onChange={(e, Value) => handleSkills(e, Value)}
                   renderInput={params => <TextField {...params} label='Skills' value={Skills} error={errors && errors.Skills} />}
                 />
