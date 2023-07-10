@@ -106,7 +106,7 @@ const RecruitmentForm = () => {
     'Statistical computing',
     'Data visualization',
     'Machine learning'
-  ];
+  ]
   const Educations = [
     'BCA',
     'MCA',
@@ -122,8 +122,17 @@ const RecruitmentForm = () => {
     'Any UG',
     'Any PG',
     'Others'
-  ];
-  
+  ]
+  const Locations=[
+    'Coimbatore',
+    'Chennai',
+    'Bengaluru',
+]
+const Years = [];
+for (let year = 2010; year <= 2035; year++) {
+  Years.push(year);
+}
+
   const handleRequirements = e => {
     setRequirements(e.target.value)
     setErrors(prev => ({
@@ -131,8 +140,8 @@ const RecruitmentForm = () => {
       Requirements: ''
     }))
   }
-  const handleLocation = e => {
-    setLocation(e.target.value)
+  const handleLocation = (e,Value1) => {
+    setLocation(Value1.join(','))
     setErrors(prev => ({
       ...prev,
       Location: ''
@@ -168,27 +177,27 @@ const RecruitmentForm = () => {
     }))
   }
 
-  const handleEducation = e => {
-    setEducation(e.target.value)
+  const handleEducation = (e, newValue) => {
+    setEducation(newValue.join(','))
     setErrors(prev => ({
       ...prev,
       Education: ''
     }))
   }
-  const handleYear = e => {
-    setYear(e.target.value)
+  const handleYear = (e,Value2)=> {
+    setYear(Value2.join(','))
     setErrors(prev => ({
       ...prev,
       Year: ''
     }))
   }
   const handleSkills = (e, value) => {
-    setSkills(value.join(','));
-    setErrors((prev) => ({
+    setSkills(value.join(','))
+    setErrors(prev => ({
       ...prev,
-      skills: ''
-    }));
-  };
+      Skills: ''
+    }))
+  }
   const handleDescription = e => {
     setDescription(e.target.value)
     setErrors(prev => ({
@@ -268,7 +277,6 @@ const RecruitmentForm = () => {
             Jobrole,
             Openings,
             Company,
-
             Description,
             Requirements,
             Experience,
@@ -355,7 +363,6 @@ const RecruitmentForm = () => {
         setJobrole('')
         setOpenings('')
         setCompany('')
-
         setDescription('')
         setRequirements('')
         setExperience('')
@@ -457,20 +464,15 @@ const RecruitmentForm = () => {
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
-                <InputLabel id='demo-simple-select-label'>Location</InputLabel>
-                <Select
-                  labelId='demo-simple-select-label'
-                  id='demo-simple-select'
-                  label='Location'
-                  value={Location}
-                  // error={errors && errors.Status}
-                  // helperText={errors && errors.Status}
-                  onChange={e => handleLocation(e)}
-                >
-                  <MenuItem value=''></MenuItem>
-                  <MenuItem value='Coimbatore'>Coimbatore</MenuItem>
-                  <MenuItem value='Bengaluru'>Bengaluru</MenuItem>
-                </Select>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <Autocomplete
+                  multiple
+                  options={Locations}
+                  limitTags={1}
+                  disableCloseOnSelect
+                  onChange={(e, Value1) => handleLocation(e, Value1)}
+                  renderInput={params => <TextField {...params} label='Location' value={Location} error={errors && errors.Location} />}
+                />
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
             </Grid>
@@ -494,32 +496,29 @@ const RecruitmentForm = () => {
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
                 <Autocomplete
-                multiple
-                options={Educations}
-                limitTags={2}
-                disableCloseOnSelect
-                onChange={(e, value) => handleEducation(e, value)}
-                renderInput={(params) => <TextField {...params} label='Education'
-                value={Education}
-                error={errors&&errors.Education}
+                  multiple
+                  options={Educations}
+                  limitTags={2}
+                  disableCloseOnSelect
+                  onChange={(e, newValue) => handleEducation(e, newValue)}
+                  renderInput={params => <TextField {...params} label='Education' value={Education} error={errors && errors.Education} />}
                 />
-                }
-              />
-              <FormHelperText>{errors && errors.Education}</FormHelperText>
+                <FormHelperText>{errors && errors.Education}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id='outlined-basic'
-                label='Year of Passing'
-                variant='outlined'
-                value={Year}
-                type=''
-                // error={errors && errors.Year}
-                // helperText={errors && errors.Year}
-                onChange={e => handleYear(e)}
-              />
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <Autocomplete
+                  multiple
+                  options={Years}
+                  limitTags={2}
+                  disableCloseOnSelect
+                  onChange={(e, Value2) => handleYear(e, Value2)}
+                  renderInput={params => <TextField {...params} label='Year of Passing' value={Year} error={errors && errors.Year} />}
+                />
+                <FormHelperText>{errors && errors.Year}</FormHelperText>
+              </FormControl>
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Experience}>
@@ -529,21 +528,21 @@ const RecruitmentForm = () => {
                   id='demo-simple-select'
                   label='Experience'
                   value={Experience}
-                    error={errors && errors.Experience}
-                 helperText={errors && errors.Experience}
+                  error={errors && errors.Experience}
+                  helperText={errors && errors.Experience}
                   onChange={e => handleExperience(e)}
                 >
-                 <MenuItem value="BCA">Freshers</MenuItem>
-                <MenuItem value="MCA">1 to 2</MenuItem>
-                <MenuItem value="BBA">2 to 4</MenuItem>
-                <MenuItem value="MBA">4 to 6</MenuItem>
-                <MenuItem value="B.Tech">6 to 8</MenuItem>
-                <MenuItem value="M.Tech">8 to 10</MenuItem>
-                <MenuItem value="B.Sc.">10 to 12</MenuItem>
-                <MenuItem value="M.Sc">Above 12</MenuItem>
+                  <MenuItem value='Freshers'>Freshers</MenuItem>
+                  <MenuItem value='1 to 2'>1 to 2</MenuItem>
+                  <MenuItem value='2 to 4'>2 to 4</MenuItem>
+                  <MenuItem value='4 to 6'>4 to 6</MenuItem>
+                  <MenuItem value='6 to 8'>6 to 8</MenuItem>
+                  <MenuItem value='8 to 10'>8 to 10</MenuItem>
+                  <MenuItem value='10 to 12'>10 to 12</MenuItem>
+                  <MenuItem value='Above 12'>Above 12</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Experience}</FormHelperText>
-                </FormControl>
+              </FormControl>
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -562,18 +561,14 @@ const RecruitmentForm = () => {
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
                 <Autocomplete
-                multiple
-                options={Skill}
-                limitTags={2}
-                disableCloseOnSelect
-                onChange={(e, value) => handleSkills(e, value)}
-                renderInput={(params) => <TextField {...params} label='Skills'
-                value={Skills}
-                error={errors&&errors.skills}
+                  multiple
+                  options={Skill}
+                  limitTags={2}
+                  disableCloseOnSelect
+                  onChange={(e, Value) => handleSkills(e, Value)}
+                  renderInput={params => <TextField {...params} label='Skills' value={Skills} error={errors && errors.Skills} />}
                 />
-                }
-              />
-              <FormHelperText>{errors && errors.skills}</FormHelperText>
+                <FormHelperText>{errors && errors.Skills}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={12}>

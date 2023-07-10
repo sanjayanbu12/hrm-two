@@ -152,6 +152,7 @@ const RecruitmentTable = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
+                        <TableCell>Job ID</TableCell>
                         <TableCell>Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
                         <TableCell>Application Count</TableCell>
@@ -167,6 +168,7 @@ const RecruitmentTable = () => {
                         RecruitmentList.map &&
                         filteredjob.map(x => (
                           <TableRow key={x._id}>
+                            <TableCell>{x.uuid}</TableCell>
                             <TableCell>{x.Jobrole}</TableCell>
                             <TableCell>{x.Openings}</TableCell>
                             <TableCell>0</TableCell>
