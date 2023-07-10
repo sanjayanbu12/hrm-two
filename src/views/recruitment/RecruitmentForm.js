@@ -32,10 +32,10 @@ const RecruitmentForm = () => {
   const [ExperienceTo, setExperienceTo] = useState('')
   const [Deadline, setDeadline] = useState('')
   const [Worktype, setWorktype] = useState('')
-  const [Skills, setSkills] = useState('')
-  const [Education, setEducation] = useState('')
-  const [Location, setLocation] = useState('')
-  const [Year, setYear] = useState('')
+  const [Skills, setSkills] = useState('');
+  const [Education, setEducation] = useState('');
+  const [Location, setLocation] = useState('');
+  const [Year, setYear] = useState('');
   const [errors, setErrors] = useState('')
   const { id } = useParams()
   const navigate = useNavigate()
