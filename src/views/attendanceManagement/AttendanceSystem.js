@@ -9,33 +9,33 @@ import HomeIcon from '@mui/icons-material/Home';
 const AttendanceSystem = () => {
   const [checkInTime, setCheckInTime] = useState(null);
   const [checkOutTime, setCheckOutTime] = useState(null);
+
   const handleCheckIn = async () => {
     try {
-      await axios.post('https://hrm-backend-square.onrender.com/attendance/create', { checkInTime });
       const currentTime = new Date().toLocaleTimeString();
+      await axios.post('https://hrm-backend-square.onrender.com/attendance/checkin', { checkInTime: currentTime });
       setCheckInTime(currentTime);
-      console.log(currentTime);
-      // Perform any necessary actions after successful check-in
     } catch (error) {
       console.error('Error performing check-in:', error);
       // Handle error
     }
   };
+
   const handleCheckOut = async () => {
     try {
-      await axios.post('https://hrm-backend-square.onrender.com/attendance/create', checkOutTime);
       const currentTime = new Date().toLocaleTimeString();
+      await axios.post('https://hrm-backend-square.onrender.com/attendance/checkout', { checkOutTime: currentTime });
       setCheckOutTime(currentTime);
-      console.log('Check-out successful');
       // Perform any necessary actions after successful check-out
     } catch (error) {
       console.error('Error performing check-out:', error);
       // Handle error
     }
   };
+
   return (
     <MainCard title="Attendance Regulation">
-       <Box>
+      <Box>
         <Typography variant="h3" gutterBottom>
           Check-in Time: {checkInTime || 'Not Checked In'}
         </Typography>
@@ -44,11 +44,13 @@ const AttendanceSystem = () => {
         </Typography>
       </Box>
       <Box>
-        {!checkInTime && ( <Button variant="contained" color="success" onClick={handleCheckIn} startIcon={<AlarmIcon />}>
+        {!checkInTime && (
+          <Button variant="contained" color="success" onClick={handleCheckIn} startIcon={<AlarmIcon />}>
             Check In
           </Button>
         )}
-        {checkInTime && !checkOutTime && (<Button variant="contained" color="success" onClick={handleCheckOut} endIcon={<HomeIcon />}>
+        {checkInTime && !checkOutTime && (
+          <Button variant="contained" color="success" onClick={handleCheckOut} endIcon={<HomeIcon />}>
             Check Out
           </Button>
         )}
@@ -57,4 +59,5 @@ const AttendanceSystem = () => {
     </MainCard>
   );
 };
-export default AttendanceSystem
+
+export default AttendanceSystem;
