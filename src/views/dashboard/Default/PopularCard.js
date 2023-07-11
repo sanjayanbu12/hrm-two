@@ -30,7 +30,7 @@ const PopularCard = ({ isLoading }) => {
                 </Grid>
               </Grid>
               <Grid item xs={12.5}>
-                {/* Add the Calendar component */}
+              
                 <ReactCalendar
                   onChange={handleDateChange}
                   value={selectedDate}

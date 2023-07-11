@@ -3,28 +3,51 @@ import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 
 const EmployeePerformance = () => {
-  const [performanceRating, setPerformanceRating] = useState();
-  const [quality, setQuality] = useState();
-  const [quantity, setQuantity] = useState();
-  const [jobknowledge, setJobknowledge] = useState();
-  const [relationships, setRelationships] = useState();
+  const [employeeName, setEmployeeName] = useState('');
+  const [performanceRating, setPerformanceRating] = useState('');
+  const [quality, setQuality] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [jobknowledge, setJobknowledge] = useState('');
+  const [relationships, setRelationships] = useState('');
   const [comments, setComments] = useState('');
 
+  const handleEmployeeNameChange = (event) => {
+    setEmployeeName(event.target.value);
+  };
+
   const handleRatingChange = (event) => {
-    setPerformanceRating(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value >= 1 && value <= 10) {
+      setPerformanceRating(value);
+    }
   };
 
   const handleQuantityChange = (event) => {
-    setQuantity(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value >= 0 && value <= 10) {
+      setQuantity(value);
+    }
   };
+
   const handleQualityChange = (event) => {
-    setQuality(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value >= 0 && value <= 10) {
+      setQuality(value);
+    }
   };
+
   const handleJobknowledgeChange = (event) => {
-    setJobknowledge(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value >= 0 && value <= 10) {
+      setJobknowledge(value);
+    }
   };
+
   const handleRelationshipsChange = (event) => {
-    setRelationships(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value >= 0 && value <= 10) {
+      setRelationships(value);
+    }
   };
 
   const handleCommentsChange = (event) => {
@@ -33,8 +56,9 @@ const EmployeePerformance = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setPerformanceRating(0);
-    setQuantity(0);
+    setEmployeeName('');
+    setPerformanceRating('');
+    setQuantity('');
     setComments('');
   };
 
@@ -83,109 +107,121 @@ const EmployeePerformance = () => {
   };
 
   return (
-    
     <MainCard title="Employee Performance">
-      <div style={formStyle} >
+      <div style={formStyle}>
+        <div>
+          <h2>Employee Name</h2>
+          <TextField
+            type="text"
+            id="employeeName"
+            value={employeeName}
+            onChange={handleEmployeeNameChange}
+          />
+        </div>
         <MainCard title="Performance Rating">
           <form onSubmit={handleSubmit}>
             <div style={labelStyle}>
               {renderIndicator('yellow')}
-              Performance Rating:Overall
+              Performance Rating: Overall
             </div>
             <TextField
               type="number"
               id="performanceRating"
               value={performanceRating}
               onChange={handleRatingChange}
-          
-              max={10}
+              inputProps={{
+                min: 1,
+                max: 10,
+              }}
               style={inputStyle}
             />
           </form>
         </MainCard>
 
         <MainCard title="Time Management">
-          <form onSubmit={handleSubmit}>
-            <div style={labelStyle}>
-              {renderIndicator('green')}
-              Quantity of Work-Time Management:
-            </div>
-            <TextField
-              type="number"
-              id="quantity"
-              value={quantity}
-              onChange={handleQuantityChange}
-            
-              style={inputStyle}
-            />
-          </form>
+          <div style={labelStyle}>
+            {renderIndicator('green')}
+            Quantity of Work - Time Management:
+          </div>
+          <TextField
+            type="number"
+            id="quantity"
+            value={quantity}
+            onChange={handleQuantityChange}
+            inputProps={{
+              min: 1,
+              max: 10,
+            }}
+            style={inputStyle}
+          />
         </MainCard>
 
         <MainCard title="Quality of Work">
-          <form onSubmit={handleSubmit}>
-            <div style={labelStyle}>
-              {renderIndicator('orange')}
-              Quality of Work- Accuracy:
-            </div>
-            <TextField
-              type="number"
-              id="quality"
-              value={quality}
-              onChange={handleQualityChange}
-
-              style={inputStyle}
-            />
-          </form>
+          <div style={labelStyle}>
+            {renderIndicator('orange')}
+            Quality of Work - Accuracy:
+          </div>
+          <TextField
+            type="number"
+            id="quality"
+            value={quality}
+            onChange={handleQualityChange}
+            inputProps={{
+              min: 1,
+              max: 10,
+            }}
+            style={inputStyle}
+          />
         </MainCard>
 
         <MainCard title="Job Knowledge">
-          <form onSubmit={handleSubmit}>
-            <div style={labelStyle}>
-              {renderIndicator('purple')}
-              Job Knowledge-Skills and Understanding of Work:
-            </div>
-            <TextField
-              type="number"
-              id="jobknowledge"
-              value={jobknowledge}
-              onChange={handleJobknowledgeChange}
-              
-              style={inputStyle}
-            />
-          </form>
+          <div style={labelStyle}>
+            {renderIndicator('purple')}
+            Job Knowledge - Skills and Understanding of Work:
+          </div>
+          <TextField
+            type="number"
+            id="jobknowledge"
+            value={jobknowledge}
+            onChange={handleJobknowledgeChange}
+            inputProps={{
+              min: 1,
+              max: 10,
+            }}
+            style={inputStyle}
+          />
         </MainCard>
 
         <MainCard title="Working Relationships">
-          <form onSubmit={handleSubmit}>
-            <div style={labelStyle}>
-              {renderIndicator('pink')}
-              Working Relationships-Ability to work with others:
-            </div>
-            <TextField
-             type="number"
-             id="relationships"
-             value={relationships}
-             onChange={handleRelationshipsChange}
-             
-             style={inputStyle}>
-             
-              </TextField>
-          </form>
+          <div style={labelStyle}>
+            {renderIndicator('pink')}
+            Working Relationships - Ability to Work with Others:
+          </div>
+          <TextField
+            type="number"
+            id="relationships"
+            value={relationships}
+            onChange={handleRelationshipsChange}
+            inputProps={{
+              min: 1,
+              max: 10,
+            }}
+            style={inputStyle}
+          />
         </MainCard>
 
         <MainCard title="Comments">
           <form onSubmit={handleSubmit} style={{ gridColumn: '1 / span 2' }}>
-            <label htmlFor="comments" style={labelStyle}>
-              Comments:
-            </label>
+          <label htmlFor="comments" style={labelStyle}>
+  Comments:
+</label>
+
             <TextField
-             id="comments"
-             value={comments}
-             onChange={handleCommentsChange}
-             style={inputStyle}
-             >
-             
-              </TextField>
+              id="comments"
+              value={comments}
+              onChange={handleCommentsChange}
+              style={inputStyle}
+            />
             <button type="submit" style={buttonStyle}>
               SUBMIT
             </button>
