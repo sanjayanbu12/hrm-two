@@ -4,8 +4,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './newevent.css';
-import { Button, Dialog, DialogContent, TextField } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField, Grid,InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import TextArea from 'antd/es/input/TextArea';
 
 function Newevent() {
   const [events, setEvents] = useState([]);
@@ -16,6 +17,8 @@ function Newevent() {
   const [endTime, setEndTime] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [eventLink, setEventLink] = useState('');
+  const [description, setDescription] = useState('');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
   useEffect(() => {
@@ -58,7 +61,9 @@ function Newevent() {
         id: events.length,
         title: eventTitle,
         start: startDateTime,
-        end: endDateTime
+        end: endDateTime,
+        eventLink: eventLink,
+        description: description
       };
 
       setEvents([...events, newEvent]);
@@ -75,6 +80,8 @@ function Newevent() {
     setEndTime('');
     setStartDate('');
     setEndDate('');
+    setEventLink('');
+    setDescription('')
   };
 
   return (
@@ -105,28 +112,110 @@ function Newevent() {
               fullWidth
               value={eventTitle}
               onChange={(e) => setEventTitle(e.target.value)}
-              sx={{ width: '320px', marginBottom: '16px' }}
+              sx={{ width: '330px', marginBottom: '16px' }}
             />
 
-            <div className="form-group">
-              <label htmlFor="date">Start Date:</label>
-              <input type="date" id="date" className="input-field" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-            </div>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <div className="form-group">
+                  {/* <label htmlFor="startDate">Start Date:</label> */}
+                  <TextField
+          InputProps={{
+            startAdornment: <InputAdornment position="start"></InputAdornment>
+          }}
+            margin="dense"
+            label="Start Date"
+            type="date"
+            fullWidth
+            value={startDate}
+            onChange={(e) => setStartDate(e.target.value)}
+            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
+          />
 
-            <div className="form-group">
-              <label htmlFor="date"> End Date:</label>
-              <input type="date" id="date" className="input-field" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="startTime">Start Time:</label>
-              <input type="time" id="startTime" className="input-field" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-            </div>
 
-            <div className="form-group">
-              <label htmlFor="endTime">End Time:</label>
-              <input type="time" id="endTime" className="input-field" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
-            </div>
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="form-group">
+                  {/* <label htmlFor="endDate">End Date:</label> */}
+                  <TextField
+          InputProps={{
+            startAdornment: <InputAdornment position="start"></InputAdornment>
+          }}
+            margin="dense"
+            label="End Date"
+            type="date"
+            fullWidth
+            value={endDate}
+            onChange={(e) => setEndDate(e.target.value)}
+            sx={{width:'150px', marginBottom: "16px"}}
+          />
+
+                </div>
+              </Grid>
+            </Grid>
+
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <div className="form-group">
+                  {/* <label htmlFor="startTime">Start Time:</label> */}
+                  <TextField
+          InputProps={{
+            startAdornment: <InputAdornment position="start"></InputAdornment>
+          }}
+            margin="dense"
+            label="Start Time"
+            fullWidth
+            type="time"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
+          />
+
+
+                </div>
+              </Grid>
+              <Grid item xs={6}>
+                <div className="form-group">
+                  {/* <label htmlFor="endTime">End Time:</label> */}
+                  <TextField
+          InputProps={{
+            startAdornment: <InputAdornment position="start"></InputAdornment>
+          }}
+            margin="dense"
+            label="End Time"
+            fullWidth
+            type="time"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+            sx={{width:'150px'}}
+          />
+
+                </div>
+              </Grid>
+            </Grid>
+
+            <TextField
+              label="Event Link"
+              fullWidth
+              value={eventLink}
+              onChange={(e) => setEventLink(e.target.value)}
+              sx={{ width: '330px', marginBottom: '16px' }}
+            />
+
+<TextArea 
+             margin="dense"
+              label="Description"
+              InputProps={{
+                startAdornment: <InputAdornment position="start"></InputAdornment>
+              }}
+              fullWidth
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              sx={{ width: '300px', marginBottom: '16px' }}
+            />
+
           </form>
         </DialogContent>
         <Button className="close-button" onClick={handleCreateEvent}>

@@ -16,7 +16,6 @@ import RecruitmentForm from 'views/recruitment/RecruitmentForm';
 import RecruitmentTable from 'views/recruitment/RecruitmentTable';
 import ApplicationTracker from 'views/recruitment/ApplicationTracker';
 import AttendanceSystem from 'views/attendanceManagement/AttendanceSystem';
-
 import Newevent from 'views/dashboard/Default/Newevent';
 
 // dashboard routing
