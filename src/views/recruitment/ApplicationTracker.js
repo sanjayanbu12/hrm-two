@@ -13,19 +13,28 @@ const ApplicationTracker = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
-      const newData = response.data.getData.map((item) => {
-        const photoUrl = `data:image/jpeg;base64,${item.photo.data}`;
-        console.log(photoUrl)
-        const resumeUrl = `data:application/pdf;base64,${item.resume.data}`;
-        return { ...item, photoUrl, resumeUrl };
-      });
+      const newData = response.data.getData
       setData(newData);
       console.log(newData, ' this is the new data');
     } catch (error) {
       console.log('Error retrieving user data:', error);
     }
   };
-
+  const handleResume = async (id) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+        responseType: 'blob'
+      });
+      const downloadLink = document.createElement('a');
+      downloadLink.href = URL.createObjectURL(new Blob([response.data]));
+      downloadLink.setAttribute('download', `${id}-resume.pdf`); 
+      downloadLink.click();
+      URL.revokeObjectURL(downloadLink.href);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
   return (
     <MainCard title='Application Tracker'>
       <TableContainer component={Paper}>
@@ -46,17 +55,17 @@ const ApplicationTracker = () => {
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
                 <TableCell>
-                  {x.photoUrl && (
+                  {x.photo && (
                     <img
-                      src={x.photoUrl}
+                      src={x.photo}
                       alt=" "
                       style={{ width: '100px' }}
                     />
                   )}
-                </TableCell>
-                <TableCell>
-                  {x.resumeUrl && (
-                    <a href={x.resumeUrl} download={`${x.name}-resume.pdf`}>
+                </TableCell> 
+                <TableCell  >
+                  {x.resume&& (
+                    <a href={x.resume} onClick={()=>handleResume(x._id)}>
                       View Resume
                     </a>
                   )}
