@@ -33,13 +33,13 @@ const pages = {
       children: [
         {
           id: 'recruitmentform',
-          title: 'Recruitment Form',
+          title: 'Job Description Form',
           type: 'item',
           url: '/recruitmentform'
         },
         {
           id: 'recruitmenttable',
-          title: 'Recruitment Table',
+          title: 'Job Description Table',
           type: 'item',
           url: '/recruitmenttable'
         },

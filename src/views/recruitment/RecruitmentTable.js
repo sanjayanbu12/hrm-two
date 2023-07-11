@@ -99,7 +99,7 @@ const RecruitmentTable = () => {
     })
   }
   return (
-    <MainCard title='Recruitment Table'>
+    <MainCard title='Job Description Table'>
       {Loader ? (
         <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
           <CircularProgress />
@@ -212,7 +212,7 @@ const RecruitmentTable = () => {
         {selectedJob && (
           <>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
-              <DialogTitle variant='h2'>RecruitmentForm Details</DialogTitle>
+              <DialogTitle variant='h2'>JobDescription Details</DialogTitle>
             </Box>
             <DialogContent>
               <Typography sx={{ lineHeight: '4', fontSize: '20px' }}>
