@@ -20,6 +20,7 @@ import {
   TextField,
   InputAdornment,
   Tooltip,
+  Pagination,
 } from '@mui/material'
 import axios from 'axios'
 import AddIcon from '@mui/icons-material/Add'
@@ -69,7 +70,7 @@ const RecruitmentTable = () => {
     return Object.values(job).some(value => value && value.toString().toLowerCase().includes(lowersearchText))
   })
   const handleEdit = id => {
-    navigate(`/recruitmentform/${id}`)
+    navigate(`/jobform/${id}`)
   }
   const handleDelete = id => {
     handleClose()
@@ -87,7 +88,6 @@ const RecruitmentTable = () => {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
           await fetchdata()
           handleClose()
-         
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
@@ -108,7 +108,7 @@ const RecruitmentTable = () => {
         <div>
           <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: '700px', mb: 2, display: 'flex' }}>
             <TextField
-              sx={{ width: '300px' }}
+              sx={{ width: '500px' }}
               label='Search'
               variant='outlined'
               color='info'
@@ -124,9 +124,10 @@ const RecruitmentTable = () => {
                 )
               }}
             />
+
             <Button
               onClick={() => {
-                navigate('/recruitmentform')
+                navigate('/jobform')
               }}
               sx={{
                 width: '300px',
@@ -156,7 +157,8 @@ const RecruitmentTable = () => {
                         <TableCell>Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
                         <TableCell>Application Count</TableCell>
-                        <TableCell>Selected</TableCell>
+                        <TableCell>Selected Candidate</TableCell>
+                        <TableCell>Remaining Candidate</TableCell>
                         <TableCell>Worktype</TableCell>
                         <TableCell>Location</TableCell>
                         <TableCell>Deadline</TableCell>
@@ -173,16 +175,17 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Openings}</TableCell>
                             <TableCell>0</TableCell>
                             <TableCell>0</TableCell>
+                            <TableCell>0</TableCell>
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
-                            <TableCell>{x.Deadline}</TableCell>
+                            <TableCell> {new Date(x.Deadline).toLocaleDateString("en-GB")}</TableCell>
                          <TableCell align="left"  sx={{ '&:hover': { cursor: 'pointer' } }}>
                            <Box sx={{display:'flex',justifyContent:'center',gap:'15px'}}>
                                 <Tooltip title='Click to View'>
                                   <VisibilityIcon fontSize='small' onClick={() => {
                                 handleView(x._id)
                               }}
-                             color='success'/>
+                             />
                                 </Tooltip>
                                <Tooltip title='Edit'><Edit fontSize='small' color="primary" onClick={()=>handleEdit(x._id)}/></Tooltip>
                                <Tooltip title='Delete'><GridDeleteIcon fontSize='small' onClick={()=>handleDelete(x._id)} color='error'/></Tooltip>
@@ -198,6 +201,7 @@ const RecruitmentTable = () => {
                       )}{' '}
                     </TableBody>
                   </Table>
+                  <Pagination count={10} variant="outlined" shape="rounded" />
                 </TableContainer>
               ) : (
                 <p>NO DATA</p>
@@ -211,13 +215,15 @@ const RecruitmentTable = () => {
       <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
         {selectedJob && (
           <>
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1px' }}>
-              <DialogTitle variant='h2'>JobDescription Details</DialogTitle>
+            <Box sx={{ display: 'flex', justifyContent: 'Center',backgroundColor:'#ab47bc', marginBottom: '1px' }}>
+              <DialogTitle variant='h2' align='center'>Job Description Details</DialogTitle>
             </Box>
-            <DialogContent>
-              <Typography sx={{ lineHeight: '4', fontSize: '20px' }}>
+            <Box sx={{backgroundColor:'#f5f5f5'}}>
+            <DialogContent >
+              <Box>
+              <Typography sx={{ lineHeight: '4'}}variant='p' component='p'>
                 <b> Job Role</b>
-                <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>
+                <b style={{ marginLeft: '223px', paddingRight: '10px' }}>:</b>
                 {selectedJob.Jobrole}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
@@ -272,8 +278,9 @@ const RecruitmentTable = () => {
               <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b>Remaining</b>
                 <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b>
-              </Typography>
+              </Typography></Box>
             </DialogContent>
+            </Box>
           </>
         )}
       </Dialog>

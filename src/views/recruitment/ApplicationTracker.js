@@ -21,10 +21,12 @@ const ApplicationTracker = () => {
     }
   };
   const handleResume = async (id) => {
+    console.log(id,'res')
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
         responseType: 'blob'
       });
+      console.log(response,'res')
       const downloadLink = document.createElement('a');
       downloadLink.href = URL.createObjectURL(new Blob([response.data]));
       downloadLink.setAttribute('download', `${id}-resume.pdf`); 
