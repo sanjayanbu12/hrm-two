@@ -71,15 +71,15 @@ const MainRoutes = {
     },
    
     {
-      path: '/Recruitmenttable',
+      path: '/Jobtable',
       element: <RecruitmentTable />
     },
     {
-      path: '/Recruitmentform/:id',
+      path: '/Jobform/:id',
       element: <RecruitmentForm />
     },
     {
-      path: '/Recruitmentform',
+      path: '/Jobform',
       element: <RecruitmentForm />
     },
     {

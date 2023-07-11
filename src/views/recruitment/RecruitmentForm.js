@@ -305,7 +305,7 @@ const RecruitmentForm = () => {
           icon: 'success',
           text: 'Updated Successfully'
         }).then(() => {
-          navigate('/RecruitmentTable')
+          navigate('/JobTable')
         })
       } catch (error) {
         if (error instanceof yup.ValidationError) {
@@ -371,7 +371,7 @@ const RecruitmentForm = () => {
           icon: 'success',
           text: 'Add Recruitment'
         }).then(() => {
-          navigate('/RecruitmentTable')
+          navigate('/JobTable')
         })
       } catch (error) {
         if (error instanceof yup.ValidationError) {
@@ -549,7 +549,7 @@ const RecruitmentForm = () => {
                 label='Requirements'
                 variant='outlined'
                 value={Requirements}
-                type='value'
+                type='Value'
                 error={errors && errors.Requirements}
                 helperText={errors && errors.Requirements}
                 onChange={e => handleRequirements(e)}
@@ -571,7 +571,7 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12}>
-              <FormControl sx={{ width: '980px', height: '100px' }}>
+              <FormControl sx={{ width: '1000px', height: '100px' }}>
                 <TextField
                   labelId='demo-simple-select-label'
                   id='demo-simple-select'
@@ -589,14 +589,12 @@ const RecruitmentForm = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: '850px', marginTop: '20px' }}>
           <Button
             variant='contained'
-            size='small'
+           
             sx={{
-              height: '3px',
-              weight: '3px',
-              align: 'center',
-              boxShadow: 'none',
-              borderRadius: 2,
-              padding: 1.5,
+              width: '300px',
+              height: '40px',
+              borderRadius: '10px',
+              padding: 0.6,
               background: theme.palette.secondary.dark,
               color: theme.palette.secondary.light,
               '&:hover': {
@@ -609,17 +607,15 @@ const RecruitmentForm = () => {
             {id ? 'Update' : 'Save'}
           </Button>{' '}
           <Button
-            size='small'
+           
             onClick={() => {
-              navigate('/recruitmenttable')
+              navigate('/jobtable')
             }}
             sx={{
-              height: '3px',
-              weight: '3px',
-              align: 'center',
-              boxShadow: 'none',
-              borderRadius: 2,
-              padding: 1.5,
+              width: '300px',
+              height: '40px',
+              borderRadius: '10px',
+              padding: 0.6,
               background: '#673ab7',
               color: '#f5f5f5',
               '&:hover': {

@@ -35,13 +35,13 @@ const pages = {
           id: 'recruitmentform',
           title: 'Job Description Form',
           type: 'item',
-          url: '/recruitmentform'
+          url: '/jobform'
         },
         {
           id: 'recruitmenttable',
           title: 'Job Description Table',
           type: 'item',
-          url: '/recruitmenttable'
+          url: '/jobtable'
         },
         {
           id: 'applicationtracker',
