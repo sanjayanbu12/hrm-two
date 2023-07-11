@@ -14,10 +14,10 @@ const ApplicationTracker = () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
       const newData = response.data.getData.map((item) => {
-        // const photoUrl = `data:image/jpeg;base64,${item.photo.data}`;
-        // console.log(photoUrl)
+        const photoUrl = `data:image/jpeg;base64,${item.photo.data}`;
+        console.log(photoUrl)
         const resumeUrl = `data:application/pdf;base64,${item.resume.data}`;
-        return { ...item, resumeUrl };
+        return { ...item, photoUrl, resumeUrl };
       });
       setData(newData);
       console.log(newData, ' this is the new data');
@@ -46,12 +46,12 @@ const ApplicationTracker = () => {
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
                 <TableCell>
-                  {x.photo && (
+                  {x.photoUrl && (
                     <img
-                    src={`data:image/jpeg;base64,${x.photo.data.data}`}
-                    alt=" "
-                    style={{ width: '100px' }}
-                  />
+                      src={x.photoUrl}
+                      alt=" "
+                      style={{ width: '100px' }}
+                    />
                   )}
                 </TableCell>
                 <TableCell>
