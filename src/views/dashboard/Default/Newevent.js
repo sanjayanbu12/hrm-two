@@ -3,7 +3,16 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import {Button,InputAdornment, Dialog, DialogTitle, DialogContent, DialogActions, TextField } from "@mui/material";
+import './newevent.css';
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  TextField,
+} from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 function Newevent() {
   const [events, setEvents] = useState([
@@ -26,7 +35,7 @@ function Newevent() {
 
   const handleDateClick = (arg) => {
     setSelectedDate(arg.date);
-    console.log(selectedDate)
+    console.log(selectedDate);
     setOpen(true);
   };
 
@@ -80,79 +89,93 @@ function Newevent() {
       />
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>New Event</DialogTitle>
-        <DialogContent sx={{ width: '400px' }}>
-      
-         <TextField
+    <DialogTitle>
+          <CancelIcon className="close-icon" onClick={handleClose} />
+          <h2 className="popup-title">New Event</h2>
+        </DialogTitle>
+        <DialogContent sx={{ width: "400px" }}>
+          <form className="worklog-form">
+  
+
+          <TextField
             autoFocus
             margin="dense"
             label="Event Title"
             fullWidth
             value={eventTitle}
             onChange={(e) => setEventTitle(e.target.value)}
-            sx={{width:'316px', marginBottom: "16px"}}
+            sx={{width:'320px', marginBottom: "16px"}}
             
           />
 
 
-          <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="Start Date"
-            type="date"
-            fullWidth
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
-          />
+          <div className="form-group">
+              <label htmlFor="date">Start Date:</label>
+              <TextField
+                type="date"
+                id="date"
+                className="input-field"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </div>
 
-          <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="End Date"
-            type="date"
-            fullWidth
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            sx={{width:'150px', marginBottom: "16px"}}
-          />
+            <div className="form-group">
+              <label htmlFor="date"> End Date:</label>
+              <TextField
+                type="date"
+                id="date"
+                className="input-field"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </div>
 
-          <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="Start Time"
-            fullWidth
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
-          />
 
-          <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="End Time"
-            fullWidth
-            type="time"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            sx={{width:'150px',marginBottom: "16px",}}
-          />
+            <div className="form-group">
+              <label htmlFor="startTime">Start Time:</label>
+              <TextField
+                type="time"
+                id="startTime"
+                className="input-field"
+                value={startTime}
+                onChange={(e) => setStartTime(e.target.value)}
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="endTime">End Time:</label>
+              <TextField
+                type="time"
+                id="endTime"
+                className="input-field"
+                value={endTime}
+                onChange={(e) => setEndTime(e.target.value)}
+              />
+            </div>
+
+     
+
+            {/* <div className="form-group">
+              <label htmlFor="details">Details:</label>
+              <textarea
+                id="details"
+                rows="4"
+                className="textarea-field"
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
+              ></textarea>
+            </div> */}
+          </form>
         </DialogContent>
         <DialogActions sx={{ justifyContent: "center" }}>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleCreateEvent}>Create</Button>
+          {/* <Button onClick={handleClose}>Cancel</Button> */}
+          <Button className="close-button"  onClick={handleCreateEvent}>
+          Save</Button>
         </DialogActions>
       </Dialog>
-    </div>
+      </div>
+      
   );
 }
 
