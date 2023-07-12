@@ -62,7 +62,7 @@ const ApplicationTracker = () => {
       console.log(`blob  = ${blob}`);
       saveAs(blob, `${name}.${extension}`);
     } catch (error) {
-      console.log(error);
+      console.log('Error downloading resume:', error);
     }
   };
   
