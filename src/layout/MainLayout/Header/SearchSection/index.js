@@ -40,15 +40,15 @@ const AttendanceTracker = () => {
       const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
 
       const response = await axios.post('https://hrm-backend-square.onrender.com/attendance/checkin', {
-      checkInTime: currentTime,
-      checkInDate: currentDate
-        
+        checkInTime: currentTime,
+        checkInDate: currentDate
       });
 
       if (response.data.success) {
         setCheckInTime(currentTime);
         setCheckInDate(currentDate);
         toast.success('Check-in successful');
+        console.log(checkInTime);
         console.log(checkInDate);
       } else {
         toast.error(response.data.message);
@@ -81,16 +81,20 @@ const AttendanceTracker = () => {
     }
   };
 
+  // Determine if today's check-in is already done
+  const today = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
+  const isCheckInDone = checkInDate === today;
+
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item>
-        <Button variant="contained" color="success" onClick={handleCheckIn} disabled={checkInTime !== ''}>
+        <Button variant="contained" color="success" onClick={handleCheckIn} disabled={isCheckInDone}>
           Check In
         </Button>
       </Grid>
 
       <Grid item>
-        <Button variant="contained" color="error" onClick={handleCheckOut} disabled={checkInTime === '' || checkOutTime !== ''}>
+        <Button variant="contained" color="error" onClick={handleCheckOut} disabled={!isCheckInDone || checkOutTime !== ''}>
           Check Out
         </Button>
       </Grid>
