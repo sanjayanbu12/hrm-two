@@ -7,6 +7,7 @@ import './newevent.css';
 import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextArea from 'antd/es/input/TextArea';
+import MainCard from 'ui-component/cards/MainCard';
 
 function Newevent() {
   const [events, setEvents] = useState([]);
@@ -100,131 +101,133 @@ function Newevent() {
 
   return (
     <div>
-      <FullCalendar
-        plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        headerToolbar={{
-          start: 'today prev,next',
-          center: 'title',
-          end: 'dayGridMonth,timeGridWeek,timeGridDay'
-        }}
-        height={'90vh'}
-        events={upcomingEvents}
-        selectable={true}
-        dateClick={handleDateClick}
-        eventContent={eventContent} // Custom event rendering
-      />
+      <MainCard>
+        <FullCalendar
+          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
+          initialView="dayGridMonth"
+          headerToolbar={{
+            start: 'today prev,next',
+            center: 'title',
+            end: 'dayGridMonth,timeGridWeek,timeGridDay'
+          }}
+          height={'90vh'}
+          events={upcomingEvents}
+          selectable={true}
+          dateClick={handleDateClick}
+          eventContent={eventContent} // Custom event rendering
+        />
 
-      <Dialog open={open} onClose={handleClose}>
-        <CancelIcon className="close-icon" onClick={handleClose} />
-        <h2 className="popup-title">New Event</h2>
-        <DialogContent sx={{ width: '400px' }}>
-          <form className="worklog-form">
-            <TextField
-              autoFocus
-              margin="dense"
-              label="Event Title"
-              fullWidth
-              value={eventTitle}
-              onChange={(e) => setEventTitle(e.target.value)}
-              sx={{ width: '330px', marginBottom: '16px' }}
-            />
+        <Dialog open={open} onClose={handleClose}>
+          <CancelIcon className="close-icon" onClick={handleClose} />
+          <h2 className="popup-title">New Event</h2>
+          <DialogContent sx={{ width: '400px' }}>
+            <form className="worklog-form">
+              <TextField
+                autoFocus
+                margin="dense"
+                label="Event Title"
+                fullWidth
+                value={eventTitle}
+                onChange={(e) => setEventTitle(e.target.value)}
+                sx={{ width: '330px', marginBottom: '16px' }}
+              />
 
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <div className="form-group">
-                  <TextField
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"></InputAdornment>
-                    }}
-                    margin="dense"
-                    label="Start Date"
-                    type="date"
-                    fullWidth
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
-                  />
-                </div>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <div className="form-group">
+                    <TextField
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"></InputAdornment>
+                      }}
+                      margin="dense"
+                      label="Start Date"
+                      type="date"
+                      fullWidth
+                      value={startDate}
+                      onChange={(e) => setStartDate(e.target.value)}
+                      sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={6}>
+                  <div className="form-group">
+                    <TextField
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"></InputAdornment>
+                      }}
+                      margin="dense"
+                      label="End Date"
+                      type="date"
+                      fullWidth
+                      value={endDate}
+                      onChange={(e) => setEndDate(e.target.value)}
+                      sx={{ width: '150px', marginBottom: '16px' }}
+                    />
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <div className="form-group">
-                  <TextField
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"></InputAdornment>
-                    }}
-                    margin="dense"
-                    label="End Date"
-                    type="date"
-                    fullWidth
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    sx={{ width: '150px', marginBottom: '16px' }}
-                  />
-                </div>
-              </Grid>
-            </Grid>
 
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <div className="form-group">
-                  <TextField
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"></InputAdornment>
-                    }}
-                    margin="dense"
-                    label="Start Time"
-                    fullWidth
-                    type="time"
-                    value={startTime}
-                    onChange={(e) => setStartTime(e.target.value)}
-                    sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
-                  />
-                </div>
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <div className="form-group">
+                    <TextField
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"></InputAdornment>
+                      }}
+                      margin="dense"
+                      label="Start Time"
+                      fullWidth
+                      type="time"
+                      value={startTime}
+                      onChange={(e) => setStartTime(e.target.value)}
+                      sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
+                    />
+                  </div>
+                </Grid>
+                <Grid item xs={6}>
+                  <div className="form-group">
+                    <TextField
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start"></InputAdornment>
+                      }}
+                      margin="dense"
+                      label="End Time"
+                      fullWidth
+                      type="time"
+                      value={endTime}
+                      onChange={(e) => setEndTime(e.target.value)}
+                      sx={{ width: '150px' }}
+                    />
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={6}>
-                <div className="form-group">
-                  <TextField
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"></InputAdornment>
-                    }}
-                    margin="dense"
-                    label="End Time"
-                    fullWidth
-                    type="time"
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}
-                    sx={{ width: '150px' }}
-                  />
-                </div>
-              </Grid>
-            </Grid>
 
-            <TextField
-              label="Event Link"
-              fullWidth
-              value={eventLink}
-              onChange={(e) => setEventLink(e.target.value)}
-              sx={{ width: '330px', marginBottom: '16px' }}
-            />
+              <TextField
+                label="Event Link"
+                fullWidth
+                value={eventLink}
+                onChange={(e) => setEventLink(e.target.value)}
+                sx={{ width: '330px', marginBottom: '16px' }}
+              />
 
-            <TextArea
-              margin="dense"
-              label="Description"
-              InputProps={{
-                startAdornment: <InputAdornment position="start"></InputAdornment>
-              }}
-              fullWidth
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              sx={{ width: '300px', marginBottom: '16px' }}
-            />
-          </form>
-        </DialogContent>
-        <Button className="close-button" onClick={handleCreateEvent}>
-          Save
-        </Button>
-      </Dialog>
+              <TextArea
+                margin="dense"
+                label="Description"
+                InputProps={{
+                  startAdornment: <InputAdornment position="start"></InputAdornment>
+                }}
+                fullWidth
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                sx={{ width: '300px', marginBottom: '16px' }}
+              />
+            </form>
+          </DialogContent>
+          <Button className="close-button" onClick={handleCreateEvent}>
+            Save
+          </Button>
+        </Dialog>
+      </MainCard>
     </div>
   );
 }
