@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import MainCard from 'ui-component/cards/MainCard';
 import { CardContent, Grid, Typography, Button, Box } from '@mui/material';
@@ -7,37 +7,15 @@ import { useTheme } from '@mui/material/styles';
 import AddIcon from '@mui/icons-material/Add';
 
 const Upcomingevents = () => {
-  const upcomingEvents = [
-    {
-      title: 'Meeting',
-      startDate: '2023-07-10',
-      endDate: '2023-07-10',
-      Time: '10.00 AM',
-      icon: <EventIcon />,
-    },
-    {
-      title: 'Zoom Meeting',
-      startDate: '2023-07-15',
-      endDate: '2023-07-15',
-      Time: '11.00 AM',
-      icon: <EventIcon color="secondary" />,
-    },
-    {
-      title: 'Meet',
-      startDate: '2023-07-20',
-      endDate: '2023-07-20',
-      Time: '4.00 PM',
-      icon: <EventIcon color="action" />,
-    },
-    {
-      title: 'Meeting',
-      startDate: '2023-07-10',
-      endDate: '2023-07-10',
-      Time: '10.00 AM',
-      icon: <EventIcon color="primary" />,
-    },
-  ];
+  const [events, setEvents] = useState([]);
   const isLoading = false;
+
+  useEffect(() => {
+    const storedEvents = localStorage.getItem('events');
+    if (storedEvents) {
+      setEvents(JSON.parse(storedEvents));
+    }
+  }, []);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -74,11 +52,13 @@ const Upcomingevents = () => {
             </Box>
 
             <Grid container spacing={2} style={{ gap: '30px' }}>
-              {upcomingEvents.map((event, index) => {
-                const startDate = new Date(event.startDate);
-                const endDate = new Date(event.endDate);
+              {events.map((event, index) => {
+                const startDate = new Date(event.start);
+                const endDate = new Date(event.end);
                 const startMonth = startDate.toLocaleString('en-US', { month: 'long' });
                 const endMonth = endDate.toLocaleString('en-US', { month: 'long' });
+                const startTime = startDate.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric' });
+                const endTime = endDate.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric' });
                 return (
                   <Grid
                     item
@@ -98,7 +78,7 @@ const Upcomingevents = () => {
                       textAlign: 'center',
                     }}
                   >
-                    {event.icon}
+                    <EventIcon />
                     <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '10px' }}>
                       {event.title}
                     </Typography>
@@ -106,8 +86,13 @@ const Upcomingevents = () => {
                       {startMonth} {startDate.getDate()} - {endMonth} {endDate.getDate()}, {endDate.getFullYear()}
                     </Typography>
                     <Typography variant="body2" style={{ color: '#666' }}>
-                      {event.Time}
+                      {startTime} - {endTime}
                     </Typography>
+                    {event.eventLink && (
+                      <a href={event.eventLink} target="_blank" rel="noopener noreferrer">
+                        Event Link
+                      </a>
+                    )}
                   </Grid>
                 );
               })}

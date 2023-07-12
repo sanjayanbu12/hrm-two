@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './newevent.css';
-import { Button, Dialog, DialogContent, TextField, Grid,InputAdornment } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextArea from 'antd/es/input/TextArea';
 
@@ -81,7 +81,21 @@ function Newevent() {
     setStartDate('');
     setEndDate('');
     setEventLink('');
-    setDescription('')
+    setDescription('');
+  };
+
+  const eventContent = (eventInfo) => {
+    return (
+      <>
+        <div>{eventInfo.timeText}</div>
+        <div>{eventInfo.event.title}</div>
+        {eventInfo.event.extendedProps.eventLink && (
+          <a href={eventInfo.event.extendedProps.eventLink} target="_blank" rel="noopener noreferrer">
+            {eventInfo.event.extendedProps.eventLink}
+          </a>
+        )}
+      </>
+    );
   };
 
   return (
@@ -98,6 +112,7 @@ function Newevent() {
         events={upcomingEvents}
         selectable={true}
         dateClick={handleDateClick}
+        eventContent={eventContent} // Custom event rendering
       />
 
       <Dialog open={open} onClose={handleClose}>
@@ -118,40 +133,34 @@ function Newevent() {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <div className="form-group">
-                  {/* <label htmlFor="startDate">Start Date:</label> */}
                   <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="Start Date"
-            type="date"
-            fullWidth
-            value={startDate}
-            onChange={(e) => setStartDate(e.target.value)}
-            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
-          />
-
-
-
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"></InputAdornment>
+                    }}
+                    margin="dense"
+                    label="Start Date"
+                    type="date"
+                    fullWidth
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
+                  />
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className="form-group">
-                  {/* <label htmlFor="endDate">End Date:</label> */}
                   <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="End Date"
-            type="date"
-            fullWidth
-            value={endDate}
-            onChange={(e) => setEndDate(e.target.value)}
-            sx={{width:'150px', marginBottom: "16px"}}
-          />
-
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"></InputAdornment>
+                    }}
+                    margin="dense"
+                    label="End Date"
+                    type="date"
+                    fullWidth
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    sx={{ width: '150px', marginBottom: '16px' }}
+                  />
                 </div>
               </Grid>
             </Grid>
@@ -159,39 +168,34 @@ function Newevent() {
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <div className="form-group">
-                  {/* <label htmlFor="startTime">Start Time:</label> */}
                   <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="Start Time"
-            fullWidth
-            type="time"
-            value={startTime}
-            onChange={(e) => setStartTime(e.target.value)}
-            sx={{width:'150px', marginBottom: "16px", marginRight: "16px"}}
-          />
-
-
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"></InputAdornment>
+                    }}
+                    margin="dense"
+                    label="Start Time"
+                    fullWidth
+                    type="time"
+                    value={startTime}
+                    onChange={(e) => setStartTime(e.target.value)}
+                    sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
+                  />
                 </div>
               </Grid>
               <Grid item xs={6}>
                 <div className="form-group">
-                  {/* <label htmlFor="endTime">End Time:</label> */}
                   <TextField
-          InputProps={{
-            startAdornment: <InputAdornment position="start"></InputAdornment>
-          }}
-            margin="dense"
-            label="End Time"
-            fullWidth
-            type="time"
-            value={endTime}
-            onChange={(e) => setEndTime(e.target.value)}
-            sx={{width:'150px'}}
-          />
-
+                    InputProps={{
+                      startAdornment: <InputAdornment position="start"></InputAdornment>
+                    }}
+                    margin="dense"
+                    label="End Time"
+                    fullWidth
+                    type="time"
+                    value={endTime}
+                    onChange={(e) => setEndTime(e.target.value)}
+                    sx={{ width: '150px' }}
+                  />
                 </div>
               </Grid>
             </Grid>
@@ -204,8 +208,8 @@ function Newevent() {
               sx={{ width: '330px', marginBottom: '16px' }}
             />
 
-<TextArea 
-             margin="dense"
+            <TextArea
+              margin="dense"
               label="Description"
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>
@@ -215,7 +219,6 @@ function Newevent() {
               onChange={(e) => setDescription(e.target.value)}
               sx={{ width: '300px', marginBottom: '16px' }}
             />
-
           </form>
         </DialogContent>
         <Button className="close-button" onClick={handleCreateEvent}>
