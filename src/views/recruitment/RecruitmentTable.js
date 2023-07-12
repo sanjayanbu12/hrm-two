@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import MainCard from 'ui-component/cards/MainCard'
+import '../recruitment/Recruitment.css'
 import {
   Table,
   TableCell,
