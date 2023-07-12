@@ -1,15 +1,15 @@
 
 import React, { useState } from 'react';
-import { Box, Button, Grid, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import MainCard from 'ui-component/cards/MainCard';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from 'axios';
 import { DateTime } from 'luxon';
+import { useNavigate } from 'react-router-dom';
+import MainCard from 'ui-component/cards/MainCard';
 
 const LeaveTrackerForm = () => {
   const navigate = useNavigate();
   const [employeeId, setEmployeeId] = useState('');
-  const [employeeName, setEmployeeName] = useState('')
+  const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -27,9 +27,7 @@ const LeaveTrackerForm = () => {
     // Check if selected start date is a previous date
     const currentDate = DateTime.now().toISODate();
     if (selectedStartDate < currentDate) {
-      const formErrors = { ...errors };
-      formErrors.startDate = 'Start date cannot be a previous date';
-      setErrors(formErrors);
+      setErrors((prevErrors) => ({ ...prevErrors, startDate: 'Start date cannot be a previous date' }));
     } else {
       // Clear the error if the start date is valid
       setErrors((prevErrors) => ({ ...prevErrors, startDate: undefined }));
@@ -44,9 +42,7 @@ const LeaveTrackerForm = () => {
 
     // Check if selected end date is before the start date
     if (selectedEndDate < startDate) {
-      const formErrors = { ...errors };
-      formErrors.endDate = 'End date cannot be before the start date';
-      setErrors(formErrors);
+      setErrors((prevErrors) => ({ ...prevErrors, endDate: 'End date cannot be before the start date' }));
     } else {
       // Clear the error if the end date is valid
       setErrors((prevErrors) => ({ ...prevErrors, endDate: undefined }));
@@ -104,7 +100,7 @@ const LeaveTrackerForm = () => {
 
     // Validate end date
     if (!endDate) {
-      formErrors.endDate = 'End dateis required';
+      formErrors.endDate = 'End date is required';
       isValid = false;
     }
 
@@ -164,7 +160,7 @@ const LeaveTrackerForm = () => {
 
   return (
     <MainCard title="LeaveTrackerForm">
-      <form>
+      <form onSubmit={handleSubmit}>
         <Box p={2}>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
@@ -243,7 +239,7 @@ const LeaveTrackerForm = () => {
                 helperText={errors.endDate}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
                 id="number-of-days"
@@ -268,12 +264,12 @@ const LeaveTrackerForm = () => {
                 helperText={errors.reason}
               />
             </Grid>
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-        </Box>
-        <Box p={2} display="flex" justifyContent="flex-end">
-          <Button variant="contained" color="primary" onClick={handleSubmit}>
-            Submit
-          </Button>
         </Box>
       </form>
     </MainCard>

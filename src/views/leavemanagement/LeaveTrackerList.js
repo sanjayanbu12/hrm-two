@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { DialogActions } from '@mui/material';
-import { CheckCircleOutline, CancelOutlined } from '@mui/icons-material';
+import { CheckCircleOutline, CancelOutlined, Edit, Visibility, HourglassEmpty } from '@mui/icons-material';
 import {
   Table,
   TableCell,
@@ -17,11 +17,12 @@ import {
   DialogContent,
   Typography,
   Button,
-  
 } from '@mui/material';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const LeaveTrackerList = () => {
+  const navigate = useNavigate();
   const [leaveTrackerList, setLeaveTrackerList] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedLeave, setSelectedLeave] = useState(null);
@@ -53,38 +54,8 @@ const LeaveTrackerList = () => {
     setOpen(true);
   };
 
-  const handleApproveLeave = () => {
-    // Perform API call to update the leave status as approved
-    // You can use the selectedLeave._id or any other identifier to identify the leave entry
-
-    // Assuming the API call is successful, update the status in the local state
-    setLeaveTrackerList((prevList) =>
-      prevList.map((leave) => {
-        if (leave._id === selectedLeave._id) {
-          return { ...leave, status: 'approved' };
-        }
-        return leave;
-      })
-    );
-
-    handleClose();
-  };
-
-  const handleRejectLeave = () => {
-    // Perform API call to update the leave status as rejected
-    // You can use the selectedLeave._id or any other identifier to identify the leave entry
-
-    // Assuming the API call is successful, update the status in the local state
-    setLeaveTrackerList((prevList) =>
-      prevList.map((leave) => {
-        if (leave._id === selectedLeave._id) {
-          return { ...leave, status: 'rejected' };
-        }
-        return leave;
-      })
-    );
-
-    handleClose();
+  const handleEditLeave = () => {
+    navigate('/leavetrackerform');
   };
 
   return (
@@ -96,77 +67,93 @@ const LeaveTrackerList = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
+                    <TableCell>Employee ID</TableCell>
+                    <TableCell>Employee Name</TableCell>
                     <TableCell>Leave Type</TableCell>
                     <TableCell>Start Date</TableCell>
                     <TableCell>End Date</TableCell>
                     <TableCell>Reason</TableCell>
                     <TableCell>Status</TableCell>
+                    <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {leaveTrackerList.map((leave) => (
                     <TableRow
-                      key={leave._id}
+                      key={leave.employeeId}
                       onClick={() => handleRowClick(leave)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <TableCell>{leave._id}</TableCell>
+                      <TableCell>{leave.employeeId}</TableCell>
+                      <TableCell>{leave.employeeName}</TableCell>
                       <TableCell>{leave.leaveType}</TableCell>
                       <TableCell>{leave.startDate}</TableCell>
                       <TableCell>{leave.endDate}</TableCell>
                       <TableCell>{leave.reason}</TableCell>
-                  <TableCell>
-                    {leave.status === 'pending' && <CheckCircleOutline style={{ color: 'orange' }} />}
-                    {leave.status === 'approved' && <CheckCircleOutline style={{ color: 'green' }} />}
-                    {leave.status === 'rejected' && <CancelOutlined style={{ color: 'red' }} />}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      ) : (
-        <Typography variant="h5" align="center" color="textSecondary">
-          No leave requests found
-        </Typography>
-      )}
-    </Grid>
-  </Grid>
+                      <TableCell>
+                        {leave.status === 'approved' ? (
+                          <CheckCircleOutline style={{ color: 'green' }} />
+                        ) : leave.status === 'pending' ? (
+                          <HourglassEmpty style={{ color: 'orange' }} />
+                        ) : (
+                          <Visibility style={{ color: 'grey' }} />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {leave.status === 'approved' ? (
+                          <CheckCircleOutline style={{ color: 'green' }} />
+                        ) : (
+                          <Visibility style={{ color: 'grey' }} />
+                        )}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          ) : (
+            <Typography variant="h5" align="center" color="textSecondary">
+              No leave requests found
+            </Typography>
+          )}
+        </Grid>
+      </Grid>
 
-  {/* Leave Details Dialog */}
-  <Dialog open={open} onClose={handleClose}>
-    <DialogTitle>Leave Details</DialogTitle>
-    <DialogContent>
-      {selectedLeave && (
-        <Box>
-          <Typography variant="body1">Employee ID: {selectedLeave.employeeId}</Typography>
-          <Typography variant="body1">Employee Name: {selectedLeave.employeeName}</Typography>
-          <Typography variant="body1">Leave Type: {selectedLeave.leaveType}</Typography>
-          <Typography variant="body1">Start Date: {selectedLeave.startDate}</Typography>
-          <Typography variant="body1">End Date: {selectedLeave.endDate}</Typography>
-          <Typography variant="body1">Reason: {selectedLeave.reason}</Typography>
-        </Box>
-      )}
-    </DialogContent>
-    <DialogActions>
-      <Button onClick={handleClose} color="inherit">
-        Close
-      </Button>
-      {selectedLeave && selectedLeave.status === 'pending' && (
-        <>
-          <Button onClick={handleApproveLeave} color="success">
-            Approve
+      {/* Leave Details Dialog */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Leave Details</DialogTitle>
+        <DialogContent>
+          {selectedLeave && (
+            <Box>
+              <Typography variant="body1">Employee ID: {selectedLeave.employeeId}</Typography>
+              <Typography variant="body1">Employee Name: {selectedLeave.employeeName}</Typography>
+              <Typography variant="body1">Leave Type: {selectedLeave.leaveType}</Typography>
+              <Typography variant="body1">Start Date: {selectedLeave.startDate}</Typography>
+              <Typography variant="body1">End Date: {selectedLeave.endDate}</Typography>
+              <Typography variant="body1">Reason: {selectedLeave.reason}</Typography>
+              <Typography variant="body1">
+                Status: {selectedLeave.status === 'pending' ? 'Pending' : selectedLeave.status === 'approved' ? 'Approved' : 'Rejected'}
+                {selectedLeave.status === 'approved' && <CheckCircleOutline style={{ color: 'green', marginLeft: '8px' }} />}
+                {selectedLeave.status === 'rejected' && <CancelOutlined style={{ color: 'red', marginLeft: '8px' }} />}
+              </Typography>
+
+              {/* Edit icon */}
+              {selectedLeave.status !== 'approved' && (
+                <Button onClick={handleEditLeave} color="primary">
+                  <Edit />
+                </Button>
+              )}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="inherit">
+            Close
           </Button>
-          <Button onClick={handleRejectLeave} color="error">
-            Reject
-          </Button>
-        </>
-      )}
-    </DialogActions>
-  </Dialog>
-</MainCard>
-);
+        </DialogActions>
+      </Dialog>
+    </MainCard>
+  );
 };
 
 export default LeaveTrackerList;
