@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-
 import MainCard from 'ui-component/cards/MainCard'
 import {
   Table,
@@ -20,29 +19,34 @@ import {
   TextField,
   InputAdornment,
   Tooltip,
-  Pagination,
+  Pagination
 } from '@mui/material'
 import axios from 'axios'
 import AddIcon from '@mui/icons-material/Add'
 import { useTheme } from '@mui/material/styles'
 import { useNavigate } from 'react-router'
-import { GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid'
+import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid'
 import Swal from 'sweetalert2'
 import { Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+
 const RecruitmentTable = () => {
-  const [RecruitmentList, setRecruitmentList] = useState([])
-  const [Loader, setLoader] = useState(true)
+  const [recruitmentList, setRecruitmentList] = useState([])
+  const [loader, setLoader] = useState(true)
   const [open, setOpen] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
-  const [Search, setSearch] = useState('')
+  const [search, setSearch] = useState('')
+  const [sortDirection, setSortDirection] = useState('asc')
   const theme = useTheme()
   const navigate = useNavigate()
+  const [currentPage, setCurrentPage] = useState(1)
+  const rowsPerPage = 5
 
   useEffect(() => {
-    fetchdata()
+    fetchData()
   }, [])
-  const fetchdata = async () => {
+
+  const fetchData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec')
       const newData = response.data.getData
@@ -53,25 +57,42 @@ const RecruitmentTable = () => {
       console.log('Error retrieving user data:', error)
     }
   }
+
   const handleView = id => {
-    const job = RecruitmentList.find(item => item._id === id)
+    const job = recruitmentList.find(item => item._id === id)
     setSelectedJob(job)
     setOpen(true)
   }
+
   const handleClose = () => {
     setOpen(false)
   }
+
   const handleSearch = e => {
     setSearch(e.target.value)
   }
 
-  const filteredjob = RecruitmentList.filter(job => {
-    const lowersearchText = Search.toLowerCase()
-    return Object.values(job).some(value => value && value.toString().toLowerCase().includes(lowersearchText))
-  })
+  const handleSort = () => {
+    const sortedList = [...recruitmentList]
+    sortedList.sort((a, b) => {
+      const nameA = a.Jobrole.toLowerCase()
+      const nameB = b.Jobrole.toLowerCase()
+      if (nameA < nameB) {
+        return sortDirection === 'ascending' ? -1 : 1
+      }
+      if (nameA > nameB) {
+        return sortDirection === 'ascending' ? 1 : -1
+      }
+      return 0
+    })
+    setRecruitmentList(sortedList)
+    setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending')
+  }
+
   const handleEdit = id => {
     navigate(`/jobform/${id}`)
   }
+
   const handleDelete = id => {
     handleClose()
     Swal.fire({
@@ -86,7 +107,7 @@ const RecruitmentTable = () => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
-          await fetchdata()
+          await fetchData()
           handleClose()
           Swal.fire({
             icon: 'success',
@@ -98,9 +119,22 @@ const RecruitmentTable = () => {
       }
     })
   }
+
+  const filteredJobs = recruitmentList.filter(job => {
+    const lowerSearchText = search.toLowerCase()
+    return Object.values(job).some(value => value && value.toString().toLowerCase().includes(lowerSearchText))
+  })
+  const handlePageChange = (e, value) => {
+    setCurrentPage(value)
+  }
+
+  const indexOfLastJob = currentPage * rowsPerPage
+  const indexOfFirstJob = indexOfLastJob - rowsPerPage
+  const currentJobs = filteredJobs.slice(indexOfFirstJob, indexOfLastJob)
+
   return (
     <MainCard title='Job Description Table'>
-      {Loader ? (
+      {loader ? (
         <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
           <CircularProgress />
         </Box>
@@ -112,14 +146,13 @@ const RecruitmentTable = () => {
               label='Search'
               variant='outlined'
               color='info'
-              value={Search}
+              value={search}
               onChange={handleSearch}
               size='small'
-             
               InputProps={{
                 endAdornment: (
                   <InputAdornment position='end'>
-                 <GridSearchIcon color='primary' />
+                    <GridSearchIcon color='primary' />
                   </InputAdornment>
                 )
               }}
@@ -148,13 +181,18 @@ const RecruitmentTable = () => {
           </Box>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              {RecruitmentList.length > 0 ? (
+              {recruitmentList.length > 0 ? (
                 <TableContainer component={Paper}>
                   <Table>
                     <TableHead>
                       <TableRow>
                         <TableCell>Job ID</TableCell>
-                        <TableCell>Job Role</TableCell>
+                        <TableCell>
+                          <Button color='inherit' onClick={handleSort}>
+                            Job Role
+                            {sortDirection === 'ascending' ? <GridArrowUpwardIcon fontSize='small' /> : <GridArrowDownwardIcon fontSize='small' />}
+                          </Button>
+                        </TableCell>
                         <TableCell>No of Openings</TableCell>
                         <TableCell>Application Count</TableCell>
                         <TableCell>Selected Candidate</TableCell>
@@ -166,9 +204,8 @@ const RecruitmentTable = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {RecruitmentList.length > 0 && filteredjob.length > 0 ? (
-                        RecruitmentList.map &&
-                        filteredjob.map(x => (
+                      {currentJobs.length > 0 ? (
+                        currentJobs.map(x => (
                           <TableRow key={x._id}>
                             <TableCell>{x.uuid}</TableCell>
                             <TableCell>{x.Jobrole}</TableCell>
@@ -178,18 +215,25 @@ const RecruitmentTable = () => {
                             <TableCell>0</TableCell>
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
-                            <TableCell> {new Date(x.Deadline).toLocaleDateString("en-GB")}</TableCell>
-                         <TableCell align="left"  sx={{ '&:hover': { cursor: 'pointer' } }}>
-                           <Box sx={{display:'flex',justifyContent:'center',gap:'15px'}}>
+                            <TableCell>{new Date(x.Deadline).toLocaleDateString('en-GB')}</TableCell>
+                            <TableCell align='left' sx={{ '&:hover': { cursor: 'pointer' } }}>
+                              <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
                                 <Tooltip title='Click to View'>
-                                  <VisibilityIcon fontSize='small' onClick={() => {
-                                handleView(x._id)
-                              }}
-                             />
+                                  <VisibilityIcon
+                                    fontSize='small'
+                                    onClick={() => {
+                                      handleView(x._id)
+                                    }}
+                                  />
                                 </Tooltip>
-                               <Tooltip title='Edit'><Edit fontSize='small' color="primary" onClick={()=>handleEdit(x._id)}/></Tooltip>
-                               <Tooltip title='Delete'><GridDeleteIcon fontSize='small' onClick={()=>handleDelete(x._id)} color='error'/></Tooltip>
-                               </Box> </TableCell>
+                                <Tooltip title='Edit'>
+                                  <Edit fontSize='small' color='primary' onClick={() => handleEdit(x._id)} />
+                                </Tooltip>
+                                <Tooltip title='Delete'>
+                                  <GridDeleteIcon fontSize='small' onClick={() => handleDelete(x._id)} color='error' />
+                                </Tooltip>
+                              </Box>
+                            </TableCell>
                           </TableRow>
                         ))
                       ) : (
@@ -198,10 +242,15 @@ const RecruitmentTable = () => {
                             No data found
                           </TableCell>
                         </TableRow>
-                      )}{' '}
+                      )}
                     </TableBody>
                   </Table>
-                  <Pagination count={10} variant="outlined" shape="rounded" />
+                  <Pagination
+                    count={Math.ceil(filteredJobs.length / rowsPerPage)}
+                    page={currentPage}
+                    onChange={handlePageChange}
+                    sx={{ marginTop: '10px', marginBottom: '10px', display: 'flex', justifyContent: 'flex-end' }}
+                  />
                 </TableContainer>
               ) : (
                 <p>NO DATA</p>
@@ -215,71 +264,74 @@ const RecruitmentTable = () => {
       <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
         {selectedJob && (
           <>
-            <Box sx={{ display: 'flex', justifyContent: 'Center',backgroundColor:'#ab47bc', marginBottom: '1px' }}>
-              <DialogTitle variant='h2' align='center'>Job Description Details</DialogTitle>
+            <Box sx={{ display: 'flex', justifyContent: 'center', backgroundColor: '#ab47bc', marginBottom: '1px' }}>
+              <DialogTitle variant='h2' align='center'>
+                Job Description Details
+              </DialogTitle>
             </Box>
-            <Box sx={{backgroundColor:'#f5f5f5'}}>
-            <DialogContent >
-              <Box>
-              <Typography sx={{ lineHeight: '4'}}variant='p' component='p'>
-                <b> Job Role</b>
-                <b style={{ marginLeft: '223px', paddingRight: '10px' }}>:</b>
-                {selectedJob.Jobrole}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b>No. of Openings</b>
-                <b style={{ marginLeft: '178px', paddingRight: '10px' }}>:</b> {selectedJob.Openings}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Company</b>
-                <b style={{ marginLeft: '220px', paddingRight: '10px' }}>:</b> {selectedJob.Company}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Location</b>
-                <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Location}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Worktype</b>
-                <b style={{ marginLeft: '221px', paddingRight: '10px' }}>:</b> {selectedJob.Worktype}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Qualification</b>
-                <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Year of Passing</b>
-                <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b>{' '}
-                {!selectedJob.Year ? <span>Not Mentioned </span> : selectedJob.Year}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Experience</b>
-                <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.Experience} Years
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Requirements</b>
-                <b style={{ marginLeft: '193px', paddingRight: '10px' }}>:</b> {selectedJob.Requirements}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Description</b>
-                <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b> {selectedJob.Description}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Last Date to Apply</b>
-                <b style={{ marginLeft: '168px', paddingRight: '10px' }}>:</b> {selectedJob.Deadline}
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Application Count</b>
-                <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b>
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b> Selected</b>
-                <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b>
-              </Typography>
-              <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                <b>Remaining</b>
-                <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b>
-              </Typography></Box>
-            </DialogContent>
+            <Box sx={{ backgroundColor: '#f5f5f5' }}>
+              <DialogContent>
+                <Box>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Job Role</b>
+                    <b style={{ marginLeft: '223px', paddingRight: '10px' }}>:</b>
+                    {selectedJob.Jobrole}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b>No. of Openings</b>
+                    <b style={{ marginLeft: '178px', paddingRight: '10px' }}>:</b> {selectedJob.Openings}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Company</b>
+                    <b style={{ marginLeft: '220px', paddingRight: '10px' }}>:</b> {selectedJob.Company}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Location</b>
+                    <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Location}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Worktype</b>
+                    <b style={{ marginLeft: '221px', paddingRight: '10px' }}>:</b> {selectedJob.Worktype}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Qualification</b>
+                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Year of Passing</b>
+                    <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b>{' '}
+                    {!selectedJob.Year ? <span>Not Mentioned </span> : selectedJob.Year}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Experience</b>
+                    <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.Experience} Years
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Requirements</b>
+                    <b style={{ marginLeft: '193px', paddingRight: '10px' }}>:</b> {selectedJob.Requirements}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Description</b>
+                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b> {selectedJob.Description}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Last Date to Apply</b>
+                    <b style={{ marginLeft: '168px', paddingRight: '10px' }}>:</b> {selectedJob.Deadline}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Application Count</b>
+                    <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b>
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Selected</b>
+                    <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b>
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b>Remaining</b>
+                    <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b>
+                  </Typography>
+                </Box>
+              </DialogContent>
             </Box>
           </>
         )}
