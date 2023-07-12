@@ -2,7 +2,7 @@ import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-
+import { saveAs } from 'file-saver';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
 
@@ -15,28 +15,44 @@ const ApplicationTracker = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
       const newData = response.data.getData
       setData(newData);
-      console.log(newData, ' this is the new data');
+      console.log(response.data.getData, ' this is the new data');
     } catch (error) {
       console.log('Error retrieving user data:', error);
     }
   };
   const handleResume = async (id) => {
-    console.log(id,'res')
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
-        responseType: 'blob'
+        responseType: 'arraybuffer' // Set the response type to 'arraybuffer' to receive the data as an ArrayBuffer
       });
-      console.log(response,'res')
-      const downloadLink = document.createElement('a');
-      downloadLink.href = URL.createObjectURL(new Blob([response.data]));
-      downloadLink.setAttribute('download', `${id}-resume.pdf`); 
-      downloadLink.click();
-      URL.revokeObjectURL(downloadLink.href);
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+
+      // Save the Blob as a file
+      saveAs(blob, 'resume.pdf');
     } catch (error) {
-      console.log(error);
+      console.log('Error downloading resume:', error);
     }
   };
-  
+  const handlePhotoDown = async (id) => {
+    console.log(`id  = ${id}`)
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
+        responseType: 'arraybuffer'
+      })
+      const contentType = response.headers['Content-Type']
+      const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
+      console.log(`type  = ${extension}`)
+      const byteArray = new Uint8Array(response.data)
+      console.log(`byteArray  = ${byteArray}`)
+      const blob = new Blob([byteArray], { type: contentType })
+      console.log(`blob  = ${blob}`)
+      saveAs(blob, `photo.${extension}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <MainCard title='Application Tracker'>
       <TableContainer component={Paper}>
@@ -56,7 +72,7 @@ const ApplicationTracker = () => {
               <TableRow key={x._id}>
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
-                <TableCell>
+                <TableCell onClick={() => handlePhotoDown(x._id)} >
                   {x.photo && (
                     <img
                       src={x.photo}
@@ -64,10 +80,10 @@ const ApplicationTracker = () => {
                       style={{ width: '100px' }}
                     />
                   )}
-                </TableCell> 
-                <TableCell  >
-                  {x.resume&& (
-                    <a href={x.resume} onClick={()=>handleResume(x._id)}>
+                </TableCell>
+                <TableCell>
+                  {x.resume && (
+                    <a href="#" onClick={() => handleResume(x._id)}>
                       View Resume
                     </a>
                   )}
