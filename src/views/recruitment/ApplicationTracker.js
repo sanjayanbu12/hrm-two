@@ -23,13 +23,11 @@ const ApplicationTracker = () => {
   const handleResume = async (id) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
-        responseType: 'arraybuffer' // Set the response type to 'arraybuffer' to receive the data as an ArrayBuffer
-      });
+        responseType: 'arraybuffer' });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
 
-      // Save the Blob as a file
-      saveAs(blob, 'resume.pdf');
+      saveAs(blob,'resume.pdf');
     } catch (error) {
       console.log('Error downloading resume:', error);
     }

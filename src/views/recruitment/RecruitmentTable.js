@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import MainCard from 'ui-component/cards/MainCard'
+import '../recruitment/Recruitment.css'
 import {
   Table,
   TableCell,
@@ -143,10 +144,11 @@ const RecruitmentTable = () => {
         </Box>
       ) : (
         <div>
-          <Box sx={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center', gap: '700px', mb: 2, display: 'flex' }}>
-            <TextField
-              sx={{ width: '500px' }}
-              label='Search'
+          <Box>
+            <Grid container spacing={2}>
+              <Grid xs={9} sx={{marginLeft:'30px'}}>
+            <TextField className='Searchbutton'
+            label='Search'
               variant='outlined'
               color='info'
               value={search}
@@ -154,19 +156,19 @@ const RecruitmentTable = () => {
               size='small'
               InputProps={{
                 endAdornment: (
-                  <InputAdornment position='end'>
+                  <InputAdornment position='Start'>
                     <GridSearchIcon color='primary' />
                   </InputAdornment>
                 )
               }}
-            />
-
+            /></Grid>
+           <Grid xs={2} sx={{marginLeft:'23px'}}>
             <Button
               onClick={() => {
                 navigate('/jobform')
               }}
               sx={{
-                width: '300px',
+                width: '200px',
                 height: '40px',
                 borderRadius: '10px',
                 padding: 0.6,
@@ -180,7 +182,7 @@ const RecruitmentTable = () => {
             >
               <AddIcon />
               Add New
-            </Button>
+            </Button></Grid></Grid>
           </Box>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -195,16 +197,12 @@ const RecruitmentTable = () => {
                             {sortDirection === 'asc' ? (
                              <GridArrowUpwardIcon fontSize='small'/>
                             ) : (
-                             
                               <GridArrowDownwardIcon fontSize='small'/>
                             )}
                           </Button>
                         </TableCell>
                         <TableCell>Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
-                        <TableCell>Application Count</TableCell>
-                        <TableCell>Selected Candidate</TableCell>
-                        <TableCell>Remaining Candidate</TableCell>
                         <TableCell>Worktype</TableCell>
                         <TableCell>Location</TableCell>
                         <TableCell>Deadline</TableCell>
@@ -218,9 +216,6 @@ const RecruitmentTable = () => {
                             <TableCell>{x.uuid}</TableCell>
                             <TableCell>{x.Jobrole}</TableCell>
                             <TableCell>{x.Openings}</TableCell>
-                            <TableCell>0</TableCell>
-                            <TableCell>0</TableCell>
-                            <TableCell>0</TableCell>
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{new Date(x.Deadline).toLocaleDateString('en-GB')}</TableCell>
