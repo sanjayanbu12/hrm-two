@@ -53,6 +53,9 @@
     border-radius: 4px;
     cursor: pointer;
   }
+  .close-button:hover{
+    background-color: #5e35b1;
+  }
  
   .close-icon{
   color: #5e35b1;
