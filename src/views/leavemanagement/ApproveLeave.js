@@ -164,22 +164,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from '@mui/material';
-import { VisibilityOutlined } from '@mui/icons-material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
 
@@ -203,15 +188,13 @@ const ApproveLeave = () => {
 
   const handleActionChange = async (leaveId, action) => {
     try {
-      let status = '';
-      if (action === 'approve') {
-        status = 'approved';
-      } else if (action === 'reject') {
-        status = 'rejected';
+      if (action === 'pending') {
+        await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status: 'approved' });
+        fetchData();
+      } else if (action === 'rejected') {
+        await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status: 'rejected' });
+        fetchData();
       }
-      await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status });
-      fetchData();
-      handleCloseDialog();
     } catch (error) {
       console.log('Error updating leave:', error);
     }
@@ -240,7 +223,6 @@ const ApproveLeave = () => {
               <TableCell>End Date</TableCell>
               <TableCell>Number of Days</TableCell>
               <TableCell>Reason</TableCell>
-              <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -254,31 +236,16 @@ const ApproveLeave = () => {
                 <TableCell>{leave.endDate}</TableCell>
                 <TableCell>{leave.numberOfDays}</TableCell>
                 <TableCell>{leave.reason}</TableCell>
-                <TableCell>{leave.status}</TableCell>
                 <TableCell>
-                  <Button size="small" variant="outlined" onClick={() => handleViewDetails(leave)}>
-                    <VisibilityOutlined fontSize="small" />
+                  <Button variant="outlined" onClick={() => handleViewDetails(leave)}>
+                    View Details
                   </Button>
-                  {leave.status === 'pending' && (
-                    <>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleActionChange(leave.id, 'approve')}
-                      >
-                        Approve
-                      </Button>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleActionChange(leave.id, 'reject')}
-                      >
-                        Reject
-                      </Button>
-                    </>
-                  )}
+                  <Button variant="contained" color="primary" onClick={() => handleActionChange(leave.id, 'pending')}>
+                    Approve
+                  </Button>
+                  <Button variant="contained" color="secondary" onClick={() => handleActionChange(leave.id, 'rejected')}>
+                    Reject
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
@@ -295,7 +262,7 @@ const ApproveLeave = () => {
             </Box>
             <Box>
               <strong>Employee Name:</strong> {selectedLeave.employeeName}
-            </Box>
+           </Box>
             <Box>
               <strong>Leave Type:</strong> {selectedLeave.leaveType}
             </Box>
@@ -324,3 +291,4 @@ const ApproveLeave = () => {
 };
 
 export default ApproveLeave;
+
