@@ -595,11 +595,11 @@ const RecruitmentForm = () => {
               height: '40px',
               borderRadius: '10px',
               padding: 0.6,
-              background: theme.palette.secondary.dark,
-              color: theme.palette.secondary.light,
+              background: '#673ab7',
+              color: '#efebe9',
               '&:hover': {
-                background: theme.palette.secondary.dark,
-                color: theme.palette.secondary.light
+                color: theme.palette.secondary.light,
+                background: '#673ab7'
               }
             }}
             onClick={e => finalSubmit(e)}
@@ -612,7 +612,7 @@ const RecruitmentForm = () => {
               navigate('/jobtable')
             }}
             sx={{
-              width: '300px',
+              width: '100px',
               height: '40px',
               borderRadius: '10px',
               padding: 0.6,
