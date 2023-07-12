@@ -75,20 +75,23 @@ const RecruitmentTable = () => {
   const handleSort = () => {
     const sortedList = [...recruitmentList]
     sortedList.sort((a, b) => {
-      const nameA = a.Jobrole.toLowerCase()
-      const nameB = b.Jobrole.toLowerCase()
-      if (nameA < nameB) {
-        return sortDirection === 'ascending' ? -1 : 1
+      const jobIDA = parseInt(a.uuid)
+      const jobIDB = parseInt(b.uuid)
+      if (jobIDA < jobIDB) {
+        return -1
       }
-      if (nameA > nameB) {
-        return sortDirection === 'ascending' ? 1 : -1
+      if (jobIDA > jobIDB) {
+        return 1
       }
       return 0
     })
+       sortDirection === 'asc'
+      sortedList.reverse()
+    
     setRecruitmentList(sortedList)
-    setSortDirection(sortDirection === 'ascending' ? 'descending' : 'ascending')
+    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
   }
-
+  
   const handleEdit = id => {
     navigate(`/jobform/${id}`)
   }
@@ -186,13 +189,18 @@ const RecruitmentTable = () => {
                   <Table>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Job ID</TableCell>
-                        <TableCell>
+                        <TableCell width={120}>
                           <Button color='inherit' onClick={handleSort}>
-                            Job Role
-                            {sortDirection === 'ascending' ? <GridArrowUpwardIcon fontSize='small' /> : <GridArrowDownwardIcon fontSize='small' />}
+                            Job ID{' '}
+                            {sortDirection === 'asc' ? (
+                             <GridArrowUpwardIcon fontSize='small'/>
+                            ) : (
+                             
+                              <GridArrowDownwardIcon fontSize='small'/>
+                            )}
                           </Button>
                         </TableCell>
+                        <TableCell>Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
                         <TableCell>Application Count</TableCell>
                         <TableCell>Selected Candidate</TableCell>
