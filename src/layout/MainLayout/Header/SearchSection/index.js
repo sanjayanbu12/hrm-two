@@ -81,6 +81,26 @@ const AttendanceTracker = () => {
     }
   };
 
+  const handleResetCheckout = async () => {
+    try {
+      const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
+
+      const response = await axios.post(`https://hrm-backend-square.onrender.com/attendance/resetcheckout/${currentDate}`);
+
+      console.log(response);
+
+      if (response.data.success) {
+        setCheckOutTime('');
+        toast.success('Checkout reset successful');
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      console.error('Error resetting checkout:', error);
+      toast.error('Error resetting checkout');
+    }
+  };
+
   // Determine if today's check-in is already done
   const today = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
   const isCheckInDone = checkInDate === today;
@@ -98,6 +118,14 @@ const AttendanceTracker = () => {
           Check Out
         </Button>
       </Grid>
+
+      {isCheckInDone && checkOutTime === '' && (
+        <Grid item>
+          <Button variant="contained" color="info" onClick={handleResetCheckout}>
+            Reset Checkout
+          </Button>
+        </Grid>
+      )}
 
       <ToastContainer />
     </Grid>
