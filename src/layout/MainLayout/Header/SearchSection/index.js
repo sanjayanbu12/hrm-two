@@ -8,23 +8,25 @@ const AttendanceTracker = () => {
   const [checkInTime, setCheckInTime] = useState('');
   const [checkOutTime, setCheckOutTime] = useState('');
   const [checkInDate, setCheckInDate] = useState('');
+  const [isCheckInDone, setIsCheckInDone] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  console.log(checkInDate);
+  console.log(checkInTime);
 
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
         const response = await axios.get('https://hrm-backend-square.onrender.com/attendance');
-        const { checkInTime, checkOutTime, checkInDate } = response.data;
+        const { attendance, isCheckInDone } = response.data;
 
-        if (checkInTime) {
-          setCheckInTime(checkInTime);
+        if (attendance && attendance.checkInTime) {
+          setCheckInTime(attendance.checkInTime);
+          setCheckInDate(attendance.checkInDate);
+          setIsCheckInDone(isCheckInDone);
         }
 
-        if (checkOutTime) {
-          setCheckOutTime(checkOutTime);
-        }
-
-        if (checkInDate) {
-          setCheckInDate(checkInDate);
+        if (attendance && attendance.checkOutTime) {
+          setCheckOutTime(attendance.checkOutTime);
         }
       } catch (error) {
         console.error('Error fetching attendance:', error);
@@ -32,7 +34,7 @@ const AttendanceTracker = () => {
     };
 
     fetchAttendance();
-  }, []);
+  }, [refreshKey]);
 
   const handleCheckIn = async () => {
     try {
@@ -47,9 +49,8 @@ const AttendanceTracker = () => {
       if (response.data.success) {
         setCheckInTime(currentTime);
         setCheckInDate(currentDate);
+        setIsCheckInDone(true);
         toast.success('Check-in successful');
-        console.log(checkInTime);
-        console.log(checkInDate);
       } else {
         toast.error(response.data.message);
       }
@@ -71,7 +72,9 @@ const AttendanceTracker = () => {
 
       if (response.data.success) {
         setCheckOutTime(response.data.checkOutTime);
+        setIsCheckInDone(false);
         toast.success('Check-out successful');
+        setRefreshKey((prevKey) => prevKey + 1);
       } else {
         toast.error(response.data.message);
       }
@@ -80,10 +83,6 @@ const AttendanceTracker = () => {
       toast.error('Error performing check-out');
     }
   };
-
-  // Determine if today's check-in is already done
-  const today = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
-  const isCheckInDone = checkInDate === today;
 
   return (
     <Grid container justifyContent="center" spacing={2}>

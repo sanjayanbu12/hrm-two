@@ -29,6 +29,8 @@ const AttendanceList = () => {
     }
   };
 
+ 
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -37,16 +39,25 @@ const AttendanceList = () => {
             <TableCell>Date</TableCell>
             <TableCell>Check In</TableCell>
             <TableCell>Check Out</TableCell>
-            <TableCell>Total Working Hours</TableCell> {/* Added column for total working hours */}
+            <TableCell>Total Working Hours</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          <TableRow>
-            <TableCell>{attendance?.checkInDate || 'N/A'}</TableCell>
-            <TableCell>{attendance?.checkInTime || 'N/A'}</TableCell>
-            <TableCell>{attendance?.checkOutTime || 'N/A'}</TableCell>
-            <TableCell>{totalWorkingHours || 'N/A'}</TableCell> {/* Display total working hours */}
-          </TableRow>
+          {Array.isArray(attendance) && attendance.length > 0 ? (
+            attendance.map((record) => (
+              <TableRow key={record.id}>
+                <TableCell>{record.checkInDate || 'N/A'}</TableCell>
+                <TableCell>{record.checkInTime || 'N/A'}</TableCell>
+                <TableCell>{record.checkOutTime || 'N/A'}</TableCell>
+                <TableCell>{totalWorkingHours || 'N/A'}</TableCell>
+               
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell jcolSpan={1}>No attendance records found.</TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </TableContainer>
