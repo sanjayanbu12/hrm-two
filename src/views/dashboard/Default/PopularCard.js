@@ -1,5 +1,3 @@
-
-
 import { CardContent, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
@@ -38,7 +36,7 @@ const PopularCard = ({ isLoading }) => {
                 </Grid>
               </Grid>
               <Grid item xs={12.5}>
-              
+                {/* Add the Calendar component */}
                 <ReactCalendar
                   onChange={handleDateChange}
                   value={selectedDate}

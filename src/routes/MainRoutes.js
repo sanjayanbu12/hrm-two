@@ -57,10 +57,11 @@ const MainRoutes = {
       path: '/leavetrackerlist',
       element: <LeaveTrackerList />
     },
-    // {
-    //   path: '/leavetoday',
-    //   element: <LeaveToday />
-    // },
+    {
+      path: '/approveleave',
+      element: <ApproveLeave />
+    },
+ 
     {
       path: '/attendanceManagement',
       element: <AttendanceSystem/>

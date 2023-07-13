@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from 'axios';
@@ -277,4 +276,3 @@ const LeaveTrackerForm = () => {
 };
 
 export default LeaveTrackerForm;
-
