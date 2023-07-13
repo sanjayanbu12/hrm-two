@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { DialogActions } from '@mui/material';
-import { CheckCircleOutline, CancelOutlined, Edit, Visibility, HourglassEmpty } from '@mui/icons-material';
+import { CheckCircleOutline, CancelOutlined, Visibility, HourglassEmpty, Edit } from '@mui/icons-material';
 import {
   Table,
   TableCell,
@@ -55,7 +55,7 @@ const LeaveTrackerList = () => {
   };
 
   const handleEditLeave = () => {
-    navigate('/leavetrackerform');
+    navigate('/leavetrackerform', { state: selectedLeave });
   };
 
   return (
@@ -103,7 +103,12 @@ const LeaveTrackerList = () => {
                         {leave.status === 'approved' ? (
                           <CheckCircleOutline style={{ color: 'green' }} />
                         ) : (
-                          <Visibility style={{ color: 'grey' }} />
+                          <>
+                            <Button onClick={handleRowClick} color="primary">
+                              <Visibility style={{ color: 'grey' }} />
+                            </Button>
+                            
+                          </>
                         )}
                       </TableCell>
                     </TableRow>
@@ -135,18 +140,16 @@ const LeaveTrackerList = () => {
                 Status: {selectedLeave.status === 'pending' ? 'Pending' : selectedLeave.status === 'approved' ? 'Approved' : 'Rejected'}
                 {selectedLeave.status === 'approved' && <CheckCircleOutline style={{ color: 'green', marginLeft: '8px' }} />}
                 {selectedLeave.status === 'rejected' && <CancelOutlined style={{ color: 'red', marginLeft: '8px' }} />}
+                {selectedLeave.status === 'pending' && <HourglassEmpty style={{ color: 'orange', marginLeft: '8px' }} />}
               </Typography>
-
-              {/* Edit icon */}
-              {selectedLeave.status !== 'approved' && (
-                <Button onClick={handleEditLeave} color="primary">
-                  <Edit />
-                </Button>
-              )}
             </Box>
           )}
         </DialogContent>
         <DialogActions>
+          <Button onClick={handleEditLeave} color="primary">
+            <Edit />
+            Edit
+          </Button>
           <Button onClick={handleClose} color="inherit">
             Close
           </Button>
