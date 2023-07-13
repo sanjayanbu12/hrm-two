@@ -1,26 +1,19 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Button,
-  Grid,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField
-} from '@mui/material';
+import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import axios from 'axios';
+import { DateTime } from 'luxon';
 import { useNavigate } from 'react-router-dom';
 import MainCard from 'ui-component/cards/MainCard';
-import axios from 'axios';
 
 const LeaveTrackerForm = () => {
   const navigate = useNavigate();
+  const [employeeId, setEmployeeId] = useState('');
+  const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [numberOfDays, setNumberOfDays] = useState('');
   const [reason, setReason] = useState('');
-  const [document, setDocument] = useState(null);
   const [errors, setErrors] = useState({});
 
   const handleLeaveType = (event) => {
@@ -28,13 +21,34 @@ const LeaveTrackerForm = () => {
   };
 
   const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-    validateNumberOfDays(startDate, event.target.value);
+    const selectedStartDate = event.target.value;
+
+    // Check if selected start date is a previous date
+    const currentDate = DateTime.now().toISODate();
+    if (selectedStartDate < currentDate) {
+      setErrors((prevErrors) => ({ ...prevErrors, startDate: 'Start date cannot be a previous date' }));
+    } else {
+      // Clear the error if the start date is valid
+      setErrors((prevErrors) => ({ ...prevErrors, startDate: undefined }));
+    }
+
+    setStartDate(selectedStartDate);
+    validateNumberOfDays(selectedStartDate, endDate);
   };
 
   const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-    validateNumberOfDays(startDate, event.target.value);
+    const selectedEndDate = event.target.value;
+
+    // Check if selected end date is before the start date
+    if (selectedEndDate < startDate) {
+      setErrors((prevErrors) => ({ ...prevErrors, endDate: 'End date cannot be before the start date' }));
+    } else {
+      // Clear the error if the end date is valid
+      setErrors((prevErrors) => ({ ...prevErrors, endDate: undefined }));
+    }
+
+    setEndDate(selectedEndDate);
+    validateNumberOfDays(startDate, selectedEndDate);
   };
 
   const handleNumberOfDays = (event) => {
@@ -46,16 +60,11 @@ const LeaveTrackerForm = () => {
     setReason(event.target.value);
   };
 
-  const handleFileChange = (event) => {
-    setDocument(event.target.files[0]);
-  };
-
   const validateNumberOfDays = (start, end) => {
     if (start && end) {
-      const startDateObj = new Date(start);
-      const endDateObj = new Date(end);
-      const timeDiff = endDateObj.getTime() - startDateObj.getTime();
-      const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+      const startDateObj = DateTime.fromISO(start);
+      const endDateObj = DateTime.fromISO(end);
+      const diffDays = endDateObj.diff(startDateObj, 'days').days + 1;
       setNumberOfDays(diffDays);
     }
   };
@@ -63,6 +72,18 @@ const LeaveTrackerForm = () => {
   const validateForm = () => {
     let formErrors = {};
     let isValid = true;
+
+    // Validate employee ID
+    if (!employeeId) {
+      formErrors.employeeId = 'Employee ID is required';
+      isValid = false;
+    }
+
+    // Validate employee name
+    if (!employeeName) {
+      formErrors.employeeName = 'Employee name is required';
+      isValid = false;
+    }
 
     // Validate leave type
     if (!leaveType) {
@@ -110,22 +131,24 @@ const LeaveTrackerForm = () => {
     if (isValid) {
       // Create form data object
       const formData = {
+        employeeId,
+        employeeName,
         leaveType,
         startDate,
         endDate,
         numberOfDays,
         reason,
-        document,
       };
 
       try {
-        await axios.post('https://hrm-backend-square.onrender.com/api/leave', formData);
+        await axios.post('https://hrm-backend-square.onrender.com/api/leave/', formData);
+        setEmployeeId('');
+        setEmployeeName('');
         setLeaveType('');
         setStartDate('');
         setEndDate('');
         setNumberOfDays('');
         setReason('');
-        setDocument('');
         setErrors({});
         navigate('/leavetrackerlist');
       } catch (error) {
@@ -139,6 +162,28 @@ const LeaveTrackerForm = () => {
       <form onSubmit={handleSubmit}>
         <Box p={2}>
           <Grid container spacing={2}>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="employee-id"
+                label="Employee ID"
+                value={employeeId}
+                onChange={(event) => setEmployeeId(event.target.value)}
+                error={errors.employeeId !== undefined}
+                helperText={errors.employeeId}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                id="employee-name"
+                label="Employee Name"
+                value={employeeName}
+                onChange={(event) => setEmployeeName(event.target.value)}
+                error={errors.employeeName !== undefined}
+                helperText={errors.employeeName}
+              />
+            </Grid>
             <Grid item xs={12}>
               <FormControl fullWidth error={errors.leaveType !== undefined}>
                 <InputLabel id="leave-type-label">Leave Type</InputLabel>
@@ -193,7 +238,7 @@ const LeaveTrackerForm = () => {
                 helperText={errors.endDate}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item xs={12} sm={12}>
               <TextField
                 fullWidth
                 id="number-of-days"
@@ -203,14 +248,6 @@ const LeaveTrackerForm = () => {
                 onChange={handleNumberOfDays}
                 error={errors.numberOfDays !== undefined}
                 helperText={errors.numberOfDays}
-              />
-            </Grid>
-            <Grid  item xs={12} sm={6}>
-              <input
-                accept="application/pdf"
-                id="document"
-                type="file"
-                onChange={handleFileChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -226,13 +263,12 @@ const LeaveTrackerForm = () => {
                 helperText={errors.reason}
               />
             </Grid>
-            
+            <Grid item xs={12}>
+              <Button type="submit" variant="contained" color="primary">
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-        </Box>
-        <Box p={2} display="flex" justifyContent="flex-end">
-          <Button type="submit" variant="contained" color="primary">
-            Submit
-          </Button>
         </Box>
       </form>
     </MainCard>

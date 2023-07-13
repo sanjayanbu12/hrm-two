@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
+import { DialogActions } from '@mui/material';
+import { CheckCircleOutline, CancelOutlined, Visibility, HourglassEmpty, Edit } from '@mui/icons-material';
 import {
   Table,
   TableCell,
@@ -14,17 +16,16 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
-  Button
+  Button,
 } from '@mui/material';
-import { Edit } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 const LeaveTrackerList = () => {
+  const navigate = useNavigate();
   const [leaveTrackerList, setLeaveTrackerList] = useState([]);
   const [open, setOpen] = useState(false);
   const [selectedLeave, setSelectedLeave] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -32,8 +33,12 @@ const LeaveTrackerList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave'); // Update the API endpoint to the deployed backend's URL
-      setLeaveTrackerList(response.data);
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave');
+      const updatedLeaveList = response.data.map((leave) => {
+        const status = leave._id % 2 === 0 ? 'approved' : 'pending';
+        return { ...leave, status };
+      });
+      setLeaveTrackerList(updatedLeaveList);
     } catch (error) {
       console.log('Error retrieving leave tracker data:', error);
     }
@@ -49,8 +54,8 @@ const LeaveTrackerList = () => {
     setOpen(true);
   };
 
-  const handleEditLeave = (leave) => {
-    navigate('/leavetrackerform', { state: { leave } });
+  const handleEditLeave = () => {
+    navigate('/leavetrackerform', { state: selectedLeave });
   };
 
   return (
@@ -62,69 +67,93 @@ const LeaveTrackerList = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    <TableCell>ID</TableCell>
+                    <TableCell>Employee ID</TableCell>
+                    <TableCell>Employee Name</TableCell>
                     <TableCell>Leave Type</TableCell>
                     <TableCell>Start Date</TableCell>
                     <TableCell>End Date</TableCell>
                     <TableCell>Reason</TableCell>
+                    <TableCell>Status</TableCell>
+                    <TableCell>Action</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
                   {leaveTrackerList.map((leave) => (
                     <TableRow
-                      key={leave._id}
+                      key={leave.employeeId}
                       onClick={() => handleRowClick(leave)}
                       style={{ cursor: 'pointer' }}
                     >
-                      <TableCell>{leave._id}</TableCell>
+                      <TableCell>{leave.employeeId}</TableCell>
+                      <TableCell>{leave.employeeName}</TableCell>
                       <TableCell>{leave.leaveType}</TableCell>
                       <TableCell>{leave.startDate}</TableCell>
                       <TableCell>{leave.endDate}</TableCell>
                       <TableCell>{leave.reason}</TableCell>
+                      <TableCell>
+                        {leave.status === 'approved' ? (
+                          <CheckCircleOutline style={{ color: 'green' }} />
+                        ) : leave.status === 'pending' ? (
+                          <HourglassEmpty style={{ color: 'orange' }} />
+                        ) : (
+                          <Visibility style={{ color: 'grey' }} />
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {leave.status === 'approved' ? (
+                          <CheckCircleOutline style={{ color: 'green' }} />
+                        ) : (
+                          <>
+                            <Button onClick={handleRowClick} color="primary">
+                              <Visibility style={{ color: 'grey' }} />
+                            </Button>
+                            
+                          </>
+                        )}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </TableContainer>
           ) : (
-            <h3>NO DATA</h3>
+            <Typography variant="h5" align="center" color="textSecondary">
+              No leave requests found
+            </Typography>
           )}
         </Grid>
       </Grid>
 
-      {/* Dialog Box */}
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-        {selectedLeave && (
-          <>
-            <DialogTitle variant="h2">Leave Details</DialogTitle>
-            <DialogContent>
-              <Typography variant="h5" component="div">
-                <strong>ID:</strong> {selectedLeave._id}
+      {/* Leave Details Dialog */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Leave Details</DialogTitle>
+        <DialogContent>
+          {selectedLeave && (
+            <Box>
+              <Typography variant="body1">Employee ID: {selectedLeave.employeeId}</Typography>
+              <Typography variant="body1">Employee Name: {selectedLeave.employeeName}</Typography>
+              <Typography variant="body1">Leave Type: {selectedLeave.leaveType}</Typography>
+              <Typography variant="body1">Start Date: {selectedLeave.startDate}</Typography>
+              <Typography variant="body1">End Date: {selectedLeave.endDate}</Typography>
+              <Typography variant="body1">Reason: {selectedLeave.reason}</Typography>
+              <Typography variant="body1">
+                Status: {selectedLeave.status === 'pending' ? 'Pending' : selectedLeave.status === 'approved' ? 'Approved' : 'Rejected'}
+                {selectedLeave.status === 'approved' && <CheckCircleOutline style={{ color: 'green', marginLeft: '8px' }} />}
+                {selectedLeave.status === 'rejected' && <CancelOutlined style={{ color: 'red', marginLeft: '8px' }} />}
+                {selectedLeave.status === 'pending' && <HourglassEmpty style={{ color: 'orange', marginLeft: '8px' }} />}
               </Typography>
-              <Typography variant="h5" component="div">
-                <strong>Leave Type:</strong> {selectedLeave.leaveType}
-              </Typography>
-              <Typography variant="h5" component="div">
-                <strong>Start Date:</strong> {selectedLeave.startDate}
-              </Typography>
-              <Typography variant="h5" component="div">
-                <strong>End Date:</strong> {selectedLeave.endDate}
-              </Typography>
-              <Typography variant="h5" component="div">
-                <strong>Number of Days:</strong> {selectedLeave.numberOfDays}
-              </Typography>
-              <Typography variant="h5" component="div">
-                <strong>Reason:</strong> {selectedLeave.reason}
-              </Typography>
-
-              <Box mt={3} display="flex" justifyContent="center">
-                <Button variant="outlined" endIcon={<Edit />} onClick={() => handleEditLeave(selectedLeave)}>
-                  Edit
-                </Button>
-              </Box>
-            </DialogContent>
-          </>
-        )}
+            </Box>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleEditLeave} color="primary">
+            <Edit />
+            Edit
+          </Button>
+          <Button onClick={handleClose} color="inherit">
+            Close
+          </Button>
+        </DialogActions>
       </Dialog>
     </MainCard>
   );
