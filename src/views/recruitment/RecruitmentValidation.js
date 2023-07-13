@@ -3,7 +3,7 @@ export const validationSchema = yup.object().shape({
   Jobrole: yup.string().required('Jobrole is required'),
   Openings: yup.string().required('No of Opening is required'),
   Company: yup.string().required('Company is required'),
-  Requirements: yup.string().required('Requirements is required'),
+  ApplicationLink: yup.string().required('Link is required'),
   Experience: yup.string().required('Experience is required'),
   Deadline: yup.string().required('Deadline is required'),
   Worktype: yup.string().required('Worktype is required'),
