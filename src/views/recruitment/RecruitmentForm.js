@@ -32,10 +32,10 @@ const RecruitmentForm = () => {
   const [ExperienceTo, setExperienceTo] = useState('')
   const [Deadline, setDeadline] = useState('')
   const [Worktype, setWorktype] = useState('')
-  const [Skills, setSkills] = useState('');
-  const [Education, setEducation] = useState('');
-  const [Location, setLocation] = useState('');
-  const [Year, setYear] = useState('');
+  const [Skills, setSkills] = useState('')
+  const [Education, setEducation] = useState('')
+  const [Location, setLocation] = useState('')
+  const [Year, setYear] = useState('')
   const [errors, setErrors] = useState('')
   const { id } = useParams()
   const navigate = useNavigate()
@@ -491,14 +491,14 @@ const RecruitmentForm = () => {
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
-                <Autocomplete 
+                <Autocomplete
                   multiple
                   options={Locations}
                   limitTags={1}
                   disableCloseOnSelect
                   value={Location ? String(Location).split(',') : []}
                   onChange={(e, Value1) => handleLocation(e, Value1)}
-                  renderInput={params => <TextField {...params} label='Location'  value={Location} error={errors && errors.Location} />}
+                  renderInput={params => <TextField {...params} label='Location' value={Location} error={errors && errors.Location} />}
                 />
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
