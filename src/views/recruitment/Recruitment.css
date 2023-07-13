@@ -1,8 +1,0 @@
-.Searchbutton{
-    width:120px;
-    height: 0px;
-    transition: width 2ms ease-in;
-}
-.Searchbutton:hover{ 
-    width: 250px;
-}
