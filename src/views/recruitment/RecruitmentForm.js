@@ -27,14 +27,14 @@ const RecruitmentForm = () => {
   const [Openings, setOpenings] = useState('')
   const [Company, setCompany] = useState('')
   const [Description, setDescription] = useState('')
-  const [Requirements, setRequirements] = useState('')
+  const [ApplicationLink, setApplicationLink] = useState('')
   const [Experience, setExperience] = useState('')
   const [Deadline, setDeadline] = useState('')
   const [Worktype, setWorktype] = useState('')
-  const [Skills, setSkills] = useState('');
-  const [Education, setEducation] = useState('');
-  const [Location, setLocation] = useState('');
-  const [Year, setYear] = useState('');
+  const [Skills, setSkills] = useState('')
+  const [Education, setEducation] = useState('')
+  const [Location, setLocation] = useState('')
+  const [Year, setYear] = useState('')
   const [errors, setErrors] = useState('')
   const { id } = useParams()
   const navigate = useNavigate()
@@ -129,11 +129,11 @@ const RecruitmentForm = () => {
     Years.push(year)
   }
 
-  const handleRequirements = e => {
-    setRequirements(e.target.value)
+  const handleApplicationLink = e => {
+    setApplicationLink(e.target.value)
     setErrors(prev => ({
       ...prev,
-      Requirements: ''
+      ApplicationLink: ''
     }))
   }
   const handleLocation = (e, Value1) => {
@@ -236,14 +236,14 @@ const RecruitmentForm = () => {
         setOpenings(responseData.Openings)
         setCompany(responseData.Company)
         setDescription(responseData.Description)
-        setRequirements(responseData.Requirements)
+        setApplicationLink(responseData.ApplicationLink)
         setExperience(responseData.Experience)
         setDeadline(responseData.Deadline)
         setWorktype(responseData.Worktype)
-        setSkills(responseData.Skills.join(','));
-        setEducation(responseData.Education.join(','));
-        setYear(responseData.Year.join(','));
-        setLocation(responseData.Location);
+        setSkills(responseData.Skills.join(','))
+        setEducation(responseData.Education.join(','))
+        setYear(responseData.Year.join(','))
+        setLocation(responseData.Location)
       })
       .catch(err => {
         console.log(err.message)
@@ -258,7 +258,7 @@ const RecruitmentForm = () => {
           Openings,
           Company,
           Description,
-          Requirements,
+          ApplicationLink,
           Experience,
           Deadline,
           Worktype,
@@ -274,7 +274,7 @@ const RecruitmentForm = () => {
             Openings,
             Company,
             Description,
-            Requirements,
+            ApplicationLink,
             Experience,
             Deadline,
             Worktype,
@@ -292,7 +292,7 @@ const RecruitmentForm = () => {
         setOpenings('')
         setCompany('')
         setDescription('')
-        setRequirements('')
+        setApplicationLink('')
         setExperience('')
         setDeadline('')
         setWorktype('')
@@ -326,7 +326,7 @@ const RecruitmentForm = () => {
           Openings,
           Company,
           Description,
-          Requirements,
+          ApplicationLink,
           Experience,
           Deadline,
           Worktype,
@@ -342,7 +342,7 @@ const RecruitmentForm = () => {
             Jobrole,
             Openings,
             Company,
-            Requirements,
+            ApplicationLink,
             Experience,
             Deadline,
             Worktype,
@@ -359,7 +359,7 @@ const RecruitmentForm = () => {
         setOpenings('')
         setCompany('')
         setDescription('')
-        setRequirements('')
+        setApplicationLink('')
         setExperience('')
         setDeadline('')
         setWorktype('')
@@ -460,14 +460,14 @@ const RecruitmentForm = () => {
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
-                <Autocomplete 
+                <Autocomplete
                   multiple
                   options={Locations}
                   limitTags={1}
                   disableCloseOnSelect
-                    value={Location ? String(Location).split(",") : []}
+                  value={Location ? String(Location).split(',') : []}
                   onChange={(e, Value1) => handleLocation(e, Value1)}
-                  renderInput={params => <TextField {...params} label='Location'  value={Location} error={errors && errors.Location} />}
+                  renderInput={params => <TextField {...params} label='Location' value={Location} error={errors && errors.Location} />}
                 />
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
@@ -496,7 +496,7 @@ const RecruitmentForm = () => {
                   options={Educations}
                   limitTags={2}
                   disableCloseOnSelect
-                  value={Education ? String(Education).split(",") : []}
+                  value={Education ? String(Education).split(',') : []}
                   onChange={(e, newValue) => handleEducation(e, newValue)}
                   renderInput={params => <TextField {...params} label='Education' value={Education} error={errors && errors.Education} />}
                 />
@@ -511,7 +511,7 @@ const RecruitmentForm = () => {
                   options={Years}
                   limitTags={2}
                   disableCloseOnSelect
-                  value={Year ? String(Year).split(",") : []}
+                  value={Year ? String(Year).split(',') : []}
                   onChange={(e, Value2) => handleYear(e, Value2)}
                   renderInput={params => <TextField {...params} label='Year of Passing' value={Year} error={errors && errors.Year} />}
                 />
@@ -543,19 +543,6 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id='outlined-basic'
-                label='Requirements'
-                variant='outlined'
-                value={Requirements}
-                type='Value'
-                error={errors && errors.Requirements}
-                helperText={errors && errors.Requirements}
-                onChange={e => handleRequirements(e)}
-              />
-            </Grid>
-            <Grid item xs={6}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
                 <Autocomplete
@@ -563,13 +550,27 @@ const RecruitmentForm = () => {
                   options={Skill}
                   limitTags={2}
                   disableCloseOnSelect
-                  value={Skills ? String(Skills).split(",") : []}
+                  value={Skills ? String(Skills).split(',') : []}
                   onChange={(e, Value) => handleSkills(e, Value)}
                   renderInput={params => <TextField {...params} label='Skills' value={Skills} error={errors && errors.Skills} />}
                 />
                 <FormHelperText>{errors && errors.Skills}</FormHelperText>
               </FormControl>
             </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id='outlined-basic'
+                label='ApplicationLink'
+                variant='outlined'
+                value={ApplicationLink}
+                type='Value'
+                error={errors && errors.ApplicationLink}
+                helperText={errors && errors.ApplicationLink}
+                onChange={e => handleApplicationLink(e)}
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <FormControl sx={{ width: '1000px', height: '100px' }}>
                 <TextField
@@ -589,7 +590,6 @@ const RecruitmentForm = () => {
         <Box sx={{ display: 'flex', justifyContent: 'center', gap: '850px', marginTop: '20px' }}>
           <Button
             variant='contained'
-           
             sx={{
               width: '300px',
               height: '40px',
@@ -607,7 +607,6 @@ const RecruitmentForm = () => {
             {id ? 'Update' : 'Save'}
           </Button>{' '}
           <Button
-           
             onClick={() => {
               navigate('/jobtable')
             }}

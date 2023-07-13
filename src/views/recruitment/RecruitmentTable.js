@@ -268,7 +268,7 @@ const RecruitmentTable = () => {
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         {selectedJob && (
           <>
-            <Box sx={{ display: 'flex', justifyContent: 'center', backgroundColor: '#ab47bc', marginBottom: '1px' }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', background: '#2196f3', marginBottom: '1px' }}>
               <DialogTitle variant="h2" align="center">
                 Job Description Details
               </DialogTitle>
