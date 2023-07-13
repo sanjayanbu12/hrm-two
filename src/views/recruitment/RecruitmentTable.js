@@ -311,12 +311,12 @@ const RecruitmentTable = () => {
                     <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.Experience} Years
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                    <b> Requirements</b>
-                    <b style={{ marginLeft: '193px', paddingRight: '10px' }}>:</b> {selectedJob.Requirements}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Description</b>
                     <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b> {selectedJob.Description}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                    <b> ApplicationLink</b>
+                    <b style={{ marginLeft: '183px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationLink}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Last Date to Apply</b>
