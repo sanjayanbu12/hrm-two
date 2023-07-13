@@ -1,23 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Grid } from '@mui/material';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AttendanceTracker = () => {
   const [checkInTime, setCheckInTime] = useState('');
   const [checkOutTime, setCheckOutTime] = useState('');
+  const [checkInDate, setCheckInDate] = useState('');
+  const [isCheckInDone, setIsCheckInDone] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+  console.log(checkInDate);
+  console.log(checkInTime);
 
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
         const response = await axios.get('https://hrm-backend-square.onrender.com/attendance');
-        const { checkInTime, checkOutTime } = response.data;
+        const { attendance, isCheckInDone } = response.data;
 
-        if (checkInTime) {
-          setCheckInTime(checkInTime);
+        if (attendance && attendance.checkInTime) {
+          setCheckInTime(attendance.checkInTime);
+          setCheckInDate(attendance.checkInDate);
+          setIsCheckInDone(isCheckInDone);
         }
 
-        if (checkOutTime) {
-          setCheckOutTime(checkOutTime);
+        if (attendance && attendance.checkOutTime) {
+          setCheckOutTime(attendance.checkOutTime);
         }
       } catch (error) {
         console.error('Error fetching attendance:', error);
@@ -25,31 +34,29 @@ const AttendanceTracker = () => {
     };
 
     fetchAttendance();
-  }, []);
+  }, [refreshKey]);
 
   const handleCheckIn = async () => {
     try {
       const currentTime = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
       const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const storedDate = localStorage.getItem('attendanceDate');
 
-      if (storedDate === currentDate) {
-        // Already checked in today
-        return;
-      }
-
-      await axios.post('https://hrm-backend-square.onrender.com/attendance/checkin', {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/attendance/checkin', {
         checkInTime: currentTime,
         checkInDate: currentDate
       });
 
-      setCheckInTime(currentTime);
-      localStorage.setItem('checkInTime', currentTime);
-      localStorage.setItem('attendanceDate', currentDate);
-      console.log(checkInTime);
+      if (response.data.success) {
+        setCheckInTime(currentTime);
+        setCheckInDate(currentDate);
+        setIsCheckInDone(true);
+        toast.success('Check-in successful');
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
       console.error('Error performing check-in:', error);
-      // Handle error
+      toast.error('Error performing check-in');
     }
   };
 
@@ -57,40 +64,41 @@ const AttendanceTracker = () => {
     try {
       const currentTime = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
       const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
-      const storedDate = localStorage.getItem('attendanceDate');
 
-      if (storedDate !== currentDate) {
-        // Haven't checked in today
-        return;
-      }
-
-      await axios.post('https://hrm-backend-square.onrender.com/attendance/checkout', {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/attendance/checkout', {
         checkOutTime: currentTime,
         checkOutDate: currentDate
       });
 
-      setCheckOutTime(currentTime);
-      localStorage.setItem('checkOutTime', currentTime);
-      console.log(checkOutTime);
+      if (response.data.success) {
+        setCheckOutTime(response.data.checkOutTime);
+        setIsCheckInDone(false);
+        toast.success('Check-out successful');
+        setRefreshKey((prevKey) => prevKey + 1);
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
       console.error('Error performing check-out:', error);
-      // Handle error
+      toast.error('Error performing check-out');
     }
   };
 
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item>
-        <Button variant="contained" color="success" onClick={handleCheckIn}>
+        <Button variant="contained" color="success" onClick={handleCheckIn} disabled={isCheckInDone}>
           Check In
         </Button>
       </Grid>
 
       <Grid item>
-        <Button variant="contained" color="error" onClick={handleCheckOut}>
+        <Button variant="contained" color="error" onClick={handleCheckOut} disabled={!isCheckInDone || checkOutTime !== ''}>
           Check Out
         </Button>
       </Grid>
+
+      <ToastContainer />
     </Grid>
   );
 };
