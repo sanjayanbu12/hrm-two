@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+
+
+import React, { useState, useEffect } from 'react';
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
 import axios from 'axios';
 import { DateTime } from 'luxon';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import MainCard from 'ui-component/cards/MainCard';
 
 const LeaveTrackerForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [employeeId, setEmployeeId] = useState('');
   const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
@@ -15,6 +18,19 @@ const LeaveTrackerForm = () => {
   const [numberOfDays, setNumberOfDays] = useState('');
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (location.state) {
+      const { employeeId, employeeName, leaveType, startDate, endDate, numberOfDays, reason } = location.state;
+      setEmployeeId(employeeId);
+      setEmployeeName(employeeName);
+      setLeaveType(leaveType);
+      setStartDate(startDate);
+      setEndDate(endDate);
+      setNumberOfDays(numberOfDays);
+      setReason(reason);
+    }
+  }, [location.state]);
 
   const handleLeaveType = (event) => {
     setLeaveType(event.target.value);
