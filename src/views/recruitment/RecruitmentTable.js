@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import MainCard from 'ui-component/cards/MainCard'
-import '../recruitment/Recruitment.css'
+import React, { useState, useEffect } from 'react';
+import MainCard from 'ui-component/cards/MainCard';
 import {
   Table,
   TableCell,
@@ -57,7 +56,7 @@ const RecruitmentTable = () => {
       setLoader(false)
       console.log(newData + ' this is the new data')
     } catch (error) {
-      console.log('Error retrieving user data:', error)
+      console.log('Error retrieving user data:', error);
     }
   }
 
@@ -109,7 +108,7 @@ const RecruitmentTable = () => {
       cancelButtonColor: '#d33',
       confirmButtonText: 'OK',
       cancelButtonText: 'Cancel'
-    }).then(async result => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         try {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
@@ -118,9 +117,9 @@ const RecruitmentTable = () => {
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
-          })
+          });
         } catch (error) {
-          console.log('Error deleting recruitment:', error)
+          console.log('Error deleting recruitment:', error);
         }
       }
     })
@@ -284,7 +283,7 @@ const RecruitmentTable = () => {
                         ))
                       ) : (
                         <TableRow>
-                          <TableCell colSpan={8} align='center'>
+                          <TableCell colSpan={8} align="center">
                             No data found
                           </TableCell>
                         </TableRow>
@@ -425,7 +424,7 @@ const RecruitmentTable = () => {
         </Box>
       </Popover>
     </MainCard>
-  )
-}
+  );
+};
 
-export default RecruitmentTable
+export default RecruitmentTable;
