@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { DialogActions } from '@mui/material';
@@ -87,8 +88,8 @@ const LeaveTrackerList = () => {
                       <TableCell>{leave.employeeId}</TableCell>
                       <TableCell>{leave.employeeName}</TableCell>
                       <TableCell>{leave.leaveType}</TableCell>
-                      <TableCell>{leave.startDate}</TableCell>
-                      <TableCell>{leave.endDate}</TableCell>
+                      <TableCell>{new Date(leave.startDate).toLocaleDateString()}</TableCell>
+                      <TableCell>{new Date(leave.endDate).toLocaleDateString()}</TableCell>
                       <TableCell>{leave.reason}</TableCell>
                       <TableCell>
                         {leave.status === 'approved' ? (
@@ -107,7 +108,6 @@ const LeaveTrackerList = () => {
                             <Button onClick={handleRowClick} color="primary">
                               <Visibility style={{ color: 'grey' }} />
                             </Button>
-                            
                           </>
                         )}
                       </TableCell>
@@ -133,8 +133,8 @@ const LeaveTrackerList = () => {
               <Typography variant="body1">Employee ID: {selectedLeave.employeeId}</Typography>
               <Typography variant="body1">Employee Name: {selectedLeave.employeeName}</Typography>
               <Typography variant="body1">Leave Type: {selectedLeave.leaveType}</Typography>
-              <Typography variant="body1">Start Date: {selectedLeave.startDate}</Typography>
-              <Typography variant="body1">End Date: {selectedLeave.endDate}</Typography>
+              <Typography variant="body1">Start Date: {new Date(selectedLeave.startDate).toLocaleDateString()}</Typography>
+              <Typography variant="body1">End Date: {new Date(selectedLeave.endDate).toLocaleDateString()}</Typography>
               <Typography variant="body1">Reason: {selectedLeave.reason}</Typography>
               <Typography variant="body1">
                 Status: {selectedLeave.status === 'pending' ? 'Pending' : selectedLeave.status === 'approved' ? 'Approved' : 'Rejected'}
@@ -160,3 +160,4 @@ const LeaveTrackerList = () => {
 };
 
 export default LeaveTrackerList;
+
