@@ -125,10 +125,10 @@ const RecruitmentTable = () => {
     });
   };
 
-  const handleJobRoleClick = (id, event) => {
+  const handleClick = (id, e) => {
     const job = recruitmentList.find((item) => item._id === id);
     setSelectedJob(job);
-    setAnchorEl(event.currentTarget);
+    setAnchorEl(e.currentTarget);
   };
 
   const handleJobRoleClose = () => {
@@ -231,8 +231,8 @@ const RecruitmentTable = () => {
                           <TableRow key={x._id}>
                             <TableCell>{x.uuid}</TableCell>
                             <TableCell
-                              onClick={(event) => handleJobRoleClick(x._id, event)}
-                              sx={{ cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+                              onClick={(e) => handleClick(x._id, e)}
+                              sx={{ cursor: 'pointer', '&:hover': {color:'black'} }}
                             >
                               {x.Jobrole}
                             </TableCell>
@@ -372,9 +372,9 @@ const RecruitmentTable = () => {
         }}
       >
         <Box sx={{ padding: '10px' }}>
-          <Typography><b>Application Count</b><b style={{ marginLeft: '48px', paddingRight: '10px'}}>:</b>  {selectedJob && selectedJob.ApplicationCount}</Typography>
-          <Typography><b>Selected</b><b style={{ marginLeft: '105px', paddingRight: '10px'}}>:</b>{selectedJob && selectedJob.SelectedCount}</Typography>
-          <Typography><b>Remaining </b><b style={{ marginLeft: '89px', paddingRight: '10px'}}>:</b> {selectedJob && selectedJob.RemainingCount}</Typography>
+          <Typography><b>Application Count</b><b style={{ marginLeft: '48px', paddingRight: '10px'}}>:</b>20{selectedJob && selectedJob.ApplicationCount}</Typography>
+          <Typography><b>Selected</b><b style={{ marginLeft: '105px', paddingRight: '10px'}}>:</b>10{selectedJob && selectedJob.SelectedCount}</Typography>
+          <Typography><b>Remaining </b><b style={{ marginLeft: '89px', paddingRight: '10px'}}>:</b>10 {selectedJob && selectedJob.RemainingCount}</Typography>
         </Box>
       </Popover>
     </MainCard>
