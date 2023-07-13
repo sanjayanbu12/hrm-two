@@ -82,7 +82,7 @@ const ApplicationTracker = () => {
                 <TableCell>
                   {x.resume && (
                     <a href="#" onClick={() => handleResume(x._id)}>
-                      View Resume
+                      Download
                     </a>
                   )}
                 </TableCell>

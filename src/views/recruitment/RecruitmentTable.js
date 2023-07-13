@@ -19,7 +19,8 @@ import {
   TextField,
   InputAdornment,
   Tooltip,
-  Pagination
+  Pagination,
+  Popover
 } from '@mui/material';
 import axios from 'axios';
 import AddIcon from '@mui/icons-material/Add';
@@ -41,6 +42,7 @@ const RecruitmentTable = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
+  const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     fetchData();
@@ -123,10 +125,21 @@ const RecruitmentTable = () => {
     });
   };
 
+  const handleJobRoleClick = (id, event) => {
+    const job = recruitmentList.find((item) => item._id === id);
+    setSelectedJob(job);
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleJobRoleClose = () => {
+    setAnchorEl(null);
+  };
+
   const filteredJobs = recruitmentList.filter((job) => {
     const lowerSearchText = search.toLowerCase();
     return Object.values(job).some((value) => value && value.toString().toLowerCase().includes(lowerSearchText));
   });
+
   const handlePageChange = (e, value) => {
     setCurrentPage(value);
   };
@@ -147,8 +160,8 @@ const RecruitmentTable = () => {
             <Grid container spacing={2}>
               <Grid xs={9} sx={{ marginLeft: '30px' }}>
                 <TextField
-                  sx={{ width: '57px', height: '0px', transition: 'width 2s ease-in-out', '&:hover': { width: '300px'} }}
-                  label="Search" 
+                  sx={{ width: '57px', height: '0px', transition: 'width 2s ease-in-out', '&:hover': { width: '300px' } }}
+                  label="Search"
                   variant="outlined"
                   color="info"
                   value={search}
@@ -217,7 +230,12 @@ const RecruitmentTable = () => {
                         currentJobs.map((x) => (
                           <TableRow key={x._id}>
                             <TableCell>{x.uuid}</TableCell>
-                            <TableCell>{x.Jobrole}</TableCell>
+                            <TableCell
+                              onClick={(event) => handleJobRoleClick(x._id, event)}
+                              sx={{ cursor: 'pointer', '&:hover': { textDecoration: 'underline' } }}
+                            >
+                              {x.Jobrole}
+                            </TableCell>
                             <TableCell>{x.Openings}</TableCell>
                             <TableCell>{x.Worktype}</TableCell>
                             <TableCell>{x.Location}</TableCell>
@@ -324,15 +342,15 @@ const RecruitmentTable = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Application Count</b>
-                    <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b>
+                    <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationCount}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Selected</b>
-                    <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b>
+                    <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b> {selectedJob.SelectedCount}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                    <b>Remaining</b>
-                    <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b>
+                    <b> Remaining</b>
+                    <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
                   </Typography>
                 </Box>
               </DialogContent>
@@ -340,6 +358,25 @@ const RecruitmentTable = () => {
           </>
         )}
       </Dialog>
+      <Popover
+        open={Boolean(anchorEl)}
+        anchorEl={anchorEl}
+        onClose={handleJobRoleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'left'
+        }}
+      >
+        <Box sx={{ padding: '10px' }}>
+          <Typography><b>Application Count</b><b style={{ marginLeft: '48px', paddingRight: '10px'}}>:</b>  {selectedJob && selectedJob.ApplicationCount}</Typography>
+          <Typography><b>Selected</b><b style={{ marginLeft: '105px', paddingRight: '10px'}}>:</b>{selectedJob && selectedJob.SelectedCount}</Typography>
+          <Typography><b>Remaining </b><b style={{ marginLeft: '89px', paddingRight: '10px'}}>:</b> {selectedJob && selectedJob.RemainingCount}</Typography>
+        </Box>
+      </Popover>
     </MainCard>
   );
 };
