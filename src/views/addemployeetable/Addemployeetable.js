@@ -12,12 +12,13 @@ import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
 // import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
-import EarningCard from 'views/dashboard/Default/EarningCard';
+// import EarningCard from 'views/dashboard/Default/EarningCard';
 // import CircularProgress from '@mui/material/CircularProgress';
 // import {Stack} from '@mui/material';
 
 const Addemployeetable = () => {
   const [isLoading, setLoading] = useState(true);
+  console.log(isLoading);
 useEffect(() => {
   setLoading(false);
 }, []);
@@ -77,9 +78,9 @@ useEffect(() => {
           margin:' 0px 10px',
         }}>
           
-          <Grid item lg={4} md={4} sm={6} xs={12}>
+          {/* <Grid item lg={4} md={4} sm={6} xs={12}>
             <EarningCard isLoading={isLoading} />
-          </Grid>
+          </Grid> */}
           {/* <Grid item lg={4} md={6} sm={6} xs={12}>
             <TotalOrderLineChartCard isLoading={isLoading} />
           </Grid> */}
