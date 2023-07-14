@@ -3,13 +3,25 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { saveAs } from 'file-saver';
+import TextSnippetIcon from '@mui/icons-material/TextSnippet';
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
 
   useEffect(() => {
     fetchData();
   }, []);
-
+const downloadStyles={
+  cursor: 'pointer',
+  transform: 'scale(1.1)',
+  transition: 'transform 0.3s ease',
+  // Additional styles for hover
+  '&:hover': {
+    backgroundColor: 'blue', // Change the background color on hover
+    color: 'white', // Change the text color on hover
+    boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)', // Add a shadow on hover
+  },
+}
   const fetchData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
@@ -70,20 +82,19 @@ const ApplicationTracker = () => {
               <TableRow key={x._id}>
                 <TableCell>{x.name}</TableCell>
                 <TableCell>{x.position}</TableCell>
-                <TableCell onClick={() => handlePhotoDown(x._id)} >
+                <TableCell  >
                   {x.photo && (
-                    <img
-                      src={x.photo}
-                      alt=" "
-                      style={{ width: '100px' }}
-                    />
+                    // <img
+                    //   src={x.photo}
+                    //   alt=" "
+                    //   style={{ width: '100px' }}
+                    // />
+                  <InsertPhotoIcon style={downloadStyles} onClick={() => handlePhotoDown(x._id)}/>
                   )}
                 </TableCell>
                 <TableCell>
                   {x.resume && (
-                    <a href="#" onClick={() => handleResume(x._id)}>
-                      Download
-                    </a>
+                    <TextSnippetIcon style={downloadStyles} onClick={() => handleResume(x._id)}  />
                   )}
                 </TableCell>
                 <TableCell>{x.phone}</TableCell>
