@@ -83,13 +83,13 @@ const pages = {
       children: [
         {
           id: 'leavetrackerform',
-          title: 'Leave Tracker Form',
+          title: 'Leave Request Form',
           type: 'item',
           url: '/leavetrackerform'
         },
         {
           id: 'leavetrackerlist',
-          title: 'Leave Tracker List',
+          title: 'Applied Leave List',
           type: 'item',
           url: '/leavetrackerlist'
         },
