@@ -56,7 +56,7 @@ const AttendanceTracker = () => {
       }
     } catch (error) {
       console.error('Error performing check-in:', error);
-      toast.error('Error performing check-in');
+      toast.error("you're already checkin today");
     }
   };
 
