@@ -99,6 +99,12 @@ const pages = {
           type: 'item',
           url: '/approveleave'
         },
+        {
+          id: '/leavecalendar',
+          title: 'leavecalendar',
+          type: 'item',
+          url: '/leavecalendar'
+        },
        
       ]
     },

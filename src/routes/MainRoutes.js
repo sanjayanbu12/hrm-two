@@ -17,6 +17,7 @@ import RecruitmentTable from 'views/recruitment/RecruitmentTable';
 import ApplicationTracker from 'views/recruitment/ApplicationTracker';
 import AttendanceSystem from 'views/attendanceManagement/AttendanceSystem';
 import Newevent from 'views/dashboard/Default/Newevent';
+import LeaveCalendar from 'views/leavemanagement/LeaveCalendar';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -60,7 +61,10 @@ const MainRoutes = {
       path: '/approveleave',
       element: <ApproveLeave />
     },
- 
+    {
+      path: '/leavecalendar',
+      element: <LeaveCalendar/>
+    },
     {
       path: '/attendanceManagement',
       element: <AttendanceSystem/>
