@@ -4,14 +4,12 @@ import axios from 'axios';
 
 const AttendanceList = () => {
   const [attendance, setAttendance] = useState(null);
-  const [totalWorkingHours, setTotalWorkingHours] = useState(0);
 
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
         const response = await axios.get('https://hrm-backend-square.onrender.com/attendance');
         setAttendance(response.data);
-        calculateTotalWorkingHours(response.data); // Calculate total working hours
       } catch (error) {
         console.error('Error fetching attendance:', error);
       }
@@ -20,16 +18,26 @@ const AttendanceList = () => {
     fetchAttendance();
   }, []);
 
-  const calculateTotalWorkingHours = (attendanceData) => {
-    if (attendanceData?.checkInTime && attendanceData?.checkOutTime) {
-      const checkInTime = new Date(attendanceData.checkInTime);
-      const checkOutTime = new Date(attendanceData.checkOutTime);
-      const workingHours = (checkOutTime - checkInTime) / (1000 * 60 * 60); // Calculate working hours in milliseconds and convert to hours
-      setTotalWorkingHours(workingHours);
+  const calculateWorkingHours = (checkInTime, checkOutTime) => {
+    if (checkInTime && checkOutTime) {
+      const checkIn = parseTime(checkInTime);
+      const checkOut = parseTime(checkOutTime);
+      const workingHours = (checkOut - checkIn) / (1000 * 60 * 60); // Calculate working hours in milliseconds and convert to hours
+      return workingHours.toFixed(2);
     }
+    return 'N/A';
   };
 
- 
+  const parseTime = (timeString) => {
+    const [time, period] = timeString.split(' ');
+    let [hours, minutes, seconds] = time.split(':').map((value) => parseInt(value, 10));
+    if (period.toLowerCase() === 'pm' && hours !== 12) {
+      hours += 12;
+    } else if (period.toLowerCase() === 'am' && hours === 12) {
+      hours = 0;
+    }
+    return new Date(0, 0, 0, hours, minutes, seconds);
+  };
 
   return (
     <TableContainer component={Paper}>
@@ -49,13 +57,12 @@ const AttendanceList = () => {
                 <TableCell>{record.checkInDate || 'N/A'}</TableCell>
                 <TableCell>{record.checkInTime || 'N/A'}</TableCell>
                 <TableCell>{record.checkOutTime || 'N/A'}</TableCell>
-                <TableCell>{totalWorkingHours || 'N/A'}</TableCell>
-               
+                <TableCell>{calculateWorkingHours(record.checkInTime, record.checkOutTime)}</TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell jcolSpan={1}>No attendance records found.</TableCell>
+              <TableCell colSpan={4}>No attendance records found.</TableCell>
             </TableRow>
           )}
         </TableBody>

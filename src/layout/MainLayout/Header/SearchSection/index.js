@@ -10,8 +10,6 @@ const AttendanceTracker = () => {
   const [checkInDate, setCheckInDate] = useState('');
   const [isCheckInDone, setIsCheckInDone] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
-  console.log(checkInDate);
-  console.log(checkInTime);
 
   useEffect(() => {
     const fetchAttendance = async () => {
@@ -35,6 +33,26 @@ const AttendanceTracker = () => {
 
     fetchAttendance();
   }, [refreshKey]);
+
+  useEffect(() => {
+    const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
+    const currentTime = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
+    console.log(currentTime);
+
+    if (currentDate !== checkInDate) {
+      // Reset attendance data for the new day
+      setCheckInTime('');
+      setCheckOutTime('');
+      setCheckInDate(currentDate);
+      setIsCheckInDone(false);
+    }
+
+    // If the check-in time is set and the check-out time is not set,
+    // it means the user didn't check out on the previous day
+    if (checkInTime && !checkOutTime) {
+      setIsCheckInDone(true);
+    }
+  }, [checkInDate]);
 
   const handleCheckIn = async () => {
     try {
@@ -87,13 +105,13 @@ const AttendanceTracker = () => {
   return (
     <Grid container justifyContent="center" spacing={2}>
       <Grid item>
-        <Button variant="contained" color="success" onClick={handleCheckIn} disabled={isCheckInDone}>
+        <Button variant="contained" color="success" onClick={handleCheckIn} disabled={isCheckInDone }>
           Check In
         </Button>
       </Grid>
 
       <Grid item>
-        <Button variant="contained" color="error" onClick={handleCheckOut} disabled={!isCheckInDone || checkOutTime !== ''}>
+        <Button variant="contained" color="error" onClick={handleCheckOut} disabled={isCheckInDone || checkOutTime !== ''}>
           Check Out
         </Button>
       </Grid>
