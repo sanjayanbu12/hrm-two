@@ -22,6 +22,8 @@ function Newevent() {
   const [description, setDescription] = useState('');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
+console.log(selectedDate);
+
   useEffect(() => {
     const storedEvents = localStorage.getItem('events');
     if (storedEvents) {
@@ -44,7 +46,6 @@ function Newevent() {
 
   const handleDateClick = (arg) => {
     setSelectedDate(arg.date);
-    console.log(selectedDate);
     setOpen(true);
   };
 
@@ -89,9 +90,14 @@ function Newevent() {
     return (
       <>
         <div>{eventInfo.timeText}</div>
-        <div>{eventInfo.event.title}</div>
+        <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
         {eventInfo.event.extendedProps.eventLink && (
-          <a href={eventInfo.event.extendedProps.eventLink} target="_blank" rel="noopener noreferrer">
+          <a
+            href={eventInfo.event.extendedProps.eventLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: '#ffffff' }}
+          >
             {eventInfo.event.extendedProps.eventLink}
           </a>
         )}
