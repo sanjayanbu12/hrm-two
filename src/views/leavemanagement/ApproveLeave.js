@@ -1,3 +1,6 @@
+
+
+
 // import React, { useEffect, useState } from 'react';
 // import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 // import axios from 'axios';
@@ -11,9 +14,11 @@
 //   const [leaveList, setLeaveList] = useState([]);
 //   const [selectedLeave, setSelectedLeave] = useState(null);
 //   const [openDialog, setOpenDialog] = useState(false);
+
 //   useEffect(() => {
 //     fetchData();
 //   }, []);
+
 //   const fetchData = async () => {
 //     try {
 //       const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave/');
@@ -26,23 +31,33 @@
 //       console.log('Error retrieving leave data:', error);
 //     }
 //   };
+
 //   const handleActionChange = async (leaveId, status) => {
 //     try {
-//       await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status });
-//       fetchData();
+//       await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status:status });
+//       const updatedLeaveList = leaveList.map((leave) => {
+//         if (leave.id === leaveId) {
+//           return { ...leave, status };
+//         }
+//         return leave;
+//       });
+//       setLeaveList(updatedLeaveList);
 //       handleCloseDialog();
 //     } catch (error) {
 //       console.log('Error updating leave:', error);
 //     }
 //   };
+
 //   const handleViewDetails = (leave) => {
 //     setSelectedLeave(leave);
 //     setOpenDialog(true);
 //   };
+
 //   const handleCloseDialog = () => {
 //     setSelectedLeave(null);
 //     setOpenDialog(false);
 //   };
+
 //   const formatDate = (dateString) => {
 //     const date = new Date(dateString);
 //     const day = date.getDate();
@@ -50,6 +65,7 @@
 //     const year = date.getFullYear();
 //     return `${day}/${month}/${year}`;
 //   };
+
 //   return (
 //     <MainCard title="Approve Leave">
 //       <TableContainer component={Paper}>
@@ -152,7 +168,6 @@
 
 // export default ApproveLeave;
 
-
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
@@ -186,7 +201,7 @@ const ApproveLeave = () => {
 
   const handleActionChange = async (leaveId, status) => {
     try {
-      await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status:status });
+      await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status: status });
       const updatedLeaveList = leaveList.map((leave) => {
         if (leave.id === leaveId) {
           return { ...leave, status };
@@ -319,4 +334,3 @@ const ApproveLeave = () => {
 };
 
 export default ApproveLeave;
-
