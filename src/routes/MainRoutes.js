@@ -9,6 +9,7 @@ import Recruitment from 'views/recruitment/RecruitmentTable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
 import ApproveLeave from 'views/leavemanagement/ApproveLeave';
+import LeaveCalendar from 'views/leavemanagement/LeaveCalendar';
 import Performance from 'views/performance/Performance';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
@@ -61,7 +62,10 @@ const MainRoutes = {
       path: '/approveleave',
       element: <ApproveLeave />
     },
- 
+    {
+      path: '/leavecalendar',
+      element: <LeaveCalendar />
+    },
     {
       path: '/attendanceManagement',
       element: <AttendanceSystem/>
