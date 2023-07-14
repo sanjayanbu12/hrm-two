@@ -1,13 +1,14 @@
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import { CircularProgress, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { saveAs } from 'file-saver';
 import TextSnippetIcon from '@mui/icons-material/TextSnippet';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import { Box } from '@mui/system';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
-
+  const [loader, setLoader] = useState(true);
   useEffect(() => {
     fetchData();
   }, []);
@@ -27,6 +28,7 @@ const downloadStyles={
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
       const newData = response.data.getData
       setData(newData);
+      setLoader(false)
       console.log(response.data.getData, ' this is the new data');
     } catch (error) {
       console.log('Error retrieving user data:', error);
@@ -66,6 +68,11 @@ const downloadStyles={
   return (
     <MainCard title='Application Tracker'>
       <TableContainer component={Paper}>
+        {loader ? (<Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+          <CircularProgress />
+        </Box>)
+      :  
+ 
         <Table>
           <TableHead>
             <TableRow>
@@ -103,6 +110,7 @@ const downloadStyles={
             ))}
           </TableBody>
         </Table>
+}
       </TableContainer>
     </MainCard>
   );
