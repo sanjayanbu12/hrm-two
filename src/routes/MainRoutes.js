@@ -50,6 +50,10 @@ const MainRoutes = {
       element: <LeaveTrackerForm />
     },
     {
+      path: '/applicationtracker',
+      element: <ApplicationTracker />
+    },
+    {
       path: '/leavetrackerlist',
       element: <LeaveTrackerList />
     },
