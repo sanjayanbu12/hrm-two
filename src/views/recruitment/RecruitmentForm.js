@@ -159,11 +159,19 @@ const RecruitmentForm = () => {
     }))
   }
   const handleOpenings = e => {
-    setOpenings(e.target.value)
-    setErrors(prev => ({
-      ...prev,
-      Openings: ''
-    }))
+    const Open = e.target.value
+    if (0 > Open) {
+      setErrors(prev => ({
+        ...prev,
+        Openings: 'Select above 0 '
+      }))
+    } else {
+      setOpenings(Open)
+      setErrors(prev => ({
+        ...prev,
+        Openings: ''
+      }))
+    }
   }
 
   const handleCompany = e => {
@@ -209,22 +217,22 @@ const RecruitmentForm = () => {
       ExperienceFrom: ''
     }))
   }
-  
+
   const handleExperienceTo = e => {
-    const experience = e.target.value;
+    const experience = e.target.value
     if (experience < ExperienceFrom) {
       setErrors(prev => ({
         ...prev,
         ExperienceTo: 'Experience To should be higher than Experience From.'
-      }));
+      }))
     } else {
-      setExperienceTo(experience);
+      setExperienceTo(experience)
       setErrors(prev => ({
         ...prev,
         ExperienceTo: ''
-      }));
+      }))
     }
-  };
+  }
   const handleDeadline = e => {
     const selectedDate = e.target.value
     const currentDate = new Date().toISOString().split('T')[0]
@@ -542,35 +550,35 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={2}>
-  <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceFrom}>
-    <InputLabel id='demo-simple-select-label'></InputLabel>
-    <TextField
-      labelId='demo-simple-select-label'
-      id='demo-simple-select'
-      label='Experience From'
-      type='number'
-      value={ExperienceFrom}
-      error={errors && errors.ExperienceFrom}
-      helperText={errors && errors.ExperienceFrom}
-      onChange={e => handleExperienceFrom(e)}
-    />
-  </FormControl>
-</Grid>
-<Grid item xs={2}>
-  <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceTo}>
-    <InputLabel id='demo-simple-select-label'></InputLabel>
-    <TextField
-      labelId='demo-simple-select-label'
-      id='demo-simple-select'
-      label='Experience To'
-      type='number'
-      value={ExperienceTo}
-      error={errors && errors.ExperienceTo}
-      helperText={errors && errors.ExperienceTo}
-      onChange={e => handleExperienceTo(e)}
-    />
-  </FormControl>
-</Grid>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceFrom}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <TextField
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Experience From'
+                  type='number'
+                  value={ExperienceFrom}
+                  error={errors && errors.ExperienceFrom}
+                  helperText={errors && errors.ExperienceFrom}
+                  onChange={e => handleExperienceFrom(e)}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={2}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceTo}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <TextField
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Experience To'
+                  type='number'
+                  value={ExperienceTo}
+                  error={errors && errors.ExperienceTo}
+                  helperText={errors && errors.ExperienceTo}
+                  onChange={e => handleExperienceTo(e)}
+                />
+              </FormControl>
+            </Grid>
             <Grid item xs={6}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
                 <InputLabel id='demo-simple-select-label'></InputLabel>
