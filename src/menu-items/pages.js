@@ -33,15 +33,15 @@ const pages = {
       children: [
         {
           id: 'recruitmentform',
-          title: 'Recruitment Form',
+          title: 'Job Description Form',
           type: 'item',
-          url: '/recruitmentform'
+          url: '/jobform'
         },
         {
           id: 'recruitmenttable',
-          title: 'Recruitment Table',
+          title: 'Job Description Table',
           type: 'item',
-          url: '/recruitmenttable'
+          url: '/jobtable'
         },
         {
           id: 'applicationtracker',
