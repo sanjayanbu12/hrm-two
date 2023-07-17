@@ -1,159 +1,254 @@
-import MainCard from 'ui-component/cards/MainCard';
-import { Grid, TextField, Box, Button, MenuItem, Select, FormControl, InputLabel, InputAdornment, FormHelperText } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import validationSchema from '../recruitment/RecruitmentValidation';
-import * as yup from 'yup';
-import { useNavigate, useParams } from 'react-router';
-import Swal from 'sweetalert2';
+import MainCard from 'ui-component/cards/MainCard'
+import {
+  Grid,
+  TextField,
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  FormHelperText,
+  Tooltip,
+  Autocomplete
+} from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import validationSchema from '../recruitment/RecruitmentValidation'
+import * as yup from 'yup'
+import { useNavigate, useParams } from 'react-router'
+import Swal from 'sweetalert2'
+import WysiwygIcon from '@mui/icons-material/Wysiwyg'
 const RecruitmentForm = () => {
-  const theme = useTheme();
-  const [Jobrole, setJobrole] = useState('');
-  const [Openings, setOpenings] = useState('');
-  const [Company, setCompany] = useState('');
-  const [Status, setStatus] = useState('');
-  const [Description, setDescription] = useState('');
-  const [Requirements, setRequirements] = useState('');
-  const [Experience, setExperience] = useState('');
-  const [Deadline, setDeadline] = useState('');
-  const [Worktype, setWorktype] = useState('');
-  const [Skills, setSkills] = useState('');
-  const [Education, setEducation] = useState('');
-  const [Location, setLocation] = useState('');
-  const [Year, setYear] = useState('');
-  const [errors, setErrors] = useState('');
-  const { id } = useParams();
-  const navigate = useNavigate();
+  const theme = useTheme()
+  const [Jobrole, setJobrole] = useState('')
+  const [Openings, setOpenings] = useState('')
+  const [Company, setCompany] = useState('')
+  const [Description, setDescription] = useState('')
+  const [ApplicationLink, setApplicationLink] = useState('')
+  const [Experience, setExperience] = useState('')
+  const [Deadline, setDeadline] = useState('')
+  const [Worktype, setWorktype] = useState('')
+  const [Skills, setSkills] = useState('')
+  const [Education, setEducation] = useState('')
+  const [Location, setLocation] = useState('')
+  const [Year, setYear] = useState('')
+  const [errors, setErrors] = useState('')
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const Skill = [
+    'JavaScript',
+    'React.js',
+    'Node.js',
+    'AngularJS',
+    'Vue.js',
+    'Java',
+    'Spring Framework',
+    'Hibernate',
+    'Apache Struts',
+    'JavaFX',
+    'Python',
+    'Django',
+    'Flask',
+    'NumPy',
+    'Pandas',
+    'C#',
+    'ASP.NET',
+    '.NET Core',
+    'Unity',
+    'Xamarin',
+    'Ruby',
+    'Ruby on Rails',
+    'Sinatra',
+    'RSpec',
+    'Capybara',
+    'PHP',
+    'Laravel',
+    'Symfony',
+    'CodeIgniter',
+    'WordPress',
+    'Swift',
+    'iOS app development',
+    'macOS app development',
+    'SwiftUI',
+    'Kotlin',
+    'Android app development',
+    'Kotlin Multiplatform',
+    'TypeScript',
+    'Angular',
+    'Vue.js',
+    'React Native',
+    'Deno',
+    'Go',
+    'Google Cloud Platform',
+    'Docker',
+    'Kubernetes',
+    'Rust',
+    'Systems programming',
+    'Web development',
+    'Networking',
+    'C/C++',
+    'Embedded systems',
+    'Game development',
+    'Operating systems',
+    'SQL',
+    'Database management',
+    'Querying and manipulating data',
+    'HTML/CSS',
+    'Web development',
+    'Front-end design',
+    'MATLAB',
+    'Numerical computing',
+    'Data analysis',
+    'R',
+    'Statistical computing',
+    'Data visualization',
+    'Machine learning'
+  ]
+  const Educations = [
+    'BCA',
+    'MCA',
+    'BBA',
+    'MBA',
+    'B.Tech',
+    'M.Tech',
+    'B.Sc.',
+    'M.Sc',
+    'BE',
+    'ME',
+    'Any Computer Streams',
+    'Any UG',
+    'Any PG',
+    'Others'
+  ]
+  const Locations = ['Coimbatore', 'Chennai', 'Bengaluru']
+  const Years = []
+  for (let year = 2000; year <= 2050; year++) {
+    Years.push(year)
+  }
 
-  const handleRequirements = (e) => {
-    setRequirements(e.target.value);
-    setErrors((prev) => ({
+  const handleApplicationLink = e => {
+    setApplicationLink(e.target.value)
+    setErrors(prev => ({
       ...prev,
-      Requirements: ''
-    }));
-  };
-  const handleLocation = (e) => {
-    setLocation(e.target.value);
-    setErrors((prev) => ({
+      ApplicationLink: ''
+    }))
+  }
+  const handleLocation = (e, Value1) => {
+    setLocation(Value1.join(','))
+    setErrors(prev => ({
       ...prev,
       Location: ''
-    }));
-  };
-  const handleWorktype = (e) => {
-    setWorktype(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleWorktype = e => {
+    setWorktype(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Worktype: ''
-    }));
-  };
-  const handleJobrole = (e) => {
-    setJobrole(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleJobrole = e => {
+    setJobrole(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Jobrole: ''
-    }));
-  };
-  const handleOpenings = (e) => {
-    setOpenings(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleOpenings = e => {
+    setOpenings(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Openings: ''
-    }));
-  };
+    }))
+  }
 
-  const handleCompany = (e) => {
-    setCompany(e.target.value);
-    setErrors((prev) => ({
+  const handleCompany = e => {
+    setCompany(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Company: ''
-    }));
-  };
-  const handleStatus = (e) => {
-    setStatus(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      Status: ''
-    }));
-  };
-  const handleEducation = (e) => {
-    setEducation(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+
+  const handleEducation = (e, newValue) => {
+    setEducation(newValue.join(','))
+    setErrors(prev => ({
       ...prev,
       Education: ''
-    }));
-  };
-  const handleYear = (e) => {
-    setYear(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleYear = (e, Value2) => {
+    setYear(Value2.join(','))
+    setErrors(prev => ({
       ...prev,
       Year: ''
-    }));
-  };
-  const handleSkills = (e) => {
-    setSkills(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleSkills = (e, value) => {
+    setSkills(value.join(','))
+    setErrors(prev => ({
       ...prev,
       Skills: ''
-    }));
-  };
-  const handleDescription = (e) => {
-    setDescription(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleDescription = e => {
+    setDescription(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Description: ''
-    }));
-  };
-  const handleExperience = (e) => {
-    setExperience(e.target.value);
-    setErrors((prev) => ({
+    }))
+  }
+  const handleExperience = e => {
+    setExperience(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Experience: ''
-    }));
-  };
-  const handleDeadline = (e) => {
-    const selectedDate = e.target.value;
-    const currentDate = new Date().toISOString().split('T')[0];
+    }))
+  }
+  const handleDeadline = e => {
+    const selectedDate = e.target.value
+    const currentDate = new Date().toISOString().split('T')[0]
     if (selectedDate < currentDate) {
-      setErrors((prev) => ({
+      setErrors(prev => ({
         ...prev,
         Deadline: 'Please select a future date.'
-      }));
+      }))
     } else {
-      setDeadline(selectedDate);
-      setErrors((prev) => ({
+      setDeadline(selectedDate)
+      setErrors(prev => ({
         ...prev,
         Deadline: ''
-      }));
+      }))
     }
-  };
+  }
   useEffect(() => {
     axios
       .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
-      .then((res) => {
-        console.log('This is res data',res.data.data);
+      .then(res => {
+        console.log('This is res data', res.data.data)
 
-        const responseData = res.data.data; 
+        const responseData = res.data.data
         console.log(responseData)
-        setJobrole(responseData.Jobrole);
-        setOpenings(responseData.Openings);
-        setCompany(responseData.Company);
-        setStatus(responseData.Status);
-        setDescription(responseData.Description);
-        setRequirements(responseData.Requirements);
-        setExperience(responseData.Experience);
-        setDeadline(responseData.Deadline);
-        setWorktype(responseData.Worktype);
-        setSkills(responseData.Skills);
-        setEducation(responseData.Education);
-        setYear(responseData.Year);
-        setLocation(responseData.Location);
-        
+        setJobrole(responseData.Jobrole)
+        setOpenings(responseData.Openings)
+        setCompany(responseData.Company)
+        setDescription(responseData.Description)
+        setApplicationLink(responseData.ApplicationLink)
+        setExperience(responseData.Experience)
+        setDeadline(responseData.Deadline)
+        setWorktype(responseData.Worktype)
+        setSkills(responseData.Skills.join(','))
+        setEducation(responseData.Education.join(','))
+        setYear(responseData.Year.join(','))
+        setLocation(responseData.Location)
       })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, [id]);
+      .catch(err => {
+        console.log(err.message)
+      })
+  }, [id])
 
   const finalSubmit = async () => {
     if (id) {
@@ -162,9 +257,8 @@ const RecruitmentForm = () => {
           Jobrole,
           Openings,
           Company,
-          Status,
           Description,
-          Requirements,
+          ApplicationLink,
           Experience,
           Deadline,
           Worktype,
@@ -172,16 +266,15 @@ const RecruitmentForm = () => {
           Education,
           Year,
           Location
-        };
+        }
 
         await validationSchema.validate(
           {
             Jobrole,
             Openings,
             Company,
-            Status,
             Description,
-            Requirements,
+            ApplicationLink,
             Experience,
             Deadline,
             Worktype,
@@ -190,39 +283,40 @@ const RecruitmentForm = () => {
             Year,
             Location
           },
-          { abortEarly: false }
-        );
-        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/'+ id, updatedtask);
-        setJobrole('');
-        setOpenings('');
-        setCompany('');
-        setStatus('');
-        setDescription('');
-        setRequirements('');
-        setExperience('');
-        setDeadline('');
-        setWorktype('');
-        setSkills('');
-        setEducation('');
-        setYear('');
-        setLocation('');
+          {
+            abortEarly: false
+          }
+        )
+        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedtask)
+        setJobrole('')
+        setOpenings('')
+        setCompany('')
+        setDescription('')
+        setApplicationLink('')
+        setExperience('')
+        setDeadline('')
+        setWorktype('')
+        setSkills('')
+        setEducation('')
+        setYear('')
+        setLocation('')
 
         Swal.fire({
           icon: 'success',
           text: 'Updated Successfully'
         }).then(() => {
-          navigate('/RecruitmentTable');
-        });
+          navigate('/JobTable')
+        })
       } catch (error) {
         if (error instanceof yup.ValidationError) {
-          const validationErrors = {};
-          error.inner.forEach((err) => {
-            validationErrors[err.path] = err.message;
-            console.log(validationErrors);
-          });
-          setErrors(validationErrors);
+          const validationErrors = {}
+          error.inner.forEach(err => {
+            validationErrors[err.path] = err.message
+            console.log(validationErrors)
+          })
+          setErrors(validationErrors)
         } else {
-          console.log(error);
+          console.log(error)
         }
       }
     } else {
@@ -231,9 +325,8 @@ const RecruitmentForm = () => {
           Jobrole,
           Openings,
           Company,
-          Status,
           Description,
-          Requirements,
+          ApplicationLink,
           Experience,
           Deadline,
           Worktype,
@@ -241,16 +334,15 @@ const RecruitmentForm = () => {
           Education,
           Year,
           Location
-        };
-        console.log('task', task);
+        }
+        console.log('task', task)
 
         await validationSchema.validate(
           {
             Jobrole,
             Openings,
             Company,
-            Status,
-            Requirements,
+            ApplicationLink,
             Experience,
             Deadline,
             Worktype,
@@ -260,298 +352,284 @@ const RecruitmentForm = () => {
             Location
           },
           { abortEarly: false }
-        );
-        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
+        )
+        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task)
 
-        setJobrole('');
-        setOpenings('');
-        setCompany('');
-        setStatus('');
-        setDescription('');
-        setRequirements('');
-        setExperience('');
-        setDeadline('');
-        setWorktype('');
-        setSkills('');
-        setEducation('');
-        setYear('');
-        setLocation('');
+        setJobrole('')
+        setOpenings('')
+        setCompany('')
+        setDescription('')
+        setApplicationLink('')
+        setExperience('')
+        setDeadline('')
+        setWorktype('')
+        setSkills('')
+        setEducation('')
+        setYear('')
+        setLocation('')
         Swal.fire({
           icon: 'success',
           text: 'Add Recruitment'
         }).then(() => {
-          navigate('/RecruitmentTable');
-        });
+          navigate('/JobTable')
+        })
       } catch (error) {
         if (error instanceof yup.ValidationError) {
-          const validationErrors = {};
-          error.inner.forEach((err) => {
-            validationErrors[err.path] = err.message;
-            console.log(validationErrors);
-          });
-          setErrors(validationErrors);
+          const validationErrors = {}
+          error.inner.forEach(err => {
+            validationErrors[err.path] = err.message
+            console.log(validationErrors)
+          })
+          setErrors(validationErrors)
         } else {
-          console.log(error);
+          console.log(error)
         }
       }
     }
-  };
+  }
 
   return (
-    <MainCard title="Recruitment Form">
+    <MainCard title='Job Description Form'>
       <form>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Jobrole}>
-                <InputLabel id="demo-simple-select-label">Jobrole</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Jobrole"
+              <FormControl sx={{ minWidth: '100%' }}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <TextField
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Jobrole'
                   value={Jobrole}
-                  // error={errors && errors.Status}
-                  // helperText={errors && errors.Status}
-                  onChange={(e) => handleJobrole(e)}
-                >
-                  <MenuItem value="Data Analyst">Data Analyst</MenuItem>
-                  <MenuItem value="HR">HR</MenuItem>
-                  <MenuItem value="Software Associate">Software Associate</MenuItem>
-                  <MenuItem value="Digital Marketing">Digital Marketing</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.Jobrole}</FormHelperText>
+                  error={errors && errors.Jobrole}
+                  helperText={errors && errors.Jobrole}
+                  onChange={e => handleJobrole(e)}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="No of Openings"
-                variant="outlined"
+                id='outlined-basic'
+                label='No of Openings'
+                variant='outlined'
                 value={Openings}
-                type="number"
+                type='number'
                 error={errors && errors.Openings}
                 helperText={errors && errors.Openings}
-                onChange={(e) => handleOpenings(e)}
+                onChange={e => handleOpenings(e)}
               />
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
-                <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
+                <InputLabel id='demo-simple-select-label'>Work Type</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Work Type"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Work Type'
                   value={Worktype}
                   // error={errors && errors.Status}
                   // helperText={errors && errors.Status}
-                  onChange={(e) => handleWorktype(e)}
+                  onChange={e => handleWorktype(e)}
                 >
-                  <MenuItem value=""></MenuItem>
-                  <MenuItem value="Internship">Internship</MenuItem>
-                  <MenuItem value="Full time">Full Time</MenuItem>
-                  <MenuItem value="Trainee">Trainee</MenuItem>
+                  <MenuItem value=''></MenuItem>
+                  <MenuItem value='Internship'>Internship</MenuItem>
+                  <MenuItem value='Full time'>Full Time</MenuItem>
+                  <MenuItem value='Trainee'>Trainee</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Worktype}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Company}>
-                <InputLabel id="demo-simple-select-label">Company</InputLabel>
+                <InputLabel id='demo-simple-select-label'>Company</InputLabel>
                 <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Company"
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Company'
                   value={Company}
                   // error={errors && errors.Company}
                   // helperText={errors && errors.Company}
-                  onChange={(e) => handleCompany(e)}
+                  onChange={e => handleCompany(e)}
                 >
-                  <MenuItem value="Sns Square">SNS Square</MenuItem>
+                  <MenuItem value='Sns Square'>SNS Square</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Company}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
-                <InputLabel id="demo-simple-select-label">Location</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Location"
-                  value={Location}
-                  // error={errors && errors.Status}
-                  // helperText={errors && errors.Status}
-                  onChange={(e) => handleLocation(e)}
-                >
-                  <MenuItem value=""></MenuItem>
-                  <MenuItem value="Coimbatore">Coimbatore</MenuItem>
-                  <MenuItem value="Bengaluru">Bengaluru</MenuItem>
-                </Select>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <Autocomplete
+                  multiple
+                  options={Locations}
+                  limitTags={1}
+                  disableCloseOnSelect
+                  value={Location ? String(Location).split(',') : []}
+                  onChange={(e, Value1) => handleLocation(e, Value1)}
+                  renderInput={params => <TextField {...params} label='Location' value={Location} error={errors && errors.Location} />}
+                />
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
-                id="outlined-start-adornment"
-                label="Deadline"
-                variant="outlined"
-                type="date"
+                id='outlined-start-adornment'
+                label='Deadline'
+                variant='outlined'
+                type='date'
                 value={Deadline}
                 error={errors && errors.Deadline}
                 helperText={errors && errors.Deadline}
-                onChange={(e) => handleDeadline(e)}
+                onChange={e => handleDeadline(e)}
                 InputProps={{
-                  startAdornment: <InputAdornment position="start"></InputAdornment>
+                  startAdornment: <InputAdornment position='start'></InputAdornment>
                 }}
               />
-            </Grid>
-
-            <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Status}>
-                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Status"
-                  value={Status}
-                  // error={errors && errors.Status}
-                  // helperText={errors && errors.Status}
-                  onChange={(e) => handleStatus(e)}
-                >
-                   <MenuItem value="New">New</MenuItem>
-                  <MenuItem value="Interview Scheduled">Interview Scheduled</MenuItem>
-                  <MenuItem value="Progress">Progress</MenuItem>
-                  <MenuItem value="Completed">Completed</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.Status}</FormHelperText>
-              </FormControl>
             </Grid>
             <Grid item xs={4}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
-              <InputLabel id="demo-simple-select-label">Education</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  label="Education"
-                  value={Education}
-                  type="value"
-                  error={errors && errors.Education}
-                  helperText={errors && errors.Education}
-                  onChange={(e) => handleEducation(e)}
-                >
-                    <MenuItem value="BCA">BCA</MenuItem>
-                <MenuItem value="MCA">MCA</MenuItem>
-                <MenuItem value="BBA">BBA</MenuItem>
-                <MenuItem value="MBA">MBA</MenuItem>
-                <MenuItem value="B.Tech">B.Tech</MenuItem>
-                <MenuItem value="M.Tech">M.Tech</MenuItem>
-                <MenuItem value="B.Sc.">B.Sc.</MenuItem>
-                <MenuItem value="M.Sc">M.Sc</MenuItem>
-                <MenuItem value="BE">BE</MenuItem>
-                <MenuItem value="ME">ME</MenuItem>
-                <MenuItem value="Others">Others</MenuItem>
-                  </Select> 
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <Autocomplete
+                  multiple
+                  options={Educations}
+                  limitTags={2}
+                  disableCloseOnSelect
+                  value={Education ? String(Education).split(',') : []}
+                  onChange={(e, newValue) => handleEducation(e, newValue)}
+                  renderInput={params => <TextField {...params} label='Education' value={Education} error={errors && errors.Education} />}
+                />
+                <FormHelperText>{errors && errors.Education}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Year of Passing"
-                variant="outlined"
-                value={Year}
-                type="value"
-                // error={errors && errors.Year}
-                // helperText={errors && errors.Year}
-                onChange={(e) => handleYear(e)}
-              />
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <Autocomplete
+                  multiple
+                  options={Years}
+                  limitTags={2}
+                  disableCloseOnSelect
+                  value={Year ? String(Year).split(',') : []}
+                  onChange={(e, Value2) => handleYear(e, Value2)}
+                  renderInput={params => <TextField {...params} label='Year of Passing' value={Year} error={errors && errors.Year} />}
+                />
+                <FormHelperText>{errors && errors.Year}</FormHelperText>
+              </FormControl>
             </Grid>
             <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Experience"
-                variant="outlined"
-                value={Experience}
-                type="number"
-                error={errors && errors.Experience}
-                helperText={errors && errors.Experience}
-                onChange={(e) => handleExperience(e)}
-              />
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Experience}>
+                <InputLabel id='demo-simple-select-label'>Experience</InputLabel>
+                <Select
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Experience'
+                  value={Experience}
+                  error={errors && errors.Experience}
+                  helperText={errors && errors.Experience}
+                  onChange={e => handleExperience(e)}
+                >
+                  <MenuItem value='Freshers'>Freshers</MenuItem>
+                  <MenuItem value='1 to 2'>1 to 2</MenuItem>
+                  <MenuItem value='2 to 4'>2 to 4</MenuItem>
+                  <MenuItem value='4 to 6'>4 to 6</MenuItem>
+                  <MenuItem value='6 to 8'>6 to 8</MenuItem>
+                  <MenuItem value='8 to 10'>8 to 10</MenuItem>
+                  <MenuItem value='10 to 12'>10 to 12</MenuItem>
+                  <MenuItem value='Above 12'>Above 12</MenuItem>
+                </Select>
+                <FormHelperText>{errors && errors.Experience}</FormHelperText>
+              </FormControl>
             </Grid>
-            <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Requirements"
-                variant="outlined"
-                value={Requirements}
-                type="value"
-                error={errors && errors.Requirements}
-                helperText={errors && errors.Requirements}
-                onChange={(e) => handleRequirements(e)}
-              />
-            </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={6}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <Autocomplete
+                  multiple
+                  options={Skill}
+                  limitTags={2}
+                  disableCloseOnSelect
+                  value={Skills ? String(Skills).split(',') : []}
+                  onChange={(e, Value) => handleSkills(e, Value)}
+                  renderInput={params => <TextField {...params} label='Skills' value={Skills} error={errors && errors.Skills} />}
+                />
+                <FormHelperText>{errors && errors.Skills}</FormHelperText>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                sx={{ minWidth: '100%' }}
+                id='outlined-basic'
+                label='ApplicationLink'
+                variant='outlined'
+                value={ApplicationLink}
+                type='Value'
+                error={errors && errors.ApplicationLink}
+                helperText={errors && errors.ApplicationLink}
+                onChange={e => handleApplicationLink(e)}
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <FormControl sx={{ width: '1000px', height: '100px' }}>
                 <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Skills"
-                  value={Skills}
-                  type="value"
-                  error={errors && errors.Skills}
-                  helperText={errors && errors.Skills}
-                  onChange={(e) => handleSkills(e)}
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Description'
+                  value={Description}
+                  type='value'
+                  multiline
+                  rows={3}
+                  onChange={e => handleDescription(e)}
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12}>
-  <FormControl sx={{ width: '980px', height: '100px' }}>
-    <TextField
-      labelId="demo-simple-select-label"
-      id="demo-simple-select"
-      label="Description"
-      value={Description}
-      type="value"
-      multiline
-      rows={3}
-      onChange={(e) => handleDescription(e)}
-    />
-  </FormControl>
-</Grid>
           </Grid>
         </Box>
-        <Box sx={{ display:'flex' ,justifyContent:'center',gap:'800px'}}>
-         
-              <Button
-                variant="contained"
-                sx={{
-                  align: 'center',
-                  boxShadow: 'none',
-                  borderRadius: 2,
-                  padding: 1.5,
-                  background: theme.palette.secondary.dark,
-                  color: theme.palette.secondary.light,
-                  '&:hover': {
-                    background: theme.palette.secondary.dark,
-                    color: theme.palette.secondary.light
-                  }
-                }}
-                onClick={(e) => finalSubmit(e)}
-              >
-                {id ? 'Update' : 'Save'}
-              </Button> <Button variant='contained' onClick={()=>{navigate('/recruitmenttable')}}
-                sx={{
-                  align: 'center',
-                  boxShadow: 'none',
-                  borderRadius: 2,
-                  padding: 1.5,
-                }}>Table</Button>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: '850px', marginTop: '20px' }}>
+          <Button
+            variant='contained'
+            sx={{
+              width: '300px',
+              height: '40px',
+              borderRadius: '10px',
+              padding: 0.6,
+              background: '#673ab7',
+              color: '#efebe9',
+              '&:hover': {
+                color: theme.palette.secondary.light,
+                background: '#673ab7'
+              }
+            }}
+            onClick={e => finalSubmit(e)}
+          >
+            {id ? 'Update' : 'Save'}
+          </Button>{' '}
+          <Button
+            onClick={() => {
+              navigate('/jobtable')
+            }}
+            sx={{
+              width: '100px',
+              height: '40px',
+              borderRadius: '10px',
+              padding: 0.6,
+              background: '#673ab7',
+              color: '#f5f5f5',
+              '&:hover': {
+                background: '#673ab7',
+                color: '#f5f5f5'
+              }
+            }}
+          >
+            <Tooltip title='view table'>
+              <WysiwygIcon />
+            </Tooltip>
+          </Button>
         </Box>
       </form>
     </MainCard>
-  );
-};
-export default RecruitmentForm;
+  )
+}
+export default RecruitmentForm

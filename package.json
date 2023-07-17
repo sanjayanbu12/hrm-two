@@ -26,6 +26,7 @@
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "es7": "^1.0.8-beta.4",
+    "file-saver": "^2.0.5",
     "formik": "^2.2.9",
     "framer-motion": "^6.3.16",
     "material-ui-popup-state": "^4.0.1",
