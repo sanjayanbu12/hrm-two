@@ -160,7 +160,7 @@ const RecruitmentForm = () => {
   }
   const handleOpenings = e => {
     const Open = e.target.value
-    if (0 > Open) {
+    if (0 >= Open) {
       setErrors(prev => ({
         ...prev,
         Openings: 'Select above 0 '
