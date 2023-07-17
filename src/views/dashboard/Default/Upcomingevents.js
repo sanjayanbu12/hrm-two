@@ -6,7 +6,8 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { useTheme } from '@mui/material/styles';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 
 const Upcomingevents = () => {
@@ -65,6 +66,9 @@ const Upcomingevents = () => {
       </button>
     );
 
+  // Sort the events in ascending order based on their start dates
+  const sortedEvents = events.sort((a, b) => new Date(a.start) - new Date(b.start));
+
   return (
     <>
       {isLoading ? (
@@ -92,22 +96,22 @@ const Upcomingevents = () => {
                 }}
               >
                 All Events
-                <ArrowForwardIcon />
+                <KeyboardDoubleArrowRightIcon />
               </Button>
             </Box>
 
             <div style={{ overflow: 'hidden' }}>
-              {events.length > 0 ? (
+              {sortedEvents.length > 0 ? (
                 <Carousel
                   showArrows={true}
                   showThumbs={false}
                   showStatus={false}
                   centerMode={true}
-                  centerSlidePercentage={25.00}
+                  centerSlidePercentage={25.0}
                   renderArrowPrev={renderArrowPrev}
                   renderArrowNext={renderArrowNext}
                 >
-                  {events.map((event, index) => {
+                  {sortedEvents.map((event, index) => {
                     const startDate = new Date(event.start);
                     const endDate = new Date(event.end);
                     const startMonth = startDate.toLocaleString('en-US', { month: 'long' });
@@ -116,7 +120,7 @@ const Upcomingevents = () => {
                     const endTime = endDate.toLocaleTimeString([], { hour: 'numeric', minute: 'numeric' });
 
                     return (
-                      <div key={index} style={{ width: '75.00%', padding: '10px', margin: '0 5px' }}>
+                      <div key={index} style={{ width: '75.0%', padding: '10px', margin: '0 5px' }}>
                         <Grid
                           container
                           direction="column"
