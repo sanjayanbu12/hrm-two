@@ -9,6 +9,7 @@ import { useTheme } from '@mui/material/styles';
 // import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
@@ -92,13 +93,19 @@ const Upcomingevents = () => {
                     color: theme.palette.secondary.dark,
                   },
                   top: '-30px',
-                  right: '10px',
+                  right: '40px',
                 }}
               >
                 All Events
                 <KeyboardDoubleArrowRightIcon />
               </Button>
             </Box>
+
+
+            <Button>
+
+<MoreVertIcon />
+            </Button>
 
             <div style={{ overflow: 'hidden' }}>
               {sortedEvents.length > 0 ? (
