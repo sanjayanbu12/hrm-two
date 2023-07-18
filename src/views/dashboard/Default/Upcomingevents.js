@@ -101,9 +101,18 @@ const Upcomingevents = () => {
               </Button>
             </Box>
 
-
-            <Button>
-
+            <Button  
+              
+            
+            sx={{
+                  color: theme.palette.secondary.dark,
+                  '&:hover': {
+                    color: theme.palette.secondary.dark,
+                  },
+                  top: '-70px',
+                  left: '880px',
+                }}  >
+        
 <MoreVertIcon />
             </Button>
 
