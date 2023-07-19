@@ -45,6 +45,7 @@ const MainRoutes = {
       path: '/recruitment',
       element: <Recruitment />
     },
+   
     {
       path: '/leavetrackerform',
       element: <LeaveTrackerForm />

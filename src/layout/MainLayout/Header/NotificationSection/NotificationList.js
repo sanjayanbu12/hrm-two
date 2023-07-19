@@ -46,6 +46,7 @@ const NotificationList = () => {
     ...chipSX,
     color: theme.palette.orange.dark,
     backgroundColor: theme.palette.orange.light,
+    
     marginRight: '5px'
   };
 
