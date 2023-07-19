@@ -1,39 +1,57 @@
+
+
 import React, { useState, useEffect } from 'react';
 
-function DarkLightMode() {
-  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
+const DarkLightMode = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
+    setIsDarkMode(!isDarkMode);
   };
 
+  const darkLightModeStyles = `
+    body {
+      background-color: ${isDarkMode ? '#222222' : '#ffffff'};
+      color: ${isDarkMode ? '#ffffff' : '#000000'};
+      transition: background-color 0.3s ease;
+    }
+
+    .app {
+      /* Styles for your module */
+    }
+
+    .toggle-button {
+      background-color: ${isDarkMode ? '#000000' : '#ffffff'};
+      color: ${isDarkMode ? '#ffffff' : '#000000'};
+      padding: 4px;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+    }
+  `;
+
+  // Call applyDarkLightMode on initial render and whenever isDarkMode changes
   useEffect(() => {
-    localStorage.setItem('theme', theme);
-    document.body.className = theme;
-  }, [theme]);
+    applyDarkLightMode();
+  }, [isDarkMode]);
+
+  const applyDarkLightMode = () => {
+    const body = document.getElementsByTagName('body')[0];
+    body.classList.toggle('dark', isDarkMode);
+    body.classList.toggle('light', !isDarkMode);
+  };
 
   return (
-    <div className={`App ${theme}`}>
-      <button onClick={toggleTheme}>Toggle Theme</button>
-      <h1>Hello, world!</h1>
-      <style>
-        {`
-          .dark {
-            background-color: #333;
-            color: #fff;
-          }
-          .light {
-            background-color: #fff;
-            color: #333;
-          }
-        `}
-      </style>
+    <div className="app">
+      <style>{darkLightModeStyles}</style>
+      <button className="toggle-button" onClick={toggleTheme}>
+        {isDarkMode ? 'Light Mode' : 'Dark Mode'}
+      </button>
+      
     </div>
   );
-}
+};
 
 export default DarkLightMode;
+
+
