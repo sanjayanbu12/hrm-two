@@ -16,11 +16,10 @@ const ApplicationTracker = () => {
     cursor: 'pointer',
     transform: 'scale(1.1)',
     transition: 'transform 0.3s ease',
-    // Additional styles for hover
     '&:hover': {
-      backgroundColor: 'blue', // Change the background color on hover
-      color: 'white', // Change the text color on hover
-      boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)' // Add a shadow on hover
+      backgroundColor: 'blue', 
+      color: 'white',
+      boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)' 
     }
   }
   const fetchData = async () => {
@@ -62,7 +61,7 @@ const ApplicationTracker = () => {
       console.log(`blob  = ${blob}`);
       saveAs(blob, `${name}.${extension}`);
     } catch (error) {
-      console.log(error);
+      console.log('Error downloading resume:', error);
     }
   };
   

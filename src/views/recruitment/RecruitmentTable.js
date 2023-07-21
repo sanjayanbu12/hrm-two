@@ -326,7 +326,7 @@ const RecruitmentTable = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Experience</b>
-                    <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.Experience} Years
+                    <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom}  to  {selectedJob.ExperienceTo}  Years
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Description</b>

@@ -28,7 +28,8 @@ const RecruitmentForm = () => {
   const [Company, setCompany] = useState('')
   const [Description, setDescription] = useState('')
   const [ApplicationLink, setApplicationLink] = useState('')
-  const [Experience, setExperience] = useState('')
+  const [ExperienceFrom, setExperienceFrom] = useState('')
+  const [ExperienceTo, setExperienceTo] = useState('')
   const [Deadline, setDeadline] = useState('')
   const [Worktype, setWorktype] = useState('')
   const [Skills, setSkills] = useState('')
@@ -158,11 +159,19 @@ const RecruitmentForm = () => {
     }))
   }
   const handleOpenings = e => {
-    setOpenings(e.target.value)
-    setErrors(prev => ({
-      ...prev,
-      Openings: ''
-    }))
+    const Open = e.target.value
+    if (0 >= Open) {
+      setErrors(prev => ({
+        ...prev,
+        Openings: 'Select above 0 '
+      }))
+    } else {
+      setOpenings(Open)
+      setErrors(prev => ({
+        ...prev,
+        Openings: ''
+      }))
+    }
   }
 
   const handleCompany = e => {
@@ -201,12 +210,28 @@ const RecruitmentForm = () => {
       Description: ''
     }))
   }
-  const handleExperience = e => {
-    setExperience(e.target.value)
+  const handleExperienceFrom = e => {
+    setExperienceFrom(e.target.value)
     setErrors(prev => ({
       ...prev,
-      Experience: ''
+      ExperienceFrom: ''
     }))
+  }
+
+  const handleExperienceTo = e => {
+    const experience = e.target.value
+    if (experience < ExperienceFrom) {
+      setErrors(prev => ({
+        ...prev,
+        ExperienceTo: 'Experience To should be higher than Experience From.'
+      }))
+    } else {
+      setExperienceTo(experience)
+      setErrors(prev => ({
+        ...prev,
+        ExperienceTo: ''
+      }))
+    }
   }
   const handleDeadline = e => {
     const selectedDate = e.target.value
@@ -237,7 +262,8 @@ const RecruitmentForm = () => {
         setCompany(responseData.Company)
         setDescription(responseData.Description)
         setApplicationLink(responseData.ApplicationLink)
-        setExperience(responseData.Experience)
+        setExperienceFrom(responseData.ExperienceFrom)
+        setExperienceTo(responseData.ExperienceTo)
         setDeadline(responseData.Deadline)
         setWorktype(responseData.Worktype)
         setSkills(responseData.Skills.join(','))
@@ -259,7 +285,8 @@ const RecruitmentForm = () => {
           Company,
           Description,
           ApplicationLink,
-          Experience,
+          ExperienceFrom,
+          ExperienceTo,
           Deadline,
           Worktype,
           Skills,
@@ -275,7 +302,8 @@ const RecruitmentForm = () => {
             Company,
             Description,
             ApplicationLink,
-            Experience,
+            ExperienceFrom,
+            ExperienceTo,
             Deadline,
             Worktype,
             Skills,
@@ -293,7 +321,7 @@ const RecruitmentForm = () => {
         setCompany('')
         setDescription('')
         setApplicationLink('')
-        setExperience('')
+        setExperienceFrom('')
         setDeadline('')
         setWorktype('')
         setSkills('')
@@ -327,7 +355,8 @@ const RecruitmentForm = () => {
           Company,
           Description,
           ApplicationLink,
-          Experience,
+          ExperienceFrom,
+          ExperienceTo,
           Deadline,
           Worktype,
           Skills,
@@ -343,7 +372,8 @@ const RecruitmentForm = () => {
             Openings,
             Company,
             ApplicationLink,
-            Experience,
+            ExperienceFrom,
+            ExperienceTo,
             Deadline,
             Worktype,
             Skills,
@@ -360,7 +390,8 @@ const RecruitmentForm = () => {
         setCompany('')
         setDescription('')
         setApplicationLink('')
-        setExperience('')
+        setExperienceFrom('')
+        setExperienceTo('')
         setDeadline('')
         setWorktype('')
         setSkills('')
@@ -518,28 +549,34 @@ const RecruitmentForm = () => {
                 <FormHelperText>{errors && errors.Year}</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Experience}>
-                <InputLabel id='demo-simple-select-label'>Experience</InputLabel>
-                <Select
+            <Grid item xs={2}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceFrom}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <TextField
                   labelId='demo-simple-select-label'
                   id='demo-simple-select'
-                  label='Experience'
-                  value={Experience}
-                  error={errors && errors.Experience}
-                  helperText={errors && errors.Experience}
-                  onChange={e => handleExperience(e)}
-                >
-                  <MenuItem value='Freshers'>Freshers</MenuItem>
-                  <MenuItem value='1 to 2'>1 to 2</MenuItem>
-                  <MenuItem value='2 to 4'>2 to 4</MenuItem>
-                  <MenuItem value='4 to 6'>4 to 6</MenuItem>
-                  <MenuItem value='6 to 8'>6 to 8</MenuItem>
-                  <MenuItem value='8 to 10'>8 to 10</MenuItem>
-                  <MenuItem value='10 to 12'>10 to 12</MenuItem>
-                  <MenuItem value='Above 12'>Above 12</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.Experience}</FormHelperText>
+                  label='Experience From'
+                  type='number'
+                  value={ExperienceFrom}
+                  error={errors && errors.ExperienceFrom}
+                  helperText={errors && errors.ExperienceFrom}
+                  onChange={e => handleExperienceFrom(e)}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={2}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceTo}>
+                <InputLabel id='demo-simple-select-label'></InputLabel>
+                <TextField
+                  labelId='demo-simple-select-label'
+                  id='demo-simple-select'
+                  label='Experience To'
+                  type='number'
+                  value={ExperienceTo}
+                  error={errors && errors.ExperienceTo}
+                  helperText={errors && errors.ExperienceTo}
+                  onChange={e => handleExperienceTo(e)}
+                />
               </FormControl>
             </Grid>
             <Grid item xs={6}>
@@ -583,6 +620,7 @@ const RecruitmentForm = () => {
                   rows={3}
                   onChange={e => handleDescription(e)}
                 />
+              <FormHelperText>{errors && errors.skills}</FormHelperText>
               </FormControl>
             </Grid>
           </Grid>
