@@ -52,7 +52,7 @@ const RecruitmentTable = () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
       const newData = response.data.getData;
-      setRecruitmentList(newData);
+      setRecruitmentList(newData.reverse());
       setLoader(false);
       console.log(newData + ' this is the new data');
     } catch (error) {
@@ -210,7 +210,7 @@ const RecruitmentTable = () => {
                         <TableCell width={120}>
                           <Button color="inherit" onClick={handleSort}>
                             Job ID{' '}
-                            {sortDirection === 'asc' ? (
+                            {sortDirection === 'desc' ? (
                               <GridArrowUpwardIcon fontSize="small" />
                             ) : (
                               <GridArrowDownwardIcon fontSize="small" />
@@ -330,7 +330,7 @@ const RecruitmentTable = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Description</b>
-                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b> {selectedJob.Description}
+                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b>{selectedJob.Description} 
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> ApplicationLink</b>

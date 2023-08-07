@@ -190,12 +190,22 @@ const RecruitmentForm = () => {
     }))
   }
   const handleYear = (e, Value2) => {
-    setYear(Value2.join(','))
-    setErrors(prev => ({
-      ...prev,
-      Year: ''
-    }))
-  }
+    const selectedYears = Value2;
+    const uniqueYearsSet = new Set(selectedYears);
+    if (uniqueYearsSet.size !== selectedYears.length) {
+      setErrors(prev => ({
+        ...prev,
+        Year: "Latest Added Year Already selected Select another year"
+      }));
+    } else {
+      setYear(selectedYears.join(','));
+      setErrors(prev => ({
+        ...prev,
+        Year: ''
+      }));
+    }
+  };
+  
   const handleSkills = (e, value) => {
     setSkills(value.join(','))
     setErrors(prev => ({
