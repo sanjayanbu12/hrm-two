@@ -7,3 +7,4 @@ const store = createStore(reducer);
 const persister = 'Free';
 
 export { store, persister };
+
