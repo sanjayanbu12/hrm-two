@@ -5,9 +5,14 @@ import MainCard from 'ui-component/cards/MainCard'
 import { saveAs } from 'file-saver'
 import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto'
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 import { Box } from '@mui/system'
+import ApplicationView from './ApplicationView'
 const ApplicationTracker = () => {
   const [Data, setData] = useState([])
+  const[selectedJob,setSelectedJob]=useState(null);
+  const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(true)
   useEffect(() => {
     fetchData()
@@ -33,6 +38,15 @@ const ApplicationTracker = () => {
       console.log('Error retrieving user data:', error)
     }
   }
+  const handleView = (id) => {
+    const job = Data.find((item) => item._id === id);
+    setSelectedJob(job);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
@@ -84,6 +98,7 @@ const ApplicationTracker = () => {
                 <TableCell>Resume</TableCell>
                 <TableCell>Mobile No</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell align='center'>Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -108,6 +123,16 @@ const ApplicationTracker = () => {
 
                   <TableCell>{x.phone}</TableCell>
                   <TableCell>{x.email}</TableCell>
+                  <TableCell align='center'>
+                  <Tooltip title="Click to View">
+                                  <VisibilityIcon
+                                    fontSize="small"
+                                    onClick={() => {
+                                      handleView(x._id);
+                                    }}
+                                  />
+                                </Tooltip></TableCell>
+                                <ApplicationView open={open} handleClose={handleClose} selectedJob={selectedJob} />
                 </TableRow>
               ))}
             </TableBody>

@@ -424,8 +424,8 @@ const RecruitmentForm = () => {
     <MainCard title="Job Description Form">
       <form>
         <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2} >
-            <Grid item  xs={12} sm={6} md={4} lg={3} >
+          <Grid container spacing={2}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
                 <TextField
@@ -439,7 +439,7 @@ const RecruitmentForm = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -452,7 +452,7 @@ const RecruitmentForm = () => {
                 onChange={(e) => handleOpenings(e)}
               />
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
                 <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
                 <Select
@@ -504,7 +504,7 @@ const RecruitmentForm = () => {
                 <FormHelperText>{errors && errors.Location}</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-start-adornment"
@@ -520,7 +520,7 @@ const RecruitmentForm = () => {
                 }}
               />
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
                 <Autocomplete
@@ -535,7 +535,7 @@ const RecruitmentForm = () => {
                 <FormHelperText>{errors && errors.Education}</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
                 <Autocomplete
@@ -550,7 +550,7 @@ const RecruitmentForm = () => {
                 <FormHelperText>{errors && errors.Year}</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceFrom}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
                 <TextField
@@ -565,7 +565,7 @@ const RecruitmentForm = () => {
                 />
               </FormControl>
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceTo}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
                 <TextField
@@ -595,7 +595,7 @@ const RecruitmentForm = () => {
                 <FormHelperText>{errors && errors.Skills}</FormHelperText>
               </FormControl>
             </Grid>
-            <Grid item  xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -610,20 +610,19 @@ const RecruitmentForm = () => {
             </Grid>
 
             <Grid item xs={12} sm={12} md={12} lg={12}>
-  <FormControl fullWidth>
-    <TextField
-      labelId="demo-simple-select-label"
-      id="demo-simple-select"
-      label="Description"
-      value={Description}
-      multiline
-      rows={3}
-      onChange={(e) => handleDescription(e)}
-    />
-    <FormHelperText>{errors && errors.skills}</FormHelperText>
-  </FormControl>
-</Grid>
-
+              <FormControl fullWidth>
+                <TextField
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Description"
+                  value={Description}
+                  multiline
+                  rows={3}
+                  onChange={(e) => handleDescription(e)}
+                />
+                <FormHelperText>{errors && errors.skills}</FormHelperText>
+              </FormControl>
+            </Grid>
           </Grid>
         </Box>
         <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
