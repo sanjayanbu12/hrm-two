@@ -204,14 +204,7 @@ const RecruitmentForm = () => {
       Skills: ''
     }));
   };
-
-  const handleSkills = (e, value) => {
-    setSkills(value.join(','));
-    setErrors((prev) => ({
-      ...prev,
-      Skills: ''
-    }));
-  };
+  
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setErrors((prev) => ({
