@@ -135,7 +135,7 @@ const Upcomingevents = () => {
                   color: theme.palette.secondary.dark
                 },
                 top: '-70px',
-                left: '940px'
+                left: '1080px'
               }}
             >
               <MoreVertIcon />
