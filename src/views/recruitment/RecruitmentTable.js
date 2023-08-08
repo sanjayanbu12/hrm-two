@@ -160,7 +160,12 @@ const RecruitmentTable = () => {
             <Grid container spacing={2}>
               <Grid xs={9} sx={{ marginLeft: '30px' }}>
                 <TextField
-                  sx={{ width: '57px', height: '0px', transition: 'width 2s ease-in-out', '&:hover': { width: '300px' } }}
+                  sx={{
+                    width: '57px',
+                    height: '0px',
+                    transition: 'width 2s ease-in-out',
+                    '&:hover': { width: '240px' }
+                  }}
                   label="Search"
                   variant="outlined"
                   color="info"
@@ -169,14 +174,21 @@ const RecruitmentTable = () => {
                   size="small"
                   InputProps={{
                     startAdornment: (
-                      <InputAdornment position="start" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                      <InputAdornment
+                        position="start"
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
                         <GridSearchIcon color="primary" />
                       </InputAdornment>
                     )
                   }}
                 />
               </Grid>
-              <Grid xs={2} sx={{ marginLeft: '23px' }}>
+              <Grid xs={2} sx={{ marginLeft: '15px' }}>
                 <Button
                   onClick={() => {
                     navigate('/jobform');
@@ -232,7 +244,10 @@ const RecruitmentTable = () => {
                             <TableCell>{x.uuid}</TableCell>
                             <TableCell
                               onClick={(e) => handleClick(x._id, e)}
-                              sx={{ cursor: 'pointer', '&:hover': {color:'black'} }}
+                              sx={{
+                                cursor: 'pointer',
+                                '&:hover': { color: 'black' }
+                              }}
                             >
                               {x.Jobrole}
                             </TableCell>
@@ -241,7 +256,13 @@ const RecruitmentTable = () => {
                             <TableCell>{x.Location}</TableCell>
                             <TableCell>{new Date(x.Deadline).toLocaleDateString('en-GB')}</TableCell>
                             <TableCell align="left" sx={{ '&:hover': { cursor: 'pointer' } }}>
-                              <Box sx={{ display: 'flex', justifyContent: 'center', gap: '15px' }}>
+                              <Box
+                                sx={{
+                                  display: 'flex',
+                                  justifyContent: 'center',
+                                  gap: '15px'
+                                }}
+                              >
                                 <Tooltip title="Click to View">
                                   <VisibilityIcon
                                     fontSize="small"
@@ -273,7 +294,12 @@ const RecruitmentTable = () => {
                     count={Math.ceil(filteredJobs.length / rowsPerPage)}
                     page={currentPage}
                     onChange={handlePageChange}
-                    sx={{ marginTop: '10px', marginBottom: '10px', display: 'flex', justifyContent: 'flex-end' }}
+                    sx={{
+                      marginTop: '10px',
+                      marginBottom: '10px',
+                      display: 'flex',
+                      justifyContent: 'flex-end'
+                    }}
                   />
                 </TableContainer>
               ) : (
@@ -286,7 +312,14 @@ const RecruitmentTable = () => {
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
         {selectedJob && (
           <>
-            <Box sx={{ display: 'flex', justifyContent: 'center', background: '#2196f3', marginBottom: '1px' }}>
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                background: '#2196f3',
+                marginBottom: '1px'
+              }}
+            >
               <DialogTitle variant="h2" align="center">
                 Job Description Details
               </DialogTitle>
@@ -326,11 +359,13 @@ const RecruitmentTable = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Experience</b>
-                    <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom}  to  {selectedJob.ExperienceTo}  Years
+                    <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom} to{' '}
+                    {selectedJob.ExperienceTo} Years
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> Description</b>
-                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b>{selectedJob.Description} 
+                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b>
+                    {selectedJob.Description}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                     <b> ApplicationLink</b>
@@ -372,9 +407,20 @@ const RecruitmentTable = () => {
         }}
       >
         <Box sx={{ padding: '10px' }}>
-          <Typography><b>Application Count</b><b style={{ marginLeft: '48px', paddingRight: '10px'}}>:</b>20{selectedJob && selectedJob.ApplicationCount}</Typography>
-          <Typography><b>Selected</b><b style={{ marginLeft: '105px', paddingRight: '10px'}}>:</b>10{selectedJob && selectedJob.SelectedCount}</Typography>
-          <Typography><b>Remaining </b><b style={{ marginLeft: '89px', paddingRight: '10px'}}>:</b>10 {selectedJob && selectedJob.RemainingCount}</Typography>
+          <Typography>
+            <b>Application Count</b>
+            <b style={{ marginLeft: '48px', paddingRight: '10px' }}>:</b>20
+            {selectedJob && selectedJob.ApplicationCount}
+          </Typography>
+          <Typography>
+            <b>Selected</b>
+            <b style={{ marginLeft: '105px', paddingRight: '10px' }}>:</b>10
+            {selectedJob && selectedJob.SelectedCount}
+          </Typography>
+          <Typography>
+            <b>Remaining </b>
+            <b style={{ marginLeft: '89px', paddingRight: '10px' }}>:</b>10 {selectedJob && selectedJob.RemainingCount}
+          </Typography>
         </Box>
       </Popover>
     </MainCard>
