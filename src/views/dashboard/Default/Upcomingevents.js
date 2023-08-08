@@ -6,17 +6,16 @@ import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { useTheme } from '@mui/material/styles';
-// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [colorAnchorEl, setColorAnchorEl] = useState(null);
-  const [selectedColor, setSelectedColor] = useState('#ffffff');
+  const [selectedColor, setSelectedColor] = useState('#ffffff');  
 
   useEffect(() => {
     setIsLoading(true);
@@ -50,6 +49,17 @@ const Upcomingevents = () => {
     setSelectedColor(color);
     handleColorMenuClose();
   };
+
+  const colorOptions = [
+    { color: '#ff0000' },
+    { color: '#00ff00' },
+    { color: '#0000ff' },
+    { color: '#e9967a' },
+    { color: '#ff0000' },
+    { color: '#00ff00' },
+    { color: '#0000ff' },
+    { color: '#e9967a' }
+  ];
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
     hasPrev && (
@@ -93,7 +103,6 @@ const Upcomingevents = () => {
       </button>
     );
 
-  // Sort the events in ascending order based on their start dates
   const sortedEvents = events.sort((a, b) => new Date(a.start) - new Date(b.start));
 
   return (
@@ -171,13 +180,23 @@ const Upcomingevents = () => {
                 horizontal: 'right'
               }}
             >
-              <MenuItem onClick={() => handleColorSelect('#ffffff')}>White</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#ff0000')}>Red</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#00ff00')}>Green</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#0000ff')}>Blue</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#e9967a')}>Rose</MenuItem>
-            </Menu>
 
+              <Grid container>
+    {colorOptions.slice(0, 4).map((option, index) => (
+      <Grid item key={index} style={{ marginRight: '10px' }} onClick={() => handleColorSelect(option.color)}>
+        <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
+      </Grid>  
+    ))}
+ </Grid>
+
+<Grid container>
+      {colorOptions.slice(4, 8).map((option, index) => (
+      <Grid item key={index} style={{ marginRight: '10px', marginTop: '10px' }} onClick={() => handleColorSelect(option.color)}>
+        <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
+      </Grid>
+    ))}
+  </Grid>
+</Menu>
             <div style={{ overflow: 'hidden', backgroundColor: selectedColor }}>
               {events.length > 0 ? (
                 <Carousel
