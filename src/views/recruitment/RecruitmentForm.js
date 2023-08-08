@@ -526,7 +526,7 @@ const RecruitmentForm = () => {
                 <Autocomplete
                   multiple
                   options={Educations}
-                  limitTags={2}
+                  limitTags={1}
                   disableCloseOnSelect
                   value={Education ? String(Education).split(',') : []}
                   onChange={(e, newValue) => handleEducation(e, newValue)}
@@ -586,7 +586,7 @@ const RecruitmentForm = () => {
                 <Autocomplete
                   multiple
                   options={Skill}
-                  limitTags={2}
+                  limitTags={1}
                   disableCloseOnSelect
                   value={Skills ? String(Skills).split(',') : []}
                   onChange={(e, Value) => handleSkills(e, Value)}
