@@ -32,14 +32,15 @@ import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
-
+import { useDispatch } from 'react-redux';
+import { LOGGED_OUT } from 'store/actions';
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
-
+const dispatch = useDispatch()
   // const [sdm, setSdm] = useState(true);
   // const [notification, setNotification] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(-1);
@@ -49,7 +50,9 @@ const ProfileSection = () => {
    * */
   const anchorRef = useRef(null);
   const handleLogout = async () => {
+    dispatch({type:LOGGED_OUT})
     navigate('/pages/login/login3');
+    
   };
 
   const handleClose = (event) => {

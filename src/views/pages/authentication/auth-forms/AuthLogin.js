@@ -19,7 +19,8 @@ import axios from 'axios';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { useNavigate } from 'react-router';
 
-
+import { useDispatch } from 'react-redux';
+import { LOGGED_IN } from 'store/actions';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
@@ -30,6 +31,8 @@ const AuthLogin = () => {
   const [error, seterror] = useState({});
   const [showPassword, setShowPassword] = useState(false); // State variable for password visibility
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  // const customization = useSelector((state) => state.customization.loggedIn);
   const validateLogin = async (e) => {
     e.preventDefault();
     console.log(value1, value2);
@@ -38,8 +41,12 @@ const AuthLogin = () => {
       await axios.post('https://hrm-backend-square.onrender.com/auth/login', {
         email: value1,
         password: value2
+      }).then(()=>{
+        console.log(`then`);
+        dispatch({ type: LOGGED_IN })
+        navigate('/dashboard/default');
       })
-      navigate('/');
+
     }
     catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
