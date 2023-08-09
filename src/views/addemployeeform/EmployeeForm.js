@@ -640,6 +640,7 @@ const EmployeeForm = () => {
                   boxShadow: 'none',
                   minWidth: '100%',
                   borderRadius: 2,
+                  marginTop: '20px',
                   padding: 1.5,
                   background: theme.palette.secondary.dark,
                   color: theme.palette.secondary.light,
