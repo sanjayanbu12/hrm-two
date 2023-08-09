@@ -1,6 +1,6 @@
 import MainCard from 'ui-component/cards/MainCard';
 import { Grid, TextField, Box, Button, MenuItem, Select, FormControl, InputLabel, InputAdornment, FormHelperText } from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { validationSchema } from './Validation';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 import { updatevalidationSchema } from './updateValidate';
 
 const EmployeeForm = () => {
-  const theme = useTheme();
+  // const theme = useTheme();
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
   const [gender, setGender] = useState('');
@@ -22,8 +22,6 @@ const EmployeeForm = () => {
   const [peraddress, setperAddress] = useState('');
   const [temaddress, settemAddress] = useState('');
   const [bloodgroup, setBloodgroup] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [confirmPassword, setconfirmPassword] = useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -53,7 +51,6 @@ const EmployeeForm = () => {
       lastname: ''
     }));
   };
-
   const handleGender = (e) => {
     setGender(e.target.value);
     setErrors((prev) => ({
@@ -75,7 +72,6 @@ const EmployeeForm = () => {
       desi: ''
     }));
   };
-
   const handleMob = (e) => {
     setMob(e.target.value);
     setErrors((prev) => ({
@@ -83,23 +79,6 @@ const EmployeeForm = () => {
       mob: ''
     }));
   };
-
-  // const handlePassword = (e) => {
-  //   setPassword(e.target.value);
-  //   setErrors((prev) => ({
-  //     ...prev,
-  //     password: ''
-  //   }));
-  // };
-
-  // const handleconPassword = (e) => {
-  //   setconfirmPassword(e.target.value);
-  //   setErrors((prev) => ({
-  //     ...prev,
-  //     confirmPassword: ''
-  //   }));
-  // };
-
   const handleBloodgroup = (e) => {
     setBloodgroup(e.target.value);
     setErrors((prev) => ({
@@ -405,37 +384,6 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            {/* {!id && (
-              <div style={{ flexGrow: 1, display: 'flex', marginTop: '17px', marginLeft: '11px' }}>
-                <Grid container spacing={2}>
-                  <Grid item xs={6}>
-                    <TextField
-                      sx={{ minWidth: '100%' }}
-                      id="outlined-basic"
-                      label="Password"
-                      variant="outlined"
-                      value={id ? 'Cannot update Password' : password}
-                      error={errors && errors.password}
-                      helperText={errors && errors.password}
-                      onChange={(e) => handlePassword(e)}
-                    />
-                  </Grid>
-                  <Grid item xs={6}>
-                    <TextField
-                      sx={{ minWidth: '100%' }}
-                      id="outlined-basic"
-                      label="Confirm Password"
-                      variant="outlined"
-                      value={id ? 'Cannot update Password' : confirmPassword}
-                      error={errors && errors.confirmPassword}
-                      helperText={errors && errors.confirmPassword}
-                      onChange={(e) => handleconPassword(e)}
-                    />
-                  </Grid>
-                </Grid>
-              </div>
-            )} */}
-
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
@@ -639,14 +587,14 @@ const EmployeeForm = () => {
                 sx={{
                   boxShadow: 'none',
                   minWidth: '100%',
-                  borderRadius: 2,
+                  // borderRadius: 2,
                   marginTop: '20px',
                   padding: 1.5,
-                  background: theme.palette.secondary.dark,
-                  color: theme.palette.secondary.light,
+                  // background: theme.palette.secondary.dark,
+                  // color: theme.palette.secondary.light,
                   '&:hover': {
-                    background: theme.palette.secondary.dark,
-                    color: theme.palette.secondary.light
+                  // background: theme.palette.secondary.dark,
+                  // color: theme.palette.secondary.light
                   }
                 }}
                 onClick={(e) => finalSubmit(e)}
