@@ -22,8 +22,8 @@ const EmployeeForm = () => {
   const [peraddress, setperAddress] = useState('');
   const [temaddress, settemAddress] = useState('');
   const [bloodgroup, setBloodgroup] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setconfirmPassword] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [confirmPassword, setconfirmPassword] = useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
@@ -84,21 +84,21 @@ const EmployeeForm = () => {
     }));
   };
 
-  const handlePassword = (e) => {
-    setPassword(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      password: ''
-    }));
-  };
+  // const handlePassword = (e) => {
+  //   setPassword(e.target.value);
+  //   setErrors((prev) => ({
+  //     ...prev,
+  //     password: ''
+  //   }));
+  // };
 
-  const handleconPassword = (e) => {
-    setconfirmPassword(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      confirmPassword: ''
-    }));
-  };
+  // const handleconPassword = (e) => {
+  //   setconfirmPassword(e.target.value);
+  //   setErrors((prev) => ({
+  //     ...prev,
+  //     confirmPassword: ''
+  //   }));
+  // };
 
   const handleBloodgroup = (e) => {
     setBloodgroup(e.target.value);
@@ -237,7 +237,9 @@ const EmployeeForm = () => {
         setDesi('');
         seteMail('');
         setMob('');
-        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), setPassword(''), setconfirmPassword(''), setJoin('');
+        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''),
+        //  setPassword(''), setconfirmPassword(''), 
+         setJoin('');
         setReport('');
         setDob('');
         setType('');
@@ -267,8 +269,8 @@ const EmployeeForm = () => {
           lastname,
           gender,
           email,
-          password,
-          confirmPassword,
+          // password,
+          // confirmPassword,
           dob,
           mob,
           altmob,
@@ -297,8 +299,8 @@ const EmployeeForm = () => {
             peraddress,
             temaddress,
             bloodgroup,
-            password,
-            confirmPassword,
+            // password,
+            // confirmPassword,
             join,
             report,
             dob,
@@ -315,7 +317,9 @@ const EmployeeForm = () => {
         setDesi('');
         seteMail('');
         setMob('');
-        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), setPassword(''), setconfirmPassword(''), setJoin('');
+        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), 
+        // setPassword(''), setconfirmPassword(''), 
+        setJoin('');
         setReport('');
         setDob('');
         setType('');
@@ -401,7 +405,7 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            {!id && (
+            {/* {!id && (
               <div style={{ flexGrow: 1, display: 'flex', marginTop: '17px', marginLeft: '11px' }}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
@@ -430,7 +434,8 @@ const EmployeeForm = () => {
                   </Grid>
                 </Grid>
               </div>
-            )}
+            )} */}
+
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}
