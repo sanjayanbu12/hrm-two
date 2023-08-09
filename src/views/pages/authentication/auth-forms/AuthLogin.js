@@ -44,7 +44,7 @@ const AuthLogin = () => {
       }).then(()=>{
         console.log(`then`);
         dispatch({ type: LOGGED_IN })
-        navigate('/');
+        navigate('/recruitment');
       })
 
     }
