@@ -13,7 +13,6 @@
     isLoggedIn:false,
     isAuthAdmin:false
   };
-  console.log(initialState);
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
@@ -45,6 +44,11 @@
         return{
           ...state,
           isAuthAdmin:true
+        }
+        case actionTypes.USER_OR_NOT:
+        return{
+          ...state,
+          isAuthAdmin:false
         }
       case actionTypes.SET_FONT_FAMILY:
         return {
