@@ -174,9 +174,9 @@ const RecruitmentForm = () => {
     }
   };
 
-  const handleCompany = (e) => {
-    setCompany(e.target.value);
-    setErrors((prev) => ({
+  const handleCompany = e => {
+    setCompany(e.target.value)
+    setErrors(prev => ({
       ...prev,
       Company: ''
     }));
@@ -204,6 +204,7 @@ const RecruitmentForm = () => {
       Skills: ''
     }));
   };
+  
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setErrors((prev) => ({
