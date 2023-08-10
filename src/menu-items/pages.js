@@ -5,6 +5,7 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
 
 // constant
 const icons = {
@@ -126,10 +127,30 @@ const pages = {
     {
       id: 'performance',
       title: 'Performance',
-      type: 'item',
-      icon: icons.IconKey,
-      url: '/performance'
-    }
+      type: 'collapse',
+      url: '/performance',
+      icon: QueryStatsIcon,
+      children: [
+        {
+          id: 'summary',
+          title: 'Summary',
+          type: 'item',
+          url: '/summary'
+        },
+        {
+          id: 'skillset',
+          title: 'Skill set',
+          type: 'item',
+          url: '/skillset'
+        },
+        {
+          id: 'feedback',
+          title: 'Feedback',
+          type: 'item',
+          url: '/feedback'
+        }
+      ]
+    },
   ]
 };
 
