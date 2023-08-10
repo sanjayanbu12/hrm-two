@@ -8,7 +8,6 @@ import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import { updatevalidationSchema } from './updateValidate';
-
 const EmployeeForm = () => {
   const theme = useTheme();
   const [name, setName] = useState('');

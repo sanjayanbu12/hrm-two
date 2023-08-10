@@ -23,7 +23,7 @@ const FirebaseRegister = () => {
       firstname: firstname,
       lastname: lastname,
       email: email,
-      password: password
+      password: password,
     };
 
     try {
@@ -32,7 +32,7 @@ const FirebaseRegister = () => {
       if (userExist) {
         setErr((prev) => ({ ...prev, email: 'user aldready exist' }));
       } else {
-        await axios.post('https://hrm-backend-square.onrender.com/auth/createUser', dataVar); //using axios to set data to json server
+        await axios.post('http://localhost:3001/auth/createUser', dataVar); //using axios to set data to json server
         setFirstname('');
         setEmail('');
         setLastname('');

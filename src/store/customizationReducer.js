@@ -10,9 +10,9 @@
     fontFamily: config.fontFamily,
     borderRadius: config.borderRadius,
     opened: true,
-    isLoggedIn:false
+    isLoggedIn:false,
+    isAuthAdmin:false
   };
-  console.log(initialState);
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
 
@@ -40,6 +40,16 @@
           ...state,
           isLoggedIn:false
         };
+        case actionTypes.ADMIN_OR_NOT:
+        return{
+          ...state,
+          isAuthAdmin:true
+        }
+        case actionTypes.USER_OR_NOT:
+        return{
+          ...state,
+          isAuthAdmin:false
+        }
       case actionTypes.SET_FONT_FAMILY:
         return {
           ...state,
