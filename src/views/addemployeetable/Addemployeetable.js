@@ -112,7 +112,7 @@ useEffect(() => {
       
     >
       <AddIcon />
-      Add New Employee
+       Add 
     </Button>
   </Box>
   <Box sx={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center', mb: 2, display: 'flex' }}>

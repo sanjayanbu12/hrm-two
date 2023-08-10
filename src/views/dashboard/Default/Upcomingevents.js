@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainCard from 'ui-component/cards/MainCard';
-import { CardContent, Grid, Typography, Button, Box, Menu, MenuItem } from '@mui/material';
+import { CardContent, Grid, Typography, Button, Menu, MenuItem } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { useTheme } from '@mui/material/styles';
+// import { useTheme } from '@mui/material/styles';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
@@ -26,7 +26,7 @@ const Upcomingevents = () => {
     setIsLoading(false);
   }, []);
 
-  const theme = useTheme();
+  // const theme = useTheme();
   const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
@@ -108,48 +108,38 @@ const Upcomingevents = () => {
   return (
     <>
       {isLoading ? (
-        <MainCard content={false}>
+        <MainCard  content={false}>
           <CardContent>Loading...</CardContent>
         </MainCard>
       ) : (
         <MainCard content={false}>
-          <CardContent>
-            <Typography variant="h4" style={{ marginBottom: '20px' }}>
-              <b>Upcoming Events</b>
-            </Typography>
-            <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-              <Button
-                onClick={() => navigate('/newevent')}
-                sx={{
-                  padding: 1.5,
-                  background: 'rgba(33, 150, 243, 0.04)',
-                  color: theme.palette.secondary.dark,
-                  '&:hover': {
-                    color: theme.palette.secondary.dark
-                  },
-                  top: '-30px',
-                  right: '50px'
-                }}
-              >
-                All Events
-                <KeyboardDoubleArrowRightIcon />
-              </Button>
-            </Box>
+        <CardContent>
+          <Typography variant="h4" style={{ marginBottom: '20px' }}>
+            <b>Upcoming Events</b>
+          </Typography>
+          <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', marginBottom: '30px'}}>
 
+          <div>
+            <Button
+              onClick={() => navigate('/newevent')}
+              variant="contained"
+              color="secondary"
+              endIcon={<KeyboardDoubleArrowRightIcon />}
+            >
+              All Events
+            </Button>
+          </div>
+  
+          <div>
             <Button
               onClick={handleMenuOpen}
-              sx={{
-                color: theme.palette.secondary.dark,
-                '&:hover': {
-                  color: theme.palette.secondary.dark
-                },
-                top: '-70px',
-                left: '1080px'
-              }}
+              variant="text"
+              color="secondary"
             >
               <MoreVertIcon />
             </Button>
-
+          </div>
+          </div>
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
