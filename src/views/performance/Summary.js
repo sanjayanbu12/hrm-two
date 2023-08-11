@@ -1,8 +1,9 @@
 import React from 'react'
+import MainCard from 'ui-component/cards/MainCard';
 
 const Summary = () => {
   return (
-    <div>Summary</div>
+   <MainCard title="Summary"></MainCard>
   )
 }
 
