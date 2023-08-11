@@ -33,7 +33,7 @@ const LeaveTrackerList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave');
+      const response = await axios.get('http://localhost:3001/api/leave');
       const updatedLeaveList = response.data.map((leave) => {
         const status = leave._id % 2 === 0 ? 'approved' : 'pending';
         return { ...leave, status };

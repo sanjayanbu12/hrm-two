@@ -34,7 +34,7 @@ useEffect(() => {
   // const[loader,setLoader]=useState(true)
 
   const fetchEmployees = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
+    const res = await axios.get(`http://localhost:3001/api/allemployee`);
     console.log(res.data);
     setedata(res.data);
   };

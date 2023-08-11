@@ -50,7 +50,7 @@ const RecruitmentTable = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec')
+      const response = await axios.get('http://localhost:3001/rec/getRec')
       const newData = response.data.getData
       setRecruitmentList(newData.reverse())
       setLoader(false)
@@ -111,7 +111,7 @@ const RecruitmentTable = () => {
     }).then(async result => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
+          await axios.delete(`http://localhost:3001/rec/getRec/${id}`)
           await fetchData()
           handleClose()
           Swal.fire({

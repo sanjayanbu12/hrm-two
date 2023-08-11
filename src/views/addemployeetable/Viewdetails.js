@@ -16,7 +16,7 @@ const Viewdetails = () => {
   console.log(employeeid);
   const fetchData=async()=>{  
     try {
-      const res=await axios.get(`https://hrm-backend-square.onrender.com/api/getemployee/${employeeid}`)
+      const res=await axios.get(`http://localhost:3001/api/getemployee/${employeeid}`)
       setEmployeeDetails(res.data)
       console.log(res.data)
     } catch (error) {

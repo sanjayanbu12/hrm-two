@@ -188,7 +188,7 @@ const ApproveLeave = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave/');
+      const response = await axios.get('http://localhost:3001/api/leave/');
       const updatedLeaveList = response.data.map((leave) => {
         return { ...leave };
       });
@@ -203,7 +203,7 @@ const ApproveLeave = () => {
     
     if (confirmed) {
       try {
-        await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status });
+        await axios.put(`http://localhost:3001/api/leave/${leaveId}`, { status });
         const updatedLeaveList = leaveList.map((leave) => {
           if (leave._id === leaveId) {
             return { ...leave, status };
