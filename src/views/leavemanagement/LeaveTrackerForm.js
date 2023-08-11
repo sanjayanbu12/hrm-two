@@ -174,7 +174,7 @@ const LeaveTrackerForm = () => {
   };
 
   return (
-    <MainCard title="LeaveTrackerForm">
+    <MainCard title="Leave Request Form">
       <form onSubmit={handleSubmit}>
         <Box p={2}>
           <Grid container spacing={2}>

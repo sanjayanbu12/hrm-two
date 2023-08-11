@@ -59,7 +59,7 @@ const LeaveTrackerList = () => {
   };
 
   return (
-    <MainCard title="Leave Tracker Table">
+    <MainCard title="Applied Leave List">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           {leaveTrackerList.length > 0 ? (
