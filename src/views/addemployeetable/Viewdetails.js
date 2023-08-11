@@ -16,7 +16,7 @@ const Viewdetails = () => {
   console.log(employeeid);
   const fetchData=async()=>{  
     try {
-      const res=await axios.get(`http://localhost:3001/api/getemployee/${employeeid}`)
+      const res=await axios.get(`https://hrm-backend-square.onrender.com/api/getemployee/${employeeid}`)
       setEmployeeDetails(res.data)
       console.log(res.data)
     } catch (error) {
@@ -87,9 +87,43 @@ const Viewdetails = () => {
 
     {employeedetails && (
       <div>
-        <p><b>Employee ID<span style={{  position: 'absolute',left:'490px'}}>:</span></b><span style={{ position: 'absolute', left:'510px' }}>{employeedetails.employeeid}</span></p>
-        <p><b>First Name<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.name}</span></p>
-        <p><b>Last Name<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.lastname}</span></p>
+      <MainCard title="Personal Details">
+      <div style={{ display: 'flex', flexDirection: 'row', gap:'150px' }}>
+  <div>
+    <p>
+      <b>Employee ID</b>
+    </p>
+    <p>{employeedetails.employeeid}</p>
+  </div>
+  <div>
+    <p>
+      <b>First Name</b>
+    </p>
+    <p>{employeedetails.name}</p>
+  </div>
+  <div>
+    <p>
+      <b>Last Name</b>
+    </p>
+    <p>{employeedetails.lastname}</p>
+  </div>
+  <div>
+    <p>
+      <b>Gender</b>
+    </p>
+    <p>{employeedetails.gender}</p>
+  </div>
+  <div>
+    <p>
+      <b>Email</b>
+    </p>
+    <p>{employeedetails.email}</p>
+  </div>
+  </div>
+</MainCard>
+
+
+        <MainCard title="Employee Details">
         <p><b>Gender<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.gender}</span></p>
         <p><b>Email<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.email}</span></p>
         <p><b>Date of Birth<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{formatteddob}</span></p>
@@ -104,7 +138,7 @@ const Viewdetails = () => {
         <p><b>Joining Date<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{formattedjoin}</span></p>
 
         <p><b>Work Type<span style={{  position: 'absolute',left:'490px'}}>:</span></b> <span style={{ position: 'absolute', left:'510px' }}>{employeedetails.type}</span></p>
-
+        </MainCard>
 
 <div style={{
     position: 'fixed',

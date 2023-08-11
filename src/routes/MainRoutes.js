@@ -18,6 +18,10 @@ import ApplicationTracker from 'views/recruitment/ApplicationTracker';
 import AttendanceSystem from 'views/attendanceManagement/AttendanceSystem';
 import Newevent from 'views/dashboard/Default/Newevent';
 import LeaveCalendar from 'views/leavemanagement/LeaveCalendar';
+import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfServices';
+import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
+import LearningandDevelopment from 'views/learninganddevelopment/LearningandDevelopment';
+import Payroll from 'views/payroll/Payroll';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -94,6 +98,22 @@ const MainRoutes = {
     {
       path: '/employeeperformance',
       element: <Employeeperformance />
+    },
+    {
+      path: '/employeeselfservices',
+      element: <EmployeeSelfServices />
+    },
+    {
+      path: '/employeeengagement',
+      element: <EmployeeEngagement />
+    },
+    {
+      path: '/learninganddevelopment',
+      element: <LearningandDevelopment />
+    },
+    {
+      path: '/payroll',
+      element: <Payroll />
     },
     {
       path: '/newemployee',
