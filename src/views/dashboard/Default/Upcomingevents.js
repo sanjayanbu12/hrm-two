@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MainCard from 'ui-component/cards/MainCard';
-import { CardContent, Grid, Typography, Button, Box, Menu, MenuItem } from '@mui/material';
+import { CardContent, Grid, Typography, Button, Menu, MenuItem } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
-import { useTheme } from '@mui/material/styles';
-// import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+// import { useTheme } from '@mui/material/styles';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [colorAnchorEl, setColorAnchorEl] = useState(null);
-  const [selectedColor, setSelectedColor] = useState('#ffffff');
+  const [selectedColor, setSelectedColor] = useState('#ffffff');  
 
   useEffect(() => {
     setIsLoading(true);
@@ -27,7 +26,7 @@ const Upcomingevents = () => {
     setIsLoading(false);
   }, []);
 
-  const theme = useTheme();
+  // const theme = useTheme();
   const navigate = useNavigate();
 
   const handleMenuOpen = (event) => {
@@ -50,6 +49,18 @@ const Upcomingevents = () => {
     setSelectedColor(color);
     handleColorMenuClose();
   };
+
+  const colorOptions = [
+    { color: '#ff0000' },
+    { color: '#00ff00' },
+    { color: '#0000ff' },
+    { color: '#e9967a' },
+    { color: '#0000ff' },
+    { color: '#ff0000' },
+    { color: '#e9967a' },
+    { color: '#00ff00' },
+ 
+  ];
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
     hasPrev && (
@@ -93,54 +104,43 @@ const Upcomingevents = () => {
       </button>
     );
 
-  // Sort the events in ascending order based on their start dates
   const sortedEvents = events.sort((a, b) => new Date(a.start) - new Date(b.start));
 
   return (
     <>
       {isLoading ? (
-        <MainCard content={false}>
+        <MainCard  content={false}>
           <CardContent>Loading...</CardContent>
         </MainCard>
       ) : (
         <MainCard content={false}>
-          <CardContent>
-            <Typography variant="h4" style={{ marginBottom: '20px' }}>
-              <b>Upcoming Events</b>
-            </Typography>
-            <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-              <Button
-                onClick={() => navigate('/newevent')}
-                sx={{
-                  padding: 1.5,
-                  background: 'rgba(33, 150, 243, 0.04)',
-                  color: theme.palette.secondary.dark,
-                  '&:hover': {
-                    color: theme.palette.secondary.dark
-                  },
-                  top: '-30px',
-                  right: '50px'
-                }}
-              >
-                All Events
-                <KeyboardDoubleArrowRightIcon />
-              </Button>
-            </Box>
+        <CardContent>
+          <Typography variant="h4" style={{ marginBottom: '20px' }}>
+            <b>Upcoming Events</b>
+          </Typography>
+          <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', marginBottom: '30px'}}>
 
+          <div>
+            <Button
+              onClick={() => navigate('/newevent')}
+              variant="contained"
+              color="secondary"
+              endIcon={<KeyboardDoubleArrowRightIcon />}
+            >
+              All Events
+            </Button>
+          </div>
+  
+          <div>
             <Button
               onClick={handleMenuOpen}
-              sx={{
-                color: theme.palette.secondary.dark,
-                '&:hover': {
-                  color: theme.palette.secondary.dark
-                },
-                top: '-70px',
-                left: '1080px'
-              }}
+              variant="text"
+              color="secondary"
             >
               <MoreVertIcon />
             </Button>
-
+          </div>
+          </div>
             <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
@@ -171,13 +171,23 @@ const Upcomingevents = () => {
                 horizontal: 'right'
               }}
             >
-              <MenuItem onClick={() => handleColorSelect('#ffffff')}>White</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#ff0000')}>Red</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#00ff00')}>Green</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#0000ff')}>Blue</MenuItem>
-              <MenuItem onClick={() => handleColorSelect('#e9967a')}>Rose</MenuItem>
-            </Menu>
 
+              <Grid container>
+    {colorOptions.slice(0, 4).map((option, index) => (
+      <Grid item key={index} style={{ marginRight: '10px' }} onClick={() => handleColorSelect(option.color)}>
+        <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
+      </Grid>  
+    ))}
+ </Grid>
+
+<Grid container>
+      {colorOptions.slice(4, 8).map((option, index) => (
+      <Grid item key={index} style={{ marginRight: '10px', marginTop: '10px' }} onClick={() => handleColorSelect(option.color)}>
+        <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
+      </Grid>
+    ))}
+  </Grid>
+</Menu>
             <div style={{ overflow: 'hidden', backgroundColor: selectedColor }}>
               {events.length > 0 ? (
                 <Carousel

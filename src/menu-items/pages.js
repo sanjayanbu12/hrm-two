@@ -14,7 +14,7 @@ const icons = {
   AssignmentOutlinedIcon,
   PermIdentityOutlinedIcon,
   AccountTreeOutlinedIcon,
-  EventNoteIcon
+  EventNoteIcon,
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -75,13 +75,22 @@ const pages = {
         }
       ]
     },
+
+
     {
       id: 'leavemanagement',
-      title: 'Leave Management',
+      title: 'Time and Attendance Management',
       type: 'collapse',
       icon: icons.PermIdentityOutlinedIcon,
 
       children: [
+        {
+          id: 'Attendance Regulation',
+          title: 'Attendance Regulation',
+          type: 'item',
+          url: '/attendanceManagement'
+        },
+       
         {
           id: 'leavetrackerform',
           title: 'Leave Request Form',
@@ -100,37 +109,55 @@ const pages = {
           type: 'item',
           url: '/approveleave'
         },
-        {
-          id: '/leavecalendar',
-          title: 'leavecalendar',
-          type: 'item',
-          url: '/leavecalendar'
-        },
-       
+        // {
+        //   id: '/leavecalendar',
+        //   title: 'leavecalendar',
+        //   type: 'item',
+        //   url: '/leavecalendar'
+        // },
       ]
     },
+    
     {
-      id: 'Attendance Management',
-      title: 'Attendance Management',
-      type: 'collapse',
-      icon: icons.EventNoteIcon,
-
-      children: [
-        {
-          id: 'Attendance Regulation',
-          title: 'Attendance Regulation',
-          type: 'item',
-          url: '/attendanceManagement'
-        },
-      ]
+      id: 'employeeselfservices',
+      title: 'Employee Self Services',
+      icon: icons.BadgeOutlinedIcon,
+      type: 'item',
+      url: '/employeeselfservices'
     },
+
+    {
+      id: 'employeeengagement',
+      title: 'Employee Engagement & Surveys',
+      icon: icons.BadgeOutlinedIcon,
+      type: 'item',
+      url: '/employeeengagement'
+    },
+
     {
       id: 'performance',
-      title: 'Performance',
+      title: 'Performance Management',
       type: 'item',
       icon: icons.IconKey,
       url: '/performance'
+    },
+
+    {
+      id: 'learninganddevelopment',
+      title: 'Learning & Development',
+      type: 'item',
+      icon: icons.IconKey,
+      url: '/learninganddevelopment'
+    },
+    
+    {
+      id: 'payroll',
+      title: 'Payroll',
+      type: 'item',
+      icon: icons.IconKey,
+      url: '/payroll'
     }
+
   ]
 };
 
