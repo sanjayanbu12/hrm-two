@@ -49,6 +49,12 @@ const pages = {
           title: 'Application Tracker',
           type: 'item',
           url: '/applicationtracker'
+        },
+        {
+          id: 'interviewdetails',
+          title: 'Interview Details',
+          type: 'item',
+          url: '/interviewdetails'
         }
       ]
     },
@@ -75,11 +81,9 @@ const pages = {
         }
       ]
     },
-
-
     {
       id: 'leavemanagement',
-      title: 'Time and Attendance Management',
+      title: 'Time and Attendance',
       type: 'collapse',
       icon: icons.PermIdentityOutlinedIcon,
 

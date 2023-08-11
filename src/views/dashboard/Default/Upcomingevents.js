@@ -251,8 +251,8 @@ const Upcomingevents = () => {
                   })}
                 </Carousel>
               ) : (
-                <Typography variant="body1" style={{ textAlign: 'center' }}>
-                  <b>NO EVENTS AVAILABLE</b>
+                <Typography variant="body1" style={{ textAlign: 'center',fontWeight:'bolder',fontSize:'20px' }}>
+                  NO EVENTS AVAILABLE
                 </Typography>
               )}
             </div>

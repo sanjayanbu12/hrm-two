@@ -22,6 +22,7 @@ import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfService
 import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import LearningandDevelopment from 'views/learninganddevelopment/LearningandDevelopment';
 import Payroll from 'views/payroll/Payroll';
+import InterviewDetails from 'views/recruitment/InterviewDetails';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -114,6 +115,10 @@ const MainRoutes = {
     {
       path: '/payroll',
       element: <Payroll />
+    },
+    {
+      path: '/interviewdetails',
+      element: <InterviewDetails />
     },
     {
       path: '/newemployee',
