@@ -36,7 +36,7 @@ useEffect(() => {
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
     console.log(res.data);
-    setedata(res.data);
+    setedata(res.data.reverse());
   };
 
   useEffect(() => {
