@@ -5,6 +5,10 @@ import AssignmentOutlinedIcon from '@mui/icons-material/AssignmentOutlined';
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import AccountTreeOutlinedIcon from '@mui/icons-material/AccountTreeOutlined';
 import EventNoteIcon from '@mui/icons-material/EventNote';
+import AllOutIcon from '@mui/icons-material/AllOut';
+import PaidIcon from '@mui/icons-material/Paid';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import CameraFrontIcon from '@mui/icons-material/CameraFront';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -15,6 +19,10 @@ const icons = {
   PermIdentityOutlinedIcon,
   AccountTreeOutlinedIcon,
   EventNoteIcon,
+  AllOutIcon,
+  PaidIcon,
+ EmojiEmotionsIcon,
+ CameraFrontIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -125,7 +133,7 @@ const pages = {
     {
       id: 'employeeselfservices',
       title: 'Employee Self Services',
-      icon: icons.BadgeOutlinedIcon,
+      icon: CameraFrontIcon,
       type: 'item',
       url: '/employeeselfservices'
     },
@@ -133,7 +141,7 @@ const pages = {
     {
       id: 'employeeengagement',
       title: 'Employee Engagement & Surveys',
-      icon: icons.BadgeOutlinedIcon,
+      icon: EmojiEmotionsIcon,
       type: 'item',
       url: '/employeeengagement'
     },
@@ -150,7 +158,7 @@ const pages = {
       id: 'learninganddevelopment',
       title: 'Learning & Development',
       type: 'item',
-      icon: icons.IconKey,
+      icon: AllOutIcon,
       url: '/learninganddevelopment'
     },
     
@@ -158,7 +166,7 @@ const pages = {
       id: 'payroll',
       title: 'Payroll',
       type: 'item',
-      icon: icons.IconKey,
+      icon: PaidIcon,
       url: '/payroll'
     }
 
