@@ -1,0 +1,18 @@
+.not-found-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80vh;
+    background-image: url('https://img.freepik.com/free-vector/flat-404-error-template_23-2147746980.jpg?w=740&t=st=1691745279~exp=1691745879~hmac=4b501cb323846573384e5515858a8610888bbc05e3aabef4a9d44ca17a876432');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+  
+  .not-found-content {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
