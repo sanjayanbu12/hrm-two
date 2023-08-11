@@ -20,7 +20,7 @@ const ApplicationView = ({ open, handleClose, selectedJob }) => {
             sx={{
               display: 'flex',
               justifyContent: 'center',
-              background: '#2196f3',
+              background: '#0efcfc',
               marginBottom: '1px'
             }}
           >
