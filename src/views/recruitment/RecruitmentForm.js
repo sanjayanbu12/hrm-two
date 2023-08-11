@@ -542,7 +542,7 @@ const RecruitmentForm = () => {
                 <Autocomplete
                   multiple
                   options={Years}
-                  limitTags={2}
+                  limitTags={1}
                   disableCloseOnSelect
                   value={Year ? String(Year).split(',') : []}
                   onChange={(e, value) => handleYear(e, value)}

@@ -7,7 +7,7 @@ const InterviewDetails = () => {
           fontStyle:'bold',
           position:'absolute',
           marginTop:'260px',
-          marginLeft:'500px',
+          marginLeft:'380px',
           fontWeight:'bolder'
     
         }}>
