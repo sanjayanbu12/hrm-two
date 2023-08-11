@@ -162,9 +162,9 @@ useEffect(() => {
                     <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>
                       {x.name}
                     </TableCell>
-                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>{x.dept}</TableCell>
-                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>{x.desi}</TableCell>
-                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>{x.type}</TableCell>
+                    <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.dept}</TableCell>
+                    <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.desi}</TableCell>
+                    <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.type}</TableCell>
                     {/* <TableCell align="center">
                       Edit button
                     </TableCell> */}
