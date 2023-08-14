@@ -29,7 +29,7 @@ import { useTheme } from '@mui/material/styles'
 import { useNavigate } from 'react-router'
 import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridMenuIcon, GridSearchIcon } from '@mui/x-data-grid'
 import Swal from 'sweetalert2'
-import { Add, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
+import { AddCircleOutlineOutlined, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
 const RecruitmentTable = () => {
@@ -212,7 +212,7 @@ const RecruitmentTable = () => {
                   width: '40px',
                   height: '35px',
                   borderRadius: '8px',
-                  marginLeft:'400px',
+                  marginLeft:'380px',
                   padding: 0.6,
                   background: '#ede7f6',
                   color: '#5e35b1',
@@ -241,7 +241,7 @@ const RecruitmentTable = () => {
                       navigate('/jobform')
                     }}
                   >
-                    <Add fontSize='small' sx={{ marginRight: '10px' }} />
+                    <AddCircleOutlineOutlined fontSize='small' sx={{ marginRight: '10px' }} />
                     Add New
                   </MenuItem>
                   <MenuItem>
