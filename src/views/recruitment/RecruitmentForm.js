@@ -28,6 +28,7 @@ const RecruitmentForm = () => {
   const [Company, setCompany] = useState('');
   const [Description, setDescription] = useState('');
   const [ApplicationLink, setApplicationLink] = useState('');
+  const [OtherEducation, setOtherEducation] = useState('');
   const [ExperienceFrom, setExperienceFrom] = useState('');
   const [ExperienceTo, setExperienceTo] = useState('');
   const [Deadline, setDeadline] = useState('');
@@ -125,10 +126,7 @@ const RecruitmentForm = () => {
     'Others'
   ];
   const Locations = ['Coimbatore', 'Chennai', 'Bengaluru'];
-  const Years = [];
-  for (let year = 2000; year <= 2050; year++) {
-    Years.push(year.toString());
-  }
+ 
 
   const handleApplicationLink = (e) => {
     setApplicationLink(e.target.value);
@@ -184,16 +182,18 @@ const RecruitmentForm = () => {
 
   const handleEducation = (e, newValue) => {
     setEducation(newValue.join(','));
+    setOtherEducation(''); 
     setErrors((prev) => ({
       ...prev,
       Education: ''
     }));
   };
-  const handleYear = (e, value) => {
-    setYear(value.join(','));
+  
+  const handleYear = (e) => {
+    setYear(e.target.value);
     setErrors((prev) => ({
       ...prev,
-      Skills: ''
+    Year: ''
     }));
   };
 
@@ -264,6 +264,7 @@ const RecruitmentForm = () => {
         setCompany(responseData.Company);
         setDescription(responseData.Description);
         setApplicationLink(responseData.ApplicationLink);
+        setOtherEducation(responseData.OtherEducation);
         setExperienceFrom(responseData.ExperienceFrom);
         setExperienceTo(responseData.ExperienceTo);
         setDeadline(responseData.Deadline);
@@ -287,6 +288,7 @@ const RecruitmentForm = () => {
           Company,
           Description,
           ApplicationLink,
+          OtherEducation,
           ExperienceFrom,
           ExperienceTo,
           Deadline,
@@ -304,6 +306,7 @@ const RecruitmentForm = () => {
             Company,
             Description,
             ApplicationLink,
+            OtherEducation,
             ExperienceFrom,
             ExperienceTo,
             Deadline,
@@ -323,6 +326,7 @@ const RecruitmentForm = () => {
         setCompany('');
         setDescription('');
         setApplicationLink('');
+        setOtherEducation('');
         setExperienceFrom('');
         setDeadline('');
         setWorktype('');
@@ -357,6 +361,7 @@ const RecruitmentForm = () => {
           Company,
           Description,
           ApplicationLink,
+          OtherEducation,
           ExperienceFrom,
           ExperienceTo,
           Deadline,
@@ -374,6 +379,7 @@ const RecruitmentForm = () => {
             Openings,
             Company,
             ApplicationLink,
+            OtherEducation,
             ExperienceFrom,
             ExperienceTo,
             Deadline,
@@ -392,6 +398,7 @@ const RecruitmentForm = () => {
         setCompany('');
         setDescription('');
         setApplicationLink('');
+        setOtherEducation('');
         setExperienceFrom('');
         setExperienceTo('');
         setDeadline('');
@@ -468,7 +475,7 @@ const RecruitmentForm = () => {
                   <MenuItem value=""></MenuItem>
                   <MenuItem value="Internship">Internship</MenuItem>
                   <MenuItem value="Full time">Full Time</MenuItem>
-                  <MenuItem value="Trainee">Trainee</MenuItem>
+                  <MenuItem value="Part time">Part time</MenuItem>
                 </Select>
                 <FormHelperText>{errors && errors.Worktype}</FormHelperText>
               </FormControl>
@@ -522,33 +529,54 @@ const RecruitmentForm = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <Autocomplete
-                  multiple
-                  options={Educations}
-                  limitTags={1}
-                  disableCloseOnSelect
-                  value={Education ? String(Education).split(',') : []}
-                  onChange={(e, newValue) => handleEducation(e, newValue)}
-                  renderInput={(params) => <TextField {...params} label="Education" value={Education} error={errors && errors.Education} />}
-                />
-                <FormHelperText>{errors && errors.Education}</FormHelperText>
-              </FormControl>
-            </Grid>
+  <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
+    <InputLabel id="demo-simple-select-label"></InputLabel>
+    <Autocomplete
+      multiple
+      options={Educations}
+      limitTags={1}
+      disableCloseOnSelect
+      value={Education ? String(Education).split(',') : []}
+      onChange={(e, newValue) => handleEducation(e, newValue)}
+      renderInput={(params) => (
+        <TextField
+          {...params}
+          label="Education"
+          value={Education}
+          error={errors && errors.Education}
+        />
+      )}
+    />
+    <FormHelperText>{errors && errors.Education}</FormHelperText>
+  </FormControl>
+</Grid>
+{Education && Education.includes('Others') && (
+  <Grid item xs={12} sm={6} md={4} lg={3}>
+    <TextField
+      sx={{ minWidth: '100%' }}
+      id="other-education"
+      label="Other Education"
+      value={OtherEducation}
+      onChange={(e) => setOtherEducation(e.target.value)}
+      error={errors && errors.OtherEducation}
+      helperText={errors && errors.OtherEducation}
+    />
+  </Grid>
+)}
+
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
-                <Autocomplete
-                  multiple
-                  options={Years}
-                  limitTags={1}
-                  disableCloseOnSelect
-                  value={Year ? String(Year).split(',') : []}
-                  onChange={(e, value) => handleYear(e, value)}
-                  renderInput={(params) => <TextField {...params} label="Year of Passing" value={Year} error={errors && errors.Year} />}
+                <TextField
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Year of Passing"
+                  value={Year}
+                  error={errors && errors.Year}
+                  helperText={errors && errors.Year}
+                  onChange={(e) => handleYear(e)}
                 />
-                <FormHelperText>{errors && errors.Year}</FormHelperText>
+
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -600,7 +628,7 @@ const RecruitmentForm = () => {
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
-                label="ApplicationLink"
+                label="Application Link"
                 variant="outlined"
                 value={ApplicationLink}
                 type="Value"

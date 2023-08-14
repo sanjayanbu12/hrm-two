@@ -31,6 +31,7 @@ import Swal from 'sweetalert2'
 import { Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
+
 const RecruitmentTable = () => {
   const [recruitmentList, setRecruitmentList] = useState([])
   const [loader, setLoader] = useState(true)
@@ -100,9 +101,14 @@ const RecruitmentTable = () => {
 
   const handleDelete = id => {
     handleClose()
+
+    const deletejob = recruitmentList.find(item => item._id == id)
+
+    const Text = `Are you sure you want to delete this <span style="color: red; text-transform: capitalize;">${deletejob.Jobrole}</span> Job Details ?`
+
     Swal.fire({
       icon: 'warning',
-      text: 'Are you sure you want to delete this recruitment?',
+      html: Text,
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -242,10 +248,11 @@ const RecruitmentTable = () => {
                         currentJobs.map(x => (
                           <TableRow key={x._id}>
                             <TableCell>{x.uuid}</TableCell>
-                            <TableCell
+                            <TableCell 
                               onClick={e => handleClick(x._id, e)}
                               sx={{
                                 cursor: 'pointer',
+                                textTransform:'capitalize',
                                 '&:hover': { color: 'black' }
                               }}
                             >
@@ -327,7 +334,7 @@ const RecruitmentTable = () => {
             <Box sx={{ backgroundColor: '#f5f5f5' }}>
               <DialogContent>
                 <Box>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                  <Typography sx={{ lineHeight: '4'  ,textTransform:'capitalize' }} variant='p' component='p'>
                     <b> Job Role</b>
                     <b style={{ marginLeft: '223px', paddingRight: '10px' }}>:</b>
                     {selectedJob.Jobrole}
@@ -350,7 +357,7 @@ const RecruitmentTable = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Qualification</b>
-                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education}
+                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education==="Others" ? selectedJob.OtherEducation : selectedJob.Education}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Year of Passing</b>
