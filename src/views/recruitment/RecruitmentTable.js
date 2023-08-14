@@ -32,7 +32,6 @@ import Swal from 'sweetalert2'
 import { Add, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
-
 const RecruitmentTable = () => {
   const [recruitmentList, setRecruitmentList] = useState([])
   const [loader, setLoader] = useState(true)
@@ -44,10 +43,8 @@ const RecruitmentTable = () => {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
   const rowsPerPage = 5
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null)
   const [anchorEl1, setAnchorEl1] = useState(null)
-
-
 
   useEffect(() => {
     fetchData()
@@ -144,12 +141,12 @@ const RecruitmentTable = () => {
   const handleJobRoleClose = () => {
     setAnchorEl(null)
   }
-  
-  const handleOpenMenu=(e)=>{
-    setAnchorEl1(e.currentTarget)
-  };
 
-  const handleCloseMenu=()=>{
+  const handleOpenMenu = e => {
+    setAnchorEl1(e.currentTarget)
+  }
+
+  const handleCloseMenu = () => {
     setAnchorEl1(null)
   }
 
@@ -174,7 +171,7 @@ const RecruitmentTable = () => {
         </Box>
       ) : (
         <div>
-          <Box display='flex' justifyContent='center' alignItems='center' >
+          <Box display='flex' alignItems='center'>
             <Grid container spacing={2}>
               <Grid xs={9} sm={9} md={9} lg={9} marginLeft={3}>
                 <TextField
@@ -206,42 +203,54 @@ const RecruitmentTable = () => {
                   }}
                 />
               </Grid>
-              <Grid xs={2} sm={2} md={2} lg={2} marginLeft={7}>
-              <GridMenuIcon  
-  onClick={handleOpenMenu}
-  sx={{
-    fontSize:'10',
-    width: '30px',
-    height: '30px',
-    borderRadius: '3px',
-    padding: 0.6,
-    background: '#673ab7',
-    color: '#efebe9',
-    '&:hover': {
-      color: theme.palette.secondary.light,
-      background: '#673ab7'
-    }
-  }}
-></GridMenuIcon>
-<Menu
-  anchorEl={anchorEl1}
-  open={Boolean(anchorEl1)}
-  onClose={handleCloseMenu}
-  anchorOrigin={{
-    vertical: 'top',
-    horizontal: 'right',
-  }}
-  transformOrigin={{
-    vertical: 'Center',
-    horizontal: 'Right',
-  }}
->
-              <MenuItem ><Add fontSize='small' sx={{marginRight:'10px' }}  />Add New</MenuItem>
-              <MenuItem ><DownloadForOfflineOutlined fontSize='small' color='success' sx={{marginRight:'10px' }} />Export Excel</MenuItem>
-              <MenuItem ><DownloadForOfflineOutlined fontSize='small' color='primary' sx={{marginRight:'10px' }} />Export Pdf</MenuItem>
-             
-            </Menu>
-              
+              <Grid xs={2} sm={2} md={2} lg={2} marginLeft={7.2}>
+                <GridMenuIcon
+                  onClick={handleOpenMenu}
+                  sx={{
+                    fontSize: '10',
+                    width: '40px',
+                    height: '30px',
+                    borderRadius: '3px',
+                    padding: 0.6,
+                    background: '#ede7f6',
+                    color: '#5e35b1',
+                    '&:hover': {
+                      color: theme.palette.secondary.light,
+                      background: '#5e35b1;'
+                    }
+                  }}
+                ></GridMenuIcon>
+                <Menu
+                  sx={{ marginLeft: '10px' }}
+                  anchorEl={anchorEl1}
+                  open={Boolean(anchorEl1)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
+                  }}
+                  transformOrigin={{
+                    vertical: 'center',
+                    horizontal: 'Right'
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      navigate('/jobform')
+                    }}
+                  >
+                    <Add fontSize='small' sx={{ marginRight: '10px' }} />
+                    Add New
+                  </MenuItem>
+                  <MenuItem>
+                    <DownloadForOfflineOutlined fontSize='small' color='success' sx={{ marginRight: '10px' }} />
+                    Export Excel
+                  </MenuItem>
+                  <MenuItem>
+                    <DownloadForOfflineOutlined fontSize='small' color='primary' sx={{ marginRight: '10px' }} />
+                    Export Pdf
+                  </MenuItem>
+                </Menu>
               </Grid>
             </Grid>
           </Box>
@@ -275,11 +284,11 @@ const RecruitmentTable = () => {
                         currentJobs.map(x => (
                           <TableRow key={x._id}>
                             <TableCell>{x.uuid}</TableCell>
-                            <TableCell 
+                            <TableCell
                               onClick={e => handleClick(x._id, e)}
                               sx={{
                                 cursor: 'pointer',
-                                textTransform:'capitalize',
+                                textTransform: 'capitalize',
                                 '&:hover': { color: 'black' }
                               }}
                             >
@@ -361,7 +370,7 @@ const RecruitmentTable = () => {
             <Box sx={{ backgroundColor: '#f5f5f5' }}>
               <DialogContent>
                 <Box>
-                  <Typography sx={{ lineHeight: '4'  ,textTransform:'capitalize' }} variant='p' component='p'>
+                  <Typography sx={{ lineHeight: '4', textTransform: 'capitalize' }} variant='p' component='p'>
                     <b> Job Role</b>
                     <b style={{ marginLeft: '223px', paddingRight: '10px' }}>:</b>
                     {selectedJob.Jobrole}
@@ -384,7 +393,8 @@ const RecruitmentTable = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Qualification</b>
-                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education==="Others" ? selectedJob.OtherEducation : selectedJob.Education}
+                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>{' '}
+                    {selectedJob.Education === 'Others' ? selectedJob.OtherEducation : selectedJob.Education}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Year of Passing</b>
