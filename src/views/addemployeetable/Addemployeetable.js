@@ -16,7 +16,7 @@ import { Pagination } from '@mui/lab';
 // import EarningCard from 'views/dashboard/Default/EarningCard';
 // import CircularProgress from '@mui/material/CircularProgress';
 // import {Stack} from '@mui/material';
-
+import { CSVLink } from "react-csv";
 const Addemployeetable = () => {
   const [isLoading, setLoading] = useState(true);
   console.log(isLoading);
@@ -115,6 +115,9 @@ useEffect(() => {
       <AddIcon />
       Add
     </Button>
+    <CSVLink data={edata}>
+      Export
+    </CSVLink>
   </Box>
   <Box sx={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center', mb: 2, display: 'flex' }}>
     <TextField
