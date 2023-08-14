@@ -165,62 +165,64 @@ const RecruitmentTable = () => {
 
   return (
     <MainCard title='Job Description Table'>
-      {loader ? (
-        <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <div>
-          <Box display='flex' alignItems='center'>
-            <Grid container spacing={2}>
-              <Grid xs={9} sm={9} md={9} lg={9} marginLeft={3}>
-                <TextField
-                  sx={{
-                    width: '57px',
-                    height: '0px',
-                    transition: 'width 2s ease-in-out',
-                    '&:hover': { width: '240px' }
-                  }}
-                  label='Search'
-                  variant='outlined'
-                  color='info'
-                  value={search}
-                  onChange={handleSearch}
-                  size='small'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment
-                        position='start'
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
-                      >
-                        <GridSearchIcon color='primary' />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid xs={2} sm={2} md={2} lg={2} marginLeft={7.2}>
-                <GridMenuIcon
-                  onClick={handleOpenMenu}
-                  sx={{
-                    fontSize: '10',
-                    width: '40px',
-                    height: '30px',
-                    borderRadius: '3px',
-                    padding: 0.6,
-                    background: '#ede7f6',
-                    color: '#5e35b1',
-                    '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#5e35b1;'
-                    }
-                  }}
-                ></GridMenuIcon>
-                <Menu
+        {loader ? (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+    ) : (
+      <div>
+        <Box display="flex" alignItems="center" justifyContent="flex-end"> 
+          <Grid container spacing={2}>
+            <Grid xs={12} sm={6} md={6} lg={6}> 
+              <TextField
+                sx={{
+                  width: '57px',
+                  height: '0px',
+                  marginLeft:'22px',
+                  transition: 'width 2s ease-in-out',
+                  '&:hover': { width: '240px' }
+                }}
+                label="Search"
+                variant="outlined"
+                color="info"
+                value={search}
+                onChange={handleSearch}
+                size="small"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <GridSearchIcon color="primary" />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Grid>
+            <Grid xs={12} sm={3} md={2} lg={2}> 
+              <GridMenuIcon
+                onClick={handleOpenMenu}
+                sx={{
+                  fontSize: '10',
+                  width: '40px',
+                  height: '35px',
+                  borderRadius: '8px',
+                  marginLeft:'400px',
+                  padding: 0.6,
+                  background: '#ede7f6',
+                  color: '#5e35b1',
+                  '&:hover': {
+                    color: theme.palette.secondary.light,
+                    background: '#5e35b1'
+                  }
+                }}
+              ></GridMenuIcon>
+              <Menu
                   sx={{ marginLeft: '10px' }}
                   anchorEl={anchorEl1}
                   open={Boolean(anchorEl1)}
@@ -251,9 +253,9 @@ const RecruitmentTable = () => {
                     Export Pdf
                   </MenuItem>
                 </Menu>
-              </Grid>
             </Grid>
-          </Box>
+          </Grid>
+        </Box>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               {recruitmentList.length > 0 ? (
