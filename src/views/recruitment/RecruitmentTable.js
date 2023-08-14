@@ -20,15 +20,16 @@ import {
   InputAdornment,
   Tooltip,
   Pagination,
-  Popover
+  Popover,
+  MenuItem,
+  Menu
 } from '@mui/material'
 import axios from 'axios'
-import AddIcon from '@mui/icons-material/Add'
 import { useTheme } from '@mui/material/styles'
 import { useNavigate } from 'react-router'
-import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid'
+import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridMenuIcon, GridSearchIcon } from '@mui/x-data-grid'
 import Swal from 'sweetalert2'
-import { Edit } from '@mui/icons-material'
+import { Add, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 
 
@@ -43,7 +44,10 @@ const RecruitmentTable = () => {
   const navigate = useNavigate()
   const [currentPage, setCurrentPage] = useState(1)
   const rowsPerPage = 5
-  const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl1, setAnchorEl1] = useState(null)
+
+
 
   useEffect(() => {
     fetchData()
@@ -104,7 +108,7 @@ const RecruitmentTable = () => {
 
     const deletejob = recruitmentList.find(item => item._id == id)
 
-    const Text = `Are you sure you want to delete this <span style="color: red; text-transform: capitalize;">${deletejob.Jobrole}</span> Job Details ?`
+    const Text = `Confirming removal of this  <span style="color: red; text-transform: capitalize;">${deletejob.Jobrole}</span> opening from this list, permanently?`
 
     Swal.fire({
       icon: 'warning',
@@ -140,6 +144,14 @@ const RecruitmentTable = () => {
   const handleJobRoleClose = () => {
     setAnchorEl(null)
   }
+  
+  const handleOpenMenu=(e)=>{
+    setAnchorEl1(e.currentTarget)
+  };
+
+  const handleCloseMenu=()=>{
+    setAnchorEl1(null)
+  }
 
   const filteredJobs = recruitmentList.filter(job => {
     const lowerSearchText = search.toLowerCase()
@@ -162,9 +174,9 @@ const RecruitmentTable = () => {
         </Box>
       ) : (
         <div>
-          <Box>
+          <Box display='flex' justifyContent='center' alignItems='center' >
             <Grid container spacing={2}>
-              <Grid xs={9} sx={{ marginLeft: '30px' }}>
+              <Grid xs={9} sm={9} md={9} lg={9} marginLeft={3}>
                 <TextField
                   sx={{
                     width: '57px',
@@ -194,27 +206,42 @@ const RecruitmentTable = () => {
                   }}
                 />
               </Grid>
-              <Grid xs={2} sx={{ marginLeft: '15px' }}>
-                <Button
-                  onClick={() => {
-                    navigate('/jobform')
-                  }}
-                  sx={{
-                    width: '200px',
-                    height: '40px',
-                    borderRadius: '10px',
-                    padding: 0.6,
-                    background: '#673ab7',
-                    color: '#efebe9',
-                    '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#673ab7'
-                    }
-                  }}
-                >
-                  <AddIcon />
-                  Add New
-                </Button>
+              <Grid xs={2} sm={2} md={2} lg={2} marginLeft={7}>
+              <GridMenuIcon  
+  onClick={handleOpenMenu}
+  sx={{
+    fontSize:'10',
+    width: '30px',
+    height: '30px',
+    borderRadius: '3px',
+    padding: 0.6,
+    background: '#673ab7',
+    color: '#efebe9',
+    '&:hover': {
+      color: theme.palette.secondary.light,
+      background: '#673ab7'
+    }
+  }}
+></GridMenuIcon>
+<Menu
+  anchorEl={anchorEl1}
+  open={Boolean(anchorEl1)}
+  onClose={handleCloseMenu}
+  anchorOrigin={{
+    vertical: 'top',
+    horizontal: 'right',
+  }}
+  transformOrigin={{
+    vertical: 'Center',
+    horizontal: 'Right',
+  }}
+>
+              <MenuItem ><Add fontSize='small' sx={{marginRight:'10px' }}  />Add New</MenuItem>
+              <MenuItem ><DownloadForOfflineOutlined fontSize='small' color='success' sx={{marginRight:'10px' }} />Export Excel</MenuItem>
+              <MenuItem ><DownloadForOfflineOutlined fontSize='small' color='primary' sx={{marginRight:'10px' }} />Export Pdf</MenuItem>
+             
+            </Menu>
+              
               </Grid>
             </Grid>
           </Box>
