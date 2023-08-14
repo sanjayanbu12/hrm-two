@@ -20,7 +20,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box } from '@mui/system';
 import MainCard from 'ui-component/cards/MainCard';
 import ApplicationView from './ApplicationView';
-
+import { CSVLink } from 'react-csv';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -158,6 +158,7 @@ const ApplicationTracker = () => {
 
   return (
     <MainCard title="Application Tracker">
+      <CSVLink data={Data}>Export</CSVLink>
       <TableContainer component={Paper}>
         {loader ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100vh">

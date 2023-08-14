@@ -33,7 +33,7 @@ import User1 from 'assets/images/users/user-round.svg';
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
 import { useDispatch } from 'react-redux';
-import { LOGGED_OUT } from 'store/actions';
+import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -51,6 +51,7 @@ const dispatch = useDispatch()
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     dispatch({type:LOGGED_OUT})
+    dispatch({type:USER_OR_NOT})
     navigate('/pages/login/login3');
     
   };
