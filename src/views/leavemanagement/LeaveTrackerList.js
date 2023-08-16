@@ -72,6 +72,7 @@ const LeaveTrackerList = () => {
                     <TableCell>Leave Type</TableCell>
                     <TableCell>Start Date</TableCell>
                     <TableCell>End Date</TableCell>
+                    <TableCell>Number of Days</TableCell>
                     <TableCell>Reason</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Action</TableCell>
@@ -89,6 +90,7 @@ const LeaveTrackerList = () => {
                       <TableCell>{leave.leaveType}</TableCell>
                       <TableCell>{new Date(leave.startDate).toLocaleDateString()}</TableCell>
                       <TableCell>{new Date(leave.endDate).toLocaleDateString()}</TableCell>
+                      <TableCell>{leave.numberOfDays}</TableCell>
                       <TableCell>{leave.reason}</TableCell>
                       <TableCell>
                         {leave.status === 'approved' ? (
