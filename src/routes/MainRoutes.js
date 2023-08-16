@@ -20,10 +20,12 @@ import Newevent from 'views/dashboard/Default/Newevent';
 import LeaveCalendar from 'views/leavemanagement/LeaveCalendar';
 import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfServices';
 import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
-import LearningandDevelopment from 'views/learninganddevelopment/LearningandDevelopment';
 import Payroll from 'views/payroll/Payroll';
 import InterviewDetails from 'views/recruitment/InterviewDetails';
 import { BasicTable } from 'views/addemployeetable/Basictable';
+import LearningModule from 'views/learninganddevelopment/LearningModule';
+import LearningUploads from 'views/learninganddevelopment/LearningUploads';
+import CourseOverview from 'views/learninganddevelopment/CourseOverview';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -114,9 +116,19 @@ const MainRoutes = {
       element: <EmployeeEngagement />
     },
     {
-      path: '/learninganddevelopment',
-      element: <LearningandDevelopment />
+      path: '/learningUploads',
+      element: <LearningUploads/>
     },
+    {
+      path: '/learningModule',
+      element: <LearningModule />
+    },
+    {
+      path: '/CourseOverview',
+      element: <CourseOverview />
+    },
+    
+
     {
       path: '/payroll',
       element: <Payroll />

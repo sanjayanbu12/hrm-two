@@ -10,7 +10,6 @@ import Newevent from 'views/dashboard/Default/Newevent';
 import LeaveCalendar from 'views/leavemanagement/LeaveCalendar';
 import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfServices';
 import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
-import LearningandDevelopment from 'views/learninganddevelopment/LearningandDevelopment';
 import NotFound404 from './NotFound404';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
@@ -51,10 +50,6 @@ const MainRoutes = {
     {
       path: '/employeeengagement',
       element: <EmployeeEngagement />
-    },
-    {
-      path: '/learninganddevelopment',
-      element: <LearningandDevelopment />
     },
     {
       path: '/newemployee',
