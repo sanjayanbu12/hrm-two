@@ -1,7 +1,15 @@
-
-
 import React, { useState, useEffect } from 'react';
-import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, TextField } from '@mui/material';
+import {
+  Box,
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material';
 import axios from 'axios';
 import { DateTime } from 'luxon';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -17,11 +25,20 @@ const LeaveTrackerForm = () => {
   const [endDate, setEndDate] = useState('');
   const [numberOfDays, setNumberOfDays] = useState('');
   const [reason, setReason] = useState('');
+  const [attachments, setAttachments] = useState([]);
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
     if (location.state) {
-      const { employeeId, employeeName, leaveType, startDate, endDate, numberOfDays, reason } = location.state;
+      const {
+        employeeId,
+        employeeName,
+        leaveType,
+        startDate,
+        endDate,
+        numberOfDays,
+        reason,
+      } = location.state;
       setEmployeeId(employeeId);
       setEmployeeName(employeeName);
       setLeaveType(leaveType);
@@ -32,6 +49,110 @@ const LeaveTrackerForm = () => {
     }
   }, [location.state]);
 
+  const validateNumberDays = () => {
+    if (!numberOfDays || numberOfDays <= 0) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        numberOfDays: 'Number of days must be greater than 0',
+      }));
+      return false;
+    }
+    return true;
+  };
+
+  const validateForm = () => {
+    const formErrors = {};
+    let isValid = true;
+
+    if (!employeeId) {
+      formErrors.employeeId = 'Employee ID is required';
+      isValid = false;
+    }
+
+    if (!employeeName) {
+      formErrors.employeeName = 'Employee name is required';
+      isValid = false;
+    }
+
+    if (!leaveType) {
+      formErrors.leaveType = 'Leave type is required';
+      isValid = false;
+    }
+
+    if (!startDate) {
+      formErrors.startDate = 'Start date is required';
+      isValid = false;
+    }
+
+    if (!endDate) {
+      formErrors.endDate = 'End date is required';
+      isValid = false;
+    }
+
+    if (!validateNumberDays()) {
+      isValid = false;
+    }
+
+    if (!reason) {
+      formErrors.reason = 'Reason is required';
+      isValid = false;
+    }
+
+    setErrors(formErrors);
+    return isValid;
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (validateForm()) {
+      const formData = new FormData();
+      for (const file of attachments) {
+        formData.append('attachments', file);
+      }
+
+      try {
+        
+        const responseAttachments = await axios.post(
+          'https://hrm-backend-square.onrender.com/api/upload',
+          formData
+        );
+        console.log('Attachments uploaded:', responseAttachments.data);
+
+        
+        const leaveData = {
+          employeeId,
+          employeeName,
+          leaveType,
+          startDate,
+          endDate,
+          numberOfDays,
+          reason,
+          attachments: responseAttachments.data,
+        };
+
+        await axios.post(
+          'https://hrm-backend-square.onrender.com/api/leave/',
+          leaveData
+        );
+
+        
+        setEmployeeId('');
+        setEmployeeName('');
+        setLeaveType('');
+        setStartDate('');
+        setEndDate('');
+        setNumberOfDays('');
+        setReason('');
+        setAttachments([]);
+        setErrors({});
+        navigate('/leavetrackerlist');
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  };
+
   const handleLeaveType = (event) => {
     setLeaveType(event.target.value);
   };
@@ -39,12 +160,10 @@ const LeaveTrackerForm = () => {
   const handleStartDateChange = (event) => {
     const selectedStartDate = event.target.value;
 
-    // Check if selected start date is a previous date
     const currentDate = DateTime.now().toISODate();
     if (selectedStartDate < currentDate) {
       setErrors((prevErrors) => ({ ...prevErrors, startDate: 'Start date cannot be a previous date' }));
     } else {
-      // Clear the error if the start date is valid
       setErrors((prevErrors) => ({ ...prevErrors, startDate: undefined }));
     }
 
@@ -55,11 +174,9 @@ const LeaveTrackerForm = () => {
   const handleEndDateChange = (event) => {
     const selectedEndDate = event.target.value;
 
-    // Check if selected end date is before the start date
     if (selectedEndDate < startDate) {
       setErrors((prevErrors) => ({ ...prevErrors, endDate: 'End date cannot be before the start date' }));
     } else {
-      // Clear the error if the end date is valid
       setErrors((prevErrors) => ({ ...prevErrors, endDate: undefined }));
     }
 
@@ -69,7 +186,13 @@ const LeaveTrackerForm = () => {
 
   const handleNumberOfDays = (event) => {
     const days = parseInt(event.target.value);
-    setNumberOfDays(days);
+
+    if (days <= 0) {
+      setErrors((prevErrors) => ({ ...prevErrors, numberOfDays: 'Number of days must be greater than 0' }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, numberOfDays: undefined }));
+      setNumberOfDays(days);
+    }
   };
 
   const handleReason = (event) => {
@@ -85,92 +208,9 @@ const LeaveTrackerForm = () => {
     }
   };
 
-  const validateForm = () => {
-    let formErrors = {};
-    let isValid = true;
-
-    // Validate employee ID
-    if (!employeeId) {
-      formErrors.employeeId = 'Employee ID is required';
-      isValid = false;
-    }
-
-    // Validate employee name
-    if (!employeeName) {
-      formErrors.employeeName = 'Employee name is required';
-      isValid = false;
-    }
-
-    // Validate leave type
-    if (!leaveType) {
-      formErrors.leaveType = 'Leave type is required';
-      isValid = false;
-    }
-
-    // Validate start date
-    if (!startDate) {
-      formErrors.startDate = 'Start date is required';
-      isValid = false;
-    }
-
-    // Validate end date
-    if (!endDate) {
-      formErrors.endDate = 'End date is required';
-      isValid = false;
-    }
-
-    // Validate number of days
-    if (!numberOfDays) {
-      formErrors.numberOfDays = 'Number of days is required';
-      isValid = false;
-    } else if (numberOfDays <= 0) {
-      formErrors.numberOfDays = 'Number of days must be greater than 0';
-      isValid = false;
-    }
-
-    // Validate reason
-    if (!reason) {
-      formErrors.reason = 'Reason is required';
-      isValid = false;
-    }
-
-    setErrors(formErrors);
-    return isValid;
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
-    // Validate the form
-    const isValid = validateForm();
-
-    if (isValid) {
-      // Create form data object
-      const formData = {
-        employeeId,
-        employeeName,
-        leaveType,
-        startDate,
-        endDate,
-        numberOfDays,
-        reason,
-      };
-
-      try {
-        await axios.post('https://hrm-backend-square.onrender.com/api/leave/', formData);
-        setEmployeeId('');
-        setEmployeeName('');
-        setLeaveType('');
-        setStartDate('');
-        setEndDate('');
-        setNumberOfDays('');
-        setReason('');
-        setErrors({});
-        navigate('/leavetrackerlist');
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    }
+  const handleFileChange = (event) => {
+    const selectedFiles = event.target.files;
+    setAttachments(selectedFiles);
   };
 
   return (
@@ -218,9 +258,7 @@ const LeaveTrackerForm = () => {
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
                 {errors.leaveType && (
-                  <Box component="span" sx={{ color: 'red' }}>
-                    {errors.leaveType}
-                  </Box>
+                  <FormHelperText error>{errors.leaveType}</FormHelperText>
                 )}
               </FormControl>
             </Grid>
@@ -254,7 +292,7 @@ const LeaveTrackerForm = () => {
                 helperText={errors.endDate}
               />
             </Grid>
-            <Grid item xs={12} sm={12}>
+            <Grid item xs={12} sm={6}>
               <TextField
                 fullWidth
                 id="number-of-days"
@@ -264,6 +302,15 @@ const LeaveTrackerForm = () => {
                 onChange={handleNumberOfDays}
                 error={errors.numberOfDays !== undefined}
                 helperText={errors.numberOfDays}
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+            <TextField
+              fullWidth
+                type="file"
+                multiple
+                accept=".pdf, .doc, .docx"
+                onChange={handleFileChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -279,6 +326,7 @@ const LeaveTrackerForm = () => {
                 helperText={errors.reason}
               />
             </Grid>
+            
             <Grid item xs={12}>
               <Button type="submit" variant="contained" color="primary">
                 Submit
@@ -292,6 +340,3 @@ const LeaveTrackerForm = () => {
 };
 
 export default LeaveTrackerForm;
-
-
-
