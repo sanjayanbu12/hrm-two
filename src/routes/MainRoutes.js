@@ -139,6 +139,10 @@ const MainRoutes = {
       element: <Viewdetails />
     },
     {
+      path: '/view/:id',
+      element: <ApplicationView />
+    },
+    {
       path: '/newevent',
       element: <Newevent />
     }
