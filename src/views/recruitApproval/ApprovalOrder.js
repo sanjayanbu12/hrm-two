@@ -20,7 +20,7 @@ const ApprovalMems = {
       Role: 'TL'
     },
     {
-      name: 'Team lead',
+      name: 'Senior Associate',
       imgUrl:
         'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8cGVyc29ufGVufDB8fDB8fHww&auto=format&fit=crop&w=500&q=60',
       email: 'xyz@gmail.com',
@@ -36,7 +36,7 @@ const ApprovalMems = {
       ]
     },
     {
-      name: 'Team lead',
+      name: 'Buisness Analyst',
       imgUrl:
         'https://plus.unsplash.com/premium_photo-1663954645655-b5890232b10f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1434&q=80',
       email: 'xyz@gmail.com',
