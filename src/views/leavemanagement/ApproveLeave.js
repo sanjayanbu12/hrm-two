@@ -1,5 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Tooltip,
+} from '@mui/material';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
 import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
@@ -66,6 +81,26 @@ const ApproveLeave = () => {
     return `${day}/${month}/${year}`;
   };
 
+  const getStatusIcon = (status) => {
+    if (status === 'approved') {
+      return <CheckIcon style={{ color: 'green' }} />;
+    } else if (status === 'rejected') {
+      return <CloseIcon style={{ color: 'red' }} />;
+    } else {
+      return <HourglassEmptyIcon style={{ color: 'orange' }} />;
+    }
+  };
+
+  const getStatusLabel = (status) => {
+    if (status === 'approved') {
+      return 'Approved';
+    } else if (status === 'rejected') {
+      return 'Rejected';
+    } else {
+      return 'Pending';
+    }
+  };
+
   return (
     <MainCard title="Leave Status">
       <TableContainer component={Paper}>
@@ -94,16 +129,14 @@ const ApproveLeave = () => {
                 <TableCell>{leave.numberOfDays}</TableCell>
                 <TableCell>{leave.reason}</TableCell>
                 <TableCell>
-                  {leave.status === 'approved' ? (
-                    <CheckIcon style={{ color: 'green' }} />
-                  ) : leave.status === 'rejected' ? (
-                    <CloseIcon style={{ color: 'red' }} />
-                  ) : (
-                    <HourglassEmptyIcon style={{ color: 'orange' }} />
-                  )}
+                  <Tooltip title={getStatusLabel(leave.status)}>
+                    <span style={{ cursor: 'pointer' }}>{getStatusIcon(leave.status)}</span>
+                  </Tooltip>
                 </TableCell>
                 <TableCell>
-                  <VisibilityIcon onClick={() => handleViewDetails(leave)} style={{ cursor: 'pointer' }} />
+                  <Tooltip title="View Details">
+                    <VisibilityIcon onClick={() => handleViewDetails(leave)} style={{ cursor: 'pointer' }} />
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}
@@ -167,3 +200,4 @@ const ApproveLeave = () => {
 };
 
 export default ApproveLeave;
+
