@@ -107,10 +107,8 @@ useEffect(() => {
         '&:hover': {
           color: theme.palette.secondary.dark,
         },
-        // Add custom CSS properties
         top:'40px'
-      }}
-      
+      }}   
     >
       <AddIcon />
       Add
@@ -133,7 +131,6 @@ useEffect(() => {
           </InputAdornment>
         ),
       }}
-      // Add custom CSS properties
       sx={{
         top:'-20px',
       }}
@@ -150,7 +147,6 @@ useEffect(() => {
                 <TableCell align="center">Department Name</TableCell>
                 <TableCell align="center">Designation</TableCell>
                 <TableCell align="center">Work Type</TableCell>
-                {/* <TableCell align="center"></TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>

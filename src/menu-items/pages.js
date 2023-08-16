@@ -82,6 +82,12 @@ const pages = {
         },
         {
           id: 'employeelist',
+          title: 'Employee Information',
+          type: 'item',
+          url: '/newemployee'
+        },
+         {
+          id: 'employeelist',
           title: 'Employee Information Management',
           type: 'item',
           url: '/addemployeetable'
