@@ -1,17 +1,11 @@
 import React from 'react'
-
+import MyApprovalList from 'views/recruitApproval/ApprovalOrder'
 const Payroll = () => {
     return (
         <div style={{
-          fontSize:'30px',
-          fontStyle:'bold',
-          position:'absolute',
-          marginTop:'260px',
-          marginLeft:'500px',
-          fontWeight:'bolder'
-    
-        }}>
-          UNDER DEVELOPMENT
+          height:'100vh'
+        }} >
+        <MyApprovalList />
           </div>
       )
     }

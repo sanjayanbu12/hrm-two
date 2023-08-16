@@ -1,0 +1,58 @@
+/* custom-orgchart.css */
+
+/* Increase arrow line length */
+.orgchart .lines .line::after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 0 0 7px;
+    border-color: transparent transparent transparent #ccc;
+    width: 0;
+    height: 0;
+    right: -7px;
+    top: 0;
+    transition: all 0.3s ease; /* Add animation to arrow length change */
+  }
+  
+  /* Apply animation on hover */
+  .orgchart .lines .line:hover::after {
+    border-width: 0 0 0 10px; /* Increase arrow length on hover */
+  }
+  
+  .initechNode {
+    border: solid 3px red;
+    border-radius: 3px;
+    padding: 5px;
+    width: 300px;
+    display: inline-block;
+    transition: all 0.3s ease; /* Add animation to node style changes */
+  }
+  
+  /* Apply animation on hover */
+  .initechNode:hover {
+    border-color: blue; /* Change border color on hover */
+    transform: scale(1.05); /* Zoom in on hover */
+  }
+  
+  /* Apply animation to child group line */
+  #initechOrgChart .orgNodeChildGroup .nodeGroupLineVerticalMiddle {
+    border-right: solid 3px red;
+    transition: all 0.3s ease; /* Add animation to line style changes */
+  }
+  
+  /* Apply animation on hover */
+  #initechOrgChart .orgNodeChildGroup:hover .nodeGroupLineVerticalMiddle {
+    border-color: blue; /* Change line color on hover */
+  }
+  
+  /* Apply animation to top border line */
+  #initechOrgChart .nodeLineBorderTop {
+    border-top: solid 3px red;
+    transition: all 0.3s ease; /* Add animation to line style changes */
+  }
+  
+  /* Apply animation on hover */
+  #initechOrgChart .nodeLineBorderTop:hover {
+    border-color: blue; /* Change line color on hover */
+  }
+  
