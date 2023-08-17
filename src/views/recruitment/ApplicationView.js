@@ -1,17 +1,20 @@
-import { Box } from '@mui/system'
-import { Typography } from '@mui/material'
+// import { Box } from '@mui/system'
+import { Button, Typography } from '@mui/material'
 import React from 'react'
 import MainCard from 'ui-component/cards/MainCard'
 import { useState } from 'react'
-import { useParams } from 'react-router'
+import { useNavigate, useParams } from 'react-router'
 import { useEffect } from 'react'
 import axios from 'axios'
+
 
 
 const ApplicationView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
   const { id } = useParams();
+  const navigate=useNavigate();
+
   useEffect(() => {
     fetchData()
   }, []);
@@ -29,7 +32,7 @@ const ApplicationView = () => {
       console.log(error)
     }
   }
-  
+
   console.log(selectedJob + " selected Data")
 
   const formatDate = (date) => {
@@ -39,13 +42,34 @@ const ApplicationView = () => {
     const year = d.getFullYear()
     return `${day}-${month}-${year}`
   }
-
+  
+  
   return (
+    
+  <div>
     <MainCard title=" Candidate Application View" variant='h2' align='left'>
+
+    <Button    onClick={() => {
+              navigate('/applicationtracker');
+            }}
+        sx={{
+          position: 'absolute',
+          top: '140px',
+          right: '50px',
+          color: '#5e35b1',
+          '&:hover': {
+            backgroundColor: '#ede7f6',
+          },
+        }}
+        
+      >
+       Back
+      </Button>
+
 
       {selectedJob && (
         <>
-          <Box
+          {/* <Box
             sx={{
               display: 'flex',
               justifyContent: 'center',
@@ -53,10 +77,10 @@ const ApplicationView = () => {
               marginBottom: '1px'
             }}
           >
-          </Box>
-          <Box sx={{ backgroundColor: '#f5f5f5' }}>
+          </Box> */}
+          
 
-            <Box>
+         
               <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Job Role</b>
                 <b style={{ marginLeft: '223px', paddingRight: '12px' }}>:</b>
@@ -91,13 +115,12 @@ const ApplicationView = () => {
                 <b style={{ marginLeft: '200px', paddingRight: '12px' }}>:</b>
                 {formatDate(selectedJob.createdAt)}
               </Typography>
-            </Box>
-
-          </Box>
+           
 
         </>
       )}
     </MainCard>
+    </div>
   )
 }
 export default ApplicationView
