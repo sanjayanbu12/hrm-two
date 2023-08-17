@@ -27,12 +27,9 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const pages = {
- 
-
+const userPages = {
   type: 'group',
   children: [
-   
     {
       id: 'recruitment',
       title: 'Recruitment',
@@ -121,4 +118,4 @@ const pages = {
   ]
 };
 
-export default pages;
+export default userPages;
