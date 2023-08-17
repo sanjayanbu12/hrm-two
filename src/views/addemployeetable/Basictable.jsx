@@ -3,7 +3,7 @@ import tableIcons from './MaterialTableIcons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 const columns = [
-  { title: 'EmployeeId', field: 'employeeid',sorting:false },
+  { title: 'EmployeeId', field: 'employeeid' },
   { title: 'Name', field: 'name' },
   { title: 'Designation', field: 'desi' },
   { title: 'Gender', field: 'gender' },
@@ -59,22 +59,20 @@ export const BasicTable = () => {
         {
           icon: tableIcons.Edit,
           tooltip: 'Save User',
-          onClick: (event, rowData) => alert("You saved " + rowData.name)
+          onClick: (event, rowData) => alert("You saved " + rowData.map(x=>x.name))
         },
         {
           icon: tableIcons.Delete,
           tooltip: 'Delete User',
-          onClick: (event, rowData) => confirm("You want to delete " + rowData.name)
-        },
-  
+          onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x.name))
+        }
       ]}
-      
       options={{
         actionsColumnIndex: 6,
         exportButton: true,
         exportCsv: exportCsv,
         grouping: true,
-        selection: true
+        selection:true
         // rowStyle: {
         //   backgroundColor: '#EEE',
         // },
