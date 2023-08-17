@@ -117,7 +117,7 @@ const pages = {
         },
         {
           id: 'leavetrackerlist',
-          title: 'Applied Leave List',
+          title: 'Leave History',
           type: 'item',
           url: '/leavetrackerlist'
         },
