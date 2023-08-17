@@ -23,12 +23,13 @@ import ApplicationView from './ApplicationView';
 import { CSVLink } from 'react-csv';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [open, setOpen] = useState(false);
+  // const [selectedJob, setSelectedJob] = useState(null);
+  // const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -56,15 +57,22 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handleView = (id) => {
-    const job = Data.find((item) => item._id === id);
-    setSelectedJob(job);
-    setOpen(true);
+  // const handleView = (id) => {
+  //   const job = Data.find((item) => item._id === id);
+  //   setSelectedJob(job);
+  //   setOpen(true);
+  // };
+
+  const handleView= (id) => {
+    console.log(id + 'job id');
+    const selectedId = Data.find((item) => item.id === id);
+    // setSelectedJob(selectedId);
+    navigate(`/view/${id}`, { state: { data: selectedId } });
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
 
   const handleResume = async (id, name) => {
     try {
@@ -243,7 +251,6 @@ const ApplicationTracker = () => {
                       />
                     </Tooltip>
                   </TableCell>
-                  <ApplicationView open={open} handleClose={handleClose} selectedJob={selectedJob} />
                 </TableRow>
               ))}
             </TableBody>
