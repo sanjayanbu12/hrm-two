@@ -212,7 +212,7 @@ const RecruitmentTable = () => {
                   width: '40px',
                   height: '35px',
                   borderRadius: '8px',
-                  marginLeft:'380px',
+                  marginLeft:'360px',
                   padding: 0.6,
                   background: '#ede7f6',
                   color: '#5e35b1',
