@@ -10,9 +10,7 @@ import MenuItems from '../../../../menu-items/index'
 
 const MenuList = () => {
   const itemsData = MenuItems();
-  console.log(itemsData)
   const navItems = itemsData.map((item) => {
-    // console.log(item)
     switch (item.type) {
       case 'group':
         return <NavGroup key={item.id} item={item} />;

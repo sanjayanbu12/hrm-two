@@ -27,43 +27,11 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const userPages = {
+const pages = {
+ 
+
   type: 'group',
   children: [
-    {
-      id: 'recruitment',
-      title: 'Recruitment',
-      type: 'collapse',
-      url: '/recruitment',
-      icon: icons.AccountTreeOutlinedIcon,
-      children: [
-        {
-          id: 'recruitmentform',
-          title: 'Job Description Form',
-          type: 'item',
-          url: '/jobform'
-        },
-        {
-          id: 'recruitmenttable',
-          title: 'Job Description Table',
-          type: 'item',
-          url: '/jobtable'
-        },
-        {
-          id: 'applicationtracker',
-          title: 'Application Tracker',
-          type: 'item',
-          url: '/applicationtracker'
-        },
-        {
-          id: 'interviewdetails',
-          title: 'Interview Details',
-          type: 'item',
-          url: '/interviewdetails'
-        }
-      ]
-    },
-
     {
       id: 'employees',
       title: 'Employees',
@@ -71,6 +39,12 @@ const userPages = {
       icon: icons.BadgeOutlinedIcon,
 
       children: [
+        {
+          id: 'employeeform',
+          title: 'Employee Information',
+          type: 'item',
+          url: '/newemployee'
+        },
         {
           id: 'employeeperformance',
           title: 'Employee Performance',
@@ -92,30 +66,43 @@ const userPages = {
           type: 'item',
           url: '/leavetrackerform'
         },
-        {
-          id: 'leavetrackerlist',
-          title: 'Applied Leave List',
-          type: 'item',
-          url: '/leavetrackerlist'
-        },
-        {
-          id: 'approveleave',
-          title: 'ApproveLeave',
-          type: 'item',
-          url: '/approveleave'
-        },
-        // {
-        //   id: '/leavecalendar',
-        //   title: 'leavecalendar',
-        //   type: 'item',
-        //   url: '/leavecalendar'
-        // },
       ]
     },
     
+    {
+      id: 'employeeselfservices',
+      title: 'Employee Self Services',
+      icon: CameraFrontIcon,
+      type: 'item',
+      url: '/employeeselfservices'
+    },
+
+    {
+      id: 'employeeengagement',
+      title: 'Employee Engagement & Surveys',
+      icon: EmojiEmotionsIcon,
+      type: 'item',
+      url: '/employeeengagement'
+    },
+
+    {
+      id: 'performance',
+      title: 'Performance Management',
+      type: 'item',
+      icon: icons.IconKey,
+      url: '/performance'
+    },
+
+    {
+      id: 'learninganddevelopment',
+      title: 'Learning & Development',
+      type: 'item',
+      icon: AllOutIcon,
+      url: '/learninganddevelopment'
+    },
 
 
   ]
 };
 
-export default userPages;
+export default pages;
