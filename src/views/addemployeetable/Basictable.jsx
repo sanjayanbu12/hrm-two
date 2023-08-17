@@ -64,7 +64,7 @@ const navigate=useNavigate()
   };
   return (
     <MaterialTable
-      title="Employee Table"
+    title={<div style={{ fontWeight: 'bold' ,fontSize:'20px'}}>Employee Table</div>}
       columns={columns}
       data={edata}
       icons={tableIcons}

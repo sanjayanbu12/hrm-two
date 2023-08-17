@@ -39,12 +39,12 @@ const pages = {
       icon: icons.BadgeOutlinedIcon,
 
       children: [
-        {
-          id: 'employeeform',
-          title: 'Employee Information',
-          type: 'item',
-          url: '/newemployee'
-        },
+        // {
+        //   id: 'employeeform',
+        //   title: 'Employee Information',
+        //   type: 'item',
+        //   url: '/newemployee'
+        // },
         {
           id: 'employeeperformance',
           title: 'Employee Performance',
