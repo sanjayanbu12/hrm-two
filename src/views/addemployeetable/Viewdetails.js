@@ -44,7 +44,7 @@ const Viewdetails = () => {
     : '';
 
   const back = () => {
-    navigate(`/Addemployeetable`);
+    navigate(`/basictable`);
   };
 
   if (!employeedetails) {
@@ -79,7 +79,7 @@ const Viewdetails = () => {
           Edit
         </Button>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gridGap: '15px',marginLeft:'80px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gridGap: '15px',marginLeft:'60px' }}>
           <div >
             <p><b>Employee ID</b></p>
             <p>{employeedetails.employeeid}</p>

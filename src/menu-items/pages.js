@@ -84,7 +84,7 @@ const pages = {
           id: 'employeelist',
           title: 'Employee Information Management',
           type: 'item',
-          url: '/addemployeetable'
+          url: '/basictable'
         },
         {
           id: 'employeeperformance',

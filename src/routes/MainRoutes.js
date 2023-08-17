@@ -3,7 +3,7 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-import Addemployeetable from 'views/addemployeetable/Addemployeetable';
+// import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/RecruitmentTable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
@@ -93,10 +93,10 @@ const MainRoutes = {
       path: '/Jobform',
       element: <RecruitmentForm />
     },
-    {
-      path: '/Addemployeetable',
-      element: <Addemployeetable />
-    },
+    // {
+    //   path: '/Addemployeetable',
+    //   element: <Addemployeetable />
+    // },
     {
       path: '/Basictable',
       element: <BasicTable />
