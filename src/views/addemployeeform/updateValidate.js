@@ -15,10 +15,8 @@ export const updatevalidationSchema = yup.object().shape({
   report: yup.string().required('Reporting to is required'),
   fathername: yup.string().required('Father Name is required'),
   nationality: yup.string().required('Nationality is required'),
-  placeofbirth: yup.string().required('Place of Birth is required'),
   religion: yup.string().required('Religion is required'),
   type: yup.string().required('Work Type is required'),
   join: yup.string().required('Joining Date is required'),
   dob: yup.string().required('DOB is required'),
-  status: yup.string().required('Status is required')
 });

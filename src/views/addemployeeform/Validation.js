@@ -17,8 +17,7 @@ export const validationSchema = yup.object().shape({
   dob: yup.string().required('DOB is required'),
   fathername: yup.string().required('Father Name is required'),
   nationality: yup.string().required('Nationality is required'),
-  placeofbirth: yup.string().required('Place of Birth is required'),
   religion: yup.string().required('Religion is required'),
   type: yup.string().required('Work Type is required'),
-  status: yup.string().required('Status is required')
+
 });

@@ -32,7 +32,6 @@ const EmployeeForm = () => {
   const [status, setStatus] = useState('');
   const [fathername, setFathername] = useState('');
   const [nationality, setNationality] = useState('');
-  const [placeofbirth, setPlaceofbirth] = useState('');
   const [religion, setReligion] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
@@ -140,7 +139,7 @@ const EmployeeForm = () => {
       report: ''
     }));
   };
- const handleDob = (e) => {
+  const handleDob = (e) => {
     const selectedDate = e.target.value;
     const currentDate = new Date();
     const selectedDateObj = new Date(selectedDate);
@@ -194,13 +193,6 @@ const EmployeeForm = () => {
       nationality: ''
     }));
   };
-  const handlePlaceofbirth = (e) => {
-    setPlaceofbirth(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      placeofbirth: ''
-    }));
-  };
   const handleReligion = (e) => {
     setReligion(e.target.value);
     setErrors((prev) => ({
@@ -231,7 +223,6 @@ const EmployeeForm = () => {
         setDob(data.dob);
         setFathername(data.fathername);
         setNationality(data.nationality);
-        setPlaceofbirth(data.placeofbirth);
         setReligion(data.religion);
         setType(data.type);
         setStatus(data.status);
@@ -262,7 +253,6 @@ const EmployeeForm = () => {
           report,
           fathername,
           nationality,
-          placeofbirth,
           religion,
           type,
           status,
@@ -287,7 +277,7 @@ const EmployeeForm = () => {
             dob,
             fathername,
             nationality,
-            placeofbirth,
+            
             religion,
             type,
             status,
@@ -304,14 +294,16 @@ const EmployeeForm = () => {
         setDesi('');
         seteMail('');
         setMob('');
-        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''),
-        //  setPassword(''), setconfirmPassword(''), 
-         setJoin('');
+        setaltMob(''),
+          setperAddress(''),
+          settemAddress(''),
+          setBloodgroup(''),
+          //  setPassword(''), setconfirmPassword(''),
+          setJoin('');
         setReport('');
         setDob('');
         setFathername('');
         setNationality('');
-        setPlaceofbirth('');
         setReligion('');
         setType('');
         setStatus('');
@@ -355,12 +347,12 @@ const EmployeeForm = () => {
           join,
           report,
           fathername,
-            nationality,
-            placeofbirth,
-            religion,
-            type,
-            status,
-            title
+          nationality,
+         
+          religion,
+          type,
+          status,
+          title
           // employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
@@ -385,7 +377,7 @@ const EmployeeForm = () => {
             dob,
             fathername,
             nationality,
-            placeofbirth,
+           
             religion,
             type,
             status,
@@ -402,14 +394,17 @@ const EmployeeForm = () => {
         setDesi('');
         seteMail('');
         setMob('');
-        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), 
-        // setPassword(''), setconfirmPassword(''), 
-        setJoin('');
+        setaltMob(''),
+          setperAddress(''),
+          settemAddress(''),
+          setBloodgroup(''),
+          // setPassword(''), setconfirmPassword(''),
+          setJoin('');
         setReport('');
         setDob('');
         setFathername('');
         setNationality('');
-        setPlaceofbirth('');
+        
         setReligion('');
         setType('');
         setStatus('');
@@ -622,18 +617,6 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Place of Birth"
-                variant="outlined"
-                value={placeofbirth}
-                error={errors && errors.placeofbirth}
-                helperText={errors && errors.placeofbirth}
-                onChange={(e) => handlePlaceofbirth(e)}
-              />
-            </Grid>
 
             <Grid item xs={4} style={{ marginBottom: 25 }}>
               <TextField
@@ -801,7 +784,7 @@ const EmployeeForm = () => {
                   boxShadow: 'none',
                   minWidth: '100%',
                   // borderRadius: 2,
-                  marginTop: '40px',
+                  marginTop: '60px',
                   padding: 1.5,
                   // background: theme.palette.secondary.dark,
                   // color: theme.palette.secondary.light,
