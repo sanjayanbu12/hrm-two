@@ -74,7 +74,12 @@ const pages = {
       icon: icons.BadgeOutlinedIcon,
 
       children: [
-      
+        {
+          id: 'employeeform',
+          title: 'Employee Information',
+          type: 'item',
+          url: '/newemployee'
+        },
         {
           id: 'employeelist',
           title: 'Employee Information Management',
