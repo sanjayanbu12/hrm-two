@@ -622,7 +622,7 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={4} style={{ marginBottom: 25 }}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-start-adornment"
