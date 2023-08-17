@@ -10,17 +10,13 @@ import axios from 'axios';
 
 const CourseOverview = () => {
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const [courseData, setCourseData] = useState({
-    image: '',
-    courseName: '',
-    courseDescription: '',
-    video: ''
-  });
+  const [courseData, setCourseData] = useState([]);
+  const [videoUrl, setVideoUrl] = useState('');
 
   useEffect(() => {
     // Fetch course data from your backend API using Axios
     // Replace 'YOUR_BACKEND_URL/api/course' with your actual API endpoint
-    axios.get('YOUR_BACKEND_URL/api/course')
+    axios.get('http://localhost:3001/learn/entries')
       .then(response => {
         setCourseData(response.data);
       })
@@ -29,7 +25,8 @@ const CourseOverview = () => {
       });
   }, []);
 
-  const openVideoDialog = () => {
+  const openVideoDialog = (videoUrl) => {
+    setVideoUrl(videoUrl);
     setIsVideoOpen(true);
   };
 
@@ -40,26 +37,28 @@ const CourseOverview = () => {
   return (
     <>
       <MainCard title="Course Overview">
-        <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px' }}>
-          <CardMedia
-            sx={{ height: 110 }}
-            image={courseData.image}
-            title={courseData.courseName}
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" component="div">
-              {courseData.courseName}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              {courseData.courseDescription}
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button color="secondary" onClick={openVideoDialog}>
-              Play
-            </Button>
-          </CardActions>
-        </Paper>
+        {courseData.map(course => (
+          <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px' }} key={course._id}>
+            <CardMedia
+              sx={{ height: 110 }}
+              image={course.image}
+              title={course.courseName}
+            />
+            <CardContent>
+              <Typography gutterBottom variant="h5" component="div">
+                {course.courseName}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {course.courseDescription}
+              </Typography>
+            </CardContent>
+            <CardActions>
+              <Button color="secondary" onClick={() => openVideoDialog(course.video)}>
+                Play
+              </Button>
+            </CardActions>
+          </Paper>
+        ))}
       </MainCard>
 
       <Dialog open={isVideoOpen} onClose={closeVideoDialog}>
@@ -67,7 +66,7 @@ const CourseOverview = () => {
           <iframe
             width="560"
             height="315"
-            src={courseData.video}
+            src={videoUrl}
             title="Video"
             allowFullScreen
           ></iframe>
