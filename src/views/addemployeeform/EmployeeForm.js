@@ -425,7 +425,7 @@ const EmployeeForm = () => {
     <MainCard title="Employee Information">
       <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
         <Button
-          onClick={() => navigate(`/Addemployeetable`)}
+          onClick={() => navigate(`/basictable`)}
           sx={{
             padding: 1.5,
             background: 'rgba(33, 150, 243, 0.04)',
