@@ -3,7 +3,7 @@ import tableIcons from './MaterialTableIcons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 const columns = [
-  { title: 'EmployeeId', field: 'employeeid' },
+  { title: 'EmployeeId', field: 'employeeid', sorting:false},
   { title: 'Name', field: 'name' },
   { title: 'Designation', field: 'desi' },
   { title: 'Gender', field: 'gender' },
@@ -74,7 +74,15 @@ export const BasicTable = () => {
       options={{
         actionsColumnIndex: 6,
         exportButton: true,
-        exportCsv: exportCsv
+        exportCsv: exportCsv,
+        grouping: true,
+        selection: true,
+        sorting:true,
+        headerStyle: {
+          backgroundColor: '#01579b',
+          color: '#FFF',
+          fontWeight:'100px'
+        }
       }}
     />
   );
