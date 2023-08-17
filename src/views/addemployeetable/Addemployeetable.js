@@ -11,11 +11,6 @@ import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
-// import { useDispatch, useSelector } from 'react-redux';
-// import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
-// import EarningCard from 'views/dashboard/Default/EarningCard';
-// import CircularProgress from '@mui/material/CircularProgress';
-// import {Stack} from '@mui/material';
 import { CSVLink } from "react-csv";
 const Addemployeetable = () => {
   const [isLoading, setLoading] = useState(true);
@@ -67,7 +62,6 @@ useEffect(() => {
   const indexOfFirstEmployee = indexOfLastEmployee - rowsPerPage;
   const currentEmployees = filteredEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
 
-
   return (
     <>
   <MainCard title="Employee Information Management">
@@ -107,10 +101,8 @@ useEffect(() => {
         '&:hover': {
           color: theme.palette.secondary.dark,
         },
-        // Add custom CSS properties
         top:'40px'
-      }}
-      
+      }}   
     >
       <AddIcon />
       Add
@@ -133,7 +125,6 @@ useEffect(() => {
           </InputAdornment>
         ),
       }}
-      // Add custom CSS properties
       sx={{
         top:'-20px',
       }}
@@ -150,7 +141,6 @@ useEffect(() => {
                 <TableCell align="center">Department Name</TableCell>
                 <TableCell align="center">Designation</TableCell>
                 <TableCell align="center">Work Type</TableCell>
-                {/* <TableCell align="center"></TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -168,9 +158,6 @@ useEffect(() => {
                     <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.dept}</TableCell>
                     <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.desi}</TableCell>
                     <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.type}</TableCell>
-                    {/* <TableCell align="center">
-                      Edit button
-                    </TableCell> */}
                   </TableRow>
                 ))
               ) : (
@@ -203,3 +190,5 @@ useEffect(() => {
 };
 
 export default Addemployeetable;
+
+

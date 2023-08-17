@@ -1,5 +1,6 @@
 import * as yup from 'yup';
 export const validationSchema = yup.object().shape({
+  title: yup.string().required('Title is required'),
   name: yup.string().required('First Name is required'),
   lastname: yup.string().required('Last Name is required'),
   gender: yup.string().required('Gender is required'),
@@ -14,5 +15,12 @@ export const validationSchema = yup.object().shape({
   join: yup.string().required('Joining Date is required'),
   report: yup.string().required('Reporting to is required'),
   dob: yup.string().required('DOB is required'),
-  type: yup.string().required('Work Type is required')
+  birthday: yup.string().required('Birthday Date is required'),
+  fathername: yup.string().required('Father Name is required'),
+  nationality: yup.string().required('Nationality is required'),
+  placeofbirth: yup.string().required('Place of Birth is required'),
+  religion: yup.string().required('Religion is required'),
+  peremail: yup.string().required('Personal Email is required'),
+  type: yup.string().required('Work Type is required'),
+  status: yup.string().required('Status is required')
 });
