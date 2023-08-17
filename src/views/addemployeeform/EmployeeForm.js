@@ -29,7 +29,6 @@ const EmployeeForm = () => {
   const [type, setType] = useState('');
   const [errors, setErrors] = useState('');
   const [title, setTitle] = useState('');
-  const [status, setStatus] = useState('');
   const [fathername, setFathername] = useState('');
   const [nationality, setNationality] = useState('');
   const [religion, setReligion] = useState('');
@@ -172,13 +171,6 @@ const EmployeeForm = () => {
       title: ''
     }));
   };
-  const handleStatus = (e) => {
-    setStatus(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      status: ''
-    }));
-  };
   const handleFathername = (e) => {
     setFathername(e.target.value);
     setErrors((prev) => ({
@@ -225,7 +217,6 @@ const EmployeeForm = () => {
         setNationality(data.nationality);
         setReligion(data.religion);
         setType(data.type);
-        setStatus(data.status);
         setTitle(data.title);
       })
       .catch((err) => {
@@ -646,25 +637,6 @@ const EmployeeForm = () => {
                   startAdornment: <InputAdornment position="start"></InputAdornment>
                 }}
               />
-            </Grid>
-
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.status}>
-                <InputLabel id="demo-simple-select-label">Status</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Status"
-                  value={status}
-                  error={errors && errors.status}
-                  helperText={errors && errors.status}
-                  onChange={(e) => handleStatus(e)}
-                >
-                  <MenuItem value="Pending">Pending</MenuItem>
-                  <MenuItem value="Confirmed">Confirmed</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.status}</FormHelperText>
-              </FormControl>
             </Grid>
 
             <Grid item xs={4}>
