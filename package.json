@@ -65,6 +65,7 @@
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.11",
     "sweetalert2": "^11.4.8",
+    "xlsx": "^0.18.5",
     "yup": "^0.32.11"
   },
   "scripts": {

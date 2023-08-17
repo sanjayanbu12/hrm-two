@@ -296,7 +296,7 @@ const RecruitmentForm = () => {
 
   const handleExperienceTo = (e) => {
     const experience = e.target.value;
-    if (experience < ExperienceFrom) {
+    if (experience <= ExperienceFrom) {
       setErrors((prev) => ({
         ...prev,
         ExperienceTo: 'Experience To should be higher than Experience From.'

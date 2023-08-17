@@ -23,8 +23,6 @@ import { CSVLink } from 'react-csv';
 import { useNavigate } from 'react-router';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
-  // const [selectedJob, setSelectedJob] = useState(null);
-  // const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [order, setOrder] = useState('asc');
@@ -57,22 +55,14 @@ const ApplicationTracker = () => {
     }
   };
 
-  // const handleView = (id) => {
-  //   const job = Data.find((item) => item._id === id);
-  //   setSelectedJob(job);
-  //   setOpen(true);
-  // };
 
   const handleView= (id) => {
     console.log(id + 'job id');
     const selectedId = Data.find((item) => item.id === id);
-    // setSelectedJob(selectedId);
+   
     navigate(`/view/${id}`, { state: { data: selectedId } });
   };
 
-  // const handleClose = () => {
-  //   setOpen(false);
-  // };
 
   const handleResume = async (id, name) => {
     try {
