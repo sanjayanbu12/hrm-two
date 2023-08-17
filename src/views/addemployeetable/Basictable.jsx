@@ -3,7 +3,7 @@ import tableIcons from './MaterialTableIcons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 const columns = [
-  { title: 'EmployeeId', field: 'employeeid', sorting:false},
+  { title: 'EmployeeId', field: 'employeeid' },
   { title: 'Name', field: 'name' },
   { title: 'Designation', field: 'desi' },
   { title: 'Gender', field: 'gender' },
@@ -52,37 +52,35 @@ export const BasicTable = () => {
 
   return (
     <MaterialTable
-      title="Basic Table"
+      title="Employee Table"
       columns={columns}
       data={edata}
       icons={tableIcons}
       actions={[
         {
-          icon: 'save',
+          icon: tableIcons.Edit,
           tooltip: 'Save User',
-          isFreeAction: true,
-          onClick: (event, rowData) => alert('You saved ' + rowData.name)
+          onClick: (event, rowData) => alert("You saved " + rowData.name)
         },
-        (rowData) => ({
-          icon: 'delete',
+        {
+          icon: tableIcons.Delete,
           tooltip: 'Delete User',
-          isFreeAction: true,
-          onClick: (event, rowData) => confirm('You want to delete ' + rowData.name),
-          disabled: rowData.birthYear < 2000
-        })
+          onClick: (event, rowData) => confirm("You want to delete " + rowData.name)
+        }
       ]}
       options={{
         actionsColumnIndex: 6,
         exportButton: true,
         exportCsv: exportCsv,
         grouping: true,
-        selection: true,
-        sorting:true,
+        rowStyle: {
+          backgroundColor: '#EEE',
+        },
         headerStyle: {
           backgroundColor: '#01579b',
-          color: '#FFF',
-          fontWeight:'100px'
+          color: '#FFF'
         }
+        
       }}
     />
   );
