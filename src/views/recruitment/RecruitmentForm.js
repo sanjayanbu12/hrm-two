@@ -248,12 +248,20 @@ const RecruitmentForm = () => {
 
   const handleEducation = (e, newValue) => {
     setEducation(newValue.join(','));
-    setOtherEducation(''); 
     setErrors((prev) => ({
       ...prev,
       Education: ''
     }));
   };
+
+  const handleOtherEducation = (e) => {
+    setOtherEducation(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      OtherEducation: ''
+    }));
+  };
+  
   
   const handleYear = (e) => {
     setYear(e.target.value);
@@ -665,7 +673,7 @@ const RecruitmentForm = () => {
       id="other-education"
       label="Other Education"
       value={OtherEducation}
-      onChange={(e) => setOtherEducation(e.target.value)}
+      onChange={(e) => handleOtherEducation(e)}
       error={errors && errors.OtherEducation}
       helperText={errors && errors.OtherEducation}
     />
