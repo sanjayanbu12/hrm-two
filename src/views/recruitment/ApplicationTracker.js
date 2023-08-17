@@ -19,8 +19,8 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box } from '@mui/system';
 import MainCard from 'ui-component/cards/MainCard';
-import ApplicationView from './ApplicationView';
 import { CSVLink } from 'react-csv';
+import { useNavigate } from 'react-router';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
   // const [selectedJob, setSelectedJob] = useState(null);
