@@ -3,7 +3,7 @@ import tableIcons from './MaterialTableIcons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 const columns = [
-  { title: 'EmployeeId', field: 'employeeid' },
+  { title: 'EmployeeId', field: 'employeeid',sorting:false },
   { title: 'Name', field: 'name' },
   { title: 'Designation', field: 'desi' },
   { title: 'Gender', field: 'gender' },
@@ -65,13 +65,16 @@ export const BasicTable = () => {
           icon: tableIcons.Delete,
           tooltip: 'Delete User',
           onClick: (event, rowData) => confirm("You want to delete " + rowData.name)
-        }
+        },
+  
       ]}
+      
       options={{
         actionsColumnIndex: 6,
         exportButton: true,
         exportCsv: exportCsv,
         grouping: true,
+        selection: true
         // rowStyle: {
         //   backgroundColor: '#EEE',
         // },
