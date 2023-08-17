@@ -2,21 +2,28 @@ import MaterialTable from 'material-table';
 import tableIcons from './MaterialTableIcons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 const columns = [
   { title: 'EmployeeId', field: 'employeeid' },
   { title: 'Name', field: 'name' },
   { title: 'Designation', field: 'desi' },
   { title: 'Gender', field: 'gender' },
   { title: 'Email', field: 'email' },
-  { title: 'Type', field: 'type' }
+  { title: 'Type', field: 'type' },
 ];
 const csvColumns = ['EmployeeId', 'Name', 'Designation', 'Gender', 'Email', 'Type','AlternateMob','Reporting To','teamAddress','BloodGroup','Department','JoiningDate','LastName','MobileNumber','PermenentAddress'];
 export const BasicTable = () => {
   const [edata, setedata] = useState([]);
+const navigate=useNavigate()
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
     setedata(res.data.reverse());
   };
+  const handleView = async(e,data) =>{
+    const id=data.map(x=>x._id)
+    console.log(id[0])
+    navigate(`/viewdetails/${id}`);
+  }
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -58,13 +65,18 @@ export const BasicTable = () => {
       actions={[
         {
           icon: tableIcons.Edit,
-          tooltip: 'Save User',
-          onClick: (event, rowData) => alert("You saved " + rowData.map(x=>x.name))
+          tooltip: 'View Details',
+          onClick: (event, rowData) => handleView(event,rowData)
+        },
+        {
+          icon: tableIcons.Clear,
+          tooltip: 'Edit',
+          onClick: (event, rowData) => alert(rowData.map(x=>x.name))
         },
         {
           icon: tableIcons.Delete,
           tooltip: 'Delete User',
-          onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x.name))
+          onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
         }
       ]}
       options={{
