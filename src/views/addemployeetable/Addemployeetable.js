@@ -11,11 +11,6 @@ import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
-// import { useDispatch, useSelector } from 'react-redux';
-// import TotalOrderLineChartCard from 'views/dashboard/Default/TotalOrderLineChartCard';
-// import EarningCard from 'views/dashboard/Default/EarningCard';
-// import CircularProgress from '@mui/material/CircularProgress';
-// import {Stack} from '@mui/material';
 import { CSVLink } from "react-csv";
 const Addemployeetable = () => {
   const [isLoading, setLoading] = useState(true);
@@ -66,7 +61,6 @@ useEffect(() => {
   const indexOfLastEmployee = currentPage * rowsPerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - rowsPerPage;
   const currentEmployees = filteredEmployees.slice(indexOfFirstEmployee, indexOfLastEmployee);
-
 
   return (
     <>
@@ -164,9 +158,6 @@ useEffect(() => {
                     <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.dept}</TableCell>
                     <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.desi}</TableCell>
                     <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.type}</TableCell>
-                    {/* <TableCell align="center">
-                      Edit button
-                    </TableCell> */}
                   </TableRow>
                 ))
               ) : (
@@ -199,3 +190,5 @@ useEffect(() => {
 };
 
 export default Addemployeetable;
+
+

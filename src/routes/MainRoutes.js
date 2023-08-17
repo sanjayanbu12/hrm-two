@@ -23,6 +23,7 @@ import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import LearningandDevelopment from 'views/learninganddevelopment/LearningandDevelopment';
 import Payroll from 'views/payroll/Payroll';
 import InterviewDetails from 'views/recruitment/InterviewDetails';
+import { BasicTable } from 'views/addemployeetable/Basictable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -95,6 +96,10 @@ const MainRoutes = {
     {
       path: '/Addemployeetable',
       element: <Addemployeetable />
+    },
+    {
+      path: '/Basictable',
+      element: <BasicTable />
     },
     {
       path: '/employeeperformance',
