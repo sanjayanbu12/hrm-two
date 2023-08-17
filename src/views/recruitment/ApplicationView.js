@@ -54,7 +54,7 @@ const ApplicationView = () => {
             }}
         sx={{
           position: 'absolute',
-          top: '140px',
+          top: '128px',
           right: '50px',
           color: '#5e35b1',
           '&:hover': {
@@ -69,17 +69,6 @@ const ApplicationView = () => {
 
       {selectedJob && (
         <>
-          {/* <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              background: '#0efcfc',
-              marginBottom: '1px'
-            }}
-          >
-          </Box> */}
-          
-
          
               <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                 <b> Job Role</b>

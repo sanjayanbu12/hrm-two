@@ -204,7 +204,8 @@ const RecruitmentTable = () => {
               />
             </Grid>
             <Grid xs={12} sm={3} md={2} lg={2}> 
-              <GridMenuIcon
+            <Tooltip title="Menu">
+              <GridMenuIcon 
                 onClick={handleOpenMenu}
                 sx={{
                   fontSize: '10',
@@ -215,14 +216,16 @@ const RecruitmentTable = () => {
                   padding: 0.6,
                   background: '#ede7f6',
                   color: '#5e35b1',
+                  cursor: 'pointer',
                   '&:hover': {
                     color: theme.palette.secondary.light,
-                    background: '#5e35b1'
+                    background: '#5e35b1',
+                    
                   }
                 }}
-              ></GridMenuIcon>
+              ></GridMenuIcon></Tooltip>
               <Menu
-                  sx={{ marginLeft: '10px' }}
+                  sx={{ marginLeft: '10px','&:hover': { cursor: 'pointer' }}}
                   anchorEl={anchorEl1}
                   open={Boolean(anchorEl1)}
                   onClose={handleCloseMenu}

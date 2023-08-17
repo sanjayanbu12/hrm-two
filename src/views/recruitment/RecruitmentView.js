@@ -47,7 +47,7 @@ const RecruitmentView = () => {
             }}
         sx={{
           position: 'absolute',
-          top: '140px',
+          top: '128px',
           right: '50px',
           color: '#5e35b1',
           '&:hover': {
