@@ -27,12 +27,9 @@ const icons = {
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
-const pages = {
- 
-
+const userPages = {
   type: 'group',
   children: [
-   
     {
       id: 'recruitment',
       title: 'Recruitment',
@@ -75,18 +72,6 @@ const pages = {
 
       children: [
         {
-          id: 'employeeform',
-          title: 'Employee Information',
-          type: 'item',
-          url: '/newemployee'
-        },
-        {
-          id: 'employeelist',
-          title: 'Employee Information Management',
-          type: 'item',
-          url: '/addemployeetable'
-        },
-        {
           id: 'employeeperformance',
           title: 'Employee Performance',
           type: 'item',
@@ -101,13 +86,6 @@ const pages = {
       icon: icons.PermIdentityOutlinedIcon,
 
       children: [
-        {
-          id: 'Attendance Regulation',
-          title: 'Attendance Regulation',
-          type: 'item',
-          url: '/attendanceManagement'
-        },
-       
         {
           id: 'leavetrackerform',
           title: 'Leave Request Form',
@@ -135,47 +113,9 @@ const pages = {
       ]
     },
     
-    {
-      id: 'employeeselfservices',
-      title: 'Employee Self Services',
-      icon: CameraFrontIcon,
-      type: 'item',
-      url: '/employeeselfservices'
-    },
 
-    {
-      id: 'employeeengagement',
-      title: 'Employee Engagement & Surveys',
-      icon: EmojiEmotionsIcon,
-      type: 'item',
-      url: '/employeeengagement'
-    },
-
-    {
-      id: 'performance',
-      title: 'Performance Management',
-      type: 'item',
-      icon: icons.IconKey,
-      url: '/performance'
-    },
-
-    {
-      id: 'learninganddevelopment',
-      title: 'Learning & Development',
-      type: 'item',
-      icon: AllOutIcon,
-      url: '/learninganddevelopment'
-    },
-    
-    {
-      id: 'payroll',
-      title: 'Payroll',
-      type: 'item',
-      icon: PaidIcon,
-      url: '/payroll'
-    }
 
   ]
 };
 
-export default pages;
+export default userPages;
