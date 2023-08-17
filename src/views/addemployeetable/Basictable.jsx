@@ -22,7 +22,7 @@ const navigate=useNavigate()
   const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])
-    navigate(`/viewdetails/${id}`);
+    navigate(`/viewdetails/${id[0]}`);
   }
   useEffect(() => {
     fetchEmployees();
@@ -85,13 +85,6 @@ const navigate=useNavigate()
         exportCsv: exportCsv,
         grouping: true,
         selection:true
-        // rowStyle: {
-        //   backgroundColor: '#EEE',
-        // },
-        // headerStyle: {
-        //   backgroundColor: '#01579b',
-        //   color: '#FFF'
-        // }
         
       }}
     />
