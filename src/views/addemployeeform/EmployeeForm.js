@@ -12,28 +12,28 @@ import TableViewIcon from '@mui/icons-material/TableView';
 
 const EmployeeForm = () => {
   // const theme = useTheme();
-  const [title, setTitle] = useState('');
   const [name, setName] = useState('');
   const [lastname, setLastname] = useState('');
   const [gender, setGender] = useState('');
+  const [dept, setDept] = useState('');
+  const [desi, setDesi] = useState('');
   const [email, seteMail] = useState('');
   const [mob, setMob] = useState('');
   const [altmob, setaltMob] = useState('');
   const [peraddress, setperAddress] = useState('');
   const [temaddress, settemAddress] = useState('');
   const [bloodgroup, setBloodgroup] = useState('');
-  const [dept, setDept] = useState('');
-  const [desi, setDesi] = useState('');
   const [join, setJoin] = useState('');
   const [report, setReport] = useState('');
   const [dob, setDob] = useState('');
+  const [type, setType] = useState('');
+  const [errors, setErrors] = useState('');
+  const [title, setTitle] = useState('');
   const [status, setStatus] = useState('');
   const [fathername, setFathername] = useState('');
   const [nationality, setNationality] = useState('');
   const [placeofbirth, setPlaceofbirth] = useState('');
   const [religion, setReligion] = useState('');
-  const [type, setType] = useState('');
-  const [errors, setErrors] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -42,13 +42,6 @@ const EmployeeForm = () => {
     setErrors((prev) => ({
       ...prev,
       email: ''
-    }));
-  };
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      title: ''
     }));
   };
   const handleName = (e) => {
@@ -70,13 +63,6 @@ const EmployeeForm = () => {
     setErrors((prev) => ({
       ...prev,
       gender: ''
-    }));
-  };
-  const handleStatus = (e) => {
-    setStatus(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      status: ''
     }));
   };
   const handleDept = (e) => {
@@ -129,6 +115,7 @@ const EmployeeForm = () => {
       altmob: ''
     }));
   };
+
   const handleJoin = (e) => {
     const selectedDate = e.target.value;
     const currentDate = new Date().toISOString().split('T')[0];
@@ -153,7 +140,7 @@ const EmployeeForm = () => {
       report: ''
     }));
   };
-  const handleDob = (e) => {
+ const handleDob = (e) => {
     const selectedDate = e.target.value;
     const currentDate = new Date();
     const selectedDateObj = new Date(selectedDate);
@@ -171,6 +158,27 @@ const EmployeeForm = () => {
         dob: ''
       }));
     }
+  };
+  const handleType = (e) => {
+    setType(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      type: ''
+    }));
+  };
+  const handleTitle = (e) => {
+    setTitle(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      title: ''
+    }));
+  };
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      status: ''
+    }));
   };
   const handleFathername = (e) => {
     setFathername(e.target.value);
@@ -200,26 +208,19 @@ const EmployeeForm = () => {
       religion: ''
     }));
   };
-  const handleType = (e) => {
-    setType(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      type: ''
-    }));
-  };
-
   useEffect(() => {
     fetch('https://hrm-backend-square.onrender.com/api/getemployee/' + id)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        setTitle(data.title);
         setName(data.name);
         setLastname(data.lastname);
         setGender(data.gender);
         setDept(data.dept);
         setDesi(data.desi);
         seteMail(data.email);
+        setPassword(data.password);
+        setconfirmPassword(data.confirmPassword);
         setMob(data.mob);
         setaltMob(data.altmob);
         setperAddress(data.peraddress);
@@ -234,6 +235,7 @@ const EmployeeForm = () => {
         setReligion(data.religion);
         setType(data.type);
         setStatus(data.status);
+        setTitle(data.title);
       })
       .catch((err) => {
         console.log(err.message);
@@ -244,7 +246,6 @@ const EmployeeForm = () => {
     if (id) {
       try {
         const updatedtask = {
-          title,
           name,
           lastname,
           gender,
@@ -264,19 +265,18 @@ const EmployeeForm = () => {
           placeofbirth,
           religion,
           type,
-          status
+          status,
+          title
         };
 
         await updatevalidationSchema.validate(
           {
-            title,
             name,
             lastname,
             gender,
             dept,
             desi,
             email,
-           
             mob,
             altmob,
             peraddress,
@@ -285,36 +285,37 @@ const EmployeeForm = () => {
             join,
             report,
             dob,
-           
             fathername,
             nationality,
             placeofbirth,
             religion,
             type,
-            status
+            status,
+            title
           },
           { abortEarly: false }
         );
         await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, updatedtask);
-        setTitle('');
+
         setName('');
         setLastname('');
         setGender('');
         setDept('');
         setDesi('');
         seteMail('');
-
         setMob('');
-        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), setJoin('');
+        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''),
+        //  setPassword(''), setconfirmPassword(''), 
+         setJoin('');
         setReport('');
         setDob('');
-       
         setFathername('');
         setNationality('');
         setPlaceofbirth('');
         setReligion('');
         setType('');
         setStatus('');
+        setTitle('');
 
         Swal.fire({
           icon: 'success',
@@ -337,16 +338,13 @@ const EmployeeForm = () => {
     } else {
       try {
         const task = {
-          title,
           name,
           lastname,
           gender,
           email,
-          
+          // password,
+          // confirmPassword,
           dob,
-        
-          fathername,
-          nationality,
           mob,
           altmob,
           dept,
@@ -356,17 +354,19 @@ const EmployeeForm = () => {
           bloodgroup,
           join,
           report,
-          placeofbirth,
-          religion,
-          type,
-          status
+          fathername,
+            nationality,
+            placeofbirth,
+            religion,
+            type,
+            status,
+            title
           // employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
 
         await validationSchema.validate(
           {
-            title,
             name,
             lastname,
             gender,
@@ -374,11 +374,12 @@ const EmployeeForm = () => {
             dept,
             desi,
             email,
-            peremail,
             mob,
             peraddress,
             temaddress,
             bloodgroup,
+            // password,
+            // confirmPassword,
             join,
             report,
             dob,
@@ -387,30 +388,32 @@ const EmployeeForm = () => {
             placeofbirth,
             religion,
             type,
-            status
+            status,
+            title
           },
           { abortEarly: false }
         );
         await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
-        setTitle('');
+
         setName('');
         setLastname('');
         setGender('');
         setDept('');
         setDesi('');
         seteMail('');
-       
         setMob('');
-        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), setJoin('');
+        setaltMob(''), setperAddress(''), settemAddress(''), setBloodgroup(''), 
+        // setPassword(''), setconfirmPassword(''), 
+        setJoin('');
         setReport('');
         setDob('');
-      
         setFathername('');
         setNationality('');
         setPlaceofbirth('');
         setReligion('');
         setType('');
         setStatus('');
+        setTitle('');
         Swal.fire({
           icon: 'success',
           text: 'Employee Information'
