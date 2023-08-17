@@ -16,7 +16,6 @@ export const BasicTable = () => {
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
     setedata(res.data.reverse());
-    console.log(edata[3]);
   };
   useEffect(() => {
     fetchEmployees();
@@ -73,13 +72,13 @@ export const BasicTable = () => {
         exportButton: true,
         exportCsv: exportCsv,
         grouping: true,
-        rowStyle: {
-          backgroundColor: '#EEE',
-        },
-        headerStyle: {
-          backgroundColor: '#01579b',
-          color: '#FFF'
-        }
+        // rowStyle: {
+        //   backgroundColor: '#EEE',
+        // },
+        // headerStyle: {
+        //   backgroundColor: '#01579b',
+        //   color: '#FFF'
+        // }
         
       }}
     />
