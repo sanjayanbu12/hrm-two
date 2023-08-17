@@ -33,7 +33,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility'
 const RecruitmentTable = () => {
   const [recruitmentList, setRecruitmentList] = useState([])
   const [loader, setLoader] = useState(true)
-  // const [open, setOpen] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [search, setSearch] = useState('')
   const [sortDirection, setSortDirection] = useState('asc')
@@ -63,13 +62,9 @@ const RecruitmentTable = () => {
   const handleView= (id) => {
     console.log(id + 'job id');
     const selectedId = recruitmentList.find((item) => item.id === id);
-    // setSelectedJob(selectedId);
     navigate(`/views/${id}`, { state: { data: selectedId } });
   };
-
-  const handleClose = () => {
-    setOpen(false)
-  }
+  
 
   const handleSearch = e => {
     setSearch(e.target.value)
@@ -100,7 +95,7 @@ const RecruitmentTable = () => {
   }
 
   const handleDelete = id => {
-    handleClose()
+   
 
     const deletejob = recruitmentList.find(item => item._id == id)
 
@@ -119,7 +114,7 @@ const RecruitmentTable = () => {
         try {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
           await fetchData()
-          handleClose()
+         
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
