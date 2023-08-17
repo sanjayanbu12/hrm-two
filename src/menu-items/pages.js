@@ -123,7 +123,7 @@ const pages = {
         },
         {
           id: 'approveleave',
-          title: 'ApproveLeave',
+          title: 'Approve Leave',
           type: 'item',
           url: '/approveleave'
         },
