@@ -80,18 +80,6 @@ const pages = {
           type: 'item',
           url: '/newemployee'
         },
-        {
-          id: 'employeelist',
-          title: 'Employee Information',
-          type: 'item',
-          url: '/newemployee'
-        },
-         {
-          id: 'employeelist',
-          title: 'Employee Information',
-          type: 'item',
-          url: '/newemployee'
-        },
          {
           id: 'employeelist',
           title: 'Employee Information Management',
