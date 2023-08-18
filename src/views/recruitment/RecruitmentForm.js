@@ -690,7 +690,7 @@ const RecruitmentForm = () => {
                   id="demo-simple-select"
                   label="Year of Passing"
                   value={Year}
-                  type='number'
+                  type='value'
                   error={errors && errors.Year}
                   helperText={errors && errors.Year}
                   onChange={(e) => handleYear(e)}
