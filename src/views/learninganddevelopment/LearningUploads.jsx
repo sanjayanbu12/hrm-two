@@ -155,7 +155,7 @@ const LearningUploads = ({ onUpload }) => {
                   style={{ display: 'none' }}
                   onChange={handleImageUpload}
                 />
-                <Button variant="outlined" component="span">
+                <Button variant="outlined" component="span" color="secondary">
                   Choose Image
                 </Button>
                 {formData.image && (
@@ -203,7 +203,7 @@ const LearningUploads = ({ onUpload }) => {
                   style={{ display: 'none' }}
                   onChange={handleVideoUpload}
                 />
-                <Button variant="outlined" component="span">
+                <Button variant="outlined" component="span" color="secondary">
                   Choose Video
                 </Button>
                 {formData.videos && (
@@ -219,7 +219,7 @@ const LearningUploads = ({ onUpload }) => {
               </label>
             </Grid>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="primary">
+              <Button type="submit" variant="contained" color="secondary">
                 Upload Course
               </Button>
             </Grid>
