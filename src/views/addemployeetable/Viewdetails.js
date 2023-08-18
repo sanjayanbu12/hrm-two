@@ -63,7 +63,7 @@ const Viewdetails = () => {
 
   return (
     <div>
-      <MainCard title="Employee Information">
+      <MainCard title="Employee Details">
         <Button
           onClick={() => Edit(employeedetails._id)}
           sx={{

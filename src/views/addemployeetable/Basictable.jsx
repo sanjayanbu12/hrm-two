@@ -62,10 +62,9 @@ const navigate=useNavigate()
     link.setAttribute('download', 'employee_data.csv');
     link.click();
   };
-
   return (
     <MaterialTable
-      title="Employee Table"
+    title={<div style={{ fontWeight: 'bold' ,fontSize:'20px'}}>Employee Table</div>}
       columns={columns}
       data={edata}
       icons={tableIcons}
@@ -75,16 +74,16 @@ const navigate=useNavigate()
           tooltip: 'View Details',
           onClick: (event, rowData) => handleView(event,rowData)
         },
-        {
-          icon: tableIcons.Clear,
-          tooltip: 'Edit',
-          onClick: (event, rowData) => alert(rowData.map(x=>x.name))
-        },
-        {
-          icon: tableIcons.Delete,
-          tooltip: 'Delete User',
-          onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
-        }
+        // {
+        //   icon: tableIcons.Clear,
+        //   tooltip: 'Edit',
+        //   onClick: (event, rowData) => alert(rowData.map(x=>x.name))
+        // },
+        // {
+        //   icon: tableIcons.Delete,
+        //   tooltip: 'Delete User',
+        //   onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
+        // }
       ]}
       options={{
         actionsColumnIndex: 6,
@@ -92,7 +91,13 @@ const navigate=useNavigate()
         exportCsv: exportCsv,
         grouping: true,
         selection:true
-        
+        // rowStyle: {
+        //   backgroundColor: '#EEE',
+        // },
+        // headerStyle: {
+        //   backgroundColor: '#01579b',
+        //   color: '#FFF'
+        // }
       }}
     />
   );

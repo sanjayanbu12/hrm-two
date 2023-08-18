@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './newevent.css';
-import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem , Select ,FormControl,InputLabel  } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextArea from 'antd/es/input/TextArea';
 import MainCard from 'ui-component/cards/MainCard';
@@ -20,9 +20,11 @@ function Newevent() {
   const [endDate, setEndDate] = useState('');
   const [eventLink, setEventLink] = useState('');
   const [description, setDescription] = useState('');
+  const [location, setLocation] = useState('');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
 console.log(selectedDate);
+
 
   useEffect(() => {
     const storedEvents = localStorage.getItem('events');
@@ -48,6 +50,9 @@ console.log(selectedDate);
     setSelectedDate(arg.date);
     setOpen(true);
   };
+  const handleLocationChange = (e) => {
+    setLocation(e.target.value);
+  };
 
   const handleCreateEvent = () => {
     if (eventTitle && startDate && endDate && startTime && endTime) {
@@ -65,6 +70,7 @@ console.log(selectedDate);
         start: startDateTime,
         end: endDateTime,
         eventLink: eventLink,
+        location:location,
         description: description
       };
 
@@ -83,15 +89,24 @@ console.log(selectedDate);
     setStartDate('');
     setEndDate('');
     setEventLink('');
+    setLocation('');
     setDescription('');
+  };
+  const locationNames = {
+    location1: 'Coimbatore',
+    location2: 'Bangalore',
+    location3: 'Chennai'
   };
 
   const eventContent = (eventInfo) => {
     return (
       <>
-        <div>{eventInfo.timeText}</div>
-        <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
-        {eventInfo.event.extendedProps.eventLink && (
+         <div>{eventInfo.timeText}</div>
+      <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
+      {eventInfo.event.extendedProps.location && (
+        <div style={{ color: '#ffffff' }}>{locationNames[eventInfo.event.extendedProps.location]}</div>
+      )}
+      {eventInfo.event.extendedProps.eventLink && (
           <a
             href={eventInfo.event.extendedProps.eventLink}
             target="_blank"
@@ -135,7 +150,7 @@ console.log(selectedDate);
                 fullWidth
                 value={eventTitle}
                 onChange={(e) => setEventTitle(e.target.value)}
-                sx={{ width: '330px', marginBottom: '16px' }}
+                sx={{ width: '335px', marginBottom: '12px' }}
               />
 
               <Grid container spacing={2}>
@@ -151,7 +166,7 @@ console.log(selectedDate);
                       fullWidth
                       value={startDate}
                       onChange={(e) => setStartDate(e.target.value)}
-                      sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
+                      sx={{ width: '150px', marginRight: '16px' }}
                     />
                   </div>
                 </Grid>
@@ -167,7 +182,7 @@ console.log(selectedDate);
                       fullWidth
                       value={endDate}
                       onChange={(e) => setEndDate(e.target.value)}
-                      sx={{ width: '150px', marginBottom: '16px' }}
+                      sx={{ width: '150px' }}
                     />
                   </div>
                 </Grid>
@@ -186,7 +201,7 @@ console.log(selectedDate);
                       type="time"
                       value={startTime}
                       onChange={(e) => setStartTime(e.target.value)}
-                      sx={{ width: '150px', marginBottom: '16px', marginRight: '16px' }}
+                      sx={{ width: '150px', marginRight: '16px' }}
                     />
                   </div>
                 </Grid>
@@ -213,9 +228,22 @@ console.log(selectedDate);
                 fullWidth
                 value={eventLink}
                 onChange={(e) => setEventLink(e.target.value)}
-                sx={{ width: '330px', marginBottom: '16px' }}
+                sx={{ width: '335px', marginBottom: '12px' }}
               />
 
+<FormControl fullWidth sx={{ width: '335px', marginBottom: '12px' }}>
+        <InputLabel id="location-label">Location</InputLabel>
+        <Select
+          labelId="location-label"
+          value={location}
+          onChange={handleLocationChange}
+          label="Location"
+        >
+          <MenuItem value="location1">Coimbatore</MenuItem>
+          <MenuItem value="location2">Bangalore</MenuItem>
+          <MenuItem value="location3">Chennai</MenuItem>
+        </Select>
+      </FormControl>
               <TextArea
                 margin="dense"
                 label="Description"
