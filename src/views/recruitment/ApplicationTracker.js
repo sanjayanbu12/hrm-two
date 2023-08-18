@@ -11,6 +11,7 @@ import {
   Tooltip,
   Checkbox,
   TableSortLabel,
+  Button,
 } from '@mui/material';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
@@ -156,7 +157,22 @@ const ApplicationTracker = () => {
 
   return (
     <MainCard title="Application Tracker">
-      <CSVLink data={Data}>Export</CSVLink>
+      <CSVLink data={Data}>
+       <Button
+        sx={{
+          position: 'absolute',
+          top: '128px',
+          right: '50px',
+          color: '#5e35b1',
+          '&:hover': {
+            backgroundColor: '#ede7f6',
+          },
+        }}
+        
+      >
+       Export Excel
+      </Button></CSVLink>
+     
       <TableContainer component={Paper}>
         {loader ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100vh">

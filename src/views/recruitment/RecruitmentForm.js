@@ -255,7 +255,8 @@ const RecruitmentForm = () => {
   };
 
   const handleOtherEducation = (e) => {
-    setOtherEducation(e.target.value);
+    const edu=e.target.value;
+    setOtherEducation(edu);
     setErrors((prev) => ({
       ...prev,
       OtherEducation: ''
@@ -673,6 +674,7 @@ const RecruitmentForm = () => {
       id="other-education"
       label="Other Education"
       value={OtherEducation}
+      type='value'
       onChange={(e) => handleOtherEducation(e)}
       error={errors && errors.OtherEducation}
       helperText={errors && errors.OtherEducation}

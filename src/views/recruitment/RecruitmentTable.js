@@ -29,6 +29,7 @@ import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridMenuIco
 import Swal from 'sweetalert2'
 import { AddCircleOutlineOutlined, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import { CSVLink } from 'react-csv'
 
 const RecruitmentTable = () => {
   const [recruitmentList, setRecruitmentList] = useState([])
@@ -241,10 +242,12 @@ const RecruitmentTable = () => {
                     <AddCircleOutlineOutlined fontSize='small' sx={{ marginRight: '10px' }} />
                     Add New
                   </MenuItem>
-                  <MenuItem>
+                  <CSVLink data={recruitmentList} style={{textDecoration:'none',color:'black'}}>
+                  <MenuItem >
+
                     <DownloadForOfflineOutlined fontSize='small' color='success' sx={{ marginRight: '10px' }} />
                     Export Excel
-                  </MenuItem>
+                  </MenuItem></CSVLink>
                   <MenuItem>
                     <DownloadForOfflineOutlined fontSize='small' color='primary' sx={{ marginRight: '10px' }} />
                     Export Pdf

@@ -6,6 +6,9 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useEffect } from 'react'
 import axios from 'axios'
+import { Facebook, LinkedIn } from '@mui/icons-material'
+
+
 
 
 
@@ -13,7 +16,7 @@ const RecruitmentView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
   const { id } = useParams();
-  const navigate=useNavigate();
+  const navigate =useNavigate();
 
   useEffect(() => {
     fetchData()
@@ -32,11 +35,44 @@ const RecruitmentView = () => {
       console.log(error)
     }
   }
-
-  console.log(selectedJob + " selected Data")
-
+    // const handleTwitterShare = () => {
+    //   if (selectedJob) {
+    //     const shareText = `Check out this job opportunity
+    //     jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company} 
+    //     Location: ${selectedJob.Location} 
+    //     Job opening: ${selectedJob.Openings}`;
+    //     const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+        
+    //     window.open(shareUrl, '_blank');
+    //   }
+    // }      
   
-  
+    const handleLinkedInShare = () => {
+      if (selectedJob) {
+        const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
+        const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+          window.location.href
+        )}&title=${encodeURIComponent(selectedJob.Jobrole)}&summary=${encodeURIComponent(
+          shareText
+        )}`;
+        
+        window.open(shareUrl, '_blank');
+      }
+    }
+    
+    
+     
+  const handleFacebookShare = () => {
+    if (selectedJob) {
+      const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
+      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        window.location.href
+      )}&quote=${encodeURIComponent(shareText)}`;
+
+      window.open(shareUrl, '_blank');
+    }
+  };
+
   return (
     
   <div>
@@ -58,7 +94,34 @@ const RecruitmentView = () => {
       >
        Back
       </Button>
-
+      <LinkedIn
+          onClick={handleLinkedInShare}
+          sx={{
+            position: 'absolute',
+            top: '134px',
+            right: '120px',
+            color: '#1877F2', 
+            '&:hover': {
+              backgroundColor: '#e7f2fe',
+            },
+          }}
+        >
+          </LinkedIn >
+    
+      <Facebook
+          onClick={handleFacebookShare}
+          sx={{
+            position: 'absolute',
+            top: '134px',
+            right: '150px',
+            color: '#1877F2', 
+            '&:hover': {
+              backgroundColor: '#e7f2fe',
+            },
+          }}
+        >
+          </Facebook >
+       
 
      
         {selectedJob && (
