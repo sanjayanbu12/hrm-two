@@ -4,6 +4,8 @@ import Avatar from '@mui/material/Avatar';
 import React from 'react';
 import OrgChart from 'react-orgchart';
 import 'react-orgchart/index.css';
+// import { useState } from 'react';
+// import { Button, ButtonGroup } from '@material-ui/core';
 // import './custom-orgchart.css';
 const ApprovalMems = {
   name: 'ManagerX',
@@ -40,7 +42,7 @@ const ApprovalMems = {
       imgUrl:
         'https://plus.unsplash.com/premium_photo-1663954645655-b5890232b10f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1434&q=80',
       email: 'xyz@gmail.com',
-      Role: 'TL',
+      Role: 'TL'
     }
   ]
 };
@@ -54,6 +56,7 @@ const MyNodeComponent = ({ node }) => {
       handleInteraction();
     }
   };
+  // const [approved,setApproved]=useState(false)
   return (
     <div style={{ gap: '30px' }}>
       <Card
@@ -70,7 +73,7 @@ const MyNodeComponent = ({ node }) => {
           flexDirection: 'column',
           gap: '1em',
           marginRight: '1rem',
-          position: 'relative',
+          position: 'relative'
         }}
       >
         <Box sx={{ display: 'flex', marginRight: '20px' }}>
@@ -100,6 +103,11 @@ const MyNodeComponent = ({ node }) => {
         >
           <Avatar sx={{ height: '50px', width: '50px' }} alt="Remy Sharp" src={node.imgUrl} />
         </Box>
+        <Box sx={{display:'flex',gap:'10px'}}>
+        <button>Approve</button>
+          <button>Reject</button>
+        </Box>
+          
       </Card>
     </div>
   );
