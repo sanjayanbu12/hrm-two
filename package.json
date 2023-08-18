@@ -64,7 +64,7 @@
     "redux": "^4.2.1",
     "redux-persist": "^6.0.0",
     "styled-components": "^5.3.11",
-    "sweetalert2": "^11.4.8",
+    "sweetalert2": "^11.7.23",
     "yup": "^0.32.11"
   },
   "scripts": {

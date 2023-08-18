@@ -1,21 +1,29 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import MainCard from 'ui-component/cards/MainCard';
-import { TextField, Button, Grid, Paper } from '@mui/material';
+import { TextField, Button, Grid, Paper, Typography } from '@mui/material';
 
 const LearningUploads = ({ onUpload }) => {
   const [formData, setFormData] = useState({
     image: null,
     courseName: '',
     courseDescription: '',
-    video: null
+    videos: null,
   });
+
+  const [formErrors, setFormErrors] = useState({});
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [name]: value
+      [name]: value,
+    }));
+
+    setFormErrors((prevFormErrors) => ({
+      ...prevFormErrors,
+      [name]: '',
     }));
   };
 
@@ -23,7 +31,12 @@ const LearningUploads = ({ onUpload }) => {
     const file = event.target.files[0];
     setFormData((prevFormData) => ({
       ...prevFormData,
-      image: file
+      image: file,
+    }));
+
+    setFormErrors((prevFormErrors) => ({
+      ...prevFormErrors,
+      image: '',
     }));
   };
 
@@ -31,27 +44,98 @@ const LearningUploads = ({ onUpload }) => {
     const file = event.target.files[0];
     setFormData((prevFormData) => ({
       ...prevFormData,
-      video: file
+      videos: file,
     }));
+
+    setFormErrors((prevFormErrors) => ({
+      ...prevFormErrors,
+      videos: '',
+    }));
+  };
+
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.image) {
+      errors.image = 'Image is required';
+    }
+    if (!formData.courseName) {
+      errors.courseName = 'Course Name is required';
+    }
+    if (!formData.courseDescription) {
+      errors.courseDescription = 'Course Description is required';
+    }
+    if (!formData.videos) {
+      errors.videos = 'Video is required';
+    }
+
+    setFormErrors(errors);
+    return Object.keys(errors).length === 0;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (!validateForm()) {
+      return;
+    }
+
+    // Ask for confirmation
+    const confirmationResult = await Swal.fire({
+      title: 'Confirm Upload',
+      text: 'Are you sure you want to upload this course?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, upload it!',
+      cancelButtonText: 'Cancel',
+    });
+
+    if (!confirmationResult.isConfirmed) {
+      return;
+    }
+
     try {
       const data = new FormData();
-      data.append('image', formData.image);
+      data.append('videos', formData.videos);
       data.append('courseName', formData.courseName);
       data.append('courseDescription', formData.courseDescription);
-      data.append('video', formData.video);
+      data.append('image', formData.image);
 
-      // Replace 'YOUR_BACKEND_URL/api/upload' with your actual upload endpoint
-      const response = await axios.post('http://localhost:3001/learn/upload', data);
+      const response = await axios.post('http://localhost:3001/media/create', data);
 
       console.log('Data uploaded successfully', response);
-      onUpload(formData); // Notify parent component about the successful upload
+
+      // Check if onUpload is a function before calling it
+      if (typeof onUpload === 'function') {
+        onUpload(formData);
+      }
+      setFormData({
+        image: null,
+        courseName: '',
+        courseDescription: '',
+        videos: null,
+      });
+  
+      setFormErrors({});
+
+      // Display success notification
+      Swal.fire({
+        icon: 'success',
+        title: 'Course Uploaded',
+        text: 'Your course has been successfully uploaded.',
+
+        
+      });
+      
     } catch (error) {
       console.error('Error uploading data:', error);
+
+      // Display error notification
+      Swal.fire({
+        icon: 'error',
+        title: 'Upload Failed',
+        text: error.message,
+      });
     }
   };
 
@@ -74,6 +158,16 @@ const LearningUploads = ({ onUpload }) => {
                 <Button variant="outlined" component="span">
                   Choose Image
                 </Button>
+                {formData.image && (
+                  <Typography variant="body2">
+                    {formData.image.name}
+                  </Typography>
+                )}
+                {formErrors.image && (
+                  <Typography variant="caption" color="error">
+                    {formErrors.image}
+                  </Typography>
+                )}
               </label>
             </Grid>
             <Grid item xs={12}>
@@ -82,6 +176,8 @@ const LearningUploads = ({ onUpload }) => {
                 name="courseName"
                 label="Course Name"
                 onChange={handleInputChange}
+                error={!!formErrors.courseName}
+                helperText={formErrors.courseName}
               />
             </Grid>
             <Grid item xs={12}>
@@ -92,6 +188,8 @@ const LearningUploads = ({ onUpload }) => {
                 multiline
                 rows={4}
                 onChange={handleInputChange}
+                error={!!formErrors.courseDescription}
+                helperText={formErrors.courseDescription}
               />
             </Grid>
             <Grid item xs={12}>
@@ -101,13 +199,23 @@ const LearningUploads = ({ onUpload }) => {
                   id="video-input"
                   type="file"
                   accept="video/*"
-                  name="video"
+                  name="videos"
                   style={{ display: 'none' }}
                   onChange={handleVideoUpload}
                 />
                 <Button variant="outlined" component="span">
                   Choose Video
                 </Button>
+                {formData.videos && (
+                  <Typography variant="body2">
+                    {formData.videos.name}
+                  </Typography>
+                )}
+                {formErrors.videos && (
+                  <Typography variant="caption" color="error">
+                    {formErrors.videos}
+                  </Typography>
+                )}
               </label>
             </Grid>
             <Grid item xs={12}>
