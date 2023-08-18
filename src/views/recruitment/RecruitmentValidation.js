@@ -11,6 +11,13 @@ export const validationSchema = yup.object().shape({
   Skills: yup.string().required('Skills is required'),
   Education: yup.string().required('Education is required'),
   Location: yup.string().required('Location is required'),
-  Year: yup.string().required('Year is required')
+  Year: yup.string().required('Year is required'),
+  Clientname: yup.string().required('Clientname is required'),
+  Clientcompany: yup.string().required('Client Company is required'),
+  Hrname: yup.string().required('HR Name is required'),
+  Hrcontact: yup.string().required('HR Contact is required'),
+  Interview: yup.string().required('Interview is required'),
+Interviewrounds: yup.string().required('Interview Rounds is required'),
+
 });
 export default validationSchema;

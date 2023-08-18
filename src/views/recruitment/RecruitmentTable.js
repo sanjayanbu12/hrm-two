@@ -12,29 +12,28 @@ import {
   Button,
   Box,
   CircularProgress,
-  Dialog,
-  DialogTitle,
-  DialogContent,
+ 
   Typography,
   TextField,
   InputAdornment,
   Tooltip,
   Pagination,
-  Popover
+  Popover,
+  MenuItem,
+  Menu
 } from '@mui/material'
 import axios from 'axios'
-import AddIcon from '@mui/icons-material/Add'
 import { useTheme } from '@mui/material/styles'
 import { useNavigate } from 'react-router'
-import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridSearchIcon } from '@mui/x-data-grid'
+import { GridArrowDownwardIcon, GridArrowUpwardIcon, GridDeleteIcon, GridMenuIcon, GridSearchIcon } from '@mui/x-data-grid'
 import Swal from 'sweetalert2'
-import { Edit } from '@mui/icons-material'
+import { AddCircleOutlineOutlined, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
+import { CSVLink } from 'react-csv'
 
 const RecruitmentTable = () => {
   const [recruitmentList, setRecruitmentList] = useState([])
   const [loader, setLoader] = useState(true)
-  const [open, setOpen] = useState(false)
   const [selectedJob, setSelectedJob] = useState(null)
   const [search, setSearch] = useState('')
   const [sortDirection, setSortDirection] = useState('asc')
@@ -43,6 +42,7 @@ const RecruitmentTable = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const rowsPerPage = 5
   const [anchorEl, setAnchorEl] = useState(null)
+  const [anchorEl1, setAnchorEl1] = useState(null)
 
   useEffect(() => {
     fetchData()
@@ -60,15 +60,12 @@ const RecruitmentTable = () => {
     }
   }
 
-  const handleView = id => {
-    const job = recruitmentList.find(item => item._id === id)
-    setSelectedJob(job)
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-  }
+  const handleView= (id) => {
+    console.log(id + 'job id');
+    const selectedId = recruitmentList.find((item) => item.id === id);
+    navigate(`/views/${id}`, { state: { data: selectedId } });
+  };
+  
 
   const handleSearch = e => {
     setSearch(e.target.value)
@@ -99,10 +96,15 @@ const RecruitmentTable = () => {
   }
 
   const handleDelete = id => {
-    handleClose()
+   
+
+    const deletejob = recruitmentList.find(item => item._id == id)
+
+    const Text = `Confirming removal of this  <span style="color: red; text-transform: capitalize;">${deletejob.Jobrole}</span> opening from this list, permanently?`
+
     Swal.fire({
       icon: 'warning',
-      text: 'Are you sure you want to delete this recruitment?',
+      html: Text,
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -113,7 +115,7 @@ const RecruitmentTable = () => {
         try {
           await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
           await fetchData()
-          handleClose()
+         
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
@@ -135,6 +137,14 @@ const RecruitmentTable = () => {
     setAnchorEl(null)
   }
 
+  const handleOpenMenu = e => {
+    setAnchorEl1(e.currentTarget)
+  }
+
+  const handleCloseMenu = () => {
+    setAnchorEl1(null)
+  }
+
   const filteredJobs = recruitmentList.filter(job => {
     const lowerSearchText = search.toLowerCase()
     return Object.values(job).some(value => value && value.toString().toLowerCase().includes(lowerSearchText))
@@ -150,68 +160,102 @@ const RecruitmentTable = () => {
 
   return (
     <MainCard title='Job Description Table'>
-      {loader ? (
-        <Box display='flex' justifyContent='center' alignItems='center' height='100vh'>
-          <CircularProgress />
-        </Box>
-      ) : (
-        <div>
-          <Box>
-            <Grid container spacing={2}>
-              <Grid xs={9} sx={{ marginLeft: '30px' }}>
-                <TextField
-                  sx={{
-                    width: '57px',
-                    height: '0px',
-                    transition: 'width 2s ease-in-out',
-                    '&:hover': { width: '240px' }
+        {loader ? (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress />
+      </Box>
+    ) : (
+      <div>
+        <Box display="flex" alignItems="center" justifyContent="flex-end"> 
+          <Grid container spacing={2}>
+            <Grid xs={12} sm={6} md={6} lg={6}> 
+              <TextField
+                sx={{
+                  width: '57px',
+                  height: '0px',
+                  marginLeft:'22px',
+                  transition: 'width 2s ease-in-out',
+                  '&:hover': { width: '240px' }
+                }}
+                label="Search"
+                variant="outlined"
+                color="info"
+                value={search}
+                onChange={handleSearch}
+                size="small"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      sx={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                      }}
+                    >
+                      <GridSearchIcon color="primary" />
+                    </InputAdornment>
+                  )
+                }}
+              />
+            </Grid>
+            <Grid xs={12} sm={3} md={2} lg={2}> 
+            <Tooltip title="Menu">
+              <GridMenuIcon 
+                onClick={handleOpenMenu}
+                sx={{
+                  fontSize: '10',
+                  width: '40px',
+                  height: '35px',
+                  borderRadius: '8px',
+                  marginLeft:'360px',
+                  padding: 0.6,
+                  background: '#ede7f6',
+                  color: '#5e35b1',
+                  cursor: 'pointer',
+                  '&:hover': {
+                    color: theme.palette.secondary.light,
+                    background: '#5e35b1',
+                    
+                  }
+                }}
+              ></GridMenuIcon></Tooltip>
+              <Menu
+                  sx={{ marginLeft: '10px','&:hover': { cursor: 'pointer' }}}
+                  anchorEl={anchorEl1}
+                  open={Boolean(anchorEl1)}
+                  onClose={handleCloseMenu}
+                  anchorOrigin={{
+                    vertical: 'top',
+                    horizontal: 'right'
                   }}
-                  label='Search'
-                  variant='outlined'
-                  color='info'
-                  value={search}
-                  onChange={handleSearch}
-                  size='small'
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment
-                        position='start'
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
-                      >
-                        <GridSearchIcon color='primary' />
-                      </InputAdornment>
-                    )
-                  }}
-                />
-              </Grid>
-              <Grid xs={2} sx={{ marginLeft: '15px' }}>
-                <Button
-                  onClick={() => {
-                    navigate('/jobform')
-                  }}
-                  sx={{
-                    width: '200px',
-                    height: '40px',
-                    borderRadius: '10px',
-                    padding: 0.6,
-                    background: '#673ab7',
-                    color: '#efebe9',
-                    '&:hover': {
-                      color: theme.palette.secondary.light,
-                      background: '#673ab7'
-                    }
+                  transformOrigin={{
+                    vertical: 'center',
+                    horizontal: 'Right'
                   }}
                 >
-                  <AddIcon />
-                  Add New
-                </Button>
-              </Grid>
+                  <MenuItem
+                    onClick={() => {
+                      navigate('/jobform')
+                    }}
+                  >
+                    <AddCircleOutlineOutlined fontSize='small' sx={{ marginRight: '10px' }} />
+                    Add New
+                  </MenuItem>
+                  <CSVLink data={recruitmentList} style={{textDecoration:'none',color:'black'}}>
+                  <MenuItem >
+
+                    <DownloadForOfflineOutlined fontSize='small' color='success' sx={{ marginRight: '10px' }} />
+                    Export Excel
+                  </MenuItem></CSVLink>
+                  <MenuItem>
+                    <DownloadForOfflineOutlined fontSize='small' color='primary' sx={{ marginRight: '10px' }} />
+                    Export Pdf
+                  </MenuItem>
+                </Menu>
             </Grid>
-          </Box>
+          </Grid>
+        </Box>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               {recruitmentList.length > 0 ? (
@@ -246,6 +290,7 @@ const RecruitmentTable = () => {
                               onClick={e => handleClick(x._id, e)}
                               sx={{
                                 cursor: 'pointer',
+                                textTransform: 'capitalize',
                                 '&:hover': { color: 'black' }
                               }}
                             >
@@ -309,90 +354,6 @@ const RecruitmentTable = () => {
           </Grid>
         </div>
       )}
-      <Dialog open={open} onClose={handleClose} maxWidth='md' fullWidth>
-        {selectedJob && (
-          <>
-            <Box
-              sx={{
-                display: 'flex',
-                justifyContent: 'center',
-                background: '#2196f3',
-                marginBottom: '1px'
-              }}
-            >
-              <DialogTitle variant='h2' align='center'>
-                Job Description Details
-              </DialogTitle>
-            </Box>
-            <Box sx={{ backgroundColor: '#f5f5f5' }}>
-              <DialogContent>
-                <Box>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Job Role</b>
-                    <b style={{ marginLeft: '223px', paddingRight: '10px' }}>:</b>
-                    {selectedJob.Jobrole}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b>No. of Openings</b>
-                    <b style={{ marginLeft: '178px', paddingRight: '10px' }}>:</b> {selectedJob.Openings}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Company</b>
-                    <b style={{ marginLeft: '220px', paddingRight: '10px' }}>:</b> {selectedJob.Company}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Location</b>
-                    <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Location}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Worktype</b>
-                    <b style={{ marginLeft: '221px', paddingRight: '10px' }}>:</b> {selectedJob.Worktype}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Qualification</b>
-                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b> {selectedJob.Education}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Year of Passing</b>
-                    <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b>{' '}
-                    {!selectedJob.Year ? <span>Not Mentioned </span> : selectedJob.Year}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Experience</b>
-                    <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom} to{' '}
-                    {selectedJob.ExperienceTo} Years
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Description</b>
-                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b>
-                    {selectedJob.Description}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> ApplicationLink</b>
-                    <b style={{ marginLeft: '183px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationLink}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Last Date to Apply</b>
-                    <b style={{ marginLeft: '168px', paddingRight: '10px' }}>:</b> {selectedJob.Deadline}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Application Count</b>
-                    <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationCount}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Selected</b>
-                    <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b> {selectedJob.SelectedCount}
-                  </Typography>
-                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> Remaining</b>
-                    <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
-                  </Typography>
-                </Box>
-              </DialogContent>
-            </Box>
-          </>
-        )}
-      </Dialog>
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}

@@ -24,6 +24,9 @@ import LearningandDevelopment from 'views/learninganddevelopment/LearningandDeve
 import Payroll from 'views/payroll/Payroll';
 import InterviewDetails from 'views/recruitment/InterviewDetails';
 import { BasicTable } from 'views/addemployeetable/Basictable';
+import RecruitmentView from 'views/recruitment/RecruitmentView';
+import ApplicationView from 'views/recruitment/ApplicationView';
+import BasicApptable from 'views/recruitment/BasicApptable';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -137,6 +140,18 @@ const MainRoutes = {
     {
       path: '/viewdetails/:employeeid',
       element: <Viewdetails />
+    },
+    {
+      path: '/view/:id',
+      element: <ApplicationView />
+    },
+    {
+      path: '/views/:id',
+      element: <RecruitmentView />
+    },
+    {
+      path: '/basicapptable',
+      element: <BasicApptable />
     },
     {
       path: '/newevent',

@@ -11,6 +11,7 @@ import {
   Tooltip,
   Checkbox,
   TableSortLabel,
+  Button,
 } from '@mui/material';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
@@ -19,16 +20,15 @@ import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Box } from '@mui/system';
 import MainCard from 'ui-component/cards/MainCard';
-import ApplicationView from './ApplicationView';
 import { CSVLink } from 'react-csv';
+import { useNavigate } from 'react-router';
 const ApplicationTracker = () => {
   const [Data, setData] = useState([]);
-  const [selectedJob, setSelectedJob] = useState(null);
-  const [open, setOpen] = useState(false);
   const [loader, setLoader] = useState(true);
   const [selectedItems, setSelectedItems] = useState([]);
   const [order, setOrder] = useState('asc');
   const [orderBy, setOrderBy] = useState('name');
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchData();
@@ -56,15 +56,14 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handleView = (id) => {
-    const job = Data.find((item) => item._id === id);
-    setSelectedJob(job);
-    setOpen(true);
+
+  const handleView= (id) => {
+    console.log(id + 'job id');
+    const selectedId = Data.find((item) => item.id === id);
+   
+    navigate(`/view/${id}`, { state: { data: selectedId } });
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   const handleResume = async (id, name) => {
     try {
@@ -158,7 +157,22 @@ const ApplicationTracker = () => {
 
   return (
     <MainCard title="Application Tracker">
-      <CSVLink data={Data}>Export</CSVLink>
+      <CSVLink data={Data}>
+       <Button
+        sx={{
+          position: 'absolute',
+          top: '128px',
+          right: '50px',
+          color: '#5e35b1',
+          '&:hover': {
+            backgroundColor: '#ede7f6',
+          },
+        }}
+        
+      >
+       Export Excel
+      </Button></CSVLink>
+     
       <TableContainer component={Paper}>
         {loader ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -243,7 +257,6 @@ const ApplicationTracker = () => {
                       />
                     </Tooltip>
                   </TableCell>
-                  <ApplicationView open={open} handleClose={handleClose} selectedJob={selectedJob} />
                 </TableRow>
               ))}
             </TableBody>
