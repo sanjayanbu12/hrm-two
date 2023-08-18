@@ -60,8 +60,8 @@ const MyNodeComponent = ({ node }) => {
         <Box
           sx={{
             position: 'absolute',
-            left: 30,
-            top: 30
+            left: 20,
+            top: 20
           }}
         >
           <Avatar sx={{ height: '50px', width: '50px' }} alt="Remy Sharp" src={node.imgUrl} />
@@ -82,7 +82,7 @@ const MyApprovalList = () => {
   const role = members.map(x => x.role);
 
   const approvalMemsArray = {
-    name: names[0], // Use the first name from the array
+    name: 'Manager ', // Use the first name from the array
     imgUrl:
       'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=870&q=80',
     email: email[0],

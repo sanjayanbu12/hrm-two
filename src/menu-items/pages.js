@@ -9,6 +9,7 @@ import AllOutIcon from '@mui/icons-material/AllOut';
 import PaidIcon from '@mui/icons-material/Paid';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CameraFrontIcon from '@mui/icons-material/CameraFront';
+import InsightsIcon from '@mui/icons-material/Insights';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -168,10 +169,10 @@ const pages = {
     },
     
     {
-      id: 'payroll',
-      title: 'Payroll',
+      id: 'Organisation Chart',
+      title: 'Organisation Chart',
       type: 'item',
-      icon: PaidIcon,
+      icon: InsightsIcon,
       url: '/payroll'
     }
 
