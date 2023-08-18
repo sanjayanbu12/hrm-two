@@ -61,6 +61,12 @@ const Upcomingevents = () => {
     { color: '#00ff00' },
  
   ];
+  const locationNames = {
+    location1: 'Coimbatore',
+    location2: 'Bangalore',
+    location3: 'Chennai'
+  };
+  
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
     hasPrev && (
@@ -224,12 +230,18 @@ const Upcomingevents = () => {
                             <EventAvailableIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '10px' }}>
+                            <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '5px' }}>
                               {event.title}
                             </Typography>
-                          </Grid>
+                            </Grid>
+   
+        <Grid item>
+          <Typography variant="body2" style={{ marginBottom: '5px' }}>
+            {locationNames[event.location]}
+          </Typography>
+        </Grid>
                           <Grid item>
-                            <Typography variant="body2" style={{ marginBottom: '10px' }}>
+                            <Typography variant="body2" style={{ marginBottom: '7px' }}>
                               {startMonth} {startDate.getDate()} - {endMonth} {endDate.getDate()}, {endDate.getFullYear()}
                             </Typography>
                           </Grid>

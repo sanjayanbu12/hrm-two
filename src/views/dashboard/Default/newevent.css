@@ -44,7 +44,7 @@
   
   .close-button
    {
-    background-color: #5e35b1;
+    background-color: #0095f8;
     color: white;
     padding: 10px;
     font-size: 16px;
@@ -54,11 +54,11 @@
     cursor: pointer;
   }
   .close-button:hover{
-    background-color: #5e35b1;
+    background-color: #0095f8;
   }
  
   .close-icon{
-  color: #5e35b1;
+  color: #0095f8;
   }
   
   .time-picker {
