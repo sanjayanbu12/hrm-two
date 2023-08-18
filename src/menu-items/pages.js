@@ -126,35 +126,35 @@ const pages = {
         }
       ]
     },
-    {
-      id: 'Learning & Development',
-      title: 'Learning & Development',
-      type: 'collapse',
-      icon: icons.AutoStoriesIcon,
+    // {
+    //   id: 'Learning & Development',
+    //   title: 'Learning & Development',
+    //   type: 'collapse',
+    //   icon: icons.AutoStoriesIcon,
 
-      children: [
+    //   children: [
       
-        {
-          id: 'Learning Uploads',
-          title: 'Learning Uploads',
-          type: 'item',
-          url: '/LearningUploads'
-        },
-        {
-          id: 'Learning Module',
-          title: 'Learning Module',
-          type: 'item',
-          url: '/LearningModule'
-        }
-        ,
-        {
-          id: 'CourseOverview',
-          title: 'Course Overview',
-          type: 'item',
-          url: '/CourseOverview'
-        }
-      ]
-    },
+    //     {
+    //       id: 'Learning Uploads',
+    //       title: 'Learning Uploads',
+    //       type: 'item',
+    //       url: '/LearningUploads'
+    //     },
+    //     {
+    //       id: 'Learning Module',
+    //       title: 'Learning Module',
+    //       type: 'item',
+    //       url: '/LearningModule'
+    //     }
+    //     ,
+    //     {
+    //       id: 'CourseOverview',
+    //       title: 'Course Overview',
+    //       type: 'item',
+    //       url: '/CourseOverview'
+    //     }
+    //   ]
+    // },
     {
       id: 'leavemanagement',
       title: 'Time and Attendance',
