@@ -9,6 +9,7 @@ import AllOutIcon from '@mui/icons-material/AllOut';
 import PaidIcon from '@mui/icons-material/Paid';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CameraFrontIcon from '@mui/icons-material/CameraFront';
+import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import InsightsIcon from '@mui/icons-material/Insights';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
@@ -19,6 +20,7 @@ const icons = {
   AssignmentOutlinedIcon,
   PermIdentityOutlinedIcon,
   AccountTreeOutlinedIcon,
+  AutoStoriesIcon,
   EventNoteIcon,
   AllOutIcon,
   PaidIcon,
@@ -96,6 +98,64 @@ const pages = {
       ]
     },
     {
+      id: 'Learning & Development',
+      title: 'Learning & Development',
+      type: 'collapse',
+      icon: icons.AutoStoriesIcon,
+
+      children: [
+      
+        {
+          id: 'Learning Uploads',
+          title: 'Learning Uploads',
+          type: 'item',
+          url: '/LearningUploads'
+        },
+        {
+          id: 'Learning Module',
+          title: 'Learning Module',
+          type: 'item',
+          url: '/LearningModule'
+        }
+        ,
+        {
+          id: 'CourseOverview',
+          title: 'Course Overview',
+          type: 'item',
+          url: '/CourseOverview'
+        }
+      ]
+    },
+    {
+      id: 'Learning & Development',
+      title: 'Learning & Development',
+      type: 'collapse',
+      icon: icons.AutoStoriesIcon,
+
+      children: [
+      
+        {
+          id: 'Learning Uploads',
+          title: 'Learning Uploads',
+          type: 'item',
+          url: '/LearningUploads'
+        },
+        {
+          id: 'Learning Module',
+          title: 'Learning Module',
+          type: 'item',
+          url: '/LearningModule'
+        }
+        ,
+        {
+          id: 'CourseOverview',
+          title: 'Course Overview',
+          type: 'item',
+          url: '/CourseOverview'
+        }
+      ]
+    },
+    {
       id: 'leavemanagement',
       title: 'Time and Attendance',
       type: 'collapse',
@@ -127,12 +187,6 @@ const pages = {
           type: 'item',
           url: '/approveleave'
         },
-        // {
-        //   id: '/leavecalendar',
-        //   title: 'leavecalendar',
-        //   type: 'item',
-        //   url: '/leavecalendar'
-        // },
       ]
     },
     
@@ -160,13 +214,6 @@ const pages = {
       url: '/performance'
     },
 
-    {
-      id: 'learninganddevelopment',
-      title: 'Learning & Development',
-      type: 'item',
-      icon: AllOutIcon,
-      url: '/learninganddevelopment'
-    },
     
     {
       id: 'Organisation Chart',
