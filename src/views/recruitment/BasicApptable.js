@@ -60,7 +60,7 @@ const navigate=useNavigate()
 
   return (
     <MaterialTable
-      title="Application Tracker"
+      title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Application Tracker</div>}
       columns={columns}
       data={Adata}
       icons={tableIcons}
