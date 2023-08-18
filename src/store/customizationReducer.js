@@ -11,7 +11,8 @@
     borderRadius: config.borderRadius,
     opened: true,
     isLoggedIn:false,
-    isAuthAdmin:false
+    isAuthAdmin:false,
+    members:[]
   };
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -59,6 +60,11 @@
         return {
           ...state,
           borderRadius: action.borderRadius
+        };
+      case actionTypes.ORG_MEM:
+        return {
+          ...state,
+          members:  action.payload
         };
       default:
         return state;
