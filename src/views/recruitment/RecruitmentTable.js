@@ -20,7 +20,7 @@ const RecruitmentTable = () => {
   const [Adata, setAdata] = useState([]);
   
 const navigate=useNavigate()
-  const fetchEmployees = async () => {
+  const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
     setAdata(res.data.getData);
     console.log(res.data.getData );
@@ -37,8 +37,9 @@ const navigate=useNavigate()
   }
 
   useEffect(() => {
-    fetchEmployees();
+    fetchData();
   }, []);
+
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
      JobID: item.uuid,
@@ -65,10 +66,13 @@ const navigate=useNavigate()
     link.click();
   };
  
-  const handleDelete = id => {
-   
+  const handleDelete =(e,rowdata) => {
+  const multidelete=rowdata.map(data=>data._id);
+  const Text = `Confirming removal of this  <span style="color: red; text-transform: capitalize;">${rowdata.map(item=>item.Jobrole)}</span> opening from this list, permanently?`
+
     Swal.fire({
       icon: 'warning',
+      html:Text,
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
@@ -77,9 +81,8 @@ const navigate=useNavigate()
     }).then(async result => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
-          await fetchData()
-         
+          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${multidelete[0]}`);
+          await fetchData();
           Swal.fire({
             icon: 'success',
             text: 'Recruitment deleted successfully.'
@@ -99,16 +102,18 @@ const navigate=useNavigate()
       data={Adata}
       icons={tableIcons}
       actions={[
-        {
+        rowData => ({
           icon: tableIcons.View,
           tooltip: 'View Details',
-          onClick: (event, rowData) => handleView(event,rowData)
-        },
-        {
+          onClick: (event, rowData) => handleView(event,rowData),
+          disabled: rowData.length != 1
+        }),
+       rowData=>( {
           icon: tableIcons.Edit,
           tooltip: 'Edit',
-          onClick: (event, rowData) => handleEdit(event,rowData)
-        },
+          onClick: (event, rowData) => handleEdit(event,rowData),
+          disabled: rowData.length != 1
+        }),
         {
           icon: tableIcons.Delete,
           tooltip: 'Delete User',

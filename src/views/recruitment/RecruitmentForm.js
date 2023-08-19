@@ -190,12 +190,16 @@ const RecruitmentForm = () => {
   };
 
   const handleHrcontact = (e) => {
-    setHrcontact(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      Hrcontact: ''
-    }));
+    const inputValue = e.target.value;
+    const validInput = /^(\+91\s)?\d{0,10}$/.test(inputValue);
+    if (validInput || inputValue === '') {
+      setHrcontact(inputValue);
+      setErrors((prevErrors) => ({ ...prevErrors, Hrcontact: '' }));
+    } else {
+      setErrors({ Hrcontact: 'Please enter a valid 10-digit phone number' });
+    }
   };
+  
    
   const handleInterview = (e) => {
     setInterview(e.target.value);
@@ -812,7 +816,6 @@ const RecruitmentForm = () => {
                   helperText={errors && errors.Hrcontact}
                   inputProps={{
                     maxLength:10,
-                    pattern:"[0-9]{10}"
                   }}
                   onChange={(e) => handleHrcontact(e)}
                 />
