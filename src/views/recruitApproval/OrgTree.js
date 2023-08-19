@@ -11,32 +11,31 @@ const StyledNode = styled.div`
 
 const OrgTree = () => {
   const members=useSelector(state=>state.customization.members)
-  const splicemembers=members.splice(0,8)
+  const mymems=members.splice(0,9)
+  console.log(mymems)
   return(
     <>
-    {splicemembers.map(data=>(
-      <Tree
-      lineWidth={'2px'}
-      lineColor={'green'}
-      lineBorderRadius={'10px'}
-      key={data._id}
-      label={<StyledNode>{data.name}</StyledNode>}
-    >
-      <TreeNode label={<StyledNode>Child 1</StyledNode>}>
-        <TreeNode label={<StyledNode>Grand Child</StyledNode>} />
+    
+    <Tree
+    lineWidth={'2px'}
+    lineColor={'green'}
+    lineBorderRadius={'10px'}
+    label={<StyledNode>Root</StyledNode>}
+  >
+    <TreeNode label={<StyledNode>Child 1</StyledNode>}>
+      <TreeNode label={<StyledNode>Grand Child</StyledNode>} />
+    </TreeNode>
+    <TreeNode label={<StyledNode>Child 2</StyledNode>}>
+      <TreeNode label={<StyledNode>Grand Child</StyledNode>}>
+        <TreeNode label={<StyledNode>Great Grand Child 1</StyledNode>} />
+        <TreeNode label={<StyledNode>Great Grand Child 2</StyledNode>} />
       </TreeNode>
-      <TreeNode label={<StyledNode>Child 2</StyledNode>}>
-        <TreeNode label={<StyledNode>Grand Child</StyledNode>}>
-          <TreeNode label={<StyledNode>Great Grand Child 1</StyledNode>} />
-          <TreeNode label={<StyledNode>Great Grand Child 2</StyledNode>} />
-        </TreeNode>
-      </TreeNode>
-      <TreeNode label={<StyledNode>Child 3</StyledNode>}>
-        <TreeNode label={<StyledNode>Grand Child 1</StyledNode>} />
-        <TreeNode label={<StyledNode>Grand Child 2</StyledNode>} />
-      </TreeNode>
-    </Tree>
-    ))}
+    </TreeNode>
+    <TreeNode label={<StyledNode>Child 3</StyledNode>}>
+      <TreeNode label={<StyledNode>Grand Child 1</StyledNode>} />
+      <TreeNode label={<StyledNode>Grand Child 2</StyledNode>} />
+    </TreeNode>
+  </Tree>
   </>
   )
 }
