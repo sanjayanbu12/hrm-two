@@ -86,7 +86,7 @@ const NavCollapse = ({ menu, level }) => {
         width: selected === menu.id ? 8 : 6,
         height: selected === menu.id ? 8 : 6
       }}
-      fontSize={level > 0 ? 'inherit' : 'medium'}
+     style={{ fontSize :level > 0 ? '8px' : '10px'}}
     />
   );
 
