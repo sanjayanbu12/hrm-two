@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
+import Swal from 'sweetalert2';
 const columns = [
  
   { title: 'Job ID', field: 'uuid' },
@@ -14,7 +15,7 @@ const columns = [
   { title: 'Deadline', field: 'Deadline' },
   
 ];
-const csvColumns = ['Job ID','Jobrole', 'No.of.Openings', 'Company', 'Location',' Qualification','Year of Passing','Skills','Experience','Application Link','Deadline'];
+const csvColumns = ['Job ID','Jobrole', 'No.of.Openings', 'Company', 'Location',' Worktype',' Qualification','Year of Passing','Skills','Experience','Application Link','Deadline'];
 const RecruitmentTable = () => {
   const [Adata, setAdata] = useState([]);
   
@@ -27,8 +28,14 @@ const navigate=useNavigate()
   const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])
-    navigate(`/view/${id[0]}`);
+    navigate(`/views/${id[0]}`);
   }
+  const handleEdit = async(e,data) =>{
+    const id=data.map(x=>x._id)
+    console.log(id[0])
+    navigate(`/jobform/${id[0]}`);
+  }
+
   useEffect(() => {
     fetchEmployees();
   }, []);
@@ -57,6 +64,33 @@ const navigate=useNavigate()
     link.setAttribute('download', 'employee_data.csv');
     link.click();
   };
+ 
+  const handleDelete = id => {
+   
+    Swal.fire({
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel'
+    }).then(async result => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
+          await fetchData()
+         
+          Swal.fire({
+            icon: 'success',
+            text: 'Recruitment deleted successfully.'
+          })
+        } catch (error) {
+          console.log('Error deleting recruitment:', error)
+        }
+      }
+    })
+  }
+
 
   return (
     <MaterialTable
@@ -66,19 +100,19 @@ const navigate=useNavigate()
       icons={tableIcons}
       actions={[
         {
-          icon: tableIcons.Edit,
+          icon: tableIcons.View,
           tooltip: 'View Details',
           onClick: (event, rowData) => handleView(event,rowData)
         },
         {
-          icon: tableIcons.Clear,
+          icon: tableIcons.Edit,
           tooltip: 'Edit',
-          onClick: (event, rowData) => alert(rowData.map(x=>x.name))
+          onClick: (event, rowData) => handleEdit(event,rowData)
         },
         {
           icon: tableIcons.Delete,
           tooltip: 'Delete User',
-          onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
+          onClick: (event, rowData) => handleDelete(event,rowData)
         }
       ]}
       options={{
@@ -87,14 +121,6 @@ const navigate=useNavigate()
         exportCsv: exportCsv,
         grouping: true,
         selection:true
-        // rowStyle: {
-        //   backgroundColor: '#EEE',
-        // },
-        // headerStyle: {
-        //   backgroundColor: '#01579b',
-        //   color: '#FFF'
-        // }
-        
       }}
     />
   );

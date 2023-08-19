@@ -30,7 +30,7 @@ const RecruitmentView = () => {
       const abc = JSON.stringify(Job)
       setSelectedJob(JSON.parse(abc))
 
-      console.log(Job + "Data")
+      console.log(d + " Data")
     } catch (error) {
       console.log(error)
     }
@@ -150,8 +150,8 @@ const RecruitmentView = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Qualification</b>
-                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>{' '}
-                    {selectedJob.Education === 'Others' ? selectedJob.OtherEducation : selectedJob.Education}
+                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>
+                    {selectedJob.Education.includes('Others') ? selectedJob.Othereducation : selectedJob.Education}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Year of Passing</b>
