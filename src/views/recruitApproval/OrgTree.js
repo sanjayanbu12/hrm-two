@@ -4,6 +4,8 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Tree, TreeNode } from 'react-organizational-chart';
+import { MapInteractionCSS } from 'react-map-interaction';
+
 const OrgTree = () => {
   const [edata, setedata] = useState('');
   useEffect(() => {
@@ -18,6 +20,8 @@ const OrgTree = () => {
 
   return (
     <>
+    <MapInteractionCSS>
+  
       <Tree lineWidth={'2px'} lineColor={'green'} lineHeight='80px' lineBorderRadius={'10px'} label={
         <div style={{display:'flex',justifyContent:'center'}}>
         <Card style={{ minWidth: 275 , height: '10em' ,background: '#DBC4F0',display:'flex', flexDirection:'column',alignItems:'center',justifyContent:'center'
@@ -74,7 +78,8 @@ const OrgTree = () => {
             }}>{data.report}</Card>} />
             </TreeNode>
           ))}
-      </Tree>
+      </Tree>     
+    </MapInteractionCSS>
     </>
   );
 };
