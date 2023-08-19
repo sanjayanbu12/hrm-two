@@ -1,60 +1,45 @@
 import React from 'react';
-import OrgChart from 'react-orgchart';
-import 'react-orgchart/index.css';
+import { Tree, TreeNode } from 'react-organizational-chart';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components'
+const StyledNode = styled.div`
+  padding: 5px;
+  border-radius: 8px;
+  display: inline-block;
+  border: 1px solid red;
+`;
 
-const initechOrg = {
-  name: "Bill Lumbergh",
-  actor: "Gary Cole",
-  children: [
-    {
-      name: "Peter Gibbons",
-      actor: "Ron Livingston",
-      children: [
-        {
-          name: "And More!!",
-          actor: "This is just to show how to build a complex tree with multiple levels of children. Enjoy!"
-        }
-      ]
-    },
-    {
-      name: "Milton Waddams",
-      actor: "Stephen Root"
-    },
-    {
-      name: "Bob Slydell",
-      actor: "John C. McGi..."
-    },
-  ]
-};
-
-const MyNodeComponent = ({ node }) => {
-  const handleInteraction = () => {
-    alert("Hi my real name is: " + node.actor);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      handleInteraction();
-    }
-  };
-
-  return (
-    <div
-      className="initechNode"
-      onClick={handleInteraction}
-      onKeyDown={handleKeyDown}
-      role="button" // Provide a role to indicate interactivity
-      tabIndex="0"   // Make the element focusable
+const OrgTree = () => {
+  const members=useSelector(state=>state.customization.members)
+  const splicemembers=members.splice(0,8)
+  return(
+    <>
+    {splicemembers.map(data=>(
+      <Tree
+      lineWidth={'2px'}
+      lineColor={'green'}
+      lineBorderRadius={'10px'}
+      key={data._id}
+      label={<StyledNode>{data.name}</StyledNode>}
     >
-      {node.name}
-    </div>
-  );
-};
+      <TreeNode label={<StyledNode>Child 1</StyledNode>}>
+        <TreeNode label={<StyledNode>Grand Child</StyledNode>} />
+      </TreeNode>
+      <TreeNode label={<StyledNode>Child 2</StyledNode>}>
+        <TreeNode label={<StyledNode>Grand Child</StyledNode>}>
+          <TreeNode label={<StyledNode>Great Grand Child 1</StyledNode>} />
+          <TreeNode label={<StyledNode>Great Grand Child 2</StyledNode>} />
+        </TreeNode>
+      </TreeNode>
+      <TreeNode label={<StyledNode>Child 3</StyledNode>}>
+        <TreeNode label={<StyledNode>Grand Child 1</StyledNode>} />
+        <TreeNode label={<StyledNode>Grand Child 2</StyledNode>} />
+      </TreeNode>
+    </Tree>
+    ))}
+  </>
+  )
+}
 
-const MyOrgChart = () => {
-  return (
-    <OrgChart tree={initechOrg} NodeComponent={MyNodeComponent} />
-  );
-};
 
-export default MyOrgChart;
+export default OrgTree
