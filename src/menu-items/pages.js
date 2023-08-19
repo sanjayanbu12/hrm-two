@@ -24,18 +24,15 @@ const icons = {
   EventNoteIcon,
   AllOutIcon,
   PaidIcon,
- EmojiEmotionsIcon,
- CameraFrontIcon
+  EmojiEmotionsIcon,
+  CameraFrontIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
- 
-
   type: 'group',
   children: [
-   
     {
       id: 'recruitment',
       title: 'Recruitment',
@@ -83,12 +80,12 @@ const pages = {
           type: 'item',
           url: '/newemployee'
         },
-         {
+        {
           id: 'basictable',
           title: 'Employee Information Management',
           type: 'item',
           url: '/basictable'
-        },
+        }
         // {
         //   id: 'employeeperformance',
         //   title: 'Employee Performance',
@@ -98,63 +95,21 @@ const pages = {
       ]
     },
     {
-      id: 'Learning & Development',
-      title: 'Learning & Development',
-      type: 'collapse',
-      icon: icons.AutoStoriesIcon,
-
-      children: [
-      
-        {
-          id: 'Learning Uploads',
-          title: 'Learning Uploads',
-          type: 'item',
-          url: '/LearningUploads'
-        },
-        {
-          id: 'Learning Module',
-          title: 'Learning Module',
-          type: 'item',
-          url: '/LearningModule'
-        }
-        ,
-        {
-          id: 'CourseOverview',
-          title: 'Course Overview',
-          type: 'item',
-          url: '/CourseOverview'
-        }
-      ]
+      id: 'performance',
+      title: 'Performance Management',
+      type: 'item',
+      icon: icons.IconKey,
+      url: '/performance'
     },
-    // {
-    //   id: 'Learning & Development',
-    //   title: 'Learning & Development',
-    //   type: 'collapse',
-    //   icon: icons.AutoStoriesIcon,
 
-    //   children: [
-      
-    //     {
-    //       id: 'Learning Uploads',
-    //       title: 'Learning Uploads',
-    //       type: 'item',
-    //       url: '/LearningUploads'
-    //     },
-    //     {
-    //       id: 'Learning Module',
-    //       title: 'Learning Module',
-    //       type: 'item',
-    //       url: '/LearningModule'
-    //     }
-    //     ,
-    //     {
-    //       id: 'CourseOverview',
-    //       title: 'Course Overview',
-    //       type: 'item',
-    //       url: '/CourseOverview'
-    //     }
-    //   ]
-    // },
+    {
+      id: 'employeeengagement',
+      title: 'Employee Engagement & Surveys',
+      icon: EmojiEmotionsIcon,
+      type: 'item',
+      url: '/employeeengagement'
+    },
+
     {
       id: 'leavemanagement',
       title: 'Time and Attendance',
@@ -168,7 +123,7 @@ const pages = {
           type: 'item',
           url: '/attendanceManagement'
         },
-       
+
         {
           id: 'leavetrackerform',
           title: 'Leave Request Form',
@@ -186,43 +141,53 @@ const pages = {
           title: 'ApproveLeave',
           type: 'item',
           url: '/approveleave'
-        },
+        }
       ]
     },
-    
-    {
-      id: 'employeeselfservices',
-      title: 'Employee Self Services',
-      icon: CameraFrontIcon,
-      type: 'item',
-      url: '/employeeselfservices'
-    },
 
     {
-      id: 'employeeengagement',
-      title: 'Employee Engagement & Surveys',
-      icon: EmojiEmotionsIcon,
-      type: 'item',
-      url: '/employeeengagement'
+      id: 'Learning & Development',
+      title: 'Learning & Development',
+      type: 'collapse',
+      icon: icons.AutoStoriesIcon,
+
+      children: [
+        {
+          id: 'Learning Uploads',
+          title: 'Learning Uploads',
+          type: 'item',
+          url: '/LearningUploads'
+        },
+        {
+          id: 'Learning Module',
+          title: 'Learning Module',
+          type: 'item',
+          url: '/LearningModule'
+        },
+        {
+          id: 'CourseOverview',
+          title: 'Course Overview',
+          type: 'item',
+          url: '/CourseOverview'
+        }
+      ]
     },
 
-    {
-      id: 'performance',
-      title: 'Performance Management',
-      type: 'item',
-      icon: icons.IconKey,
-      url: '/performance'
-    },
-
-    
     {
       id: 'Organisation Chart',
       title: 'Organisation Chart',
       type: 'item',
       icon: InsightsIcon,
       url: '/payroll'
-    }
+    },
 
+    {
+      id: 'employeeselfservices',
+      title: 'Employee Self Services',
+      icon: CameraFrontIcon,
+      type: 'item',
+      url: '/employeeselfservices'
+    }
   ]
 };
 
