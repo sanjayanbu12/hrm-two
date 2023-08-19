@@ -30,7 +30,7 @@ const RecruitmentView = () => {
       const abc = JSON.stringify(Job)
       setSelectedJob(JSON.parse(abc))
 
-      console.log(Job + "Data")
+      console.log(d + " Data")
     } catch (error) {
       console.log(error)
     }
@@ -150,8 +150,8 @@ const RecruitmentView = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Qualification</b>
-                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>{' '}
-                    {selectedJob.Education === 'Others' ? selectedJob.OtherEducation : selectedJob.Education}
+                    <b style={{ marginLeft: '200px', paddingRight: '10px' }}>:</b>
+                    {selectedJob.Education.includes('Others') ? selectedJob.Othereducation : selectedJob.Education}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Year of Passing</b>
@@ -165,28 +165,48 @@ const RecruitmentView = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Description</b>
-                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b>
+                    <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
                     {selectedJob.Description}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
-                    <b> ApplicationLink</b>
-                    <b style={{ marginLeft: '183px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationLink}
+                    <b> Client Name     </b>
+                    <b style={{ marginLeft: '203px', paddingRight: '10px' }}>:</b> {selectedJob.Clientname}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Client Company </b>
+                    <b style={{ marginLeft: '181px', paddingRight: '10px' }}>:</b> {selectedJob.Clientcompany}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> HR Name</b>
+                    <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Hrname}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> HR Contact</b>
+                    <b style={{ marginLeft: '214px', paddingRight: '10px' }}>:</b> {selectedJob.Hrcontact}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> No of Interview Rounds</b>
+                    <b style={{ marginLeft: '139px', paddingRight: '10px' }}>:</b> {selectedJob.Interviewrounds}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Interview Details</b>
+                    <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b> {selectedJob.Interview}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Last Date to Apply</b>
-                    <b style={{ marginLeft: '168px', paddingRight: '10px' }}>:</b> {selectedJob.Deadline}
+                    <b style={{ marginLeft: '171px', paddingRight: '10px' }}>:</b> {selectedJob.Deadline}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Application Count</b>
-                    <b style={{ marginLeft: '170px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationCount}
+                    <b style={{ marginLeft: '173px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationCount}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Selected</b>
-                    <b style={{ marginLeft: '228px', paddingRight: '10px' }}>:</b> {selectedJob.SelectedCount}
+                    <b style={{ marginLeft: '231px', paddingRight: '10px' }}>:</b> {selectedJob.SelectedCount}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Remaining</b>
-                    <b style={{ marginLeft: '215px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
+                    <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
                   </Typography>
                </div>
         

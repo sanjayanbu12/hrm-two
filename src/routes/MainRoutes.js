@@ -5,7 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 // import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
-import Recruitment from 'views/recruitment/RecruitmentTable';
+import Recruitment from 'views/recruitment/BasicRecruittable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
 import ApproveLeave from 'views/leavemanagement/ApproveLeave';
