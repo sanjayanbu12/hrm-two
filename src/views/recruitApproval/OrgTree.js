@@ -1,44 +1,40 @@
+import { Card } from '@material-ui/core';
+import axios from 'axios';
 import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 import { Tree, TreeNode } from 'react-organizational-chart';
-import { useSelector } from 'react-redux';
-import styled from 'styled-components'
-const StyledNode = styled.div`
-  padding: 5px;
-  border-radius: 8px;
-  display: inline-block;
-  border: 1px solid red;
-`;
-
 const OrgTree = () => {
-  const members=useSelector(state=>state.customization.members)
-  const mymems=members.splice(0,9)
-  console.log(mymems)
-  return(
+  const [edata, setedata] = useState('');
+  useEffect(() => {
+    fetchEmployees();
+    // console.log(edata);
+  }, []);
+  const fetchEmployees = async () => {
+    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
+    setedata(res.data.reverse());
+  };
+  const limitedData = edata.slice(0, 4);
+
+  return (
     <>
-    
-    <Tree
-    lineWidth={'2px'}
-    lineColor={'green'}
-    lineBorderRadius={'10px'}
-    label={<StyledNode>Root</StyledNode>}
-  >
-    <TreeNode label={<StyledNode>Child 1</StyledNode>}>
-      <TreeNode label={<StyledNode>Grand Child</StyledNode>} />
-    </TreeNode>
-    <TreeNode label={<StyledNode>Child 2</StyledNode>}>
-      <TreeNode label={<StyledNode>Grand Child</StyledNode>}>
-        <TreeNode label={<StyledNode>Great Grand Child 1</StyledNode>} />
-        <TreeNode label={<StyledNode>Great Grand Child 2</StyledNode>} />
-      </TreeNode>
-    </TreeNode>
-    <TreeNode label={<StyledNode>Child 3</StyledNode>}>
-      <TreeNode label={<StyledNode>Grand Child 1</StyledNode>} />
-      <TreeNode label={<StyledNode>Grand Child 2</StyledNode>} />
-    </TreeNode>
-  </Tree>
-  </>
-  )
-}
+      <Tree lineWidth={'2px'} lineColor={'green'} lineBorderRadius={'10px'} label={
+        <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+        <Card style={{ maxWidth: '50%', maxHeight: '100vh', padding: '10px' }}>
+        Root
+        </Card>
+        </div>
+      }>
+        {limitedData &&
+          limitedData.map((data) => (
+            <TreeNode key={data._id} label={<Card>{data.name}</Card>}>
+              <TreeNode label={<Card>{data.dept}</Card>} />
+              <TreeNode label={<Card>{data.report}</Card>} />
+            </TreeNode>
+          ))}
+      </Tree>
+    </>
+  );
+};
 
-
-export default OrgTree
+export default OrgTree;
