@@ -1,4 +1,4 @@
-import { Card } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
@@ -18,10 +18,22 @@ const OrgTree = () => {
 
   return (
     <>
-      <Tree lineWidth={'2px'} lineColor={'green'} lineBorderRadius={'10px'} label={
-        <div style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-        <Card style={{ maxWidth: '50%', maxHeight: '100vh', padding: '10px' }}>
-        Root
+      <Tree lineWidth={'2px'} lineColor={'green'} lineHeight='80px' lineBorderRadius={'10px'} label={
+        <div style={{display:'flex',justifyContent:'center'}}>
+        <Card style={{ minWidth: 275 , height: '10em' ,background: '#DBC4F0',display:'flex', flexDirection:'column',alignItems:'center',justifyContent:'center'
+          }}>
+        <CardHeader 
+        title={'John Doe'}
+        style={{ padding: '0px'}}
+        />
+         <CardContent  style={{ padding: '0px'}}>
+        <Typography  >
+           Web Dept
+        </Typography>
+        <Typography  >
+           Manager
+        </Typography>
+      </CardContent>
         </Card>
         </div>
       }>
