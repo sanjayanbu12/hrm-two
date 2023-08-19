@@ -165,7 +165,7 @@ const RecruitmentView = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Description</b>
-                    <b style={{ marginLeft: '210px', paddingRight: '10px' }}>:</b>
+                    <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
                     {selectedJob.Description}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
