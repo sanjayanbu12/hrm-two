@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import MainCard from 'ui-component/cards/MainCard';
-import { Paper,Button, Avatar, Stack, Rating, Typography,Divider,TextField, IconButton } from '@mui/material';
+import { Paper, Avatar, Stack, Rating, Typography, Divider, List, ListItem, ListItemText,ListItemAvatar, } from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
 import ReplyIcon from '@mui/icons-material/Reply';
 
@@ -23,10 +23,8 @@ const Feedback = () => {
       };
 
   return (
-    <MainCard title="Feedbacks">
-        <Button variant="contained" color="secondary">Give Feedback</Button>
-        
-        <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center",marginTop:"20px"}}>
+    <MainCard title="Feedbacks" >
+        <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center"}}>
             <Item>
             <Avatar   
                 sx={{
@@ -63,10 +61,6 @@ const Feedback = () => {
         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} sx={{listStyleType:"none"}}>
 
         <Item >
-            <Typography  sx={{fontSize:'18px',
-            marginTop:"10px",
-
-            }}><b>Feedbacks Given to you</b></Typography>
         <Paper
         sx ={{
             marginTop: "20px",
@@ -193,28 +187,91 @@ const Feedback = () => {
         </Paper>
         </Item>
 
+        <Item display="flex">
 
-        
+        <Paper
+        sx ={{
+            marginTop: "20px",
+            width : 290,
+            padding: "15px",
+            paddingRight: "30px",
+            fontWeight: 800,
+            paddingBottom: "30px" 
+            }}
+            title="Skill Set Matrix" 
+            elevation={9}> Give Feedbacks
+{/*  */}
+            {/* This is for memebrs */}
+{/*  */}
 
-        
+    <Stack direction="column" useFlexGap flexWrap="wrap" spacing={2}
+        sx={{listStyleType:"none",display:"flex",marginTop:"15px",}}>
+            <Divider/>
+
+
+    <List sx={{ width: '100%', maxWidth: 360, height:100,overflow:"auto",scrollbarWidth:"none", bgcolor: 'background.paper' }}>
+      <ListItem sx={{marginTop:"-25px"}}>
+
+        <ListItemAvatar>
+          <Avatar src={User1}>
+            
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText>
+        <Typography variant="h4" body1="span"  sx={{fontWeight: 800,fontSize:"medium"}}>
+            Kannan S
+        </Typography>
+        <Typography variant="subtitle2">Project Admin</Typography>
+        </ListItemText>
+        </ListItem>
+        <Divider/>
+
+        <ListItem >
+        <ListItemAvatar>
+          <Avatar src={User1}>
+            
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText>
+        <Typography variant="h4" body1="span"  sx={{fontWeight: 800,fontSize:"medium"}}>
+            Kannan S
+        </Typography>
+        <Typography variant="subtitle2">Project Admin</Typography>
+        </ListItemText>
+        </ListItem>
+        <Divider/>
+
+        <ListItem >
+        <ListItemAvatar>
+          <Avatar src={User1}>
+            
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText>
+        <Typography variant="h4" body1="span"  sx={{fontWeight: 800,fontSize:"medium"}}>
+            Kannan S
+        </Typography>
+        <Typography variant="subtitle2">Project Admin</Typography>
+        </ListItemText>
+        </ListItem>
+
+
+        </List>
+
+
+            
+
+
+
+            </Stack>
+            </Paper>
+        </Item>
 
 
 
 
         </Stack>
 
-
-
-
-
-
-
-
-
-        
-        
-        
-        
         
 
     </MainCard>
