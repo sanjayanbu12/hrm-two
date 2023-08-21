@@ -16,7 +16,6 @@ const OrgTree = () => {
     setedata(employees.reverse());
   };
   const limitedData = edata.slice(0, 3);
-  console.log(limitedData);
 
   return (
     <>
