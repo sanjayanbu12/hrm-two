@@ -76,12 +76,28 @@ const navigate=useNavigate()
       item.sslc,
       item.hsc,
     ]);
-
+    const columnStyle={
+      0:{columnWidth:20},
+      1:{columnWidth:20},
+      2:{columnWidth:30},
+      3:{columnWidth:20},
+      4:{columnWidth:20},
+      5:{columnWidth:20},
+      6:{columnWidth:30},
+      7:{columnWidth:20},
+      8:{columnWidth:20},
+      9:{columnWidth:23},
+      10:{columnWidth:30},
+      11:{columnWidth:25},
+      12:{columnWidth:20},
+    }
     const pdfHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'Year of Passing', 'SSLC Percentage', 'HSC Percentage'];
     pdf.autoTable({
       head: [pdfHeaders],
       body: rows,
       startY: 20,
+      columnStyle:columnStyle,
+      theme:'grid',
     });
 
     pdf.save('employee_data.pdf');

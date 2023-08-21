@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import Swal from 'sweetalert2';
+import jsPDF from 'jspdf';
 const columns = [
  
   { title: 'Job ID', field: 'uuid' },
@@ -65,7 +66,54 @@ const navigate=useNavigate()
     link.setAttribute('download', 'employee_data.csv');
     link.click();
   };
- 
+   
+  const exportPdf = (columns, data) => {
+    const pdf = new jsPDF('landscape');
+    pdf.text('Recruitment Table', 10, 10);
+  
+    const rows = data.map((item) => [
+      item.uuid,
+      item.Jobrole,
+      item.Openings,
+      item.Company,
+      item.Location,
+      item.Worktype,
+      item.Education,
+      item.Year,
+      item.Skills,
+      item.ExperienceFrom + " to " + item.ExperienceTo + " Years",
+      item.ApplicationLink,
+      item.Deadline,
+    ]);
+
+    const columnStyle={
+      0:{columnWidth:20},
+      1:{columnWidth:20},
+      2:{columnWidth:30},
+      3:{columnWidth:20},
+      4:{columnWidth:20},
+      5:{columnWidth:20},
+      6:{columnWidth:30},
+      7:{columnWidth:20},
+      8:{columnWidth:20},
+      9:{columnWidth:23},
+      10:{columnWidth:30},
+      11:{columnWidth:25},
+      12:{columnWidth:20},
+    }
+    const pdfHeaders = ['Job ID', 'Jobrole', 'No.of.Openings', 'Company', 'Location', 'Worktype', 'Qualification', 'Year of Passing', 'Skills', 'Experience', 'Application Link', 'Deadline'];
+    pdf.autoTable({
+      head: [pdfHeaders],
+      body: rows,
+      startY: 20,
+      columnStyles: columnStyle,
+      theme: 'grid',
+    });
+  
+    pdf.save('recruitment_table.pdf');
+  };
+  
+
   const handleDelete =(e,rowdata) => {
   const multidelete=rowdata.map(data=>data._id);
   const Text = `Confirming removal of this  <span style="color: red; text-transform: capitalize;">${rowdata.map(item=>item.Jobrole)}</span> opening from this list, permanently?`
@@ -124,6 +172,7 @@ const navigate=useNavigate()
         actionsColumnIndex: 6,
         exportButton: true,
         exportCsv: exportCsv,
+        exportPdf:exportPdf,
         grouping: true,
         selection:true
       }}
