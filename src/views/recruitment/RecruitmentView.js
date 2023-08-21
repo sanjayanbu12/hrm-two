@@ -95,7 +95,6 @@ const RecruitmentView = () => {
     
   <div>
     <MainCard title="Job Details" variant='h2' align='left'>
-
     <Button    onClick={() => {
               navigate('/jobtable');
             }}
