@@ -2,20 +2,27 @@ import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import axios from 'axios'
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
-import { useSelector } from 'react-redux';
 const OrgTree = () => {
-  const [edata, setedata] = useState('');
-  const employees=useSelector(state=>state.customization.employees)
-    const manager=employees.filter(data=>data.approval.manager===true)
+  const [managerName,setManagerName]=useState([])
+  const[hrData,setHrdata]=useState([])
   useEffect(() => {
     fetchEmployees();
   }, []);
   const fetchEmployees = async () => {
-    setedata(employees.reverse());
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const employees = response.data.reverse(); // Reverse the data if needed
+    const manager=employees.filter(data=>data.approval.manager===true)
+    setManagerName(manager)
+    const hr=employees.filter(data=>data.approval.hr===true)
+    setHrdata(hr)
+    } catch (error) {
+      console.log(error)
+    }
   };
-  const limitedData = edata.slice(0, 3);
 
   return (
     <>
@@ -25,7 +32,7 @@ const OrgTree = () => {
         <Card style={{ minWidth: 275 , height: '10em' ,background: '#DBC4F0',display:'flex', flexDirection:'column',alignItems:'center',justifyContent:'center'
           }}>
         <CardHeader 
-        title={manager.map(name=>name.name)}
+        title={managerName.map(data=>data.name)}
         style={{ padding: '0px'}}
         />
          <CardContent  style={{ padding: '0px'}}>
@@ -40,8 +47,8 @@ const OrgTree = () => {
         </Card>
         </div>
       }>
-        {limitedData &&
-          limitedData.map((data) => (
+        {hrData &&
+          hrData.map((data) => (
             <TreeNode key={data._id} label={<Card 
             style={{
               background:'#78C1F3',
@@ -53,8 +60,9 @@ const OrgTree = () => {
   
             }}
             >{data.name}
+               
             </Card>}>
-              <TreeNode label={<Card
+              {/* <TreeNode label={<Card
                style={{
                 background:'#78C1F3',
                 minWidth: 275 ,
@@ -64,7 +72,7 @@ const OrgTree = () => {
                  alignItems:'center'
     
               }}
-              >{data.dept}</Card>} />
+              >{data.dept}</Card>} /> */}
               {/* <TreeNode label={<Card
                style={{
               background:'#78C1F3',
