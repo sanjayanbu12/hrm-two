@@ -1,60 +1,86 @@
+import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import React from 'react';
-import OrgChart from 'react-orgchart';
-import 'react-orgchart/index.css';
-
-const initechOrg = {
-  name: "Bill Lumbergh",
-  actor: "Gary Cole",
-  children: [
-    {
-      name: "Peter Gibbons",
-      actor: "Ron Livingston",
-      children: [
-        {
-          name: "And More!!",
-          actor: "This is just to show how to build a complex tree with multiple levels of children. Enjoy!"
-        }
-      ]
-    },
-    {
-      name: "Milton Waddams",
-      actor: "Stephen Root"
-    },
-    {
-      name: "Bob Slydell",
-      actor: "John C. McGi..."
-    },
-  ]
-};
-
-const MyNodeComponent = ({ node }) => {
-  const handleInteraction = () => {
-    alert("Hi my real name is: " + node.actor);
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Tree, TreeNode } from 'react-organizational-chart';
+import { MapInteractionCSS } from 'react-map-interaction';
+import { useSelector } from 'react-redux';
+const OrgTree = () => {
+  const [edata, setedata] = useState('');
+  const employees=useSelector(state=>state.customization.employees)
+    const manager=employees.filter(data=>data.approval.manager===true)
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+  const fetchEmployees = async () => {
+    setedata(employees.reverse());
   };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      handleInteraction();
-    }
-  };
+  const limitedData = edata.slice(0, 3);
 
   return (
-    <div
-      className="initechNode"
-      onClick={handleInteraction}
-      onKeyDown={handleKeyDown}
-      role="button" // Provide a role to indicate interactivity
-      tabIndex="0"   // Make the element focusable
-    >
-      {node.name}
-    </div>
+    <>
+    <MapInteractionCSS>
+      <Tree lineWidth={'2px'} lineColor={'green'} lineHeight='80px' lineBorderRadius={'10px'} label={
+        <div style={{display:'flex',justifyContent:'center'}}>
+        <Card style={{ minWidth: 275 , height: '10em' ,background: '#DBC4F0',display:'flex', flexDirection:'column',alignItems:'center',justifyContent:'center'
+          }}>
+        <CardHeader 
+        title={manager.map(name=>name.name)}
+        style={{ padding: '0px'}}
+        />
+         <CardContent  style={{ padding: '0px'}}>
+        <Typography 
+        >
+           Web Dept
+        </Typography>
+        <Typography  >
+           Manager
+        </Typography>
+      </CardContent>
+        </Card>
+        </div>
+      }>
+        {limitedData &&
+          limitedData.map((data) => (
+            <TreeNode key={data._id} label={<Card 
+            style={{
+              background:'#78C1F3',
+              minWidth: 100 ,
+               height: '10em' ,
+               display:'flex',
+               justifyContent:'center',
+               alignItems:'center'
+  
+            }}
+            >{data.name}
+            </Card>}>
+              <TreeNode label={<Card
+               style={{
+                background:'#78C1F3',
+                minWidth: 275 ,
+                 height: '10em' ,
+                 display:'flex',
+                 justifyContent:'center',
+                 alignItems:'center'
+    
+              }}
+              >{data.dept}</Card>} />
+              {/* <TreeNode label={<Card
+               style={{
+              background:'#78C1F3',
+              minWidth: 275 ,
+               height: '10em' ,
+               display:'flex',
+               justifyContent:'center',
+               alignItems:'center'
+  
+            }}>{data.report}</Card>} /> */}
+            </TreeNode>
+          ))}
+      </Tree>     
+    </MapInteractionCSS>
+    </>
   );
 };
 
-const MyOrgChart = () => {
-  return (
-    <OrgChart tree={initechOrg} NodeComponent={MyNodeComponent} />
-  );
-};
-
-export default MyOrgChart;
+export default OrgTree;

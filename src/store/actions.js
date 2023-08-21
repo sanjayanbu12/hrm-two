@@ -9,3 +9,4 @@ export const USER_OR_NOT='USER_OR_NOT'
 export const LOGGED_IN = `LOGGED_IN`
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const ORG_MEM = 'ORG_MEM';
+export const FETCH_EMPLOYEES = 'FETCH_EMPLOYEES';
