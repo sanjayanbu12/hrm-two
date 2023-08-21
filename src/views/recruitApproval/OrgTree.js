@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, IconButton, Typography } from '@material-ui/core';
+import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -53,9 +53,8 @@ const OrgTree = () => {
                 <CardContent style={{ padding: '0px' }}>
                   <Typography>
                     Web Dept
-                    <IconButton onClick={()=>navigate('/managerapproval')}>
-                      <VisibilityIcon />
-                    </IconButton>
+                      <VisibilityIcon onClick={()=>navigate('/managerapproval')}/>
+             
                   </Typography>
                   <Typography>Manager</Typography>
                 </CardContent>
@@ -78,9 +77,9 @@ const OrgTree = () => {
                       alignItems: 'center'
                     }}
                   >
-                    <IconButton onClick={()=>navigate('/hrapproval')}>
-                      <VisibilityIcon />
-                    </IconButton>
+                  
+                      <VisibilityIcon onClick={()=>navigate('/hrapproval')} />
+                    
                     {data.name}
                   </Card>
                 }
