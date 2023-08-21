@@ -20,6 +20,7 @@ const HrApproval = () => {
   const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
     setRecData(res.data.getData.filter((data) => data.approvalstatus.manager === false && data.approvalstatus.hr === false));
+    console.log(data)
 
   };
   const handleClick = (id)=>{
