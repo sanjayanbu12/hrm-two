@@ -47,9 +47,19 @@ const RecruitmentView = () => {
         window.open(shareUrl, '_blank');
       }
     }      
-  const handleLinkedInShare = () => {
-  if (selectedJob) {
-    const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
+    const handleLinkedInShare = () => {
+      if (selectedJob) {
+        const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
+        const url = encodeURIComponent(window.location.href);
+        const title = encodeURIComponent(selectedJob.Jobrole);
+        const summary = encodeURIComponent(shareText);
+        const source = encodeURIComponent(window.location.host);
+        
+        const linkedInUrl = `https://www.linkedin.com/shareArticle/?mini=true&url=${url}&title=${title}&summary=${summary}&source=${source}`;
+        
+        window.open(linkedInUrl, '_blank');
+      }
+    };
     
     const hanldeApprove = async()=>{
       const res=await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id,{
