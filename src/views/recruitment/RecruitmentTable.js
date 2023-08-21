@@ -8,7 +8,7 @@ import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
 const columns = [
  
-  { title: 'Job ID', field: 'uuid' },
+  { title: 'Job ID', field: 'uuid' ,sorting:false},
   { title: 'Jobrole', field: 'Jobrole' },
   {title: 'No of Openings', field: 'Openings'},
   { title: 'Location', field: 'Location' },
@@ -141,7 +141,10 @@ const navigate=useNavigate()
       }
     })
   }
-
+  const handleRowClick = (event, rowData) => {
+    const id = rowData._id;
+    navigate(`/views/${id}`);
+  };
 
   return (
     <MaterialTable
@@ -149,6 +152,7 @@ const navigate=useNavigate()
       columns={columns}
       data={Adata}
       icons={tableIcons}
+      onRowClick={handleRowClick}
       actions={[
         rowData => ({
           icon: tableIcons.View,

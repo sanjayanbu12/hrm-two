@@ -35,30 +35,21 @@ const RecruitmentView = () => {
       console.log(error)
     }
   }
-    // const handleTwitterShare = () => {
-    //   if (selectedJob) {
-    //     const shareText = `Check out this job opportunity
-    //     jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company} 
-    //     Location: ${selectedJob.Location} 
-    //     Job opening: ${selectedJob.Openings}`;
-    //     const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
-        
-    //     window.open(shareUrl, '_blank');
-    //   }
-    // }      
-  
-    const handleLinkedInShare = () => {
+    const handleTwitterShare = () => {
       if (selectedJob) {
-        const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
-        const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-          window.location.href
-        )}&title=${encodeURIComponent(selectedJob.Jobrole)}&summary=${encodeURIComponent(
-          shareText
-        )}`;
+        const shareText = `Check out this job opportunity
+        jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company} 
+        Location: ${selectedJob.Location} ;
+        Job opening: ${selectedJob.Openings};
+        ApplicationLink:${selectedJob.ApplicationLink}`;
+        const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
         
         window.open(shareUrl, '_blank');
       }
-    }
+    }      
+  const handleLinkedInShare = () => {
+  if (selectedJob) {
+    const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
     
     const hanldeApprove = async()=>{
       const res=await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id,{
@@ -79,16 +70,16 @@ const RecruitmentView = () => {
       console.log(res)
     }
      
-  const handleFacebookShare = () => {
-    if (selectedJob) {
-      const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
-      const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-        window.location.href
-      )}&quote=${encodeURIComponent(shareText)}`;
+  // const handleFacebookShare = () => {
+  //   if (selectedJob) {
+  //     const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
+  //     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+  //       window.location.href
+  //     )}&quote=${encodeURIComponent(shareText)}`;
 
-      window.open(shareUrl, '_blank');
-    }
-  };
+  //     window.open(shareUrl, '_blank');
+  //   }
+  // };
 
   return (
     
@@ -126,7 +117,7 @@ const RecruitmentView = () => {
           </LinkedIn >
     
       <Facebook
-          onClick={handleFacebookShare}
+          onClick={handleTwitterShare}
           sx={{
             position: 'absolute',
             top: '134px',
@@ -183,7 +174,11 @@ const RecruitmentView = () => {
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Description</b>
                     <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
-                    {selectedJob.Description}
+                    {selectedJob.Description}</Typography>
+                    <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> ApplicationLink</b>
+                    <b style={{ marginLeft: '184px', paddingRight: '12px' }}>:</b>
+                    {selectedJob.ApplicationLink}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Client Name     </b>
