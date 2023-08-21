@@ -12,7 +12,8 @@
     opened: true,
     isLoggedIn:false,
     isAuthAdmin:false,
-    members:[]
+    members:[],
+    employees:[]
   };
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -65,6 +66,11 @@
         return {
           ...state,
           members:  action.payload
+        };
+      case actionTypes.FETCH_EMPLOYEES:
+        return {
+          ...state,
+          employees:  action.payload
         };
       default:
         return state;

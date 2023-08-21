@@ -30,6 +30,8 @@ import LearningModule from 'views/learninganddevelopment/LearningModule';
 import LearningUploads from 'views/learninganddevelopment/LearningUploads';
 import CourseOverview from 'views/learninganddevelopment/CourseOverview';
 import ViewApproval from 'views/recruitApproval/ViewApproval';
+import HrApproval from 'views/recruitApproval/HrApproval';
+import ManagerApproval from 'views/recruitApproval/ManagerApproval';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
@@ -172,6 +174,14 @@ const MainRoutes = {
     {
       path: '/newevent',
       element: <Newevent />
+    },
+    {
+      path: '/hrapproval',
+      element: <HrApproval />
+    },
+    {
+      path: '/managerapproval',
+      element: <ManagerApproval />
     }
    
   ]

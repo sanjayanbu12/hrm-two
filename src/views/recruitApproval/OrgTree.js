@@ -16,7 +16,7 @@ const OrgTree = () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
     setedata(res.data.reverse());
   };
-  const limitedData = edata.slice(0, 4);
+  const limitedData = edata.slice(0, 3);
 
   return (
     <>
