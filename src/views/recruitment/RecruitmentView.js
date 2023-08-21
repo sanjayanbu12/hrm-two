@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useEffect } from 'react'
 import axios from 'axios'
-import { Facebook, LinkedIn } from '@mui/icons-material'
+import {  Facebook, LinkedIn } from '@mui/icons-material'
 
 
 
@@ -60,7 +60,14 @@ const RecruitmentView = () => {
       }
     }
     
-    
+    const hanldeApprove = async()=>{
+      const res=await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id,{
+        approvalstatus: {
+          hr: true
+      },
+      })
+      console.log(res)
+    }
      
   const handleFacebookShare = () => {
     if (selectedJob) {
@@ -208,8 +215,9 @@ const RecruitmentView = () => {
                     <b> Remaining</b>
                     <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
                   </Typography>
+                  <Button size='small' onClick={hanldeApprove}>Approve</Button>
                </div>
-        
+              
         )}
  
     </MainCard>

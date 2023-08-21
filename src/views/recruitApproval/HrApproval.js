@@ -8,18 +8,23 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import { useNavigate } from 'react-router';
 // import MaterialTable from "material-table";
 
 const HrApproval = () => {
   const [data,setRecData]=useState([])
+  const navigate = useNavigate()
   useEffect(() => {
     fetchData();
   }, []);
   const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
     setRecData(res.data.getData.filter((data) => data.approvalstatus.manager === false && data.approvalstatus.hr === false));
-    console.log(res.data.getData.filter((data) => data.approvalstatus.manager === false && data.approvalstatus.hr === false))
+
   };
+  const handleClick = (id)=>{
+    navigate(`/views/${id}`)
+  }
   return (
   <Stack direction={'row'} spacing={10}>
     {data && data.map(item =>(
@@ -48,7 +53,9 @@ const HrApproval = () => {
    </Stack>
  </CardContent>
  <CardActions>
-   <Button size="small">View More</Button>
+   <Button size="small"
+   onClick={()=>handleClick(item._id)}
+   >View More</Button>
  </CardActions>
 </Card>
     ))}
