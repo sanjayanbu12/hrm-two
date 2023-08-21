@@ -19,10 +19,15 @@ const Feedback = () => {
   };
 
   return (
-    <MainCard title="Feedbacks">
-        <Button variant="contained" color="secondary">Give Feedback</Button>
+    
+    <MainCard title="Feedbacks" sx={{height:"99%",}}>
+        <Stack direction="row" spacing={2} sx={{listStyleType:"none",
+        display:"flex",alignItems:"center", 
         
-        <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center",marginTop:"20px"}}>
+        // "::-webkit-scrollbar":{width: "12px"},
+        // "::-webkit-scrollbar-track":{backgroundColor: "#888"},
+        // "::-webkit-scrollbar-thumb":{borderRadius:"6px"},
+          }}>
             <Item>
             <Avatar   
                 sx={{
@@ -68,7 +73,8 @@ const Feedback = () => {
             width : 290,
             padding: "15px",
             fontWeight: 800,
-            paddingBottom: "30px" 
+            paddingBottom: "20px" ,
+            
             }}
             src={User1}
           ></Avatar>
