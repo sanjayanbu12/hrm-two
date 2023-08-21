@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
+import { Image, TextSnippet } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 const columns = [
  
   { title: 'Name', field: 'name' },
@@ -13,8 +15,10 @@ const columns = [
   { title: 'Email', field: 'email' },
   { title: 'Qualification', field: 'department' },
   {title: 'Year of passing', field: 'graduationYear' },
-  { title: 'Experience', field: 'experience' },
+  { title: 'Resume', field: 'resume' },
+  {title: 'photo', field: 'photo' },
   {title: 'Applied Date', field:'appliedAt' },
+
   
  
  
@@ -33,6 +37,33 @@ const navigate=useNavigate()
     console.log(id[0])
     navigate(`/view/${id[0]}`);
   }
+  const handleResume = async (id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, `${name} resume.pdf`);
+    } catch (error) {
+      console.log('Error downloading resume:', error);
+    }
+  };
+
+  const handlePhotoDown = async (id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const contentType = response.headers['Content-Type'];
+      const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: contentType });
+      saveAs(blob, `${name}.${extension}`);
+    } catch (error) {
+      console.log('Error downloading photo:', error);
+    }
+  };
 
   useEffect(() => {
     fetchEmployees();
@@ -119,6 +150,20 @@ const navigate=useNavigate()
           return {
             ...column,
             render: (rowData) => formatDate(rowData.appliedAt),
+          };
+        } else if (column.field === 'resume') {
+          return {
+            ...column,
+            render: (rowData) => (
+              <a href="#" onClick={() => handleResume(rowData._id, rowData.name)}><Tooltip title='Download Resume'><TextSnippet style={{color:'#616161'}}></TextSnippet></Tooltip></a>
+            ),
+          };
+        } else if (column.field === 'photo') {
+          return {
+            ...column,
+            render: (rowData) => (
+              <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.name)}><Tooltip title="Download Photo"><Image style={{color:'#616161'}}></Image></Tooltip></a>
+            ),
           };
         }
         return column;
