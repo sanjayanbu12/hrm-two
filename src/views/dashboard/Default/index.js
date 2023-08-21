@@ -1,25 +1,34 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
 import PopularCard from './PopularCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
-import Upcomingevents from './Upcomingevents'
-
+import Upcomingevents from './Upcomingevents';
 
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
+
+
   useEffect(() => {
-    setLoading(false);
+    setTimeout(() => {
+      setLoading(false);
+      toast.success("Logged in successfully!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 1000
+      });
+    }, 10000);
   }, []);
 
   return (
     <div>
+      <ToastContainer />
       <Grid item lg={4} md={6} sm={6} xs={12}>
         <Upcomingevents isLoading={isLoading} />
       </Grid>
-
-      {/* <Grid item lg={4} md={6} sm={6} xs={12}>
+ {/* <Grid item lg={4} md={6} sm={6} xs={12}>
         <EarningCard isLoading={isLoading} />
       </Grid>
       
@@ -38,7 +47,7 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid> */}
-      
+
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
@@ -54,3 +63,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
