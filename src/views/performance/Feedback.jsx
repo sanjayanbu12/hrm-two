@@ -12,9 +12,10 @@ const Feedback = () => {
   return (
     <MainCard title="Feedbacks">
         <Button variant="contained" color="secondary">Give Feedback</Button>
+        
         <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center",marginTop:"20px"}}>
             <Item>
-        <Avatar   
+            <Avatar   
                 sx={{
                     
                 
@@ -44,10 +45,11 @@ const Feedback = () => {
 
         <Paper
         sx ={{
-            marginTop: "10px",
+            marginTop: "20px",
             width : 290,
             padding: "15px",
             fontWeight: 800,
+            paddingBottom: "30px" 
             }}
             title="Feedbacks given to you" 
             elevation={9}> Feedbacks Given to You
@@ -87,11 +89,15 @@ const Feedback = () => {
                 </Typography>
                 </Item>
                 </Stack>
-          
-        
+
         </Paper>
+        
+        <Paper display="flex">Testing</Paper>
+        
+        
 
     </MainCard>
+    
       
   )
 }
