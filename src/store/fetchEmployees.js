@@ -11,12 +11,12 @@ export const fetchEmployeesSuccess = (employees) => {
 
 export const fetchEmployees = () => {
   return async (dispatch) => {
-    try {
+   try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data.reverse(); // Reverse the data if needed
       dispatch(fetchEmployeesSuccess(employees));
     } catch (error) {
       console.log(error)
     }
-  };
+  }; 
 };
