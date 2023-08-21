@@ -1,22 +1,23 @@
 import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
-import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
+import { useSelector } from 'react-redux';
 
 const OrgTree = () => {
   const [edata, setedata] = useState('');
+  const employees=useSelector(state=>state.customization.employees)
   useEffect(() => {
     fetchEmployees();
-    // console.log(edata);
+ 
   }, []);
   const fetchEmployees = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
-    setedata(res.data.reverse());
+    setedata(employees.reverse());
   };
   const limitedData = edata.slice(0, 3);
+  console.log(limitedData);
 
   return (
     <>
