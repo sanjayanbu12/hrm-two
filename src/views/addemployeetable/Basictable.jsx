@@ -1,10 +1,9 @@
 import MaterialTable from 'material-table';
 import tableIcons from './MaterialTableIcons';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { ORG_MEM } from 'store/actions';
+import { fetchEmployees } from 'store/fetchEmployees';
 import { useSelector } from 'react-redux';
 const columns = [
   { title: 'EmployeeId', field: 'employeeid' },
@@ -17,14 +16,13 @@ const columns = [
 const csvColumns = ['EmployeeId', 'Name', 'Designation', 'Gender', 'Email', 'Type','AlternateMob','Reporting To','teamAddress','BloodGroup','Department','JoiningDate','LastName','MobileNumber','PermenentAddress'];
 export const BasicTable = () => {
   const [edata, setedata] = useState([]);
-  const members=useSelector(state=>state.customization.members)
+  const employees=useSelector(state=>state.customization.employees)
   const dispatch = useDispatch()
 const navigate=useNavigate()
-  const fetchEmployees = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
-    setedata(res.data.reverse());
-    dispatch({type:ORG_MEM,payload:res.data});
-    console.log(members)
+  const fetchEmployeesData = async () => {
+    setedata(employees);
+    dispatch(fetchEmployees())
+    console.log(employees)
   };
   const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
@@ -32,7 +30,7 @@ const navigate=useNavigate()
     navigate(`/viewdetails/${id[0]}`);
   }
   useEffect(() => {
-    fetchEmployees();
+    fetchEmployeesData();
   }, []);
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
