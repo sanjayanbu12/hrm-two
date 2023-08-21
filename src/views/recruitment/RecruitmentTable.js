@@ -23,7 +23,7 @@ const RecruitmentTable = () => {
 const navigate=useNavigate()
   const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-    setAdata(res.data.getData);
+    setAdata(res.data.getData.filter(data=>data.approvalstatus.manager===true && data.approvalstatus.hr===true ));
     console.log(res.data.getData );
   };
   const handleView = async(e,data) =>{
@@ -87,7 +87,7 @@ const navigate=useNavigate()
     ]);
 
     const columnStyle={
-      0:{columnWidth:20},
+      0:{columnWidth:20},                  
       1:{columnWidth:20},
       2:{columnWidth:30},
       3:{columnWidth:20},
@@ -174,7 +174,8 @@ const navigate=useNavigate()
         exportCsv: exportCsv,
         exportPdf:exportPdf,
         grouping: true,
-        selection:true
+        selection:true,
+        columnsButton:true,
       }}
     />
   );

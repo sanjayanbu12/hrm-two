@@ -49,6 +49,7 @@ const BasicApptable = () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
       const newData = response.data.getData;
+      console.log(newData)
       setData(newData);
       setLoader(false);
     } catch (error) {
