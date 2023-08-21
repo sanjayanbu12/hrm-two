@@ -78,6 +78,9 @@ const OrgTree = () => {
                       alignItems: 'center'
                     }}
                   >
+                    <IconButton onClick={()=>navigate('/hrapproval')}>
+                      <VisibilityIcon />
+                    </IconButton>
                     {data.name}
                   </Card>
                 }
