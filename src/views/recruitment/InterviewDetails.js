@@ -165,6 +165,7 @@ const handleRowUpdate = async(newData,oldData)=>{
   //   console.log(id[0])
   //   navigate(`/view/${id[0]}`);}
 
+  });
   return (
     <ThemeProvider theme={theme}>
     <MaterialTable
