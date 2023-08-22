@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
+import { ThemeProvider, createMuiTheme } from '@mui/material';
 
 const columns = [
   { title: 'ID', field: 'id', sorting: false ,editable:false},
-  { title: 'Candidate Name', field: 'candidateName',editable:false },
+  { title: 'Name', field: 'candidateName',editable:false },
   { title: 'Mobile No', field: 'mobileNo',editable:false },
   { title: 'Email', field: 'email',editable:false },
-  { title: 'Interview Date', field: 'Interview' },
+  { title: 'Interview Date', field: 'Interview' ,width:'auto'},
   {
     title: 'Status',
     field: 'status',
@@ -60,8 +61,19 @@ const InterviewDetails = () => {
     console.log('Updated data:', updatedData);
     setData(updatedData);
   };
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#757575',
+      },
+      secondary: {
+        main: '#7e57c2',
+      },
+    },
 
+  });
   return (
+    <ThemeProvider theme={theme}>
     <MaterialTable
       title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Interview Details</div>}
       columns={columns}
@@ -76,10 +88,14 @@ const InterviewDetails = () => {
         exportButton: true,
         grouping: true,
         columnsButton:true,
-
-      
+        selection:true,
+        headerStyle:{
+          backgroundColor:'#42a5f5',
+          color:'black'
+        }
       }}
     />
+    </ThemeProvider>
   );
 };
 

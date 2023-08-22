@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
+import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 const columns = [
 
   { title: 'Name', field: 'name' },
@@ -15,7 +15,7 @@ const columns = [
   { title: 'Email', field: 'email',sorting:false },
   { title: 'Resume', field: 'resume',sorting:false },
   {title: 'photo', field: 'photo',sorting:false },
-  {title: 'Applied Date', field:'appliedAt',sorting:false ,grouping:false},
+  {title: 'Applied Date', field:'appliedAt',type:'date',sorting:false },
 
 ];
 
@@ -131,22 +131,36 @@ const navigate=useNavigate()
 
  
 
-  const formatDate = (date) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const [day, month, year] = new Date(date).toLocaleDateString('en-GB', options).split('/');
-    return `${day}-${month}-${year}`;
-  };
+  // const formatDate = (date) => {
+  //   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  //   const [day, month, year] = new Date(date).toLocaleDateString('en-GB', options).split('/');
+  //   return `${day}-${month}-${year}`;
+  // };
   
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#757575',
+      },
+      secondary: {
+        main: '#7e57c2',
+      },
+    },
+
+  });
+
   return (
+    <ThemeProvider theme={theme}>
     <MaterialTable
       title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Application Tracker</div>}
       columns={columns.map((column) => {
-        if (column.field === 'appliedAt') {
-          return {
-            ...column,
-            render: (rowData) => formatDate(rowData.appliedAt),
-          };
-        } else if (column.field === 'resume') {
+        // if (column.field === 'appliedAt') {
+        //   return {
+        //     ...column,
+        //     render: (rowData) => formatDate(rowData.appliedAt),
+        //   };
+        // } 
+         if (column.field === 'resume') {
           return {
             ...column,
             render: (rowData) => (
@@ -191,10 +205,14 @@ const navigate=useNavigate()
         grouping: true,
         selection:true,
         columnsButton:true,
-       
+        headerStyle:{
+          backgroundColor:'#42a5f5',
+          color:'black'
+        }
         
       }}
     />
+    </ThemeProvider>
   );
 };
 export default ApplicationTracker;
