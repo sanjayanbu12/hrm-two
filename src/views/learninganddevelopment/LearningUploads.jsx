@@ -1,141 +1,80 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { TextField, Button, Paper, Grid } from '@mui/material';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MainCard from 'ui-component/cards/MainCard';
-import { TextField, Button, Grid, Paper, Typography } from '@mui/material';
+import axios from 'axios';
 
-const LearningUploads = ({ onUpload }) => {
-  const [formData, setFormData] = useState({
-    image: null,
-    courseName: '',
-    courseDescription: '',
-    videos: null,
-  });
+const LearningUploads = () => {
+  const [courseName, setCourseName] = useState('');
+  const [courseDescription, setCourseDescription] = useState('');
+  const [image, setImage] = useState(null);
+  const [videos, setVideos] = useState([]);
+  const [errors, setErrors] = useState({});
 
-  const [formErrors, setFormErrors] = useState({});
-
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-
-    setFormErrors((prevFormErrors) => ({
-      ...prevFormErrors,
-      [name]: '',
-    }));
+  const handleImageChange = (event) => {
+    setImage(event.target.files[0]);
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      image: file,
-    }));
-
-    setFormErrors((prevFormErrors) => ({
-      ...prevFormErrors,
-      image: '',
-    }));
-  };
-
-  const handleVideoUpload = (event) => {
-    const file = event.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      videos: file,
-    }));
-
-    setFormErrors((prevFormErrors) => ({
-      ...prevFormErrors,
-      videos: '',
-    }));
-  };
-
-  const validateForm = () => {
-    const errors = {};
-
-    if (!formData.image) {
-      errors.image = 'Image is required';
-    }
-    if (!formData.courseName) {
-      errors.courseName = 'Course Name is required';
-    }
-    if (!formData.courseDescription) {
-      errors.courseDescription = 'Course Description is required';
-    }
-    if (!formData.videos) {
-      errors.videos = 'Video is required';
-    }
-
-    setFormErrors(errors);
-    return Object.keys(errors).length === 0;
+  const handleVideoChange = (event) => {
+    setVideos(event.target.files);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (!validateForm()) {
-      return;
+    // Form validation
+    const fieldErrors = {};
+    if (!courseName) {
+      fieldErrors.courseName = 'Course name is required.';
+    }
+    if (!courseDescription) {
+      fieldErrors.courseDescription = 'Course description is required.';
+    }
+    if (!image) {
+      fieldErrors.image = 'Image is required.';
+    }
+    if (videos.length === 0) {
+      fieldErrors.videos = 'At least one video is required.';
     }
 
-    // Ask for confirmation
-    const confirmationResult = await Swal.fire({
-      title: 'Confirm Upload',
-      text: 'Are you sure you want to upload this course?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, upload it!',
-      cancelButtonText: 'Cancel',
-    });
-
-    if (!confirmationResult.isConfirmed) {
-      return;
+    if (Object.keys(fieldErrors).length > 0) {
+      setErrors(fieldErrors);
+      return; // Exit the function if validation fails
     }
 
     try {
-      const data = new FormData();
-      data.append('videos', formData.videos);
-      data.append('courseName', formData.courseName);
-      data.append('courseDescription', formData.courseDescription);
-      data.append('image', formData.image);
-
-      const response = await axios.post('http://localhost:3001/media/create', data);
-
-      console.log('Data uploaded successfully', response);
-
-      // Check if onUpload is a function before calling it
-      if (typeof onUpload === 'function') {
-        onUpload(formData);
+      const formData = new FormData();
+      formData.append('courseName', courseName);
+      formData.append('courseDescription', courseDescription);
+      formData.append('image', image);
+      for (const video of videos) {
+        formData.append('videos', video);
       }
-      setFormData({
-        image: null,
-        courseName: '',
-        courseDescription: '',
-        videos: null,
-      });
-  
-      setFormErrors({});
+      const response = await axios.post(
+        'http://localhost:3001/media/create',
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      console.log(response.data);
 
-      // Display success notification
-      Swal.fire({
-        icon: 'success',
-        title: 'Course Uploaded',
-        text: 'Your course has been successfully uploaded.',
+      // Clear form fields after successful submission
+      setCourseName('');
+      setCourseDescription('');
+      setImage(null);
+      setVideos([]);
 
-        
-      });
-      
+      // Reset file input fields to clear selection
+      document.getElementById('image-input').value = '';
+      document.getElementById('video-input').value = '';
+
+      // Clear any previous errors
+      setErrors({});
     } catch (error) {
-      console.error('Error uploading data:', error);
-
-      // Display error notification
-      Swal.fire({
-        icon: 'error',
-        title: 'Upload Failed',
-        text: error.message,
-      });
+      console.error(error);
     }
   };
 
@@ -145,82 +84,79 @@ const LearningUploads = ({ onUpload }) => {
         <form onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <label htmlFor="image-input">
-                Image Upload:
-                <input
-                  id="image-input"
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  style={{ display: 'none' }}
-                  onChange={handleImageUpload}
-                />
-                <Button variant="outlined" component="span" color="secondary">
-                  Choose Image
-                </Button>
-                {formData.image && (
-                  <Typography variant="body2">
-                    {formData.image.name}
-                  </Typography>
-                )}
-                {formErrors.image && (
-                  <Typography variant="caption" color="error">
-                    {formErrors.image}
-                  </Typography>
-                )}
-              </label>
-            </Grid>
-            <Grid item xs={12}>
               <TextField
-                fullWidth
-                name="courseName"
                 label="Course Name"
-                onChange={handleInputChange}
-                error={!!formErrors.courseName}
-                helperText={formErrors.courseName}
+                variant="outlined"
+                value={courseName}
+                onChange={(e) => setCourseName(e.target.value)}
+                fullWidth
+                error={!!errors.courseName}
+                helperText={errors.courseName}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
-                fullWidth
-                name="courseDescription"
                 label="Course Description"
+                variant="outlined"
+                value={courseDescription}
+                onChange={(e) => setCourseDescription(e.target.value)}
+                fullWidth
                 multiline
-                rows={4}
-                onChange={handleInputChange}
-                error={!!formErrors.courseDescription}
-                helperText={formErrors.courseDescription}
+                rows={3}
+                error={!!errors.courseDescription}
+                helperText={errors.courseDescription}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <label htmlFor="image-input">
+                <input
+                  type="file"
+                  id="image-input"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  style={{ display: 'none' }}
+                />
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  component="span"
+                  startIcon={<CloudUploadIcon />}
+                  style={{ minWidth: 195 }}
+                >
+                  Upload Course Image
+                </Button>
+              </label>
+              {errors.image && (
+                <div style={{ color: 'red', marginTop: '8px' }}>{errors.image}</div>
+              )}
             </Grid>
             <Grid item xs={12}>
               <label htmlFor="video-input">
-                Video Upload:
                 <input
-                  id="video-input"
                   type="file"
+                  id="video-input"
                   accept="video/*"
-                  name="videos"
+                  multiple
+                  onChange={handleVideoChange}
                   style={{ display: 'none' }}
-                  onChange={handleVideoUpload}
                 />
-                <Button variant="outlined" component="span" color="secondary">
-                  Choose Video
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  component="span"
+                  startIcon={<CloudUploadIcon />}
+                  style={{ minWidth: 195 }}
+                >
+                  Upload Course Videos
                 </Button>
-                {formData.videos && (
-                  <Typography variant="body2">
-                    {formData.videos.name}
-                  </Typography>
-                )}
-                {formErrors.videos && (
-                  <Typography variant="caption" color="error">
-                    {formErrors.videos}
-                  </Typography>
-                )}
               </label>
+              {errors.videos && (
+                <div style={{ color: 'red', marginTop: '8px' }}>{errors.videos}</div>
+              )}
             </Grid>
             <Grid item xs={12}>
-              <Button type="submit" variant="contained" color="secondary">
-                Upload Course
+              <Button type="submit" variant="contained" color="primary">
+                Create Media Course
               </Button>
             </Grid>
           </Grid>
