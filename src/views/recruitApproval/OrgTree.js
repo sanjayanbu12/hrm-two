@@ -1,60 +1,116 @@
+import { Card, CardContent, CardHeader, Typography } from '@material-ui/core';
 import React from 'react';
-import OrgChart from 'react-orgchart';
-import 'react-orgchart/index.css';
-
-const initechOrg = {
-  name: "Bill Lumbergh",
-  actor: "Gary Cole",
-  children: [
-    {
-      name: "Peter Gibbons",
-      actor: "Ron Livingston",
-      children: [
-        {
-          name: "And More!!",
-          actor: "This is just to show how to build a complex tree with multiple levels of children. Enjoy!"
-        }
-      ]
-    },
-    {
-      name: "Milton Waddams",
-      actor: "Stephen Root"
-    },
-    {
-      name: "Bob Slydell",
-      actor: "John C. McGi..."
-    },
-  ]
-};
-
-const MyNodeComponent = ({ node }) => {
-  const handleInteraction = () => {
-    alert("Hi my real name is: " + node.actor);
-  };
-
-  const handleKeyDown = (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-      handleInteraction();
+import { useState } from 'react';
+import { useEffect } from 'react';
+import axios from 'axios';
+import { Tree, TreeNode } from 'react-organizational-chart';
+import { MapInteractionCSS } from 'react-map-interaction';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router';
+const OrgTree = () => {
+  const [managerName, setManagerName] = useState([]);
+  const [hrData, setHrdata] = useState([]);
+  const navigate=useNavigate()
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
+  const fetchEmployees = async () => {
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const employees = response.data.reverse(); // Reverse the data if needed
+      const manager = employees.filter((data) => data.approval.manager === true);
+      setManagerName(manager);
+      const hr = employees.filter((data) => data.approval.hr === true);
+      setHrdata(hr);
+    } catch (error) {
+      console.log(error);
     }
   };
 
   return (
-    <div
-      className="initechNode"
-      onClick={handleInteraction}
-      onKeyDown={handleKeyDown}
-      role="button" // Provide a role to indicate interactivity
-      tabIndex="0"   // Make the element focusable
-    >
-      {node.name}
-    </div>
+    <>
+      <MapInteractionCSS>
+        <Tree
+          lineWidth={'2px'}
+          lineColor={'green'}
+          lineHeight="80px"
+          lineBorderRadius={'10px'}
+          label={
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Card
+                style={{
+                  minWidth: 275,
+                  height: '10em',
+                  background: '#DBC4F0',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <CardHeader title={managerName.map((data) => data.name)} style={{ padding: '0px' }} />
+                            
+                <CardContent style={{ padding: '0px' }}>
+                  <Typography>
+                    Web Dept
+                      <VisibilityIcon onClick={()=>navigate('/managerapproval')}/>
+             
+                  </Typography>
+                  <Typography>Manager</Typography>
+                </CardContent>
+              </Card>
+            </div>
+          }
+        >
+          {hrData &&
+            hrData.map((data) => (
+              <TreeNode
+                key={data._id}
+                label={
+                  <Card
+                    style={{
+                      background: '#78C1F3',
+                      minWidth: 100,
+                      height: '10em',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                  >
+                  
+                      <VisibilityIcon onClick={()=>navigate('/hrapproval')} />
+                    
+                    {data.name}
+                  </Card>
+                }
+              >
+                {/* <TreeNode label={<Card
+               style={{
+                background:'#78C1F3',
+                minWidth: 275 ,
+                 height: '10em' ,
+                 display:'flex',
+                 justifyContent:'center',
+                 alignItems:'center'
+    
+              }}
+              >{data.dept}</Card>} /> */}
+                {/* <TreeNode label={<Card
+               style={{
+              background:'#78C1F3',
+              minWidth: 275 ,
+               height: '10em' ,
+               display:'flex',
+               justifyContent:'center',
+               alignItems:'center'
+  
+            }}>{data.report}</Card>} /> */}
+              </TreeNode>
+            ))}
+        </Tree>
+      </MapInteractionCSS>
+    </>
   );
 };
 
-const MyOrgChart = () => {
-  return (
-    <OrgChart tree={initechOrg} NodeComponent={MyNodeComponent} />
-  );
-};
-
-export default MyOrgChart;
+export default OrgTree;

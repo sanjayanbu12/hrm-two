@@ -28,7 +28,7 @@ const RecruitmentForm = () => {
   const [Company, setCompany] = useState('');
   const [Description, setDescription] = useState('');
   const [ApplicationLink, setApplicationLink] = useState('');
-  const [OtherEducation, setOtherEducation] = useState('');
+  const [Othereducation, setOthereducation] = useState('');
   const [ExperienceFrom, setExperienceFrom] = useState('');
   const [ExperienceTo, setExperienceTo] = useState('');
   const [Deadline, setDeadline] = useState('');
@@ -190,12 +190,16 @@ const RecruitmentForm = () => {
   };
 
   const handleHrcontact = (e) => {
-    setHrcontact(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      Hrcontact: ''
-    }));
+    const inputValue = e.target.value;
+    const validInput = /^(\+91\s)?\d{0,10}$/.test(inputValue);
+    if (validInput || inputValue === '') {
+      setHrcontact(inputValue);
+      setErrors((prevErrors) => ({ ...prevErrors, Hrcontact: '' }));
+    } else {
+      setErrors({ Hrcontact: 'Please enter a valid 10-digit phone number' });
+    }
   };
+  
    
   const handleInterview = (e) => {
     setInterview(e.target.value);
@@ -254,13 +258,8 @@ const RecruitmentForm = () => {
     }));
   };
 
-  const handleOtherEducation = (e) => {
-    const edu=e.target.value;
-    setOtherEducation(edu);
-    setErrors((prev) => ({
-      ...prev,
-      OtherEducation: ''
-    }));
+  const handleOthereducation = (e) => {
+    setOthereducation(e.target.value);
   };
   
   
@@ -345,7 +344,7 @@ const RecruitmentForm = () => {
         setCompany(responseData.Company);
         setDescription(responseData.Description);
         setApplicationLink(responseData.ApplicationLink);
-        setOtherEducation(responseData.OtherEducation);
+        setOthereducation(responseData.Othereducation);
         setExperienceFrom(responseData.ExperienceFrom);
         setExperienceTo(responseData.ExperienceTo);
         setDeadline(responseData.Deadline);
@@ -375,7 +374,7 @@ const RecruitmentForm = () => {
           Company,
           Description,
           ApplicationLink,
-          OtherEducation,
+          Othereducation,
           ExperienceFrom,
           ExperienceTo,
           Deadline,
@@ -399,7 +398,7 @@ const RecruitmentForm = () => {
             Company,
             Description,
             ApplicationLink,
-            OtherEducation,
+            Othereducation,
             ExperienceFrom,
             ExperienceTo,
             Deadline,
@@ -425,7 +424,7 @@ const RecruitmentForm = () => {
         setCompany('');
         setDescription('');
         setApplicationLink('');
-        setOtherEducation('');
+        setOthereducation('');
         setExperienceFrom('');
         setDeadline('');
         setWorktype('');
@@ -466,7 +465,7 @@ const RecruitmentForm = () => {
           Company,
           Description,
           ApplicationLink,
-          OtherEducation,
+          Othereducation,
           ExperienceFrom,
           ExperienceTo,
           Deadline,
@@ -490,7 +489,7 @@ const RecruitmentForm = () => {
             Openings,
             Company,
             ApplicationLink,
-            OtherEducation,
+            Othereducation,
             ExperienceFrom,
             ExperienceTo,
             Deadline,
@@ -515,7 +514,7 @@ const RecruitmentForm = () => {
         setCompany('');
         setDescription('');
         setApplicationLink('');
-        setOtherEducation('');
+        setOthereducation('');
         setExperienceFrom('');
         setExperienceTo('');
         setDeadline('');
@@ -653,13 +652,13 @@ const RecruitmentForm = () => {
       options={Educations}
       limitTags={1}
       disableCloseOnSelect
-      value={Education ? String(Education).split(',') : []}
+      value={Education.includes('Others') ? ['Others'] :  Education ? String(Education).split(',') : []}
       onChange={(e, newValue) => handleEducation(e, newValue)}
       renderInput={(params) => (
         <TextField
           {...params}
           label="Education"
-          value={Education}
+          value={Education.includes('Others') ? 'Others' : Education}
           error={errors && errors.Education}
         />
       )}
@@ -667,21 +666,23 @@ const RecruitmentForm = () => {
     <FormHelperText>{errors && errors.Education}</FormHelperText>
   </FormControl>
 </Grid>
-{Education && Education.includes('Others') && (
-  <Grid item xs={12} sm={6} md={4} lg={3}>
-    <TextField
-      sx={{ minWidth: '100%' }}
-      id="other-education"
-      label="Other Education"
-      value={OtherEducation}
-      type='value'
-      onChange={(e) => handleOtherEducation(e)}
-      error={errors && errors.OtherEducation}
-      helperText={errors && errors.OtherEducation}
-    />
-  </Grid>
-)}
 
+ {Education && Education.includes('Others') &&(
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+              <FormControl sx={{ minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-label"></InputLabel>
+                <TextField
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Other"
+                  value={Othereducation}
+                  error={errors && errors.Jobrole}
+                  helperText={errors && errors.Jobrole}
+                  onChange={(e) => handleOthereducation(e)}
+                />
+              </FormControl>
+            </Grid>
+ )}
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -690,10 +691,14 @@ const RecruitmentForm = () => {
                   id="demo-simple-select"
                   label="Year of Passing"
                   value={Year}
-                  type='number'
+                  type='text'
                   error={errors && errors.Year}
                   helperText={errors && errors.Year}
                   onChange={(e) => handleYear(e)}
+                  onInput={(e) => {
+                    // Remove non-numeric characters
+                    e.target.value = e.target.value.replace(/[^0-9,]/g, '');
+                  }}
                 />
 
               </FormControl>
@@ -811,7 +816,6 @@ const RecruitmentForm = () => {
                   helperText={errors && errors.Hrcontact}
                   inputProps={{
                     maxLength:10,
-                    pattern:"[0-9]{10}"
                   }}
                   onChange={(e) => handleHrcontact(e)}
                 />

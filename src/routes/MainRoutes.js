@@ -5,7 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 // import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
-import Recruitment from 'views/recruitment/RecruitmentTable';
+import Recruitment from 'views/recruitment/BasicRecruittable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
 import ApproveLeave from 'views/leavemanagement/ApproveLeave';
@@ -29,7 +29,9 @@ import BasicApptable from 'views/recruitment/BasicApptable';
 import LearningModule from 'views/learninganddevelopment/LearningModule';
 import LearningUploads from 'views/learninganddevelopment/LearningUploads';
 import CourseOverview from 'views/learninganddevelopment/CourseOverview';
-
+import ViewApproval from 'views/recruitApproval/ViewApproval';
+import HrApproval from 'views/recruitApproval/HrApproval';
+import ManagerApproval from 'views/recruitApproval/ManagerApproval';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
@@ -144,10 +146,14 @@ const MainRoutes = {
       path: '/newemployee',
       element: <EmployeeForm />
     },
-
     {
       path: '/newemployee/:id',
       element: <EmployeeForm />
+    },
+
+    {
+      path: '/viewapp',
+      element: <ViewApproval />
     },
     {
       path: '/viewdetails/:employeeid',
@@ -168,7 +174,16 @@ const MainRoutes = {
     {
       path: '/newevent',
       element: <Newevent />
+    },
+    {
+      path: '/hrapproval',
+      element: <HrApproval />
+    },
+    {
+      path: '/managerapproval',
+      element: <ManagerApproval />
     }
+   
   ]
 };
 

@@ -1,11 +1,13 @@
 import React from 'react'
-import MyApprovalList from 'views/recruitApproval/ApprovalOrder'
+// import MyApprovalList from 'views/recruitApproval/ApprovalOrder'
+import OrgTree from 'views/recruitApproval/OrgTree'
 const Payroll = () => {
     return (
         <div style={{
           height:'100vh'
         }} >
-        <MyApprovalList />
+        <OrgTree />
+{/* <MyApprovalList /> */}
           </div>
       )
     }
