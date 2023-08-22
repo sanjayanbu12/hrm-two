@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import MainCard from 'ui-component/cards/MainCard';
-import { Paper,Button, Avatar, Stack, Rating, Typography, } from '@mui/material';
+import { Paper,Button, Avatar, Stack, Rating, Typography,Divider } from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
 import ReplyIcon from '@mui/icons-material/Reply';
 
@@ -23,8 +23,15 @@ const Feedback = () => {
       };
 
   return (
-    <MainCard title="Feedbacks" sx={{height:"99%"}}>
-        <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center"}}>
+    
+    <MainCard title="Feedbacks" sx={{height:"99%",}}>
+        <Stack direction="row" spacing={2} sx={{listStyleType:"none",
+        display:"flex",alignItems:"center", 
+        
+        // "::-webkit-scrollbar":{width: "12px"},
+        // "::-webkit-scrollbar-track":{backgroundColor: "#888"},
+        // "::-webkit-scrollbar-thumb":{borderRadius:"6px"},
+          }}>
             <Item>
             <Avatar   
                 sx={{
@@ -53,7 +60,6 @@ const Feedback = () => {
                 <Button variant="contained" color="secondary">Give Feedback</Button>
                 </Item>
                 <Item>
-
                 </Item>
 
             </Stack>
@@ -71,7 +77,8 @@ const Feedback = () => {
             width : 290,
             padding: "15px",
             fontWeight: 800,
-            paddingBottom: "20px" 
+            paddingBottom: "20px" ,
+            
             }}
             title="Feedbacks given to you" 
             elevation={9}> 
@@ -148,6 +155,7 @@ const Feedback = () => {
                         <ReplyIcon/></IconButton></div> 
                         </div>
                         </Item>
+                <Item><ReplyIcon sx={{display:"block",marginLeft:"200px"}}/></Item>
 
                 <Divider />
 
@@ -191,6 +199,9 @@ const Feedback = () => {
         </Paper>
         </Item>
 
+
+        
+
         
 
 
@@ -198,6 +209,18 @@ const Feedback = () => {
 
         </Stack>
 
+
+
+
+
+
+
+
+
+        
+        
+        
+        
         
 
     </MainCard>
