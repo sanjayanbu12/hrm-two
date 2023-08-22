@@ -8,20 +8,15 @@ import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
 import { Tooltip } from '@mui/material';
 const columns = [
- 
+
   { title: 'Name', field: 'name' },
   { title: 'Jobrole', field: 'position' },
-  {title:'Mobile  No', field: 'phone'},
-  { title: 'Email', field: 'email' },
-  { title: 'Qualification', field: 'department' },
-  {title: 'Year of passing', field: 'graduationYear' },
-  { title: 'Resume', field: 'resume' },
-  {title: 'photo', field: 'photo' },
-  {title: 'Applied Date', field:'appliedAt' },
+  {title:'Mobile  No', field: 'phone',sorting:false},
+  { title: 'Email', field: 'email',sorting:false },
+  { title: 'Resume', field: 'resume',sorting:false },
+  {title: 'photo', field: 'photo',sorting:false },
+  {title: 'Applied Date', field:'appliedAt',sorting:false ,grouping:false},
 
-  
- 
- 
 ];
 
 const ApplicationTracker = () => {
@@ -93,7 +88,7 @@ const navigate=useNavigate()
   };
 
   const exportPdf = (columns, data) => {
-    const pdf = new jsPDF();
+    const pdf = new jsPDF('landscape');
     pdf.text('Employee Application Tracker', 10, 10);
 
     const rows = data.map((item) => [
@@ -110,10 +105,10 @@ const navigate=useNavigate()
     const columnStyle={
       0:{columnWidth:20},
       1:{columnWidth:20},
-      2:{columnWidth:30},
+      2:{columnWidth:35},
       3:{columnWidth:20},
       4:{columnWidth:20},
-      5:{columnWidth:20},
+      5:{columnWidth:40},
       6:{columnWidth:30},
       7:{columnWidth:20},
       8:{columnWidth:20},
@@ -194,7 +189,8 @@ const navigate=useNavigate()
         exportCsv: exportCsv,
         exportPdf: exportPdf,
         grouping: true,
-        selection:true
+        selection:true,
+        columnsButton:true,
        
         
       }}

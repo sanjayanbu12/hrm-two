@@ -21,6 +21,10 @@ import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import { Skill } from './Consts';
+import { Educations } from './Consts';
+import {Locations} from './Consts';
+
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -42,98 +46,12 @@ const RecruitmentForm = () => {
    const [Interview, setInterview] = useState('');
   const [Education, setEducation] = useState('');
   const [Location, setLocation] = useState('');
+  const [Emp, setEmp] = useState([]);
   const [Year, setYear] = useState('');
   const [errors, setErrors] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
-  const Skill = [
-    'JavaScript',
-    'React.js',
-    'Node.js',
-    'AngularJS',
-    'Vue.js',
-    'Java',
-    'Spring Framework',
-    'Hibernate',
-    'Apache Struts',
-    'JavaFX',
-    'Python',
-    'Django',
-    'Flask',
-    'NumPy',
-    'Pandas',
-    'C#',
-    'ASP.NET',
-    '.NET Core',
-    'Unity',
-    'Xamarin',
-    'Ruby',
-    'Ruby on Rails',
-    'Sinatra',
-    'RSpec',
-    'Capybara',
-    'PHP',
-    'Laravel',
-    'Symfony',
-    'CodeIgniter',
-    'WordPress',
-    'Swift',
-    'iOS app development',
-    'macOS app development',
-    'SwiftUI',
-    'Kotlin',
-    'Android app development',
-    'Kotlin Multiplatform',
-    'TypeScript',
-    'Angular',
-    'Vue.js',
-    'React Native',
-    'Deno',
-    'Go',
-    'Google Cloud Platform',
-    'Docker',
-    'Kubernetes',
-    'Rust',
-    'Systems programming',
-    'Web development',
-    'Networking',
-    'C/C++',
-    'Embedded systems',
-    'Game development',
-    'Operating systems',
-    'SQL',
-    'Database management',
-    'Querying and manipulating data',
-    'HTML/CSS',
-    'Web development',
-    'Front-end design',
-    'MATLAB',
-    'Numerical computing',
-    'Data analysis',
-    'R',
-    'Statistical computing',
-    'Data visualization',
-    'Machine learning'
-  ];
-  const Educations = [
-    'BCA',
-    'MCA',
-    'BBA',
-    'MBA',
-    'B.Tech',
-    'M.Tech',
-    'B.Sc.',
-    'M.Sc',
-    'BE',
-    'ME',
-    'Any Computer Streams',
-    'Any UG',
-    'Any PG',
-    'Others'
-  ];
-  const Locations = ['Coimbatore', 'Chennai', 'Bengaluru'];
  
-
   const handleApplicationLink = (e) => {
     setApplicationLink(e.target.value);
     setErrors((prev) => ({
@@ -181,8 +99,8 @@ const RecruitmentForm = () => {
     }));
   };
 
-  const handleHrname = (e) => {
-    setHrname(e.target.value);
+  const handleHrname = (e,value) => {
+    setHrname(value.join(','));
     setErrors((prev) => ({
       ...prev,
       Hrname: ''
@@ -325,6 +243,24 @@ const RecruitmentForm = () => {
       }));
     }
   };
+useEffect(()=>{
+  fetchEmp()
+},[]);
+
+const fetchEmp=async()=>{
+  try {
+    const res =await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
+    console.log(res)
+     setEmp(res.data.reverse());
+     console.log(Emp)
+  } catch (error) {
+    console.log(error);
+  }
+}
+const Emplist=Emp.map((item)=>item.name)
+console.log(Emplist)
+
+
   useEffect(() => {
     axios
       .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
@@ -790,17 +726,18 @@ const RecruitmentForm = () => {
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
+              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Hrname}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="HR Name"
-                  value={Hrname}
-                  error={errors && errors.Hrname}
-                  helperText={errors && errors.Hrname}
-                  onChange={(e) => handleHrname(e)}
+                <Autocomplete
+                  multiple
+                  options={Emplist}
+                  limitTags={1}
+                  disableCloseOnSelect
+                  value={Hrname ? String(Hrname).split(',') : []}
+                  onChange={(e, value) => handleHrname(e, value)}
+                  renderInput={(params) => <TextField {...params} label="HR Name" value={Hrname} error={errors && errors.Hrname} />}
                 />
+                <FormHelperText>{errors && errors.Hrname}</FormHelperText>
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>

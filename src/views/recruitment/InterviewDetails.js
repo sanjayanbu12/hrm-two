@@ -68,13 +68,16 @@ const InterviewDetails = () => {
       data={data}
       editable={{
         onRowUpdate: (newData, oldData) => handleEdit(newData, oldData),
-        onBulkUpdate: (changes) => handleBulkUpdate(changes), // Call your custom handler
+        onBulkUpdate: (changes) => handleBulkUpdate(changes),
       }}
       icons={tableIcons}
       options={{
         actionsColumnIndex: -1,
         exportButton: true,
         grouping: true,
+        columnsButton:true,
+
+      
       }}
     />
   );
