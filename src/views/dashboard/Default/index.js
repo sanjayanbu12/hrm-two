@@ -2,15 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for styling
+import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
-import Upcomingevents from './Upcomingevents';
-
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
-
 
   useEffect(() => {
     setTimeout(() => {
@@ -19,7 +17,7 @@ const Dashboard = () => {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 1000
       });
-    }, 10000);
+    }, 2000);
   }, []);
 
   return (
@@ -44,10 +42,8 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid> */}
-       <ToastContainer />
-      <Grid item lg={4} md={6} sm={6} xs={12}>
-        <Upcomingevents isLoading={isLoading} />
-      </Grid>
+       
+     
 
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
@@ -59,6 +55,14 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid>
+      
+        <Grid container spacing={gridSpacing}>
+          <Grid item xs={12} md={8}>
+        <Upcomingevents isLoading={isLoading} />
+      </Grid>
+      
+      </Grid>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,131 +1,125 @@
-import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
-
-// material-ui
-import { useTheme } from '@mui/material/styles';
-import { Grid, MenuItem, TextField, Typography } from '@mui/material';
-
-// third-party
-import ApexCharts from 'apexcharts';
-import Chart from 'react-apexcharts';
-
-// project imports
-import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
+import React from 'react'
+import Card from '@mui/material/Card';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import './dashboard.css'
 import MainCard from 'ui-component/cards/MainCard';
-import { gridSpacing } from 'store/constant';
+import { useNavigate } from 'react-router';
 
-// chart data
-import chartData from './chart-data/total-growth-bar-chart';
-
-const status = [
-  {
-    value: 'today',
-    label: 'This Month'
-  },
-  {
-    value: 'year',
-    label: 'This Year'
-  }
-];
-
-// ==============================|| DASHBOARD DEFAULT -  BAR CHART ||============================== //
-
-const TotalGrowthBarChart = ({ isLoading }) => {
-  const [value, setValue] = useState('today');
-  const theme = useTheme();
-  const customization = useSelector((state) => state.customization);
-
-  const { navType } = customization;
-  const { primary } = theme.palette.text;
-  const darkLight = theme.palette.dark.light;
-  const grey200 = theme.palette.grey[200];
-  const grey500 = theme.palette.grey[500];
-
-  const primary200 = theme.palette.primary[200];
-  const primaryDark = theme.palette.primary.dark;
-  const secondaryMain = theme.palette.secondary.main;
-  const secondaryLight = theme.palette.secondary.light;
-
-  useEffect(() => {
-    const newChartData = {
-      ...chartData.options,
-      colors: [primary200, primaryDark, secondaryMain, secondaryLight],
-      xaxis: {
-        labels: {
-          style: {
-            colors: [primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary, primary]
-          }
-        }
-      },
-      yaxis: {
-        labels: {
-          style: {
-            colors: [primary]
-          }
-        }
-      },
-      grid: {
-        borderColor: grey200
-      },
-      tooltip: {
-        theme: 'light'
-      },
-      legend: {
-        labels: {
-          colors: grey500
-        }
-      }
-    };
-
-    // do not load chart when loading
-    if (!isLoading) {
-      ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
-    }
-  }, [navType, primary200, primaryDark, secondaryMain, secondaryLight, primary, darkLight, grey200, isLoading, grey500]);
-
+const TotalGrowthBarChart = () => {
+  const navigate=useNavigate();
   return (
-    <>
-      {isLoading ? (
-        <SkeletonTotalGrowthBarChart />
-      ) : (
-        <MainCard>
-          <Grid container spacing={gridSpacing}>
-            <Grid item xs={12}>
-              <Grid container alignItems="center" justifyContent="space-between">
-                <Grid item>
-                  <Grid container direction="column" spacing={1}>
-                    <Grid item>
-                      <Typography variant="h4">Job Statistics</Typography>
-                    </Grid>
-                    {/* <Grid item>
-                      <Typography variant="h3">$2,324.00</Typography>
-                    </Grid> */}
-                  </Grid>
-                </Grid>
-                <Grid item>
-                  <TextField id="standard-select-currency" select value={value} onChange={(e) => setValue(e.target.value)}>
-                    {status.map((option) => (
-                      <MenuItem key={option.value} value={option.value}>
-                        {option.label}
-                      </MenuItem>
-                    ))}
-                  </TextField>
-                </Grid>
-              </Grid>
-            </Grid>
-            <Grid item xs={12}>
-              <Chart {...chartData} />
-            </Grid>
-          </Grid>
-        </MainCard>
-      )}
-    </>
-  );
-};
+    <MainCard>
+    <div className='dashboard'>
+ { 
+    <Card sx={{ width: 250, height: 150,background:'lightblue',color: 'blue',
+    fontWeight:'bold',
+    fontSize:'20px',
+    }}>
+      <CardContent>
+  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+    EMPLOYEES
+  </Typography>
+  <Typography variant="h5" component="div">
+    {/* Your content here */}
+  </Typography>
+  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+    Twenty Five
+  </Typography>
+  <Typography variant="body2">
+    well meaning and kindly.
+    <br />
+    {'"a benevolent smile"'}
+  </Typography>
+  <CardActions color='red'>
+    <Button size="small">See Details</Button>
+  </CardActions>
+</CardContent>
 
-TotalGrowthBarChart.propTypes = {
-  isLoading: PropTypes.bool
-};
+    </Card>
+}
+<Card sx={{ width: 250, height: 150,background:'grey',color: 'white',
+    fontWeight:'bold',
+    fontSize:'20px',
+    }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          TASKS
+        </Typography>
+        <Typography variant="h5" component="div">
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Ten
+        </Typography>
+        <Typography variant="body2">
+          {/* well meaning and kindly. */}
+          <br />
+          {/* {'"a benevolent smile"'} */}
+        </Typography>
+        <Button  onClick={() => navigate(`/basictable`)}
+        >HI</Button>
+      </CardContent>
+    </Card>
+    </div>
 
-export default TotalGrowthBarChart;
+    <div className='dashboard1'>
+
+     <Card sx={{ width: 250,
+      height: 150,
+      background:'grey',
+      color: 'blue',
+    fontWeight:'bold',
+    fontSize:'20px',
+    }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          PROJECTS
+        </Typography>
+        <Typography variant="h5" component="div">
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Three
+        </Typography>
+        <Typography variant="body2">
+          {/* well meaning and kindly. */}
+          <br />
+          {/* {'"a benevolent smile"'} */}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">See Details</Button>
+      </CardActions>
+    </Card>
+
+    <Card sx={{ width: 250, height: 150,background:'lightgreen',color: 'blue',
+    fontWeight:'bold',
+    fontSize:'20px',
+    }}>
+      <CardContent>
+        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          USERS
+        </Typography>
+        <Typography variant="h5" component="div">
+        </Typography>
+        <Typography sx={{ mb: 1.5 }} color="text.secondary">
+          Twenty
+        </Typography>
+        <Typography variant="body2">
+          {/* well meaning and kindly. */}
+          <br />
+          {/* {'"a benevolent smile"'} */}
+        </Typography>
+      </CardContent>
+      <CardActions>
+        <Button size="small">See Details</Button>
+      </CardActions>
+    </Card>
+
+      </div>
+      </MainCard>
+  )
+}
+
+export default TotalGrowthBarChart
