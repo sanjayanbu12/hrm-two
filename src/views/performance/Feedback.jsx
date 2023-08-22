@@ -1,7 +1,8 @@
 import React from 'react'
 import MainCard from 'ui-component/cards/MainCard';
-import { Paper,Button, Avatar, Stack, Rating, Typography, } from '@mui/material';
+import { Paper,Button, Avatar, Stack, Rating, Typography,Divider } from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 import Item from 'antd/es/list/Item';
 
@@ -10,13 +11,19 @@ import Item from 'antd/es/list/Item';
 
 const Feedback = () => {
   return (
-    <MainCard title="Feedbacks" sx={{height:"99%"}}>
-        <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center"}}>
+    
+    <MainCard title="Feedbacks" sx={{height:"99%",}}>
+        <Stack direction="row" spacing={2} sx={{listStyleType:"none",
+        display:"flex",alignItems:"center", 
+        
+        // "::-webkit-scrollbar":{width: "12px"},
+        // "::-webkit-scrollbar-track":{backgroundColor: "#888"},
+        // "::-webkit-scrollbar-thumb":{borderRadius:"6px"},
+          }}>
             <Item>
             <Avatar   
                 sx={{
-                    
-                
+
                      width: '60px',
                      height: '60px',
                 }}
@@ -40,6 +47,9 @@ const Feedback = () => {
                 <Item>
                 <Button variant="contained" color="secondary">Give Feedback</Button>
                 </Item>
+                <Item>
+                    
+                </Item>
 
             </Stack>
 
@@ -56,19 +66,48 @@ const Feedback = () => {
             width : 290,
             padding: "15px",
             fontWeight: 800,
-            paddingBottom: "20px" 
+            paddingBottom: "20px" ,
+            
             }}
             title="Feedbacks given to you" 
             elevation={9}> 
 
 
-        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2}
-        sx={{listStyleType:"none",display:"flex",marginTop:"5px"}}>
+        <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} 
+        sx={{listStyleType:"none",height:250,display:"flex",marginTop:"5px", overflow:"auto",
+        overflowY: 'scroll',
+        scrollbarWidth: 'thin',
+        scrollbarColor: 'transparent transparent', // Transparent colors by default
+    
+        '&::-webkit-scrollbar': {
+          width: '5px',
+        },
+    
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: 'transparent', // Transparent background
+        },
+    
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: 'transparent', // Transparent thumb
+          borderRadius: '6px',
+          transition: 'background-color 0.3s', // Smooth transition
+        },
+    
+        '&:hover::-webkit-scrollbar-thumb': {
+          backgroundColor: '#888',
+           // Change background color on hover
+        },
+    
+        '&::-webkit-scrollbar-thumb:hover': {
+          backgroundColor: '#555',
+          transition: "3s"
+        },
+        }}>
         <Item>
         <Avatar   
                 sx={{
                     
-                    
+
                      width: '40px',
                      height: '40px',
                 }}
@@ -94,10 +133,52 @@ const Feedback = () => {
                     Good Work! but, you have to maintain punctuality too...
                 </Typography>
                 </Item>
+                <Item><ReplyIcon sx={{display:"block",marginLeft:"200px"}}/></Item>
+
+                <Divider />
+
+
+                <Item>
+        <Avatar   
+                sx={{
+                    
+                    
+                     width: '40px',
+                     height: '40px',
+                }}
+                src={User1}>
+            </Avatar>
+            </Item>
+           
+
+{/* This for review  */}
+            <Item>
+            <Typography variant="h4" body1="span"  sx={{
+                fontWeight: 800,
+                fontSize:"medium"
+                }}>Ajay S
+                </Typography>
+                <Typography variant="subtitle2">Project Admin</Typography>
+                </Item>
+                <Item>
+                <Rating alignItems="left" name="read-only" value={3} readOnly />
+                <Typography component="legend"
+                sx={{
+                    marginTop:"10px",
+                    fontWeight: 300,
+                }}>
+                    Good Work! but, you have to maintain punctuality too...
+                </Typography>
+                </Item>
+
+
                 </Stack>
 
         </Paper>
         </Item>
+
+
+        
 
         
 
@@ -105,6 +186,16 @@ const Feedback = () => {
 
 
         </Stack>
+
+
+
+
+
+
+
+
+
+        
         
         
         
