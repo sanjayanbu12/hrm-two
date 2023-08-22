@@ -5,19 +5,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
+import { Image, TextSnippet } from '@mui/icons-material';
+import { Tooltip } from '@mui/material';
 const columns = [
- 
+
   { title: 'Name', field: 'name' },
   { title: 'Jobrole', field: 'position' },
-  {title:'Mobile  No', field: 'phone'},
-  { title: 'Email', field: 'email' },
-  { title: 'Qualification', field: 'department' },
-  {title: 'Year of passing', field: 'graduationYear' },
-  { title: 'Experience', field: 'experience' },
-  {title: 'Applied Date', field:'appliedAt' },
-  
- 
- 
+  {title:'Mobile  No', field: 'phone',sorting:false},
+  { title: 'Email', field: 'email',sorting:false },
+  { title: 'Resume', field: 'resume',sorting:false },
+  {title: 'photo', field: 'photo',sorting:false },
+  {title: 'Applied Date', field:'appliedAt',sorting:false ,grouping:false},
+
 ];
 
 const ApplicationTracker = () => {
@@ -33,6 +32,33 @@ const navigate=useNavigate()
     console.log(id[0])
     navigate(`/view/${id[0]}`);
   }
+  const handleResume = async (id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, `${name} resume.pdf`);
+    } catch (error) {
+      console.log('Error downloading resume:', error);
+    }
+  };
+
+  const handlePhotoDown = async (id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const contentType = response.headers['Content-Type'];
+      const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: contentType });
+      saveAs(blob, `${name}.${extension}`);
+    } catch (error) {
+      console.log('Error downloading photo:', error);
+    }
+  };
 
   useEffect(() => {
     fetchEmployees();
@@ -62,7 +88,7 @@ const navigate=useNavigate()
   };
 
   const exportPdf = (columns, data) => {
-    const pdf = new jsPDF();
+    const pdf = new jsPDF('landscape');
     pdf.text('Employee Application Tracker', 10, 10);
 
     const rows = data.map((item) => [
@@ -79,10 +105,10 @@ const navigate=useNavigate()
     const columnStyle={
       0:{columnWidth:20},
       1:{columnWidth:20},
-      2:{columnWidth:30},
+      2:{columnWidth:35},
       3:{columnWidth:20},
       4:{columnWidth:20},
-      5:{columnWidth:20},
+      5:{columnWidth:40},
       6:{columnWidth:30},
       7:{columnWidth:20},
       8:{columnWidth:20},
@@ -120,6 +146,20 @@ const navigate=useNavigate()
             ...column,
             render: (rowData) => formatDate(rowData.appliedAt),
           };
+        } else if (column.field === 'resume') {
+          return {
+            ...column,
+            render: (rowData) => (
+              <a href="#" onClick={() => handleResume(rowData._id, rowData.name)}><Tooltip title='Download Resume'><TextSnippet style={{color:'#616161'}}></TextSnippet></Tooltip></a>
+            ),
+          };
+        } else if (column.field === 'photo') {
+          return {
+            ...column,
+            render: (rowData) => (
+              <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.name)}><Tooltip title="Download Photo"><Image style={{color:'#616161'}}></Image></Tooltip></a>
+            ),
+          };
         }
         return column;
       })}
@@ -149,7 +189,8 @@ const navigate=useNavigate()
         exportCsv: exportCsv,
         exportPdf: exportPdf,
         grouping: true,
-        selection:true
+        selection:true,
+        columnsButton:true,
        
         
       }}
