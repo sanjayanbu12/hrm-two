@@ -1,6 +1,6 @@
 import React from 'react'
 import MainCard from 'ui-component/cards/MainCard';
-import { Paper, Avatar, Stack, Rating, Typography, Divider, List, ListItem, ListItemText,ListItemAvatar, } from '@mui/material';
+import { Paper,Button, Avatar, Stack, Rating, Typography, } from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
 
 import Item from 'antd/es/list/Item';
@@ -10,7 +10,7 @@ import Item from 'antd/es/list/Item';
 
 const Feedback = () => {
   return (
-    <MainCard title="Feedbacks" >
+    <MainCard title="Feedbacks" sx={{height:"99%"}}>
         <Stack direction="row" spacing={2} sx={{listStyleType:"none",display:"flex",alignItems:"center"}}>
             <Item>
             <Avatar   
@@ -37,26 +37,33 @@ const Feedback = () => {
                     marginTop: "5px"
                     }}> Project Admin</Typography>
                 </Item>
+                <Item>
+                <Button variant="contained" color="secondary">Give Feedback</Button>
+                </Item>
 
             </Stack>
 
         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2} sx={{listStyleType:"none"}}>
 
         <Item >
+            <Typography  sx={{fontSize:'18px',
+            marginTop:"10px",
+
+            }}><b>Feedbacks Given to you</b></Typography>
         <Paper
         sx ={{
             marginTop: "20px",
             width : 290,
             padding: "15px",
             fontWeight: 800,
-            paddingBottom: "30px" 
+            paddingBottom: "20px" 
             }}
             title="Feedbacks given to you" 
-            elevation={9}> Feedbacks Given to You
+            elevation={9}> 
 
 
         <Stack direction="row" useFlexGap flexWrap="wrap" spacing={2}
-        sx={{listStyleType:"none",display:"flex",marginTop:"20px"}}>
+        sx={{listStyleType:"none",display:"flex",marginTop:"5px"}}>
         <Item>
         <Avatar   
                 sx={{
@@ -92,85 +99,7 @@ const Feedback = () => {
         </Paper>
         </Item>
 
-        <Item display="flex">
-
-        <Paper
-        sx ={{
-            marginTop: "20px",
-            width : 290,
-            padding: "15px",
-            paddingRight: "30px",
-            fontWeight: 800,
-            paddingBottom: "30px" 
-            }}
-            title="Skill Set Matrix" 
-            elevation={9}> Give Feedbacks
-{/*  */}
-            {/* This is for memebrs */}
-{/*  */}
-
-    <Stack direction="column" useFlexGap flexWrap="wrap" spacing={2}
-        sx={{listStyleType:"none",display:"flex",marginTop:"15px",}}>
-            <Divider/>
-
-
-    <List sx={{ width: '100%', maxWidth: 360, height:100,overflow:"auto",scrollbarWidth:"none", bgcolor: 'background.paper' }}>
-      <ListItem sx={{marginTop:"-25px"}}>
-
-        <ListItemAvatar>
-          <Avatar src={User1}>
-            
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText>
-        <Typography variant="h4" body1="span"  sx={{fontWeight: 800,fontSize:"medium"}}>
-            Kannan S
-        </Typography>
-        <Typography variant="subtitle2">Project Admin</Typography>
-        </ListItemText>
-        </ListItem>
-        <Divider/>
-
-        <ListItem >
-        <ListItemAvatar>
-          <Avatar src={User1}>
-            
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText>
-        <Typography variant="h4" body1="span"  sx={{fontWeight: 800,fontSize:"medium"}}>
-            Kannan S
-        </Typography>
-        <Typography variant="subtitle2">Project Admin</Typography>
-        </ListItemText>
-        </ListItem>
-        <Divider/>
-
-        <ListItem >
-        <ListItemAvatar>
-          <Avatar src={User1}>
-            
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText>
-        <Typography variant="h4" body1="span"  sx={{fontWeight: 800,fontSize:"medium"}}>
-            Kannan S
-        </Typography>
-        <Typography variant="subtitle2">Project Admin</Typography>
-        </ListItemText>
-        </ListItem>
-
-
-        </List>
-
-
-            
-
-
-
-            </Stack>
-            </Paper>
-        </Item>
+        
 
 
 
