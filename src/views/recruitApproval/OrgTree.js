@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { useNavigate } from 'react-router';
 const OrgTree = () => {
   const [managerName, setManagerName] = useState([]);
@@ -32,12 +31,13 @@ const OrgTree = () => {
       <MapInteractionCSS>
         <Tree
           lineWidth={'2px'}
-          lineColor={'green'}
+          lineColor={'#F94C10'}
           lineHeight="80px"
           lineBorderRadius={'10px'}
           label={
             <div style={{ display: 'flex', justifyContent: 'center' }}>
               <Card
+                onClick={()=>navigate('/managerapproval')}
                 style={{
                   minWidth: 275,
                   height: '10em',
@@ -45,16 +45,14 @@ const OrgTree = () => {
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
-                  justifyContent: 'center'
-                }}
+                  justifyContent: 'center',
+                    }}
               >
                 <CardHeader title={managerName.map((data) => data.name)} style={{ padding: '0px' }} />
                             
                 <CardContent style={{ padding: '0px' }}>
                   <Typography>
                     Web Dept
-                      <VisibilityIcon onClick={()=>navigate('/managerapproval')}/>
-             
                   </Typography>
                   <Typography>Manager</Typography>
                 </CardContent>
@@ -68,43 +66,23 @@ const OrgTree = () => {
                 key={data._id}
                 label={
                   <Card
+                  onClick={()=>navigate('/hrapproval')}
                     style={{
                       background: '#78C1F3',
-                      minWidth: 100,
+                      minWidth: 150,
                       height: '10em',
                       display: 'flex',
                       justifyContent: 'center',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      flexWrap:'wrap',
+                      padding:'10px'
                     }}
                   >
-                  
-                      <VisibilityIcon onClick={()=>navigate('/hrapproval')} />
-                    
                     {data.name}
                   </Card>
                 }
               >
-                {/* <TreeNode label={<Card
-               style={{
-                background:'#78C1F3',
-                minWidth: 275 ,
-                 height: '10em' ,
-                 display:'flex',
-                 justifyContent:'center',
-                 alignItems:'center'
-    
-              }}
-              >{data.dept}</Card>} /> */}
-                {/* <TreeNode label={<Card
-               style={{
-              background:'#78C1F3',
-              minWidth: 275 ,
-               height: '10em' ,
-               display:'flex',
-               justifyContent:'center',
-               alignItems:'center'
-  
-            }}>{data.report}</Card>} /> */}
+
               </TreeNode>
             ))}
         </Tree>

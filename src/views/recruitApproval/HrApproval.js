@@ -3,7 +3,6 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
@@ -27,14 +26,15 @@ const HrApproval = () => {
     navigate(`/views/${id}`)
   }
   return (
-  <Stack direction={'row'} spacing={10}>
+    
+  <Stack direction={'row'} gap={'30px'} sx={{ flexWrap: 'wrap' , }}>
     {data && data.map(item =>(
- <Card  key={item._id} sx={{ width: 350 }}>
+ <Card  key={item._id} sx={{ width: '50%', }}>
  <CardContent sx={{display:'flex',flexDirection:'column',gap:'20px'}}>
    <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant='h1' gutterBottom>
    {item.Company}
    </Typography>
-   <Stack  spacing={0.5}>
+   <Stack sx={{margin:'0 auto'}} spacing={0.5}>
    <Typography variant="h5" component="div">
     <span style={{ marginRight: '20px' }}>Role<span style={{marginLeft:'85px'}}>:</span></span> {item.Jobrole}
 </Typography>
@@ -51,13 +51,12 @@ const HrApproval = () => {
    <Typography variant="h5" component="div">
     <span style={{ marginRight: '20px' }}>Interviewrounds<span style={{marginLeft:'10px',marginRight:'10px'}}>:</span></span> {item.Interviewrounds}
 </Typography>
-   </Stack>
- </CardContent>
- <CardActions>
    <Button size="small"
    onClick={()=>handleClick(item._id)}
+   
    >View More</Button>
- </CardActions>
+   </Stack>
+ </CardContent>
 </Card>
     ))}
   </Stack>);

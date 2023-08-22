@@ -29,7 +29,7 @@ const ManagerApproval = () => {
   return (
   <Stack direction={'row'} spacing={10}>
     {data && data.map(item =>(
- <Card  key={item._id} sx={{ width: 350 }}>
+ <Card  key={item._id} sx={{ minWidth: 375 }}>
  <CardContent sx={{display:'flex',flexDirection:'column',gap:'20px'}}>
    <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant='h1' gutterBottom>
    {item.Company}
