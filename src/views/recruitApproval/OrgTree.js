@@ -6,9 +6,12 @@ import axios from 'axios';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
+import CircularProgress from '@mui/material/CircularProgress';
+
 const OrgTree = () => {
   const [managerName, setManagerName] = useState([]);
   const [hrData, setHrdata] = useState([]);
+  const [loader,setLoaderStatus] = useState(true)
   const navigate=useNavigate()
   useEffect(() => {
     fetchEmployees();
@@ -21,15 +24,18 @@ const OrgTree = () => {
       setManagerName(manager);
       const hr = employees.filter((data) => data.approval.hr === true);
       setHrdata(hr);
+      setLoaderStatus(false)
     } catch (error) {
       console.log(error);
     }
   };
 
   return (
-    <>
-      <MapInteractionCSS>
-        <Tree
+    <MapInteractionCSS>
+    <div>
+     
+    {!loader ?(
+          <Tree
           lineWidth={'2px'}
           lineColor={'#F94C10'}
           lineHeight="80px"
@@ -82,12 +88,18 @@ const OrgTree = () => {
                   </Card>
                 }
               >
-
               </TreeNode>
             ))}
         </Tree>
-      </MapInteractionCSS>
-    </>
+    ) :(
+       <CircularProgress  sx={{width:'100%',height:'auto',position:'absolute',top:'270px',left:'450px'}}>
+       </CircularProgress>
+     
+    )}
+
+     
+    </div>
+    </MapInteractionCSS>
   );
 };
 
