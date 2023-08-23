@@ -94,13 +94,7 @@ const pages = {
         // }
       ]
     },
-    {
-      id: 'performance',
-      title: 'Performance Management',
-      type: 'item',
-      icon: icons.IconKey,
-      url: '/performance'
-    },
+
 
     {
       id: 'employeeengagement',
