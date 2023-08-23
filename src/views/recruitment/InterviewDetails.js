@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import { ThemeProvider, createMuiTheme } from '@mui/material';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const columns = [
-  { title: 'ID', field: 'id', sorting: false ,editable:false},
-  { title: 'Name', field: 'candidateName',editable:false },
-  { title: 'Mobile No', field: 'mobileNo',editable:false },
+  { title: 'Name', field: 'name',editable:false },
+  { title: 'Jobrole', field: 'position',editable:false },
   { title: 'Email', field: 'email',editable:false },
+  { title: 'MobileNo', field: 'phone',editable:false },
   { title: 'Interview Date', field: 'Interview' ,width:'auto'},
   {
     title: 'Status',
@@ -26,41 +28,19 @@ const columns = [
 ];
 
 const InterviewDetails = () => {
-  const [data, setData] = useState([
-    {
-      id: 1,
-      candidateName: 'John Doe',
-      mobileNo: '9688025072',
-      email: 'john@example.com',
-      Interview: '2021-01-01',
-      status: 'Scheduled',
-    },
-    // Add more data as needed
-  ]);
+  const [data, setData] = useState([]);
 
-  const handleEdit = (newData, oldData) => {
-    const updatedData = [...data];
-    const index = updatedData.indexOf(oldData);
-    updatedData[index] = newData;
-    setData(updatedData);
-  };
+  useEffect(()=>{
+    fetchData();
+  },[])
 
-  const handleBulkUpdate = (changes) => {
-    const updatedData = data.map((row) => {
-      const changedRow = changes[row.id];
-      if (changedRow) {
-        return { ...row, ...changedRow };
-      }
-      return row;
-    });
-    handleSave(updatedData);
-  };
+  const fetchData=async()=>{
+    const res=await axios.get(`https://hrm-backend-square.onrender.com/ats/`)
+    const Select= res.data.getData.filter(select=>select.Status==='Selected');
+    setData (Select)
+    console.log(setData);
+  }
 
-  const handleSave = (updatedData) => {
-   
-    console.log('Updated data:', updatedData);
-    setData(updatedData);
-  };
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -78,10 +58,6 @@ const InterviewDetails = () => {
       title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Interview Details</div>}
       columns={columns}
       data={data}
-      editable={{
-        onRowUpdate: (newData, oldData) => handleEdit(newData, oldData),
-        onBulkUpdate: (changes) => handleBulkUpdate(changes),
-      }}
       icons={tableIcons}
       options={{
         actionsColumnIndex: -1,
