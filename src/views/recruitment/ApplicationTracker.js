@@ -36,8 +36,8 @@ const navigate=useNavigate()
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
     setAdata(res.data.getData);
-    console.log(res.data.getData );
-    
+    console.log(res.data.getData);
+
   };
   const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
