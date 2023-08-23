@@ -9,7 +9,6 @@ import Recruitment from 'views/recruitment/BasicRecruittable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
 import ApproveLeave from 'views/leavemanagement/ApproveLeave';
-import Performance from 'views/performance/Performance';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
@@ -32,6 +31,8 @@ import CourseOverview from 'views/learninganddevelopment/CourseOverview';
 import ViewApproval from 'views/recruitApproval/ViewApproval';
 import HrApproval from 'views/recruitApproval/HrApproval';
 import ManagerApproval from 'views/recruitApproval/ManagerApproval';
+import Feedback from 'views/performance/Feedback';
+import SkillsetMatrix from 'views/performance/SkillsetMatrix';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
@@ -84,9 +85,14 @@ const MainRoutes = {
       element: <AttendanceSystem/>
     },
     {
-      path: '/performance',
-      element: <Performance />
+      path: '/feedbacks',
+      element: <Feedback />
     },
+    {
+      path: '/skillsetmatrix',
+      element: <SkillsetMatrix />
+    },
+   
    
     {
       path: '/Jobtable',

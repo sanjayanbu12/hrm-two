@@ -94,13 +94,7 @@ const pages = {
         // }
       ]
     },
-    {
-      id: 'performance',
-      title: 'Performance Management',
-      type: 'item',
-      icon: icons.IconKey,
-      url: '/performance'
-    },
+
 
     {
       id: 'employeeengagement',
@@ -187,6 +181,53 @@ const pages = {
       icon: CameraFrontIcon,
       type: 'item',
       url: '/employeeselfservices'
+    },
+
+    {
+      id: 'employeeengagement',
+      title: 'Employee Engagement & Surveys',
+      icon: EmojiEmotionsIcon,
+      type: 'item',
+      url: '/employeeengagement'
+    },
+
+    {
+      id: 'performance',
+      title: 'Performance Management',
+      type: 'collapse',
+      icon: icons.IconKey,
+
+      children: [
+      
+        {
+          id: 'feedbacks',
+          title: 'Feedbacks',
+          type: 'item',
+          url: '/feedbacks'
+        },
+        {
+          id: 'skillsetmatrix',
+          title: 'Skill Set Matrix',
+          type: 'item',
+          url: '/skillsetmatrix'
+        }
+      ]
+    },
+
+    {
+      id: 'learninganddevelopment',
+      title: 'Learning & Development',
+      type: 'item',
+      icon: AllOutIcon,
+      url: '/learninganddevelopment'
+    },
+    
+    {
+      id: 'payroll',
+      title: 'Payroll',
+      type: 'item',
+      icon: PaidIcon,
+      url: '/payroll'
     }
   ]
 };
