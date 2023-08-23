@@ -1,8 +1,8 @@
 import React from 'react'
 import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
+// import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
-import Button from '@mui/material/Button';
+// import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './dashboard.css'
 import MainCard from 'ui-component/cards/MainCard';
@@ -14,7 +14,7 @@ const TotalGrowthBarChart = () => {
     <MainCard>
     <div className='dashboard'>
  { 
-    <Card sx={{ width: 250, height: 150,background:'lightblue',color: 'blue',
+    <Card sx={{ width: 250, height: 150,background:'linear-gradient(135deg, lightblue, blue)',color:'white',
     fontWeight:'bold',
     fontSize:'20px',
     }}>
@@ -28,94 +28,97 @@ const TotalGrowthBarChart = () => {
   <Typography sx={{ mb: 1.5 }} color="text.secondary">
     Twenty Five
   </Typography>
-  <Typography variant="body2">
+  {/* <Typography variant="body2">
     well meaning and kindly.
     <br />
     {'"a benevolent smile"'}
-  </Typography>
-  <CardActions color='red'>
-    <Button size="small">See Details</Button>
-  </CardActions>
+  </Typography> */}
+   <Typography style={{marginTop:'50px', cursor: 'pointer'}} onClick={() => navigate(`/basictable`)}>HI</Typography>
 </CardContent>
 
     </Card>
 }
-<Card sx={{ width: 250, height: 150,background:'grey',color: 'white',
+{ 
+    <Card sx={{ width: 250, height: 150,background:'linear-gradient(135deg, lightgreen, green)',color:'white',
     fontWeight:'bold',
     fontSize:'20px',
     }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          TASKS
-        </Typography>
-        <Typography variant="h5" component="div">
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Ten
-        </Typography>
-        <Typography variant="body2">
-          {/* well meaning and kindly. */}
-          <br />
-          {/* {'"a benevolent smile"'} */}
-        </Typography>
-        <Button  onClick={() => navigate(`/basictable`)}
-        >HI</Button>
-      </CardContent>
+  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+    EMPLOYEES
+  </Typography>
+  <Typography variant="h5" component="div">
+    {/* Your content here */}
+  </Typography>
+  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+    Twenty Five
+  </Typography>
+  {/* <Typography variant="body2">
+    well meaning and kindly.
+    <br />
+    {'"a benevolent smile"'}
+  </Typography> */}
+   <Typography style={{marginTop:'50px', cursor: 'pointer'}} onClick={() => navigate(`/basictable`)}>HI</Typography>
+</CardContent>
     </Card>
-    </div>
+    
+}
+</div>
 
-    <div className='dashboard1'>
-
-     <Card sx={{ width: 250,
-      height: 150,
-      background:'grey',
-      color: 'blue',
+<div className='dashboard1'>
+{ 
+    <Card sx={{ width: 250, height: 150,background: 'linear-gradient(135deg, lightcoral, darkorange)',
+    color:'white',
     fontWeight:'bold',
     fontSize:'20px',
     }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          PROJECTS
-        </Typography>
-        <Typography variant="h5" component="div">
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Three
-        </Typography>
-        <Typography variant="body2">
-          {/* well meaning and kindly. */}
-          <br />
-          {/* {'"a benevolent smile"'} */}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">See Details</Button>
-      </CardActions>
-    </Card>
+  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+    EMPLOYEES
+  </Typography>
+  <Typography variant="h5" component="div">
+    {/* Your content here */}
+  </Typography>
+  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+    Twenty Five
+  </Typography>
+  {/* <Typography variant="body2">
+    well meaning and kindly.
+    <br />
+    {'"a benevolent smile"'}
+  </Typography> */}
+   <Typography style={{marginTop:'50px', cursor: 'pointer'}} onClick={() => navigate(`/basictable`)}>HI</Typography>
+</CardContent>
 
-    <Card sx={{ width: 250, height: 150,background:'lightgreen',color: 'blue',
+    </Card>
+}
+
+{ 
+    <Card sx={{ width: 250, height: 150,background: 'linear-gradient(135deg, lightseagreen, teal)'
+    ,color:'white',
     fontWeight:'bold',
     fontSize:'20px',
     }}>
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          USERS
-        </Typography>
-        <Typography variant="h5" component="div">
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          Twenty
-        </Typography>
-        <Typography variant="body2">
-          {/* well meaning and kindly. */}
-          <br />
-          {/* {'"a benevolent smile"'} */}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <Button size="small">See Details</Button>
-      </CardActions>
+  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+    EMPLOYEES
+  </Typography>
+  <Typography variant="h5" component="div">
+    {/* Your content here */}
+  </Typography>
+  <Typography sx={{ mb: 1.5 }} color="text.secondary">
+    Twenty Five
+  </Typography>
+  {/* <Typography variant="body2">
+    well meaning and kindly.
+    <br />
+    {'"a benevolent smile"'}
+  </Typography> */}
+   <Typography style={{marginTop:'50px', cursor: 'pointer'}} onClick={() => navigate(`/basictable`)}>HI</Typography>
+</CardContent>
+
     </Card>
+}
 
       </div>
       </MainCard>
