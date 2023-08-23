@@ -1,6 +1,6 @@
-import React from 'react'
+import React, {useState} from 'react'
 import MainCard from 'ui-component/cards/MainCard';
-import { Paper,Button, Avatar, Stack, Rating, Typography,Divider } from '@mui/material';
+import { Paper,Button, Avatar, Stack, Rating, Typography,Divider,TextField, IconButton } from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
 import ReplyIcon from '@mui/icons-material/Reply';
 
@@ -10,6 +10,18 @@ import Item from 'antd/es/list/Item';
 
 
 const Feedback = () => {
+
+    const [Comment, setComment] = useState('');
+    
+    const handleInputChange = (event) => {
+        setComment(event.target.value);
+      };
+
+      const handleSubmit = () => {
+        // Handle form submission or any other action
+        console.log('Comment:', Comment);
+      };
+
   return (
     
     <MainCard title="Feedbacks" sx={{height:"99%",}}>
@@ -48,7 +60,7 @@ const Feedback = () => {
                 <Button variant="contained" color="secondary">Give Feedback</Button>
                 </Item>
                 <Item>
-                    
+
                 </Item>
 
             </Stack>
@@ -133,7 +145,18 @@ const Feedback = () => {
                     Good Work! but, you have to maintain punctuality too...
                 </Typography>
                 </Item>
-                <Item><ReplyIcon sx={{display:"block",marginLeft:"200px"}}/></Item>
+                <Item >
+                    <div style={{display:"flex"}}>
+                    <TextField
+                        label="Enter your comment"
+                        variant="outlined"
+                        fullWidth
+                        value={Comment}
+                        onChange={handleInputChange} > </TextField>
+                       <div ><IconButton sx={{marginLeft:"15px"}}onClick={handleSubmit} aria-label="SVG Icon Button">
+                        <ReplyIcon/></IconButton></div> 
+                        </div>
+                        </Item>
 
                 <Divider />
 
