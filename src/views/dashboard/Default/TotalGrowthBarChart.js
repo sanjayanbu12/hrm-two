@@ -5,13 +5,13 @@ import CardContent from '@mui/material/CardContent';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './dashboard.css'
-import MainCard from 'ui-component/cards/MainCard';
+// import MainCard from 'ui-component/cards/MainCard';
 import { useNavigate } from 'react-router';
 
 const TotalGrowthBarChart = () => {
   const navigate=useNavigate();
   return (
-    <MainCard>
+    <>
     <div className='dashboard'>
  { 
     <Card sx={{ width: 250, height: 150,background:'linear-gradient(135deg, lightblue, blue)',color:'white',
@@ -121,7 +121,7 @@ const TotalGrowthBarChart = () => {
 }
 
       </div>
-      </MainCard>
+   </>
   )
 }
 

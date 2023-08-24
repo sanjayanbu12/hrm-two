@@ -1,11 +1,10 @@
-import { CardContent, Grid, Typography } from '@mui/material';
-import MainCard from 'ui-component/cards/MainCard';
+import { CardContent,Card, Grid } from '@mui/material';
+// import MainCard from 'ui-component/cards/MainCard';
 import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
 import { gridSpacing } from 'store/constant';
 import React, { useState } from 'react';
 import ReactCalendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-
 // const leaveData = [
 //   { id: 1, name: 'Ajay', position: 'Developer' },
 //   { id: 2, name: 'Sanjay', position: 'Manager' },
@@ -24,16 +23,16 @@ const PopularCard = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonPopularCard />
       ) : (
-        <MainCard content={false}>
+        <Card content={false}>
           <CardContent >
             <Grid container spacing={gridSpacing}>
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Grid container alignContent="center" justifyContent="space-between">
                   <Grid item>
                     <Typography variant="h4">Calendar</Typography>
                   </Grid>
                 </Grid>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12.5}>
                 {/* Add the Calendar component */}
                 <ReactCalendar
@@ -42,12 +41,10 @@ const PopularCard = ({ isLoading }) => {
                   calendarType="US" // Specify the calendar type (e.g., 'US', 'ISO 8601')
                   className="custom-calendar"
                 />
-              </Grid>
-            
-          
+              </Grid>    
             </Grid>
           </CardContent>
-        </MainCard>
+        </Card>
       )}
     </>
   );

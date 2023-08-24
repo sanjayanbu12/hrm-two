@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import MainCard from 'ui-component/cards/MainCard';
-import { CardContent, Grid, Typography, Button, Menu, MenuItem } from '@mui/material';
+// import MainCard from 'ui-component/cards/MainCard';
+import { Card,CardContent, Grid, Typography, Button, Menu, MenuItem } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
@@ -114,11 +114,11 @@ const Upcomingevents = () => {
   return (
     <>
       {isLoading ? (
-        <MainCard  content={false}>
+        <Card  content={false}>
           <CardContent>Loading...</CardContent>
-        </MainCard>
+        </Card>
       ) : (
-        <MainCard content={false}>
+        <Card content={false}>
         <CardContent>
           <Typography variant="h4" style={{ marginBottom: '20px' }}>
             <b>Upcoming Events</b>
@@ -268,7 +268,7 @@ const Upcomingevents = () => {
               )}
             </div>
           </CardContent>
-        </MainCard>
+        </Card>
       )}
     </>
   );

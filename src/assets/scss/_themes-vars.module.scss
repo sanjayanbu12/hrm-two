@@ -7,7 +7,7 @@ $primaryMain: #2196f3;
 $primaryDark: #1e88e5;
 $primary200: #90caf9;
 $primary800: #1565c0;
-$primary500: #9A1750;
+$primary500: #177b9a;
 
 // secondary
 $secondaryLight: #ede7f6;
@@ -21,6 +21,7 @@ $successLight: #b9f6ca;
 $success200: #69f0ae;
 $successMain: #00e676;
 $successDark: #00c853;
+$successBLack: #000000;
 
 // error
 $errorLight: #ef9a9a;
@@ -102,6 +103,7 @@ $darkTextSecondary: #8492c4;
   success200: $success200;
   successMain: $successMain;
   successDark: $successDark;
+  successBLack:$successBLack;
 
   // error
   errorLight: $errorLight;

@@ -11,15 +11,15 @@ export default function themePalette(theme) {
     },
     primary: {
       light: theme.colors?.primaryLight,
-      main: theme.colors?.primary800,
-      dark: theme.colors?.primary800,
+      main: theme.colors?.primaryMain,
+      dark: theme.colors?.primaryMain,
       200: theme.colors?.primary200,
       800: theme.colors?.primary800
     },
     secondary: {
       light: theme.colors?.primaryLight,
-      main: theme.colors?.primary800,
-      dark: theme.colors?.primary800,
+      main: theme.colors?.primaryMain,
+      dark: theme.colors?.primaryMain,
       200: theme.colors?.secondary200,
       800: theme.colors?.secondary800
     },
