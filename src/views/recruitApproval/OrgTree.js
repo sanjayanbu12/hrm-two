@@ -21,19 +21,28 @@ const OrgTree = () => {
   const [orgMems, setorgMems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [edata, setedata] = useState([]);
+  const [managerData, setmanagerData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
   }, []);
   useEffect(() => {
     fetchEmployeesData();
+    getDataUseeff();
   }, []);
-
+  const getDataUseeff = () => {
+    const manId = orgMems.map((data) => data.managerName.id);
+    console.log(manId);
+    const manData = edata.filter((data) => data._id === manId[0]);
+    setmanagerData(manData);
+    console.log(manData);
+  };
   const fetchOrgData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorgs');
       setorgMems(response.data.orgData);
       setLoaderStatus(false);
+      console.log(managerData.length)
     } catch (error) {
       console.log(error);
     }
@@ -43,6 +52,7 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
+     
     } catch (error) {
       console.log(error);
     }
@@ -60,8 +70,8 @@ const OrgTree = () => {
         id: data._id
       }
     };
-    await axios.post('https://hrm-backend-square.onrender.com/org/createorg',manData);
-
+    await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+    fetchOrgData()
   };
 
   return (
@@ -75,39 +85,42 @@ const OrgTree = () => {
             lineBorderRadius={'10px'}
             label={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {orgMems.length > 1? (
-                  <Card
-                    onClick={() => navigate('/managerapproval')}
-                    style={{
-                      width: '278px',
-                      height: '81px',
-                      backgroundColor: ' #EFE1FB',
-                      display: 'flex',
-                      alignItems: 'center',
-                      paddingLeft: '13px',
-                      paddingRight: '21px'
-                    }}
-                  >
-                    <Container
-                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                      disableGutters={true}
+                {managerData.length > 0 ? (
+                  managerData.map((data) => (
+                    <Card
+                      key={data._id}
+                      onClick={() => navigate('/managerapproval')}
+                      style={{
+                        width: '278px',
+                        height: '81px',
+                        backgroundColor: ' #EFE1FB',
+                        display: 'flex',
+                        alignItems: 'center',
+                        paddingLeft: '13px',
+                        paddingRight: '21px'
+                      }}
                     >
-                      <div>
-                        <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{managerData.name}</Avatar>
-                      </div>
-                      <div>
-                        <Typography variant="h3" fontSize={'18px'}>
-                        {managerData.name}
-                        </Typography>
-                        <Typography variant="body2">WebDeveloper</Typography>
-                      </div>
-                      <div>
-                        <IconButton>
-                          <ChevronRightIcon />
-                        </IconButton>
-                      </div>
-                    </Container>
-                  </Card>
+                      <Container
+                        style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                        disableGutters={true}
+                      >
+                        <div>
+                          <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0]}</Avatar>
+                        </div>
+                        <div>
+                          <Typography variant="h3" fontSize={'18px'}>
+                            {data.name}
+                          </Typography>
+                          <Typography variant="body2">{data.desi}</Typography>
+                        </div>
+                        <div>
+                          <IconButton>
+                            <ChevronRightIcon />
+                          </IconButton>
+                        </div>
+                      </Container>
+                    </Card>
+                  ))
                 ) : (
                   <Container>
                     <Card
