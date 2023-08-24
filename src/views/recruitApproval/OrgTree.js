@@ -27,15 +27,16 @@ const OrgTree = () => {
     fetchOrgData();
   }, []);
   useEffect(() => {
-    fetchEmployeesData();
+    
     getDataUseeff();
-  }, []);
+  }, [orgMems]);
+  useEffect(()=>{
+    fetchEmployeesData();
+  },[])
   const getDataUseeff = () => {
     const manId = orgMems.map((data) => data.managerName.id);
-    console.log(manId);
     const manData = edata.filter((data) => data._id === manId[0]);
     setmanagerData(manData);
-    console.log(manData);
   };
   const fetchOrgData = async () => {
     try {
@@ -85,7 +86,7 @@ const OrgTree = () => {
             lineBorderRadius={'10px'}
             label={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {managerData.length > 0 ? (
+                {managerData.length>0? (
                   managerData.map((data) => (
                     <Card
                       key={data._id}
