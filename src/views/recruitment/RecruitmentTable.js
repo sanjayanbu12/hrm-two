@@ -179,7 +179,6 @@ const navigate=useNavigate()
         exportPdf:exportPdf,
         grouping: true,
         selection:true,
-        columnsButton:true,
       }}
     />
   );

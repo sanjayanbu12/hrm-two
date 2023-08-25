@@ -10,7 +10,6 @@ import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
 // ==============================|| ROUTING RENDER ||============================== //
 function ThemeRoutes() {
   const isLoggedIn = useSelector(state => state.customization.isLoggedIn);
-  console.log(`isLoggedIn ${isLoggedIn}`)
   const isAdmin = useSelector(state=>state.customization.isAuthAdmin)
   const navigate = useNavigate()
   const location = useLocation()
