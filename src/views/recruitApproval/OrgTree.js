@@ -20,6 +20,7 @@ const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [orgMems, setorgMems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl2, setAnchorEl2] = useState(null);
   const [edata, setedata] = useState([]);
   const [managerData, setmanagerData] = useState([]);
   const navigate = useNavigate();
@@ -61,9 +62,18 @@ const OrgTree = () => {
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+  const handleMenuOpen2 = (event) => {
+    setAnchorEl2(event.currentTarget);
+  };
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleMenuClose2 = () => {
+    setAnchorEl2(null);
+  };
+  const handleTier2 = async (data)=>{
+    console.log(data)
+  }
   const handleEmp = async (data) => {
     const manData = {
       managerName: {
@@ -143,8 +153,6 @@ const OrgTree = () => {
                             {data.name}
                           </MenuItem>
                         ))}
-
-                        {/* Add more menu items as needed */}
                       </Menu>
                     </Card>
                   </Container>
@@ -207,8 +215,15 @@ const OrgTree = () => {
                       style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
                       disableGutters={true}
                     >
+                       <Menu anchorEl={anchorEl2} open={Boolean(anchorEl2)} onClose={handleMenuClose2}>
+                        {edata.map((data) => (
+                          <MenuItem onClick={() => handleTier2(data)} key={data._id}>
+                            {data.name}
+                          </MenuItem>
+                        ))}
+                      </Menu>
                       <div>
-                        <IconButton onClick={() => console.log('Add member clicked')}>
+                        <IconButton onClick={handleMenuOpen2}>
                           <AddIcon />
                         </IconButton>
                       </div>
