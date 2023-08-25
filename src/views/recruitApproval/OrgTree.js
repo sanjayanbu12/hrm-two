@@ -83,8 +83,9 @@ const OrgTree = () => {
   const membersArray = autoComData.map(data => {
     return { name: data.name, id: data._id };
   });
-
-  await axios.put('http://localhost:3001/org/updateorg/64e87990649677967628989d', {
+  const id=orgMems.map(data=>data._id)
+  console.log(id)
+  await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
     hrName: membersArray,
     managerName: managerData
   });
