@@ -19,7 +19,6 @@ import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
-  const [orgMems, setorgMems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [edata, setedata] = useState([]);
   const [managerData, setmanagerData] = useState([]);
@@ -35,15 +34,11 @@ const OrgTree = () => {
   const fetchOrgData = async () => {
     try {
       const response = await axios.get('http://localhost:3001/org/getorgs');
-      setorgMems(response.data.orgData);
       const emp=response.data.orgData
-      const manId = emp.map((data) => data.managerName[0]._id);
-      console.log(emp.map(data=>data.managerName[0]._id))
+      const manId = emp.map((data) => data.managerName[0]._id);    
       const manData = edata.filter((data) => data._id === manId[0]);
-      console.log(manData)
       setmanagerData(manData);
       setLoaderStatus(false);
-      console.log(managerData.length);
     } catch (error) {
       console.log(error);
     }
