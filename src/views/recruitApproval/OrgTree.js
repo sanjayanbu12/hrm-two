@@ -21,6 +21,7 @@ const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
   const [edata, setedata] = useState([]);
+  const [orgMems, setorgMems] = useState([]);
   const [managerData, setmanagerData] = useState([]);
   const [autoComData, setautoComData] = useState([]);
   const [Tier2Data, setTier2Data] = useState([]);
@@ -36,6 +37,7 @@ const OrgTree = () => {
     try {
       const response = await axios.get('http://localhost:3001/org/getorgs');
       const orgData = response.data.orgData;
+      setorgMems(orgData);
       const manId = orgData.map((data) => data.managerName[0]._id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
@@ -83,8 +85,8 @@ const OrgTree = () => {
       return { name: data.name, id: data._id };
     });
     const id = orgMems.map((data) => data._id);
-    console.log(id);
-    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+    console.log(membersArray);
+    await axios.put(`http://localhost:3001/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });
