@@ -27,23 +27,21 @@ const OrgTree = () => {
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
-    fetchEmployeesData();
   }, []);
-  useEffect(() => {
-    if (orgMems.length > 0 && edata.length > 0) {
-      getDataUseeff();
-    }
-  }, [orgMems]);
+  useEffect(()=>{
+    fetchEmployeesData();
+  },[])
 
-  const getDataUseeff = () => {
-    const manId = orgMems.map((data) => data.managerName.id);
-    const manData = edata.filter((data) => data._id === manId[0]);
-    setmanagerData(manData);
-  };
   const fetchOrgData = async () => {
     try {
       const response = await axios.get('http://localhost:3001/org/getorgs');
       setorgMems(response.data.orgData);
+      const emp=response.data.orgData
+      const manId = emp.map((data) => data.managerName[0]._id);
+      console.log(emp.map(data=>data.managerName[0]._id))
+      const manData = edata.filter((data) => data._id === manId[0]);
+      console.log(manData)
+      setmanagerData(manData);
       setLoaderStatus(false);
       console.log(managerData.length);
     } catch (error) {
