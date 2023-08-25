@@ -25,14 +25,14 @@ const OrgTree = () => {
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
+    fetchEmployeesData();
   }, []);
   useEffect(() => {
-    
-    getDataUseeff();
-  }, [orgMems]);
-  useEffect(()=>{
-    fetchEmployeesData();
-  },[])
+    if (orgMems.length > 0 && edata.length > 0) {
+      getDataUseeff();
+    }
+  }, [orgMems, edata]);
+ 
   const getDataUseeff = () => {
     const manId = orgMems.map((data) => data.managerName.id);
     const manData = edata.filter((data) => data._id === manId[0]);
