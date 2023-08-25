@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { TextSnippet } from '@mui/icons-material';
 import jsPDF from 'jspdf';
+// import { useNavigate } from 'react-router';
 
 const columns = [
   { title: 'Name', field: 'name',editable:false },
@@ -18,16 +19,9 @@ const columns = [
     field: 'interview',
     type: 'date',
     sorting: false,
-    render: rowData => {
-      if (rowData.interview) {
-        const interviewDate = new Date(rowData.interview);
-        return interviewDate.toLocaleDateString('en-US');
-      }
-      return '';
-    },
     editComponent: props => (
       <input
-        type="date"
+        type="date" style={{height:'50px',width:'150px'}}
         value={props.value}
         onChange={e => props.onChange(e.target.value)}
       />
@@ -51,7 +45,7 @@ const columns = [
 
 const InterviewDetails = () => {
   const [data, setData] = useState([]);
-
+  // const navigate=useNavigate();
   useEffect(()=>{
     fetchData();
   },[])
@@ -65,21 +59,21 @@ const InterviewDetails = () => {
 
 const handleRowUpdate = async(newData,oldData)=>{
   try{
-    
-   const res= await axios.put(`https://hrm-backend-square.onrender.com/ats/updateAts/${oldData._id}`,{approve:newData.approve,interview:newData.interview,Status:newData.Status})
+   const res= await axios.put(`https://hrm-backend-square.onrender.com/ats/updateAts/${oldData._id}`,{
+   approve: newData.approve,
+   interview: newData.interview
+  })
    console.log(res)
-    const updatedData = [...Adata];
+    const updatedData = [...data];
     const index = updatedData.indexOf(oldData);
     updatedData[index] = newData;
-    setAdata(updatedData);
-
+    setData(updatedData);
+    fetchData();
   } catch (error) {
     console.error('Error updating row:', error);
   }
 };
   
-
-
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
@@ -102,7 +96,6 @@ const handleRowUpdate = async(newData,oldData)=>{
         main: '#7e57c2',
       },
     },
-
   });
 
   const exportCsv = (columns, data) => {
@@ -167,18 +160,15 @@ const handleRowUpdate = async(newData,oldData)=>{
     pdf.save('Selected Candidate_data.pdf');
   };
 
- 
-
-
-
-
-
-
+  // const handleView = async(e,data) =>{
+  //   const id=data.map(x=>x._id)
+  //   console.log(id[0])
+  //   navigate(`/view/${id[0]}`);}
 
   return (
     <ThemeProvider theme={theme}>
     <MaterialTable
-      title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Interview Details</div>}
+      title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Shortlist Candidates</div>}
       columns={columns.map((column) => {
           if (column.field === 'resume') {
           return {
@@ -193,6 +183,13 @@ const handleRowUpdate = async(newData,oldData)=>{
       data={data}
       icons={tableIcons}
       editable={{onRowUpdate:handleRowUpdate}}
+      actions={[  {
+            icon: tableIcons.Share,
+            tooltip: 'Send Mail',
+            // onClick: (event, rowData) => handleView(event,rowData),
+         
+          },
+        ]}
       options={{
         actionsColumnIndex: -1,
         exportButton: true,

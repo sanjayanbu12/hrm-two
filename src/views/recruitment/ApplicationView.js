@@ -26,7 +26,6 @@ const ApplicationView = () => {
       const Job = res.data.data;
       const abc = JSON.stringify(Job)
       setSelectedJob(JSON.parse(abc))
-
       console.log(Job + "Data")
     } catch (error) {
       console.log(error)
@@ -42,7 +41,6 @@ const ApplicationView = () => {
     const year = d.getFullYear()
     return `${day}-${month}-${year}`
   }
-  
   
   return (
     

@@ -8,10 +8,6 @@ import { useEffect } from 'react'
 import axios from 'axios'
 import {  Facebook, LinkedIn } from '@mui/icons-material'
 
-
-
-
-
 const RecruitmentView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
@@ -29,12 +25,11 @@ const RecruitmentView = () => {
       const Job = res.data.data;
       const abc = JSON.stringify(Job)
       setSelectedJob(JSON.parse(abc))
-
-      console.log(d + " Data")
     } catch (error) {
       console.log(error)
     }
   }
+  
     const handleTwitterShare = () => {
       if (selectedJob) {
         const shareText = `Check out this job opportunity
@@ -47,19 +42,45 @@ const RecruitmentView = () => {
         window.open(shareUrl, '_blank');
       }
     }      
-    const handleLinkedInShare = () => {
+    const handleLinkedInShare = async () => {
       if (selectedJob) {
-        const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
-        const url = encodeURIComponent(window.location.href);
-        const title = encodeURIComponent(selectedJob.Jobrole);
-        const summary = encodeURIComponent(shareText);
-        const source = encodeURIComponent(window.location.host);
-        
-        const linkedInUrl = `https://www.linkedin.com/shareArticle/?mini=true&url=${url}&title=${title}&summary=${summary}&source=${source}`;
-        
-        window.open(linkedInUrl, '_blank');
+        const shareText = `Check out this job opportunity:\n
+          Job Role: ${selectedJob.Jobrole}\n
+          Company: ${selectedJob.Company}\n
+          Location: ${selectedJob.Location}\n
+          Job Opening: ${selectedJob.Openings}\n
+          Application Link: ${selectedJob.ApplicationLink}`;
+    
+        const requestBody = {
+          content: {
+            'title': 'Shared Job Opportunity',
+            'description': shareText
+          },
+          visibility: {
+            'code': 'anyone'
+          }
+        };
+    
+        const apiKey = 'YOUR_LINKEDIN_API_KEY';
+        const apiUrl = `https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=${apiKey}`;
+    
+        try {
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(requestBody)
+          });
+    
+          console.log('Job opportunity shared on LinkedIn:', response);
+        } catch (error) {
+          console.error('Error sharing on LinkedIn:', error);
+        }
       }
     };
+    
+  
     
     const hanldeApprove = async()=>{
       const res=await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id,{

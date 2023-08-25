@@ -23,23 +23,27 @@ const columns = [
   { title: 'Email', field: 'email',sorting:false,editable:false },
   { title: 'Resume', field: 'resume',sorting:false,editable:false},
   {title: 'photo', field: 'photo',sorting:false ,editable:false},
-  {title: 'Applied Date', field:'appliedAt',sorting:false,editable:false },
+  {title: 'Applied Date', field:'appliedAt',type:'date',sorting:false,editable:false },
   {title:'Status', field: 'Status',sorting:false, lookup:{'Hold':'Hold','Selected':'Selected','Rejected':'Rejected'},
   // render: rowData=>statusIcons[rowData.Status]
 }
 
 ];
 
+
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
 const navigate=useNavigate()
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-    setAdata(res.data.getData);
+    const fildata=res.data.getData;
+    // // const desiredSkills = ['Java', 'React', 'Node.js'];
+    // const filldata=fildata.filter(item=>item.experience ===0);
+    setAdata(fildata)
     console.log(res.data.getData);
 
   };
-  const handleView = async(e,data) =>{
+    const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])
     navigate(`/view/${id[0]}`);
@@ -141,14 +145,6 @@ const navigate=useNavigate()
     pdf.save('employee_data.pdf');
   };
 
- 
-
-  const formatDate = (date) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const [day, month, year] = new Date(date).toLocaleDateString('en-GB', options).split('/');
-    return `${day}-${month}-${year}`;
-  };
-  
   const theme = createMuiTheme({
     palette: {
       primary: {
@@ -180,13 +176,7 @@ const navigate=useNavigate()
     <MaterialTable
       title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Application Tracker</div>}
       columns={columns.map((column) => {
-        if (column.field === 'appliedAt') {
-          return {
-            ...column,
-            render: (rowData) => formatDate(rowData.appliedAt),
-          };
-        } 
-         else if (column.field === 'resume') {
+        if (column.field === 'resume') {
           return {
             ...column,
             render: (rowData) => (
@@ -213,16 +203,6 @@ const navigate=useNavigate()
           onClick: (event, rowData) => handleView(event,rowData),
           disabled: rowData.length !=1
         }),
-        // {
-        //   icon: tableIcons.Edit,
-        //   tooltip: 'Edit',
-        //   onClick: (event, rowData) => alert(rowData.map(x=>x.name))
-        // },
-        // {
-        //   icon: tableIcons.Delete,
-        //   tooltip: 'Delete User',
-        //   onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
-        // }
       ]}
       options={{
         actionsColumnIndex: -1,
