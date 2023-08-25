@@ -28,7 +28,7 @@ const OrgTree = () => {
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
-  }, []);
+  }, [edata]);
   useEffect(() => {
     fetchEmployeesData();
   }, []);
