@@ -165,43 +165,46 @@ const OrgTree = () => {
                 )}
               </div>
             }
-          >
+          >{Tier2Data.map(data=>(
             <TreeNode
-              label={
-                <Card
-                  style={{
-                    width: '278px',
-                    height: '81px',
-                    backgroundColor: ' #E1EAFB',
-                    display: 'flex',
-                    alignItems: 'center',
-                    paddingLeft: '13px',
-                    paddingRight: '21px'
-                  }}
-                  onClick={() => navigate('/hrapproval')}
+            key={data._id}
+            label={
+              <Card
+                style={{
+                  width: '278px',
+                  height: '81px',
+                  backgroundColor: ' #E1EAFB',
+                  display: 'flex',
+                  alignItems: 'center',
+                  paddingLeft: '13px',
+                  paddingRight: '21px'
+                }}
+                onClick={() => navigate('/hrapproval')}
+              >
+                <Container
+                  style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                  disableGutters={true}
                 >
-                  <Container
-                    style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                    disableGutters={true}
-                  >
-                    <div>
-                      <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>H</Avatar>
-                    </div>
-                    <div>
-                      <Typography variant="h3" fontSize={'18px'}>
-                        Kannan
-                      </Typography>
-                      <Typography variant="body2">Backend Dev</Typography>
-                    </div>
-                    <div>
-                      <IconButton>
-                        <ChevronRightIcon />
-                      </IconButton>
-                    </div>
-                  </Container>
-                </Card>
-              }
-            ></TreeNode>
+                  <div>
+                    <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>H</Avatar>
+                  </div>
+                  <div>
+                    <Typography variant="h3" fontSize={'18px'}>
+                      {data.name}
+                    </Typography>
+                    <Typography variant="body2">Backend Dev</Typography>
+                  </div>
+                  <div>
+                    <IconButton>
+                      <ChevronRightIcon />
+                    </IconButton>
+                  </div>
+                </Container>
+              </Card>
+            }
+          ></TreeNode>
+          ))}
+           
             <TreeNode
               label={
                 <Card
