@@ -11,11 +11,12 @@ import {  Facebook, LinkedIn } from '@mui/icons-material'
 const RecruitmentView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
+  const [selectedAts, setSelectedAts] = useState();
   const { id } = useParams();
   const navigate =useNavigate();
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
   console.log(id + " selected job id");
 
@@ -29,7 +30,30 @@ const RecruitmentView = () => {
       console.log(error)
     }
   }
-  
+    let jobrole='';
+    if(selectedJob) {
+    jobrole = selectedJob.Jobrole;
+    }
+    console.log(jobrole)
+
+    useEffect(() => {
+      fetchApp();
+    }, []);
+    
+    const fetchApp = async () => {
+      try {
+        const res = await axios.get(`https://hrm-backend-square.onrender.com/ats`);
+        const Job1 = res.data.getData;
+        setSelectedAts(Job1);
+        console.log(Job1);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+console.log(selectedAts);
+
+
+
     const handleTwitterShare = () => {
       if (selectedJob) {
         const shareText = `Check out this job opportunity

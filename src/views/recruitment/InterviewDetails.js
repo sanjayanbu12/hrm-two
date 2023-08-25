@@ -19,13 +19,18 @@ const columns = [
     field: 'interview',
     type: 'date',
     sorting: false,
-    editComponent: props => (
-      <input
-        type="date" style={{height:'50px',width:'150px'}}
-        value={props.value}
-        onChange={e => props.onChange(e.target.value)}
-      />
-    ),
+    editComponent: (props) => {
+      const currentDate = new Date().toISOString().split('T')[0]; 
+      return (
+        <input
+          type="date"
+          style={{ height: '50px', width: '150px' }}
+          value={props.value}
+          min={currentDate} 
+          onChange={(e) => props.onChange(e.target.value)}
+        />
+      );
+    },
   },
   {
     title: 'Status',
