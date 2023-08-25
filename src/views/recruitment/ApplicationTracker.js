@@ -5,29 +5,45 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
-import { Image, TextSnippet } from '@mui/icons-material';
-import { Tooltip } from '@mui/material';
+import {  Image,  TextSnippet } from '@mui/icons-material';
+// import { Clear,  Done,Pause } from '@mui/icons-material';
+import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
+
+// const statusIcons={
+//   Hold:<Pause  sx={{color:'#1e88e5'}}></Pause>,
+//   Selected:<Done sx={{color:'#00c853'}}/>,
+//   Rejected:<Clear sx={{color:'#b71c1c'}}/>
+// };
+
 const columns = [
 
-  { title: 'Name', field: 'name' },
-  { title: 'Jobrole', field: 'position' },
-  {title:'Mobile  No', field: 'phone',sorting:false},
-  { title: 'Email', field: 'email',sorting:false },
-  { title: 'Resume', field: 'resume',sorting:false },
-  {title: 'photo', field: 'photo',sorting:false },
-  {title: 'Applied Date', field:'appliedAt',sorting:false ,grouping:false},
+  { title: 'Name', field: 'name' ,editable:false},
+  { title: 'Jobrole', field: 'position',editable:false },
+  {title:'Mobile  No', field: 'phone',sorting:false,editable:false},
+  { title: 'Email', field: 'email',sorting:false,editable:false },
+  { title: 'Resume', field: 'resume',sorting:false,editable:false},
+  {title: 'photo', field: 'photo',sorting:false ,editable:false},
+  {title: 'Applied Date', field:'appliedAt',type:'date',sorting:false,editable:false },
+  {title:'Status', field: 'Status',sorting:false, lookup:{'Hold':'Hold','Selected':'Selected','Rejected':'Rejected'},
+  // render: rowData=>statusIcons[rowData.Status]
+}
 
 ];
+
 
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
 const navigate=useNavigate()
   const fetchEmployees = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-    setAdata(res.data.getData);
-    console.log(res.data.getData );
+    const fildata=res.data.getData;
+    // // const desiredSkills = ['Java', 'React', 'Node.js'];
+    // const filldata=fildata.filter(item=>item.experience ===0);
+    setAdata(fildata)
+    console.log(res.data.getData);
+
   };
-  const handleView = async(e,data) =>{
+    const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])
     navigate(`/view/${id[0]}`);
@@ -129,24 +145,38 @@ const navigate=useNavigate()
     pdf.save('employee_data.pdf');
   };
 
- 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#757575',
+      },
+      secondary: {
+        main: '#7e57c2',
+      },
+    },
 
-  const formatDate = (date) => {
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const [day, month, year] = new Date(date).toLocaleDateString('en-GB', options).split('/');
-    return `${day}-${month}-${year}`;
-  };
+  });
+
+  const handleRowUpdate = async (newData, oldData) => {
+    try {
+      console.log(newData.Status)
+      await axios.put(`https://hrm-backend-square.onrender.com/ats/updateAts/${oldData._id}`,{Status:newData.Status});
+      const updatedData = [...Adata];
+      const index = updatedData.indexOf(oldData);
+      updatedData[index] = newData;
+      setAdata(updatedData);
   
+    } catch (error) {
+      console.error('Error updating row:', error);
+    }
+  };
+
   return (
+    <ThemeProvider theme={theme}>
     <MaterialTable
       title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Application Tracker</div>}
       columns={columns.map((column) => {
-        if (column.field === 'appliedAt') {
-          return {
-            ...column,
-            render: (rowData) => formatDate(rowData.appliedAt),
-          };
-        } else if (column.field === 'resume') {
+        if (column.field === 'resume') {
           return {
             ...column,
             render: (rowData) => (
@@ -165,6 +195,7 @@ const navigate=useNavigate()
       })}
       data={Adata}
       icons={tableIcons}
+      editable={{onRowUpdate:handleRowUpdate}}
       actions={[
       rowData=>(  {
           icon: tableIcons.View,
@@ -172,29 +203,23 @@ const navigate=useNavigate()
           onClick: (event, rowData) => handleView(event,rowData),
           disabled: rowData.length !=1
         }),
-        // {
-        //   icon: tableIcons.Edit,
-        //   tooltip: 'Edit',
-        //   onClick: (event, rowData) => alert(rowData.map(x=>x.name))
-        // },
-        // {
-        //   icon: tableIcons.Delete,
-        //   tooltip: 'Delete User',
-        //   onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
-        // }
       ]}
       options={{
-        actionsColumnIndex: 6,
+        actionsColumnIndex: -1,
         exportButton: true,
         exportCsv: exportCsv,
         exportPdf: exportPdf,
         grouping: true,
         selection:true,
         columnsButton:true,
-       
+        headerStyle:{
+          backgroundColor:'#42a5f5',
+          color:'black'
+        }
         
       }}
     />
+    </ThemeProvider>
   );
 };
 export default ApplicationTracker;

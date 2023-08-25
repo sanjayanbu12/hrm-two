@@ -60,7 +60,7 @@ const pages = {
         },
         {
           id: 'interviewdetails',
-          title: 'Interview Details',
+          title: 'Shortlist Candidates',
           type: 'item',
           url: '/interviewdetails'
         }

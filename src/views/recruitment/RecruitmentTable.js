@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
+import { ThemeProvider, createMuiTheme } from '@mui/material';
 const columns = [
  
   { title: 'Job ID', field: 'uuid' ,sorting:false},
@@ -146,7 +147,20 @@ const navigate=useNavigate()
     navigate(`/views/${id}`);
   };
 
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#757575',
+      },
+      secondary: {
+        main: '#7e57c2',
+      },
+    },
+
+  });
+
   return (
+    <ThemeProvider theme={theme}>
     <MaterialTable
       title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Recruitment Table</div>}
       columns={columns}
@@ -180,7 +194,8 @@ const navigate=useNavigate()
         grouping: true,
         selection:true,
       }}
-    />
+   />
+    </ThemeProvider>
   );
 };
 export default RecruitmentTable;

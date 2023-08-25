@@ -272,7 +272,7 @@ console.log(Emplist)
         setJobrole(responseData.Jobrole);
         setClientname(responseData.Clientname);
         setClientcompany(responseData.Clientcompany);
-        setHrname(responseData.Hrname);
+        setHrname(responseData.Hrname.join(','));
         setHrcontact(responseData.Hrcontact);
         setInterview(responseData.Interview);
         setInterviewrounds(responseData.Interviewrounds);
