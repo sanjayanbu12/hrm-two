@@ -11,7 +11,7 @@ import {  Facebook, LinkedIn } from '@mui/icons-material'
 const RecruitmentView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
-  const [selectedAts, setSelectedAts] = useState();
+  const [selectedAts, setSelectedAts] = useState([]);
   const { id } = useParams();
   const navigate =useNavigate();
 
@@ -43,16 +43,15 @@ const RecruitmentView = () => {
     const fetchApp = async () => {
       try {
         const res = await axios.get(`https://hrm-backend-square.onrender.com/ats`);
-        const Job1 = res.data.getData;
-        setSelectedAts(Job1);
-        console.log(Job1);
-      } catch (error) {
+        const Job1 = res.data.getData.filter((job) => job.position == jobrole);
+        setSelectedAts(Job1.length);
+        console.log(Job1+' is selected')
+   }
+        catch (error) {
         console.log(error);
       }
     };
 console.log(selectedAts);
-
-
 
     const handleTwitterShare = () => {
       if (selectedJob) {
@@ -264,7 +263,7 @@ console.log(selectedAts);
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Application Count</b>
-                    <b style={{ marginLeft: '173px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationCount}
+                    <b style={{ marginLeft: '173px', paddingRight: '10px' }}>:</b> {selectedAts}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Selected</b>
