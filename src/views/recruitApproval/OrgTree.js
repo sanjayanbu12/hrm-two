@@ -16,12 +16,14 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Button } from 'antd';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [orgMems, setorgMems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [edata, setedata] = useState([]);
   const [managerData, setmanagerData] = useState([]);
+  const [autoComData, setautoComData] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
@@ -31,7 +33,7 @@ const OrgTree = () => {
     if (orgMems.length > 0 && edata.length > 0) {
       getDataUseeff();
     }
-  }, [orgMems, edata]);
+  }, [orgMems]);
 
   const getDataUseeff = () => {
     const manId = orgMems.map((data) => data.managerName.id);
@@ -73,7 +75,20 @@ const OrgTree = () => {
     await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
     fetchOrgData();
   };
+ const handleChange=(e,value)=>{
+  setautoComData(value) 
+  console.log(autoComData)
+ }
+ const hanldePost = async () => {
+  const membersArray = autoComData.map(data => {
+    return { name: data.name, id: data._id };
+  });
 
+  await axios.put('http://localhost:3001/org/updateorg/64e87990649677967628989d', {
+    hrName: membersArray,
+    managerName: managerData
+  });
+};
   return (
     <MapInteractionCSS>
       <div>
@@ -204,9 +219,10 @@ const OrgTree = () => {
                     style={{ display: 'flex', justifyContent: 'space-between', width:'200px', alignItems: 'center',gap:'20px' }}
                     disableGutters={true}
                   >
-                    <div>
-                   <Typography variant='h5'>Add</Typography>
+                    <div> 
+                   <Button onClick={hanldePost}>Add</Button>
                     </div>
+                    
                     <Autocomplete
                     style={{width:'200px'}}
                       multiple
@@ -215,6 +231,7 @@ const OrgTree = () => {
                       options={edata}
                       getOptionLabel={(option) => option.name}
                       defaultValue={[]}
+                      onChange={handleChange}
                       filterSelectedOptions
                       renderInput={(params) => <TextField {...params} label="filterSelectedOptions" placeholder="Favorites" />}
                     />
