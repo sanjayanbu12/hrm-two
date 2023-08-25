@@ -188,7 +188,9 @@ const OrgTree = () => {
                 </Card>
               }
             >
-              <TreeNode
+             
+            </TreeNode>
+            <TreeNode
                 label={
                   <Card
                     style={{
@@ -197,9 +199,9 @@ const OrgTree = () => {
                       display: 'flex',
                       alignItems: 'center',
                       paddingLeft: '13px',
-                      paddingRight: '21px'
+                      paddingRight: '21px',
+                      width:'100%'
                     }}
-                    onClick={() => navigate('/hrapproval')}
                   >
                     <Container
                       style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -214,7 +216,6 @@ const OrgTree = () => {
                   </Card>
                 }
               />
-            </TreeNode>
           </Tree>
         ) : (
           <CircularProgress sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}></CircularProgress>
