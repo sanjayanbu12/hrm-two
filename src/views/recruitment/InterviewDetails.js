@@ -229,13 +229,10 @@ const handleRowUpdate = async(newData,oldData)=>{
     pdf.save('Selected Candidate_data.pdf');
   };
 
- 
-
-
-
-
-
-
+  // const handleView = async(e,data) =>{
+  //   const id=data.map(x=>x._id)
+  //   console.log(id[0])
+  //   navigate(`/view/${id[0]}`);}
 
   return (
     <ThemeProvider theme={theme}>
