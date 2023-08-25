@@ -23,22 +23,28 @@ const OrgTree = () => {
   const [edata, setedata] = useState([]);
   const [managerData, setmanagerData] = useState([]);
   const [autoComData, setautoComData] = useState([]);
+  const [Tier2Data, setTier2Data] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     fetchEmployeesData();
-  },[])
+  }, []);
 
   const fetchOrgData = async () => {
     try {
       const response = await axios.get('http://localhost:3001/org/getorgs');
-      const emp=response.data.orgData
-      const manId = emp.map((data) => data.managerName[0]._id);    
+      const orgData = response.data.orgData;
+      const manId = orgData.map((data) => data.managerName[0]._id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
+      const x = orgData.map((data) => data.hrName);
+      const ids = x[0].map((data) => data.id);
+      setTier2Data(edata.filter((data) => ids.includes(data._id)));
       setLoaderStatus(false);
+      console.log(Tier2Data.map(data=>data.name))
+      console.log(Tier2Data)
     } catch (error) {
       console.log(error);
     }
@@ -68,21 +74,21 @@ const OrgTree = () => {
     await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
     fetchOrgData();
   };
- const handleChange=(e,value)=>{
-  setautoComData(value) 
-  console.log(autoComData)
- }
- const hanldePost = async () => {
-  const membersArray = autoComData.map(data => {
-    return { name: data.name, id: data._id };
-  });
-  const id=orgMems.map(data=>data._id)
-  console.log(id)
-  await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
-    hrName: membersArray,
-    managerName: managerData
-  });
-};
+  const handleChange = (e, value) => {
+    setautoComData(value);
+    console.log(autoComData);
+  };
+  const hanldePost = async () => {
+    const membersArray = autoComData.map((data) => {
+      return { name: data.name, id: data._id };
+    });
+    const id = orgMems.map((data) => data._id);
+    console.log(id);
+    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+      hrName: membersArray,
+      managerName: managerData
+    });
+  };
   return (
     <MapInteractionCSS>
       <div>
@@ -210,17 +216,16 @@ const OrgTree = () => {
                   }}
                 >
                   <Container
-                    style={{ display: 'flex', justifyContent: 'space-between', width:'200px', alignItems: 'center',gap:'20px' }}
+                    style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
                     disableGutters={true}
                   >
-                    <div> 
-                   <Button onClick={hanldePost}>Add</Button>
+                    <div>
+                      <Button onClick={hanldePost}>Add</Button>
                     </div>
-                    
+
                     <Autocomplete
-                    style={{width:'200px'}}
+                      style={{ width: '200px' }}
                       multiple
-                      
                       id="tags-outlined"
                       options={edata}
                       getOptionLabel={(option) => option.name}
