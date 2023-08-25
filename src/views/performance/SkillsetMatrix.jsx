@@ -1,5 +1,8 @@
-import React from 'react'
+import React from 'react';
 import MainCard from 'ui-component/cards/MainCard';
+import { List, ListItem, Typography } from '@mui/material';
+import Marker1 from '../../assets/images/icons/progress_1.svg';
+import Marker2 from '../../assets/images/icons/progress_2.svg';
 
 import HorizontalNonLinearStepper from './HorizontalNonLinearStepper';
 
