@@ -12,6 +12,7 @@ const RecruitmentView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
+  const [Selected, setSelected] = useState(0);
   const { id } = useParams();
   const navigate =useNavigate();
 
@@ -38,15 +39,17 @@ const RecruitmentView = () => {
 
     useEffect(() => {
       fetchApp();
-    }, []);
+    }, [selectedAts]);
     
     const fetchApp = async () => {
       try {
         const res = await axios.get(`https://hrm-backend-square.onrender.com/ats`);
         const Job1 = res.data.getData.filter((job) => job.position == jobrole);
+        const Job2 = res.data.getData.filter((job) => job.position == jobrole&&job.approve==='Hired');
         setSelectedAts(Job1.length);
-        console.log(Job1+' is selected')
-   }
+        setSelected(Job2.length)
+        console.log(Job1.length +' is selected')
+}
         catch (error) {
         console.log(error);
       }
@@ -56,7 +59,7 @@ console.log(selectedAts);
     const handleTwitterShare = () => {
       if (selectedJob) {
         const shareText = `Check out this job opportunity
-        jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company} 
+        jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company}
         Location: ${selectedJob.Location} ;
         Job opening: ${selectedJob.Openings};
         ApplicationLink:${selectedJob.ApplicationLink}`;
@@ -267,7 +270,7 @@ console.log(selectedAts);
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Selected</b>
-                    <b style={{ marginLeft: '231px', paddingRight: '10px' }}>:</b> {selectedJob.SelectedCount}
+                    <b style={{ marginLeft: '231px', paddingRight: '10px' }}>:</b> {Selected}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Remaining</b>
