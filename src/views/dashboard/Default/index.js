@@ -6,6 +6,7 @@ import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
+import ApexChart from './ApexChart';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -14,11 +15,11 @@ const Dashboard = () => {
   useEffect(() => {
     setTimeout(() => {
       setLoading(false);
-      toast.success("Logged in successfully!", {
+      toast.success('Logged in successfully!', {
         position: toast.POSITION.TOP_CENTER,
         autoClose: 1000
       });
-    }, 2000);
+    }, 5000);
   }, []);
 
   // // Handler for background color change
@@ -37,7 +38,6 @@ const Dashboard = () => {
   // ];
 
   return (
-  
     // <div style={{ backgroundColor }}>
     //   {/* Color picker or dropdown for background color selection */}
     //   <div>
@@ -76,7 +76,7 @@ const Dashboard = () => {
     //     </div>
     //   </div>
 
-   <div>
+    <div style={{ overflow: 'hidden' }}>
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
@@ -87,10 +87,13 @@ const Dashboard = () => {
           </Grid>
         </Grid>
       </Grid>
-      
+
       <Grid container spacing={gridSpacing}>
         <Grid item xs={12} md={8}>
           <Upcomingevents isLoading={isLoading} />
+        </Grid>
+        <Grid item xs={12} md={3}>
+          <ApexChart isLoading={isLoading} />
         </Grid>
       </Grid>
       <ToastContainer />

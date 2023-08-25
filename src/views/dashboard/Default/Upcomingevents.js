@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import MainCard from 'ui-component/cards/MainCard';
-import { Card,CardContent, Grid, Typography, Button, Menu, MenuItem } from '@mui/material';
+import { Card,CardContent, Grid, Typography, Button } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+// import MoreVertIcon from '@mui/icons-material/MoreVert';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [colorAnchorEl, setColorAnchorEl] = useState(null);
-  const [selectedColor, setSelectedColor] = useState('#ffffff');  
+  // const [anchorEl, setAnchorEl] = useState(null);
+  // const [colorAnchorEl, setColorAnchorEl] = useState(null);
+  // const [selectedColor, setSelectedColor] = useState('#ffffff');  
 
   useEffect(() => {
     setIsLoading(true);
@@ -28,38 +28,38 @@ const Upcomingevents = () => {
   // const theme = useTheme();
   const navigate = useNavigate();
 
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  // const handleMenuOpen = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
 
-  const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+  // const handleMenuClose = () => {
+  //   setAnchorEl(null);
+  // };
 
-  const handleColorMenuOpen = (event) => {
-    setColorAnchorEl(event.currentTarget);
-  };
+  // const handleColorMenuOpen = (event) => {
+  //   setColorAnchorEl(event.currentTarget);
+  // };
 
-  const handleColorMenuClose = () => {
-    setColorAnchorEl(null);
-  };
+  // const handleColorMenuClose = () => {
+  //   setColorAnchorEl(null);
+  // };
 
-  const handleColorSelect = (color) => {
-    setSelectedColor(color);
-    handleColorMenuClose();
-  };
+  // const handleColorSelect = (color) => {
+  //   setSelectedColor(color);
+  //   handleColorMenuClose();
+  // };
 
-  const colorOptions = [
-    { color: '#ff0000' },
-    { color: '#00ff00' },
-    { color: '#0000ff' },
-    { color: '#e9967a' },
-    { color: '#0000ff' },
-    { color: '#ff0000' },
-    { color: '#e9967a' },
-    { color: '#00ff00' },
+  // const colorOptions = [
+  //   { color: '#ff0000' },
+  //   { color: '#00ff00' },
+  //   { color: '#0000ff' },
+  //   { color: '#e9967a' },
+  //   { color: '#0000ff' },
+  //   { color: '#ff0000' },
+  //   { color: '#e9967a' },
+  //   { color: '#00ff00' },
  
-  ];
+  // ];
   const locationNames = {
     location1: 'Coimbatore',
     location2: 'Bangalore',
@@ -136,7 +136,7 @@ const Upcomingevents = () => {
             </Button>
           </div>
   
-          <div>
+          {/* <div>
             <Button
               onClick={handleMenuOpen}
               variant="text"
@@ -144,9 +144,9 @@ const Upcomingevents = () => {
             >
               <MoreVertIcon />
             </Button>
+          </div> */}
           </div>
-          </div>
-            <Menu
+            {/* <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
               onClose={handleMenuClose}
@@ -161,8 +161,8 @@ const Upcomingevents = () => {
             >
               <MenuItem onClick={handleColorMenuOpen}>Solid-Color</MenuItem>
               <MenuItem onClick={handleMenuClose}>Background</MenuItem>
-            </Menu>
-
+            </Menu> */}
+{/* 
             <Menu
               anchorEl={colorAnchorEl}
               open={Boolean(colorAnchorEl)}
@@ -175,9 +175,9 @@ const Upcomingevents = () => {
                 vertical: 'top',
                 horizontal: 'right'
               }}
-            >
+            > */}
 
-              <Grid container>
+              {/* <Grid container>
     {colorOptions.slice(0, 4).map((option, index) => (
       <Grid item key={index} style={{ marginRight: '10px' }} onClick={() => handleColorSelect(option.color)}>
         <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
@@ -192,8 +192,9 @@ const Upcomingevents = () => {
       </Grid>
     ))}
   </Grid>
-</Menu>
-            <div style={{ overflow: 'hidden', backgroundColor: selectedColor }}>
+</Menu> */}
+
+            <div style={{ overflow: 'hidden'}}>
               {events.length > 0 ? (
                 <Carousel
                   showArrows={true}
