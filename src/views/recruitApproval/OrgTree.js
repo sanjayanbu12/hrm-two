@@ -8,7 +8,7 @@ import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import { Typography } from '@mui/material';
+import { Autocomplete, TextField, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
@@ -32,7 +32,7 @@ const OrgTree = () => {
       getDataUseeff();
     }
   }, [orgMems, edata]);
- 
+
   const getDataUseeff = () => {
     const manId = orgMems.map((data) => data.managerName.id);
     const manData = edata.filter((data) => data._id === manId[0]);
@@ -43,7 +43,7 @@ const OrgTree = () => {
       const response = await axios.get('http://localhost:3001/org/getorgs');
       setorgMems(response.data.orgData);
       setLoaderStatus(false);
-      console.log(managerData.length)
+      console.log(managerData.length);
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +53,6 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
-     
     } catch (error) {
       console.log(error);
     }
@@ -72,7 +71,7 @@ const OrgTree = () => {
       }
     };
     await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
-    fetchOrgData()
+    fetchOrgData();
   };
 
   return (
@@ -86,7 +85,7 @@ const OrgTree = () => {
             lineBorderRadius={'10px'}
             label={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {managerData.length>0? (
+                {managerData.length > 0 ? (
                   managerData.map((data) => (
                     <Card
                       key={data._id}
@@ -187,35 +186,42 @@ const OrgTree = () => {
                   </Container>
                 </Card>
               }
-            >
-             
-            </TreeNode>
+            ></TreeNode>
             <TreeNode
-                label={
-                  <Card
-                    style={{
-                      height: '81px',
-                      backgroundColor: ' #E1EAFB',
-                      display: 'flex',
-                      alignItems: 'center',
-                      paddingLeft: '13px',
-                      paddingRight: '21px',
-                      width:'100%'
-                    }}
+              label={
+                <Card
+                  style={{
+                    height: '81px',
+                    backgroundColor: ' #E1EAFB',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '13px',
+                    paddingRight: '21px',
+                    width: '100%'
+                  }}
+                >
+                  <Container
+                    style={{ display: 'flex', justifyContent: 'space-between', width:'200px', alignItems: 'center',gap:'20px' }}
+                    disableGutters={true}
                   >
-                    <Container
-                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                      disableGutters={true}
-                    >
-                      <div>
-                        <IconButton onClick={() => console.log('Add member clicked')}>
-                          <AddIcon />
-                        </IconButton>
-                      </div>
-                    </Container>
-                  </Card>
-                }
-              />
+                    <div>
+                   <Typography variant='h5'>Add</Typography>
+                    </div>
+                    <Autocomplete
+                    style={{width:'200px'}}
+                      multiple
+                      
+                      id="tags-outlined"
+                      options={edata}
+                      getOptionLabel={(option) => option.name}
+                      defaultValue={[]}
+                      filterSelectedOptions
+                      renderInput={(params) => <TextField {...params} label="filterSelectedOptions" placeholder="Favorites" />}
+                    />
+                  </Container>
+                </Card>
+              }
+            />
           </Tree>
         ) : (
           <CircularProgress sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}></CircularProgress>
