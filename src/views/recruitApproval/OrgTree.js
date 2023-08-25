@@ -40,7 +40,7 @@ const OrgTree = () => {
   };
   const fetchOrgData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/org/getorgs');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorgs');
       setorgMems(response.data.orgData);
       setLoaderStatus(false);
       console.log(managerData.length)
@@ -64,7 +64,6 @@ const OrgTree = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
-
   const handleEmp = async (data) => {
     const manData = {
       managerName: {
@@ -144,6 +143,8 @@ const OrgTree = () => {
                             {data.name}
                           </MenuItem>
                         ))}
+
+                        {/* Add more menu items as needed */}
                       </Menu>
                     </Card>
                   </Container>
@@ -206,9 +207,8 @@ const OrgTree = () => {
                       style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
                       disableGutters={true}
                     >
-                    
                       <div>
-                        <IconButton >
+                        <IconButton onClick={() => console.log('Add member clicked')}>
                           <AddIcon />
                         </IconButton>
                       </div>
