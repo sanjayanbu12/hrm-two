@@ -17,6 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
+import Modal from '@mui/material/Modal';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -25,6 +26,7 @@ const OrgTree = () => {
   const [managerData, setmanagerData] = useState([]);
   const [autoComData, setautoComData] = useState([]);
   const [Tier2Data, setTier2Data] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
@@ -45,8 +47,6 @@ const OrgTree = () => {
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
       setLoaderStatus(false);
-      console.log(Tier2Data.map(data=>data.name))
-      console.log(Tier2Data)
     } catch (error) {
       console.log(error);
     }
@@ -66,6 +66,15 @@ const OrgTree = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const handleEmp = async (data) => {
     const manData = {
       managerName: {
@@ -90,6 +99,7 @@ const OrgTree = () => {
       hrName: membersArray,
       managerName: managerData
     });
+    fetchOrgData();
   };
   return (
     <MapInteractionCSS>
@@ -167,46 +177,47 @@ const OrgTree = () => {
                 )}
               </div>
             }
-          >{Tier2Data.map(data=>(
-            <TreeNode
-            key={data._id}
-            label={
-              <Card
-                style={{
-                  width: '278px',
-                  height: '81px',
-                  backgroundColor: ' #E1EAFB',
-                  display: 'flex',
-                  alignItems: 'center',
-                  paddingLeft: '13px',
-                  paddingRight: '21px'
-                }}
-                onClick={() => navigate('/hrapproval')}
-              >
-                <Container
-                  style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                  disableGutters={true}
-                >
-                  <div>
-                    <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>H</Avatar>
-                  </div>
-                  <div>
-                    <Typography variant="h3" fontSize={'18px'}>
-                      {data.name}
-                    </Typography>
-                    <Typography variant="body2">Backend Dev</Typography>
-                  </div>
-                  <div>
-                    <IconButton>
-                      <ChevronRightIcon />
-                    </IconButton>
-                  </div>
-                </Container>
-              </Card>
-            }
-          ></TreeNode>
-          ))}
-           
+          >
+            {Tier2Data.map((data) => (
+              <TreeNode
+                key={data._id}
+                label={
+                  <Card
+                    style={{
+                      width: '278px',
+                      height: '81px',
+                      backgroundColor: ' #E1EAFB',
+                      display: 'flex',
+                      alignItems: 'center',
+                      paddingLeft: '13px',
+                      paddingRight: '21px'
+                    }}
+                    onClick={() => navigate('/hrapproval')}
+                  >
+                    <Container
+                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                      disableGutters={true}
+                    >
+                      <div>
+                        <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0]}</Avatar>
+                      </div>
+                      <div>
+                        <Typography variant="h3" fontSize={'18px'}>
+                          {data.name}
+                        </Typography>
+                        <Typography variant="body2">{data.desi}</Typography>
+                      </div>
+                      <div>
+                        <IconButton>
+                          <ChevronRightIcon />
+                        </IconButton>
+                      </div>
+                    </Container>
+                  </Card>
+                }
+              ></TreeNode>
+            ))}
+
             <TreeNode
               label={
                 <Card
@@ -219,26 +230,39 @@ const OrgTree = () => {
                     paddingRight: '21px',
                     width: '100%'
                   }}
+                  onClick={handleModalOpen}
                 >
                   <Container
                     style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
                     disableGutters={true}
                   >
                     <div>
-                      <Button onClick={hanldePost}>Add</Button>
-                    </div>
+                      <Modal open={isModalOpen} onClose={handleModalClose} style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}>
+                      <div>
 
-                    <Autocomplete
-                      style={{ width: '200px' }}
-                      multiple
-                      id="tags-outlined"
-                      options={edata}
-                      getOptionLabel={(option) => option.name}
-                      defaultValue={[]}
-                      onChange={handleChange}
-                      filterSelectedOptions
-                      renderInput={(params) => <TextField {...params} label="filterSelectedOptions" placeholder="Favorites" />}
-                    />
+                      
+                        <Autocomplete
+                          style={{ width: '200px' }}
+                          multiple
+                          id="tags-outlined"
+                          options={edata}
+                          getOptionLabel={(option) => option.name}
+                          defaultValue={[]}
+                          onChange={handleChange}
+                          filterSelectedOptions
+                          renderInput={(params) => <TextField {...params} label="filterSelectedOptions" placeholder="Favorites" />}
+                        />
+                    
+                      <div style={{ marginTop: '10px', textAlign: 'right' }}>
+                        <Button onClick={hanldePost}>Add</Button>
+                      </div>
+                    </div>
+                    </Modal>
+                    </div>
                   </Container>
                 </Card>
               }
