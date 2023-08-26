@@ -102,9 +102,12 @@ const OrgTree = () => {
       hrName: membersArray,
       managerName: managerData
     });
+    handleModalClose()
     fetchOrgData();
+
   };
   return (
+    <>
     <MapInteractionCSS>
       <div>
         {!loader ? (
@@ -242,38 +245,7 @@ const OrgTree = () => {
                     <IconButton style={{height:'100vh',margin:'0 auto'}}>
                       <AddIcon />
                     </IconButton>
-                    <div>
-                      <Modal open={isModalOpen} onClose={handleModalClose} style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      height:'100vh',
-                      width:'100%'
-                    }}>
-                      <MainCard title='Add Members' style={{width:"50%",display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-
-                      <Card  style={{width:'300px' }}>
-
-                      
-                        <Autocomplete
-                          style={{}}
-                          multiple
-                          id="tags-outlined"
-                          options={edata}
-                          getOptionLabel={(option) => option.name}
-                          defaultValue={[]}
-                          onChange={handleChange}
-                          filterSelectedOptions
-                          renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
-                        />
-                    
-                      <div style={{ marginTop: '10px', textAlign: 'right',width:'50%' }}>
-                        <Button onClick={hanldePost} style={{width:'300px'}}>Add</Button>
-                      </div>
-                      </Card>
-                    </MainCard>
-                    </Modal>
-                    </div>
+                   
                   </Container>
                 </Card>
               }
@@ -284,6 +256,38 @@ const OrgTree = () => {
         )}
       </div>
     </MapInteractionCSS>
+     
+    <Modal open={isModalOpen} onClose={handleModalClose} style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height:'100vh',
+    width:'100%'
+  }}>
+    <MainCard title='Add Members' style={{width:"50%",display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+
+    <Card  style={{width:'300px' }}>
+
+    
+      <Autocomplete
+        
+        multiple
+        id="tags-outlined"
+        options={edata}
+        getOptionLabel={(option) => option.name}
+        defaultValue={[]}
+        onChange={handleChange}
+        filterSelectedOptions
+        renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
+      />
+  
+    <div style={{ marginTop: '10px', textAlign: 'right',width:'50%' }}>
+      <Button onClick={hanldePost} style={{width:'300px'}}>Add</Button>
+    </div>
+    </Card>
+  </MainCard>
+  </Modal>
+</>
   );
 };
 
