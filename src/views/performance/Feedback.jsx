@@ -67,53 +67,11 @@ const Feedback = () => {
             marginTop:"10px",
 
             }}><b>Feedbacks Given to you</b></Typography>
-        <Paper
-        sx ={{
-            marginTop: "20px",
-            width : 290,
-            padding: "15px",
-            fontWeight: 800,
-            paddingBottom: "20px" ,
-            
-            }}
-            src={User1}
-          ></Avatar>
+        
         </Item>
 
-        <Item alignItems={'center'} sx={{}}>
-          <Typography
-            variant="h4"
-            body1="span"
-            sx={{
-              fontWeight: 800,
-              fontSize: 'medium'
-            }}
-          >
-            Johne Doe
-          </Typography>
-          <Typography
-            variant="h4"
-            body1="span"
-            sx={{
-              fontWeight: 300,
-              fontSize: 'small',
-              color: '#697586',
-              marginTop: '5px'
-            }}
-          >
-            {' '}
-            Project Admin
-          </Typography>
-        </Item>
-        <Item>
-          <Button variant="contained" color="secondary">
-            Give Feedback
-          </Button>
-        </Item>
-      </Stack>
-      <Typography sx={{ fontSize: '18px', marginTop: '10px' }}>
-            <b>Feedbacks Given to you</b>
-          </Typography>
+        
+      </Stack>        
 
       <Stack direction="row" useFlexGap overflow={"auto"} spacing={2} display="flex" sx={{ listStyleType: 'none',
         scrollbarWidth: 'thin',
@@ -121,7 +79,7 @@ const Feedback = () => {
     
         '&::-webkit-scrollbar': {
           height: '5px',
-          marginTop:"10px",
+
         },
     
         '&::-webkit-scrollbar-track': {
@@ -142,50 +100,80 @@ const Feedback = () => {
           backgroundColor: '#555',
         },
         }}>
-        <Item>
-        <Avatar   
-                sx={{
-                    
-                     width: '40px',
-                     height: '40px',
-                }}
-                src={User1}>
-            </Avatar>
-            </Item>
-{/* This for review  */}
-            <Item>
-            <Typography variant="h4" body1="span"  sx={{
-                fontWeight: 800,
-                fontSize:"medium"
-                }}>Kannan S
-                </Typography>
-                <Typography variant="subtitle2">Project Admin</Typography>
-              </Item>
-              <Item>
-                <Rating alignItems="left" name="read-only" value={3} readOnly />
-                <Typography
-                  component="legend"
-                  sx={{
-                    marginTop: '5px',
-                    fontWeight: 300
-                  }}
-                >
-                  Good Work! but, you have to maintain punctuality too...
-                </Typography>
-                </Item>
-                <Item >
-                    <div style={{display:"flex"}}>
-                    <TextField
-                        label="Enter your comment"
-                        variant="outlined"
-                        fullWidth
-                        value={Comment}
-                        onChange={handleInputChange} > </TextField>
-                       <div ><IconButton sx={{marginLeft:"15px"}}onClick={handleSubmit} aria-label="SVG Icon Button">
-                        <ReplyIcon/></IconButton></div> 
-                        </div>
-                        </Item>
-                <Item><ReplyIcon sx={{display:"block",marginLeft:"200px"}}/></Item>
+        <Item >
+<Paper display="flex"
+  sx={{
+    marginTop: '20px',
+    width: 290,
+    padding: '15px',
+    fontWeight: 800,
+    paddingBottom: '20px',
+    
+  }}
+  title="Feedbacks given to you"
+  elevation={9}
+>
+  <Stack
+    direction="row"
+    useFlexGap
+    flexWrap="wrap"
+    spacing={2}
+    sx={{
+      listStyleType: 'none',
+      height: 250,
+      display: 'flex',
+      marginTop: '5px'
+    }}
+  >
+    <Item>
+      <Avatar
+        sx={{
+          width: '40px',
+          height: '40px'
+        }}
+        src={User1}
+      ></Avatar>
+    </Item>
+    {/* This for review  */}
+    <Item>
+      <Typography
+        variant="h4"
+        body1="span"
+        sx={{
+          fontWeight: 800,
+          fontSize: 'medium'
+        }}
+      >
+        Kannan S
+      </Typography>
+      <Typography variant="subtitle2">Project Admin</Typography>
+    </Item>
+    <Item>
+      <Rating alignItems="left" name="read-only" value={3} readOnly />
+      <Typography
+        component="legend"
+        sx={{
+          marginTop: '5px',
+          fontWeight: 300
+        }}
+      >
+        Good Work! but, you have to maintain punctuality too...
+      </Typography>
+    </Item>
+    <Item>
+      <div style={{ display: 'flex' }}>
+        <TextField label="Enter your comment" variant="outlined" fullWidth value={Comment} onChange={handleInputChange}>
+          {' '}
+        </TextField>
+        <div>
+          <IconButton sx={{ marginLeft: '15px' }} onClick={handleSubmit} aria-label="SVG Icon Button">
+            <ReplyIcon />
+          </IconButton>
+        </div>
+      </div>
+    </Item>
+  </Stack>
+</Paper></Item>
 
           
           
