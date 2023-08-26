@@ -39,7 +39,7 @@ const OrgTree = () => {
   const fetchOrgData = async () => {
     try {
       setLoaderStatus(false);
-      const response = await axios.get('http://localhost:3001/org/getorgs');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
     
