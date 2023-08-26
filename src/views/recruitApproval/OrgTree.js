@@ -8,7 +8,7 @@ import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import { Typography } from '@mui/material';
+import { Autocomplete, TextField, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
@@ -16,34 +16,40 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { Button } from 'antd';
+import Modal from '@mui/material/Modal';
+import MainCard from 'ui-component/cards/MainCard';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
-  const [orgMems, setorgMems] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
   const [edata, setedata] = useState([]);
+  const [orgMems, setorgMems] = useState([]);
   const [managerData, setmanagerData] = useState([]);
+  const [autoComData, setautoComData] = useState([]);
+  const [Tier2Data, setTier2Data] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
+  }, [edata]);
+  useEffect(() => {
     fetchEmployeesData();
   }, []);
-  useEffect(() => {
-    if (orgMems.length > 0 && edata.length > 0) {
-      getDataUseeff();
-    }
-  }, [orgMems, edata]);
- 
-  const getDataUseeff = () => {
-    const manId = orgMems.map((data) => data.managerName.id);
-    const manData = edata.filter((data) => data._id === manId[0]);
-    setmanagerData(manData);
-  };
+
   const fetchOrgData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorgs');
-      setorgMems(response.data.orgData);
       setLoaderStatus(false);
-      console.log(managerData.length)
+      const response = await axios.get('http://localhost:3001/org/getorgs');
+      const orgData = response.data.orgData;
+      setorgMems(orgData);
+    
+      const manId = orgData.map((data) => data.managerName.id);
+      const manData = edata.filter((data) => data._id === manId[0]);
+      setmanagerData(manData);
+      const x = orgData.map((data) => data.hrName);
+      const ids = x[0].map((data) => data.id);
+      setTier2Data(edata.filter((data) => ids.includes(data._id)));
+   
     } catch (error) {
       console.log(error);
     }
@@ -53,7 +59,6 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
-     
     } catch (error) {
       console.log(error);
     }
@@ -64,6 +69,15 @@ const OrgTree = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setIsModalOpen(false);
+  };
+
   const handleEmp = async (data) => {
     const manData = {
       managerName: {
@@ -72,10 +86,28 @@ const OrgTree = () => {
       }
     };
     await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
-    fetchOrgData()
+    fetchOrgData();
   };
+  const handleChange = (e, value) => {
+    setautoComData(value);
+    console.log(autoComData);
+  };
+  const hanldePost = async () => {
+    const membersArray = autoComData.map((data) => {
+      return { name: data.name, id: data._id };
+    });
+    const id = orgMems.map((data) => data._id);
+    console.log(membersArray);
+    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+      hrName: membersArray,
+      managerName: managerData
+    });
+    handleModalClose()
+    fetchOrgData();
 
+  };
   return (
+    <>
     <MapInteractionCSS>
       <div>
         {!loader ? (
@@ -86,7 +118,7 @@ const OrgTree = () => {
             lineBorderRadius={'10px'}
             label={
               <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {managerData.length>0? (
+                {managerData.length > 0 ? (
                   managerData.map((data) => (
                     <Card
                       key={data._id}
@@ -152,76 +184,110 @@ const OrgTree = () => {
               </div>
             }
           >
-            <TreeNode
-              label={
-                <Card
-                  style={{
-                    width: '278px',
-                    height: '81px',
-                    backgroundColor: ' #E1EAFB',
-                    display: 'flex',
-                    alignItems: 'center',
-                    paddingLeft: '13px',
-                    paddingRight: '21px'
-                  }}
-                  onClick={() => navigate('/hrapproval')}
-                >
-                  <Container
-                    style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                    disableGutters={true}
-                  >
-                    <div>
-                      <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>H</Avatar>
-                    </div>
-                    <div>
-                      <Typography variant="h3" fontSize={'18px'}>
-                        Kannan
-                      </Typography>
-                      <Typography variant="body2">Backend Dev</Typography>
-                    </div>
-                    <div>
-                      <IconButton>
-                        <ChevronRightIcon />
-                      </IconButton>
-                    </div>
-                  </Container>
-                </Card>
-              }
-            >
-             
-            </TreeNode>
-            <TreeNode
+            {Tier2Data.map((data) => (
+              <TreeNode
+                key={data._id}
                 label={
                   <Card
                     style={{
+                      width: '278px',
                       height: '81px',
                       backgroundColor: ' #E1EAFB',
                       display: 'flex',
                       alignItems: 'center',
                       paddingLeft: '13px',
-                      paddingRight: '21px',
-                      width:'100%'
+                      paddingRight: '21px'
                     }}
+                    onClick={() => navigate('/hrapproval')}
                   >
                     <Container
                       style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
                       disableGutters={true}
                     >
                       <div>
-                        <IconButton onClick={() => console.log('Add member clicked')}>
-                          <AddIcon />
+                        <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0]}</Avatar>
+                      </div>
+                      <div>
+                        <Typography variant="h3" fontSize={'18px'}>
+                          {data.name}
+                        </Typography>
+                        <Typography variant="body2">{data.desi}</Typography>
+                      </div>
+                      <div>
+                        <IconButton>
+                          <ChevronRightIcon />
                         </IconButton>
                       </div>
                     </Container>
                   </Card>
                 }
-              />
+              ></TreeNode>
+            ))}
+
+            <TreeNode
+              label={
+                <Card
+                  style={{
+                    height: '81px',
+                    backgroundColor: ' #E1EAFB',
+                    display: 'flex',
+                    alignItems: 'center',
+                    paddingLeft: '13px',
+                    paddingRight: '21px',
+                    width: '100%'
+                  }}
+                  onClick={handleModalOpen}
+                >
+                  <Container
+                    style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
+                    disableGutters={true}
+                  >
+                    <IconButton style={{height:'100vh',margin:'0 auto'}}>
+                      <AddIcon />
+                    </IconButton>
+                   
+                  </Container>
+                </Card>
+              }
+            />
           </Tree>
         ) : (
           <CircularProgress sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}></CircularProgress>
         )}
       </div>
     </MapInteractionCSS>
+     
+    <Modal open={isModalOpen} onClose={handleModalClose} style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height:'100vh',
+    width:'100%'
+  }}>
+    <MainCard title='Add Members' style={{width:"50%",display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+
+    <Card  style={{width:'300px' }}>
+
+    
+      <Autocomplete
+        
+        multiple
+        id="tags-outlined"
+        options={edata}
+        getOptionLabel={(option) => option.name}
+        defaultValue={[]}
+        onChange={handleChange}
+        filterSelectedOptions
+        renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
+      />
+  
+    <div style={{ marginTop: '10px', textAlign: 'right',width:'50%' }}>
+      <Button onClick={hanldePost} style={{width:'300px'}}>Add</Button>
+    </div>
+    </Card>
+  </MainCard>
+  </Modal>
+</>
   );
 };
 
