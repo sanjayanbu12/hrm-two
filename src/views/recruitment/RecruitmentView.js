@@ -39,11 +39,11 @@ const RecruitmentView = () => {
 
     useEffect(() => {
       fetchApp();
-    }, [selectedAts]);
+    }, [selectedJob,selectedAts]);
     
     const fetchApp = async () => {
       try {
-        const res = await axios.get(`https://hrm-backend-square.onrender.com/ats`);
+        const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
         const Job1 = res.data.getData.filter((job) => job.position == jobrole);
         const Job2 = res.data.getData.filter((job) => job.position == jobrole&&job.approve==='Hired');
         setSelectedAts(Job1.length);
@@ -274,7 +274,7 @@ console.log(selectedAts);
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Remaining</b>
-                    <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
+                    <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b>  {`${selectedJob.Openings - Selected}`}
                   </Typography>
                   <Button size='small' onClick={hanldeApprove}>ApproveByHr</Button>
                   <Button size='small' onClick={hanldeApproveMan}>ApproveByManager</Button>
