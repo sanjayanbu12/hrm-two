@@ -19,6 +19,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
 import Modal from '@mui/material/Modal';
 import MainCard from 'ui-component/cards/MainCard';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -41,8 +42,7 @@ const OrgTree = () => {
       setLoaderStatus(false);
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
-      setorgMems(orgData);
-    
+      setorgMems(orgData);   
       const manId = orgData.map((data) => data.managerName.id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
@@ -106,6 +106,11 @@ const OrgTree = () => {
     fetchOrgData();
 
   };
+  const handleDeleteMan=async()=>{
+    const id=orgMems.map(data=>data._id)
+    await axios.delete(`http://localhost:3001/org/deleteorg/${id}`)
+    fetchOrgData();
+  }
   return (
     <>
     <MapInteractionCSS>
@@ -122,7 +127,7 @@ const OrgTree = () => {
                   managerData.map((data) => (
                     <Card
                       key={data._id}
-                      onClick={() => navigate('/managerapproval')}
+              
                       style={{
                         width: '278px',
                         height: '81px',
@@ -146,11 +151,14 @@ const OrgTree = () => {
                           </Typography>
                           <Typography variant="body2">{data.desi}</Typography>
                         </div>
-                        <div>
-                          <IconButton>
+                        <div style={{display:'flex',flexDirection:'column'}}>
+                          <IconButton  onClick={() => navigate('/managerapproval')}>
                             <ChevronRightIcon />
                           </IconButton>
-                        </div>
+                          <IconButton onClick={handleDeleteMan}>
+                          <PersonRemoveIcon />
+                        </IconButton>
+                        </div>  
                       </Container>
                     </Card>
                   ))
