@@ -168,6 +168,12 @@ const navigate=useNavigate()
       icons={tableIcons}
       onRowClick={handleRowClick}
       actions={[
+        {
+          icon: tableIcons.Add,
+          tooltip: 'Add Job',
+          isFreeAction: true,
+          onClick: () => navigate('/jobform')
+        },
         rowData => ({
           icon: tableIcons.View,
           tooltip: 'View Details',

@@ -11,11 +11,13 @@ import {  Facebook, LinkedIn } from '@mui/icons-material'
 const RecruitmentView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
+  const [selectedAts, setSelectedAts] = useState([]);
+  const [Selected, setSelected] = useState(0);
   const { id } = useParams();
   const navigate =useNavigate();
 
   useEffect(() => {
-    fetchData()
+    fetchData();
   }, []);
   console.log(id + " selected job id");
 
@@ -29,11 +31,35 @@ const RecruitmentView = () => {
       console.log(error)
     }
   }
-  
+    let jobrole='';
+    if(selectedJob) {
+    jobrole = selectedJob.Jobrole;
+    }
+    console.log(jobrole)
+
+    useEffect(() => {
+      fetchApp();
+    }, [selectedJob,selectedAts]);
+    
+    const fetchApp = async () => {
+      try {
+        const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+        const Job1 = res.data.getData.filter((job) => job.position == jobrole);
+        const Job2 = res.data.getData.filter((job) => job.position == jobrole&&job.approve==='Hired');
+        setSelectedAts(Job1.length);
+        setSelected(Job2.length)
+        console.log(Job1.length +' is selected')
+}
+        catch (error) {
+        console.log(error);
+      }
+    };
+console.log(selectedAts);
+
     const handleTwitterShare = () => {
       if (selectedJob) {
         const shareText = `Check out this job opportunity
-        jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company} 
+        jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company}
         Location: ${selectedJob.Location} ;
         Job opening: ${selectedJob.Openings};
         ApplicationLink:${selectedJob.ApplicationLink}`;
@@ -240,15 +266,15 @@ const RecruitmentView = () => {
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Application Count</b>
-                    <b style={{ marginLeft: '173px', paddingRight: '10px' }}>:</b> {selectedJob.ApplicationCount}
+                    <b style={{ marginLeft: '173px', paddingRight: '10px' }}>:</b> {selectedAts}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Selected</b>
-                    <b style={{ marginLeft: '231px', paddingRight: '10px' }}>:</b> {selectedJob.SelectedCount}
+                    <b style={{ marginLeft: '231px', paddingRight: '10px' }}>:</b> {Selected}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Remaining</b>
-                    <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {selectedJob.RemainingCount}
+                    <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b>  {`${selectedJob.Openings - Selected}`}
                   </Typography>
                   <Button size='small' onClick={hanldeApprove}>ApproveByHr</Button>
                   <Button size='small' onClick={hanldeApproveMan}>ApproveByManager</Button>
