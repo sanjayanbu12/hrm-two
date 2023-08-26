@@ -95,7 +95,7 @@ const SkillsetMatrix = () => {
             <ListItem
               sx={{
                 display: 'flex',
-                justifyContent: 'center'
+                justifyContent: 'flex-end'
               }}
             >
               Novice
