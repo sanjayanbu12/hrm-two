@@ -37,16 +37,18 @@ const OrgTree = () => {
 
   const fetchOrgData = async () => {
     try {
+      setLoaderStatus(false);
       const response = await axios.get('http://localhost:3001/org/getorgs');
       const orgData = response.data.orgData;
       setorgMems(orgData);
-      const manId = orgData.map((data) => data.managerName[0]._id);
+    
+      const manId = orgData.map((data) => data.managerName.id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
-      setLoaderStatus(false);
+   
     } catch (error) {
       console.log(error);
     }
@@ -241,6 +243,8 @@ const OrgTree = () => {
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
+                      height:'100vh',
+                      width:'100%'
                     }}>
                       <div>
 
