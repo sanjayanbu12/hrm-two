@@ -18,6 +18,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
 import Modal from '@mui/material/Modal';
+import MainCard from 'ui-component/cards/MainCard';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -97,7 +98,7 @@ const OrgTree = () => {
     });
     const id = orgMems.map((data) => data._id);
     console.log(membersArray);
-    await axios.put(`http://localhost:3001/org/updateorg/${id}`, {
+    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });
@@ -238,6 +239,9 @@ const OrgTree = () => {
                     style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
                     disableGutters={true}
                   >
+                    <IconButton style={{height:'100vh',margin:'0 auto'}}>
+                      <AddIcon />
+                    </IconButton>
                     <div>
                       <Modal open={isModalOpen} onClose={handleModalClose} style={{
                       display: 'flex',
@@ -246,11 +250,13 @@ const OrgTree = () => {
                       height:'100vh',
                       width:'100%'
                     }}>
-                      <div>
+                      <MainCard title='Add Members' style={{width:"50%",display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
+
+                      <Card  style={{width:'300px' }}>
 
                       
                         <Autocomplete
-                          style={{ width: '200px' }}
+                          style={{}}
                           multiple
                           id="tags-outlined"
                           options={edata}
@@ -258,13 +264,14 @@ const OrgTree = () => {
                           defaultValue={[]}
                           onChange={handleChange}
                           filterSelectedOptions
-                          renderInput={(params) => <TextField {...params} label="filterSelectedOptions" placeholder="Favorites" />}
+                          renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
                         />
                     
-                      <div style={{ marginTop: '10px', textAlign: 'right' }}>
-                        <Button onClick={hanldePost}>Add</Button>
+                      <div style={{ marginTop: '10px', textAlign: 'right',width:'50%' }}>
+                        <Button onClick={hanldePost} style={{width:'300px'}}>Add</Button>
                       </div>
-                    </div>
+                      </Card>
+                    </MainCard>
                     </Modal>
                     </div>
                   </Container>
