@@ -37,12 +37,15 @@ const LearningUploads = () => {
   const handleImageChange = (event) => {
     setImage(event.target.files[0]);
     setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
+    event.target.value =[''] ;
+  
   };
 
   const handleVideoChange = (event) => {
     const selectedVideos = Array.from(event.target.files);
     setVideos(selectedVideos);
     setErrors((prevErrors) => ({ ...prevErrors, videos: '' }));
+    event.target.value = '';
   };
 
   const handleRemoveVideo = (index) => {
@@ -117,12 +120,7 @@ const LearningUploads = () => {
       setCourseDescription('');
       setImage(null);
       setVideos([]);
-      if (document.getElementById('image-input')) {
-        document.getElementById('image-input').value = '';
-      }
-      if (document.getElementById('video-input')) {
-        document.getElementById('video-input').value = '';
-      }
+      
       setErrors({});
     } catch (error) {
       console.error(error);
