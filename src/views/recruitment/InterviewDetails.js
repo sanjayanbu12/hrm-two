@@ -60,7 +60,7 @@ const InterviewDetails = () => {
     const Select= res.data.getData.filter(select=>select.Status==='Selected');
     setData (Select)
     console.log(setData);
-  }
+  };
 
 const handleRowUpdate = async(newData,oldData)=>{
   try{
@@ -78,7 +78,7 @@ const handleRowUpdate = async(newData,oldData)=>{
     console.error('Error updating row:', error);
   }
 };
-  
+
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
@@ -169,8 +169,7 @@ const handleRowUpdate = async(newData,oldData)=>{
   //   const id=data.map(x=>x._id)
   //   console.log(id[0])
   //   navigate(`/view/${id[0]}`);}
-
-  });
+}
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -251,8 +250,8 @@ const handleRowUpdate = async(newData,oldData)=>{
               <a href="#" onClick={() => handleResume(rowData._id, rowData.name)}><Tooltip title='Download Resume'><TextSnippet style={{color:'#616161'}}></TextSnippet></Tooltip></a>
             ),
           };
-        }
-        return column;
+          }
+        
       })}
       data={data}
       icons={tableIcons}
