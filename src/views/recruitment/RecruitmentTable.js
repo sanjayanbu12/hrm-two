@@ -6,7 +6,9 @@ import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
-import { ThemeProvider, createMuiTheme } from '@mui/material';
+import {  ThemeProvider, createMuiTheme } from '@mui/material';
+import './Css/table.css';
+
 const columns = [
  
   { title: 'Job ID', field: 'uuid' ,sorting:false},
@@ -20,11 +22,13 @@ const columns = [
 const csvColumns = ['Job ID','Jobrole', 'No.of.Openings', 'Company', 'Location',' Worktype',' Qualification','Year of Passing','Skills','Experience','Application Link','Deadline'];
 const RecruitmentTable = () => {
   const [Adata, setAdata] = useState([]);
-  
+  const[Loader,setLoader]=useState(true)
 const navigate=useNavigate()
   const fetchData = async () => {
+    setLoader(true)
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
     setAdata(res.data.getData.filter(data=>data.approvalstatus.manager===true && data.approvalstatus.hr===true ));
+    setLoader(false)
     console.log(res.data.getData );
   };
   const handleView = async(e,data) =>{
@@ -161,6 +165,7 @@ const navigate=useNavigate()
 
   return (
     <ThemeProvider theme={theme}>
+      {Loader? (<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):(
     <MaterialTable
       title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Recruitment Table</div>}
       columns={columns}
@@ -201,6 +206,7 @@ const navigate=useNavigate()
         selection:true,
       }}
    />
+   ) }
     </ThemeProvider>
   );
 };

@@ -1,0 +1,18 @@
+
+.spinner {
+   width: 56px;
+   height: 56px;
+   border-radius: 50%;
+   padding: 6.7px;
+   background: conic-gradient(from 135deg at top,#9847ff 90deg, #0000 0) 0 calc(50% - 4.5px)/19px 9.5px,
+          radial-gradient(farthest-side at bottom left,#0000 calc(100% - 6.7px),#9847ff calc(100% - 5.6px) 99%,#0000) top right/50%  50% content-box content-box,
+          radial-gradient(farthest-side at top,#0000 calc(100% - 6.7px),#9847ff calc(100% - 5.6px) 99%,#0000) bottom   /100% 50% content-box content-box;
+   background-repeat: no-repeat;
+   animation: spinner-v8og74 1s infinite linear;
+}
+
+@keyframes spinner-v8og74 {
+   100% {
+      transform: rotate(2turn);
+   }
+}

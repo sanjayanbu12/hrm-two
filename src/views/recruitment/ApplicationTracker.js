@@ -33,13 +33,16 @@ const columns = [
 
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
+  const [Loader, setLoader] = useState(true);
 const navigate=useNavigate()
   const fetchEmployees = async () => {
+    setLoader(true);
     const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
     const fildata=res.data.getData;
     // // const desiredSkills = ['Java', 'React', 'Node.js'];
     // const filldata=fildata.filter(item=>item.experience ===0);
     setAdata(fildata)
+    setLoader(false)
     console.log(res.data.getData);
 
   };
@@ -173,6 +176,7 @@ const navigate=useNavigate()
 
   return (
     <ThemeProvider theme={theme}>
+      {Loader? (<div className="spinner" style={{position:'absolute',bottom:'40%',right:'45%'}}/>):(
     <MaterialTable
       title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Application Tracker</div>}
       columns={columns.map((column) => {
@@ -219,6 +223,7 @@ const navigate=useNavigate()
         
       }}
     />
+)}
     </ThemeProvider>
   );
 };

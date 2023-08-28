@@ -45,15 +45,18 @@ const columns = [
 
 const InterviewDetails = () => {
   const [data, setData] = useState([]);
+  const [Loader,setLoader] = useState(true);
   // const navigate=useNavigate();
   useEffect(()=>{
     fetchData();
   },[])
 
   const fetchData=async()=>{
+    setLoader(true);
     const res=await axios.get(`https://hrm-backend-square.onrender.com/ats/`)
     const Select= res.data.getData.filter(select=>select.Status==='Selected');
     setData (Select)
+    setLoader(false);
     console.log(setData);
   }
 
@@ -167,6 +170,7 @@ const handleRowUpdate = async(newData,oldData)=>{
 
   return (
     <ThemeProvider theme={theme}>
+      {Loader?(<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):
     <MaterialTable
       title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Shortlist Candidates</div>}
       columns={columns.map((column) => {
@@ -204,6 +208,7 @@ const handleRowUpdate = async(newData,oldData)=>{
         }
       }}
     />
+}
     </ThemeProvider>
   );
 };
