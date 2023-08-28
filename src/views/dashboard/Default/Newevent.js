@@ -129,7 +129,7 @@ console.log(selectedDate);
           headerToolbar={{
             start: 'today prev,next',
             center: 'title',
-            end: 'dayGridMonth,timeGridWeek,timeGridDay'
+            end: 'dayGridMonth,timeGridWeek,timeGridDay' 
           }}
           height={'90vh'}
           events={upcomingEvents}

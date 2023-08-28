@@ -10,7 +10,9 @@ import { useNavigate } from 'react-router';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
 const TotalGrowthBarChart = () => {
+  const total= 20;
   const totalEmployees = 11;
+
   const [presentDropdownVisible, setPresentDropdownVisible] = useState(false);
   const [absentDropdownVisible, setAbsentDropdownVisible] = useState(false);
   const presentEmployees = [
@@ -83,19 +85,14 @@ const TotalGrowthBarChart = () => {
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 EMPLOYEES
               </Typography>
-              <Typography variant="h5" component="div">
-                {/* Your content here */}
+              <Typography variant="h5" component="div" style={{ marginBottom: '20px'}}>
+                {total}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Twenty Five
               </Typography>
-              {/* <Typography variant="body2">
-    well meaning and kindly.
-    <br />
-    {'"a benevolent smile"'}
-  </Typography> */}
-              <Typography style={{ marginTop: '50px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
-                HI
+              <Typography style={{ marginTop: '20px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
+                Employee List
               </Typography>
             </CardContent>
           </Card>
@@ -116,16 +113,11 @@ const TotalGrowthBarChart = () => {
                 Recruitment
               </Typography>
               <Typography variant="h5" component="div">
-                {/* Your content here */}
+                {}
               </Typography>
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 No of Openings
               </Typography>
-              {/* <Typography variant="body2">
-              well meaning and kindly.
-              <br />
-              {'"a benevolent smile"'}
-              </Typography> */}
               <Typography style={{ marginTop: '50px', cursor: 'pointer' }} onClick={() => navigate(`/jobtable`)}>
                 HI
               </Typography>
@@ -301,11 +293,6 @@ const TotalGrowthBarChart = () => {
               <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 02
               </Typography>
-              {/* <Typography variant="body2">
-    well meaning and kindly.
-    <br />
-    {'"a benevolent smile"'}
-  </Typography> */}
               <Typography style={{ marginTop: '50px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
                 HI
               </Typography>
