@@ -1,5 +1,4 @@
 import MaterialTable from 'material-table';
-// import tableIcons from './MaterialTableIcons';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
@@ -8,7 +7,7 @@ import jsPDF from 'jspdf';
 import {  Image,  TextSnippet } from '@mui/icons-material';
 // import { Clear,  Done,Pause } from '@mui/icons-material';
 import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
-
+// import { Skill } from './Consts';
 // const statusIcons={
 //   Hold:<Pause  sx={{color:'#1e88e5'}}></Pause>,
 //   Selected:<Done sx={{color:'#00c853'}}/>,
@@ -27,20 +26,17 @@ const columns = [
   {title:'Status', field: 'Status',sorting:false, lookup:{'Hold':'Hold','Selected':'Selected','Rejected':'Rejected'},
   // render: rowData=>statusIcons[rowData.Status]
 }
-
 ];
-
 
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
+  // const [fil,setfil] = useState();
 const navigate=useNavigate()
   const fetchEmployees = async () => {
     setLoader(true);
     const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
     const fildata=res.data.getData;
-    // // const desiredSkills = ['Java', 'React', 'Node.js'];
-    // const filldata=fildata.filter(item=>item.experience ===0);
     setAdata(fildata)
     setLoader(false)
     console.log(res.data.getData);
@@ -82,6 +78,20 @@ const navigate=useNavigate()
   useEffect(() => {
     fetchEmployees();
   }, []);
+
+//   useEffect(() => {},[]);
+
+// fetchrec=async()=>{
+//   const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+//   const fildata=res.data.getData;
+//   setfil(fildata)
+//   console.log(fil)
+
+// }
+
+
+
+
 
    const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
