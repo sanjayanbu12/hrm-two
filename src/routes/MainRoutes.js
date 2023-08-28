@@ -140,14 +140,6 @@ const MainRoutes = {
     },
     
     {
-      path: '/UploadForm',
-      element: <UploadForm/>
-    },
-    {
-      path: '/UploadList',
-      element: <UploadList/>
-    },
-    {
       path: '/payroll',
       element: <Payroll />
     },

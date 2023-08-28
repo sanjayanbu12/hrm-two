@@ -164,18 +164,7 @@ const pages = {
           type: 'item',
           url: '/CourseOverview'
         },
-        {
-          id: 'UploadForm',
-          title: 'Upload Form',
-          type: 'item',
-          url: '/UploadForm'
-        },
-        {
-          id: 'UploadList',
-          title: 'Upload List',
-          type: 'item',
-          url: '/UploadList'
-        }
+
       ]
     },
 
