@@ -1,18 +1,5 @@
 import MainCard from 'ui-component/cards/MainCard';
-import {
-  Grid,
-  TextField,
-  Box,
-  Button,
-  MenuItem,
-  Select,
-  FormControl,
-  InputLabel,
-  InputAdornment,
-  FormHelperText,
-  Tooltip,
-  Autocomplete
-} from '@mui/material';
+import {Grid,TextField,Box,Button,MenuItem,Select,FormControl,InputLabel,InputAdornment,FormHelperText,Tooltip,Autocomplete} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -481,7 +468,8 @@ console.log(Emplist)
   };
 
   return (
-    <MainCard title="Job Description Form">
+    <MainCard>
+    <MainCard title="Job Posting Form">
       <form>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -540,8 +528,6 @@ console.log(Emplist)
                   id="demo-simple-select"
                   label="Company"
                   value={Company}
-                  // error={errors && errors.Company}
-                  // helperText={errors && errors.Company}
                   onChange={(e) => handleCompany(e)}
                 >
                   <MenuItem value="Sns Square">SNS Square</MenuItem>
@@ -636,7 +622,6 @@ console.log(Emplist)
                     e.target.value = e.target.value.replace(/[^0-9,]/g, '');
                   }}
                 />
-
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
@@ -697,7 +682,29 @@ console.log(Emplist)
                 onChange={(e) => handleApplicationLink(e)}
               />
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
+            <Grid item xs={12} sm={12} md={12} lg={12}>
+              <FormControl fullWidth>
+                <TextField
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Description"
+                  value={Description}
+                  multiline
+                  rows={3}
+                  onChange={(e) => handleDescription(e)}
+                />
+                <FormHelperText>{errors && errors.skills}</FormHelperText>
+              </FormControl>
+            </Grid>
+          </Grid>
+        </Box>
+      </form>
+    </MainCard>
+    <MainCard title="Interviewer Details" style={{marginTop:'20px'}}>
+    <form>
+        <Box sx={{ flexGrow: 1 }}>
+          <Grid container spacing={2}>
+          <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
                 <TextField
@@ -787,23 +794,11 @@ console.log(Emplist)
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <FormControl fullWidth>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Description"
-                  value={Description}
-                  multiline
-                  rows={3}
-                  onChange={(e) => handleDescription(e)}
-                />
-                <FormHelperText>{errors && errors.skills}</FormHelperText>
-              </FormControl>
             </Grid>
-          </Grid>
-        </Box>
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+            </Box>
+          </form>
+    </MainCard>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
           <Button
             variant="contained"
             sx={{
@@ -844,7 +839,6 @@ console.log(Emplist)
             </Tooltip>
           </Button>
         </Box>
-      </form>
     </MainCard>
   );
 };

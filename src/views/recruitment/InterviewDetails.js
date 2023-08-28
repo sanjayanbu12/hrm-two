@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { TextSnippet } from '@mui/icons-material';
 import jsPDF from 'jspdf';
-// import { useNavigate } from 'react-router';
 
 const columns = [
   { title: 'Name', field: 'name',editable:false },
@@ -19,10 +18,12 @@ const columns = [
     field: 'interview',
     type: 'date',
     sorting: false,
+  
     editComponent: props => (
       <input
         type="date" style={{height:'50px',width:'150px'}}
         value={props.value}
+        min={new Date().toISOString().split('T')[0]}
         onChange={e => props.onChange(e.target.value)}
       />
     ),
@@ -46,7 +47,7 @@ const columns = [
 const InterviewDetails = () => {
   const [data, setData] = useState([]);
   const [Loader,setLoader] = useState(true);
-  // const navigate=useNavigate();
+
   useEffect(()=>{
     fetchData();
   },[])
