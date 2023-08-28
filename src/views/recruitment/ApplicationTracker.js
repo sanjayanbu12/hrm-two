@@ -31,17 +31,26 @@ const columns = [
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
-  // const [fil,setfil] = useState();
+  const [fil,setfil] = useState([]);
 const navigate=useNavigate()
   const fetchEmployees = async () => {
+    try{
     setLoader(true);
     const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-    const fildata=res.data.getData;
-    setAdata(fildata)
+    const filldata=res.data.getData;
+    setAdata(filldata)
     setLoader(false)
-    console.log(res.data.getData);
+    console.log(res.data.getData);}
+    catch(err){
+      console.log(err)
+    }
 
   };
+console.log();
+
+
+
+
     const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])
@@ -79,19 +88,22 @@ const navigate=useNavigate()
     fetchEmployees();
   }, []);
 
-//   useEffect(() => {},[]);
+  useEffect(() => {
+    fetchrec();
+  },[]);
 
-// fetchrec=async()=>{
-//   const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-//   const fildata=res.data.getData;
-//   setfil(fildata)
-//   console.log(fil)
-
-// }
-
-
-
-
+const fetchrec=async()=>{
+try{  const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+  const fildata=res.data.getData;
+  setfil(fildata)
+  console.log(fil)
+}
+catch (error) {
+  console.error("Error fetching data:", error);
+}
+};
+ const jr=fil.map((x)=>x.JobRole);
+ console.log(jr);
 
    const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
