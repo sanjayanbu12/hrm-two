@@ -118,7 +118,7 @@ const RecruitmentForm = () => {
 
   const handleInterviewrounds = (e) => {
     const round = parseInt(e.target.value, 10);
-    if (round > 0 && round <=6) {
+    if (round > 0 && round <=7) {
       setInterviewrounds(round);
       setErrors((prev) => ({
         ...prev,
@@ -127,7 +127,7 @@ const RecruitmentForm = () => {
     } else {
       setErrors((prev) => ({
         ...prev,
-        Interviewrounds: 'Select 1 to 6'
+        Interviewrounds: 'Select 1 to 7'
       }));
     }
   };

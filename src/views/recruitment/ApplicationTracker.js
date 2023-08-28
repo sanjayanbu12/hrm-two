@@ -44,12 +44,7 @@ const navigate=useNavigate()
     catch(err){
       console.log(err)
     }
-
   };
-console.log();
-
-
-
 
     const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
@@ -89,21 +84,22 @@ console.log();
   }, []);
 
   useEffect(() => {
-    fetchrec();
+    fetchRec();
   },[]);
-
-const fetchrec=async()=>{
-try{  const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-  const fildata=res.data.getData;
-  setfil(fildata)
+  const fetchRec = async () => {
+    const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+    const data=res.data.getData;
+    setfil(data)
+  };
   console.log(fil)
-}
-catch (error) {
-  console.error("Error fetching data:", error);
-}
-};
- const jr=fil.map((x)=>x.JobRole);
- console.log(jr);
+  let job=''
+  let sk=''
+   if(fil){
+   job=fil.map((job) =>job.Jobrole)
+   sk=fil.map((sk) =>sk.Skills)
+  }
+   console.log(job)
+   console.log(sk)
 
    const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -247,6 +243,7 @@ catch (error) {
     />
 )}
     </ThemeProvider>
+  
   );
 };
 export default ApplicationTracker;
