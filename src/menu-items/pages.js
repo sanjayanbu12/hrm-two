@@ -163,7 +163,8 @@ const pages = {
           title: 'Course Overview',
           type: 'item',
           url: '/CourseOverview'
-        }
+        },
+
       ]
     },
 
