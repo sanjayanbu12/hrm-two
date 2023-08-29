@@ -278,7 +278,10 @@ const OrgTree = () => {
         
         multiple
         id="tags-outlined"
-        options={edata.filter((option)=>!managerData.some(data=>data._id===option._id))}
+        options={edata.filter((option)=>
+          !managerData.some(data=>data._id===option._id)
+          && !Tier2Data.some(tierMem=>tierMem._id===option._id)
+          )}
         getOptionLabel={(option) => option.name}
         defaultValue={[]}
         onChange={handleChange}
