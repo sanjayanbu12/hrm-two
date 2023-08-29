@@ -13,7 +13,7 @@ export const validationSchema = yup.object().shape({
   peraddress: yup.string().required('Address is required'),
   temaddress: yup.string().required('Address is required'),
   join: yup.string().required('Joining Date is required'),
-  report: yup.string().required('Reporting to is required'),
+  // report: yup.string().required('Reporting to is required'),
   dob: yup.string().required('DOB is required'),
   fathername: yup.string().required('Father Name is required'),
   nationality: yup.string().required('Nationality is required'),
