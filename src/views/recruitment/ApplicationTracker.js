@@ -32,7 +32,7 @@ const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const Sa='Software Associate';
-  const [fil,setfil] = useState([]);
+  const [fil,setfil] = useState('');
 const navigate=useNavigate()
   const fetchEmployees = async () => {
     try{
@@ -103,7 +103,8 @@ const navigate=useNavigate()
    console.log(sk)
 
    const B=Adata.filter(x=>x.position==Sa)
-   console.log(B)
+   const y=B.map(data=>data.skills)
+   console.log(y.map(data=>data))
    const C =B.filter(x => x.skills.some(skills => sk.includes(skills)));
    console.log(C)
 
