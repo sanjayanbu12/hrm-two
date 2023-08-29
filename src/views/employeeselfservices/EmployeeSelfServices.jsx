@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
+import './EmployeeSelfServices.css'; // Import your custom CSS file
 
 const EmployeeSelfServices = () => {
+
+  const [newGoal, setNewGoal] = useState('');
+  const [showPopup, setShowPopup] = useState(false); 
   const [performanceData, setPerformanceData] = useState([
     { id: 1, goal: 'Complete project A', progress: '80%' },
     { id: 2, goal: 'Attend training seminar', progress: '100%' },
-    // Add more initial goals here
-  ]);
+    { id: 3, goal: 'Seminar', progress: '70%' },
+  ]); 
 
-  const [newGoal, setNewGoal] = useState('');
 
   const addNewGoal = () => {
     if (newGoal.trim() !== '') {
@@ -31,82 +34,85 @@ const EmployeeSelfServices = () => {
     const updatedData = performanceData.filter(item => item.id !== itemId);
     setPerformanceData(updatedData);
   };
+  
 
   return (
     <MainCard title="Employee Self Services">
       <section>
+<div style={{display:'flex',justifyContent:'space-between'}}>
         <h2>Performance Management</h2>
-        <ul style={{ listStyleType: 'none', padding: 0 }}>
+        <section className="add-new-goal-section">
+        <div className="add-goal-container">
+          <button
+            className="add-goal-popup-button"
+            onClick={() => setShowPopup(true)}
+          >
+            + Add Goal
+          </button>
+        </div>
+      </section>
+      </div>
+
+      {showPopup && (
+       <div>
+          <div className="backdrop"></div>
+          <div className="goal-popup">
+            <h3>Enter a New Goal</h3>
+            <input
+              type="text"
+              value={newGoal}
+              onChange={e => setNewGoal(e.target.value)}
+              placeholder="Enter a new goal"
+              className="goal-input"
+            />
+      <div style={{
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center', 
+  justifyContent: 'center', 
+  marginTop: '10px',
+}}>
+  <button
+    className="add-button"
+    style={{ width: '100px' }} 
+    onClick={() => { addNewGoal(); setShowPopup(false); }}
+  >
+    Add Goal
+  </button>
+  <button
+    className="cancel-button"
+    style={{ width: '100px', marginTop: '10px' }} 
+    onClick={() => setShowPopup(false)}
+  >
+    Cancel
+  </button>
+</div>
+
+          </div>
+        </div>
+      )}
+
+        <ul className="goal-list">
           {performanceData.map(item => (
-            <li key={item.id} style={{ marginBottom: '10px' }}>
-              <strong>Goal:</strong> {item.goal}, <strong>Progress:</strong> {item.progress}
-              <button
-                onClick={() => updateProgress(item.id, '100%')}
-                style={{
-                  marginLeft: '10px',
-                  backgroundColor: '#4caf50',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  padding: '5px 10px',
-                  cursor: 'pointer',
-                }}
-              >
-                Mark as Complete
-              </button>
-              <button
-                onClick={() => deleteGoal(item.id)}
-                style={{
-                  marginLeft: '10px',
-                  backgroundColor: '#f44336',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '4px',
-                  padding: '5px 10px',
-                  cursor: 'pointer',
-                }}
-              >
-                Delete
-              </button>
+            <li key={item.id} className="goal-item">
+              <div className="goal-details">
+                <strong>Goal:</strong> {item.goal}, <strong>Progress:</strong> {item.progress}
+              </div>
+              <div className="goal-buttons">
+                <button className="complete-button" onClick={() => updateProgress(item.id, '100%')}>
+                  Mark as Complete
+                </button>
+                <button className="delete-button" onClick={() => deleteGoal(item.id)}>
+                  Delete
+                </button>
+              </div>
             </li>
           ))}
         </ul>
       </section>
-      <section>
-        <h3>Add New Goal</h3>
-        <input
-          type="text"
-          value={newGoal}
-          onChange={e => setNewGoal(e.target.value)}
-          placeholder="Enter a new goal"
-          style={{ marginBottom: '10px', padding: '5px', width: '200px' }}
-        />
-        <button
-          onClick={addNewGoal}
-          style={{
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            padding: '5px 10px',
-            cursor: 'pointer',
-          }}
-        >
-          Add Goal
-        </button>
-      </section>
+
     </MainCard>
   );
 };
 
 export default EmployeeSelfServices;
-
-// import React from 'react'
-
-// const EmployeeSelfServices = () => {
-//   return (
-//     <div>EmployeeSelfServices</div>
-//   )
-// }
-
-// export default EmployeeSelfServices
