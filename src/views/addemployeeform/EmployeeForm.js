@@ -355,7 +355,6 @@
             report,
             fathername,
             nationality,
-
             religion,
             type,
             status,
@@ -392,7 +391,7 @@
             },
             { abortEarly: false }
           );
-          await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
+          await axios.post('http://localhost:3001/api/addemployee', task);
 
           setName('');
           setLastname('');
