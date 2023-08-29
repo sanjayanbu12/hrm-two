@@ -273,15 +273,12 @@ const OrgTree = () => {
     width:'100%'
   }}>
     <MainCard title='Add Members' style={{width:"50%",display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-
     <Card  style={{width:'300px' }}>
-
-    
       <Autocomplete
         
         multiple
         id="tags-outlined"
-        options={edata}
+        options={edata.filter((option)=>!managerData.some(data=>data._id===option._id))}
         getOptionLabel={(option) => option.name}
         defaultValue={[]}
         onChange={handleChange}
