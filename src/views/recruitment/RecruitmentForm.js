@@ -30,7 +30,7 @@ const RecruitmentForm = () => {
   const [Hrname, setHrname] = useState('');
   const [Hrcontact, setHrcontact] = useState('');
   const [Interviewrounds, setInterviewrounds] = useState('');
-   const [Interview, setInterview] = useState('');
+   const [Interview, setInterview] = useState([]);
   const [Education, setEducation] = useState('');
   const [Location, setLocation] = useState('');
   const [Emp, setEmp] = useState([]);
@@ -105,9 +105,10 @@ const RecruitmentForm = () => {
     }
   };
   
-   
-  const handleInterview = (e) => {
-    setInterview(e.target.value);
+  const handleInterview = (e, index) => {
+    const newInterview = [...Interview];
+    newInterview[index] = e.target.value;
+    setInterview(newInterview);
     setErrors((prev) => ({
       ...prev,
       Interview: ''
@@ -115,21 +116,20 @@ const RecruitmentForm = () => {
   };
 
   const handleInterviewrounds = (e) => {
-    const round=e.target.value;
-    if (0 >= round) {
+    const round = parseInt(e.target.value, 10);
+    if (round > 0 && round <=7) {
+      setInterviewrounds(round);
       setErrors((prev) => ({
         ...prev,
-        Interviewrounds: 'Select above 0'
-      }))
+        Interviewrounds: ''
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        Interviewrounds: 'Select 1 to 7'
+      }));
     }
-    else{
-    setInterviewrounds(round);
-    setErrors((prev) => ({
-      ...prev,
-      Interviewrounds: ''
-    }));
-  }
-  }
+  };
 
   const handleOpenings = (e) => {
     const Open = e.target.value;
@@ -780,20 +780,22 @@ console.log(Emplist)
                 />
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Interview Details"
-                  value={Interview}
-                  error={errors && errors.Interview}
-                  helperText={errors && errors.Interview}
-                  onChange={(e) => handleInterview(e)}
-                />
-              </FormControl>
-            </Grid>
+        {Array.from({ length: Interviewrounds }).map((_, index) => (
+          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+            <FormControl sx={{ minWidth: '100%' }}>
+              <InputLabel id={`interview-label-${index}`}></InputLabel>
+              <TextField
+                labelId={`interview-label-${index}`}
+                id={`interview-textfield-${index}`}
+                label={`Interview Rounds ${index + 1}`}
+                value={Interview[index] || ''}
+                // error={errors && errors.Interview}
+                // helperText={errors && errors.Interview}
+                onChange={(e) => handleInterview(e, index)}
+              />
+            </FormControl>
+          </Grid>
+        ))}
             </Grid>
             </Box>
           </form>
