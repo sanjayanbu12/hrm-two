@@ -30,7 +30,7 @@ const RecruitmentForm = () => {
   const [Hrname, setHrname] = useState('');
   const [Hrcontact, setHrcontact] = useState('');
   const [Interviewrounds, setInterviewrounds] = useState('');
-   const [Interview, setInterview] = useState('');
+   const [Interview, setInterview] = useState([]);
   const [Education, setEducation] = useState('');
   const [Location, setLocation] = useState('');
   const [Emp, setEmp] = useState([]);
@@ -105,7 +105,6 @@ const RecruitmentForm = () => {
     }
   };
   
-   
   const handleInterview = (e, index) => {
     const newInterview = [...Interview];
     newInterview[index] = e.target.value;
@@ -790,8 +789,8 @@ console.log(Emplist)
                 id={`interview-textfield-${index}`}
                 label={`Interview Rounds ${index + 1}`}
                 value={Interview[index] || ''}
-                error={errors && errors.Interview}
-                helperText={errors && errors.Interview}
+                // error={errors && errors.Interview}
+                // helperText={errors && errors.Interview}
                 onChange={(e) => handleInterview(e, index)}
               />
             </FormControl>

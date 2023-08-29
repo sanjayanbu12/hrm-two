@@ -16,7 +16,7 @@ export const validationSchema = yup.object().shape({
   Clientcompany: yup.string().required('Client Company is required'),
   Hrname: yup.string().required('HR Name is required'),
   Hrcontact: yup.string().required('HR Contact is required'),
-  Interview: yup.string().required('Interview is required'),
+
 Interviewrounds: yup.string().required('Interview Rounds is required'),
 
 });

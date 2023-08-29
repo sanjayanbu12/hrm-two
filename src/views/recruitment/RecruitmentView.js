@@ -258,7 +258,9 @@ console.log(selectedAts);
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Interview Details</b>
-                    <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b> {selectedJob.Interview}
+                    <b style={{ marginLeft: '180px', paddingRight: '10px' }}>:</b>   {selectedJob.Interview.map((interview, index) => (
+               <span key={index}>{interview} {index !== selectedJob.Interview.length - 1 && <span>,</span>}</span>
+                    ))}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Last Date to Apply</b>
