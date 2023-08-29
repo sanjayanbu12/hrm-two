@@ -13,6 +13,7 @@ const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
   const [Selected, setSelected] = useState(0);
+  const[Loader,setLoader]= useState(true);
   const { id } = useParams();
   const navigate =useNavigate();
 
@@ -43,11 +44,13 @@ const RecruitmentView = () => {
     
     const fetchApp = async () => {
       try {
+        setLoader(true);
         const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
         const Job1 = res.data.getData.filter((job) => job.position == jobrole);
         const Job2 = res.data.getData.filter((job) => job.position == jobrole&&job.approve==='Hired');
         setSelectedAts(Job1.length);
         setSelected(Job2.length)
+        setLoader(false);
         console.log(Job1.length +' is selected')
 }
         catch (error) {
@@ -139,8 +142,8 @@ console.log(selectedAts);
   // };
 
   return (
-    
   <div>
+     {Loader ?(<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):
     <MainCard title="Job Details" variant='h2' align='left'>
     <Button    onClick={() => {
               navigate('/jobtable');
@@ -186,8 +189,6 @@ console.log(selectedAts);
         >
           </Facebook >
        
-
-     
         {selectedJob && (
             <div>
         
@@ -285,6 +286,7 @@ console.log(selectedAts);
         )}
  
     </MainCard>
+}
     </div>
   )
 }

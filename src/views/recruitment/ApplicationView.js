@@ -12,6 +12,7 @@ import axios from 'axios'
 const ApplicationView = () => {
 
   const [selectedJob, setSelectedJob] = useState();
+  const[Loader,setLoader]=useState(true)
   const { id } = useParams();
   const navigate=useNavigate();
 
@@ -22,10 +23,12 @@ const ApplicationView = () => {
 
   const fetchData = async () => {
     try {
+      setLoader(true);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/${id}`)
       const Job = res.data.data;
       const abc = JSON.stringify(Job)
       setSelectedJob(JSON.parse(abc))
+      setLoader(false);
       console.log(Job + "Data")
     } catch (error) {
       console.log(error)
@@ -45,6 +48,7 @@ const ApplicationView = () => {
   return (
     
   <div>
+     {Loader ?(<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):
     <MainCard title=" Candidate Application View" variant='h2' align='left'>
 
     <Button    onClick={() => {
@@ -107,7 +111,9 @@ const ApplicationView = () => {
         </>
       )}
     </MainCard>
+}
     </div>
+      
   )
 }
 export default ApplicationView

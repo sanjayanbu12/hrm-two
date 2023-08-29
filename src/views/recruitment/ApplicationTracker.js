@@ -31,6 +31,7 @@ const columns = [
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
+  const Sa='Software Associate';
   const [fil,setfil] = useState([]);
 const navigate=useNavigate()
   const fetchEmployees = async () => {
@@ -95,11 +96,19 @@ const navigate=useNavigate()
   let job=''
   let sk=''
    if(fil){
-   job=fil.map((job) =>job.Jobrole)
-   sk=fil.map((sk) =>sk.Skills)
+   job=fil.filter((job) =>job.Jobrole===Sa)
+   sk=job.map((sk) =>sk.Skills)
   }
    console.log(job)
    console.log(sk)
+
+   const B=Adata.filter(x=>x.position==Sa)
+   console.log(B)
+   const C =B.filter(x => x.skills.some(skills => sk.includes(skills)));
+   console.log(C)
+
+
+
 
    const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -215,7 +224,7 @@ const navigate=useNavigate()
         }
         return column;
       })}
-      data={Adata}
+      data={B}
       icons={tableIcons}
       editable={{onRowUpdate:handleRowUpdate}}
       actions={[
