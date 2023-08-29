@@ -16,7 +16,7 @@ const MediaList = () => {
       const response = await axios.get('http://localhost:3001/media/all');
       const updatedMediaList = response.data.map((media) => ({
         ...media,
-        videos: media.videos.map((video) => `http://localhost:3001${video}`)
+        videos: media.videos.map(() => `http://localhost:3001/media/${media._id}/video`),
       }));
       setMediaList(updatedMediaList);
     } catch (error) {
@@ -28,11 +28,18 @@ const MediaList = () => {
     fetchMediaList();
   }, []);
 
-  const openVideoDialog = (videoUrl) => {
-    setCurrentVideo(videoUrl);
-    setIsVideoOpen(true);
+  const openVideoDialog = async (videoUrl, contentType) => {
+    try {
+      const response = await axios.get(videoUrl, { responseType: 'arraybuffer' });
+      const videoBlob = new Blob([response.data], { type: contentType });
+      const videoBlobUrl = URL.createObjectURL(videoBlob);
+      setCurrentVideo(videoBlobUrl);
+      setIsVideoOpen(true);
+    } catch (error) {
+      console.error("Error fetching video:", error);
+    }
   };
-
+  
   const closeVideoDialog = () => {
     setCurrentVideo('');
     setIsVideoOpen(false);
