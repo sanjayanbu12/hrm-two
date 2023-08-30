@@ -1,21 +1,22 @@
 import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import { Paper, Button, Avatar, Stack, Rating, Typography, TextField, IconButton } from '@mui/material';
+import {  Button, Avatar, Stack, Typography} from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
-import ReplyIcon from '@mui/icons-material/Reply';
-
+import FeedbackCard from './FeedbackCard';
+import PopupCard from './PopupCard';
 import Item from 'antd/es/list/Item';
 
 const Feedback = () => {
-  const [Comment, setComment] = useState('');
 
-  const handleInputChange = (event) => {
-    setComment(event.target.value);
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
   };
 
-  const handleSubmit = () => {
-    // Handle form submission or any other action
-    console.log('Comment:', Comment);
+  const closePopup = () => {
+    setPopupOpen(false);
   };
 
   return (
@@ -53,7 +54,8 @@ const Feedback = () => {
                     }}> Project Admin</Typography>
                 </Item>
                 <Item>
-                <Button variant="contained" color="secondary">Give Feedback</Button>
+                <Button variant="contained" color="secondary" onClick={openPopup} >Give Feedback</Button>
+                {isPopupOpen && <PopupCard onClose={closePopup}/>}
                 </Item>
                 <Item>
                 </Item>
@@ -100,322 +102,11 @@ const Feedback = () => {
           backgroundColor: '#555',
         },
         }}>
-        <Item >
-<Paper display="flex"
-  sx={{
-    marginTop: '20px',
-    width: 290,
-    padding: '15px',
-    fontWeight: 800,
-    paddingBottom: '20px',
-    
-  }}
-  title="Feedbacks given to you"
-  elevation={9}
->
-  <Stack
-    direction="row"
-    useFlexGap
-    flexWrap="wrap"
-    spacing={2}
-    sx={{
-      listStyleType: 'none',
-      height: 250,
-      display: 'flex',
-      marginTop: '5px'
-    }}
-  >
-    <Item>
-      <Avatar
-        sx={{
-          width: '40px',
-          height: '40px'
-        }}
-        src={User1}
-      ></Avatar>
-    </Item>
-    {/* This for review  */}
-    <Item>
-      <Typography
-        variant="h4"
-        body1="span"
-        sx={{
-          fontWeight: 800,
-          fontSize: 'medium'
-        }}
-      >
-        Kannan S
-      </Typography>
-      <Typography variant="subtitle2">Project Admin</Typography>
-    </Item>
-    <Item>
-      <Rating alignItems="left" name="read-only" value={3} readOnly />
-      <Typography
-        component="legend"
-        sx={{
-          marginTop: '5px',
-          fontWeight: 300
-        }}
-      >
-        Good Work! but, you have to maintain punctuality too...
-      </Typography>
-    </Item>
-    <Item>
-      <div style={{ display: 'flex' }}>
-        <TextField label="Enter your comment" variant="outlined" fullWidth value={Comment} onChange={handleInputChange}>
-          {' '}
-        </TextField>
-        <div>
-          <IconButton sx={{ marginLeft: '15px' }} onClick={handleSubmit} aria-label="SVG Icon Button">
-            <ReplyIcon />
-          </IconButton>
-        </div>
-      </div>
-    </Item>
-  </Stack>
-</Paper></Item>
-
-          
-          
-          
-          
-          
-          <Item >
-<Paper display="flex"
-  sx={{
-    marginTop: '20px',
-    width: 290,
-    padding: '15px',
-    fontWeight: 800,
-    paddingBottom: '20px',
-    
-  }}
-  title="Feedbacks given to you"
-  elevation={9}
->
-  <Stack
-    direction="row"
-    useFlexGap
-    flexWrap="wrap"
-    spacing={2}
-    sx={{
-      listStyleType: 'none',
-      height: 250,
-      display: 'flex',
-      marginTop: '5px'
-    }}
-  >
-    <Item>
-      <Avatar
-        sx={{
-          width: '40px',
-          height: '40px'
-        }}
-        src={User1}
-      ></Avatar>
-    </Item>
-    {/* This for review  */}
-    <Item>
-      <Typography
-        variant="h4"
-        body1="span"
-        sx={{
-          fontWeight: 800,
-          fontSize: 'medium'
-        }}
-      >
-        Kannan S
-      </Typography>
-      <Typography variant="subtitle2">Project Admin</Typography>
-    </Item>
-    <Item>
-      <Rating alignItems="left" name="read-only" value={3} readOnly />
-      <Typography
-        component="legend"
-        sx={{
-          marginTop: '5px',
-          fontWeight: 300
-        }}
-      >
-        Good Work! but, you have to maintain punctuality too...
-      </Typography>
-    </Item>
-    <Item>
-      <div style={{ display: 'flex' }}>
-        <TextField label="Enter your comment" variant="outlined" fullWidth value={Comment} onChange={handleInputChange}>
-          {' '}
-        </TextField>
-        <div>
-          <IconButton sx={{ marginLeft: '15px' }} onClick={handleSubmit} aria-label="SVG Icon Button">
-            <ReplyIcon />
-          </IconButton>
-        </div>
-      </div>
-    </Item>
-  </Stack>
-</Paper></Item>
+        <FeedbackCard/>
+        
 
 
-
-
-
-<Item >
-<Paper display="flex"
-  sx={{
-    marginTop: '20px',
-    width: 290,
-    padding: '15px',
-    fontWeight: 800,
-    paddingBottom: '20px',
-    
-  }}
-  title="Feedbacks given to you"
-  elevation={9}
->
-  <Stack
-    direction="row"
-    useFlexGap
-    flexWrap="wrap"
-    spacing={2}
-    sx={{
-      listStyleType: 'none',
-      height: 250,
-      display: 'flex',
-      marginTop: '5px'
-    }}
-  >
-    <Item>
-      <Avatar
-        sx={{
-          width: '40px',
-          height: '40px'
-        }}
-        src={User1}
-      ></Avatar>
-    </Item>
-    {/* This for review  */}
-    <Item>
-      <Typography
-        variant="h4"
-        body1="span"
-        sx={{
-          fontWeight: 800,
-          fontSize: 'medium'
-        }}
-      >
-        Kannan S
-      </Typography>
-      <Typography variant="subtitle2">Project Admin</Typography>
-    </Item>
-    <Item>
-      <Rating alignItems="left" name="read-only" value={3} readOnly />
-      <Typography
-        component="legend"
-        sx={{
-          marginTop: '5px',
-          fontWeight: 300
-        }}
-      >
-        Good Work! but, you have to maintain punctuality too...
-      </Typography>
-    </Item>
-    <Item>
-      <div style={{ display: 'flex' }}>
-        <TextField label="Enter your comment" variant="outlined" fullWidth value={Comment} onChange={handleInputChange}>
-          {' '}
-        </TextField>
-        <div>
-          <IconButton sx={{ marginLeft: '15px' }} onClick={handleSubmit} aria-label="SVG Icon Button">
-            <ReplyIcon />
-          </IconButton>
-        </div>
-      </div>
-    </Item>
-  </Stack>
-</Paper></Item>
-
-
-
-
-
-<Item >
-<Paper display="flex"
-  sx={{
-    marginTop: '20px',
-    width: 290,
-    padding: '15px',
-    fontWeight: 800,
-    paddingBottom: '20px',
-    
-  }}
-  title="Feedbacks given to you"
-  elevation={9}
->
-  <Stack
-    direction="row"
-    useFlexGap
-    flexWrap="wrap"
-    spacing={2}
-    sx={{
-      listStyleType: 'none',
-      height: 250,
-      display: 'flex',
-      marginTop: '5px'
-    }}
-  >
-    <Item>
-      <Avatar
-        sx={{
-          width: '40px',
-          height: '40px'
-        }}
-        src={User1}
-      ></Avatar>
-    </Item>
-    {/* This for review  */}
-    <Item>
-      <Typography
-        variant="h4"
-        body1="span"
-        sx={{
-          fontWeight: 800,
-          fontSize: 'medium'
-        }}
-      >
-        Kannan S
-      </Typography>
-      <Typography variant="subtitle2">Project Admin</Typography>
-    </Item>
-    <Item>
-      <Rating alignItems="left" name="read-only" value={3} readOnly />
-      <Typography
-        component="legend"
-        sx={{
-          marginTop: '5px',
-          fontWeight: 300
-        }}
-      >
-        Good Work! but, you have to maintain punctuality too...
-      </Typography>
-    </Item>
-    <Item>
-      <div style={{ display: 'flex' }}>
-        <TextField label="Enter your comment" variant="outlined" fullWidth value={Comment} onChange={handleInputChange}>
-          {' '}
-        </TextField>
-        <div>
-          <IconButton sx={{ marginLeft: '15px' }} onClick={handleSubmit} aria-label="SVG Icon Button">
-            <ReplyIcon />
-          </IconButton>
-        </div>
-      </div>
-    </Item>
-  </Stack>
-</Paper></Item>
-
-
-
-          </Stack>
+        </Stack>
 
 
 
