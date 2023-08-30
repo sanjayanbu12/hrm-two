@@ -32,11 +32,15 @@
     const [fathername, setFathername] = useState('');
     const [nationality, setNationality] = useState('');
     const [religion, setReligion] = useState('');
+    const [regData, setRegData] = useState([]);
     const [edata, setedata] = useState([])
     const { id } = useParams();
     const navigate = useNavigate();
     useEffect(() => {
       fetchEmployeesData()
+    }, [])
+    useEffect(() => {
+      fetchRegData()
     }, [])
     const handleEmail = (e) => {
       seteMail(e.target.value);
@@ -205,6 +209,11 @@
         religion: ''
       }));
     };
+    const fetchRegData=async()=>{
+      const res = await axios.get('http://localhost:3001/auth/getalldata')
+      setRegData(res.data.user)
+      console.log(regData)
+    }
     useEffect(() => {
       fetch('https://hrm-backend-square.onrender.com/api/getemployee/' + id)
         .then((response) => response.json())
@@ -722,19 +731,40 @@
                 />
               </Grid>
 
-              <Grid item xs={4} >
+           
+              {edata.length<1?(
+                   <Grid item xs={4} >
+                   <FormControl sx={{ minWidth: '100%' }} >
+                     <InputLabel id="demo-simple-select-label">Reporting To</InputLabel>
+                     <Select
+                       labelId="demo-simple-select-label"
+                       id="demo-simple-select"
+                       label="Reporting To"
+                       value={report.id ? `${report.id},${report.name}` : ''}
+                       // error={errors && errors.report}
+                       // helperText={errors && errors.report}
+                       onChange={(e) => handleReport(e)}
+                     >
+                       {regData.map(item => (
+                         <MenuItem key={item._id}value={`${item._id},${item.firstname}`}>{item.firstname}</MenuItem>
+                       ))}
+                     </Select>
+   
+   
+                     <FormHelperText>{errors && errors.report}</FormHelperText>
+                   </FormControl>
+                 </Grid>
+              ):(
+                <Grid item xs={4} >
                 <FormControl sx={{ minWidth: '100%' }} >
-                  <InputLabel id="demo-simple-select-label">Reporting To</InputLabel>
-
+                  <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
                   <Select
-
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
                     label="Reporting To"
                     value={report.id ? `${report.id},${report.name}` : ''}
                     // error={errors && errors.report}
                     // helperText={errors && errors.report}
-
                     onChange={(e) => handleReport(e)}
                   >
                     {edata.map(item => (
@@ -747,6 +777,8 @@
                 </FormControl>
               </Grid>
 
+              )}
+          
               <Grid item xs={4}>
                 <FormControl sx={{ minWidth: '100%' }} error={errors && errors.type}>
                   <InputLabel id="demo-simple-select-label">Work Type</InputLabel>

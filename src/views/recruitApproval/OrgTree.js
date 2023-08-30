@@ -49,6 +49,7 @@ const OrgTree = () => {
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
+      console.log(edata.filter((data) => ids.includes(data._id)))
     } catch (error) {
       console.log(error);
     }
@@ -234,8 +235,7 @@ const OrgTree = () => {
                     <TreeNode  key={x._id}
                     label={
                       <Card
-                     
-                       style={{
+                                             style={{
                          width: '278px',
                          height: '81px',
                          backgroundColor: ' #E1EAFB',
