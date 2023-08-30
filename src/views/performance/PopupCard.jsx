@@ -37,7 +37,7 @@ const PopupCard = ({ onClose }) => {
         <Rating alignItems="left" name="controlled"   />
         </div>
         <div>
-        <TextField id="outlined-basic" label="Comment" variant="outlined" sx={{width:"100%", marginTop:"10px"}}/>
+        <TextField id="outlined-basic" label="Comment" variant="outlined" display="flex" sx={{ width:"100%", marginTop:"10px"}}/>
         </div>
 
         <div style={{marginTop:"10px", padding:"10px",display:"flex", gap:"20px", justifyContent:"center"}}>
