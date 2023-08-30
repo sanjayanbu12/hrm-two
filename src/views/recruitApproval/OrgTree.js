@@ -49,7 +49,7 @@ const OrgTree = () => {
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
-   
+      console.log(edata.filter((data) => ids.includes(data._id)))
     } catch (error) {
       console.log(error);
     }
@@ -226,10 +226,51 @@ const OrgTree = () => {
                           <ChevronRightIcon />
                         </IconButton>
                       </div>
-                    </Container>
+                    </Container>  
                   </Card>
                 }
-              ></TreeNode>
+              >
+                {edata.filter(item=>item._id===data.report.id).map(
+                  x=>(
+                    <TreeNode  key={x._id}
+                    label={
+                      <Card
+                                             style={{
+                         width: '278px',
+                         height: '81px',
+                         backgroundColor: ' #E1EAFB',
+                         display: 'flex',
+                         alignItems: 'center',
+                         paddingLeft: '13px',
+                         paddingRight: '21px'
+                       }}
+                       onClick={() => navigate('/hrapproval')}
+                     >
+                       <Container
+                         style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                         disableGutters={true}
+                       >
+                         <div>
+                           <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{x.name[0]}</Avatar>
+                         </div>
+                         <div>
+                           <Typography variant="h3" fontSize={'18px'}>
+                             {x.name}
+                           </Typography>
+                           <Typography variant="body2">{x.desi}</Typography>
+                         </div>
+                         <div>
+                           <IconButton>
+                             <ChevronRightIcon />
+                           </IconButton>
+                         </div>
+                       </Container>
+                     </Card>
+                   }/>
+                  )
+                )}
+            
+              </TreeNode>
             ))}
 
             <TreeNode
