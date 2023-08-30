@@ -31,8 +31,7 @@ const columns = [
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
-  const Sa='Software Associate';
-  const [fil,setfil] = useState('');
+  const [fil,setfil] = useState([]);
 const navigate=useNavigate()
   const fetchEmployees = async () => {
     try{
@@ -93,22 +92,34 @@ const navigate=useNavigate()
     setfil(data)
   };
   console.log(fil)
-  let job=''
-  let sk=''
-   if(fil){
-   job=fil.filter((job) =>job.Jobrole===Sa)
-   sk=job.map((sk) =>sk.Skills)
+
+  const matchedResults = [];
+
+Adata.forEach(data => {
+  const matchingRole = fil.find(role => role.Jobrole === data.position);
+  console.log(matchingRole);
+
+  if (matchingRole) {
+    const commonSkills = matchingRole.Skills.filter(skill =>
+      data.skills.includes(skill)
+    );
+    console.log(commonSkills + ' skills');
+
+    if (commonSkills.length > 0) {
+      matchedResults.push({
+        Jobrole: data.position,
+        Email: data.email,
+        Resume: data.resume
+      });
+    }
   }
-   console.log(job)
-   console.log(sk)
+});
 
-   const B=Adata.filter(x=>x.position==Sa)
-   const y=B.map(data=>data.skills)
-   console.log(y.map(data=>data))
-   const C =B.filter(x => x.skills.some(skills => sk.includes(skills)));
-   console.log(C)
+const results = JSON.stringify(matchedResults);
+const results1=JSON.parse(results);
 
-
+console.log(results + ' filter');
+console.log(results1);
 
 
    const exportCsv = (columns, data) => {
@@ -225,7 +236,7 @@ const navigate=useNavigate()
         }
         return column;
       })}
-      data={B}
+      data={results1}
       icons={tableIcons}
       editable={{onRowUpdate:handleRowUpdate}}
       actions={[
