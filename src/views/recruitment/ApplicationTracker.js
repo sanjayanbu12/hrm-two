@@ -112,6 +112,8 @@ const ApplicationTracker = () => {
     setMatchedResults(matched);
   }, [Adata, fil]);
 
+const results = JSON.stringify(matchedResults);
+const results1=JSON.parse(results);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
