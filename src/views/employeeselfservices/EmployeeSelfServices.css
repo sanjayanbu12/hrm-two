@@ -1,4 +1,3 @@
-/* EmployeeSelfServices.css */
 .goal-list {
     list-style-type: none;
     padding: 0;
@@ -55,7 +54,7 @@
   .add-button:hover {
     background-color: #3d8c40;
   }
-/* EmployeeSelfServices.css */
+
 .add-new-goal-section {
   /* background-color: #f9f9f9; */
   padding: 20px;
@@ -110,17 +109,6 @@
     background-color: #3d8c40;
   }
   
-  .goal-popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    border-radius: 4px;
-    padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
-  
   .cancel-button {
     background-color: #f44336;
     color: white;
@@ -138,7 +126,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5); 
-    z-index: 999; /* Ensure it's above other content */
+    z-index: 999;
   }
   
   .goal-popup {
@@ -149,7 +137,7 @@
     background-color: #fff;
     border-radius: 4px;
     padding: 20px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); */
     z-index: 1000;
   }
 
