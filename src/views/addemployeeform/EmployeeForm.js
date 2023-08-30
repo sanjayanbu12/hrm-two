@@ -293,6 +293,7 @@ const EmployeeForm = () => {
             dob,
             fathername,
             nationality,
+
             religion,
             type,
             status,
