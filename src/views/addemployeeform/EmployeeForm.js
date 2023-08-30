@@ -210,7 +210,7 @@ const EmployeeForm = () => {
     }));
   };
   const fetchRegData = async () => {
-    const res = await axios.get('http://localhost:3001/auth/getalldata');
+    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
     setRegData(res.data.user);
     console.log(regData);
   };
@@ -400,7 +400,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        const res = await axios.post('http://localhost:3001/api/addemployee', task);
+        const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
         const newEmployeeId = res.data.data._id // Extract the newly created employee's _id
         const reportUpdateData = {
           report: {
@@ -409,7 +409,7 @@ const EmployeeForm = () => {
           }
         };
         
-       await axios.put(`http://localhost:3001/api/updateemployee/${report.id}`, reportUpdateData);
+       await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
   
         setName('');
         setLastname('');
