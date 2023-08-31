@@ -361,7 +361,6 @@ const EmployeeForm = () => {
           temaddress,
           bloodgroup,
           join,
-          report,
           fathername,
           nationality,
           religion,
