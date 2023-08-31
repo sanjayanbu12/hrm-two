@@ -6,7 +6,7 @@ import './PopupCard.css';
 const PopupCard = ({ onClose }) => {
 
 
-  const top100Films = [
+  const empnames = [
     { label: 'Sridhar S' },
     { label: 'Ajay S' },
     { label: 'Ajay B' },
@@ -28,7 +28,7 @@ const PopupCard = ({ onClose }) => {
         <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={top100Films}
+          options={empnames}
           sx={{ width: 300 }}
           renderInput={(params) => <TextField {...params} label="Employees" />}
         />

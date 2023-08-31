@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import { List, ListItem, Typography } from '@mui/material';
+import { List, ListItem, Typography, Button } from '@mui/material';
 import Marker1 from '../../assets/images/icons/progress_1.svg';
 import Marker2 from '../../assets/images/icons/progress_2.svg';
 
 import HorizontalNonLinearStepper from './HorizontalNonLinearStepper';
+import PopupSkill from './PopupSkill';
 
 const SkillsetMatrix = () => {
+  const [isPopupOpen, setPopupOpen] = useState(false);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
   return (
     <>
       <MainCard title="SkillSet Matrix" sx={{ height: '99%' }}>
@@ -43,6 +53,7 @@ const SkillsetMatrix = () => {
                 sx={{
                   fontWeight: 500,
                   fontSize: 'small',
+                  width:"100px",
                   color: '#697586',
                   marginLeft: "5px"
 
@@ -65,7 +76,14 @@ const SkillsetMatrix = () => {
               >
                 - Skill Goal
               </Typography>
+
             </ListItem>
+            <ListItem sx={{marginLeft:"20px"}}>
+              <Button variant="contained" color="secondary" onClick={openPopup}>
+            Add New Skill
+          </Button>
+          {isPopupOpen && <PopupSkill onClose={closePopup} />}
+              </ListItem>
           </List>
         </div>
         <div>
