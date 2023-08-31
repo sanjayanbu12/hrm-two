@@ -1,56 +1,64 @@
+import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
-import {  Image,  TextSnippet } from '@mui/icons-material';
-// import { Clear,  Done,Pause } from '@mui/icons-material';
+import { Image, TextSnippet } from '@mui/icons-material';
 import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
-// import { Skill } from './Consts';
-// const statusIcons={
-//   Hold:<Pause  sx={{color:'#1e88e5'}}></Pause>,
-//   Selected:<Done sx={{color:'#00c853'}}/>,
-//   Rejected:<Clear sx={{color:'#b71c1c'}}/>
-// };
+import { saveAs } from 'file-saver';
 
 const columns = [
-
-  { title: 'Name', field: 'Name' ,editable:false},
-  { title: 'Jobrole', field: 'Jobrole',editable:false },
-  {title:'Mobile  No', field: 'MobileNo',sorting:false,editable:false},
-  { title: 'Email', field: 'Email',sorting:false,editable:false },
-  // { title: 'Resume', field: 'Resume',sorting:false,editable:false},
-  // {title: 'photo', field: 'Photo',sorting:false ,editable:false},
-  {title: 'Applied Date', field:'AppliedAt',type:'date',sorting:false,editable:false },
-  {title:'Status', field: 'Status',sorting:false, lookup:{'Hold':'Hold','Selected':'Selected','Rejected':'Rejected'},
-  // render: rowData=>statusIcons[rowData.Status]
-}
+  { title: 'Name', field: 'Name', editable: false },
+  { title: 'Jobrole', field: 'Jobrole', editable: false },
+  { title: 'Mobile No', field: 'MobileNo', sorting: false, editable: false },
+  { title: 'Email', field: 'Email', sorting: false, editable: false },
+  { title: 'Resume', field: 'Resume', sorting: false, editable: false },
+  { title: 'photo', field: 'Photo', sorting: false, editable: false },
+  { title: 'Applied Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false },
+  {
+    title: 'Status',
+    field: 'Status',
+    sorting: false,
+    lookup: { 'Hold': 'Hold', 'Selected': 'Selected', 'Rejected': 'Rejected' },
+  },
 ];
 
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
-  const [fil,setfil] = useState([]);
-const navigate=useNavigate()
+  const [fil, setFil] = useState([]);
+  const [matchedResults, setMatchedResults] = useState([]);
+  const navigate = useNavigate();
+
   const fetchEmployees = async () => {
-    try{
-    setLoader(true);
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-    const filldata=res.data.getData;
-    setAdata(filldata)
-    setLoader(false)
-    console.log(res.data.getData);}
-    catch(err){
-      console.log(err)
+    try {
+      setLoader(true);
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      const filldata = res.data.getData;
+      setAdata(filldata);
+      setLoader(false);
+      console.log(res.data.getData);
+    } catch (err) {
+      console.log(err);
     }
   };
 
-    const handleView = async(e,data) =>{
-    const id=data.map(x=>x._id)
-    console.log(data)
-    navigate(`/view/${id[0]}`);
-  }
+  const fetchRec = async () => {
+    try {
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const data = res.data.getData;
+      setFil(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleView = (e, data) => {
+    const id = data._id;
+    navigate(`/view/${id}`);
+  };
+
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
@@ -81,54 +89,35 @@ const navigate=useNavigate()
 
   useEffect(() => {
     fetchEmployees();
+    fetchRec();
   }, []);
 
   useEffect(() => {
-    fetchRec();
-  },[]);
-  const fetchRec = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-    const data=res.data.getData;
-    setfil(data)
-  };
-  console.log(fil)
+    const matched = [];
+    Adata.forEach(data => {
+      const matchingRole = fil.find(role => role.Jobrole === data.position);
+      if (matchingRole) {
+        const commonSkills = matchingRole.Skills.filter(skill => data.skills.includes(skill));
+        if (commonSkills.length > 0) {
+          matched.push({
+            ...data,
+            _id:data._id,
+            Name:data.name,
+            Jobrole: data.position,
+            MobileNo:data.phone,
+            Email: data.email,
+            Resume: data.resume,
+            Photo:data.photo,
+            AppliedAt:data.appliedAt,
+            Status: data.Status,
+          });
+        }
+      }
+    });
+    setMatchedResults(matched);
+  }, [Adata, fil]);
 
-  
-  const matched = [];
-
-Adata.forEach(data => {
-  const matchingRole = fil.find(role => role.Jobrole === data.position);
-  console.log(matchingRole);
-
-  if (matchingRole) {
-    const commonSkills = matchingRole.Skills.filter(skill =>
-      data.skills.includes(skill)
-    );
-    console.log(commonSkills + ' skills');
-
-    if (commonSkills.length > 0) {
-      matched.push({
-        _id:data._id,
-        Name:data.name,
-        Jobrole: data.position,
-        MobileNo:data.phone,
-        Email: data.email,
-        Resume: data.resume,
-        Photo:data.photo,
-        AppliedAt:data.appliedAt,
-        Status:data.Status
-      });
-    }
-  }
-});
-
-const results = JSON.stringify(matched);
-const results1=JSON.parse(results);
-const matchedResults = results1;
-console.log(matchedResults);
-
-
-   const exportCsv = (columns, data) => {
+  const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
       Name: item.name,
       JobRole: item.position,
@@ -202,18 +191,22 @@ console.log(matchedResults);
         main: '#7e57c2',
       },
     },
-
   });
 
   const handleRowUpdate = async (newData, oldData) => {
     try {
-      console.log(newData.Status)
-      await axios.put(`https://hrm-backend-square.onrender.com/ats/updateAts/${oldData._id}`,{Status:newData.Status});
-      const updatedData = [...Adata];
-      const index = updatedData.indexOf(oldData);
-      updatedData[index] = newData;
-      setAdata(updatedData);
-  
+      await axios.put(`https://hrm-backend-square.onrender.com/ats/updateAts/${oldData._id}`, { Status: newData.Status });
+
+      const updatedAdata = Adata.map(item =>
+        item._id === oldData._id ? { ...item, Status: newData.Status } : item
+      );
+      setAdata(updatedAdata);
+
+      const updatedMatchedResults = matchedResults.map(item =>
+        item._id === oldData._id ? { ...item, Status: newData.Status } : item
+      );
+      setMatchedResults(updatedMatchedResults);
+
     } catch (error) {
       console.error('Error updating row:', error);
     }
@@ -221,56 +214,65 @@ console.log(matchedResults);
 
   return (
     <ThemeProvider theme={theme}>
-      {Loader? (<div className="spinner" style={{position:'absolute',bottom:'40%',right:'45%'}}/>):(
-    <MaterialTable
-      title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Application Tracker</div>}
-      columns={columns.map((column) => {
-        if (column.field === 'resume') {
-          return {
-            ...column,
-            render: (rowData) => (
-              <a href="#" onClick={() => handleResume(rowData._id, rowData.name)}><Tooltip title='Download Resume'><TextSnippet style={{color:'#616161'}}></TextSnippet></Tooltip></a>
-            ),
-          };
-        } else if (column.field === 'photo') {
-          return {
-            ...column,
-            render: (rowData) => (
-              <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.name)}><Tooltip title="Download Photo"><Image style={{color:'#616161'}}></Image></Tooltip></a>
-            ),
-          };
-        }
-        return column;
-      })}
-      data={matchedResults}
-      icons={tableIcons}
-      editable={{onRowUpdate:handleRowUpdate}}
-      actions={[
-      rowData=>(  {
-          icon: tableIcons.View,
-          tooltip: 'View Details',
-          onClick: (event, rowData) => handleView(event,rowData),
-          disabled: rowData.length !=1
-        }),
-      ]}
-      options={{
-        actionsColumnIndex: -1,
-        exportButton: true,
-        exportCsv: exportCsv,
-        exportPdf: exportPdf,
-        grouping: true,
-        selection:true,
-        columnsButton:true,
-        headerStyle:{
-          backgroundColor:'#42a5f5',
-          color:'black'
-        }
-        
-      }}
-    />
-)}
+      {Loader ? (
+        <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
+      ) : (
+        <MaterialTable
+          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Application Tracker</div>}
+          columns={columns.map(column => {
+            if (column.field === 'Resume') {
+              return {
+                ...column,
+                render: rowData => (
+                  <a href="#" onClick={() => handleResume(rowData._id, rowData.Name)}>
+                    <Tooltip title="Download Resume">
+                      <TextSnippet style={{ color: '#616161' }} />
+                    </Tooltip>
+                  </a>
+                ),
+              };
+            } else if (column.field === 'Photo') {
+              return {
+                ...column,
+                render: rowData => (
+                  <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.Name)}>
+                    <Tooltip title="Download Photo">
+                      <Image style={{ color: '#616161' }} />
+                    </Tooltip>
+                  </a>
+                ),
+              };
+            }
+            return column;
+          })}
+          data={matchedResults}
+          icons={tableIcons}
+          editable={{ onRowUpdate: handleRowUpdate }}
+          actions={[
+            rowData => ({
+              icon: tableIcons.View,
+              tooltip: 'View Details',
+              onClick: (event, rowData) => handleView(event, rowData),
+              disabled: rowData.length !== 1,
+            }),
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            exportButton: true,
+            exportCsv: exportCsv,
+            exportPdf: exportPdf,
+            grouping: true,
+            selection: true,
+            columnsButton: true,
+            headerStyle: {
+              backgroundColor: '#42a5f5',
+              color: 'black',
+            },
+          }}
+        />
+      )}
     </ThemeProvider>
-  
   );
 };
+
 export default ApplicationTracker;

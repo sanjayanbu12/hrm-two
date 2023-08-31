@@ -224,6 +224,10 @@ console.log(selectedAts);
                     {!selectedJob.Year ? <span>Not Mentioned </span> : selectedJob.Year}
                   </Typography>
                   <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
+                    <b> Skills</b>
+                    <b style={{ marginLeft: '245px', paddingRight: '10px' }}>:</b> {selectedJob.Skills}
+                  </Typography>
+                  <Typography sx={{ lineHeight: '4' }} variant='p' component='p'>
                     <b> Experience</b>
                     <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom} to{' '}
                     {selectedJob.ExperienceTo} Years
