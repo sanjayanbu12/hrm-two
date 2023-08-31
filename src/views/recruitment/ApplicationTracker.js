@@ -126,7 +126,7 @@ const ApplicationTracker = () => {
     setMatchedResults(matched);
   }, [Adata, fil]);
 
-const results = JSON.stringify(matchedResults);
+const results = JSON.stringify(matched);
 const results1=JSON.parse(results);
 
 
