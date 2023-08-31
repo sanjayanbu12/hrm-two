@@ -16,13 +16,13 @@ import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 
 const columns = [
 
-  { title: 'Name', field: 'name' ,editable:false},
-  { title: 'Jobrole', field: 'position',editable:false },
-  {title:'Mobile  No', field: 'phone',sorting:false,editable:false},
-  { title: 'Email', field: 'email',sorting:false,editable:false },
-  { title: 'Resume', field: 'resume',sorting:false,editable:false},
-  {title: 'photo', field: 'photo',sorting:false ,editable:false},
-  {title: 'Applied Date', field:'appliedAt',type:'date',sorting:false,editable:false },
+  { title: 'Name', field: 'Name' ,editable:false},
+  { title: 'Jobrole', field: 'Jobrole',editable:false },
+  {title:'Mobile  No', field: 'MobileNo',sorting:false,editable:false},
+  { title: 'Email', field: 'Email',sorting:false,editable:false },
+  // { title: 'Resume', field: 'Resume',sorting:false,editable:false},
+  // {title: 'photo', field: 'Photo',sorting:false ,editable:false},
+  {title: 'Applied Date', field:'AppliedAt',type:'date',sorting:false,editable:false },
   {title:'Status', field: 'Status',sorting:false, lookup:{'Hold':'Hold','Selected':'Selected','Rejected':'Rejected'},
   // render: rowData=>statusIcons[rowData.Status]
 }
@@ -48,7 +48,7 @@ const navigate=useNavigate()
 
     const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
-    console.log(id[0])
+    console.log(data)
     navigate(`/view/${id[0]}`);
   }
   const handleResume = async (id, name) => {
@@ -93,7 +93,8 @@ const navigate=useNavigate()
   };
   console.log(fil)
 
-  const matchedResults = [];
+  
+  const matched = [];
 
 Adata.forEach(data => {
   const matchingRole = fil.find(role => role.Jobrole === data.position);
@@ -106,20 +107,25 @@ Adata.forEach(data => {
     console.log(commonSkills + ' skills');
 
     if (commonSkills.length > 0) {
-      matchedResults.push({
+      matched.push({
+        _id:data._id,
+        Name:data.name,
         Jobrole: data.position,
+        MobileNo:data.phone,
         Email: data.email,
-        Resume: data.resume
+        Resume: data.resume,
+        Photo:data.photo,
+        AppliedAt:data.appliedAt,
+        Status:data.Status
       });
     }
   }
 });
 
-const results = JSON.stringify(matchedResults);
+const results = JSON.stringify(matched);
 const results1=JSON.parse(results);
-
-console.log(results + ' filter');
-console.log(results1);
+const matchedResults = results1;
+console.log(matchedResults);
 
 
    const exportCsv = (columns, data) => {
@@ -236,7 +242,7 @@ console.log(results1);
         }
         return column;
       })}
-      data={results1}
+      data={matchedResults}
       icons={tableIcons}
       editable={{onRowUpdate:handleRowUpdate}}
       actions={[
