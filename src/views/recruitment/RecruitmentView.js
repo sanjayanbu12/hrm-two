@@ -71,7 +71,9 @@ console.log(selectedAts);
         window.open(shareUrl, '_blank');
       }
     }      
+
     const handleLinkedInShare = async () => {
+      console.log('eruma')
       if (selectedJob) {
         const shareText = `Check out this job opportunity:\n
           Job Role: ${selectedJob.Jobrole}\n
@@ -80,26 +82,25 @@ console.log(selectedAts);
           Job Opening: ${selectedJob.Openings}\n
           Application Link: ${selectedJob.ApplicationLink}`;
     
+        const apiUrl = 'https://api.linkedin.com/v2/ugcPosts';
+        const accessToken = ''; // Replace with your actual access token
+    
         const requestBody = {
           content: {
-            'title': 'Shared Job Opportunity',
-            'description': shareText
+            title: 'Shared Job Opportunity',
+            description: shareText,
           },
           visibility: {
-            'code': 'anyone'
-          }
+            code: 'anyone',
+          },
         };
     
-        const apiKey = 'YOUR_LINKEDIN_API_KEY';
-        const apiUrl = `https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=${apiKey}`;
-    
         try {
-          const response = await fetch(apiUrl, {
-            method: 'POST',
+          const response = await axios.post(apiUrl, requestBody, {
             headers: {
-              'Content-Type': 'application/json'
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(requestBody)
           });
     
           console.log('Job opportunity shared on LinkedIn:', response);
@@ -108,8 +109,6 @@ console.log(selectedAts);
         }
       }
     };
-    
-  
     
     const hanldeApprove = async()=>{
       const res=await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id,{
