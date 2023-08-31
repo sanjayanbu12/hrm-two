@@ -54,11 +54,6 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handleView = (e, data) => {
-    const id = data._id;
-    navigate(`/view/${id}`);
-  };
-
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
@@ -100,7 +95,6 @@ const ApplicationTracker = () => {
         const commonSkills = matchingRole.Skills.filter(skill => data.skills.includes(skill));
         if (commonSkills.length > 0) {
           matched.push({
-            ...data,
             _id:data._id,
             Name:data.name,
             Jobrole: data.position,
@@ -114,8 +108,10 @@ const ApplicationTracker = () => {
         }
       }
     });
+    console.log(matched);
     setMatchedResults(matched);
   }, [Adata, fil]);
+
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -211,6 +207,12 @@ const ApplicationTracker = () => {
       console.error('Error updating row:', error);
     }
   };
+
+ const handleView = async(e,data) =>{
+    const id=data.map(x=>x._id)
+    console.log(data)
+    navigate(`/view/${id[0]}`);
+  }
 
   return (
     <ThemeProvider theme={theme}>
