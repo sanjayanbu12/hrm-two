@@ -71,7 +71,9 @@ console.log(selectedAts);
         window.open(shareUrl, '_blank');
       }
     }      
+
     const handleLinkedInShare = async () => {
+      console.log('eruma')
       if (selectedJob) {
         const shareText = `Check out this job opportunity:\n
           Job Role: ${selectedJob.Jobrole}\n
@@ -80,26 +82,25 @@ console.log(selectedAts);
           Job Opening: ${selectedJob.Openings}\n
           Application Link: ${selectedJob.ApplicationLink}`;
     
+        const apiUrl = 'https://api.linkedin.com/v2/ugcPosts';
+        const accessToken = 'AQVglT-dVeAIqSUPCUOlpvRIajsgBZOGkWp8Ywm3iR5QFPdbLFGMFY_sDVvne45-NfQySL0tDM4U3147B6TkalZE7TrCJKBZfSQx7b187cD-ANVf8821_pCiJTmHUH_y6s02aPaLsa4CZoBetcTJJNf9c1uY8SzavEk6mErUoyURDVS4UV2LXIFwsjMitr5w6XwuX-3ie-bJNDPdh0q6B2SUCj9wobQ0Zrmpb6-FFnDDqScPzMTx7i7hn7UhDzay76OkQmYJKt-E63bu4jZOw7KdGV14RM_Q-_bJWJNjXRq2scUbojY6I6mRhKLfTKeCrfo4wK9pNJ3SwSAGqJ-fMowhs7PBPg'; // Replace with your actual access token
+    
         const requestBody = {
           content: {
-            'title': 'Shared Job Opportunity',
-            'description': shareText
+            title: 'Shared Job Opportunity',
+            description: shareText,
           },
           visibility: {
-            'code': 'anyone'
-          }
+            code: 'anyone',
+          },
         };
     
-        const apiKey = 'YOUR_LINKEDIN_API_KEY';
-        const apiUrl = `https://api.linkedin.com/v2/ugcPosts?oauth2_access_token=${apiKey}`;
-    
         try {
-          const response = await fetch(apiUrl, {
-            method: 'POST',
+          const response = await axios.post(apiUrl, requestBody, {
             headers: {
-              'Content-Type': 'application/json'
+              'Authorization': `Bearer ${accessToken}`,
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify(requestBody)
           });
     
           console.log('Job opportunity shared on LinkedIn:', response);
@@ -108,8 +109,6 @@ console.log(selectedAts);
         }
       }
     };
-    
-  
     
     const hanldeApprove = async()=>{
       const res=await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id,{
