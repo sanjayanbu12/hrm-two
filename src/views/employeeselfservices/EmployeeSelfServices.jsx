@@ -40,27 +40,34 @@ const EmployeeSelfServices = () => {
 
   return (
     <Card>
-      <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0px' }}>
-        <h2>Goal Setting</h2>
-        <nav className="section-navigation">
-          <button
-            className={activeSection === 'goal' ? 'active' : ''}
-            onClick={() => setActiveSection('goal')}
-          >
-            Goal
-          </button>
-          
-          <button
-            className={activeSection === 'privacy' ? 'active' : ''}
-            onClick={() => setActiveSection('privacy')}
-          >
-            Privacy Document
-          </button>
-        </nav>
-      </div>
+     <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0px' }}>
+  <h2>Goal Setting</h2>
+  <nav className="section-navigation">
+    <button
+      className={`section-button ${activeSection === 'goal' ? 'active' : ''}`}
+      onClick={() => setActiveSection('goal')}
+    >
+      Goal
+    </button>    
+    <button
+      className={`section-button ${activeSection === 'privacy' ? 'active' : ''}`}
+      onClick={() => setActiveSection('privacy')}
+    >
+      Privacy Document
+    </button>
+  </nav>
+</div>
+
 
       {activeSection === 'goal' && (
          <section>
+
+      <button style={{display:'flex',justifyContent:'flex-end'}}
+            className="add-goal-popup-button"
+            onClick={() => setShowPopup(true)}
+          >
+            + Add Goal
+          </button>
          {showPopup && (
           <div>
              <div className="backdrop"></div>

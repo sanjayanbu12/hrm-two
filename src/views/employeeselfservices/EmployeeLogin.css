@@ -1,0 +1,20 @@
+.section-buttons {
+  padding: 8px 16px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: flex,
+}
+
+.section-buttons.active {
+  background-color: #333;
+  color: white;
+}
+
+.section-buttons:not(.active):hover {
+  background-color: #ddd;
+}
+   
+      

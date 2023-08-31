@@ -130,17 +130,21 @@ const TotalGrowthBarChart = () => {
         {
           <div
             style={{
-              color: 'black',
+              // color: 'black',
               width: '250px',
-              height: '150px'
+              height: '150px',
+              backgroundColor: '#f5f5f5',
+
             }}
           >
             <div
               style={{
+                backgroundColor: '#3498db', 
                 borderRadius: '8px',
                 boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
                 padding: '20px',
                 width: '250px',
+                transition: 'box-shadow 0.3s, transform 0.3s',
                 height: '150px'
               }}
               onMouseEnter={(e) => {
@@ -153,22 +157,37 @@ const TotalGrowthBarChart = () => {
               }}
             >
               <h1
+                // style={{
+                //   marginTop: 0,
+                //   color: '#333333',
+                //   fontSize: '16px',
+                //   marginBottom: '20px'
+                // }}
                 style={{
                   marginTop: 0,
-                  color: '#333333',
+                  marginBottom: '20px',
+                  color: '#ffffff',
                   fontSize: '16px',
-                  marginBottom: '20px'
-                }}
+                  fontWeight: 'bold',
+                  
+                }}      
               >
                 Attendance Card
               </h1>
               <div
+                // style={{
+                //   marginBottom: '20px',
+                //   color: 'black',
+                //   fontSize: '14px',
+                //   fontWeight: 'bold'
+                // }}
                 style={{
-                  marginBottom: '20px',
-                  color: 'black',
+                  display: 'flex',
                   fontSize: '14px',
-                  fontWeight: 'bold'
+                 fontWeight: 'bold',
+                  marginBottom: '15px',
                 }}
+      
               >
                 Total Employees: {totalEmployees}
               </div>
@@ -183,18 +202,32 @@ const TotalGrowthBarChart = () => {
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <button
+                    // style={{
+                    //   display: 'flex',
+                    //   alignItems: 'center',
+                    //   color: '#6c5ce7',
+                    //   cursor: 'pointer',
+                    //   backgroundColor: '#f3eefb',
+                    //   border: 'none',
+                    //   borderRadius: '8px',
+                    //   padding: '5px 5px',
+                    //   transition: 'background-color 0.3s',
+                    //   fontSize: '14px'
+                    // }}
+
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      color: '#6c5ce7',
+                      color: '#ffffff',
                       cursor: 'pointer',
-                      backgroundColor: '#f3eefb',
+                      backgroundColor: '#27ae60', 
                       border: 'none',
                       borderRadius: '8px',
-                      padding: '5px 5px',
+                      padding: '05px 10px',
                       transition: 'background-color 0.3s',
-                      fontSize: '14px'
+                      fontSize: '14px',
                     }}
+      
                     onClick={() => toggleDropdown('present')}
                   >
                     <FaCheckCircle size={24} style={{ marginRight: '10px' }} />
@@ -211,18 +244,32 @@ const TotalGrowthBarChart = () => {
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <button
+                    // style={{
+                    //   display: 'flex',
+                    //   alignItems: 'center',
+                    //   color: '#74b9ff',
+                    //   cursor: 'pointer',
+                    //   backgroundColor: '#e8f6fe',
+                    //   border: 'none',
+                    //   borderRadius: '8px',
+                    //   padding: '5px',
+                    //   transition: 'background-color 0.3s',
+                    //   fontSize: '14px'
+                    // }}
+
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      color: '#74b9ff',
+                      color: '#ffffff',
                       cursor: 'pointer',
-                      backgroundColor: '#e8f6fe',
+                      backgroundColor: '#e74c3c', 
                       border: 'none',
                       borderRadius: '8px',
-                      padding: '5px',
+                      padding: '5px 10px',
                       transition: 'background-color 0.3s',
-                      fontSize: '14px'
+                      fontSize: '14px',
                     }}
+      
                     onClick={() => toggleDropdown('absent')}
                   >
                     <FaTimesCircle size={24} style={{ marginRight: '10px' }} />
@@ -277,7 +324,7 @@ const TotalGrowthBarChart = () => {
             sx={{
               width: 250,
               height: 150,
-              background: 'linear-gradient(135deg, lightseagreen, teal)',
+              background: 'linear-gradient(135deg, lightgrey, grey)',
               color: 'white',
               fontWeight: 'bold',
               fontSize: '20px'
