@@ -115,8 +115,8 @@ const ApplicationTracker = () => {
             Skills:data.skills,
             Experience:data.experience,
             College:data.college,
-            SSLC:data.sslc,
-            HSC:data.hsc
+            sslc:data.sslc,
+            hsc:data.hsc
 
           });
         }
@@ -125,10 +125,6 @@ const ApplicationTracker = () => {
     console.log(matched);
     setMatchedResults(matched);
   }, [Adata, fil]);
-
-
-
-
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -139,8 +135,8 @@ const ApplicationTracker = () => {
       Qualification: item.Qualification,
       College: item.College,
       YearOfPassing: item.YearOfPassing,
-      SSLCPercentage: item.SSLC,
-      HSCPercentage: item.HSC,
+      SSLCPercentage: item.sslc,
+      HSCPercentage: item.hsc,
     }));
     const csvHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'Year of Passing', 'SSLC Percentage', 'HSC Percentage'];
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
@@ -165,8 +161,8 @@ const ApplicationTracker = () => {
       item.Qualification,
       item.College,
       item.YearOfPassing,
-      item.SSLC,
-      item.HSC,
+      item.sslc,
+      item.hsc,
     ]);
     const columnStyle={
       0:{columnWidth:20},
