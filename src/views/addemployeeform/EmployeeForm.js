@@ -400,16 +400,18 @@ const EmployeeForm = () => {
           { abortEarly: false }
         );
         const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
-        const newEmployeeId = res.data.data._id // Extract the newly created employee's _id
-        const reportUpdateData = {
-          report: {
-            name: res.data.data.name,
-            id: newEmployeeId
-          }
-        };
-        
-       await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
-  
+        const newEmployeeId = res.data.data._id; // Extract the newly created employee's _id
+        if (report.id) {
+          // Check if report.id exists
+          const reportUpdateData = {
+            report: {
+              name: res.data.data.name,
+              id: newEmployeeId
+            }
+          };
+
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
+        }
         setName('');
         setLastname('');
         setGender('');
