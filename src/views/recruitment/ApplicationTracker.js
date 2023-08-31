@@ -9,7 +9,7 @@ import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
 const columns = [
-  { title: 'Name', field: 'Name', editable: false },
+  { title: 'Name', field: 'Name', editable: false,Width:'24px'},
   { title: 'Jobrole', field: 'Jobrole', editable: false },
   { title: 'Mobile No', field: 'MobileNo', sorting: false, editable: false },
   { title: 'Email', field: 'Email', sorting: false, editable: false },
@@ -90,9 +90,15 @@ const ApplicationTracker = () => {
   useEffect(() => {
     const matched = [];
     Adata.forEach(data => {
-      const matchingRole = fil.find(role => role.Jobrole === data.position);
+      const matchingRole = fil.find(role => role.Jobrole == data.position);
       if (matchingRole) {
-        const commonSkills = matchingRole.Skills.filter(skill => data.skills.includes(skill));
+        const a = matchingRole.Skills;
+        const b = data.skills;
+        const aSkills = a[0].split(',').map(skill => skill.trim());
+        const bSkills = b[0].split(',').map(skill => skill.trim());
+        console.log(aSkills +'skill')
+        const commonSkills = aSkills.filter(skill => bSkills.includes(skill));
+        console.log(commonSkills+'common');
         if (commonSkills.length > 0) {
           matched.push({
             _id:data._id,
@@ -104,6 +110,14 @@ const ApplicationTracker = () => {
             Photo:data.photo,
             AppliedAt:data.appliedAt,
             Status: data.Status,
+            Qualification: data.department,
+            YearOfPassing:data.graduationYear,
+            Skills:data.skills,
+            Experience:data.experience,
+            College:data.college,
+            SSLC:data.sslc,
+            HSC:data.hsc
+
           });
         }
       }
@@ -117,15 +131,15 @@ const results1=JSON.parse(results);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
-      Name: item.name,
-      JobRole: item.position,
-      MobileNo: item.phone,
-      Email: item.email,
-      Qualification: item.department,
-      College: item.college,
-      YearOfPassing: item.graduationYear,
-      SSLCPercentage: item.sslc,
-      HSCPercentage: item.hsc,
+      Name: item.Name,
+      JobRole: item.Jobrole,
+      MobileNo: item.MobileNo,
+      Email: item.Email,
+      Qualification: item.Qualification,
+      College: item.College,
+      YearOfPassing: item.YearOfPassing,
+      SSLCPercentage: item.SSLC,
+      HSCPercentage: item.HSC,
     }));
     const csvHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'Year of Passing', 'SSLC Percentage', 'HSC Percentage'];
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
@@ -143,15 +157,15 @@ const results1=JSON.parse(results);
     pdf.text('Employee Application Tracker', 10, 10);
 
     const rows = data.map((item) => [
-      item.name,
-      item.position,
-      item.phone,
-      item.email,
-      item.department,
-      item.college,
-      item.graduationYear,
-      item.sslc,
-      item.hsc,
+      item.Name,
+      item.Jobrole,
+      item.MobileNo,
+      item.Email,
+      item.Qualification,
+      item.College,
+      item.YearOfPassing,
+      item.SSLC,
+      item.HSC,
     ]);
     const columnStyle={
       0:{columnWidth:20},
