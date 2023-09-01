@@ -16,11 +16,17 @@ const HrApproval = () => {
   useEffect(() => {
     fetchData();
   }, []);
+  useEffect(()=>{
+    console.log(data)
+  },[data])
   const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-    setRecData(res.data.getData.filter((data) => data.approvalstatus.manager === false && data.approvalstatus.hr === false));
-    console.log(data)
-
+    const filteredData = res.data.getData.filter((item) => {
+      const hrNames = item.orgData.map((orgItem) => orgItem.name);
+      return hrNames.includes('Kannan'); // Replace 'YourLoggedInUserName' with the actual logged-in user's name
+    });
+    setRecData(filteredData);
+    console.log(filteredData)
   };
   const handleClick = (id)=>{
     navigate(`/views/${id}`)
