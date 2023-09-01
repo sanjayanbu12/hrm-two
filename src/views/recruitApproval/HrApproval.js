@@ -22,7 +22,7 @@ const HrApproval = () => {
   const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
     const filteredData = res.data.getData.filter((item) => {
-      const hrNames = item.orgData.map((orgItem) => orgItem.name);
+      const hrNames = item.orgData.map((orgItem) => orgItem.employeeId);
       return hrNames.includes('Kannan'); // Replace 'YourLoggedInUserName' with the actual logged-in user's name
     });
     setRecData(filteredData);
