@@ -95,7 +95,6 @@ const SkillsetMatrix = () => {
               >
                 - Skill Goal
               </Typography>
-
             </ListItem>
             <ListItem sx={{ marginLeft: '20px' }}>
               <Button variant="contained" color="secondary" onClick={openPopup}>
