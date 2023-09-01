@@ -6,8 +6,8 @@ import Loadable from 'ui-component/Loadable';
 // import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/RecruitmentTable';
-import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
-import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
+import LeaveRequestForm from 'views/leavemanagement/LeaveRequestForm';
+import LeaveHistory from 'views/leavemanagement/LeaveHistory';
 import ApproveLeave from 'views/leavemanagement/ApproveLeave';
 import Performance from 'views/performance/Performance';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
@@ -53,16 +53,16 @@ const MainRoutes = {
     },
    
     {
-      path: '/leavetrackerform',
-      element: <LeaveTrackerForm />
+      path: '/leaverequestform',
+      element: <LeaveRequestForm />
     },
     {
       path: '/applicationtracker',
       element: <ApplicationTracker />
     },
     {
-      path: '/leavetrackerlist',
-      element: <LeaveTrackerList />
+      path: '/leavehistory',
+      element: <LeaveHistory />
     },
     {
       path: '/approveleave',

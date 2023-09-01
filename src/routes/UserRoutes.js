@@ -13,7 +13,7 @@ import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import LearningandDevelopment from 'views/learninganddevelopment/LearningandDevelopment';
 import NotFound404 from './NotFound404';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
-import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
+import LeaveTrackerForm from 'views/leavemanagement/LeaveRequestForm';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
