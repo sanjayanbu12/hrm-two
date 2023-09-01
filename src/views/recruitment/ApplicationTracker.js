@@ -9,13 +9,13 @@ import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
 const columns = [
-  { title: 'Name', field: 'Name', editable: false,Width:'24px'},
-  { title: 'Jobrole', field: 'Jobrole', editable: false,width:'80px' },
+  { title: 'Name', field: 'Name', editable: false,Width:'50px'},
+  { title: 'Jobrole', field: 'Jobrole', editable: false},
   { title: 'Mobile No', field: 'MobileNo', sorting: false, editable: false },
   { title: 'Email', field: 'Email', sorting: false, editable: false },
   { title: 'Resume', field: 'Resume', sorting: false, editable: false },
   { title: 'Photo', field: 'Photo', sorting: false, editable: false },
-  { title: 'Applied At', field: 'AppliedAt', type: 'date', sorting: false, editable: false},
+  { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false},
   {
     title: 'Status',
     field: 'Status',
