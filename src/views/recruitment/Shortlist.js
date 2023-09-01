@@ -85,7 +85,7 @@ const Shortlist = () => {
   useEffect(() => {
     const matched = [];
     Adata.forEach(data => {
-      const matchingRole = fil.find(role => role.Jobrole == data.position);
+      const matchingRole = fil.find(role => role.Jobrole.toLowerCase() == data.position.toLowerCase());
       if (matchingRole) {
         const a = matchingRole.Skills;
         const b = data.skills;
