@@ -37,31 +37,28 @@ const PopupCard = ({ onClose, updateComments }) => {
     }
   };
 
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState('');
 
 
-  const handleEmployeeChange = (event, value) => {
-    setSelectedEmployee(value);
-  };
 
   const handleSubmit = async () => {
     try {
-      if (selectedEmployee && rating && comment) {
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/feed/addcomment/${selectedEmployee.label}`, {
+      if ( rating && comment) {
+        const response = await axios.post(`http://localhost:3001/feed/addcomment/64f01e76aecb5d1da5126707`, {
+          employeeId: "64f01e76aecb5d1da5126707",
           comment: comment,
           star: rating,
         });
         console.log('Comment added:', response.data);
 
-        // Clear form data
-        setSelectedEmployee(null);
         setRating(null);
         setComment('');
-        
-        // Close the popup
+
+        updateComments();
         onClose();
+        
+
       } else {
         console.log('Please fill in all fields.');
       }
