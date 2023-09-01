@@ -86,20 +86,23 @@ const OrgTree = () => {
         id: data._id
       }
     };
-    await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+    await axios.post('http://localhost:3001/org/createorg', manData);
     fetchOrgData();
   };
   const handleChange = (e, value) => {
     setautoComData(value);
-    console.log(autoComData);
+    
   };
+  useEffect(()=>{
+    console.log(autoComData);
+  },[autoComData])
   const hanldePost = async () => {
     const membersArray = autoComData.map((data) => {
-      return { name: data.name, id: data._id };
+      return { name: data.name, id: data._id, employeeId: data.employeeid };
     });
     const id = orgMems.map((data) => data._id);
     console.log(membersArray);
-    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+    await axios.put(`http://localhost:3001/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });

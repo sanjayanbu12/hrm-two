@@ -780,20 +780,25 @@ console.log(Emplist)
               </FormControl>
             </Grid>
             <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} >
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <Autocomplete
-              multiple
-              id="tags-outlined"
-              options={orgData[0]}
-              getOptionLabel={(option) => option.name}
-              defaultValue={[]}
-              onChange={handleProct}
-              filterSelectedOptions
-              renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
-            />
-              </FormControl>
-            </Grid>
+  <FormControl sx={{ minWidth: '100%' }}>
+    <InputLabel id="demo-simple-select-label"></InputLabel>
+    {orgData && orgData[0] ? (
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={orgData[0]}
+        getOptionLabel={(option) => option.name}
+        defaultValue={[]}
+        onChange={handleProct}
+        filterSelectedOptions
+        renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
+      />
+    ) : (
+      <div>Loading or no data available.</div>
+    )}
+  </FormControl>
+</Grid>
+
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
