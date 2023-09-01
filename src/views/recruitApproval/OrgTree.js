@@ -102,7 +102,7 @@ const OrgTree = () => {
     });
     const id = orgMems.map((data) => data._id);
     console.log(membersArray);
-    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+    await axios.put(`http://localhost:3001/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });
