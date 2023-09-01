@@ -34,7 +34,7 @@ const navigate=useNavigate()
   const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])
-    navigate(`/views/${id[0]}`);
+    navigate(`/recruitmentview/${id[0]}`);
   }
   const handleEdit = async(e,data) =>{
     const id=data.map(x=>x._id)
@@ -148,7 +148,7 @@ const navigate=useNavigate()
   }
   const handleRowClick = (event, rowData) => {
     const id = rowData._id;
-    navigate(`/views/${id}`);
+    navigate(`/recruitmentview/${id}`);
   };
 
   const theme = createMuiTheme({

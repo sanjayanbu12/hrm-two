@@ -9,7 +9,7 @@ import axios from 'axios'
 
 
 
-const ApplicationView = () => {
+const ApplicationView1 = () => {
 
   const [selectedJob, setSelectedJob] = useState();
   const[Loader,setLoader]=useState(true)
@@ -52,7 +52,7 @@ const ApplicationView = () => {
     <MainCard title=" Candidate Application View" variant='h2' align='left'>
 
     <Button onClick={() => {
-              navigate('/shortlist');
+              navigate('/applicationtracker');
             }}
         sx={{
           position: 'absolute',
@@ -116,4 +116,4 @@ const ApplicationView = () => {
       
   )
 }
-export default ApplicationView
+export default ApplicationView1;
