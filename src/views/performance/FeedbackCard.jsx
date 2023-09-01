@@ -4,7 +4,9 @@ import { Paper, Rating,  TextField, IconButton, Typography, Stack,Avatar} from '
 import Item from 'antd/es/list/Item';
 import User1 from 'assets/images/users/user-round.svg';
 
-const FeedbackCard = () => {
+
+
+const FeedbackCard = ({comm,rating}) => {
     const [Comment, setComment] = useState('');
 
     const handleInputChange = (event) => {
@@ -66,7 +68,7 @@ const FeedbackCard = () => {
       <Typography variant="subtitle2">Project Admin</Typography>
     </Item>
     <Item>
-      <Rating alignItems="left" name="read-only" value={3} readOnly />
+      <Rating alignItems="left" name="read-only" value={rating} readOnly />
       <Typography
         component="legend"
         sx={{
@@ -74,7 +76,7 @@ const FeedbackCard = () => {
           fontWeight: 300
         }}
       >
-        Good Work! but, you have to maintain punctuality too...
+        {comm}
       </Typography>
     </Item>
     <Item>

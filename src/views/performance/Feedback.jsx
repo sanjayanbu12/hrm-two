@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
 import { Button, Avatar, Stack, Typography } from '@mui/material';
 import User1 from 'assets/images/users/user-round.svg';
@@ -8,6 +9,7 @@ import Item from 'antd/es/list/Item';
 
 const Feedback = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
+  const [comments, setComments] = useState([]);
 
   const openPopup = () => {
     setPopupOpen(true);
@@ -16,6 +18,20 @@ const Feedback = () => {
   const closePopup = () => {
     setPopupOpen(false);
   };
+
+  const fetchComments = async () => {
+    try {
+      const response = await axios.get(`http://localhost:3001/feed/getcomment/64f01e76aecb5d1da5126707`);
+      setComments(response.data);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchComments();
+
+  }, []);
 
   return (
     <MainCard title="Feedbacks" sx={{ height: '99%' }}>
@@ -106,7 +122,9 @@ const Feedback = () => {
           }
         }}
       >
-        <FeedbackCard />
+        {comments.map((comments) => (
+        <FeedbackCard key={comments._id} comm={comments.comment} rating={comments.star}/>
+        ))}
       </Stack>
     </MainCard>
   );
