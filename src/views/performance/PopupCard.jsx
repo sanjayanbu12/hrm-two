@@ -1,36 +1,34 @@
-import React, {  } from 'react';
-import {Autocomplete,Rating,TextField, Button, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { Autocomplete, Rating, TextField, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import './PopupCard.css';
 
-const PopupCard = ({ onClose }) => {
 
+const PopupCard = ({ onClose, updateComments }) => {
 
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState('');
 
 
-  const handleEmployeeChange = (event, value) => {
-    setSelectedEmployee(value);
-  };
 
   const handleSubmit = async () => {
     try {
-      if (selectedEmployee && rating && comment) {
-        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/feed/addcomment/${selectedEmployee.label}`, {
+      if ( rating && comment) {
+        const response = await axios.post(`http://localhost:3001/feed/addcomment/64f01e76aecb5d1da5126707`, {
+          employeeId: "64f01e76aecb5d1da5126707",
           comment: comment,
           star: rating,
         });
         console.log('Comment added:', response.data);
 
-        // Clear form data
-        setSelectedEmployee(null);
         setRating(null);
         setComment('');
-        
-        // Close the popup
+
+        updateComments();
         onClose();
+        
+
       } else {
         console.log('Please fill in all fields.');
       }
@@ -50,40 +48,49 @@ const PopupCard = ({ onClose }) => {
 
   return (
     <div className="popup-container">
-      <div className="popup-card" >
-        <div style={{display:"flex",}}>
-        <h2>Give Feedbacks</h2>
-        <IconButton sx={{ marginLeft:"110px" }} onClick={onClose} aria-label="SVG Icon Button">
+      <div className="popup-card">
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <h2>Give Feedbacks</h2>
+          <IconButton onClick={onClose} aria-label="Close">
             <CloseIcon />
-          </IconButton>   
-          </div>
-        <div>
+          </IconButton>
+        </div>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
           options={empnames}
-          sx={{ width: 300 }}
+          // value={selectedEmployee}
+          // onChange={handleEmployeeChange}
+          sx={{ width: '100%', marginTop: '10px' }}
           renderInput={(params) => <TextField {...params} label="Employees" />}
         />
-        </div>
-        <div style={{marginLeft:"10px", marginTop:"10px"}}>
-        <Rating alignItems="left" name="controlled"  value={rating}
+        <div style={{ marginLeft: '10px', marginTop: '10px', alignItems: 'left' }}>
+          <Rating
+            name="controlled"
+            value={rating}
             onChange={(event, newValue) => {
-              setRating(newValue);}}  />
+              setRating(newValue);
+            }}
+          />
         </div>
         <div>
-        <TextField id="outlined-basic" label="Comment" variant="outlined" display="flex" sx={{ width:"100%", marginTop:"10px"}}
-         value={comment} onChange={(e) => setComment(e.target.value)}
-        />
+          <TextField
+            id="outlined-basic"
+            label="Comment"
+            variant="outlined"
+            sx={{ width: '100%', marginTop: '10px' }}
+            value={comment}
+            multiline
+            rowsMax={6}
+            onChange={(e) => setComment(e.target.value)}
+          />
         </div>
-
-        <div style={{marginTop:"10px", padding:"10px",display:"flex", gap:"20px", justifyContent:"center"}}>
-        <Button variant="contained" color="primary" onClick={handleSubmit}>
-          Submit
-        </Button>
-            </div>
+        <div style={{ marginTop: '10px', padding: '10px', display: 'flex', justifyContent: 'space-between' }}>
+          <Button variant="contained" color="primary" onClick={handleSubmit}>
+            Submit
+          </Button>
+        </div>
       </div>
-
     </div>
   );
 };

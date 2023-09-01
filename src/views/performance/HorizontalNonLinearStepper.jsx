@@ -5,17 +5,27 @@ import { Typography,} from '@mui/material';
 
 
 
+
 const HorizontalNonLinearStepper = ({size,size1,size2, name}) => {
+
+  const skillLevelMap = {
+    "Not Aware": 0,
+    "Awareness": 24.5,
+    "Novice": 49.5,
+    "Competent": 74.5,
+    "Expert": 99.5
+  };
+
   let mark2;
-  if(size2>=0){
-    mark2=size2-2.05;
+  if(skillLevelMap[size2]>=0){
+    mark2=skillLevelMap[size2]-2.05;
   }
   else{
     mark2=1000;
   }
-  let mark1=size1-1.7;
+  let mark1=skillLevelMap[size1]-1.7;
 
- size=size-1;
+  skillLevelMap[size]=skillLevelMap[size]-1;
   return (
     <>
     <div style={{  display: "flex",}}>
@@ -38,7 +48,7 @@ const HorizontalNonLinearStepper = ({size,size1,size2, name}) => {
         <svg width="100%" height="20px" style={{}}>
           <g style={{}}>
             <rect y="40%" fill="#eef2f6" width="100%" height="5"  />
-            <rect  y="40%"  fill="#3d5599" width = {`${size}%`} height="5"  />
+            <rect  y="40%"  fill="#3d5599" width = {`${skillLevelMap[size]}%`} height="5"  />
             <image height={"20px"} x={`${mark2}%`}  href={Marker2}  />
             
             <image y="15%" x={`${mark1}%`} href={Marker1}> </image>

@@ -22,7 +22,7 @@ const Feedback = () => {
   const fetchComments = async () => {
     try {
       const response = await axios.get(`http://localhost:3001/feed/getcomment/64f01e76aecb5d1da5126707`);
-      setComments(response.data);
+      setComments(response.data.reverse());
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
@@ -32,6 +32,10 @@ const Feedback = () => {
     fetchComments();
 
   }, []);
+
+  const updateComments = () => {
+    fetchComments();
+  };
 
   return (
     <MainCard title="Feedbacks" sx={{ height: '99%' }}>
@@ -75,7 +79,7 @@ const Feedback = () => {
           <Button variant="contained" color="secondary" onClick={openPopup}>
             Give Feedback
           </Button>
-          {isPopupOpen && <PopupCard onClose={closePopup} />}
+          {isPopupOpen && <PopupCard onClose={closePopup} updateComments={updateComments}/>}
         </Item>
         <Item></Item>
       </Stack>
