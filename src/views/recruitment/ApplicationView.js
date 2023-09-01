@@ -10,7 +10,6 @@ import axios from 'axios'
 
 
 const ApplicationView = () => {
-
   const [selectedJob, setSelectedJob] = useState();
   const[Loader,setLoader]=useState(true)
   const { id } = useParams();

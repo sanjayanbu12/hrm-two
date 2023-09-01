@@ -16,13 +16,14 @@ const columns = [
   { title: 'Resume', field: 'resume', sorting: false, editable: false },
   { title: 'Photo', field: 'photo', sorting: false, editable: false },
   { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false},
+  
 ];
 
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
-
+  
   const fetchAts = async () => {
     try {
       setLoader(true);
@@ -213,7 +214,9 @@ const ApplicationTracker = () => {
         />
       )}
     </ThemeProvider>
+    
   );
+ 
 };
 
 export default ApplicationTracker;
