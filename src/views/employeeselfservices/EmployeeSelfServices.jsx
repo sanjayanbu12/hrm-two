@@ -12,7 +12,6 @@ const EmployeeSelfServices = () => {
       { id: 3, goal: 'Seminar', progress: '70%' },
     ]); 
   
-  
     const addNewGoal = () => {
       if (newGoal.trim() !== '') {
         const newId = performanceData.length + 1;
@@ -188,9 +187,8 @@ const EmployeeSelfServices = () => {
     or disclosure.
   </p>
 
-</div>
-
-        </section>
+   </div>
+   </section>
       )}
     </Card>
   );

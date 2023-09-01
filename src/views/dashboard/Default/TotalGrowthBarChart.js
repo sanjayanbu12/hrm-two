@@ -85,13 +85,13 @@ const TotalGrowthBarChart = () => {
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 EMPLOYEES
               </Typography>
-              <Typography variant="h5" component="div" style={{ marginBottom: '20px'}}>
+              <Typography variant="h5" component="div" style={{ marginTop: '20px'}}>
                 {total}
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Twenty Five
-              </Typography>
-              <Typography style={{ marginTop: '20px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
+              </Typography> */}
+              <Typography style={{ marginTop: '30px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
                 Employee List
               </Typography>
             </CardContent>
@@ -105,20 +105,21 @@ const TotalGrowthBarChart = () => {
               background: 'linear-gradient(135deg, lightgreen, green)',
               color: 'white',
               fontWeight: 'bold',
-              fontSize: '20px'
+              fontSize: '20px',
+              
             }}
           >
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 Recruitment
               </Typography>
-              <Typography variant="h5" component="div">
-                {}
+              <Typography variant="h5" component="div" style={{ marginTop: '20px'}}>
+              No of Openings-02
               </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                No of Openings
-              </Typography>
-              <Typography style={{ marginTop: '50px', cursor: 'pointer' }} onClick={() => navigate(`/jobtable`)}>
+              {/* <Typography sx={{ mb: 1.5 }} color="text.secondary" style={{marginTop:'10px'}}>
+              10
+              </Typography> */}
+              <Typography style={{ marginTop: '20px', cursor: 'pointer' }} onClick={() => navigate(`/jobtable`)}>
                 HI
               </Typography>
             </CardContent>
@@ -165,10 +166,10 @@ const TotalGrowthBarChart = () => {
                 // }}
                 style={{
                   marginTop: 0,
-                  marginBottom: '20px',
                   color: '#ffffff',
                   fontSize: '16px',
                   fontWeight: 'bold',
+                  marginBottom: '20px',
                   
                 }}      
               >
@@ -182,10 +183,10 @@ const TotalGrowthBarChart = () => {
                 //   fontWeight: 'bold'
                 // }}
                 style={{
-                  display: 'flex',
+                
                   fontSize: '14px',
                  fontWeight: 'bold',
-                  marginBottom: '15px',
+                  marginBottom: '20px',
                 }}
       
               >
@@ -223,7 +224,7 @@ const TotalGrowthBarChart = () => {
                       backgroundColor: '#27ae60', 
                       border: 'none',
                       borderRadius: '8px',
-                      padding: '05px 10px',
+                      padding: '5px 5px',
                       transition: 'background-color 0.3s',
                       fontSize: '14px',
                     }}
@@ -265,7 +266,7 @@ const TotalGrowthBarChart = () => {
                       backgroundColor: '#e74c3c', 
                       border: 'none',
                       borderRadius: '8px',
-                      padding: '5px 10px',
+                      padding: '5px 5px',
                       transition: 'background-color 0.3s',
                       fontSize: '14px',
                     }}
@@ -315,6 +316,24 @@ const TotalGrowthBarChart = () => {
                   </div>
                 )}
               </div>
+              {/* <div
+          style={{
+            marginTop: '5px',
+            textAlign: 'center',
+            fontSize: '14px',
+            fontWeight: 'bold',
+            color: '#ffffff', 
+            transition: 'color 0.3s',
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.color = '#555555';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.color = '#ffffff'; 
+          }}
+        >
+          {totalEmployeeCounts.totalPresent} Present, {totalEmployeeCounts.totalAbsent} Absent out of {totalEmployeeCounts.total} Total Employees
+        </div> */}
             </div>
           </div>
         }
@@ -325,22 +344,22 @@ const TotalGrowthBarChart = () => {
               width: 250,
               height: 150,
               background: 'linear-gradient(135deg, lightgrey, grey)',
-              color: 'white',
+              color: '#ffffff',
               fontWeight: 'bold',
-              fontSize: '20px'
+              fontSize: '20px',
             }}
           >
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 Projects Ongoing
               </Typography>
-              <Typography variant="h5" component="div">
-                {/* Your content here */}
-              </Typography>
-              <Typography sx={{ mb: 1.5 }} color="text.secondary">
+              <Typography variant="h5" component="div" style={{ marginTop: '20px'}}>
                 02
               </Typography>
-              <Typography style={{ marginTop: '50px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
+              {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
+                02
+              </Typography> */}
+              <Typography style={{ marginTop: '20px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
                 HI
               </Typography>
             </CardContent>

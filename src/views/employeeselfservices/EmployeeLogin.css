@@ -17,4 +17,7 @@
   background-color: #ddd;
 }
    
-      
+.section-navigation{
+  display: flex;
+  justify-content: center;
+}      

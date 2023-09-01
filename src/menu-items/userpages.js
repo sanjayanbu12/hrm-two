@@ -30,9 +30,9 @@ import CameraFrontIcon from '@mui/icons-material/CameraFront';
 const pages = {
   type: 'group', 
   children: [
-    {
+    { 
       id: 'employeeselfservices',
-      title: 'Employee Self Services',
+      title: 'Employees',
       icon: CameraFrontIcon,
       type: 'item',
       url: '/employeedomain'

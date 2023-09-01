@@ -1,20 +1,21 @@
 import React from 'react';
 import './landing.css';
 import { Link } from 'react-router-dom';
-// import { useNavigate } from 'react-router';
   
 const LandingPage = () => {
-// const navigate=useNavigate();
   return (
     <div className="body-wrap">
       <div className="site-header">
             <div className="container">
                 <div className="site-header-inner">
                     <div className="brand header-brand">
-                        <h1 className="m-0">
+                        <h2 className="m-0">
 							
-								{/* <img className="header-logo-image" src="./image(1).png" alt="Logo" /> */}
-                        </h1>
+								{/* <img className="header-logo-image" src="./logo.svg" alt="Logo" /> */}
+                <div className="header-logo-image">
+                  Square
+                </div>
+                        </h2>
                     </div>
                 </div>
             </div>

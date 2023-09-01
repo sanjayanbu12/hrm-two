@@ -4,15 +4,16 @@ import { Card } from '@mui/material';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LearningModule from 'views/learninganddevelopment/LearningModule';
+import RecruitmentForm from 'views/recruitment/RecruitmentForm';
+import Newevent from 'views/dashboard/Default/Newevent';
 
 const EmployeeLogin = () => {
   const [activeSection, setActiveSection] = useState('goal');
-  console.log(setActiveSection);
-
   return (
     <Card>
-      <div style={{ justifyContent: 'space-between', marginTop: '0px' }}>
+      
         <nav className="section-navigation">
+      
           <button className={`section-buttons ${activeSection === 'goal' ? 'active' : ''}`} onClick={() => setActiveSection('goal')}>
             Leave Apply
           </button>
@@ -28,18 +29,19 @@ const EmployeeLogin = () => {
           >
             Learning Module
           </button>
-          <button className={`section-buttons ${activeSection === 'form' ? 'active' : ''}`} onClick={() => setActiveSection('form')}>
-            Leave Apply
-          </button>
           <button
-            className={`section-buttons ${activeSection === 'learning module' ? 'active' : ''}`}
-            onClick={() => setActiveSection('learning module')}
+            className={`section-buttons ${activeSection === 'recruitment' ? 'active' : ''}`}
+            onClick={() => setActiveSection('recruitment')}
           >
-            Learning Module
+            Recruitment Form
           </button>
+          <button className={`section-buttons ${activeSection === 'events' ? 'active' : ''}`} 
+          onClick={() => setActiveSection('events')}>
+            Events Calendar
+          </button>
+         
         </nav>
-      </div>
-
+      
       {activeSection === 'goal' && (
         <section>
           <LeaveTrackerForm />
@@ -58,7 +60,17 @@ const EmployeeLogin = () => {
         </section>
       )}
 
-      {activeSection === 'match' && <section></section>}
+      {activeSection === 'recruitment' && (
+      <section>
+<RecruitmentForm />
+        </section>
+        )}
+
+        {activeSection === 'events' && (
+      <section>
+<Newevent />
+        </section>
+        )}
     </Card>
   );
 };
