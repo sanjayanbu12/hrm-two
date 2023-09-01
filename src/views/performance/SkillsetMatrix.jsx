@@ -39,10 +39,11 @@ const SkillsetMatrix = () => {
 
   return (
     <>
-      <MainCard title="SkillSet Matrix" sx={{ height: '99%' }}>
+      <MainCard title="SkillSet Matrix" sx={{ height: '99%', paddingTop:"0px"}}>
         <div>
-          <List
+          <List 
             sx={{
+              paddingTop: 0,
               display: 'flex',
               paddingRight: 0
             }}
@@ -101,6 +102,13 @@ const SkillsetMatrix = () => {
               </Button>
               {isPopupOpen && <PopupSkill onClose={closePopup} reloadSkills={reloadSkills} />}
             </ListItem>
+          </List>
+          <List sx={{display:"flex", marginLeft:"55px"}}>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Not Aware</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Awareness</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px", marginLeft:"-10px"}}>Novice</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Competent</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Expert</ListItem>
           </List>
         </div>
         <div>
