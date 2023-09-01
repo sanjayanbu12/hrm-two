@@ -62,9 +62,6 @@ const EmployeeForm = () => {
       name: ''
     }));
   };
-useEffect(()=>{
-  console.log(name)
-},[name])
   const handleLastname = (e) => {
     setLastname(e.target.value);
     setErrors((prev) => ({
