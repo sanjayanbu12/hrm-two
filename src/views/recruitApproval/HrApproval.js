@@ -23,7 +23,7 @@ const HrApproval = () => {
 
   };
   const handleClick = (id)=>{
-    navigate(`/views/${id}`)
+    navigate(`/recruitmentview/${id}`)
   }
   return (
     

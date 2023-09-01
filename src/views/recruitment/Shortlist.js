@@ -9,21 +9,23 @@ import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
 const columns = [
-  { title: 'Name', field: 'name', editable: false,Width:'50px'},
-  { title: 'Jobrole', field: 'position', editable: false},
-  { title: 'Mobile No', field: 'phone', sorting: false, editable: false },
-  { title: 'Email', field: 'email', sorting: false, editable: false },
-  { title: 'Resume', field: 'resume', sorting: false, editable: false },
-  { title: 'Photo', field: 'photo', sorting: false, editable: false },
-  { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false},
+  { title: 'Name', field: 'Name', editable: false,Width:'50px'},
+  { title: 'Jobrole', field: 'Jobrole', editable: false},
+  { title: 'Mobile No', field: 'MobileNo', sorting: false, editable: false },
+  { title: 'Email', field: 'Email', sorting: false, editable: false },
+  { title: 'Resume', field: 'Resume', sorting: false, editable: false },
+  { title: 'Photo', field: 'Photo', sorting: false, editable: false },
+  { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false}
 ];
 
-const ApplicationTracker = () => {
+const Shortlist = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
+  const [fil, setFil] = useState([]);
+  const [matchedResults, setMatchedResults] = useState([]);
   const navigate = useNavigate();
 
-  const fetchAts = async () => {
+  const fetchEmployees = async () => {
     try {
       setLoader(true);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
@@ -35,6 +37,17 @@ const ApplicationTracker = () => {
       console.log(err);
     }
   };
+
+  const fetchRec = async () => {
+    try {
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const data = res.data.getData;
+      setFil(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
 
   const handleResume = async (id, name) => {
     try {
@@ -65,48 +78,84 @@ const ApplicationTracker = () => {
   };
 
   useEffect(() => {
-    fetchAts();
+    fetchEmployees();
+    fetchRec();
   }, []);
+
+  useEffect(() => {
+    const matched = [];
+    Adata.forEach(data => {
+      const matchingRole = fil.find(role => role.Jobrole == data.position);
+      if (matchingRole) {
+        const a = matchingRole.Skills;
+        const b = data.skills;
+        const aSkills = a[0].split(',').map(skill => skill.trim());
+        const bSkills = b[0].split(',').map(skill => skill.trim());
+        console.log(aSkills)
+        const commonSkills = aSkills.filter(skill => bSkills.includes(skill));
+        console.log(commonSkills);
+        if (commonSkills.length > 0) {
+          matched.push({
+            _id:data._id,
+            Name:data.name,
+            Jobrole: data.position,
+            MobileNo:data.phone,
+            Email: data.email,
+            Resume: data.resume,
+            Photo:data.photo,
+            AppliedAt:data.appliedAt,
+            Status: data.Status,
+            Qualification: data.department,
+            YearOfPassing:data.graduationYear,
+            Skills:data.skills,
+            Experience:data.experience,
+            College:data.college,
+            sslc:data.sslc,
+            hsc:data.hsc
+
+          });
+        }
+      }
+    });
+    console.log(matched);
+    setMatchedResults(matched);
+  }, [Adata, fil]);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
-      Name: item.name,
-      JobRole: item.position,
-      MobileNo: item.phone,
-      Email: item.email,
-      Qualification: item.department,
-      College: item.college,
-      CGPA:item.cgpa,
-      YearOfPassing: item.graduationYear,
-      Experience:item.experience,
+      Name: item.Name,
+      JobRole: item.Jobrole,
+      MobileNo: item.MobileNo,
+      Email: item.Email,
+      Qualification: item.Qualification,
+      College: item.College,
+      YearOfPassing: item.YearOfPassing,
       SSLCPercentage: item.sslc,
       HSCPercentage: item.hsc,
     }));
-    const csvHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'CGPA','Year of Passing','Experience' ,'SSLC Percentage', 'HSC Percentage'];
+    const csvHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'Year of Passing', 'SSLC Percentage', 'HSC Percentage'];
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'Applied_Candidates_list.csv');
+    link.setAttribute('download', 'Shortlist Candidates.csv');
     link.click();
   };
 
   const exportPdf = (columns, data) => {
     const pdf = new jsPDF('landscape');
-    pdf.text('Application Tracker', 10, 10);
+    pdf.text('Employee Application Tracker', 10, 10);
 
     const rows = data.map((item) => [
-      item.name,
-      item.position,
-      item.phone,
-      item.email,
-      item.department,
-      item.college,
-      item.cgpa,
-      item.graduationYear,
-      item.experience,
+      item.Name,
+      item.Jobrole,
+      item.MobileNo,
+      item.Email,
+      item.Qualification,
+      item.College,
+      item.YearOfPassing,
       item.sslc,
       item.hsc,
     ]);
@@ -125,7 +174,7 @@ const ApplicationTracker = () => {
       11:{columnWidth:25},
       12:{columnWidth:20},
     }
-    const pdfHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College','CGPA' ,'Year of Passing','Experience' ,'SSLC Percentage', 'HSC Percentage'];
+    const pdfHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'Year of Passing', 'SSLC Percentage', 'HSC Percentage'];
     pdf.autoTable({
       head: [pdfHeaders],
       body: rows,
@@ -134,7 +183,7 @@ const ApplicationTracker = () => {
       theme:'grid',
     });
 
-    pdf.save('Applied_Candidates_list.pdf');
+    pdf.save('Shortlist Candidates list.pdf');
   };
 
   const theme = createMuiTheme({
@@ -151,7 +200,7 @@ const ApplicationTracker = () => {
  const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(data)
-    navigate(`/applicationview1/${id[0]}`);
+    navigate(`/applicationview/${id[0]}`);
   }
 
   return (
@@ -160,9 +209,9 @@ const ApplicationTracker = () => {
         <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
       ) : (
         <MaterialTable
-          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Application Tracker</div>}
+          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Shortlist Candidates</div>}
           columns={columns.map(column => {
-            if (column.field === 'resume') {
+            if (column.field === 'Resume') {
               return {
                 ...column,
                 render: rowData => (
@@ -173,7 +222,7 @@ const ApplicationTracker = () => {
                   </a>
                 ),
               };
-            } else if (column.field === 'photo') {
+            } else if (column.field === 'Photo') {
               return {
                 ...column,
                 render: rowData => (
@@ -187,7 +236,7 @@ const ApplicationTracker = () => {
             }
             return column;
           })}
-          data={Adata}
+          data={matchedResults}
           icons={tableIcons}
           actions={[
             rowData => ({
@@ -216,4 +265,4 @@ const ApplicationTracker = () => {
   );
 };
 
-export default ApplicationTracker;
+export default Shortlist;

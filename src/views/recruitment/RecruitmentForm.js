@@ -192,11 +192,20 @@ const RecruitmentForm = () => {
     }));
   };
   const handleExperienceFrom = (e) => {
-    setExperienceFrom(e.target.value);
+    const a=e.target.value;
+    if(0<=a){
+    setExperienceFrom(a);
     setErrors((prev) => ({
       ...prev,
       ExperienceFrom: ''
     }));
+  }
+  else{
+    setErrors((prev) => ({
+      ...prev,
+      ExperienceFrom: 'Select 0 and above'
+    }));
+  }
   };
 
   const handleExperienceTo = (e) => {

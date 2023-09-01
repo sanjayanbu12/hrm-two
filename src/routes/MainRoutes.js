@@ -20,7 +20,7 @@ import LeaveCalendar from 'views/leavemanagement/LeaveCalendar';
 import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfServices';
 import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import Payroll from 'views/payroll/Payroll';
-import InterviewDetails from 'views/recruitment/InterviewDetails';
+import Shortlist from 'views/recruitment/Shortlist';
 import { BasicTable } from 'views/addemployeetable/Basictable';
 import RecruitmentView from 'views/recruitment/RecruitmentView';
 import ApplicationView from 'views/recruitment/ApplicationView';
@@ -33,6 +33,8 @@ import HrApproval from 'views/recruitApproval/HrApproval';
 import ManagerApproval from 'views/recruitApproval/ManagerApproval';
 import Feedback from 'views/performance/Feedback';
 import SkillsetMatrix from 'views/performance/SkillsetMatrix';
+import InterviewBoard from 'views/recruitment/InterviewBoard';
+import ApplicationView1 from 'views/recruitment/ApplicationView1';
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
@@ -144,9 +146,14 @@ const MainRoutes = {
       element: <Payroll />
     },
     {
-      path: '/interviewdetails',
-      element: <InterviewDetails />
+      path: '/shortlist',
+      element: <Shortlist />
     },
+    {
+      path:'/interviewboard',
+      element:<InterviewBoard/>
+    },
+
     {
       path: '/newemployee',
       element: <EmployeeForm />
@@ -165,11 +172,16 @@ const MainRoutes = {
       element: <Viewdetails />
     },
     {
-      path: '/view/:id',
+      path: '/applicationview1/:id',
+      element: <ApplicationView1 />
+    },
+   
+    {
+      path: '/applicationview/:id',
       element: <ApplicationView />
     },
     {
-      path: '/views/:id',
+      path: '/recruitmentview/:id',
       element: <RecruitmentView />
     },
     {
