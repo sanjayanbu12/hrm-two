@@ -6,7 +6,7 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router'
 import { useEffect } from 'react'
 import axios from 'axios'
-import {  Facebook, LinkedIn } from '@mui/icons-material'
+import { LinkedIn, Twitter } from '@mui/icons-material'
 
 const RecruitmentView = () => {
 
@@ -62,7 +62,7 @@ console.log(selectedAts);
     const handleTwitterShare = () => {
       if (selectedJob) {
         const shareText = `Check out this job opportunity
-        jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company}
+        Jobrole : ${selectedJob.Jobrole} at ${selectedJob.Company}
         Location: ${selectedJob.Location} ;
         Job opening: ${selectedJob.Openings};
         ApplicationLink:${selectedJob.ApplicationLink}`;
@@ -129,17 +129,6 @@ console.log(selectedAts);
       console.log(res)
     }
      
-  // const handleFacebookShare = () => {
-  //   if (selectedJob) {
-  //     const shareText = `Check out this job opportunity: ${selectedJob.Jobrole} at ${selectedJob.Company}`;
-  //     const shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-  //       window.location.href
-  //     )}&quote=${encodeURIComponent(shareText)}`;
-
-  //     window.open(shareUrl, '_blank');
-  //   }
-  // };
-
   return (
   <div>
      {Loader ?(<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):
@@ -174,7 +163,7 @@ console.log(selectedAts);
         >
           </LinkedIn >
     
-      <Facebook
+      <Twitter
           onClick={handleTwitterShare}
           sx={{
             position: 'absolute',
@@ -186,7 +175,7 @@ console.log(selectedAts);
             },
           }}
         >
-          </Facebook >
+          </Twitter >
        
         {selectedJob && (
             <div>

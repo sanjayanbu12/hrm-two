@@ -96,9 +96,9 @@ const ApplicationTracker = () => {
         const b = data.skills;
         const aSkills = a[0].split(',').map(skill => skill.trim());
         const bSkills = b[0].split(',').map(skill => skill.trim());
-        console.log(aSkills +'skill')
+        console.log(aSkills)
         const commonSkills = aSkills.filter(skill => bSkills.includes(skill));
-        console.log(commonSkills+'common');
+        console.log(commonSkills);
         if (commonSkills.length > 0) {
           matched.push({
             _id:data._id,
