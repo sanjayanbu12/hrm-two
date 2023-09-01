@@ -7,8 +7,6 @@ import { useNavigate, useParams } from 'react-router'
 import { useEffect } from 'react'
 import axios from 'axios'
 
-
-
 const ApplicationView1 = () => {
 
   const [selectedJob, setSelectedJob] = useState();
