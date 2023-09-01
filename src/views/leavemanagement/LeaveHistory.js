@@ -55,7 +55,7 @@ const LeaveTrackerList = () => {
   };
 
   const handleEditLeave = () => {
-    navigate('/leavetrackerform', { state: selectedLeave });
+    navigate('/leaverequestform', { state: selectedLeave });
   };
 
   return (

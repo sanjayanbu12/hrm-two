@@ -61,10 +61,10 @@ const pages = {
 
       children: [
         {
-          id: 'leavetrackerform',
+          id: 'leaverequestform',
           title: 'Leave Request Form',
           type: 'item',
-          url: '/leavetrackerform'
+          url: '/leaverequestform'
         },
       ]
     },

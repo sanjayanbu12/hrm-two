@@ -146,7 +146,7 @@ const LeaveTrackerForm = () => {
         setReason('');
         setAttachments([]);
         setErrors({});
-        navigate('/leavetrackerlist');
+        navigate('/leaverequestform');
       } catch (error) {
         console.error('Error:', error);
       }

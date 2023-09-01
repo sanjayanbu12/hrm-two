@@ -110,16 +110,16 @@ const pages = {
         },
        
         {
-          id: 'leavetrackerform',
+          id: 'leaverequestform',
           title: 'Leave Request Form',
           type: 'item',
-          url: '/leavetrackerform'
+          url: '/leaverequestform'
         },
         {
-          id: 'leavetrackerlist',
+          id: 'leavehistory',
           title: 'Leave History',
           type: 'item',
-          url: '/leavetrackerlist'
+          url: '/leavehistory'
         },
         {
           id: 'approveleave',
