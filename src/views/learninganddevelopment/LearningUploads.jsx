@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Paper, Grid, IconButton, Skeleton } from '@mui/material';
+import { TextField, Button, Paper, Grid, IconButton,Skeleton} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MovieIcon from '@mui/icons-material/Movie';
 import ImageIcon from '@mui/icons-material/Image';
@@ -13,6 +13,8 @@ const LearningUploads = () => {
   const [courseDescription, setCourseDescription] = useState('');
   const [image, setImage] = useState(null);
   const [videos, setVideos] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
+  const [selectedVideos, setSelectedVideos] = useState([]);
   const [errors, setErrors] = useState({});
   const [contentReady, setContentReady] = useState(false);
 
@@ -35,15 +37,17 @@ const LearningUploads = () => {
   };
 
   const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
+    const selectedImage = event.target.files[0];
+    setImage(selectedImage);
+    setSelectedImages([selectedImage]);
     setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
-    event.target.value =[''] ;
-  
+    event.target.value = '';
   };
 
   const handleVideoChange = (event) => {
     const selectedVideos = Array.from(event.target.files);
     setVideos(selectedVideos);
+    setSelectedVideos(selectedVideos);
     setErrors((prevErrors) => ({ ...prevErrors, videos: '' }));
     event.target.value = '';
   };
@@ -52,13 +56,20 @@ const LearningUploads = () => {
     const updatedVideos = [...videos];
     updatedVideos.splice(index, 1);
     setVideos(updatedVideos);
+    setSelectedVideos(updatedVideos);
+  };
+
+  const handleRemoveImage = (index) => {
+    const updatedImages = [...selectedImages];
+    updatedImages.splice(index, 1);
+    setSelectedImages(updatedImages);
   };
 
   const handleSuccess = () => {
     Swal.fire({
       icon: 'success',
       title: 'Success',
-      text: 'Course uploaded successfully!',
+      text: 'Course uploaded successfully!'
     });
   };
 
@@ -66,14 +77,13 @@ const LearningUploads = () => {
     Swal.fire({
       icon: 'error',
       title: 'Error',
-      text: 'Course upload failed. Please try again.',
+      text: 'Course upload failed. Please try again.'
     });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Form validation
     const fieldErrors = {};
     if (!courseName) {
       fieldErrors.courseName = 'Course name is required.';
@@ -102,7 +112,6 @@ const LearningUploads = () => {
         formData.append('videos', videos[i]);
       }
 
-      // Set contentReady to false to show skeleton loader
       setContentReady(false);
 
       const response = await axios.post('http://localhost:3001/media/create', formData, {
@@ -110,29 +119,24 @@ const LearningUploads = () => {
           'Content-Type': 'multipart/form-data'
         }
       });
-      console.log(response.data);
+      console.log(response);
 
-      // Show success message
       handleSuccess();
 
-      // Clear form fields and errors
       setCourseName('');
       setCourseDescription('');
       setImage(null);
       setVideos([]);
-      
+      setSelectedImages([]);
+      setSelectedVideos([]);
       setErrors({});
     } catch (error) {
       console.error(error);
-
-      // Show error message
       handleError();
     } finally {
-      // Reset contentReady to true after handling submission
       setContentReady(true);
     }
   };
-  
 
   return (
     <MainCard title="Course Upload Form">
@@ -172,13 +176,24 @@ const LearningUploads = () => {
                   <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />} style={{ minWidth: 195 }}>
                     Upload Course Image
                   </Button>
-                  {image && (
+                  {selectedImages.length > 0 && (
                     <div style={{ marginTop: '8px' }}>
-                      <ImageIcon style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-                      {image.name}
-                      <IconButton color="secondary" onClick={() => setImage(null)} style={{ verticalAlign: 'middle' }}>
-                        <CancelIcon />
-                      </IconButton>
+                      <h3>Selected Images:</h3>
+                      <ul>
+                        {selectedImages.map((img, index) => (
+                          <li key={index}>
+                            <ImageIcon style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                            {img.name}
+                            <IconButton
+                              color="secondary"
+                              onClick={() => handleRemoveImage(index)}
+                              style={{ verticalAlign: 'middle', marginLeft: '30px' }}
+                            >
+                              <CancelIcon />
+                            </IconButton>
+                          </li>
+                        ))}
+                      </ul>
                     </div>
                   )}
                 </label>
@@ -192,19 +207,15 @@ const LearningUploads = () => {
                   </Button>
                 </label>
                 {errors.videos && <div style={{ color: 'red', marginTop: '8px' }}>{errors.videos}</div>}
-                {videos.length > 0 && (
+                {selectedVideos.length > 0 && (
                   <div style={{ marginTop: '8px' }}>
-                    <h3>Uploaded Videos:</h3>
+                    <h3>Selected Videos:</h3>
                     <ul>
-                      {videos.map((video, index) => (
+                      {selectedVideos.map((video, index) => (
                         <li key={index}>
                           <MovieIcon style={{ verticalAlign: 'middle', marginRight: '4px' }} />
                           {video.name}
-                          <IconButton
-                            color="secondary"
-                            onClick={() => handleRemoveVideo(index)}
-                            style={{ verticalAlign: 'middle' }}
-                          >
+                          <IconButton color="secondary" onClick={() => handleRemoveVideo(index)} style={{ verticalAlign: 'middle' }}>
                             <CancelIcon />
                           </IconButton>
                         </li>
@@ -226,7 +237,6 @@ const LearningUploads = () => {
             <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
             <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
             <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
-           
           </div>
         )}
       </Paper>

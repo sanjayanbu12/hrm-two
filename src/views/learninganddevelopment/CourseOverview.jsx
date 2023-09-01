@@ -55,13 +55,15 @@ const MediaList = () => {
 
   return (
     <MainCard title="Media List">
-      <Dialog open={isVideoOpen} onClose={closeVideoDialog} maxWidth="lg" fullWidth>
+      <Dialog open={isVideoOpen} onClose={closeVideoDialog} maxWidth="lg" >
         <DialogContent>
-          <video controls autoPlay style={{ maxWidth: '100%' }}>
-            <track kind="captions" />
-            <source src={currentVideo} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <div style={{ maxHeight: '70vh', overflow: 'auto' }}>
+            <video controls autoPlay style={{ width: '100%' }}>
+              <track kind="captions" />
+              <source src={currentVideo} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         </DialogContent>
       </Dialog>
 
@@ -100,7 +102,7 @@ const MediaList = () => {
               <CloseIcon />
             </IconButton>
           </DialogTitle>
-          <DialogContent style={{ maxHeight: '100%', overflowY: 'auto' }}>
+          <DialogContent style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             <Grid container spacing={0}>
               {selectedMedia.videos.map((videoUrl, index) => (
                 <Grid item xs={12} key={index} style={{ marginBottom: '3px' }}>
