@@ -59,6 +59,7 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
+  
     } catch (error) {
       console.log(error);
     }
