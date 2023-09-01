@@ -41,13 +41,13 @@ const pages = {
       icon: icons.AccountTreeOutlinedIcon,
       children: [
         {
-          id: 'recruitmentform',
+          id: 'jobform',
           title: 'Job Description Form',
           type: 'item',
           url: '/jobform'
         },
         {
-          id: 'recruitmenttable',
+          id: 'jobtable',
           title: 'Job Description Table',
           type: 'item',
           url: '/jobtable'
@@ -59,11 +59,18 @@ const pages = {
           url: '/applicationtracker'
         },
         {
-          id: 'interviewdetails',
+          id: 'shortlist',
           title: 'Shortlist Candidates',
           type: 'item',
-          url: '/interviewdetails'
-        }
+          url: '/shortlist'
+        },
+        {
+          id: 'interviewboard',
+          title: 'Interview Board',
+          type: 'item',
+          url: '/interviewboard'
+        },
+
       ]
     },
 
