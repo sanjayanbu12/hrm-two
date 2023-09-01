@@ -181,7 +181,7 @@ const MainRoutes = {
       element: <Newevent />
     },
     {
-      path: '/hrapproval',
+      path: '/hrapproval/:id',
       element: <HrApproval />
     },
     {

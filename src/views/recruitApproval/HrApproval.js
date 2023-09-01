@@ -7,26 +7,47 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
+import { useSelector } from 'react-redux';
 // import MaterialTable from "material-table";
 
 const HrApproval = () => {
   const [data,setRecData]=useState([])
+  const [edata,setedata]=useState([])
   const navigate = useNavigate()
+  const {id} = useParams()
+  console.log(id)
+  const authId=useSelector(state=>state.customization.authId)
+  console.log(authId)
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [edata]);
   useEffect(()=>{
-    console.log(data)
-  },[data])
+    const fetchDataOnMount = async () => {
+      try {
+        const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+        setedata(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    fetchDataOnMount();
+  },[])
   const fetchData = async () => {
+  try {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
     const filteredData = res.data.getData.filter((item) => {
-      const hrNames = item.orgData.map((orgItem) => orgItem.employeeId);
-      return hrNames.includes('Kannan'); // Replace 'YourLoggedInUserName' with the actual logged-in user's name
+      const hrNames = item.orgData.map((orgItem) => orgItem.id);
+      const edataId=edata.filter(d=>d._id==hrNames)
+      const empID=(edataId.map(z=>z.employeeid))
+      console.log(empID)
+      return empID.includes(authId) &&  empID.includes(id); // Replace 'YourLoggedInUserName' with the actual logged-in user's name
     });
     setRecData(filteredData);
-    console.log(filteredData)
+  } catch (error) {
+    console.log(error)
+  }
   };
   const handleClick = (id)=>{
     navigate(`/views/${id}`)

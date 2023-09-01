@@ -13,7 +13,8 @@
     isLoggedIn:false,
     isAuthAdmin:false,
     members:[],
-    employees:[]
+    employees:[],
+    authId:[]
   };
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -31,6 +32,11 @@
         return {
           ...state,
           opened: action.opened
+        };
+      case actionTypes.AUTH_ID:
+        return {
+          ...state,
+          authId: action.payload
         };
       case actionTypes.LOGGED_IN:
         return {
