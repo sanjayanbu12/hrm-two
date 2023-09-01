@@ -1,26 +1,57 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import { List, ListItem, Typography } from '@mui/material';
+import axios from 'axios';
+import { List, ListItem, Typography, Button } from '@mui/material';
 import Marker1 from '../../assets/images/icons/progress_1.svg';
 import Marker2 from '../../assets/images/icons/progress_2.svg';
 
 import HorizontalNonLinearStepper from './HorizontalNonLinearStepper';
+import PopupSkill from './PopupSkill';
 
 const SkillsetMatrix = () => {
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const [skills, setSkills] = useState([]);
+
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
+
+  const fetchSkills = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/skill/getskills');
+      setSkills(response.data.skill); // Update the state with the skill array
+    } catch (error) {
+      console.error('Error fetching skills:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchSkills();
+  }, []);
+
+  const reloadSkills = () => {
+    fetchSkills();
+  };
+
   return (
     <>
-      <MainCard title="SkillSet Matrix" sx={{ height: '99%' }}>
+      <MainCard title="SkillSet Matrix" sx={{ height: '99%', paddingTop:"0px"}}>
         <div>
-          <List
+          <List 
             sx={{
+              paddingTop: 0,
               display: 'flex',
               paddingRight: 0
             }}
           >
             <ListItem>
-            <svg width="20px" height="20px">
-            <rect y="25%" fill="#3d5599" width="20px" height="10"  />
-            </svg>
+              <svg width="20px" height="20px">
+                <rect y="25%" fill="#3d5599" width="20px" height="10" />
+              </svg>
               <Typography
                 variant="h4"
                 body1="span"
@@ -28,13 +59,12 @@ const SkillsetMatrix = () => {
                   fontWeight: 500,
                   fontSize: 'small',
                   color: '#697586',
-                  marginLeft: "15px"
-
+                  marginLeft: '15px'
                 }}
               >
-                  - Current Skill Level
+                - Current Skill Level
               </Typography>
-              </ListItem>
+            </ListItem>
             <ListItem>
               <img src={Marker1} alt="marker1" />
               <Typography
@@ -43,12 +73,12 @@ const SkillsetMatrix = () => {
                 sx={{
                   fontWeight: 500,
                   fontSize: 'small',
+                  width: '100px',
                   color: '#697586',
-                  marginLeft: "5px"
-
+                  marginLeft: '5px'
                 }}
               >
-                  - Required Level of Skill
+                - Required Level of Skill
               </Typography>
             </ListItem>
             <ListItem>
@@ -60,76 +90,38 @@ const SkillsetMatrix = () => {
                   fontWeight: 500,
                   fontSize: 'small',
                   color: '#697586',
-                  marginLeft: "5px"
+                  marginLeft: '5px'
                 }}
               >
                 - Skill Goal
               </Typography>
             </ListItem>
+            <ListItem sx={{ marginLeft: '20px' }}>
+              <Button variant="contained" color="secondary" onClick={openPopup}>
+                Add New Skill
+              </Button>
+              {isPopupOpen && <PopupSkill onClose={closePopup} reloadSkills={reloadSkills} />}
+            </ListItem>
+          </List>
+          <List sx={{display:"flex", marginLeft:"55px"}}>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Not Aware</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Awareness</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px", marginLeft:"-10px"}}>Novice</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Competent</ListItem>
+            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Expert</ListItem>
           </List>
         </div>
         <div>
-          <List
-            sx={{
-              display: 'flex',
-              paddingRight: 0,
-              marginLeft:"80px"
-            }}
-          >
-            <ListItem
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}
-            >
-              Not Aware
-            </ListItem>
-            <ListItem
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}
-            >
-              Awareness
-            </ListItem>
-            <ListItem
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}
-            >
-              Novice
-            </ListItem>
-            <ListItem
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}
-            >
-              Competent
-            </ListItem>
-            <ListItem
-              sx={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-              }}
-            >
-              Expert
-            </ListItem>
-          </List>
+          {skills.map((skill) => (
+            <HorizontalNonLinearStepper
+              key={skill._id}
+              size={skill.current}
+              size1={skill.requi}
+              size2={skill.goal}
+              name={skill.skillset}
+            />
+          ))}
         </div>
-
-        <div>
-          <HorizontalNonLinearStepper size={50} size1={50} size2={72} name="Communication" />
-          <HorizontalNonLinearStepper size={27} size1={50} size2={50} name="Design Thinking" />
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="Problem Solving"/>
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="Remote Workspace" />
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="Administrative Work" />
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="Leadership" />
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="C" />
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="C++" />
-          <HorizontalNonLinearStepper size={80} size1={60} size2={20} name="Java" />
-          </div>
       </MainCard>
     </>
   );
