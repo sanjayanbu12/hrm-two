@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Paper, Grid, IconButton,Skeleton} from '@mui/material';
+import { TextField, Button, Paper, Grid, IconButton, Skeleton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MovieIcon from '@mui/icons-material/Movie';
 import ImageIcon from '@mui/icons-material/Image';
@@ -32,8 +32,13 @@ const LearningUploads = () => {
   };
 
   const handleCourseDescriptionChange = (e) => {
-    setCourseDescription(e.target.value);
-    setErrors((prevErrors) => ({ ...prevErrors, courseDescription: '' }));
+    const description = e.target.value;
+    if (description.split(' ').length <= 20) {
+      setCourseDescription(description);
+      setErrors((prevErrors) => ({ ...prevErrors, courseDescription: '' }));
+    } else {
+      setErrors((prevErrors) => ({ ...prevErrors, courseDescription: 'Description must be 20 words or less.' }));
+    }
   };
 
   const handleImageChange = (event) => {
@@ -69,7 +74,7 @@ const LearningUploads = () => {
     Swal.fire({
       icon: 'success',
       title: 'Success',
-      text: 'Course uploaded successfully!'
+      text: 'Course uploaded successfully!',
     });
   };
 
@@ -77,7 +82,7 @@ const LearningUploads = () => {
     Swal.fire({
       icon: 'error',
       title: 'Error',
-      text: 'Course upload failed. Please try again.'
+      text: 'Course upload failed. Please try again.',
     });
   };
 
@@ -116,8 +121,8 @@ const LearningUploads = () => {
 
       const response = await axios.post('http://localhost:3001/media/create', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
       console.log(response);
 
