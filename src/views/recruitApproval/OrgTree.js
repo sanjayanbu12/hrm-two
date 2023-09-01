@@ -94,8 +94,8 @@ const OrgTree = () => {
     
   };
   useEffect(()=>{
-    console.log(autoComData);
-  },[autoComData])
+ console.log(Tier2Data)
+  },[Tier2Data])
   const hanldePost = async () => {
     const membersArray = autoComData.map((data) => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
@@ -208,7 +208,7 @@ const OrgTree = () => {
                         paddingLeft: '13px',
                         paddingRight: '21px'
                       }}
-                      onClick={() => navigate('/hrapproval')}
+                      onClick={() => navigate(`/hrapproval/${data.employeeid}`)}
                     >
                       <Container
                         style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}

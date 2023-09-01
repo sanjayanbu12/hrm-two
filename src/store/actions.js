@@ -10,3 +10,4 @@ export const LOGGED_IN = `LOGGED_IN`
 export const LOGGED_OUT = 'LOGGED_OUT';
 export const ORG_MEM = 'ORG_MEM';
 export const FETCH_EMPLOYEES = 'FETCH_EMPLOYEES';
+export const AUTH_ID = 'AUTH_ID';

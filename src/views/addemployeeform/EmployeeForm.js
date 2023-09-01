@@ -62,9 +62,6 @@ const EmployeeForm = () => {
       name: ''
     }));
   };
-useEffect(()=>{
-  console.log(name)
-},[name])
   const handleLastname = (e) => {
     setLastname(e.target.value);
     setErrors((prev) => ({
@@ -140,7 +137,6 @@ useEffect(()=>{
   };
   const fetchAuthData=async()=>{
     const res =  await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata')
-    console.log(res.data.user)
     setAuthData(res.data.user)
   }
   const handleJoin = (e) => {
@@ -226,7 +222,6 @@ useEffect(()=>{
   const fetchRegData = async () => {
     const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
     setRegData(res.data.user);
-    console.log(regData);
   };
   useEffect(() => {
     fetch('https://hrm-backend-square.onrender.com/api/getemployee/' + id)
@@ -416,7 +411,6 @@ useEffect(()=>{
         const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
         const newEmployeeId = res.data.data._id; // Extract the newly created employee's _id
         const empId=res.data.data.employeeid
-        console.log(empId)
         await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`,{employeeId:empId})
         if (report.id) {
           // Check if report.id exists
