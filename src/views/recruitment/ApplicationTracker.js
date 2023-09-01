@@ -10,6 +10,7 @@ import { saveAs } from 'file-saver';
 
 const columns = [
   { title: 'Name', field: 'Name', editable: false,Width:'50px'},
+  
   { title: 'Jobrole', field: 'Jobrole', editable: false},
   { title: 'Mobile No', field: 'MobileNo', sorting: false, editable: false },
   { title: 'Email', field: 'Email', sorting: false, editable: false },
@@ -54,6 +55,12 @@ const ApplicationTracker = () => {
     }
   };
 
+
+
+
+
+
+  
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
