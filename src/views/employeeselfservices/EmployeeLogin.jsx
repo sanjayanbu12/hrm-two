@@ -15,7 +15,7 @@ const EmployeeLogin = () => {
         <nav className="section-navigation">
       
           <button className={`section-buttons ${activeSection === 'goal' ? 'active' : ''}`} onClick={() => setActiveSection('goal')}>
-            Leave Apply
+            Leave Form
           </button>
           <button
             className={`section-buttons ${activeSection === 'employee' ? 'active' : ''}`}

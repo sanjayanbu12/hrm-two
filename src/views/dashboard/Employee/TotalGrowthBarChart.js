@@ -91,7 +91,7 @@ const TotalGrowthBarChart = () => {
               {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Twenty Five
               </Typography> */}
-              <Typography style={{ marginTop: '30px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
+              <Typography style={{ marginTop: '30px', cursor: 'pointer' }} onClick={() => navigate(`/newemployee`)}>
                 Employee List
               </Typography>
             </CardContent>
