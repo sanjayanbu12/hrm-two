@@ -212,14 +212,6 @@ const pages = {
         }
       ]
     },
-
-    {
-      id: 'learninganddevelopment',
-      title: 'Learning & Development',
-      type: 'item',
-      icon: AllOutIcon,
-      url: '/learninganddevelopment'
-    },
     
     {
       id: 'payroll',
