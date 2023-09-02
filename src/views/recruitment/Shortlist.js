@@ -15,7 +15,7 @@ const columns = [
   { title: 'Email', field: 'Email', sorting: false, editable: false },
   { title: 'Resume', field: 'Resume', sorting: false, editable: false },
   { title: 'Photo', field: 'Photo', sorting: false, editable: false },
-  { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false},
+  // { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false},
   {title:'Rating', field: 'roundrating', sorting: false, editable: false}
 ];
 
