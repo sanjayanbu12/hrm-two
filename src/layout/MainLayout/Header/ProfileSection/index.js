@@ -56,6 +56,21 @@ const dispatch = useDispatch()
     navigate('/pages/login/login3');
     
   };
+  const now = new Date();
+  const currentHour = now.getHours();
+  
+  let greeting;
+  
+  if (currentHour >= 4 && currentHour < 12) {
+    greeting = "Good morning";
+  }
+  else if (currentHour >= 12 && currentHour <15) {
+    greeting = "Good afternoon";
+  } else if (currentHour >= 15 && currentHour < 19) {
+    greeting = "Good evening";
+  } else {
+    greeting = "Good night";
+  }
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -63,6 +78,7 @@ const dispatch = useDispatch()
     }
     setOpen(false);
   };
+
 
   const handleListItemClick = (event, index, route = '') => {
     setSelectedIndex(index);
@@ -155,12 +171,12 @@ const dispatch = useDispatch()
                   <Box sx={{ p: 2 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">Good Morning,</Typography>
-                        <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Johne Doe
+                        <Typography variant="h4">{greeting},</Typography>
+                        <Typography component="span" variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px' }}>
+                          Ajay B
                         </Typography>
                       </Stack>
-                      <Typography variant="subtitle2">Project Admin</Typography>
+                      <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>Admin</Typography>
                     </Stack>
                     {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
