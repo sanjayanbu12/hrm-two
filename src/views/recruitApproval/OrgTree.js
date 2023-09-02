@@ -8,7 +8,7 @@ import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
 import Container from '@mui/material/Container';
-import { Autocomplete, TextField, Typography } from '@mui/material';
+import { Autocomplete, TextField, Tooltip, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
@@ -154,11 +154,11 @@ const OrgTree = () => {
                             <Typography variant="body2">{data.desi}</Typography>
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column' }}>
-                        
+                            <Tooltip title="View">
                               <IconButton onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
                                 <ChevronRightIcon />
                               </IconButton>
-                            
+                            </Tooltip>
                             <IconButton onClick={handleDeleteMan}>
                               <PersonRemoveIcon />
                             </IconButton>
@@ -226,9 +226,11 @@ const OrgTree = () => {
                         </div>
                         <div>
                           {data.employeeid === authId && (
+                            <Tooltip title='view'>
                             <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
                               <ChevronRightIcon />
                             </IconButton>
+                            </Tooltip>
                           )}
                         </div>
                       </Container>
@@ -251,7 +253,6 @@ const OrgTree = () => {
                               paddingLeft: '13px',
                               paddingRight: '21px'
                             }}
-                       
                           >
                             <Container
                               style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -268,7 +269,7 @@ const OrgTree = () => {
                               </div>
                               <div>
                                 {data.employeeid === authId && (
-                                  <IconButton style={{display:'none'}}>
+                                  <IconButton style={{ display: 'none' }}>
                                     <ChevronRightIcon />
                                   </IconButton>
                                 )}
