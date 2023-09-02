@@ -212,14 +212,7 @@ const pages = {
         }
       ]
     },
-    
-    {
-      id: 'payroll',
-      title: 'Payroll',
-      type: 'item',
-      icon: PaidIcon,
-      url: '/payroll'
-    }
+
   ]
 };
 
