@@ -21,7 +21,12 @@ const Logo = () => {
      *
      */
     <>
-    <h2>Square Elite</h2>
+    <div style={{
+      fontWeight:'bold',
+      fontSize:'20px',
+      color:'black',
+      marginBottom:'0px'
+    }}>Square Elite</div>
     </>
     // <svg width="92" height="32" viewBox="0 0 92 32" fill="none" xmlns="http://www.w3.org/2000/svg">
     //   <path

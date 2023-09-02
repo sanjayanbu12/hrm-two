@@ -15,15 +15,17 @@ const csvColumns = ['EmployeeId', 'Name', 'Designation', 'Gender', 'Email', 'Typ
 export const BasicTable = () => {
   const [edata, setedata] = useState([]);
 const navigate=useNavigate()
-  const fetchEmployeesData = async () => {
-    try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
-      const employees = response.data.reverse(); // Reverse the data if needed
-      setedata(employees)
-    } catch (error) {
-      console.log(error)
-    }
-  };
+const fetchEmployees = async () => {
+  try {
+    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
+    setedata(res.data.reverse());
+    dispatch({type: ORG_MEM, payload: res.data});
+    console.log(members);
+  } catch (error) {
+    console.error("An error occurred while fetching employees:", error);
+  }
+};
+
   const handleView = async(e,data) =>{
     const id=data.map(x=>x._id)
     console.log(id[0])

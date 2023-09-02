@@ -1,71 +1,63 @@
-import { Visibility, VisibilityOff } from '@mui/icons-material';
-// import { userSchema } from 'validation/Validation';
+import React, { useState } from 'react';
 import {
   Button,
-  // Stack,
   TextField,
   IconButton,
   InputAdornment,
+  CircularProgress,
   Grid,
 } from '@mui/material';
-import { useState } from 'react';
-// /import { userSchema } from 'validation/Validation';//
-// import * as yup from 'yup';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
-
-// third party
-
-// project imports
-import AnimateButton from 'ui-component/extended/AnimateButton';
 import { useNavigate } from 'react-router';
-
-import { useDispatch } from 'react-redux';
-import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT,AUTH_ID } from 'store/actions';
-// ============================|| FIREBASE - LOGIN ||============================ //
+import { useDispatch, useSelector } from 'react-redux';
+import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT } from 'store/actions';
+import AnimateButton from 'ui-component/extended/AnimateButton';
 
 const AuthLogin = () => {
-
   const [value1, setvalue1] = useState('');
   const [value2, setvalue2] = useState('');
-  // const [data, setData] = useState([]);
   const [error, seterror] = useState({});
-  const [showPassword, setShowPassword] = useState(false); // State variable for password visibility
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); // State variable for loader
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const customization = useSelector((state) => state.customization.loggedIn);
+  const isAdmin = useSelector(state => state.customization.isAuthAdmin);
+  console.log(isAdmin)
+
   const validateLogin = async (e) => {
     e.preventDefault();
-    console.log(value1, value2);
+    setIsLoading(true); // Start loader
+
     try {
-      await axios.post('https://hrm-backend-square.onrender.com/auth/login', {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/auth/login', {
         email: value1,
         password: value2
-      }).then((data) => {
-        console.log(data.data.existingUser.employeeId)
-        dispatch({ type: LOGGED_IN })
-        dispatch({type:AUTH_ID,payload:data.data.existingUser.employeeId})
-        const role = data.data.existingUser.role
-        if (role === 'Admin') {
-          dispatch({ type: ADMIN_OR_NOT })
-          navigate('/dashboard/default');
+      });
 
-        } 
-        else {
-          dispatch({ type: USER_OR_NOT })
-          navigate('/dashboard/default');
-        }
-      })
+      dispatch({ type: LOGGED_IN });
+      const role = response.data.existingUser.role;
+      if (role === 'Admin') {
+        dispatch({ type: ADMIN_OR_NOT });
+        navigate('/dashboard/default');
+      } else {
+        dispatch({ type: USER_OR_NOT });
+        navigate('/dashboard/default');
+      }
 
-    }
-    catch (error) {
+      setIsLoading(false); // Stop loader
+    } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         seterror(error.response.data.error);
       } else {
         seterror('An error occurred');
       }
+
       setTimeout(() => {
-        seterror("")
+        seterror("");
       }, 5000);
+
+      setIsLoading(false); // Stop loader
     }
   };
 
@@ -76,6 +68,7 @@ const AuthLogin = () => {
       email: "",
     }));
   };
+
   const handlePass = (e) => {
     setvalue2(e.target.value);
     seterror((prev) => ({
@@ -87,12 +80,12 @@ const AuthLogin = () => {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
+
   return (
     <div>
-      {/* <form noValidate {...others}> */}
-      <Grid >
+      <Grid>
         <TextField
-          sx={{ mb: 0, height: "8 vh", }}
+          sx={{ mb: 0, height: "8vh" ,marginTop:"0px",marginBottom:"20px"}}
           id="outlined-adornment-email-login"
           label="Email Address"
           variant="outlined"
@@ -113,10 +106,8 @@ const AuthLogin = () => {
       <Grid>
         <TextField
           sx={{
-
-            height: "8 vh",
+            height: "8vh",
             mb: 2,
-
           }}
           InputProps={{
             endAdornment: (
@@ -133,7 +124,7 @@ const AuthLogin = () => {
           required
           fullWidth
           name="password"
-          type={showPassword ? 'text' : 'password'} // Toggle between text and password type
+          type={showPassword ? 'text' : 'password'}
           placeholder="Enter your password"
           autoComplete="current-password"
           error={error && error.password}
@@ -142,33 +133,24 @@ const AuthLogin = () => {
           onChange={(e) => handlePass(e)}
         />
       </Grid>
-
-      {/* <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-          <FormControlLabel
-            control={<Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />}
-            label="Remember me"
-          />
-          <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-            Forgot Password?
-          </Typography>
-        </Stack> */}
-      {/* <Typography color="error" variant="body2" sx={{mb: 1,ml:10.5 }}>
-          {loginError} */}
-
-      {/* </Typography> */}
-      <Grid >
+      <Grid>
         <AnimateButton>
-          <Button disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary"
-            onClick={
-              validateLogin}
+          <Button
+            disableElevation
+            fullWidth
+            size="large"
+            type="submit"
+            variant="contained"
+            color="secondary"
+            onClick={validateLogin}
+            disabled={isLoading}
           >
-            Sign in
+            {isLoading ? <CircularProgress size={24} /> : 'Sign in'}
           </Button>
         </AnimateButton>
       </Grid>
-      {/* </form> */}
     </div>
-  )
+  );
 };
 
 export default AuthLogin;
