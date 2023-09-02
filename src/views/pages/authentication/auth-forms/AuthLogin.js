@@ -41,7 +41,7 @@ const AuthLogin = () => {
         email: value1,
         password: value2
       }).then((data) => {
-        console.log(data.data.existingUser.employeeId)
+        console.log(data.data.existingUser)
         dispatch({ type: LOGGED_IN })
         dispatch({type:AUTH_ID,payload:data.data.existingUser.employeeId})
         const role = data.data.existingUser.role

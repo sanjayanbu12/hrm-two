@@ -79,6 +79,7 @@ const dispatch = useDispatch()
     setOpen(false);
   };
 
+
   const handleListItemClick = (event, index, route = '') => {
     setSelectedIndex(index);
     handleClose(event);
@@ -170,12 +171,12 @@ const dispatch = useDispatch()
                   <Box sx={{ p: 2 }}>
                     <Stack>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">{greeting}</Typography>
-                        <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                          Ajay S
+                        <Typography variant="h4">{greeting},</Typography>
+                        <Typography component="span" variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px' }}>
+                          Ajay B
                         </Typography>
                       </Stack>
-                      <Typography variant="subtitle2">Admin</Typography>
+                      <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>Admin</Typography>
                     </Stack>
                     {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
