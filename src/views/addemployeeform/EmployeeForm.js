@@ -12,7 +12,7 @@ import TableViewIcon from '@mui/icons-material/TableView';
 
 const EmployeeForm = () => {
   // const theme = useTheme();
-  const [name, setName] = useState('');
+  const [name, setName] = useState([]);
   const [lastname, setLastname] = useState('');
   const [gender, setGender] = useState('');
   const [dept, setDept] = useState('');
@@ -34,6 +34,7 @@ const EmployeeForm = () => {
   const [religion, setReligion] = useState('');
   const [regData, setRegData] = useState([]);
   const [edata, setedata] = useState([]);
+  const [AuthData, setAuthData] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
   useEffect(() => {
@@ -41,6 +42,9 @@ const EmployeeForm = () => {
   }, []);
   useEffect(() => {
     fetchRegData();
+  }, []);
+  useEffect(() => {
+    fetchAuthData();
   }, []);
   const handleEmail = (e) => {
     seteMail(e.target.value);
@@ -50,7 +54,9 @@ const EmployeeForm = () => {
     }));
   };
   const handleName = (e) => {
-    setName(e.target.value);
+    const selectedValue = e.target.value;
+    const [id, name] = selectedValue.split(',');
+    setName({ id, name });
     setErrors((prev) => ({
       ...prev,
       name: ''
@@ -129,6 +135,10 @@ const EmployeeForm = () => {
       console.log(error);
     }
   };
+  const fetchAuthData=async()=>{
+    const res =  await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata')
+    setAuthData(res.data.user)
+  }
   const handleJoin = (e) => {
     const selectedDate = e.target.value;
     const currentDate = new Date().toISOString().split('T')[0];
@@ -212,7 +222,6 @@ const EmployeeForm = () => {
   const fetchRegData = async () => {
     const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
     setRegData(res.data.user);
-    console.log(regData);
   };
   useEffect(() => {
     fetch('https://hrm-backend-square.onrender.com/api/getemployee/' + id)
@@ -346,7 +355,7 @@ const EmployeeForm = () => {
     } else {
       try {
         const task = {
-          name,
+          name:name.name,
           lastname,
           gender,
           email,
@@ -361,7 +370,6 @@ const EmployeeForm = () => {
           temaddress,
           bloodgroup,
           join,
-          report,
           fathername,
           nationality,
           religion,
@@ -401,16 +409,20 @@ const EmployeeForm = () => {
           { abortEarly: false }
         );
         const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
-        const newEmployeeId = res.data.data._id // Extract the newly created employee's _id
-        const reportUpdateData = {
-          report: {
-            name: res.data.data.name,
-            id: newEmployeeId
-          }
-        };
-        
-       await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
-  
+        const newEmployeeId = res.data.data._id; // Extract the newly created employee's _id
+        const empId=res.data.data.employeeid
+        await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`,{employeeId:empId})
+        if (report.id) {
+          // Check if report.id exists
+          const reportUpdateData = {
+            report: {
+              name: res.data.data.name,
+              id: newEmployeeId
+            }
+          };
+
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
+        }
         setName('');
         setLastname('');
         setGender('');
@@ -495,17 +507,24 @@ const EmployeeForm = () => {
             </Grid>
 
             <Grid item xs={4}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="First Name"
-                variant="outlined"
-                value={name}
-                error={errors && errors.name}
-                helperText={errors && errors.name}
-                onChange={(e) => handleName(e)}
-              />
-            </Grid>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label">First Name</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="First Name"
+                    onChange={(e) => handleName(e)}
+                  >
+                    {AuthData.map((item) => (
+                      <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
+                        {item.firstname}
+                      </MenuItem>
+                    ))}
+                  </Select>
+
+                  <FormHelperText>{errors && errors.report}</FormHelperText>
+                </FormControl>
+              </Grid>
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}

@@ -19,8 +19,8 @@ import axios from 'axios';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { useNavigate } from 'react-router';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT } from 'store/actions';
+import { useDispatch } from 'react-redux';
+import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT,AUTH_ID } from 'store/actions';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const AuthLogin = () => {
@@ -32,8 +32,6 @@ const AuthLogin = () => {
   const [showPassword, setShowPassword] = useState(false); // State variable for password visibility
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAdmin = useSelector(state => state.customization.isAuthAdmin)
-  console.log(isAdmin)
   // const customization = useSelector((state) => state.customization.loggedIn);
   const validateLogin = async (e) => {
     e.preventDefault();
@@ -43,13 +41,15 @@ const AuthLogin = () => {
         email: value1,
         password: value2
       }).then((data) => {
+        console.log(data.data.existingUser.employeeId)
         dispatch({ type: LOGGED_IN })
+        dispatch({type:AUTH_ID,payload:data.data.existingUser.employeeId})
         const role = data.data.existingUser.role
         if (role === 'Admin') {
           dispatch({ type: ADMIN_OR_NOT })
           navigate('/dashboard/default');
 
-        }
+        } 
         else {
           dispatch({ type: USER_OR_NOT })
           navigate('/dashboard/default');

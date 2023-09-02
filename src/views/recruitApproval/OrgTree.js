@@ -42,14 +42,14 @@ const OrgTree = () => {
       setLoaderStatus(false);
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
-      setorgMems(orgData);   
+      setorgMems(orgData);
       const manId = orgData.map((data) => data.managerName.id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
-      console.log(edata.filter((data) => ids.includes(data._id)))
+      console.log(edata.filter((data) => ids.includes(data._id)));
     } catch (error) {
       console.log(error);
     }
@@ -59,6 +59,7 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
+  
     } catch (error) {
       console.log(error);
     }
@@ -85,16 +86,19 @@ const OrgTree = () => {
         id: data._id
       }
     };
-    await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+    await axios.post('http://localhost:3001/org/createorg', manData);
     fetchOrgData();
   };
   const handleChange = (e, value) => {
     setautoComData(value);
-    console.log(autoComData);
+    
   };
+  useEffect(()=>{
+ console.log(Tier2Data)
+  },[Tier2Data])
   const hanldePost = async () => {
     const membersArray = autoComData.map((data) => {
-      return { name: data.name, id: data._id };
+      return { name: data.name, id: data._id, employeeId: data.employeeid };
     });
     const id = orgMems.map((data) => data._id);
     console.log(membersArray);
@@ -102,48 +106,116 @@ const OrgTree = () => {
       hrName: membersArray,
       managerName: managerData
     });
-    handleModalClose()
+    handleModalClose();
     fetchOrgData();
-
   };
-  const handleDeleteMan=async()=>{
-    const id=orgMems.map(data=>data._id)
-    await axios.delete(`http://localhost:3001/org/deleteorg/${id}`)
+  const handleDeleteMan = async () => {
+    const id = orgMems.map((data) => data._id);
+    await axios.delete(`http://localhost:3001/org/deleteorg/${id}`);
     fetchOrgData();
-  }
+  };
   return (
     <>
-    <MapInteractionCSS>
-      <div>
-        {!loader ? (
-          <Tree
-            lineWidth={'2px'}
-            lineColor={'#F94C10'}
-            lineHeight="80px"
-            lineBorderRadius={'10px'}
-            label={
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                {managerData.length > 0 ? (
-                  managerData.map((data) => (
+      <MapInteractionCSS>
+        <div>
+          {!loader ? (
+            <Tree
+              lineWidth={'2px'}
+              lineColor={'#F94C10'}
+              lineHeight="80px"
+              lineBorderRadius={'10px'}
+              label={
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  {managerData.length > 0 ? (
+                    managerData.map((data) => (
+                      <Card
+                        key={data._id}
+                        style={{
+                          width: '278px',
+                          height: '81px',
+                          backgroundColor: ' #EFE1FB',
+                          display: 'flex',
+                          alignItems: 'center',
+                          paddingLeft: '13px',
+                          paddingRight: '21px'
+                        }}
+                      >
+                        <Container
+                          style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                          disableGutters={true}
+                        >
+                          <div>
+                            <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</Avatar>
+                          </div>
+                          <div>
+                            <Typography variant="h3" fontSize={'18px'}>
+                              {data.name}
+                            </Typography>
+                            <Typography variant="body2">{data.desi}</Typography>
+                          </div>
+                          <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <IconButton onClick={() => navigate('/managerapproval')}>
+                              <ChevronRightIcon />
+                            </IconButton>
+                            <IconButton onClick={handleDeleteMan}>
+                              <PersonRemoveIcon />
+                            </IconButton>
+                          </div>
+                        </Container>
+                      </Card>
+                    ))
+                  ) : (
+                    <Container>
+                      <Card
+                        style={{
+                          width: '278px',
+                          height: '81px',
+                          backgroundColor: ' #EFE1FB',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center'
+                        }}
+                      >
+                        <IconButton onClick={handleMenuOpen}>
+                          <AddIcon />
+                        </IconButton>
+                        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                          {edata.map((data) => (
+                            <MenuItem onClick={() => handleEmp(data)} key={data._id}>
+                              {data.name}
+                            </MenuItem>
+                          ))}
+
+                          {/* Add more menu items as needed */}
+                        </Menu>
+                      </Card>
+                    </Container>
+                  )}
+                </div>
+              }
+            >
+              {Tier2Data.map((data) => (
+                <TreeNode
+                  key={data._id}
+                  label={
                     <Card
-                      key={data._id}
-              
                       style={{
                         width: '278px',
                         height: '81px',
-                        backgroundColor: ' #EFE1FB',
+                        backgroundColor: ' #E1EAFB',
                         display: 'flex',
                         alignItems: 'center',
                         paddingLeft: '13px',
                         paddingRight: '21px'
                       }}
+                      onClick={() => navigate(`/hrapproval/${data.employeeid}`)}
                     >
                       <Container
                         style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
                         disableGutters={true}
                       >
                         <div>
-                          <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0]}</Avatar>
+                          <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</Avatar>
                         </div>
                         <div>
                           <Typography variant="h3" fontSize={'18px'}>
@@ -151,192 +223,170 @@ const OrgTree = () => {
                           </Typography>
                           <Typography variant="body2">{data.desi}</Typography>
                         </div>
-                        <div style={{display:'flex',flexDirection:'column'}}>
-                          <IconButton  onClick={() => navigate('/managerapproval')}>
+                        <div>
+                          <IconButton>
                             <ChevronRightIcon />
                           </IconButton>
-                          <IconButton onClick={handleDeleteMan}>
-                          <PersonRemoveIcon />
-                        </IconButton>
-                        </div>  
+                        </div>
                       </Container>
                     </Card>
-                  ))
-                ) : (
-                  <Container>
-                    <Card
-                      style={{
-                        width: '278px',
-                        height: '81px',
-                        backgroundColor: ' #EFE1FB',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                      }}
-                    >
-                      <IconButton onClick={handleMenuOpen}>
-                        <AddIcon />
-                      </IconButton>
-                      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                        {edata.map((data) => (
-                          <MenuItem onClick={() => handleEmp(data)} key={data._id}>
-                            {data.name}
-                          </MenuItem>
+                  }
+                >
+                  {edata
+                    .filter((item) => item._id === data.report?.id)
+                    .map((x) => (
+                      <TreeNode
+                        key={x._id}
+                        label={
+                          <Card
+                            style={{
+                              width: '278px',
+                              height: '81px',
+                              backgroundColor: ' #E1EAFB',
+                              display: 'flex',
+                              alignItems: 'center',
+                              paddingLeft: '13px',
+                              paddingRight: '21px'
+                            }}
+                            onClick={() => navigate('/hrapproval')}
+                          >
+                            <Container
+                              style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                              disableGutters={true}
+                            >
+                              <div>
+                                <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{x.name[0].toUpperCase()}</Avatar>
+                              </div>
+                              <div>
+                                <Typography variant="h3" fontSize={'18px'}>
+                                  {x.name}
+                                </Typography>
+                                <Typography variant="body2">{x.desi}</Typography>
+                              </div>
+                              <div>
+                                <IconButton>
+                                  <ChevronRightIcon />
+                                </IconButton>
+                              </div>
+                            </Container>
+                          </Card>
+                        }
+                      >
+                        {edata.filter((tier2)=>tier2._id===x.report?.id).map(y=>(
+                          <TreeNode
+                          key={y._id}
+                          label={
+                            <Card
+                              style={{
+                                width: '278px',
+                                height: '81px',
+                                backgroundColor: ' #E1EAFB',
+                                display: 'flex',
+                                alignItems: 'center',
+                                paddingLeft: '13px',
+                                paddingRight: '21px'
+                              }}
+                              onClick={() => navigate('/hrapproval')}
+                            >
+                              <Container
+                                style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                                disableGutters={true}
+                              >
+                                <div>
+                                  <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{y.name[0].toUpperCase()}</Avatar>
+                                </div>
+                                <div>
+                                  <Typography variant="h3" fontSize={'18px'}>
+                                    {y.name}
+                                  </Typography>
+                                  <Typography variant="body2">{y.desi}</Typography>
+                                </div>
+                                <div>
+                                  <IconButton>
+                                    <ChevronRightIcon />
+                                  </IconButton>
+                                </div>
+                              </Container>
+                            </Card>
+                          }
+                        />
                         ))}
+                        
+                      </TreeNode>
+                    ))}
+                </TreeNode>
+              ))}
 
-                        {/* Add more menu items as needed */}
-                      </Menu>
-                    </Card>
-                  </Container>
-                )}
-              </div>
-            }
-          >
-            {Tier2Data.map((data) => (
               <TreeNode
-                key={data._id}
                 label={
                   <Card
                     style={{
-                      width: '278px',
                       height: '81px',
                       backgroundColor: ' #E1EAFB',
                       display: 'flex',
                       alignItems: 'center',
                       paddingLeft: '13px',
-                      paddingRight: '21px'
+                      paddingRight: '21px',
+                      width: '100%'
                     }}
-                    onClick={() => navigate('/hrapproval')}
+                    onClick={handleModalOpen}
                   >
                     <Container
-                      style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                      style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
                       disableGutters={true}
                     >
-                      <div>
-                        <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0]}</Avatar>
-                      </div>
-                      <div>
-                        <Typography variant="h3" fontSize={'18px'}>
-                          {data.name}
-                        </Typography>
-                        <Typography variant="body2">{data.desi}</Typography>
-                      </div>
-                      <div>
-                        <IconButton>
-                          <ChevronRightIcon />
-                        </IconButton>
-                      </div>
-                    </Container>  
+                      <IconButton style={{ height: '100vh', margin: '0 auto' }}>
+                        <AddIcon />
+                      </IconButton>
+                    </Container>
                   </Card>
                 }
-              >
-                {edata.filter(item=>item._id===data.report.id).map(
-                  x=>(
-                    <TreeNode  key={x._id}
-                    label={
-                      <Card
-                                             style={{
-                         width: '278px',
-                         height: '81px',
-                         backgroundColor: ' #E1EAFB',
-                         display: 'flex',
-                         alignItems: 'center',
-                         paddingLeft: '13px',
-                         paddingRight: '21px'
-                       }}
-                       onClick={() => navigate('/hrapproval')}
-                     >
-                       <Container
-                         style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                         disableGutters={true}
-                       >
-                         <div>
-                           <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{x.name[0]}</Avatar>
-                         </div>
-                         <div>
-                           <Typography variant="h3" fontSize={'18px'}>
-                             {x.name}
-                           </Typography>
-                           <Typography variant="body2">{x.desi}</Typography>
-                         </div>
-                         <div>
-                           <IconButton>
-                             <ChevronRightIcon />
-                           </IconButton>
-                         </div>
-                       </Container>
-                     </Card>
-                   }/>
-                  )
-                )}
-            
-              </TreeNode>
-            ))}
-
-            <TreeNode
-              label={
-                <Card
-                  style={{
-                    height: '81px',
-                    backgroundColor: ' #E1EAFB',
-                    display: 'flex',
-                    alignItems: 'center',
-                    paddingLeft: '13px',
-                    paddingRight: '21px',
-                    width: '100%'
-                  }}
-                  onClick={handleModalOpen}
-                >
-                  <Container
-                    style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
-                    disableGutters={true}
-                  >
-                    <IconButton style={{height:'100vh',margin:'0 auto'}}>
-                      <AddIcon />
-                    </IconButton>
-                   
-                  </Container>
-                </Card>
-              }
-            />
-          </Tree>
-        ) : (
-          <CircularProgress sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}></CircularProgress>
-        )}
-      </div>
-    </MapInteractionCSS>
-     
-    <Modal open={isModalOpen} onClose={handleModalClose} style={{
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height:'100vh',
-    width:'100%'
-  }}>
-    <MainCard title='Add Members' style={{width:"50%",display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center'}}>
-    <Card  style={{width:'300px' }}>
-      <Autocomplete
-        
-        multiple
-        id="tags-outlined"
-        options={edata.filter((option)=>
-          !managerData.some(data=>data._id===option._id)
-          && !Tier2Data.some(tierMem=>tierMem._id===option._id)
+              />
+            </Tree>
+          ) : (
+            <CircularProgress sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}></CircularProgress>
           )}
-        getOptionLabel={(option) => option.name}
-        defaultValue={[]}
-        onChange={handleChange}
-        filterSelectedOptions
-        renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
-      />
-  
-    <div style={{ marginTop: '10px', textAlign: 'right',width:'50%' }}>
-      <Button onClick={hanldePost} style={{width:'300px'}}>Add</Button>
-    </div>
-    </Card>
-  </MainCard>
-  </Modal>
-</>
+        </div>
+      </MapInteractionCSS>
+
+      <Modal
+        open={isModalOpen}
+        onClose={handleModalClose}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100vh',
+          width: '100%'
+        }}
+      >
+        <MainCard
+          title="Add Members"
+          style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Card style={{ width: '300px' }}>
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              options={edata.filter(
+                (option) => !managerData.some((data) => data._id === option._id) && !Tier2Data.some((tierMem) => tierMem._id === option._id)
+              )}
+              getOptionLabel={(option) => option.name}
+              defaultValue={[]}
+              onChange={handleChange}
+              filterSelectedOptions
+              renderInput={(params) => <TextField {...params} label="Add Employees" placeholder="Add" />}
+            />
+
+            <div style={{ marginTop: '10px', textAlign: 'right', width: '50%' }}>
+              <Button onClick={hanldePost} style={{ width: '300px' }}>
+                Add
+              </Button>
+            </div>
+          </Card>
+        </MainCard>
+      </Modal>
+    </>
   );
 };
 

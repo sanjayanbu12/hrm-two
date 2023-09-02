@@ -29,8 +29,10 @@ const RecruitmentForm = () => {
   const [Clientcompany, setClientcompany] = useState('');
   const [Hrname, setHrname] = useState('');
   const [Hrcontact, setHrcontact] = useState('');
+  const [proct, setproct] = useState([]);
   const [Interviewrounds, setInterviewrounds] = useState('');
    const [Interview, setInterview] = useState([]);
+   const [orgData, setOrgData] = useState([]);
   const [Education, setEducation] = useState('');
   const [Location, setLocation] = useState('');
   const [Emp, setEmp] = useState([]);
@@ -88,6 +90,18 @@ const RecruitmentForm = () => {
 
   const handleHrname = (e,value) => {
     setHrname(value.join(','));
+    setErrors((prev) => ({
+      ...prev,
+      Hrname: ''
+    }));
+  };
+  const handleProct = (e,value) => {
+    const selectedData = value.map(item => ({
+      name: item.name,
+      id: item.id
+    }));
+    setproct(selectedData)
+    console.log(proct)
     setErrors((prev) => ({
       ...prev,
       Hrname: ''
@@ -242,7 +256,15 @@ const RecruitmentForm = () => {
 useEffect(()=>{
   fetchEmp()
 },[]);
+useEffect(()=>{
+  fetchOrgData()
+},[]);
 
+const fetchOrgData = async () =>{
+  const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
+  setOrgData(response.data.orgData.map(x=>x.hrName))
+  console.log(response.data.orgData.map(x=>x.hrName))
+}
 const fetchEmp=async()=>{
   try {
     const res =await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
@@ -405,7 +427,8 @@ console.log(Emplist)
           Skills,
           Education,
           Year,
-          Location
+          Location,
+          orgData:proct
         };
         console.log('task', task);
 
@@ -756,6 +779,26 @@ console.log(Emplist)
                 <FormHelperText>{errors && errors.Hrname}</FormHelperText>
               </FormControl>
             </Grid>
+            <Grid item xs={12} sm={6} md={4} lg={3}>
+  <FormControl sx={{ minWidth: '100%' }}>
+    <InputLabel id="demo-simple-select-label"></InputLabel>
+    {orgData && orgData[0] ? (
+      <Autocomplete
+        multiple
+        id="tags-outlined"
+        options={orgData[0]}
+        getOptionLabel={(option) => option.name}
+        defaultValue={[]}
+        onChange={handleProct}
+        filterSelectedOptions
+        renderInput={(params) => <TextField {...params} label="Add Proctared" placeholder="Add" />}
+      />
+    ) : (
+      <div>Loading or no data available.</div>
+    )}
+  </FormControl>
+</Grid>
+
             <Grid item xs={12} sm={6} md={4} lg={3}>
               <FormControl sx={{ minWidth: '100%' }}>
                 <InputLabel id="demo-simple-select-label"></InputLabel>
