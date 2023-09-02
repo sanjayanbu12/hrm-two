@@ -245,7 +245,7 @@ const OrgTree = () => {
                             style={{
                               width: '278px',
                               height: '81px',
-                              backgroundColor: ' #E1EAFB',
+                              backgroundColor: ' #D8B4F8',
                               display: 'flex',
                               alignItems: 'center',
                               paddingLeft: '13px',
@@ -287,7 +287,7 @@ const OrgTree = () => {
                                   style={{
                                     width: '278px',
                                     height: '81px',
-                                    backgroundColor: ' #E1EAFB',
+                                    backgroundColor: ' #9ED2BE',
                                     display: 'flex',
                                     alignItems: 'center',
                                     paddingLeft: '13px',
