@@ -103,12 +103,6 @@ const pages = {
           type: 'item',
           url: '/basictable'
         }
-        // {
-        //   id: 'employeeperformance',
-        //   title: 'Employee Performance',
-        //   type: 'item',
-        //   url: '/employeeperformance'
-        // }
       ]
     },
 
@@ -172,7 +166,6 @@ const pages = {
           type: 'item',
           url: '/CourseOverview'
         },
-
       ]
     },
 
@@ -222,7 +215,6 @@ const pages = {
         }
       ]
     },
-
   ]
 };
 
