@@ -154,11 +154,11 @@ const OrgTree = () => {
                             <Typography variant="body2">{data.desi}</Typography>
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            {data.employeeid === authId && (
+                        
                               <IconButton onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
                                 <ChevronRightIcon />
                               </IconButton>
-                            )}
+                            
                             <IconButton onClick={handleDeleteMan}>
                               <PersonRemoveIcon />
                             </IconButton>
