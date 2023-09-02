@@ -39,13 +39,10 @@ const HrApproval = () => {
       const filteredData = res.data.getData.filter((item) => {
         const hrNames = item.orgData.map((orgItem) => orgItem.id);
         const edataId = edata.filter((d) => hrNames.includes(d._id));
-        console.log(hrNames)
-        // Check if at least one user in 'edataId' has 'approval.hr' set to false
-        const hasUnapprovedHr = edataId.some((user) => user.approval.hr === false);
-  
+        const hasUnapprovedHr = edataId.some((user) => user.approval.hr === false)
+        const hrApprovalIsFalse = item.approvalstatus.hr === false;
         const empID = edataId.map((z) => z.employeeid);
-     console.log(empID)
-        return empID.includes(authId) && empID.includes(id) && hasUnapprovedHr;
+        return empID.includes(authId) && empID.includes(id) && hasUnapprovedHr && hrApprovalIsFalse;
       });
       setRecData(filteredData);
     } catch (error) {
