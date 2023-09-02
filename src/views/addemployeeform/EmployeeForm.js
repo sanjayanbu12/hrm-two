@@ -467,23 +467,24 @@ const EmployeeForm = () => {
   };
 
   return (
+<div>
+    <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+    <Button
+      onClick={() => navigate(`/basictable`)}
+      sx={{
+        background: 'rgba(33, 150, 243, 0.04)',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginTop: '0px',
+        marginBottom: '0px'
+      }}
+    >
+      <TableViewIcon />
+      Employee List
+    </Button>
+  </Box>
     <MainCard title="Employee Information">
-      <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-        <Button
-          onClick={() => navigate(`/basictable`)}
-          sx={{
-            padding: 1.5,
-            background: 'rgba(33, 150, 243, 0.04)',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '0px',
-            marginBottom: '5px'
-          }}
-        >
-          <TableViewIcon />
-          Employee List
-        </Button>
-      </Box>
+     
       <form>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
@@ -852,6 +853,7 @@ const EmployeeForm = () => {
         </Box>
       </form>
     </MainCard>
+    </div>
   );
 };
 

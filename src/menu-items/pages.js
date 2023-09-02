@@ -70,7 +70,6 @@ const pages = {
           type: 'item',
           url: '/interviewboard'
         },
-
       ]
     },
 
@@ -93,22 +92,7 @@ const pages = {
           type: 'item',
           url: '/basictable'
         }
-        // {
-        //   id: 'employeeperformance',
-        //   title: 'Employee Performance',
-        //   type: 'item',
-        //   url: '/employeeperformance'
-        // }
       ]
-    },
-
-
-    {
-      id: 'employeeengagement',
-      title: 'Employee Engagement & Surveys',
-      icon: EmojiEmotionsIcon,
-      type: 'item',
-      url: '/employeeengagement'
     },
 
     {
@@ -171,7 +155,6 @@ const pages = {
           type: 'item',
           url: '/CourseOverview'
         },
-
       ]
     },
 
@@ -221,22 +204,6 @@ const pages = {
         }
       ]
     },
-
-    {
-      id: 'learninganddevelopment',
-      title: 'Learning & Development',
-      type: 'item',
-      icon: AllOutIcon,
-      url: '/learninganddevelopment'
-    },
-    
-    {
-      id: 'payroll',
-      title: 'Payroll',
-      type: 'item',
-      icon: PaidIcon,
-      url: '/payroll'
-    }
   ]
 };
 
