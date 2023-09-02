@@ -52,6 +52,7 @@ const dispatch = useDispatch()
   const handleLogout = async () => {
     dispatch({type:LOGGED_OUT})
     dispatch({type:USER_OR_NOT})
+    localStorage.clear()
     navigate('/pages/login/login3');
     
   };

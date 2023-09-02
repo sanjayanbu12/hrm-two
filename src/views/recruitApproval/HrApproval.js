@@ -18,7 +18,6 @@ const HrApproval = () => {
   const {id} = useParams()
   console.log(id)
   const authId=useSelector(state=>state.customization.authId)
-  console.log(authId)
   useEffect(() => {
     fetchData();
   }, [edata]);
@@ -35,20 +34,25 @@ const HrApproval = () => {
     fetchDataOnMount();
   },[])
   const fetchData = async () => {
-  try {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-    const filteredData = res.data.getData.filter((item) => {
-      const hrNames = item.orgData.map((orgItem) => orgItem.id);
-      const edataId=edata.filter(d=>d._id==hrNames)
-      const empID=(edataId.map(z=>z.employeeid))
-      console.log(empID)
-      return empID.includes(authId) &&  empID.includes(id); // Replace 'YourLoggedInUserName' with the actual logged-in user's name
-    });
-    setRecData(filteredData);
-  } catch (error) {
-    console.log(error)
-  }
+    try {
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const filteredData = res.data.getData.filter((item) => {
+        const hrNames = item.orgData.map((orgItem) => orgItem.id);
+        const edataId = edata.filter((d) => hrNames.includes(d._id));
+        console.log(hrNames)
+        // Check if at least one user in 'edataId' has 'approval.hr' set to false
+        const hasUnapprovedHr = edataId.some((user) => user.approval.hr === false);
+  
+        const empID = edataId.map((z) => z.employeeid);
+     console.log(empID)
+        return empID.includes(authId) && empID.includes(id) && hasUnapprovedHr;
+      });
+      setRecData(filteredData);
+    } catch (error) {
+      console.log(error);
+    }
   };
+  
   const handleClick = (id)=>{
     navigate(`/recruitmentview/${id}`)
   }

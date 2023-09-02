@@ -20,6 +20,7 @@ import { Button } from 'antd';
 import Modal from '@mui/material/Modal';
 import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,7 +37,8 @@ const OrgTree = () => {
   useEffect(() => {
     fetchEmployeesData();
   }, []);
-
+  const authId = useSelector((state) => state.customization.authId);
+  console.log(authId);
   const fetchOrgData = async () => {
     try {
       setLoaderStatus(false);
@@ -59,7 +61,6 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
-  
     } catch (error) {
       console.log(error);
     }
@@ -91,11 +92,10 @@ const OrgTree = () => {
   };
   const handleChange = (e, value) => {
     setautoComData(value);
-    
   };
-  useEffect(()=>{
- console.log(Tier2Data)
-  },[Tier2Data])
+  useEffect(() => {
+    console.log(Tier2Data);
+  }, [Tier2Data]);
   const hanldePost = async () => {
     const membersArray = autoComData.map((data) => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
@@ -154,9 +154,11 @@ const OrgTree = () => {
                             <Typography variant="body2">{data.desi}</Typography>
                           </div>
                           <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <IconButton onClick={() => navigate('/managerapproval')}>
-                              <ChevronRightIcon />
-                            </IconButton>
+                            {data.employeeid === authId && (
+                              <IconButton onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
+                                <ChevronRightIcon />
+                              </IconButton>
+                            )}
                             <IconButton onClick={handleDeleteMan}>
                               <PersonRemoveIcon />
                             </IconButton>
@@ -208,7 +210,6 @@ const OrgTree = () => {
                         paddingLeft: '13px',
                         paddingRight: '21px'
                       }}
-                      onClick={() => navigate(`/hrapproval/${data.employeeid}`)}
                     >
                       <Container
                         style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -224,9 +225,11 @@ const OrgTree = () => {
                           <Typography variant="body2">{data.desi}</Typography>
                         </div>
                         <div>
-                          <IconButton>
-                            <ChevronRightIcon />
-                          </IconButton>
+                          {data.employeeid === authId && (
+                            <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
+                              <ChevronRightIcon />
+                            </IconButton>
+                          )}
                         </div>
                       </Container>
                     </Card>
@@ -248,7 +251,7 @@ const OrgTree = () => {
                               paddingLeft: '13px',
                               paddingRight: '21px'
                             }}
-                            onClick={() => navigate('/hrapproval')}
+                       
                           >
                             <Container
                               style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -264,54 +267,58 @@ const OrgTree = () => {
                                 <Typography variant="body2">{x.desi}</Typography>
                               </div>
                               <div>
-                                <IconButton>
-                                  <ChevronRightIcon />
-                                </IconButton>
+                                {data.employeeid === authId && (
+                                  <IconButton style={{display:'none'}}>
+                                    <ChevronRightIcon />
+                                  </IconButton>
+                                )}
                               </div>
                             </Container>
                           </Card>
                         }
                       >
-                        {edata.filter((tier2)=>tier2._id===x.report?.id).map(y=>(
-                          <TreeNode
-                          key={y._id}
-                          label={
-                            <Card
-                              style={{
-                                width: '278px',
-                                height: '81px',
-                                backgroundColor: ' #E1EAFB',
-                                display: 'flex',
-                                alignItems: 'center',
-                                paddingLeft: '13px',
-                                paddingRight: '21px'
-                              }}
-                              onClick={() => navigate('/hrapproval')}
-                            >
-                              <Container
-                                style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                                disableGutters={true}
-                              >
-                                <div>
-                                  <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{y.name[0].toUpperCase()}</Avatar>
-                                </div>
-                                <div>
-                                  <Typography variant="h3" fontSize={'18px'}>
-                                    {y.name}
-                                  </Typography>
-                                  <Typography variant="body2">{y.desi}</Typography>
-                                </div>
-                                <div>
-                                  <IconButton>
-                                    <ChevronRightIcon />
-                                  </IconButton>
-                                </div>
-                              </Container>
-                            </Card>
-                          }
-                        />
-                        ))}
-                        
+                        {edata
+                          .filter((tier2) => tier2._id === x.report?.id)
+                          .map((y) => (
+                            <TreeNode
+                              key={y._id}
+                              label={
+                                <Card
+                                  style={{
+                                    width: '278px',
+                                    height: '81px',
+                                    backgroundColor: ' #E1EAFB',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    paddingLeft: '13px',
+                                    paddingRight: '21px'
+                                  }}
+                                >
+                                  <Container
+                                    style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                                    disableGutters={true}
+                                  >
+                                    <div>
+                                      <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{y.name[0].toUpperCase()}</Avatar>
+                                    </div>
+                                    <div>
+                                      <Typography variant="h3" fontSize={'18px'}>
+                                        {y.name}
+                                      </Typography>
+                                      <Typography variant="body2">{y.desi}</Typography>
+                                    </div>
+                                    <div>
+                                      {data.employeeid === authId && (
+                                        <IconButton>
+                                          <ChevronRightIcon />
+                                        </IconButton>
+                                      )}
+                                    </div>
+                                  </Container>
+                                </Card>
+                              }
+                            />
+                          ))}
                       </TreeNode>
                     ))}
                 </TreeNode>
