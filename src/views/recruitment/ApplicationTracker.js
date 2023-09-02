@@ -216,7 +216,7 @@ const ApplicationTracker = () => {
     </ThemeProvider>
     
   );
- 
+
 };
 
 export default ApplicationTracker;

@@ -167,7 +167,7 @@ const navigate=useNavigate()
     <ThemeProvider theme={theme}>
       {Loader? (<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):(
     <MaterialTable
-      title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Recruitment Table</div>}
+      title={<div style={{fontSize:'20px',marginTop:'10px',marginBottom:'10px'}}>Job Description Table</div>}
       columns={columns}
       data={Adata}
       icons={tableIcons}
