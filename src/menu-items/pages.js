@@ -102,15 +102,6 @@ const pages = {
       ]
     },
 
-
-    {
-      id: 'employeeengagement',
-      title: 'Employee Engagement & Surveys',
-      icon: EmojiEmotionsIcon,
-      type: 'item',
-      url: '/employeeengagement'
-    },
-
     {
       id: 'leavemanagement',
       title: 'Time and Attendance',
