@@ -6,7 +6,6 @@ import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
-import ApexChart from './ApexChart';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -78,24 +77,28 @@ const Dashboard = () => {
     //   </div>
 
     <div style={{ overflow: 'hidden' }}>
+
+<Grid container spacing={gridSpacing}>
+        <Grid item xs={12} md={8}>
+          <Upcomingevents isLoading={isLoading} />
+        </Grid>
+        <Grid item xs={12} md={4}>
+            <PopularCard isLoading={isLoading} />
+          </Grid>
+        </Grid>
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
             <TotalGrowthBarChart isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
-          </Grid>
+          
         </Grid>
       </Grid>
 
       <Grid container spacing={gridSpacing}>
-        <Grid item xs={12} md={8}>
-          <Upcomingevents isLoading={isLoading} />
-        </Grid>
-        <Grid item xs={12} md={3}>
+        {/* <Grid item xs={12} md={3}>
           <ApexChart isLoading={isLoading} />
-        </Grid>
+        </Grid> */}
       </Grid>
       <ToastContainer />
     </div>

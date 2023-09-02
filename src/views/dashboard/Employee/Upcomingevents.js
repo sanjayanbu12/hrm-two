@@ -5,6 +5,7 @@ import { Card,CardContent, Grid, Typography, Button } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+// import { useTheme } from '@mui/material/styles';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';

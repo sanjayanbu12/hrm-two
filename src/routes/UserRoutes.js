@@ -13,8 +13,9 @@ import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import NotFound404 from './NotFound404';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
+import EmployeeLogin from 'views/employeeselfservices/EmployeeLogin';
 // dashboard routing
-const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
+const DashboardEmployee = Loadable(lazy(() => import('views/dashboard/Employee')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -24,14 +25,14 @@ const MainRoutes = {
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
+      element: <DashboardEmployee />
     },
     {
       path: 'dashboard',
       children: [
         {
           path: 'default',
-          element: <DashboardDefault />
+          element: <DashboardEmployee />
         }
       ]
     },
@@ -81,7 +82,11 @@ const MainRoutes = {
     {
       path: '/newevent',
       element: <Newevent />
-    }
+    },
+    {
+      path: '/employeedomain',
+      element: <EmployeeLogin />
+    },
   ]
 };
 
