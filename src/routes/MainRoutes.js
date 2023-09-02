@@ -197,7 +197,7 @@ const MainRoutes = {
       element: <HrApproval />
     },
     {
-      path: '/managerapproval',
+      path: '/managerapproval/:id',
       element: <ManagerApproval />
     }
    
