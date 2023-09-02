@@ -15,7 +15,8 @@ const columns = [
   { title: 'Email', field: 'Email', sorting: false, editable: false },
   { title: 'Resume', field: 'Resume', sorting: false, editable: false },
   { title: 'Photo', field: 'Photo', sorting: false, editable: false },
-  { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false}
+  { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false},
+  {title:'Rating', field: 'roundrating', sorting: false, editable: false}
 ];
 
 const Shortlist = () => {
@@ -82,18 +83,26 @@ const Shortlist = () => {
     fetchRec();
   }, []);
 
+ let rating,roundrating;
+
   useEffect(() => {
     const matched = [];
     Adata.forEach(data => {
       const matchingRole = fil.find(role => role.Jobrole.toLowerCase() == data.position.toLowerCase());
       if (matchingRole) {
         const a = matchingRole.Skills;
+        const skilllength=a[0].split(',').length
         const b = data.skills;
         const aSkills = a[0].split(',').map(skill => skill.trim());
         const bSkills = b[0].split(',').map(skill => skill.trim());
         console.log(aSkills)
         const commonSkills = aSkills.filter(skill => bSkills.includes(skill));
-        console.log(commonSkills);
+        const commonskilllength=commonSkills.length
+        rating = (commonskilllength/skilllength)*10
+        roundrating=rating.toFixed(1)
+       
+        console.log(roundrating +' rating')
+
         if (commonSkills.length > 0) {
           matched.push({
             _id:data._id,
@@ -111,7 +120,8 @@ const Shortlist = () => {
             Experience:data.experience,
             College:data.college,
             sslc:data.sslc,
-            hsc:data.hsc
+            hsc:data.hsc,
+            roundrating:roundrating
 
           });
         }
@@ -120,6 +130,9 @@ const Shortlist = () => {
     console.log(matched);
     setMatchedResults(matched);
   }, [Adata, fil]);
+
+
+
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
