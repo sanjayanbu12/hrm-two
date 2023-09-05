@@ -744,8 +744,6 @@ console.log(Emplist)
                   id="demo-simple-select"
                   label="Client Name"
                   value={Clientname}
-                  error={errors && errors.Clientname}
-                  helperText={errors && errors.Clientname}
                   onChange={(e) => handleClientname(e)}
                 />
               </FormControl>
@@ -758,8 +756,6 @@ console.log(Emplist)
                   id="demo-simple-select"
                   label="Client Company"
                   value={Clientcompany}
-                  error={errors && errors.Clientcompany}
-                  helperText={errors && errors.Clientcompany}
                   onChange={(e) => handleClientcompany(e)}
                 />
               </FormControl>
@@ -808,8 +804,6 @@ console.log(Emplist)
                   label="HR Contact No"
                   type='tel'
                   value={Hrcontact}
-                  error={errors && errors.Hrcontact}
-                  helperText={errors && errors.Hrcontact}
                   inputProps={{
                     maxLength:10,
                   }}

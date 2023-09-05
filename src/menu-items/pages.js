@@ -10,6 +10,8 @@ import PaidIcon from '@mui/icons-material/Paid';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CameraFrontIcon from '@mui/icons-material/CameraFront';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+import InsightsIcon from '@mui/icons-material/Insights';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -24,7 +26,8 @@ const icons = {
   AllOutIcon,
   PaidIcon,
   EmojiEmotionsIcon,
-  CameraFrontIcon
+  CameraFrontIcon,
+  PersonSearchIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -56,7 +59,7 @@ const pages = {
           title: 'Application Tracker',
           type: 'collapse',
           url: '/applicationtracker',
-          icon: icons.AccountTreeOutlinedIcon,
+          icon: icons.PersonSearchIcon,
           children:[
             {
               id: 'applicationtracker',
