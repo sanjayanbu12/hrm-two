@@ -20,8 +20,9 @@ import { Button } from 'antd';
 import Modal from '@mui/material/Modal';
 import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
-import styled from 'styled-components';
 
+import { StyledNode, } from './Const';
+import { StyledNodeManager   } from './Const';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
@@ -40,19 +41,7 @@ const OrgTree = () => {
     fetchEmployeesData();
   }, []);
   const authId = useSelector((state) => state.customization.authId);
-  const StyledNode = styled.div`
-  padding: 5px;
-  border-radius: 8px;
-  display: inline-block;
-  border: 1px solid red;
-  width: '278px';
-   height: '81px';
-   backgroundColor: ' #EFE1FB';
-                          display: 'flex';
-                          alignItems: 'center';
-                          paddingLeft: '13px';
-                          paddingRight: '21px';
-`;
+
 
   const fetchOrgData = async () => {
     try {
@@ -143,7 +132,7 @@ const OrgTree = () => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   {managerData.length > 0 ? (
                     managerData.map((data) => (
-                      <StyledNode key={data._id}
+                      <StyledNodeManager key={data._id}
                       >
                         <Container
                           style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -169,14 +158,11 @@ const OrgTree = () => {
                             </IconButton>
                           </div>
                         </Container>
-                      </StyledNode>
+                      </StyledNodeManager>
                     ))
                   ) : (
                     <Container>
-                      <Card 
-
-                        
-                      >
+                      <Card>
                         <IconButton onClick={handleMenuOpen}>
                           <AddIcon />
                         </IconButton>
@@ -199,17 +185,8 @@ const OrgTree = () => {
                 <TreeNode
                   key={data._id}
                   label={
-                    <Card
-                      style={{
-                        width: '278px',
-                        height: '81px',
-
-                        backgroundColor: ' #E1EAFB',
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingLeft: '13px',
-                        paddingRight: '21px'
-                      }}
+                    <StyledNode
+               
                     >
                       <Container
                         style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -234,7 +211,7 @@ const OrgTree = () => {
                           )}
                         </div>
                       </Container>
-                    </Card>
+                    </StyledNode>
                   }
                 >
                   {edata
@@ -243,16 +220,8 @@ const OrgTree = () => {
                       <TreeNode
                         key={x._id}
                         label={
-                          <Card
-                            style={{
-                              width: '278px',
-                              height: '81px',
-                              backgroundColor: ' #D8B4F8',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingLeft: '13px',
-                              paddingRight: '21px'
-                            }}
+                          <StyledNode
+                       
                           >
                             <Container
                               style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -275,7 +244,7 @@ const OrgTree = () => {
                                 )}
                               </div>
                             </Container>
-                          </Card>
+                          </StyledNode>
                         }
                       >
                         {edata
@@ -284,16 +253,8 @@ const OrgTree = () => {
                             <TreeNode
                               key={y._id}
                               label={
-                                <Card
-                                  style={{
-                                    width: '278px',
-                                    height: '81px',
-                                    backgroundColor: ' #9ED2BE',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    paddingLeft: '13px',
-                                    paddingRight: '21px'
-                                  }}
+                                <StyledNode
+                               
                                 >
                                   <Container
                                     style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -316,7 +277,7 @@ const OrgTree = () => {
                                       )}
                                     </div>
                                   </Container>
-                                </Card>
+                                </StyledNode>
                               }
                             />
                           ))}
