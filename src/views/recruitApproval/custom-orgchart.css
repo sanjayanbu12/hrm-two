@@ -48,11 +48,13 @@
   /* Apply animation to top border line */
   #initechOrgChart .nodeLineBorderTop {
     border-top: solid 3px red;
-    transition: all 0.3s ease; /* Add animation to line style changes */
+    transition: all 0.3s ease; 
+
+    /* Add animation to line style changes */
   }
   
   /* Apply animation on hover */
   #initechOrgChart .nodeLineBorderTop:hover {
     border-color: blue; /* Change line color on hover */
+    
   }
-  
