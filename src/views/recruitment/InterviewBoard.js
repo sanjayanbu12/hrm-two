@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
-import { Card, CardContent, CardHeader, Grid, Paper } from '@mui/material';
+import { Card, CardContent, CardHeader, Paper } from '@mui/material';
 import { Typography } from 'antd';
 
 const InterviewBoard = () => {
@@ -73,138 +73,38 @@ const InterviewBoard = () => {
 console.log(matchedResults);
 
   return (
-    <MainCard title="Interview Board">
-    <Grid container spacing={3}>
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper elevation={3} sx={{ padding: '16px' }}>
-          <CardHeader title="Shortlist" sx={{ color: '#00695f',marginBottom:'-30px',marginTop:'-20px' }} />
-          <CardContent>
-            {matchedResults.map((x) => (
-              <Card
-                key={x._id}
-                sx={{
-                  marginTop: '10px',
-                  backgroundColor: 'lightblue',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {x.Name}
-                </Typography>
-                <Typography variant="body2">{x.Jobrole}</Typography>
-              </Card>
-            ))}
-          </CardContent>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper elevation={3} sx={{ padding: '16px' }}>
-          <CardHeader title="Interviewed" sx={{ color: '#00695f',marginBottom:'-30px',marginTop:'-20px' }} />
-          <CardContent>
-            {matchedResults.map((x) => (
-              <Card
-                key={x._id}
-                sx={{
-                  marginTop: '10px',
-                  backgroundColor: 'lightblue',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {x.Name}
-                </Typography>
-                <Typography variant="body2">{x.Jobrole}</Typography>
-              </Card>
-            ))}
-          </CardContent>
-        </Paper>
-      </Grid>
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper elevation={3} sx={{ padding: '16px' }}>
-          <CardHeader title="Selected" sx={{ color: '#00695f',marginBottom:'-30px',marginTop:'-20px' }} />
-          <CardContent>
-            {matchedResults.map((x) => (
-              <Card
-                key={x._id}
-                sx={{
-                  marginTop: '10px',
-                  backgroundColor: 'lightblue',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {x.Name}
-                </Typography>
-                <Typography variant="body2">{x.Jobrole}</Typography>
-              </Card>
-            ))}
-          </CardContent>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper elevation={3} sx={{ padding: '16px' }}>
-          <CardHeader title="On Hold" sx={{ color: '#00695f',marginBottom:'-30px',marginTop:'-20px' }} />
-          <CardContent>
-            {matchedResults.map((x) => (
-              <Card
-                key={x._id}
-                sx={{
-                  marginTop: '10px',
-                  backgroundColor: 'lightblue',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {x.Name}
-                </Typography>
-                <Typography variant="body2">{x.Jobrole}</Typography>
-              </Card>
-            ))}
-          </CardContent>
-        </Paper>
-      </Grid>
-
-      <Grid item xs={12} sm={6} md={3}>
-        <Paper elevation={3} sx={{ padding: '16px' }}>
-          <CardHeader title="Rejected" sx={{ color: '#00695f' ,marginBottom:'-30px',marginTop:'-20px'}} />
-          <CardContent>
-            {matchedResults.map((x) => (
-              <Card
-                key={x._id}
-                sx={{
-                  marginTop: '10px',
-                  backgroundColor: 'lightblue',
-                  padding: '10px',
-                  border: '1px solid #ddd',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                }}
-              >
-                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                  {x.Name}
-                </Typography>
-                <Typography variant="body2">{x.Jobrole}</Typography>
-              </Card>
-            ))}
-          </CardContent>
-        </Paper>
-      </Grid>
-    </Grid>
+    <MainCard title="Interview Board" sx={{ width: '100%',height:'auto' }}>
+    <div style={{ display: 'flex', overflowX: 'auto' }}>
+      {["Shortlist", "Interviewed", "Selected", "On Hold", "Rejected"].map((title) => (
+        <div key={title} style={{ flex: '0 0 auto', marginRight: '20px' }}>
+          <Paper elevation={3} sx={{ padding: '16px' }}>
+            <CardHeader title={title} sx={{ color: '#00695f', marginBottom: '-30px', marginTop: '-20px' }} />
+            <CardContent>
+              {matchedResults.map((x) => (
+                <Card
+                  key={x._id}
+                  sx={{
+                    marginTop: '10px',
+                    backgroundColor: 'lightblue',
+                    padding: '10px',
+                    border: '1px solid #ddd',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                    {x.Name}
+                  </Typography>
+                  <Typography variant="body2">{x.Jobrole}</Typography>
+                </Card>
+              ))}
+            </CardContent>
+          </Paper>
+        </div>
+      ))}
+    </div>
   </MainCard>
+  
 );
 };
 export default InterviewBoard;
