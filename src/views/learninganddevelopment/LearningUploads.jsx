@@ -7,6 +7,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import Swal from 'sweetalert2';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
+import { useDropzone } from 'react-dropzone';
 
 const LearningUploads = () => {
   const [courseName, setCourseName] = useState('');
@@ -41,12 +42,10 @@ const LearningUploads = () => {
     }
   };
 
-  const handleImageChange = (event) => {
-    const selectedImage = event.target.files[0];
+  const handleImageDrop = (acceptedFiles) => {
+    const selectedImage = acceptedFiles[0];
     setImage(selectedImage);
     setSelectedImages([selectedImage]);
-    setErrors((prevErrors) => ({ ...prevErrors, image: '' }));
-    event.target.value = '';
   };
 
   const handleVideoChange = (event) => {
@@ -143,6 +142,11 @@ const LearningUploads = () => {
     }
   };
 
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    onDrop: handleImageDrop,
+  });
+
   return (
     <MainCard title="Course Upload Form">
       <Paper elevation={3} style={{ padding: '16px' }}>
@@ -176,32 +180,32 @@ const LearningUploads = () => {
                 />
               </Grid>
               <Grid item xs={12}>
-                <label htmlFor="image-input">
-                  <input type="file" id="image-input" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-                  <Button variant="outlined" color="primary" component="span" startIcon={<CloudUploadIcon />} style={{ minWidth: 195 }}>
+                <div {...getRootProps()} style={{ cursor: 'pointer' }}>
+                  <input {...getInputProps()} />
+                  <Button variant="outlined" color="primary" startIcon={<CloudUploadIcon />} style={{ minWidth: 195 }}>
                     Upload Course Image
                   </Button>
-                  {selectedImages.length > 0 && (
-                    <div style={{ marginTop: '8px' }}>
-                      <h3>Selected Images:</h3>
-                      <ul>
-                        {selectedImages.map((img, index) => (
-                          <li key={index}>
-                            <ImageIcon style={{ verticalAlign: 'middle', marginRight: '4px' }} />
-                            {img.name}
-                            <IconButton
-                              color="secondary"
-                              onClick={() => handleRemoveImage(index)}
-                              style={{ verticalAlign: 'middle', marginLeft: '30px' }}
-                            >
-                              <CancelIcon />
-                            </IconButton>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </label>
+                </div>
+                {selectedImages.length > 0 && (
+                  <div style={{ marginTop: '8px' }}>
+                    <h3>Selected Images:</h3>
+                    <ul>
+                      {selectedImages.map((img, index) => (
+                        <li key={index}>
+                          <ImageIcon style={{ verticalAlign: 'middle', marginRight: '4px' }} />
+                          {img.name}
+                          <IconButton
+                            color="secondary"
+                            onClick={() => handleRemoveImage(index)}
+                            style={{ verticalAlign: 'middle', marginLeft: '30px' }}
+                          >
+                            <CancelIcon />
+                          </IconButton>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
                 {errors.image && <div style={{ color: 'red', marginTop: '8px' }}>{errors.image}</div>}
               </Grid>
               <Grid item xs={12}>
