@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { DialogActions } from '@mui/material';
-import { CheckCircleOutline, CancelOutlined, Visibility, HourglassEmpty, Edit } from '@mui/icons-material';
+
 import {
   Table,
   TableCell,
@@ -18,10 +18,11 @@ import {
   Typography,
   Button,
 } from '@mui/material';
+import { CheckCircleOutline, CancelOutlined, Visibility, HourglassEmpty, Edit } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const LeaveTrackerList = () => {
+const LeaveHistory = () => {
   const navigate = useNavigate();
   const [leaveTrackerList, setLeaveTrackerList] = useState([]);
   const [open, setOpen] = useState(false);
@@ -59,7 +60,7 @@ const LeaveTrackerList = () => {
   };
 
   return (
-    <MainCard title="Applied Leave List">
+    <MainCard title="Leave History">
       <Grid container spacing={2}>
         <Grid item xs={12}>
           {leaveTrackerList.length > 0 ? (
@@ -73,6 +74,7 @@ const LeaveTrackerList = () => {
                     <TableCell>Start Date</TableCell>
                     <TableCell>End Date</TableCell>
                     <TableCell>Number of Days</TableCell>
+                    <TableCell>Attachments</TableCell> {/* Added Attachments */}
                     <TableCell>Reason</TableCell>
                     <TableCell>Status</TableCell>
                     <TableCell>Action</TableCell>
@@ -91,6 +93,7 @@ const LeaveTrackerList = () => {
                       <TableCell>{new Date(leave.startDate).toLocaleDateString()}</TableCell>
                       <TableCell>{new Date(leave.endDate).toLocaleDateString()}</TableCell>
                       <TableCell>{leave.numberOfDays}</TableCell>
+                      <TableCell>{leave.attachments.map((attachment) => attachment.filename).join(', ')}</TableCell> {/* Added Attachments */}
                       <TableCell>{leave.reason}</TableCell>
                       <TableCell>
                         {leave.status === 'approved' ? (
@@ -136,6 +139,7 @@ const LeaveTrackerList = () => {
               <Typography variant="body1">Leave Type: {selectedLeave.leaveType}</Typography>
               <Typography variant="body1">Start Date: {new Date(selectedLeave.startDate).toLocaleDateString()}</Typography>
               <Typography variant="body1">End Date: {new Date(selectedLeave.endDate).toLocaleDateString()}</Typography>
+              <Typography variant="body1">Attachments: {selectedLeave.attachments.map((attachment) => attachment.filename).join(', ')}</Typography> {/* Added Attachments */}
               <Typography variant="body1">Reason: {selectedLeave.reason}</Typography>
               <Typography variant="body1">
                 Status: {selectedLeave.status === 'pending' ? 'Pending' : selectedLeave.status === 'approved' ? 'Approved' : 'Rejected'}
@@ -150,7 +154,7 @@ const LeaveTrackerList = () => {
           <Button onClick={handleEditLeave} color="primary">
             <Edit />
             Edit
-          </Button>
+          </Button>a
           <Button onClick={handleClose} color="inherit">
             Close
           </Button>
@@ -160,5 +164,4 @@ const LeaveTrackerList = () => {
   );
 };
 
-export default LeaveTrackerList;
-
+export default LeaveHistory;

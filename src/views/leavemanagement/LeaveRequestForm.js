@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import {
   Box,
@@ -112,14 +114,12 @@ const LeaveTrackerForm = () => {
       }
 
       try {
-        
         const responseAttachments = await axios.post(
           'https://hrm-backend-square.onrender.com/api/upload',
           formData
         );
         console.log('Attachments uploaded:', responseAttachments.data);
 
-        
         const leaveData = {
           employeeId,
           employeeName,
@@ -136,7 +136,6 @@ const LeaveTrackerForm = () => {
           leaveData
         );
 
-        
         setEmployeeId('');
         setEmployeeName('');
         setLeaveType('');
@@ -162,7 +161,10 @@ const LeaveTrackerForm = () => {
 
     const currentDate = DateTime.now().toISODate();
     if (selectedStartDate < currentDate) {
-      setErrors((prevErrors) => ({ ...prevErrors, startDate: 'Start date cannot be a previous date' }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        startDate: 'Start date cannot be a previous date',
+      }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, startDate: undefined }));
     }
@@ -175,7 +177,10 @@ const LeaveTrackerForm = () => {
     const selectedEndDate = event.target.value;
 
     if (selectedEndDate < startDate) {
-      setErrors((prevErrors) => ({ ...prevErrors, endDate: 'End date cannot be before the start date' }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        endDate: 'End date cannot be before the start date',
+      }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, endDate: undefined }));
     }
@@ -188,7 +193,10 @@ const LeaveTrackerForm = () => {
     const days = parseInt(event.target.value);
 
     if (days <= 0) {
-      setErrors((prevErrors) => ({ ...prevErrors, numberOfDays: 'Number of days must be greater than 0' }));
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        numberOfDays: 'Number of days must be greater than 0',
+      }));
     } else {
       setErrors((prevErrors) => ({ ...prevErrors, numberOfDays: undefined }));
       setNumberOfDays(days);
@@ -305,8 +313,8 @@ const LeaveTrackerForm = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-            <TextField
-              fullWidth
+              <TextField
+                fullWidth
                 type="file"
                 multiple
                 accept=".pdf, .doc, .docx"
@@ -339,4 +347,124 @@ const LeaveTrackerForm = () => {
   );
 };
 
-export default LeaveTrackerForm;
+const LeaveCards = () => {
+  const [leaveHover, setLeaveHover] = useState(false);
+
+  const handleLeaveHover = () => {
+    setLeaveHover(!leaveHover);
+  };
+
+  return (
+    <div style={{ ...styles.cardsContainer }}>
+      <div style={{ ...styles.card, backgroundColor: 'lightblue', height: '200px' }}>
+        <h2
+          style={{
+            color: leaveHover ? 'purple' : 'blue',
+            cursor: 'pointer',
+          }}
+          title="Click for details"
+          onMouseEnter={handleLeaveHover}
+          onMouseLeave={handleLeaveHover}
+        >
+          Leaves
+        </h2>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div>
+            <h2
+              style={{ color: 'darkblue', fontWeight: 'bold', cursor: 'pointer' }}
+              title="Click for details"
+            >
+              5 days
+            </h2>
+            <p style={{ color: 'gray' }}>Taken</p>
+          </div>
+          <div>
+            <h2
+              style={{ color: 'darkred', fontWeight: 'bold', cursor: 'pointer' }}
+              title="Click for details"
+            >
+              30 days
+            </h2>
+            <p style={{ color: 'gray' }}>Annual</p>
+          </div>
+          <div>
+            <h2
+              style={{ color: 'darkgreen', fontWeight: 'bold', cursor: 'pointer' }}
+              title="Click for details"
+            >
+              3 days
+            </h2>
+            <p style={{ color: 'gray' }}>Compensatory</p>
+          </div>
+          <div>
+            <h2
+              style={{ color: 'darkorange', fontWeight: 'bold', cursor: 'pointer' }}
+              title="Click for details"
+            >
+              25 days
+            </h2>
+            <p style={{ color: 'gray' }}>Available</p>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ ...styles.card, backgroundColor: 'lightyellow', height: '200px' }}>
+        <h2 style={{ color: 'orange' }}>September 2023 Holidays</h2>
+        <ul style={styles.calendarList}>
+          <li>September 3 - Labor Day</li>
+          <li>September 10 - Company Picnic</li>
+          <li>September 25 - National Day</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    justifyContent: 'flex-end', 
+    alignItems: 'flex-start', 
+    height: '100vh', 
+    padding: '20px', 
+  },
+  leftSide: {
+    flex: 1, 
+    marginLeft: 'auto', 
+  },
+  rightSide: {
+    flex: 1, 
+    marginLeft: '20px', 
+  },
+  cardsContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'flex-end', 
+  },
+  card: {
+    width: '400px',
+    marginBottom: '20px', 
+    padding: '20px',
+    border: '1px solid #ddd',
+    borderRadius: '5px',
+    textAlign: 'center',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  },
+  calendarList: {
+    listStyle: 'none',
+    padding: 0,
+  },
+};
+
+export default function LeavePage() {
+  return (
+    <div style={styles.container}>
+      <div style={styles.leftSide}>
+        <LeaveTrackerForm />
+      </div>
+      <div style={styles.rightSide}>
+        <LeaveCards />
+      </div>
+    </div>
+  );
+}
