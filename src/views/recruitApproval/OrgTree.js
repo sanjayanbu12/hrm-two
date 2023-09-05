@@ -20,6 +20,8 @@ import { Button } from 'antd';
 import Modal from '@mui/material/Modal';
 import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import styled from 'styled-components';
+
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
@@ -38,20 +40,33 @@ const OrgTree = () => {
     fetchEmployeesData();
   }, []);
   const authId = useSelector((state) => state.customization.authId);
-  console.log(authId);
+  const StyledNode = styled.div`
+  padding: 5px;
+  border-radius: 8px;
+  display: inline-block;
+  border: 1px solid red;
+  width: '278px';
+   height: '81px';
+   backgroundColor: ' #EFE1FB';
+                          display: 'flex';
+                          alignItems: 'center';
+                          paddingLeft: '13px';
+                          paddingRight: '21px';
+`;
+
   const fetchOrgData = async () => {
     try {
       setLoaderStatus(false);
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
+      console.log(orgData);
       const manId = orgData.map((data) => data.managerName.id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
-      console.log(edata.filter((data) => ids.includes(data._id)));
     } catch (error) {
       console.log(error);
     }
@@ -128,17 +143,7 @@ const OrgTree = () => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   {managerData.length > 0 ? (
                     managerData.map((data) => (
-                      <Card
-                        key={data._id}
-                        style={{
-                          width: '278px',
-                          height: '81px',
-                          backgroundColor: ' #EFE1FB',
-                          display: 'flex',
-                          alignItems: 'center',
-                          paddingLeft: '13px',
-                          paddingRight: '21px'
-                        }}
+                      <StyledNode key={data._id}
                       >
                         <Container
                           style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
@@ -164,19 +169,13 @@ const OrgTree = () => {
                             </IconButton>
                           </div>
                         </Container>
-                      </Card>
+                      </StyledNode>
                     ))
                   ) : (
                     <Container>
-                      <Card
-                        style={{
-                          width: '278px',
-                          height: '81px',
-                          backgroundColor: ' #EFE1FB',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center'
-                        }}
+                      <Card 
+
+                        
                       >
                         <IconButton onClick={handleMenuOpen}>
                           <AddIcon />
@@ -204,6 +203,7 @@ const OrgTree = () => {
                       style={{
                         width: '278px',
                         height: '81px',
+
                         backgroundColor: ' #E1EAFB',
                         display: 'flex',
                         alignItems: 'center',
@@ -226,10 +226,10 @@ const OrgTree = () => {
                         </div>
                         <div>
                           {data.employeeid === authId && (
-                            <Tooltip title='view'>
-                            <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
-                              <ChevronRightIcon />
-                            </IconButton>
+                            <Tooltip title="view">
+                              <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
+                                <ChevronRightIcon />
+                              </IconButton>
                             </Tooltip>
                           )}
                         </div>
@@ -238,7 +238,7 @@ const OrgTree = () => {
                   }
                 >
                   {edata
-                    .filter((item) => item._id === data.report?.id)
+                    .filter((item) => data.report && data.report.some((reportItem) => reportItem?.id === item._id))
                     .map((x) => (
                       <TreeNode
                         key={x._id}
