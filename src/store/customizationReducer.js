@@ -14,7 +14,8 @@
     isAuthAdmin:false,
     members:[],
     employees:[],
-    authId:[]
+    authId:[],
+    shortlist:[], 
   };
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -37,6 +38,11 @@
         return {
           ...state,
           authId: action.payload
+        };
+      case actionTypes.SHORT_LIST:
+        return {
+          ...state,
+          shortlist: action.payload
         };
       case actionTypes.LOGGED_IN:
         return {

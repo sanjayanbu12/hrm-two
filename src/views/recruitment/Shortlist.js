@@ -8,7 +8,6 @@ import { Image, TextSnippet } from '@mui/icons-material';
 import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
-
 const columns = [
   { title: 'Name', field: 'Name', editable: false,Width:'50px'},
   { title: 'Jobrole', field: 'Jobrole', editable: false},
