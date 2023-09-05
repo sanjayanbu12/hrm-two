@@ -55,22 +55,32 @@ const pages = {
         {
           id: 'applicationtracker',
           title: 'Application Tracker',
-          type: 'item',
-          url: '/applicationtracker'
+          type: 'collapse',
+          url: '/applicationtracker',
+          icon: icons.AccountTreeOutlinedIcon,
+          children:[
+            {
+              id: 'applicationtracker',
+              title: 'Application Tracker',
+              type: 'item',
+              url: '/applicationtracker',
+            },
+            {
+              id: 'shortlist',
+              title: 'Shortlist Candidates',
+              type: 'item',
+              url: '/shortlist'
+            },
+            {
+              id: 'interviewboard',
+              title: 'Interview Board',
+              type: 'item',
+              url: '/interviewboard'
+            },
+    
+          ]
         },
-        {
-          id: 'shortlist',
-          title: 'Shortlist Candidates',
-          type: 'item',
-          url: '/shortlist'
-        },
-        {
-          id: 'interviewboard',
-          title: 'Interview Board',
-          type: 'item',
-          url: '/interviewboard'
-        },
-
+       
       ]
     },
 
