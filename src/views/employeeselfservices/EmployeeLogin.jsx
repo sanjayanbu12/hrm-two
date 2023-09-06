@@ -4,13 +4,13 @@ import { Card } from '@mui/material';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LearningModule from 'views/learninganddevelopment/LearningModule';
-import RecruitmentForm from 'views/recruitment/RecruitmentForm';
 import Newevent from 'views/dashboard/Default/Newevent';
+import Feedback from 'views/performance/Feedback'
 
 const EmployeeLogin = () => {
   const [activeSection, setActiveSection] = useState('goal');
   return (
-    <Card>
+    <Card raised={true}> 
       
         <nav className="section-navigation">
       
@@ -30,16 +30,15 @@ const EmployeeLogin = () => {
             Learning Module
           </button>
           <button
-            className={`section-buttons ${activeSection === 'recruitment' ? 'active' : ''}`}
-            onClick={() => setActiveSection('recruitment')}
+            className={`section-buttons ${activeSection === 'org' ? 'active' : ''}`}
+            onClick={() => setActiveSection('org')}
           >
-            Recruitment Form
+            Feedback
           </button>
           <button className={`section-buttons ${activeSection === 'events' ? 'active' : ''}`} 
           onClick={() => setActiveSection('events')}>
             Events Calendar
-          </button>
-         
+          </button>       
         </nav>
       
       {activeSection === 'goal' && (
@@ -60,9 +59,9 @@ const EmployeeLogin = () => {
         </section>
       )}
 
-      {activeSection === 'recruitment' && (
+      {activeSection === 'org' && (
       <section>
-<RecruitmentForm />
+<Feedback />
         </section>
         )}
 
