@@ -29,8 +29,6 @@ const RecruitmentView = () => {
       const Job = res.data.data;
       const abc = JSON.stringify(Job);
       setSelectedJob(JSON.parse(abc));
-      const userApproval=selectedJob.orgData.filter(data=>data.employeeId===authId)
-      console.log(userApproval)
     } catch (error) {
       console.log(error);
     }
@@ -113,18 +111,18 @@ const RecruitmentView = () => {
 
   const hanldeApprove = async () => {
     try {
-      const userApproval=selectedJob.orgData.find(data=>data.employeeId===authId)
-      if(userApproval){
-        userApproval.approved=true
+      const userApproval = selectedJob.orgData.find((data) => data.employeeId === authId);
+      if (userApproval) {
+        userApproval.approved = true;
       }
-      const updatedOrgData=selectedJob.orgData.map(data=>({
+      const updatedOrgData = selectedJob.orgData.map((data) => ({
         ...data,
-        approved:data._id === userApproval._id ? true:data.approved
-      }))
-      const updatedData ={
+        approved: data._id === userApproval._id ? true : data.approved
+      }));
+      const updatedData = {
         ...selectedJob,
-        orgData:updatedOrgData
-      }
+        orgData: updatedOrgData
+      };
       await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
     } catch (error) {
       console.log(error);
@@ -280,9 +278,14 @@ const RecruitmentView = () => {
                 <b> Remaining</b>
                 <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {`${selectedJob.Openings - Selected}`}
               </Typography>
-              <Button size="small" onClick={hanldeApprove}>
-                ApproveByHr
-              </Button>
+             
+                <Button size="small"
+                disabled={selectedJob.orgData.find(data=>data.employeeId===authId && data.approved===true)}
+                onClick={hanldeApprove}>
+                  ApproveByHr
+                </Button>
+              
+
               <Button size="small" onClick={hanldeApproveMan}>
                 ApproveByManager
               </Button>
