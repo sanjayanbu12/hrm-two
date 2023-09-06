@@ -17,11 +17,11 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
-import Modal from '@mui/material/Modal';
 import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
-
+import { StyledNode } from './Const';
+import { StyledNodeManager, StyledContainer, StyledCard,StyledModal} from './Const';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
@@ -40,27 +40,18 @@ const OrgTree = () => {
     fetchEmployeesData();
   }, []);
   const authId = useSelector((state) => state.customization.authId);
-  const StyledNode = styled.div`
-  padding: 5px;
-  border-radius: 8px;
-  display: inline-block;
-  border: 1px solid red;
-  width: '278px';
-   height: '81px';
-   backgroundColor: ' #EFE1FB';
-                          display: 'flex';
-                          alignItems: 'center';
-                          paddingLeft: '13px';
-                          paddingRight: '21px';
-`;
-
+  const StyledAvatar = styled(Avatar)`
+    && {
+      background-color: ${deepOrange[500]};
+      color: #fff;
+    }
+  `;
   const fetchOrgData = async () => {
     try {
       setLoaderStatus(false);
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
-      console.log(orgData);
       const manId = orgData.map((data) => data.managerName.id);
       const manData = edata.filter((data) => data._id === manId[0]);
       setmanagerData(manData);
@@ -108,9 +99,6 @@ const OrgTree = () => {
   const handleChange = (e, value) => {
     setautoComData(value);
   };
-  useEffect(() => {
-    console.log(Tier2Data);
-  }, [Tier2Data]);
   const hanldePost = async () => {
     const membersArray = autoComData.map((data) => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
@@ -143,14 +131,10 @@ const OrgTree = () => {
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                   {managerData.length > 0 ? (
                     managerData.map((data) => (
-                      <StyledNode key={data._id}
-                      >
-                        <Container
-                          style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                          disableGutters={true}
-                        >
+                      <StyledNodeManager key={data._id}>
+                        <StyledContainer disableGutters={true}>
                           <div>
-                            <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</Avatar>
+                            <StyledAvatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</StyledAvatar>
                           </div>
                           <div>
                             <Typography variant="h3" fontSize={'18px'}>
@@ -168,15 +152,12 @@ const OrgTree = () => {
                               <PersonRemoveIcon />
                             </IconButton>
                           </div>
-                        </Container>
-                      </StyledNode>
+                        </StyledContainer>
+                      </StyledNodeManager>
                     ))
                   ) : (
                     <Container>
-                      <Card 
-
-                        
-                      >
+                      <Card>
                         <IconButton onClick={handleMenuOpen}>
                           <AddIcon />
                         </IconButton>
@@ -199,24 +180,10 @@ const OrgTree = () => {
                 <TreeNode
                   key={data._id}
                   label={
-                    <Card
-                      style={{
-                        width: '278px',
-                        height: '81px',
-
-                        backgroundColor: ' #E1EAFB',
-                        display: 'flex',
-                        alignItems: 'center',
-                        paddingLeft: '13px',
-                        paddingRight: '21px'
-                      }}
-                    >
-                      <Container
-                        style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
-                        disableGutters={true}
-                      >
+                    <StyledNode>
+                      <StyledContainer disableGutters={true}>
                         <div>
-                          <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</Avatar>
+                          <StyledAvatar>{data.name[0].toUpperCase()}</StyledAvatar>
                         </div>
                         <div>
                           <Typography variant="h3" fontSize={'18px'}>
@@ -233,8 +200,8 @@ const OrgTree = () => {
                             </Tooltip>
                           )}
                         </div>
-                      </Container>
-                    </Card>
+                      </StyledContainer>
+                    </StyledNode>
                   }
                 >
                   {edata
@@ -243,23 +210,12 @@ const OrgTree = () => {
                       <TreeNode
                         key={x._id}
                         label={
-                          <Card
-                            style={{
-                              width: '278px',
-                              height: '81px',
-                              backgroundColor: ' #D8B4F8',
-                              display: 'flex',
-                              alignItems: 'center',
-                              paddingLeft: '13px',
-                              paddingRight: '21px'
-                            }}
-                          >
-                            <Container
-                              style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                          <StyledNode>
+                            <StyledContainer
                               disableGutters={true}
                             >
                               <div>
-                                <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{x.name[0].toUpperCase()}</Avatar>
+                                <StyledAvatar>{x.name[0].toUpperCase()}</StyledAvatar>
                               </div>
                               <div>
                                 <Typography variant="h3" fontSize={'18px'}>
@@ -274,33 +230,23 @@ const OrgTree = () => {
                                   </IconButton>
                                 )}
                               </div>
-                            </Container>
-                          </Card>
+                            </StyledContainer>
+                          </StyledNode>
                         }
                       >
                         {edata
-                          .filter((tier2) => tier2._id === x.report?.id)
+                          .filter((tier2) => x.report?.some((reportItem) => reportItem.id === tier2._id))
                           .map((y) => (
                             <TreeNode
                               key={y._id}
                               label={
-                                <Card
-                                  style={{
-                                    width: '278px',
-                                    height: '81px',
-                                    backgroundColor: ' #9ED2BE',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    paddingLeft: '13px',
-                                    paddingRight: '21px'
-                                  }}
-                                >
-                                  <Container
-                                    style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}
+                                <StyledNode>
+                                  <StyledContainer
+                                    
                                     disableGutters={true}
                                   >
                                     <div>
-                                      <Avatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{y.name[0].toUpperCase()}</Avatar>
+                                      <StyledAvatar>{y.name[0].toUpperCase()}</StyledAvatar>
                                     </div>
                                     <div>
                                       <Typography variant="h3" fontSize={'18px'}>
@@ -315,8 +261,8 @@ const OrgTree = () => {
                                         </IconButton>
                                       )}
                                     </div>
-                                  </Container>
-                                </Card>
+                                  </StyledContainer>
+                                </StyledNode>
                               }
                             />
                           ))}
@@ -327,27 +273,13 @@ const OrgTree = () => {
 
               <TreeNode
                 label={
-                  <Card
-                    style={{
-                      height: '81px',
-                      backgroundColor: ' #E1EAFB',
-                      display: 'flex',
-                      alignItems: 'center',
-                      paddingLeft: '13px',
-                      paddingRight: '21px',
-                      width: '100%'
-                    }}
-                    onClick={handleModalOpen}
-                  >
-                    <Container
-                      style={{ display: 'flex', justifyContent: 'space-between', width: '200px', alignItems: 'center', gap: '20px' }}
-                      disableGutters={true}
-                    >
+                  <StyledCard onClick={handleModalOpen}>
+                    <StyledContainer disableGutters={true}>
                       <IconButton style={{ height: '100vh', margin: '0 auto' }}>
                         <AddIcon />
                       </IconButton>
-                    </Container>
-                  </Card>
+                    </StyledContainer>
+                  </StyledCard>
                 }
               />
             </Tree>
@@ -357,16 +289,9 @@ const OrgTree = () => {
         </div>
       </MapInteractionCSS>
 
-      <Modal
+      <StyledModal
         open={isModalOpen}
         onClose={handleModalClose}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100vh',
-          width: '100%'
-        }}
       >
         <MainCard
           title="Add Members"
@@ -393,7 +318,7 @@ const OrgTree = () => {
             </div>
           </Card>
         </MainCard>
-      </Modal>
+      </StyledModal>
     </>
   );
 };
