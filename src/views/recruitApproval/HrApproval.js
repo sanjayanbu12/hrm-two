@@ -61,7 +61,7 @@ const HrApproval = () => {
         <Stack direction={'row'} gap={'30px'} sx={{ flexWrap: 'wrap' }}>
           {data &&
             data.map((item) => (
-              <Card key={item._id} sx={{ width: '50%' }}>
+              <Card  raised={true} key={item._id} sx={{ width: '50%' }}>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                   <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant="h1" gutterBottom>
                     {item.Company}

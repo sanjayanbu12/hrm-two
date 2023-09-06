@@ -34,7 +34,7 @@
     "es7": "^1.0.8-beta.4",
     "file-saver": "^2.0.5",
     "formik": "^2.2.9",
-    "framer-motion": "^6.3.16",
+    "framer-motion": "^6.5.1",
     "jspdf": "^2.5.1",
     "material-table": "^2.0.5",
     "material-ui-popup-state": "^4.0.1",

@@ -255,25 +255,7 @@ const EmployeeForm = () => {
         console.log(err.message);
       });
   }, []);
-  useEffect(() => {
-    // Set default values for all form fields
-    setName('John');
-    setLastname('Doe');
-    setGender('MALE');
-    setDept('HR');
-    setDesi('HR');
-    seteMail('johndoe@example.com');
-    setMob('1234567890');
-    setaltMob('9876543210');
-    setperAddress('123 Main St');
-    settemAddress('456 Temp St');
-    setBloodgroup('A+VE');
-    setJoin('2023-01-01'); // Format should match the date input type (yyyy-MM-dd)
-    setDob('1990-01-01'); // Format should match the date input type (yyyy-MM-dd)
-    setFathername('Ajay');
-    setNationality('Indian');
-    setReligion('Hindu');
-  }, []);
+
   
   const finalSubmit = async () => {
     if (id) {
@@ -442,7 +424,7 @@ const EmployeeForm = () => {
             }
           };
           console.log(report.id)
-          await axios.put(`http://localhost:3001/api/updateemployee/${report.id}`, reportUpdateData);
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
         }
         setName('');
         setLastname('');
