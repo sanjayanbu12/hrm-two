@@ -9,7 +9,7 @@ const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
   const [filter, setFilter] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
-  const allStatuses = ['Shortlist', 'Selected', 'Rejected'];
+  const allStatuses = ['Shortlist','Scheduled','Round 1','Round 2','Round 3', 'Selected','Hold', 'Rejected'];
 
   const fetchEmployees = async () => {
     try {
@@ -75,35 +75,42 @@ const InterviewBoard = () => {
   }, [Adata, filter]);
 
   console.log('fff', matchedResults);
+  
 
-  const handleDragEnd = async (result, _id) => {
+  const handleDragEnd = async (result) => {
     if (!result.destination) {
       return;
     }
 
+    const { source, destination, draggableId } = result;
     const updatedResults = Array.from(matchedResults);
-    const [reorderedItem] = updatedResults.splice(result.source.index, 1);
-    updatedResults.splice(result.destination.index, 0, reorderedItem);
-    const newStatus = result.destination.droppableId;
-    reorderedItem.Status = newStatus;
-    setMatchedResults(updatedResults);
-    try {
-      await axios.put(`https://hrm-backend-square.onrender.com/ats/updateats/${_id}`, {
-        _id: reorderedItem._id,
-        Status: newStatus,
-      });
-      console.log('Status updated successfully.');
-    } catch (err) {
-      console.log(err);
+    const [reorderedItem] = updatedResults.splice(source.index, 1);
+    updatedResults.splice(destination.index, 0, reorderedItem);
+    const newStatus = destination.droppableId;
+
+    const updatedItem = updatedResults.find((item) => item._id.toString() === draggableId);
+
+    if (updatedItem) {
+      updatedItem.Status = newStatus;
+      try {
+        await axios.put(`https://hrm-backend-square.onrender.com/ats/updateats/${updatedItem._id}`, {
+          _id: updatedItem._id,
+          Status: newStatus,
+        });
+        console.log('Status updated successfully.');
+      } catch (err) {
+        console.log(err);
+      }
+      setMatchedResults(updatedResults);
     }
   };
-
+  
   return (
     <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto' }}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
         <DragDropContext onDragEnd={handleDragEnd}>
           {allStatuses.map((title, columnIndex) => {
-            const columnResults = matchedResults.filter((x) => x.Status == title);
+            const columnResults = matchedResults.filter((x) => x.Status === title);
             return (
               <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '50px' }}>
                 <Paper elevation={3} sx={{ padding: '16px' }}>
