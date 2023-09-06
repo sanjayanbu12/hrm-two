@@ -1,0 +1,87 @@
+/* App.css */
+
+.App {
+    text-align: center;
+    font-family: Arial, sans-serif;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  .board {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  
+  .column {
+    flex: 1;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 0 10px;
+    min-width: 300px;
+  }
+  
+  .column h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .task {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .task:hover {
+    background-color: #f7f7f7;
+  }
+  
+  /* Define some colors for the different task stages */
+  .task[data-stage='todo'] {
+    border-color: #e74c3c;
+  }
+  
+  .task[data-stage='inProgress'] {
+    border-color: #f39c12;
+  }
+  
+  .task[data-stage='done'] {
+    border-color: #2ecc71;
+  }
+  
+  /* Define some colors for labels */
+  .label {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 2px 5px;
+    font-size: 12px;
+    border-radius: 3px;
+  }
+  
+  .label-department {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .label-experience {
+    background-color: #9b59b6;
+    color: #fff;
+  }
+  
+  .label-skills {
+    background-color: #e67e22;
+    color: #fff;
+  }
+  
+  .label-priority {
+    background-color: #27ae60;
+    color: #fff;
+  }
+  
