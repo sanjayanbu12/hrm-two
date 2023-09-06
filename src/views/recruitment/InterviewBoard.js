@@ -73,37 +73,41 @@ const InterviewBoard = () => {
 console.log(matchedResults);
 
   return (
-    <MainCard title="Interview Board" sx={{ width: '100%',height:'auto' }}>
+    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto' }}>
     <div style={{ display: 'flex', overflowX: 'auto' }}>
       {["Shortlist", "Interviewed", "Selected", "On Hold", "Rejected"].map((title) => (
-        <div key={title} style={{ flex: '0 0 auto', marginRight: '20px' }}>
+        <div key={title} style={{ flex: '0 0 auto', marginRight: '20px',marginBottom:'50px' }}>
           <Paper elevation={3} sx={{ padding: '16px' }}>
-            <CardHeader title={title} sx={{ color: '#00695f', marginBottom: '-30px', marginTop: '-20px' }} />
+            <CardHeader title={title} sx={{ color: '#00695f', marginBottom: '-30px', marginTop: '-20px',height:'10px',minWidth:'100px',maxwidth:'150px' }} />
             <CardContent>
-              {matchedResults.map((x) => (
-                <Card
-                  key={x._id}
-                  sx={{
-                    marginTop: '10px',
-                    backgroundColor: 'lightblue',
-                    padding: '10px',
-                    border: '1px solid #ddd',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                    {x.Name}
-                  </Typography>
-                  <Typography variant="body2">{x.Jobrole}</Typography>
-                </Card>
-              ))}
+              {title === "Shortlist" ? (
+                matchedResults.map((x) => (
+                  <Card
+                    key={x._id}
+                    sx={{
+                      marginTop: '10px',
+                      backgroundColor: 'lightblue',
+                      padding: '10px',
+                      border: '1px solid #ddd',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                      {x.Name}
+                    </Typography>
+                    <Typography variant="body2">{x.Jobrole}</Typography>
+                    <Typography variant="body2">{x.Qualification}</Typography>
+                  </Card>
+                ))
+              ) : null}
             </CardContent>
           </Paper>
         </div>
       ))}
     </div>
   </MainCard>
+  
   
 );
 };
