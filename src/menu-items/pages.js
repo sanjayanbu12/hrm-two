@@ -10,7 +10,6 @@ import PaidIcon from '@mui/icons-material/Paid';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CameraFrontIcon from '@mui/icons-material/CameraFront';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import InsightsIcon from '@mui/icons-material/Insights';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -91,29 +90,18 @@ const pages = {
           title: 'Employee Information Management',
           type: 'item',
           url: '/basictable'
-        }
-      ]
-    },
-
-    {
-      id: 'leavemanagement',
-      title: 'Time and Attendance',
-      type: 'collapse',
-      icon: icons.PermIdentityOutlinedIcon,
-
-      children: [
-        {
-          id: 'Attendance Regulation',
-          title: 'Attendance Regulation',
-          type: 'item',
-          url: '/attendanceManagement'
         },
-
         {
           id: 'leavetrackerform',
           title: 'Leave Request Form',
           type: 'item',
           url: '/leavetrackerform'
+        },
+        {
+          id: 'Attendance Regulation',
+          title: 'Attendance Regulation',
+          type: 'item',
+          url: '/attendanceManagement'
         },
         {
           id: 'leavetrackerlist',
@@ -126,9 +114,39 @@ const pages = {
           title: 'ApproveLeave',
           type: 'item',
           url: '/approveleave'
-        }
+        },
+        
+    {
+      id: 'Organisation Chart',
+      title: 'Organisation Chart',
+      type: 'item',
+      url: '/payroll'
+    },
+    {
+      id: 'employeeengagement',
+      title: 'Employee Engagement & Surveys',
+      type: 'item',
+      url: '/employeeengagement'
+    },
+    {
+      id: 'employeeselfservices',
+      title: 'Employee Self Services',
+      type: 'item',
+      url: '/employeeselfservices'
+    },
       ]
     },
+
+    // {
+    //   id: 'leavemanagement',
+    //   title: 'Time and Attendance',
+    //   type: 'collapse',
+    //   icon: icons.PermIdentityOutlinedIcon,
+
+    //   children: [
+       
+    //   ]
+    // },
 
     {
       id: 'Learning & Development',
@@ -158,29 +176,6 @@ const pages = {
       ]
     },
 
-    {
-      id: 'Organisation Chart',
-      title: 'Organisation Chart',
-      type: 'item',
-      icon: InsightsIcon,
-      url: '/payroll'
-    },
-
-    {
-      id: 'employeeselfservices',
-      title: 'Employee Self Services',
-      icon: CameraFrontIcon,
-      type: 'item',
-      url: '/employeeselfservices'
-    },
-
-    {
-      id: 'employeeengagement',
-      title: 'Employee Engagement & Surveys',
-      icon: EmojiEmotionsIcon,
-      type: 'item',
-      url: '/employeeengagement'
-    },
 
     {
       id: 'performance',

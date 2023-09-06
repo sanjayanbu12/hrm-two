@@ -68,7 +68,7 @@ const TotalGrowthBarChart = () => {
   const navigate = useNavigate();
   const totalEmployeeCounts = calculateTotalEmployees();
   return (
-    <>
+    <Card raised={true}>
       <div className="dashboard">
         {
           <Card
@@ -91,7 +91,7 @@ const TotalGrowthBarChart = () => {
               {/* <Typography sx={{ mb: 1.5 }} color="text.secondary">
                 Twenty Five
               </Typography> */}
-              <Typography style={{ marginTop: '30px', cursor: 'pointer' }} onClick={() => navigate(`/newemployee`)}>
+              <Typography style={{ marginTop: '30px', cursor: 'pointer' }} onClick={() => navigate(`/basictable`)}>
                 Employee List
               </Typography>
             </CardContent>
@@ -366,7 +366,7 @@ const TotalGrowthBarChart = () => {
           </Card>
         }
       </div>
-    </>
+    </Card>
   );
 };
 

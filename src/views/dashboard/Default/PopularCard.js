@@ -23,7 +23,7 @@ const PopularCard = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonPopularCard />
       ) : (
-        <Card content={false}>
+        <Card content={false} raised={true}>
           <CardContent >
             <Grid container spacing={gridSpacing}>
               {/* <Grid item xs={12}>

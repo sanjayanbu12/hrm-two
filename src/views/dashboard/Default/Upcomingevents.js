@@ -114,11 +114,12 @@ const Upcomingevents = () => {
   return (
     <>
       {isLoading ? (
-        <Card  content={false}>
+        <Card  content={false} >
+          
           <CardContent>Loading...</CardContent>
         </Card>
       ) : (
-        <Card content={false}>
+        <Card content={false} raised={true}>
         <CardContent>
           <Typography variant="h4" style={{ marginBottom: '20px' }}>
             <b>Upcoming Events</b>
@@ -129,8 +130,13 @@ const Upcomingevents = () => {
             <Button
               onClick={() => navigate('/newevent')}
               variant="contained"
-              color="secondary"
               endIcon={<KeyboardDoubleArrowRightIcon />}
+              sx={{
+                backgroundColor:"#FF5C93",
+                '&:hover': {
+                  backgroundColor: "#FF5C93",
+                }
+              }}
             >
               All Events
             </Button>

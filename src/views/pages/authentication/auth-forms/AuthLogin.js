@@ -28,13 +28,25 @@ const AuthLogin = () => {
   const validateLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true); // Start loader
-
+  
+    // Validation for empty fields
+    if (!value1) {
+      seterror({ email: 'Email is required' });
+      setIsLoading(false); // Stop loader
+      return;
+    }
+    if (!value2) {
+      seterror({ password: 'Password is required' });
+      setIsLoading(false); // Stop loader
+      return;
+    }
+  
     try {
       const response = await axios.post('https://hrm-backend-square.onrender.com/auth/login', {
         email: value1,
         password: value2
       });
-
+  
       dispatch({ type: LOGGED_IN });
       const role = response.data.existingUser.role;
       if (role === 'Admin') {
@@ -44,23 +56,28 @@ const AuthLogin = () => {
         dispatch({ type: USER_OR_NOT });
         navigate('/dashboard/default');
       }
-
+  
       setIsLoading(false); // Stop loader
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
-        seterror(error.response.data.error);
+        if (error.response.data.error === 'Invalid password') {
+          seterror({ password: 'Wrong password' }); // Password error
+        } else {
+          ({ email: error.response.data.error }); // Email error
+          
+        }
       } else {
-        seterror('An error occurred');
+        seterror({ password: 'Wrong password' }); // Generic password error
       }
-
+  
       setTimeout(() => {
-        seterror("");
+        seterror({});
       }, 5000);
-
+  
       setIsLoading(false); // Stop loader
     }
   };
-
+  
   const handleEmail = (e) => {
     setvalue1(e.target.value);
     seterror((prev) => ({
@@ -136,6 +153,7 @@ const AuthLogin = () => {
       <Grid>
         <AnimateButton>
           <Button
+          style={{marginTop:'10px'}}
             disableElevation
             fullWidth
             size="large"

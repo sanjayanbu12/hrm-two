@@ -6,6 +6,7 @@ import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
+import Card from '@mui/material/Card';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -75,7 +76,7 @@ const Dashboard = () => {
     //       ))}
     //     </div>
     //   </div>
-
+    <Card raised={true}>
     <div style={{ overflow: 'hidden' }}>
 
 <Grid container spacing={gridSpacing}>
@@ -102,6 +103,7 @@ const Dashboard = () => {
       </Grid>
       <ToastContainer />
     </div>
+    </Card>
   );
 };
 
