@@ -206,7 +206,12 @@ const pages = {
       icon: icons.IconKey,
 
       children: [
-      
+        {
+          id: 'goals',
+          title: 'Goals',
+          type: 'item',
+          url: '/goals'
+        },
         {
           id: 'feedbacks',
           title: 'Feedbacks',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Autocomplete, TextField, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import './PopupCard.css';
+import '../Feedback/PopupCard.css';
 import { level } from './consts';
 
 const PopupSkill = ({ onClose, reloadSkills }) => {
