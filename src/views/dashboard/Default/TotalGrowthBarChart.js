@@ -164,11 +164,11 @@ const TotalGrowthBarChart = () => {
                 //   marginBottom: '20px'
                 // }}
                 style={{
-                  marginTop: 0,
+                  marginTop: '0px',
                   color: '#ffffff',
                   fontSize: '16px',
                   fontWeight: 'bold',
-                  marginBottom: '20px',                 
+                  marginBottom: '5px'                             
                 }}      
               >
                 Attendance Card
@@ -183,7 +183,7 @@ const TotalGrowthBarChart = () => {
                 style={{               
                   fontSize: '14px',
                  fontWeight: 'bold',
-                  marginBottom: '20px',
+                  marginBottom: '5px',
                 }}     
               >
                 Total Employees: {totalEmployees}
