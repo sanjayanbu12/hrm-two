@@ -62,14 +62,14 @@ const dispatch = useDispatch()
   let greeting;
   
   if (currentHour >= 4 && currentHour < 12) {
-    greeting = "Good morning";
+    greeting = "Good Morning";
   }
   else if (currentHour >= 12 && currentHour <15) {
-    greeting = "Good afternoon";
+    greeting = "Good Afternoon";
   } else if (currentHour >= 15 && currentHour < 19) {
-    greeting = "Good evening";
+    greeting = "Good Evening";
   } else {
-    greeting = "Good night";
+    greeting = "Good Night";
   }
 
   const handleClose = (event) => {
