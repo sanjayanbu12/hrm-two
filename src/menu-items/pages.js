@@ -10,7 +10,7 @@ import PaidIcon from '@mui/icons-material/Paid';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CameraFrontIcon from '@mui/icons-material/CameraFront';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
-import InsightsIcon from '@mui/icons-material/Insights';
+// import InsightsIcon from '@mui/icons-material/Insights';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import DvrIcon from '@mui/icons-material/Dvr';
 // import { useSelector,useDispatch } from 'react-redux';
