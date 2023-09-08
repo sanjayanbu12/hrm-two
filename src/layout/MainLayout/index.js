@@ -73,7 +73,7 @@ const MainLayout = () => {
         color="inherit"
         elevation={0}
         sx={{
-          background: 'linear-gradient(0deg, rgba(128, 128, 128, 1) 15%, rgba(103, 103, 103, 1) 30%, rgba(79, 79, 79, 1) 45%, rgba(56, 56, 56, 1) 55%, rgba(35, 35, 35, 1) 70%, rgba(13, 13, 13, 1) 85%, rgba(0, 0, 0, 1) 100%)',
+          background: '   rgba(8, 8, 8, 0.9)',
           transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
         }}
         
