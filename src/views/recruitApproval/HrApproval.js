@@ -37,20 +37,37 @@ const HrApproval = () => {
   const fetchData = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      console.log(res.data.getData);
+  
       const filteredData = res.data.getData.filter((item) => {
-        const hrNames = item.orgData.map((orgItem) => orgItem.id);
-        const edataId = edata.filter((d) => hrNames.includes(d._id));
-        const hasUnapprovedHr = edataId.some((user) => user.approval.hr === false);
-        const hrApprovalIsFalse = item.approvalstatus.hr === false;
-        const empID = edataId.map((z) => z.employeeid);
-        return empID.includes(authId) && empID.includes(id) && hasUnapprovedHr && hrApprovalIsFalse;
+        // Check if any of the orgData items have approved set to false
+        const hasFalseApproval = item.orgData.some((orgItem) => orgItem.approved === false);
+  
+        // Extract the HR IDs from orgData
+        const hrIds = item.orgData.map((orgItem) => orgItem.id);
+  
+        // Filter edata based on HR IDs
+        const edataId = edata.filter((d) => hrIds.includes(d._id));
+  
+        // Extract employee IDs from filtered edata
+        const empIDs = edataId.map((z) => z.employeeid);
+  
+        // Add any additional conditions here if needed
+        return empIDs.includes(authId) && empIDs.includes(id) && hasFalseApproval;
       });
+  
+      // If you want to log the filtered data:
+      console.log(filteredData);
+  
+      // If you want to set the filtered data in your component's state:
       setRecData(filteredData);
+  
       setLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
+  
 
   const handleClick = (id) => {
     navigate(`/recruitmentview/${id}`);
