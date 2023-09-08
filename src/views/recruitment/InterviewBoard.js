@@ -127,7 +127,7 @@ const InterviewBoard = () => {
                   />
                   <Droppable droppableId={title} index={columnIndex}>
                     {(provided, snapshot) => (
-                      <CardContent
+                      <CardContent 
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                         style={{
