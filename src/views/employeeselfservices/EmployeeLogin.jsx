@@ -4,11 +4,11 @@ import { Card } from '@mui/material';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import LearningModule from 'views/learninganddevelopment/LearningModule';
-import Newevent from 'views/dashboard/Default/Newevent';
+import Newevent from 'views/dashboard/Employee/Newevent';
 import Feedback from 'views/performance/Feedback'
 
 const EmployeeLogin = () => {
-  const [activeSection, setActiveSection] = useState('goal');
+  const [activeSection, setActiveSection] = useState('');
   return (
     <Card raised={true}> 
       

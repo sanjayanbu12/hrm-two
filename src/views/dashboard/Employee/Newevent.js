@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './newevent.css';
-import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem , Select ,FormControl,InputLabel  } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem, Select, FormControl, InputLabel, Alert } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextArea from 'antd/es/input/TextArea';
 import MainCard from 'ui-component/cards/MainCard';
@@ -24,10 +24,12 @@ function Newevent() {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
+  const [error, setError] = useState('');
 
-console.log(selectedDate);
+  console.log(selectedDate);
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const storedEvents = localStorage.getItem('events');
     if (storedEvents) {
@@ -52,6 +54,7 @@ const navigate = useNavigate();
     setSelectedDate(arg.date);
     setOpen(true);
   };
+
   const handleLocationChange = (e) => {
     setLocation(e.target.value);
   };
@@ -66,20 +69,27 @@ const navigate = useNavigate();
       const [endHours, endMinutes] = endTime.split(':');
       endDateTime.setHours(endHours, endMinutes);
 
-      const newEvent = {
-        id: events.length,
-        title: eventTitle,
-        start: startDateTime,
-        end: endDateTime,
-        eventLink: eventLink,
-        location:location,
-        description: description
-      };
+      const now = new Date();
+      if (startDateTime < now) {
+        setError('Select a future date');
+      } else {
+        const newEvent = {
+          id: events.length,
+          title: eventTitle,
+          start: startDateTime,
+          end: endDateTime,
+          eventLink: eventLink,
+          location: location,
+          description: description
+        };
 
-      setEvents([...events, newEvent]);
+        setEvents([...events, newEvent]);
+        setError(''); // Clear any previous error message
+        handleClose();
+      }
+    } else {
+      setError('Please fill in all required fields.');
     }
-
-    handleClose();
   };
 
   const handleClose = () => {
@@ -93,7 +103,9 @@ const navigate = useNavigate();
     setEventLink('');
     setLocation('');
     setDescription('');
+    setError(''); // Clear any previous error message
   };
+
   const locationNames = {
     location1: 'Coimbatore',
     location2: 'Bangalore',
@@ -103,12 +115,12 @@ const navigate = useNavigate();
   const eventContent = (eventInfo) => {
     return (
       <>
-         <div>{eventInfo.timeText}</div>
-      <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
-      {eventInfo.event.extendedProps.location && (
-        <div style={{ color: '#ffffff' }}>{locationNames[eventInfo.event.extendedProps.location]}</div>
-      )}
-      {eventInfo.event.extendedProps.eventLink && (
+        <div>{eventInfo.timeText}</div>
+        <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
+        {eventInfo.event.extendedProps.location && (
+          <div style={{ color: '#ffffff' }}>{locationNames[eventInfo.event.extendedProps.location]}</div>
+        )}
+        {eventInfo.event.extendedProps.eventLink && (
           <a
             href={eventInfo.event.extendedProps.eventLink}
             target="_blank"
@@ -124,27 +136,27 @@ const navigate = useNavigate();
 
   return (
     <div>
-      <div style={{display:'flex',justifyContent:'flex-end',marginTop:'0px',marginBottom:'15px'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0px', marginBottom: '15px' }}>
         <div>
-            <Button
-              onClick={() => navigate('/dashboard/default')}
-              variant="contained"
-              color="secondary"
-              endIcon={<KeyboardDoubleArrowRightIcon />}
-            >
-              Back 
-            </Button>
-          </div>
-           </div>
+          <Button
+            onClick={() => navigate('/dashboard/default')}
+            variant="contained"
+            color="secondary"
+            endIcon={<KeyboardDoubleArrowRightIcon />}
+          >
+            Back
+          </Button>
+        </div>
+      </div>
       <MainCard>
-        
+
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
             start: 'today prev,next',
             center: 'title',
-            end: 'dayGridMonth,timeGridWeek,timeGridDay' 
+            end: 'dayGridMonth,timeGridWeek,timeGridDay'
           }}
           height={'90vh'}
           events={upcomingEvents}
@@ -246,19 +258,20 @@ const navigate = useNavigate();
                 sx={{ width: '335px', marginBottom: '12px' }}
               />
 
-<FormControl fullWidth sx={{ width: '335px', marginBottom: '12px' }}>
-        <InputLabel id="location-label">Location</InputLabel>
-        <Select
-          labelId="location-label"
-          value={location}
-          onChange={handleLocationChange}
-          label="Location"
-        >
-          <MenuItem value="location1">Coimbatore</MenuItem>
-          <MenuItem value="location2">Bangalore</MenuItem>
-          <MenuItem value="location3">Chennai</MenuItem>
-        </Select>
-      </FormControl>
+              <FormControl fullWidth sx={{ width: '335px', marginBottom: '12px' }}>
+                <InputLabel id="location-label">Location</InputLabel>
+                <Select
+                  labelId="location-label"
+                  value={location}
+                  onChange={handleLocationChange}
+                  label="Location"
+                >
+                  <MenuItem value="location1">Coimbatore</MenuItem>
+                  <MenuItem value="location2">Bangalore</MenuItem>
+                  <MenuItem value="location3">Chennai</MenuItem>
+                </Select>
+              </FormControl>
+
               <TextArea
                 margin="dense"
                 label="Description"
@@ -270,6 +283,13 @@ const navigate = useNavigate();
                 onChange={(e) => setDescription(e.target.value)}
                 sx={{ width: '300px', marginBottom: '16px' }}
               />
+
+              {error && (
+                <Alert severity="error" sx={{ marginBottom: '12px' }}>
+                  {error}
+                </Alert>
+              )}
+
             </form>
           </DialogContent>
           <Button className="close-button" onClick={handleCreateEvent}>
