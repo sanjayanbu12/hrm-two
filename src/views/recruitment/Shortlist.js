@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
-import { ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
+import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
 const columns = [
@@ -113,7 +113,7 @@ const Shortlist = () => {
             Resume: data.resume,
             Photo:data.photo,
             AppliedAt:data.appliedAt,
-            Status: data.Status,
+            Status: data.Status=="null"?"Shortlist":data.Status,
             Qualification: data.department,
             YearOfPassing:data.graduationYear,
             Skills:data.skills,
@@ -130,8 +130,6 @@ const Shortlist = () => {
     console.log(matched);
     setMatchedResults(matched);
   }, [Adata, fil]);
-
-
 
 
   const exportCsv = (columns, data) => {
@@ -217,6 +215,7 @@ const Shortlist = () => {
   }
 
   return (
+    <Card raised={true}>
     <ThemeProvider theme={theme}>
       {Loader ? (
         <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
@@ -275,6 +274,7 @@ const Shortlist = () => {
         />
       )}
     </ThemeProvider>
+    </Card>
   );
 };
 

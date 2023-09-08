@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
-import {  ThemeProvider, createMuiTheme } from '@mui/material';
+import {  Card, ThemeProvider, createMuiTheme } from '@mui/material';
 import './Css/table.css';
 
 const columns = [
@@ -164,6 +164,7 @@ const navigate=useNavigate()
   });
 
   return (
+    <Card raised={true}>
     <ThemeProvider theme={theme}>
       {Loader? (<div className='spinner' style={{position:'absolute',bottom:'40%',right:'45%'}} /> ):(
     <MaterialTable
@@ -208,6 +209,7 @@ const navigate=useNavigate()
    />
    ) }
     </ThemeProvider>
+    </Card>
   );
 };
 export default RecruitmentTable;

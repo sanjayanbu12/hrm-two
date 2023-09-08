@@ -10,6 +10,9 @@ import PaidIcon from '@mui/icons-material/Paid';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CameraFrontIcon from '@mui/icons-material/CameraFront';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+// import InsightsIcon from '@mui/icons-material/Insights';
+import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import DvrIcon from '@mui/icons-material/Dvr';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -24,7 +27,9 @@ const icons = {
   AllOutIcon,
   PaidIcon,
   EmojiEmotionsIcon,
-  CameraFrontIcon
+  CameraFrontIcon,
+  PersonSearchIcon,
+  DvrIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -56,14 +61,24 @@ const pages = {
           title: 'Application Tracker',
           type: 'collapse',
           url: '/applicationtracker',
-          icon: icons.AccountTreeOutlinedIcon,
+          icon: icons.PersonSearchIcon,
           children:[
             {
               id: 'applicationtracker',
               title: 'Application Tracker',
               type: 'item',
               url: '/applicationtracker',
-            },
+            },]
+          },
+
+            {
+              id: 'interview',
+              title: 'Interview',
+              type: 'collapse',
+              url: '/interview',
+              icon: icons.DvrIcon,
+              children:[
+            
             {
               id: 'shortlist',
               title: 'Shortlist Candidates',
