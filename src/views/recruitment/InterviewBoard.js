@@ -9,7 +9,7 @@ const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
   const [filter, setFilter] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
-  const allStatuses = ['Shortlist','Scheduled','Round 1','Round 2','Round 3', 'Selected','Hold', 'Rejected'];
+  const allStatuses = ['Shortlist','Round 1','Round 2','Round 3', 'Selected','Hold', 'Rejected'];
 
   const fetchEmployees = async () => {
     try {
@@ -59,7 +59,7 @@ const InterviewBoard = () => {
             Resume: data.resume,
             Photo: data.photo,
             AppliedAt: data.appliedAt,
-            Status: data.Status,
+            Status: data.Status=="null"?"Shortlist":data.Status,
             Qualification: data.department,
             YearOfPassing: data.graduationYear,
             Skills: data.skills,
@@ -106,19 +106,19 @@ const InterviewBoard = () => {
   };
   
   return (
-    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto' }}>
+    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
         <DragDropContext onDragEnd={handleDragEnd}>
           {allStatuses.map((title, columnIndex) => {
             const columnResults = matchedResults.filter((x) => x.Status === title);
             return (
-              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '50px' }}>
+              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px',marginBottom:'60px'}}>
                 <Paper elevation={3} sx={{ padding: '16px' }}>
                   <CardHeader
                     title={title}
                     sx={{
                       color: '#00695f',
-                      marginBottom: '-30px',
+                      marginBottom:'-30px',
                       marginTop: '-20px',
                       height: '10px',
                       minWidth: '100px',

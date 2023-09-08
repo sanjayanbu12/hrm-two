@@ -12,6 +12,7 @@ import CameraFrontIcon from '@mui/icons-material/CameraFront';
 import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import InsightsIcon from '@mui/icons-material/Insights';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import DvrIcon from '@mui/icons-material/Dvr';
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -27,7 +28,8 @@ const icons = {
   PaidIcon,
   EmojiEmotionsIcon,
   CameraFrontIcon,
-  PersonSearchIcon
+  PersonSearchIcon,
+  DvrIcon
 };
 
 // ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
@@ -66,7 +68,17 @@ const pages = {
               title: 'Application Tracker',
               type: 'item',
               url: '/applicationtracker',
-            },
+            },]
+          },
+
+            {
+              id: 'interview',
+              title: 'Interview',
+              type: 'collapse',
+              url: '/interview',
+              icon: icons.DvrIcon,
+              children:[
+            
             {
               id: 'shortlist',
               title: 'Shortlist Candidates',
