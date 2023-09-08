@@ -1,15 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
-import { Card, CardContent, CardHeader, Paper } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader, Menu, MenuItem, Paper } from '@mui/material';
 import { Typography } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { Feedback, Forward, MoreVert, TextSnippet } from '@mui/icons-material';
 
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
   const [filter, setFilter] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
   const allStatuses = ['Shortlist','Round 1','Round 2','Round 3', 'Selected','Hold', 'Rejected'];
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleOpenMenu = (e) => {
+    setAnchorEl(e.currentTarget);
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   const fetchEmployees = async () => {
     try {
@@ -151,11 +161,27 @@ const InterviewBoard = () => {
                                   backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
                                 }}
                               >
+                                 <div style={{display:'flex',alignItems:'end',justifyContent:'flex-end'}}>
+                                <MoreVert sx={{fontSize:'15px',cursor:'pointer'}} onClick={handleOpenMenu}/>
+                                <Menu
+                                 anchorEl={anchorEl}
+                                 open={Boolean(anchorEl)}
+                                 onClose={handleCloseMenu}
+                                >
+                               <MenuItem onClick={handleCloseMenu}><Feedback sx={{marginRight:'10px'}}/> Feedback</MenuItem>
+                               <MenuItem onClick={handleCloseMenu}><TextSnippet sx={{marginRight:'10px'}}/>View Resume</MenuItem>
+                               <MenuItem onClick={handleCloseMenu}><Forward sx={{marginRight:'10px'}}/> Send Mail</MenuItem>
+                               </Menu>
+                                </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
                                 </Typography>
                                 <Typography variant="body2">{x.Jobrole}</Typography>
-                                <Typography variant="body2">{x.Qualification}</Typography>
+                                <Typography variant="body2"><b>Qualification:</b>{x.Qualification}</Typography>
+                                <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
+                                <div style={{display:'flex',alignItems:'flex-end',justifyContent:'flex-end'}}>
+                                <Avatar sx={{fontSize:'15px',fontWeight:'Bold',height:'25px',width:'25px'}} >{x.Name[0]}</Avatar>
+                                </div>
                               </Card>
                             )}
                           </Draggable>

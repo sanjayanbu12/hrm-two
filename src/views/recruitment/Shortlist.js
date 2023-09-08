@@ -113,7 +113,7 @@ const Shortlist = () => {
             Resume: data.resume,
             Photo:data.photo,
             AppliedAt:data.appliedAt,
-            Status: data.Status,
+            Status: data.Status=="null"?"Shortlist":data.Status,
             Qualification: data.department,
             YearOfPassing:data.graduationYear,
             Skills:data.skills,
