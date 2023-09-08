@@ -7,7 +7,6 @@ import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
 import CircularProgress from '@mui/material/CircularProgress';
-import Container from '@mui/material/Container';
 import { Autocomplete, TextField, Tooltip, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
@@ -20,8 +19,8 @@ import { Button } from 'antd';
 import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
-import { StyledNode } from './Const';
-import { StyledNodeManager, StyledContainer, StyledCard,StyledModal} from './Const';
+import { StyledMainCard, StyledNode } from './Const';
+import { StyledNodeManager, StyledContainer, StyledNode3,StyledCard, StyledModal, StyledCardConatiner,Btncontainer,StyledNode2 } from './Const';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
@@ -93,7 +92,7 @@ const OrgTree = () => {
         id: data._id
       }
     };
-    await axios.post('http://localhost:3001/org/createorg', manData);
+    await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
     fetchOrgData();
   };
   const handleChange = (e, value) => {
@@ -119,181 +118,177 @@ const OrgTree = () => {
   };
   return (
     <>
-      <MapInteractionCSS>
-        <div>
-          {!loader ? (
-            <Tree
-              lineWidth={'2px'}
-              lineColor={'#F94C10'}
-              lineHeight="80px"
-              lineBorderRadius={'10px'}
-              label={
-                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                  {managerData.length > 0 ? (
-                    managerData.map((data) => (
-                      <StyledNodeManager key={data._id}>
+    <MainCard title='ORGANIZATON CHART'>
+      <StyledCardConatiner>
+        <MapInteractionCSS>
+          <div>
+            {!loader ? (
+              <Tree
+                lineWidth={'2px'}
+                lineColor={'#F94C10'}
+                lineHeight="80px"
+                lineBorderRadius={'10px'}
+                label={
+                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+                    {managerData.length > 0 ? (
+                      managerData.map((data) => (
+                        <StyledNodeManager key={data._id} raised={true}>
+                          <StyledContainer disableGutters={true}>
+                            <div>
+                              <StyledAvatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</StyledAvatar>
+                            </div>
+                            <div>
+                              <Typography  color='#ffff' variant="h3" fontSize={'18px'}>
+                                {data.name}
+                              </Typography>
+                              <Typography color='#ffff' variant="body2">{data.desi}</Typography>
+                            </div>
+                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                              <Tooltip title="View">
+                                <IconButton sx={{color:'#ffff'}} onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
+                                  <ChevronRightIcon />
+                                </IconButton>
+                              </Tooltip>
+                              <IconButton sx={{color:'#ffff'}} onClick={handleDeleteMan}>
+                                <PersonRemoveIcon />
+                              </IconButton>
+                            </div>
+                          </StyledContainer>
+                        </StyledNodeManager>
+                      ))
+                    ) : (
+                      <Btncontainer>
+                        <>
+                          <IconButton onClick={handleMenuOpen}>
+                            <AddIcon />
+                          </IconButton>
+                          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+                            {edata.map((data) => (
+                              <MenuItem onClick={() => handleEmp(data)} key={data._id}>
+                                {data.name}
+                              </MenuItem>
+                            ))}
+                          </Menu>
+                        </>
+                      </Btncontainer>
+                    )}
+                  </div>
+                }
+              >
+                {Tier2Data.map((data) => (
+                  <TreeNode
+                    key={data._id}
+                    label={
+                      <StyledNode raised={true}>
                         <StyledContainer disableGutters={true}>
                           <div>
-                            <StyledAvatar sx={{ bgcolor: deepOrange[500], color: '#fff' }}>{data.name[0].toUpperCase()}</StyledAvatar>
+                            <StyledAvatar>{data.name[0].toUpperCase()}</StyledAvatar>
                           </div>
                           <div>
-                            <Typography variant="h3" fontSize={'18px'}>
+                            <Typography variant="h3" color={'#fff'} fontSize={'18px'}>
                               {data.name}
                             </Typography>
-                            <Typography variant="body2">{data.desi}</Typography>
+                            <Typography variant="body2" color={'#fff'}>{data.desi}</Typography>
                           </div>
-                          <div style={{ display: 'flex', flexDirection: 'column' }}>
-                            <Tooltip title="View">
-                              <IconButton onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
-                                <ChevronRightIcon />
-                              </IconButton>
-                            </Tooltip>
-                            <IconButton onClick={handleDeleteMan}>
-                              <PersonRemoveIcon />
-                            </IconButton>
+                          <div>
+                            {data.employeeid === authId && (
+                              <Tooltip title="view">
+                                <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
+                                  <ChevronRightIcon />
+                                </IconButton>
+                              </Tooltip>
+                            )}
                           </div>
                         </StyledContainer>
-                      </StyledNodeManager>
-                    ))
-                  ) : (
-                    <Container>
-                      <Card>
-                        <IconButton onClick={handleMenuOpen}>
+                      </StyledNode>
+                    }
+                  >
+                    {edata
+                      .filter((item) => data.report && data.report.some((reportItem) => reportItem?.id === item._id))
+                      .map((x) => (
+                        <TreeNode
+                          key={x._id}
+                          label={
+                            <StyledNode2 raised={true}>
+                              <StyledContainer disableGutters={true}>
+                                <div>
+                                  <StyledAvatar>{x.name[0].toUpperCase()}</StyledAvatar>
+                                </div>
+                                <div>
+                                  <Typography variant="h3" color={'#fff'} fontSize={'18px'}>
+                                    {x.name}
+                                  </Typography>
+                                  <Typography variant="body2" color={'#fff'}>{x.desi}</Typography>
+                                </div>
+                                <div>
+                                  {data.employeeid === authId && (
+                                    <IconButton style={{ display: 'none' }}>
+                                      <ChevronRightIcon />
+                                    </IconButton>
+                                  )}
+                                </div>
+                              </StyledContainer>
+                            </StyledNode2>
+                          }
+                        >
+                          {edata
+                            .filter((tier2) => x.report?.some((reportItem) => reportItem.id === tier2._id))
+                            .map((y) => (
+                              <TreeNode
+                                key={y._id}
+                                label={
+                                  <StyledNode3 raised={true}>
+                                    <StyledContainer disableGutters={true}>
+                                      <div>
+                                        <StyledAvatar>{y.name[0].toUpperCase()}</StyledAvatar>
+                                      </div>
+                                      <div>
+                                        <Typography variant="h3" fontSize={'18px'}>
+                                          {y.name}
+                                        </Typography>
+                                        <Typography variant="body2">{y.desi}</Typography>
+                                      </div>
+                                      <div>
+                                        {data.employeeid === authId && (
+                                          <IconButton>
+                                            <ChevronRightIcon />
+                                          </IconButton>
+                                        )}
+                                      </div>
+                                    </StyledContainer>
+                                  </StyledNode3>
+                                }
+                              />
+                            ))}
+                        </TreeNode>
+                      ))}
+                  </TreeNode>
+                ))}
+
+                <TreeNode
+                  label={
+                    <StyledCard onClick={handleModalOpen}>
+                      <StyledContainer disableGutters={true}>
+                        <IconButton style={{ height: '100vh', margin: '0 auto' }}>
                           <AddIcon />
                         </IconButton>
-                        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                          {edata.map((data) => (
-                            <MenuItem onClick={() => handleEmp(data)} key={data._id}>
-                              {data.name}
-                            </MenuItem>
-                          ))}
-
-                          {/* Add more menu items as needed */}
-                        </Menu>
-                      </Card>
-                    </Container>
-                  )}
-                </div>
-              }
-            >
-              {Tier2Data.map((data) => (
-                <TreeNode
-                  key={data._id}
-                  label={
-                    <StyledNode>
-                      <StyledContainer disableGutters={true}>
-                        <div>
-                          <StyledAvatar>{data.name[0].toUpperCase()}</StyledAvatar>
-                        </div>
-                        <div>
-                          <Typography variant="h3" fontSize={'18px'}>
-                            {data.name}
-                          </Typography>
-                          <Typography variant="body2">{data.desi}</Typography>
-                        </div>
-                        <div>
-                          {data.employeeid === authId && (
-                            <Tooltip title="view">
-                              <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
-                                <ChevronRightIcon />
-                              </IconButton>
-                            </Tooltip>
-                          )}
-                        </div>
                       </StyledContainer>
-                    </StyledNode>
+                    </StyledCard>
                   }
-                >
-                  {edata
-                    .filter((item) => data.report && data.report.some((reportItem) => reportItem?.id === item._id))
-                    .map((x) => (
-                      <TreeNode
-                        key={x._id}
-                        label={
-                          <StyledNode>
-                            <StyledContainer
-                              disableGutters={true}
-                            >
-                              <div>
-                                <StyledAvatar>{x.name[0].toUpperCase()}</StyledAvatar>
-                              </div>
-                              <div>
-                                <Typography variant="h3" fontSize={'18px'}>
-                                  {x.name}
-                                </Typography>
-                                <Typography variant="body2">{x.desi}</Typography>
-                              </div>
-                              <div>
-                                {data.employeeid === authId && (
-                                  <IconButton style={{ display: 'none' }}>
-                                    <ChevronRightIcon />
-                                  </IconButton>
-                                )}
-                              </div>
-                            </StyledContainer>
-                          </StyledNode>
-                        }
-                      >
-                        {edata
-                          .filter((tier2) => x.report?.some((reportItem) => reportItem.id === tier2._id))
-                          .map((y) => (
-                            <TreeNode
-                              key={y._id}
-                              label={
-                                <StyledNode>
-                                  <StyledContainer
-                                    
-                                    disableGutters={true}
-                                  >
-                                    <div>
-                                      <StyledAvatar>{y.name[0].toUpperCase()}</StyledAvatar>
-                                    </div>
-                                    <div>
-                                      <Typography variant="h3" fontSize={'18px'}>
-                                        {y.name}
-                                      </Typography>
-                                      <Typography variant="body2">{y.desi}</Typography>
-                                    </div>
-                                    <div>
-                                      {data.employeeid === authId && (
-                                        <IconButton>
-                                          <ChevronRightIcon />
-                                        </IconButton>
-                                      )}
-                                    </div>
-                                  </StyledContainer>
-                                </StyledNode>
-                              }
-                            />
-                          ))}
-                      </TreeNode>
-                    ))}
-                </TreeNode>
-              ))}
+                />
+              </Tree>
+            ) : (
+              <CircularProgress
+                sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}
+              ></CircularProgress>
+            )}
+          </div>
+        </MapInteractionCSS>
+      </StyledCardConatiner>
+      </MainCard>
 
-              <TreeNode
-                label={
-                  <StyledCard onClick={handleModalOpen}>
-                    <StyledContainer disableGutters={true}>
-                      <IconButton style={{ height: '100vh', margin: '0 auto' }}>
-                        <AddIcon />
-                      </IconButton>
-                    </StyledContainer>
-                  </StyledCard>
-                }
-              />
-            </Tree>
-          ) : (
-            <CircularProgress sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}></CircularProgress>
-          )}
-        </div>
-      </MapInteractionCSS>
-
-      <StyledModal
-        open={isModalOpen}
-        onClose={handleModalClose}
-      >
-        <MainCard
+      <StyledModal open={isModalOpen} onClose={handleModalClose}>
+        <StyledMainCard
           title="Add Members"
           style={{ width: '50%', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}
         >
@@ -317,7 +312,7 @@ const OrgTree = () => {
               </Button>
             </div>
           </Card>
-        </MainCard>
+        </StyledMainCard>
       </StyledModal>
     </>
   );

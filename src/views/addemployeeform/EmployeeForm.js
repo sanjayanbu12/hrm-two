@@ -136,9 +136,11 @@ const EmployeeForm = () => {
       console.log(error);
     }
   };
+
   const fetchAuthData=async()=>{
     const res =  await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata')
     setAuthData(res.data.user)
+    console.log(res.data.user.filter(data=>data.isEmployee===false))
   }
   const handleJoin = (e) => {
     const selectedDate = e.target.value;
@@ -413,8 +415,9 @@ const EmployeeForm = () => {
         const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
         const newEmployeeId = res.data.data._id; // Extract the newly created employee's _id
         const empId=res.data.data.employeeid
+    
        
-        await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`,{employeeId:empId})
+        await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`,{employeeId:empId,isEmployee:true})
         if (report.id) {
           // Check if report.id exists
           const reportUpdateData = {
@@ -519,11 +522,11 @@ const EmployeeForm = () => {
                     label="First Name"
                     onChange={(e) => handleName(e)}
                   >
-                    {AuthData.map((item) => (
-                      <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
+                   {AuthData.filter(item => item.isEmployee===false).map(item=> (
+                        <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
                         {item.firstname}
                       </MenuItem>
-                    ))}
+                   ))}
                   </Select>
 
                   <FormHelperText>{errors && errors.report}</FormHelperText>
