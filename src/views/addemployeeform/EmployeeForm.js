@@ -136,7 +136,24 @@ const EmployeeForm = () => {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    setLastname('b');
+    setGender('MALE');
+    seteMail('ajay@gmail.com');
+    setMob('1234567890');
+    setaltMob('9876543210');
+    setperAddress('123, Main Street');
+    settemAddress('456, Temporary Street');
+    setBloodgroup('A+VE');
+    setJoin('2023-09-08');
+    setDob('2000-01-01');
+    setType('Full Time');
+    setTitle('MR');
+    setFathername('John Doe');
+    setNationality('Indian');
+    setReligion('Hindu');
+  }, []);
+  
   const fetchAuthData=async()=>{
     const res =  await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata')
     setAuthData(res.data.user)

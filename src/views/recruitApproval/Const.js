@@ -8,7 +8,7 @@ export const StyledNode = styled(Card)`
   display: inline-block;
   width: 278px;
   height: 81px;
-background-color: #B47AEA;
+  background-color: #b47aea;
   padding-left: 13px;
   padding-right: 21px;
   padding-top: 18px;
@@ -19,7 +19,7 @@ export const StyledNode2 = styled(Card)`
   display: inline-block;
   width: 278px;
   height: 81px;
-  background-color: #8C1C29;
+  background-color: #8c1c29;
   padding-right: 21px;
   padding-top: 18px;
 `;
@@ -29,7 +29,7 @@ export const StyledNode3 = styled(Card)`
   display: inline-block;
   width: 278px;
   height: 81px;
-  background-color: #FFB30F;
+  background-color: #ffb30f;
   padding-right: 21px;
   padding-top: 18px;
 `;
@@ -78,15 +78,15 @@ export const StyledModal = styled(Modal)`
     width: 100%;
   }
 `;
-export const StyledMainCard =styled(MainCard)`
-&&{
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-`
+export const StyledMainCard = styled(MainCard)`
+  && {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+`;
 export const StyledCardConatiner = styled(Card)`
   && {
     height: calc(100vh - 120px);
