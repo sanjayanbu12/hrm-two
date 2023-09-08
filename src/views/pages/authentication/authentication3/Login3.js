@@ -37,8 +37,8 @@ const Login = () => {
                       <Grid item>
                         <Stack alignItems="center" justifyContent="center">
                           <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                            {/* Hi, Welcome Back */}
-                            Sign in
+                            Hi, Welcome Back
+                            {/* Sign in */}
                           </Typography>
                           {/* <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
                             Enter your credentials to continue
@@ -56,7 +56,7 @@ const Login = () => {
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
                       <Typography variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        Don&apos;t have an account?&#20;
+                        Don&apos;t have an account?
                         <Typography
                           component={Link}
                           to="/pages/register/register3"

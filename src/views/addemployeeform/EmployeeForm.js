@@ -488,27 +488,28 @@ const EmployeeForm = () => {
   };
 
   return (
+<div>
+    <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+    <Button
+      onClick={() => navigate(`/basictable`)}
+      sx={{
+        background: 'rgba(33, 150, 243, 0.04)',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginTop: '0px',
+        marginBottom: '0px'
+      }}
+    >
+      <TableViewIcon />
+      Employee List
+    </Button>
+  </Box>
     <MainCard title="Employee Information">
-      <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-        <Button
-          onClick={() => navigate(`/basictable`)}
-          sx={{
-            padding: 1.5,
-            background: 'rgba(33, 150, 243, 0.04)',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '0px',
-            marginBottom: '20px'
-          }}
-        >
-          <TableViewIcon />
-          Employee List
-        </Button>
-      </Box>
+     
       <form>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.title}>
                 <InputLabel id="demo-simple-select-label">Title</InputLabel>
                 <Select
@@ -559,7 +560,7 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.gender}>
                 <InputLabel id="demo-simple-select-label">Gender</InputLabel>
                 <Select
@@ -602,7 +603,7 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -655,7 +656,7 @@ const EmployeeForm = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -681,7 +682,8 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -694,7 +696,7 @@ const EmployeeForm = () => {
               />
             </Grid>
 
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-start-adornment"
@@ -753,7 +755,7 @@ const EmployeeForm = () => {
               </FormControl>
             </Grid>
 
-            <Grid item xs={4} style={{ marginBottom: 25 }}>
+            <Grid item xs={4} style={{ marginBottom: 10 }}>
               <TextField
                 sx={{ minWidth: '100%' }}
                 id="outlined-basic"
@@ -872,6 +874,7 @@ const EmployeeForm = () => {
         </Box>
       </form>
     </MainCard>
+    </div>
   );
 };
 

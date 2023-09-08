@@ -5,6 +5,7 @@ import CardContent from '@mui/material/CardContent';
 // import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import './dashboard.css';
+// import MainCard from 'ui-component/cards/MainCard';
 import { useNavigate } from 'react-router';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
@@ -168,7 +169,8 @@ const TotalGrowthBarChart = () => {
                   color: '#ffffff',
                   fontSize: '16px',
                   fontWeight: 'bold',
-                  marginBottom: '20px',                 
+                  marginBottom: '20px',
+                  
                 }}      
               >
                 Attendance Card
@@ -180,11 +182,13 @@ const TotalGrowthBarChart = () => {
                 //   fontSize: '14px',
                 //   fontWeight: 'bold'
                 // }}
-                style={{               
+                style={{
+                
                   fontSize: '14px',
                  fontWeight: 'bold',
                   marginBottom: '20px',
-                }}     
+                }}
+      
               >
                 Total Employees: {totalEmployees}
               </div>
@@ -211,6 +215,7 @@ const TotalGrowthBarChart = () => {
                     //   transition: 'background-color 0.3s',
                     //   fontSize: '14px'
                     // }}
+
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -222,7 +227,8 @@ const TotalGrowthBarChart = () => {
                       padding: '5px 5px',
                       transition: 'background-color 0.3s',
                       fontSize: '14px',
-                    }}     
+                    }}
+      
                     onClick={() => toggleDropdown('present')}
                   >
                     <FaCheckCircle size={24} style={{ marginRight: '10px' }} />
@@ -251,6 +257,7 @@ const TotalGrowthBarChart = () => {
                     //   transition: 'background-color 0.3s',
                     //   fontSize: '14px'
                     // }}
+
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -262,7 +269,8 @@ const TotalGrowthBarChart = () => {
                       padding: '5px 5px',
                       transition: 'background-color 0.3s',
                       fontSize: '14px',
-                    }}     
+                    }}
+      
                     onClick={() => toggleDropdown('absent')}
                   >
                     <FaTimesCircle size={24} style={{ marginRight: '10px' }} />
@@ -329,6 +337,7 @@ const TotalGrowthBarChart = () => {
             </div>
           </div>
         }
+
         {
           <Card
             sx={{

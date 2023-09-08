@@ -6,8 +6,7 @@ import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
 import { gridSpacing } from 'store/constant';
-// import ApexChart from './ApexChart';
-import Card from '@mui/material/Card';
+import ApexChart from './ApexChart';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -37,7 +36,9 @@ const Dashboard = () => {
   //   '#607d8b'
   //   // Add more colors as needed
   // ];
-  return (  
+
+  return (
+    
     // <div style={{ backgroundColor }}>
     //   {/* Color picker or dropdown for background color selection */}
     //   <div>
@@ -75,7 +76,7 @@ const Dashboard = () => {
     //       ))}
     //     </div>
     //   </div>
-<Card raised={true}>
+
     <div style={{ overflow: 'hidden' }}>
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
@@ -92,13 +93,12 @@ const Dashboard = () => {
         <Grid item xs={12} md={8}>
           <Upcomingevents isLoading={isLoading} />
         </Grid>
-        {/* <Grid item xs={12} md={1}>
+        <Grid item xs={12} md={3}>
           <ApexChart isLoading={isLoading} />
-        </Grid> */}
+        </Grid>
       </Grid>
       <ToastContainer />
     </div>
-    </Card>
   );
 };
 

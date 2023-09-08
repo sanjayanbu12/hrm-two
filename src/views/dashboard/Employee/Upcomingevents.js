@@ -130,13 +130,8 @@ const Upcomingevents = () => {
             <Button
               onClick={() => navigate('/newevent')}
               variant="contained"
+              color="secondary"
               endIcon={<KeyboardDoubleArrowRightIcon />}
-              sx={{
-                backgroundColor:"#FF5C93",
-                '&:hover': {
-                  backgroundColor: "#FF5C93",
-                }
-              }}
             >
               All Events
             </Button>

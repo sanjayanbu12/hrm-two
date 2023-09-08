@@ -18,16 +18,16 @@ export const theme = (customization) => {
 
   const themeOption = {
     colors: color,
-    heading: color.grey900,
+    heading: color.successBLack,
     paper: color.paper,
-    backgroundDefault: color.paper,
-    background: color.primaryLight,
-    darkTextPrimary: color.grey700,
-    darkTextSecondary: color.grey500,
-    textDark: color.grey900,
-    menuSelected: color.secondaryDark,
-    menuSelectedBack: color.secondaryLight,
-    divider: color.grey200,
+    // backgroundDefault: color.successBLack,
+    background: color.paper,
+    darkTextPrimary: color.successBLack,
+    darkTextSecondary: color.successBLack,
+    textDark: color.successBLack,
+    menuSelected: color.paper,
+    menuSelectedBack: color.successBLue,
+    divider: color.grey500,
     customization
   };
 
