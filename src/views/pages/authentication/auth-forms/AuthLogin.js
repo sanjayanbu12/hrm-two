@@ -10,8 +10,8 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
-import { useDispatch, useSelector } from 'react-redux';
-import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT } from 'store/actions';
+import { useDispatch } from 'react-redux';
+import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID } from 'store/actions';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 const AuthLogin = () => {
@@ -22,9 +22,6 @@ const AuthLogin = () => {
   const [isLoading, setIsLoading] = useState(false); // State variable for loader
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isAdmin = useSelector(state => state.customization.isAuthAdmin);
-  console.log(isAdmin)
-
   const validateLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true); // Start loader
@@ -48,6 +45,7 @@ const AuthLogin = () => {
       });
   
       dispatch({ type: LOGGED_IN });
+      dispatch({type:AUTH_ID,payload:response.data.existingUser.employeeId})
       const role = response.data.existingUser.role;
       if (role === 'Admin') {
         dispatch({ type: ADMIN_OR_NOT });

@@ -9,7 +9,7 @@ import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import { updatevalidationSchema } from './updateValidate';
 import TableViewIcon from '@mui/icons-material/TableView';
-
+import Card from '@mui/material/Card';
 const EmployeeForm = () => {
   // const theme = useTheme();
   const [name, setName] = useState([]);
@@ -490,8 +490,8 @@ const EmployeeForm = () => {
   };
 
   return (
-<div>
-    <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+<Card >
+    <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex',}}>
     <Button
       onClick={() => navigate(`/basictable`)}
       sx={{
@@ -506,10 +506,10 @@ const EmployeeForm = () => {
       Employee List
     </Button>
   </Box>
-    <MainCard title="Employee Information">
+    <MainCard title="Employee Information" >
      
-      <form>
-        <Box sx={{ flexGrow: 1 }}>
+      <form  >
+        <Box sx={{ flexGrow: 1, }}>
           <Grid container spacing={2}>
             <Grid item xs={4} style={{ marginBottom: 10 }}>
               <FormControl sx={{ minWidth: '100%' }} error={errors && errors.title}>
@@ -871,7 +871,7 @@ const EmployeeForm = () => {
         </Box>
       </form>
     </MainCard>
-    </div>
+    </Card>
   );
 };
 
