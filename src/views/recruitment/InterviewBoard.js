@@ -44,15 +44,15 @@ const InterviewBoard = () => {
     }
   };
 
-  const handleResume = async (_id, name) => {
+  const handleResume = async (_id, Name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${_id}`, {
         responseType: 'arraybuffer',
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
-      saveAs(blob, `${name} resume.pdf`);
-      console.log(_id,name+'name')
+      saveAs(blob, `${Name} resume.pdf`);
+      console.log(_id,Name+'name')
     } catch (error) {
       console.log('Error downloading resume:', error);
     }
