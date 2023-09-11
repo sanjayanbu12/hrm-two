@@ -51,7 +51,7 @@ const OrgTree = () => {
     console.log(edata);
   }, [edata]);
   const authId = useSelector((state) => state.customization.authId);
-  console.log(authId);
+
   const StyledAvatar = styled(Avatar)`
     && {
       background-color: ${deepOrange[500]};
