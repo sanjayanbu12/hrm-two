@@ -34,8 +34,9 @@ const InterviewBoard = () => {
   const handleSubmitFeedback = (feedbackText) => {
     console.log(`Feedback for ${selectedCandidate.Name}: ${feedbackText}`);
   };
-  
-  const handleOpenMenu = (e) => {
+
+  const handleOpenMenu = (e,id,name) => {
+    console.log(id,name+'ID PASS')
     setAnchorEl(e.currentTarget);
   };
 
@@ -67,6 +68,7 @@ const InterviewBoard = () => {
   };
 
   const handleResume = async (id, name) => {
+    console.log(id +'ID RESUME')
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
         responseType: 'arraybuffer',
@@ -149,7 +151,10 @@ const InterviewBoard = () => {
       setMatchedResults(updatedResults);
     }
   };
-
+useEffect(()=>{
+  const str=JSON.stringify(matchedResults)
+  console.log(JSON.parse(str))
+},[matchedResults])
   return (
     <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
@@ -198,6 +203,19 @@ const InterviewBoard = () => {
                               >
                                 <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
                                   <MoreVert sx={{ fontSize: '15px', cursor: 'pointer' }} onClick={(e) => handleOpenMenu(e, x._id, x.Name)} />
+                                  <Menu
+                                  anchorEl={anchorEl}
+                                  open={Boolean(anchorEl)}
+                                  onClose={handleCloseMenu}
+                                >
+                                  <MenuItem onClick={() => handleOpenFeedback(x._id)}>
+                                    <Feedback sx={{ marginRight: '10px' }} />
+                                    Feedback
+                                  </MenuItem>
+                                  {x.Resume &&(
+                                  <MenuItem onClick={(e) => handleResume(e,x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>)}
+                                  <MenuItem onClick={handleCloseMenu}><Forward sx={{ marginRight: '10px' }} /> Send Mail</MenuItem>
+                                </Menu>
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
@@ -207,19 +225,7 @@ const InterviewBoard = () => {
                                 <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
                                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
                                   <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
-                                </div>
-                                <Menu
-                                  anchorEl={anchorEl}
-                                  open={Boolean(anchorEl)}
-                                  onClose={handleCloseMenu}
-                                >
-                                  <MenuItem onClick={() => handleOpenFeedback(x._id)}>
-                                    <Feedback sx={{ marginRight: '10px' }} />
-                                    Feedback
-                                  </MenuItem>
-                                  <MenuItem onClick={() => handleResume(x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>
-                                  <MenuItem onClick={handleCloseMenu}><Forward sx={{ marginRight: '10px' }} /> Send Mail</MenuItem>
-                                </Menu>
+                                </div>                           
                               </Card>
                             )}
                           </Draggable>
