@@ -13,7 +13,6 @@ import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
-
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
@@ -149,6 +148,7 @@ const RecruitmentView = () => {
 
   const hanldeApprove = async () => {
     try {
+      console.log('first');
       const userApproval = selectedJob.orgData.find((data) => data.employeeId === authId);
       if (userApproval) {
         userApproval.approved = true;
