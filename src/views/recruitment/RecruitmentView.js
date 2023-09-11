@@ -29,6 +29,7 @@ const RecruitmentView = () => {
     fetchData();
   }, []);
 
+
   const fetchData = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
