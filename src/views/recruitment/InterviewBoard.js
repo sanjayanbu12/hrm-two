@@ -10,7 +10,7 @@ const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
   const [filter, setFilter] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
-  const allStatuses = ['Shortlist','Round 1','Round 2','Round 3', 'Selected','Hold', 'Rejected'];
+  const allStatuses = ['Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Selected', 'Hold', 'Rejected'];
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleOpenMenu = (e) => {
@@ -44,15 +44,15 @@ const InterviewBoard = () => {
     }
   };
 
-  const handleResume = async (_id, Name) => {
+  const handleResume = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${_id}`, {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
         responseType: 'arraybuffer',
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
-      saveAs(blob, `${Name} resume.pdf`);
-      console.log(_id,Name+'name')
+      saveAs(blob, `${name} resume.pdf`);
+      console.log(name + 'name');
     } catch (error) {
       console.log('Error downloading resume:', error);
     }
@@ -83,7 +83,7 @@ const InterviewBoard = () => {
             Resume: data.resume,
             Photo: data.photo,
             AppliedAt: data.appliedAt,
-            Status: data.Status=="null"?"Shortlist":data.Status,
+            Status: data.Status == "null" ? "Shortlist" : data.Status,
             Qualification: data.department,
             YearOfPassing: data.graduationYear,
             Skills: data.skills,
@@ -99,7 +99,6 @@ const InterviewBoard = () => {
   }, [Adata, filter]);
 
   console.log('fff', matchedResults);
-  
 
   const handleDragEnd = async (result) => {
     if (!result.destination) {
@@ -128,7 +127,7 @@ const InterviewBoard = () => {
       setMatchedResults(updatedResults);
     }
   };
-  
+
   return (
     <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
@@ -136,13 +135,13 @@ const InterviewBoard = () => {
           {allStatuses.map((title, columnIndex) => {
             const columnResults = matchedResults.filter((x) => x.Status === title);
             return (
-              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px',marginBottom:'60px'}}>
+              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '60px' }}>
                 <Paper elevation={3} sx={{ padding: '16px' }}>
                   <CardHeader
                     title={title}
                     sx={{
                       color: '#00695f',
-                      marginBottom:'-30px',
+                      marginBottom: '-30px',
                       marginTop: '-20px',
                       height: '10px',
                       minWidth: '100px',
@@ -151,7 +150,7 @@ const InterviewBoard = () => {
                   />
                   <Droppable droppableId={title} index={columnIndex}>
                     {(provided, snapshot) => (
-                      <CardContent 
+                      <CardContent
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                         style={{
@@ -175,17 +174,8 @@ const InterviewBoard = () => {
                                   backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
                                 }}
                               >
-                                 <div style={{display:'flex',alignItems:'end',justifyContent:'flex-end'}}>
-                                <MoreVert sx={{fontSize:'15px',cursor:'pointer'}} onClick={handleOpenMenu}/>
-                                <Menu
-                                 anchorEl={anchorEl}
-                                 open={Boolean(anchorEl)}
-                                 onClose={handleCloseMenu}
-                                >
-                               <MenuItem onClick={handleCloseMenu}><Feedback sx={{marginRight:'10px'}}/> Feedback</MenuItem>
-                               <MenuItem onClick={() => handleResume(x._id, x.Name)}><TextSnippet sx={{marginRight:'10px'}}/>View Resume</MenuItem>
-                               <MenuItem onClick={handleCloseMenu}><Forward sx={{marginRight:'10px'}}/> Send Mail</MenuItem>
-                               </Menu>
+                                <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
+                                  <MoreVert sx={{ fontSize: '15px', cursor: 'pointer' }} onClick={(e) => handleOpenMenu(e, x._id, x.Name)} />
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
@@ -193,9 +183,18 @@ const InterviewBoard = () => {
                                 <Typography variant="body2">{x.Jobrole}</Typography>
                                 <Typography variant="body2"><b>Qualification:</b>{x.Qualification}</Typography>
                                 <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
-                                <div style={{display:'flex',alignItems:'flex-end',justifyContent:'flex-end'}}>
-                                <Avatar sx={{fontSize:'15px',fontWeight:'Bold',height:'25px',width:'25px'}} >{x.Name[0]}</Avatar>
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                                  <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
                                 </div>
+                                <Menu
+                                  anchorEl={anchorEl}
+                                  open={Boolean(anchorEl)}
+                                  onClose={handleCloseMenu}
+                                >
+                                  <MenuItem onClick={handleCloseMenu}><Feedback sx={{ marginRight: '10px' }} /> Feedback</MenuItem>
+                                  <MenuItem onClick={() => handleResume(x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>
+                                  <MenuItem onClick={handleCloseMenu}><Forward sx={{ marginRight: '10px' }} /> Send Mail</MenuItem>
+                                </Menu>
                               </Card>
                             )}
                           </Draggable>
