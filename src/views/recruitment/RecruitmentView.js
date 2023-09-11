@@ -24,7 +24,6 @@ const RecruitmentView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
-  console.log(authId);
   useEffect(() => {
     fetchData();
   }, []);
@@ -32,10 +31,10 @@ const RecruitmentView = () => {
     console.log(selectedJob);
   }, [selectedJob]);
 
-
   const fetchData = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+      console.log(res.data.data.orgData.find((data) => data.employeeId === authId));
       const Job = res.data.data;
       const abc = JSON.stringify(Job);
       setSelectedJob(JSON.parse(abc));
@@ -68,6 +67,7 @@ const RecruitmentView = () => {
   const fetchApp = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
@@ -309,7 +309,6 @@ const RecruitmentView = () => {
               </Typography>
 
               <>
-
                 <Toast ref={toast} position="bottom-center" />
                 <ConfirmDialog
                   visible={visible}
@@ -322,18 +321,20 @@ const RecruitmentView = () => {
                 />
                 <div className="card flex justify-content-center">
                   <ButtonGroup>
-                    <HrBtn
-                      size="small"
-                      variant="secondary"
-                      disabled={selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)}
-                      onClick={() => setVisible(true)}
-                      icon="pi pi-check"
-                      label="Confirm"
-                    >
-                      {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)
-                        ? 'Waiting For Others To Approve'
-                        : 'Approve'}
-                    </HrBtn>
+                    {selectedJob.orgData.filter((item) => item.employeeId === authId) && (
+                      <HrBtn
+                        size="small"
+                        variant="secondary"
+                        disabled={selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)}
+                        onClick={() => setVisible(true)}
+                        icon="pi pi-check"
+                        label="Confirm"
+                      >
+                        {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)
+                          ? 'Waiting For Others To Approve'
+                          : 'Approve'}
+                      </HrBtn>
+                    )}
                     <Button size="small" onClick={hanldeApproveMan}>
                       ApproveByManager
                     </Button>
