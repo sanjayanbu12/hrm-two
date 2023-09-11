@@ -44,6 +44,20 @@ const InterviewBoard = () => {
     }
   };
 
+  const handleResume = async (_id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${_id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, `${name} resume.pdf`);
+      console.log(_id,name+'name')
+    } catch (error) {
+      console.log('Error downloading resume:', error);
+    }
+  };
+
   useEffect(() => {
     fetchEmployees();
     fetchRec();
@@ -169,7 +183,7 @@ const InterviewBoard = () => {
                                  onClose={handleCloseMenu}
                                 >
                                <MenuItem onClick={handleCloseMenu}><Feedback sx={{marginRight:'10px'}}/> Feedback</MenuItem>
-                               <MenuItem onClick={handleCloseMenu}><TextSnippet sx={{marginRight:'10px'}}/>View Resume</MenuItem>
+                               <MenuItem onClick={() => handleResume(x._id, x.Name)}><TextSnippet sx={{marginRight:'10px'}}/>View Resume</MenuItem>
                                <MenuItem onClick={handleCloseMenu}><Forward sx={{marginRight:'10px'}}/> Send Mail</MenuItem>
                                </Menu>
                                 </div>
