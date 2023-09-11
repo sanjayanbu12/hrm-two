@@ -7,11 +7,20 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { LinkedIn, Twitter } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import { HrBtn } from './StyledConst';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { ConfirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
+import { useRef } from 'react';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
   const [Selected, setSelected] = useState(0);
   const [Loader, setLoader] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const toast = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
@@ -42,10 +51,17 @@ const RecruitmentView = () => {
   useEffect(() => {
     fetchApp();
   }, [selectedJob, selectedAts]);
+  const accept = () => {
+    console.log('accepted');
+    hanldeApprove();
+    toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+  };
 
+  const reject = () => {
+    toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+  };
   const fetchApp = async () => {
     try {
-      setLoader(true);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
@@ -111,6 +127,7 @@ const RecruitmentView = () => {
 
   const hanldeApprove = async () => {
     try {
+      console.log('first');
       const userApproval = selectedJob.orgData.find((data) => data.employeeId === authId);
       if (userApproval) {
         userApproval.approved = true;
@@ -124,6 +141,9 @@ const RecruitmentView = () => {
         orgData: updatedOrgData
       };
       await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
+      setTimeout(() => {
+        navigate('/payroll');
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
@@ -282,17 +302,36 @@ const RecruitmentView = () => {
                 <b> Remaining</b>
                 <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {`${selectedJob.Openings - Selected}`}
               </Typography>
-             
-                <Button size="small"
-                disabled={selectedJob.orgData.find(data=>data.employeeId===authId && data.approved===true)}
-                onClick={hanldeApprove}>
-                  ApproveByHr
-                </Button>
-              
 
-              <Button size="small" onClick={hanldeApproveMan}>
-                ApproveByManager
-              </Button>
+              <>
+                <Toast ref={toast} />
+                <ConfirmDialog
+                  visible={visible}
+                  onHide={() => setVisible(false)}
+                  message="Are you certain you wish to approve this job posting?"
+                  header="Confirmation"
+                  icon="pi pi-exclamation-triangle"
+                  accept={accept}
+                  reject={reject}
+                />
+                <div className="card flex justify-content-center">
+                  <ButtonGroup>
+                    <HrBtn
+                      size="small"
+                      variant="secondary"
+                      disabled={selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)}
+                      onClick={() => setVisible(true)}
+                      icon="pi pi-check"
+                      label="Confirm"
+                    >
+                      {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true) ? 'Waiting For Others To Approve' : 'Approve'}
+                    </HrBtn>
+                    <Button size="small" onClick={hanldeApproveMan}>
+                      ApproveByManager
+                    </Button>
+                  </ButtonGroup>
+                </div>
+              </>
             </div>
           )}
         </MainCard>
