@@ -62,6 +62,7 @@ const navigate=useNavigate()
   };
   return (
     <MaterialTable
+    raised={true}
     title={<div style={{ fontWeight: 'bold' ,fontSize:'20px'}}>Employee Table</div>}
       columns={columns}
       data={edata}
@@ -72,6 +73,7 @@ const navigate=useNavigate()
           tooltip: 'View Details',
           onClick: (event, rowData) => handleView(event,rowData)
         },
+        
         // {
         //   icon: tableIcons.Clear,
         //   tooltip: 'Edit',
@@ -83,19 +85,23 @@ const navigate=useNavigate()
         //   onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
         // }
       ]}
+      style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
       options={{
         actionsColumnIndex: 6,
         exportButton: true,
         exportCsv: exportCsv,
         grouping: true,
-        selection:true
+        selection:true,
         // rowStyle: {
         //   backgroundColor: '#EEE',
         // },
-        // headerStyle: {
-        //   backgroundColor: '#01579b',
-        //   color: '#FFF'
-        // }
+        headerStyle: {
+          background: 'linear-gradient(180deg,#3a59af,#352786)',
+          color: '#fff', // Text color
+        },
+        headerCellStyle: {
+          color: 'white', // Text color for header cells
+        },
       }}
     />
   );

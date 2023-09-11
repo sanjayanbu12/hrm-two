@@ -54,7 +54,7 @@ const EmployeeForm = () => {
     }));
   };
   const handleName = (e) => {
-    console.log(e.target.value)
+    console.log(e.target.value);
     const selectedValue = e.target.value;
     const [id, name] = selectedValue.split(',');
     setName({ id, name });
@@ -136,10 +136,29 @@ const EmployeeForm = () => {
       console.log(error);
     }
   };
-  const fetchAuthData=async()=>{
-    const res =  await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata')
-    setAuthData(res.data.user)
-  }
+  useEffect(() => {
+    setLastname('a');
+    setGender('MALE');
+    seteMail('ajay@gmail.com');
+    setMob('1234567890');
+    setaltMob('9876543210');
+    setperAddress('123, Main Street');
+    settemAddress('456, Temporary Street');
+    setBloodgroup('A+VE');
+    setJoin('2023-09-08');
+    setDob('2000-01-01');
+    setType('Full Time');
+    setTitle('MR');
+    setFathername('John Doe');
+    setNationality('Indian');
+    setReligion('Hindu');
+  }, []);
+
+  const fetchAuthData = async () => {
+    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+    setAuthData(res.data.user);
+    console.log(res.data.user.filter((data) => data.isEmployee === false));
+  };
   const handleJoin = (e) => {
     const selectedDate = e.target.value;
     const currentDate = new Date().toISOString().split('T')[0];
@@ -255,26 +274,7 @@ const EmployeeForm = () => {
         console.log(err.message);
       });
   }, []);
-  useEffect(() => {
-    // Set default values for all form fields
-    setName('John');
-    setLastname('Doe');
-    setGender('MALE');
-    setDept('HR');
-    setDesi('HR');
-    seteMail('johndoe@example.com');
-    setMob('1234567890');
-    setaltMob('9876543210');
-    setperAddress('123 Main St');
-    settemAddress('456 Temp St');
-    setBloodgroup('A+VE');
-    setJoin('2023-01-01'); // Format should match the date input type (yyyy-MM-dd)
-    setDob('1990-01-01'); // Format should match the date input type (yyyy-MM-dd)
-    setFathername('Ajay');
-    setNationality('Indian');
-    setReligion('Hindu');
-  }, []);
-  
+
   const finalSubmit = async () => {
     if (id) {
       try {
@@ -375,7 +375,7 @@ const EmployeeForm = () => {
     } else {
       try {
         const task = {
-          name:name.name,
+          name: name.name,
           lastname,
           gender,
           email,
@@ -430,9 +430,8 @@ const EmployeeForm = () => {
         );
         const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
         const newEmployeeId = res.data.data._id; // Extract the newly created employee's _id
-        const empId=res.data.data.employeeid
-       
-        await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`,{employeeId:empId})
+        const empId = res.data.data.employeeid;
+        await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`, { employeeId: empId, isEmployee: true });
         if (report.id) {
           // Check if report.id exists
           const reportUpdateData = {
@@ -441,8 +440,11 @@ const EmployeeForm = () => {
               id: newEmployeeId
             }
           };
-          console.log(report.id)
-          await axios.put(`http://localhost:3001/api/updateemployee/${report.id}`, reportUpdateData);
+          console.log(report.id);
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${newEmployeeId}`, {
+            isReported: true
+          });
         }
         setName('');
         setLastname('');
@@ -529,24 +531,19 @@ const EmployeeForm = () => {
             </Grid>
 
             <Grid item xs={4}>
-                <FormControl sx={{ minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-label">First Name</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="First Name"
-                    onChange={(e) => handleName(e)}
-                  >
-                    {AuthData.map((item) => (
-                      <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
-                        {item.firstname}
-                      </MenuItem>
-                    ))}
-                  </Select>
+              <FormControl sx={{ minWidth: '100%' }}>
+                <InputLabel id="demo-simple-select-label">First Name</InputLabel>
+                <Select labelId="demo-simple-select-label" id="demo-simple-select" label="First Name" onChange={(e) => handleName(e)}>
+                  {AuthData.filter((item) => item.isEmployee === false).map((item) => (
+                    <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
+                      {item.firstname}
+                    </MenuItem>
+                  ))}
+                </Select>
 
-                  <FormHelperText>{errors && errors.report}</FormHelperText>
-                </FormControl>
-              </Grid>
+                <FormHelperText>{errors && errors.report}</FormHelperText>
+              </FormControl>
+            </Grid>
             <Grid item xs={4}>
               <TextField
                 sx={{ minWidth: '100%' }}

@@ -96,12 +96,13 @@ const RecruitmentForm = () => {
     }));
   };
   const handleProct = (e,value) => {
+    console.log(value)
     const selectedData = value.map(item => ({
       name: item.name,
-      id: item.id
+      id: item.id,
+      employeeId:item.employeeId
     }));
     setproct(selectedData)
-    console.log(proct)
     setErrors((prev) => ({
       ...prev,
       Hrname: ''
