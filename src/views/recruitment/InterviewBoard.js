@@ -5,6 +5,7 @@ import { Avatar, Card, CardContent, CardHeader, Menu, MenuItem, Paper } from '@m
 import { Typography } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Feedback, Forward, MoreVert, TextSnippet } from '@mui/icons-material';
+import FeedbackPopup from './Feedback';
 
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
@@ -12,7 +13,28 @@ const InterviewBoard = () => {
   const [matchedResults, setMatchedResults] = useState([]);
   const allStatuses = ['Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Selected', 'Hold', 'Rejected'];
   const [anchorEl, setAnchorEl] = useState(null);
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const handleOpenFeedback = (candidateId) => {
+    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
+  
+    if (selectedCandidate) {
+      setSelectedCandidate(selectedCandidate);
+      setFeedbackOpen(true);
+    } else {
+      console.error(`Candidate with ID ${candidateId} not found.`);
+    }
+  };
+ 
+  const handleCloseFeedback = () => {
+    setSelectedCandidate(null);
+    setFeedbackOpen(false);
+  };
 
+  const handleSubmitFeedback = (feedbackText) => {
+    console.log(`Feedback for ${selectedCandidate.Name}: ${feedbackText}`);
+  };
+  
   const handleOpenMenu = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -52,7 +74,7 @@ const InterviewBoard = () => {
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
       saveAs(blob, `${name} resume.pdf`);
-      console.log(name + 'name');
+      console.log(id,name + 'name');
     } catch (error) {
       console.log('Error downloading resume:', error);
     }
@@ -191,7 +213,10 @@ const InterviewBoard = () => {
                                   open={Boolean(anchorEl)}
                                   onClose={handleCloseMenu}
                                 >
-                                  <MenuItem onClick={handleCloseMenu}><Feedback sx={{ marginRight: '10px' }} /> Feedback</MenuItem>
+                                  <MenuItem onClick={() => handleOpenFeedback(x._id)}>
+                                    <Feedback sx={{ marginRight: '10px' }} />
+                                    Feedback
+                                  </MenuItem>
                                   <MenuItem onClick={() => handleResume(x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>
                                   <MenuItem onClick={handleCloseMenu}><Forward sx={{ marginRight: '10px' }} /> Send Mail</MenuItem>
                                 </Menu>
@@ -209,6 +234,11 @@ const InterviewBoard = () => {
           })}
         </DragDropContext>
       </div>
+      <FeedbackPopup
+        open={feedbackOpen}
+        onClose={handleCloseFeedback}
+        onSubmit={handleSubmitFeedback}
+      />
     </MainCard>
   );
 };
