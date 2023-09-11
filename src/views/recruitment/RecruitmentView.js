@@ -32,6 +32,7 @@ const RecruitmentView = () => {
     console.log(selectedJob);
   }, [selectedJob]);
 
+
   const fetchData = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
@@ -52,9 +53,13 @@ const RecruitmentView = () => {
     fetchApp();
   }, [selectedJob, selectedAts]);
   const accept = () => {
-    console.log('accepted');
     hanldeApprove();
-    toast.current.show({ severity: 'info', summary: 'Confirmed', detail: 'You have accepted', life: 3000 });
+    toast.current.show({
+      severity: 'success',
+      summary: 'Confirmed',
+      detail: 'You Have Given Acceptance To This JobRole Redirecting.....',
+      life: 3000
+    });
   };
 
   const reject = () => {
@@ -142,7 +147,7 @@ const RecruitmentView = () => {
       };
       await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
       setTimeout(() => {
-        navigate('/payroll');
+        navigate(`/hrapproval/${authId}`);
       }, 2000);
     } catch (error) {
       console.log(error);
@@ -304,7 +309,8 @@ const RecruitmentView = () => {
               </Typography>
 
               <>
-                <Toast ref={toast} />
+
+                <Toast ref={toast} position="bottom-center" />
                 <ConfirmDialog
                   visible={visible}
                   onHide={() => setVisible(false)}
@@ -324,7 +330,9 @@ const RecruitmentView = () => {
                       icon="pi pi-check"
                       label="Confirm"
                     >
-                      {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true) ? 'Waiting For Others To Approve' : 'Approve'}
+                      {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)
+                        ? 'Waiting For Others To Approve'
+                        : 'Approve'}
                     </HrBtn>
                     <Button size="small" onClick={hanldeApproveMan}>
                       ApproveByManager

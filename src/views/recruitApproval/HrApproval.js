@@ -10,6 +10,8 @@ import { Stack,Box } from '@mui/material';
 import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 // import MaterialTable from "material-table";
+import Lottie from 'react-lottie';
+import animationData from '../lottie/nodata.json';
 import CircularProgress from '@mui/material/CircularProgress';
 const HrApproval = () => {
   const [data, setRecData] = useState([]);
@@ -22,6 +24,14 @@ const HrApproval = () => {
   useEffect(() => {
     fetchData();
   }, [edata]);
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: 'xMidYMid slice'
+    }
+  };
   useEffect(() => {
     const fetchDataOnMount = async () => {
       try {
@@ -76,7 +86,7 @@ const HrApproval = () => {
     <>
       {!loading ? (
         <Stack direction={'row'} gap={'30px'} sx={{ flexWrap: 'wrap' }}>
-          {data &&
+          {data.length>0 ?
             data.map((item) => (
               <Card  raised={true} key={item._id} sx={{ width: '50%' }}>
                 <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -120,8 +130,10 @@ const HrApproval = () => {
                     </Button>
                   </Stack>
                 </CardContent>
+               
               </Card>
-            ))}
+              
+            )):( <Lottie options={defaultOptions} height={500} width={600} />)}
         </Stack>
       ) : (
       <Box sx={{height:'80vh',display:'flex',alignItems:'center',justifyContent:'center'}}>
