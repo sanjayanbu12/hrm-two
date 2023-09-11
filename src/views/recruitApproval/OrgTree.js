@@ -319,7 +319,8 @@ console.log(edata)
                 (option) =>
                   !managerData.some((data) => data._id === option._id) &&
                   !Tier2Data.some((tierMem) => tierMem._id === option._id) &&
-                  Tier2Data.map((item) => item.report)
+                  Tier2Data.map((item) => item.report) &&
+                  option.isReported===false
               )}
               getOptionLabel={(option) => option.name}
               defaultValue={[]}
