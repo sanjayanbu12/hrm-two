@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 
-const FeedbackPopup = ({ open, onClose, onSubmit }) => {
+const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
   const [feedback, setFeedback] = useState('');
-
+  console.log({Name}+"Name")
   const handleFeedbackChange = (event) => {
     setFeedback(event.target.value);
   };
@@ -16,12 +16,30 @@ const FeedbackPopup = ({ open, onClose, onSubmit }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Provide Feedback</DialogTitle>
+      <DialogTitle>Provide Feedback {Name}</DialogTitle>
       <DialogContent>
-        <TextField
-          label="Feedback"
+        <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
+          label="Round 1"
           multiline
-          rows={4}
+          rows={1}
+          fullWidth
+          variant="outlined"
+          value={feedback}
+          onChange={handleFeedbackChange}
+        />
+         <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
+          label="Round 2"
+          multiline
+          rows={1}
+          fullWidth
+          variant="outlined"
+          value={feedback}
+          onChange={handleFeedbackChange}
+        />
+         <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
+          label="Round 3"
+          multiline
+          rows={1}
           fullWidth
           variant="outlined"
           value={feedback}

@@ -14,12 +14,15 @@ const InterviewBoard = () => {
   const allStatuses = ['Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Selected', 'Hold', 'Rejected'];
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
-  const handleOpenFeedback = (candidateId) => {
+  const [selectedCandidateName, setSelectedCandidateName] = useState(null);
+
+  const handleOpenFeedback = (candidateId,candidateName) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
   
     if (selectedCandidate) {
       setSelectedCandidate(selectedCandidate);
       setFeedbackOpen(true);
+      setSelectedCandidateName(candidateName)
     } else {
       console.error(`Candidate with ID ${candidateId} not found.`);
     }
@@ -205,7 +208,7 @@ useEffect(()=>{
                                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',cursor:"pointer",marginBottom:'5px' }}>
                                   <div style={{ display: 'flex',marginRight:'40%'}}>
                                   <Tooltip title='Feedback'>
-                                <Feedback onClick={() => handleOpenFeedback(x._id)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
+                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
                                   {x.Resume && (
                                       <Tooltip title='Download Resume'>
                                  <TextSnippet onClick={() =>handleResume(x._id, x.Name)} sx={{ marginRight: '13px',marginTop:'11px' }}/></Tooltip> )}
@@ -230,6 +233,7 @@ useEffect(()=>{
         open={feedbackOpen}
         onClose={handleCloseFeedback}
         onSubmit={handleSubmitFeedback}
+        Name={selectedCandidateName}
       />
     </MainCard>
   );
