@@ -85,7 +85,6 @@ const RecruitmentView = () => {
   const fetchApp = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
@@ -149,7 +148,6 @@ const RecruitmentView = () => {
 
   const hanldeApprove = async () => {
     try {
-      console.log('first');
       const userApproval = selectedJob.orgData.find((data) => data.employeeId === authId);
       if (userApproval) {
         userApproval.approved = true;
