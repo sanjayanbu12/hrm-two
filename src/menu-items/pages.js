@@ -46,19 +46,25 @@ const pages = {
       children: [
         {
           id: 'jobform',
-          title: 'Job Description Form',
+          title: 'Job Posting',
           type: 'item',
           url: '/jobform'
         },
         {
           id: 'jobtable',
-          title: 'Job Description Table',
+          title: 'Position Details',
           type: 'item',
           url: '/jobtable'
         },
         {
+          id: 'shortlist',
+          title: ' Candidates Shortlisting',
+          type: 'item',
+          url: '/shortlist'
+        },
+        {
           id: 'applicationtracker',
-          title: 'Application Tracker',
+          title: 'Interview Process ',
           type: 'collapse',
           url: '/applicationtracker',
           icon: icons.PersonSearchIcon,
@@ -68,112 +74,88 @@ const pages = {
               title: 'Application Tracker',
               type: 'item',
               url: '/applicationtracker',
-            },]
-          },
-
-            {
-              id: 'interview',
-              title: 'Interview',
-              type: 'collapse',
-              url: '/interview',
-              icon: icons.DvrIcon,
-              children:[
-            
-            {
-              id: 'shortlist',
-              title: 'Shortlist Candidates',
-              type: 'item',
-              url: '/shortlist'
-            },
+            },           
             {
               id: 'interviewboard',
               title: 'Interview Board',
               type: 'item',
               url: '/interviewboard'
-            },
-    
+            },    
           ]
-        },
-       
+        },       
       ]
     },
-
     {
       id: 'employees',
-      title: 'Employees',
+      title: 'Employees Self Service',
       type: 'collapse',
       icon: icons.BadgeOutlinedIcon,
 
       children: [
-        {
-          id: 'employeeform',
-          title: 'Employee Information',
-          type: 'item',
-          url: '/newemployee'
-        },
+        // {
+        //   id: 'employeeform',
+        //   title: 'Employee Information',
+        //   type: 'item',
+        //   url: '/newemployee'
+        // },
         {
           id: 'basictable',
-          title: 'Employee Information Management',
+          title: 'Personal Information & Management',
           type: 'item',
           url: '/basictable'
         },
         {
+          id: 'applicationtracker',
+          title: 'Leave & Attendance',
+          type: 'collapse',
+          icon: icons.AccountTreeOutlinedIcon,
+          children:[
+        {
           id: 'leavetrackerform',
-          title: 'Leave Request Form',
+          title: ' Request Leave',
           type: 'item',
           url: '/leavetrackerform'
         },
-        {
-          id: 'Attendance Regulation',
-          title: 'Attendance Regulation',
-          type: 'item',
-          url: '/attendanceManagement'
-        },
+        // {
+        //   id: 'Attendance Regulation',
+        //   title: 'Attendance Regulation',
+        //   type: 'item',
+        //   url: '/attendanceManagement'
+        // },
         {
           id: 'leavetrackerlist',
-          title: 'Applied Leave List',
+          title: 'View leave',
           type: 'item',
           url: '/leavetrackerlist'
         },
         {
           id: 'approveleave',
-          title: 'ApproveLeave',
+          title: 'Track Leave',
           type: 'item',
           url: '/approveleave'
         },
-        
+      ],
+    },
     {
       id: 'Organisation Chart',
       title: 'Organisation Chart',
       type: 'item',
       url: '/payroll'
     },
-    {
-      id: 'employeeengagement',
-      title: 'Employee Engagement & Surveys',
-      type: 'item',
-      url: '/employeeengagement'
-    },
-    {
-      id: 'employeeselfservices',
-      title: 'Employee Self Services',
-      type: 'item',
-      url: '/employeeselfservices'
-    },
+    // {
+    //   id: 'employeeengagement',
+    //   title: 'Employee Engagement & Surveys',
+    //   type: 'item',
+    //   url: '/employeeengagement'
+    // },
+    // {
+    //   id: 'employeeselfservices',
+    //   title: 'Employee Self Services',
+    //   type: 'item',
+    //   url: '/employeeselfservices'
+    // },
       ]
     },
-
-    // {
-    //   id: 'leavemanagement',
-    //   title: 'Time and Attendance',
-    //   type: 'collapse',
-    //   icon: icons.PermIdentityOutlinedIcon,
-
-    //   children: [
-       
-    //   ]
-    // },
-
     {
       id: 'Learning & Development',
       title: 'Learning & Development',
@@ -183,26 +165,24 @@ const pages = {
       children: [
         {
           id: 'Learning Uploads',
-          title: 'Learning Uploads',
+          title: 'Course Catalog',
           type: 'item',
           url: '/LearningUploads'
         },
         {
           id: 'Learning Module',
-          title: 'Learning Module',
+          title: 'Course Upload',
           type: 'item',
           url: '/LearningModule'
         },
         {
           id: 'CourseOverview',
-          title: 'Course Overview',
+          title: 'Course Review',
           type: 'item',
           url: '/CourseOverview'
         },
       ]
     },
-
-
     {
       id: 'performance',
       title: 'Performance Management',
@@ -210,19 +190,18 @@ const pages = {
       icon: icons.IconKey,
 
       children: [
-      
-        {
-          id: 'feedbacks',
-          title: 'Feedbacks',
-          type: 'item',
-          url: '/feedbacks'
-        },
         {
           id: 'skillsetmatrix',
-          title: 'Skill Set Matrix',
+          title: 'Skill Matrix',
           type: 'item',
           url: '/skillsetmatrix'
-        }
+        },
+        {
+          id: 'feedbacks',
+          title: 'Review Feedbacks',
+          type: 'item',
+          url: '/feedbacks'
+        },       
       ]
     },
   ]

@@ -3,7 +3,6 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
-// import Addemployeetable from 'views/addemployeetable/Addemployeetable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/BasicRecruittable';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
@@ -93,9 +92,7 @@ const MainRoutes = {
     {
       path: '/skillsetmatrix',
       element: <SkillsetMatrix />
-    },
-   
-   
+    },   
     {
       path: '/Jobtable',
       element: <RecruitmentTable />
@@ -108,10 +105,6 @@ const MainRoutes = {
       path: '/Jobform',
       element: <RecruitmentForm />
     },
-    // {
-    //   path: '/Addemployeetable',
-    //   element: <Addemployeetable />
-    // },
     {
       path: '/Basictable',
       element: <BasicTable />
@@ -139,8 +132,7 @@ const MainRoutes = {
     {
       path: '/CourseOverview',
       element: <CourseOverview />
-    },
-    
+    },  
     {
       path: '/payroll',
       element: <Payroll />
@@ -153,7 +145,6 @@ const MainRoutes = {
       path:'/interviewboard',
       element:<InterviewBoard/>
     },
-
     {
       path: '/newemployee',
       element: <EmployeeForm />
@@ -162,7 +153,6 @@ const MainRoutes = {
       path: '/newemployee/:id',
       element: <EmployeeForm />
     },
-
     {
       path: '/viewapp',
       element: <ViewApproval />
@@ -174,8 +164,7 @@ const MainRoutes = {
     {
       path: '/applicationview1/:id',
       element: <ApplicationView1 />
-    },
-   
+    },  
     {
       path: '/applicationview/:id',
       element: <ApplicationView />
@@ -199,8 +188,7 @@ const MainRoutes = {
     {
       path: '/managerapproval/:id',
       element: <ManagerApproval />
-    }
-   
+    }  
   ]
 };
 
