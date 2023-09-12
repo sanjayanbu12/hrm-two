@@ -13,6 +13,7 @@ import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
+
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
@@ -71,11 +72,11 @@ const RecruitmentView = () => {
   };
 
   const acceptmanager = () => {
-    hanldeApproveMan()
+    hanldeApproveMan();
     toast.current.show({
       severity: 'success',
       summary: 'Confirmed',
-      detail: 'You Have Given Acceptance To This Job Congrats.....',
+      detail: 'You have granted approval for this job',
       life: 3000
     });
   };

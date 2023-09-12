@@ -25,6 +25,7 @@ const cardAnimation = {
     x: 0
   }
 };
+
 const defaultOptions = {
   loop: true,
   autoplay: true,
