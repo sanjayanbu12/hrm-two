@@ -1,24 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
-import { Avatar, Card, CardContent, CardHeader, Menu, MenuItem, Paper } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader,Paper, Tooltip } from '@mui/material';
 import { Typography } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Feedback, Forward, MoreVert, TextSnippet } from '@mui/icons-material';
+import { Feedback,Send,TextSnippet } from '@mui/icons-material';
+import FeedbackPopup from './Feedback';
 
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
   const [filter, setFilter] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
-  const allStatuses = ['Shortlist','Round 1','Round 2','Round 3', 'Selected','Hold', 'Rejected'];
-  const [anchorEl, setAnchorEl] = useState(null);
+  const allStatuses = ['Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Selected', 'Hold', 'Rejected'];
+  const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [selectedCandidate, setSelectedCandidate] = useState(null);
+  const [selectedCandidateName, setSelectedCandidateName] = useState(null);
 
-  const handleOpenMenu = (e) => {
-    setAnchorEl(e.currentTarget);
+  const handleOpenFeedback = (candidateId,candidateName) => {
+    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
+  
+    if (selectedCandidate) {
+      setSelectedCandidate(selectedCandidate);
+      setFeedbackOpen(true);
+      setSelectedCandidateName(candidateName)
+    } else {
+      console.error(`Candidate with ID ${candidateId} not found.`);
+    }
+  };
+ 
+  const handleCloseFeedback = () => {
+    setSelectedCandidate(null);
+    setFeedbackOpen(false);
   };
 
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
+  const handleSubmitFeedback = (feedbackText) => {
+    console.log(`Feedback for ${selectedCandidate.Name}: ${feedbackText}`);
   };
 
   const fetchEmployees = async () => {
@@ -41,6 +57,21 @@ const InterviewBoard = () => {
       console.log('data', data);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleResume = async (id, name) => {
+    console.log(id +'ID RESUME')
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, `${name} resume.pdf`);
+      console.log(id,name + 'name');
+    } catch (error) {
+      console.log('Error downloading resume:', error);
     }
   };
 
@@ -69,7 +100,7 @@ const InterviewBoard = () => {
             Resume: data.resume,
             Photo: data.photo,
             AppliedAt: data.appliedAt,
-            Status: data.Status=="null"?"Shortlist":data.Status,
+            Status: data.Status == "null" ? "Shortlist" : data.Status,
             Qualification: data.department,
             YearOfPassing: data.graduationYear,
             Skills: data.skills,
@@ -85,7 +116,6 @@ const InterviewBoard = () => {
   }, [Adata, filter]);
 
   console.log('fff', matchedResults);
-  
 
   const handleDragEnd = async (result) => {
     if (!result.destination) {
@@ -114,7 +144,10 @@ const InterviewBoard = () => {
       setMatchedResults(updatedResults);
     }
   };
-  
+useEffect(()=>{
+  const str=JSON.stringify(matchedResults)
+  console.log(JSON.parse(str))
+},[matchedResults])
   return (
     <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
@@ -122,13 +155,13 @@ const InterviewBoard = () => {
           {allStatuses.map((title, columnIndex) => {
             const columnResults = matchedResults.filter((x) => x.Status === title);
             return (
-              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px',marginBottom:'60px'}}>
+              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '60px' }}>
                 <Paper elevation={3} sx={{ padding: '16px' }}>
                   <CardHeader
                     title={title}
                     sx={{
                       color: '#00695f',
-                      marginBottom:'-30px',
+                      marginBottom: '-30px',
                       marginTop: '-20px',
                       height: '10px',
                       minWidth: '100px',
@@ -137,7 +170,7 @@ const InterviewBoard = () => {
                   />
                   <Droppable droppableId={title} index={columnIndex}>
                     {(provided, snapshot) => (
-                      <CardContent 
+                      <CardContent
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                         style={{
@@ -158,20 +191,13 @@ const InterviewBoard = () => {
                                   border: '1px solid #ddd',
                                   borderRadius: '5px',
                                   cursor: 'pointer',
+                                  minWidth:'180px',
                                   backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
                                 }}
                               >
-                                 <div style={{display:'flex',alignItems:'end',justifyContent:'flex-end'}}>
-                                <MoreVert sx={{fontSize:'15px',cursor:'pointer'}} onClick={handleOpenMenu}/>
-                                <Menu
-                                 anchorEl={anchorEl}
-                                 open={Boolean(anchorEl)}
-                                 onClose={handleCloseMenu}
-                                >
-                               <MenuItem onClick={handleCloseMenu}><Feedback sx={{marginRight:'10px'}}/> Feedback</MenuItem>
-                               <MenuItem onClick={handleCloseMenu}><TextSnippet sx={{marginRight:'10px'}}/>View Resume</MenuItem>
-                               <MenuItem onClick={handleCloseMenu}><Forward sx={{marginRight:'10px'}}/> Send Mail</MenuItem>
-                               </Menu>
+                                <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
+                                  <Tooltip title='Send Mail'>
+                                  <Send onClick={handleOpenFeedback} sx={{ marginRight: '10px', fontSize:'15px',cursor:'pointer'}} /></Tooltip>
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
@@ -179,9 +205,16 @@ const InterviewBoard = () => {
                                 <Typography variant="body2">{x.Jobrole}</Typography>
                                 <Typography variant="body2"><b>Qualification:</b>{x.Qualification}</Typography>
                                 <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
-                                <div style={{display:'flex',alignItems:'flex-end',justifyContent:'flex-end'}}>
-                                <Avatar sx={{fontSize:'15px',fontWeight:'Bold',height:'25px',width:'25px'}} >{x.Name[0]}</Avatar>
-                                </div>
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',cursor:"pointer",marginBottom:'5px' }}>
+                                  <div style={{ display: 'flex',marginRight:'40%'}}>
+                                  <Tooltip title='Feedback'>
+                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
+                                  {x.Resume && (
+                                      <Tooltip title='Download Resume'>
+                                 <TextSnippet onClick={() =>handleResume(x._id, x.Name)} sx={{ marginRight: '13px',marginTop:'11px' }}/></Tooltip> )}
+                                 </div>
+                                  <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
+                                </div>                           
                               </Card>
                             )}
                           </Draggable>
@@ -196,6 +229,12 @@ const InterviewBoard = () => {
           })}
         </DragDropContext>
       </div>
+      <FeedbackPopup
+        open={feedbackOpen}
+        onClose={handleCloseFeedback}
+        onSubmit={handleSubmitFeedback}
+        Name={selectedCandidateName}
+      />
     </MainCard>
   );
 };

@@ -48,7 +48,7 @@ const RecruitmentView = () => {
       setLoader(true);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
-      const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.approve === 'Hired');
+      const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
       setSelected(Job2.length);
       setLoader(false);

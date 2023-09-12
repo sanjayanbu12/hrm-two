@@ -275,6 +275,7 @@ const Shortlist = () => {
       )}
     </ThemeProvider>
     </Card>
+    
   );
 };
 
