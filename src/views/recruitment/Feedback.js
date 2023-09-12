@@ -4,8 +4,8 @@ import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } 
 const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
   const [feedback, setFeedback] = useState('');
   console.log({Name}+"Name")
-  const handleFeedbackChange = (event) => {
-    setFeedback(event.target.value);
+  const handleFeedbackChange = (e) => {
+    setFeedback(e.target.value);
   };
 
   const handleSubmit = () => {
@@ -16,7 +16,7 @@ const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Provide Feedback {Name}</DialogTitle>
+      <DialogTitle>Provide Feedback For <b style={{fontSize:'15px'}}>{Name}</b></DialogTitle>
       <DialogContent>
         <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
           label="Round 1"
