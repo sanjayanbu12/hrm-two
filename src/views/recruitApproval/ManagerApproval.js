@@ -11,17 +11,17 @@ import { Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 // import MaterialTable from "material-table";
- const cardAnimation = {
+const cardAnimation = {
   hidden: {
     scale: 0,
     opacity: 0,
-    x:'-100vw'
+    x: '-100vw'
   },
   show: {
     scale: 1,
     opacity: 1,
-    x:0
-  },
+    x: 0
+  }
 };
 const ManagerApproval = () => {
   const [data, setRecData] = useState([]);
@@ -31,8 +31,13 @@ const ManagerApproval = () => {
   }, []);
   const fetchData = async () => {
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-    setRecData(res.data.getData.filter((data) => data.approvalstatus.manager === false && data.approvalstatus.hr === true));
-    console.log(data);
+    const filteredData = res.data.getData.filter((data) => {
+      const orgApproval = data.orgData.some((orgItem) => orgItem.approved === true);
+      const overallApproval = data.jobApproved === false;
+      return orgApproval && overallApproval;
+    });
+    console.log(filteredData);
+    setRecData(filteredData);
   };
   const handleClick = (id) => {
     navigate(`/recruitmentview/${id}`);
@@ -41,11 +46,14 @@ const ManagerApproval = () => {
     <Stack direction={'row'} spacing={10}>
       {data &&
         data.map((item) => (
-          <motion.div key={item._id} variants={cardAnimation} 
-          initial="hidden"
-          animate="show"
-          transition={{ stiffness: 50,type:'spring',delay:0.2 }}>
-            <Card raised={true}  sx={{ minWidth: 375 }}>
+          <motion.div
+            key={item._id}
+            variants={cardAnimation}
+            initial="hidden"
+            animate="show"
+            transition={{ stiffness: 50, type: 'spring', delay: 0.2 }}
+          >
+            <Card raised={true} sx={{ minWidth: 375 }}>
               <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant="h1" gutterBottom>
                   {item.Company}

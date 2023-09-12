@@ -67,7 +67,6 @@ const RecruitmentView = () => {
   const fetchApp = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
@@ -93,7 +92,6 @@ const RecruitmentView = () => {
   };
 
   const handleLinkedInShare = async () => {
-    console.log('eruma');
     if (selectedJob) {
       const shareText = `Check out this job opportunity:\n
           Job Role: ${selectedJob.Jobrole}\n
@@ -132,7 +130,6 @@ const RecruitmentView = () => {
 
   const hanldeApprove = async () => {
     try {
-      console.log('first');
       const userApproval = selectedJob.orgData.find((data) => data.employeeId === authId);
       if (userApproval) {
         userApproval.approved = true;
@@ -154,7 +151,9 @@ const RecruitmentView = () => {
     }
   };
   const hanldeApproveMan = async () => {
-    const res = await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {});
+    const res = await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
+      jobApproved:true
+    });
     console.log(res);
   };
 
