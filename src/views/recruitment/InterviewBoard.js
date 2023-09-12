@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
-import { Avatar, Card, CardContent, CardHeader, Menu, MenuItem, Paper } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader,Paper, Tooltip } from '@mui/material';
 import { Typography } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Feedback, Forward, MoreVert, TextSnippet } from '@mui/icons-material';
+import { Feedback,Send,TextSnippet } from '@mui/icons-material';
 import FeedbackPopup from './Feedback';
 
 const InterviewBoard = () => {
@@ -12,7 +12,6 @@ const InterviewBoard = () => {
   const [filter, setFilter] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
   const allStatuses = ['Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Selected', 'Hold', 'Rejected'];
-  const [anchorEl, setAnchorEl] = useState(null);
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const handleOpenFeedback = (candidateId) => {
@@ -33,15 +32,6 @@ const InterviewBoard = () => {
 
   const handleSubmitFeedback = (feedbackText) => {
     console.log(`Feedback for ${selectedCandidate.Name}: ${feedbackText}`);
-  };
-
-  const handleOpenMenu = (e,id,name) => {
-    console.log(id,name+'ID PASS')
-    setAnchorEl(e.currentTarget);
-  };
-
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
   };
 
   const fetchEmployees = async () => {
@@ -198,23 +188,13 @@ useEffect(()=>{
                                   border: '1px solid #ddd',
                                   borderRadius: '5px',
                                   cursor: 'pointer',
+                                  minWidth:'180px',
                                   backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
                                 }}
                               >
                                 <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
-                                  <MoreVert sx={{ fontSize: '15px', cursor: 'pointer' }} onClick={(e) => handleOpenMenu(e, x._id, x.Name)} />
-                                  <Menu
-                                  anchorEl={anchorEl}
-                                  open={Boolean(anchorEl)}
-                                  onClose={handleCloseMenu}
-                                >
-                                  <MenuItem onClick={() => handleOpenFeedback(x._id)}>
-                                    <Feedback sx={{ marginRight: '10px' }} />
-                                    Feedback
-                                  </MenuItem>
-                                  <MenuItem onClick={() =>handleResume(x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>
-                                  <MenuItem onClick={handleCloseMenu}><Forward sx={{ marginRight: '10px' }} /> Send Mail</MenuItem>
-                                </Menu>
+                                  <Tooltip title='Send Mail'>
+                                  <Send onClick={handleOpenFeedback} sx={{ marginRight: '10px', fontSize:'15px',cursor:'pointer'}} /></Tooltip>
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
@@ -222,7 +202,14 @@ useEffect(()=>{
                                 <Typography variant="body2">{x.Jobrole}</Typography>
                                 <Typography variant="body2"><b>Qualification:</b>{x.Qualification}</Typography>
                                 <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
-                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end' }}>
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',cursor:"pointer",marginBottom:'5px' }}>
+                                  <div style={{ display: 'flex',marginRight:'40%'}}>
+                                  <Tooltip title='Feedback'>
+                                <Feedback onClick={() => handleOpenFeedback(x._id)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
+                                  {x.Resume && (
+                                      <Tooltip title='Download Resume'>
+                                 <TextSnippet onClick={() =>handleResume(x._id, x.Name)} sx={{ marginRight: '13px',marginTop:'11px' }}/></Tooltip> )}
+                                 </div>
                                   <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
                                 </div>                           
                               </Card>
