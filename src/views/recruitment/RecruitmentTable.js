@@ -27,7 +27,7 @@ const navigate=useNavigate()
   const fetchData = async () => {
     setLoader(true)
     const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
-    setAdata(res.data.getData.filter(data=>data.approvalstatus.manager===true && data.approvalstatus.hr===true ));
+    setAdata(res.data.getData.filter(data=>data.jobApproved===true  ));
     setLoader(false)
     console.log(res.data.getData );
   };
@@ -75,7 +75,7 @@ const navigate=useNavigate()
   const exportPdf = (columns, data) => {
     const pdf = new jsPDF('landscape');
     pdf.text('Recruitment Table', 10, 10);
-  
+
     const rows = data.map((item) => [
       item.uuid,
       item.Jobrole,

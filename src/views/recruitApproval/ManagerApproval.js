@@ -10,6 +10,8 @@ import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
+import Lottie from 'react-lottie';
+import animationData from '../lottie/nodata.json';
 // import MaterialTable from "material-table";
 const cardAnimation = {
   hidden: {
@@ -21,6 +23,14 @@ const cardAnimation = {
     scale: 1,
     opacity: 1,
     x: 0
+  }
+};
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
   }
 };
 const ManagerApproval = () => {
@@ -44,7 +54,7 @@ const ManagerApproval = () => {
   };
   return (
     <Stack direction={'row'} spacing={10}>
-      {data &&
+      {data.length>0?
         data.map((item) => (
           <motion.div
             key={item._id}
@@ -99,7 +109,9 @@ const ManagerApproval = () => {
               </CardActions>
             </Card>
           </motion.div>
-        ))}
+        )):( <Lottie options={defaultOptions} height={500} width={600} />)
+
+        }
     </Stack>
   );
 };

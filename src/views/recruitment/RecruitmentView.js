@@ -20,6 +20,7 @@ const RecruitmentView = () => {
   const [Selected, setSelected] = useState(0);
   const [Loader, setLoader] = useState(true);
   const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
   const toast = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -57,6 +58,15 @@ const RecruitmentView = () => {
       severity: 'success',
       summary: 'Confirmed',
       detail: 'You Have Given Acceptance To This JobRole Redirecting.....',
+      life: 3000
+    });
+  };
+  const acceptmanager = () => {
+    hanldeApproveMan()
+    toast.current.show({
+      severity: 'success',
+      summary: 'Confirmed',
+      detail: 'You Have Given Acceptance To This Job Congrats.....',
       life: 3000
     });
   };
@@ -308,7 +318,7 @@ const RecruitmentView = () => {
               </Typography>
 
               <>
-                <Toast ref={toast} position="bottom-center" />
+                <Toast ref={toast} position="top-right" />
                 <ConfirmDialog
                   visible={visible}
                   onHide={() => setVisible(false)}
@@ -316,6 +326,15 @@ const RecruitmentView = () => {
                   header="Confirmation"
                   icon="pi pi-exclamation-triangle"
                   accept={accept}
+                  reject={reject}
+                />
+                <ConfirmDialog
+                  visible={visible1}
+                  onHide={() => setVisible1(false)}
+                  message="Are you certain you wish to approve The Job?"
+                  header="Confirmation"
+                  icon="pi pi-exclamation-triangle"
+                  accept={acceptmanager}
                   reject={reject}
                 />
                 <div className="card flex justify-content-center">
@@ -334,7 +353,7 @@ const RecruitmentView = () => {
                           : 'Approve'}
                       </HrBtn>
                     )}
-                    <Button size="small" onClick={hanldeApproveMan}>
+                    <Button size="small" onClick={()=>setVisible1(true)}>
                       ApproveByManager
                     </Button>
                   </ButtonGroup>
