@@ -121,7 +121,6 @@ const HrApproval = () => {
                     </Button>
                   </Stack>
                 </CardContent>
-               
               </Card>
             ))
           ) : (
