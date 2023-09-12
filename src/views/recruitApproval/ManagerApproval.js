@@ -25,6 +25,7 @@ const cardAnimation = {
     x: 0
   }
 };
+
 const defaultOptions = {
   loop: true,
   autoplay: true,
@@ -46,7 +47,6 @@ const ManagerApproval = () => {
       const overallApproval = data.jobApproved === false;
       return orgApproval && overallApproval;
     });
-    console.log(filteredData);
     setRecData(filteredData);
   };
   const handleClick = (id) => {
@@ -54,7 +54,7 @@ const ManagerApproval = () => {
   };
   return (
     <Stack direction={'row'} spacing={10}>
-      {data.length>0?
+      {data.length > 0 ? (
         data.map((item) => (
           <motion.div
             key={item._id}
@@ -109,9 +109,10 @@ const ManagerApproval = () => {
               </CardActions>
             </Card>
           </motion.div>
-        )):( <Lottie options={defaultOptions} height={500} width={600} />)
-
-        }
+        ))
+      ) : (
+        <Lottie options={defaultOptions} height={500} width={600} />
+      )}
     </Stack>
   );
 };

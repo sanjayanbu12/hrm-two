@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button, ButtonGroup, Typography } from '@mui/material';
 import React from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { useState } from 'react';
@@ -7,18 +7,19 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { LinkedIn, Twitter } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
-import { HrBtn } from './StyledConst';
-import ButtonGroup from '@mui/material/ButtonGroup';
+import { HrBtn, Reject } from './StyledConst';
 import { ConfirmDialog } from 'primereact/confirmdialog';
 import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
+
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
   const [Selected, setSelected] = useState(0);
   const [Loader, setLoader] = useState(true);
+  const [topTier, setTopTierData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
   const toast = useRef(null);
@@ -28,9 +29,6 @@ const RecruitmentView = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  useEffect(() => {
-    console.log(selectedJob);
-  }, [selectedJob]);
 
   const fetchData = async () => {
     try {
@@ -48,7 +46,18 @@ const RecruitmentView = () => {
     jobrole = selectedJob.Jobrole;
   }
   console.log(jobrole);
-
+  const fetchEmployeesData = async () => {
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const employees = response.data;
+      setTopTierData(employees.filter((data) => data.isTopTier === true));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchEmployeesData();
+  }, []);
   useEffect(() => {
     fetchApp();
   }, [selectedJob, selectedAts]);
@@ -57,22 +66,22 @@ const RecruitmentView = () => {
     toast.current.show({
       severity: 'success',
       summary: 'Confirmed',
-      detail: 'You Have Given Acceptance To This JobRole Redirecting.....',
+      detail: 'Your acceptance for this job role has been confirmed. Redirecting you now...',
       life: 3000
     });
   };
   const acceptmanager = () => {
-    hanldeApproveMan()
+    hanldeApproveMan();
     toast.current.show({
       severity: 'success',
       summary: 'Confirmed',
-      detail: 'You Have Given Acceptance To This Job Congrats.....',
+      detail: 'You have granted approval for this job',
       life: 3000
     });
   };
 
   const reject = () => {
-    toast.current.show({ severity: 'warn', summary: 'Rejected', detail: 'You have rejected', life: 3000 });
+    toast.current.show({ severity: 'info', summary: 'Unapproved', detail: 'You have yet to grant your approval for this job', life: 3000 });
   };
   const fetchApp = async () => {
     try {
@@ -161,10 +170,12 @@ const RecruitmentView = () => {
     }
   };
   const hanldeApproveMan = async () => {
-    const res = await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
-      jobApproved:true
+    await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
+      jobApproved: true
     });
-    console.log(res);
+    setTimeout(() => {
+      navigate(`/managerapproval/${authId}`);
+    }, 2000);
   };
 
   return (
@@ -337,26 +348,37 @@ const RecruitmentView = () => {
                   accept={acceptmanager}
                   reject={reject}
                 />
-                <div className="card flex justify-content-center">
-                  <ButtonGroup>
-                    {selectedJob.orgData.filter((item) => item.employeeId === authId) && (
-                      <HrBtn
-                        size="small"
-                        variant="secondary"
-                        disabled={selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)}
-                        onClick={() => setVisible(true)}
-                        icon="pi pi-check"
-                        label="Confirm"
-                      >
-                        {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)
-                          ? 'Waiting For Others To Approve'
-                          : 'Approve'}
+                <div style={{ marginTop: '20px' }}>
+                  {topTier.some((data) => data.employeeid === authId ) ? (
+                    <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
+                      <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
+                        Approve
                       </HrBtn>
-                    )}
-                    <Button size="small" onClick={()=>setVisible1(true)}>
-                      ApproveByManager
-                    </Button>
-                  </ButtonGroup>
+                      <Reject size="small" icon="pi pi-check" label="Confirm">
+                        Reject
+                      </Reject>
+                    </ButtonGroup>
+                  ) : (
+                    selectedJob.jobApproved === false &&
+                    selectedJob.orgData.filter((item) => item.employeeId === authId).length > 0 && (
+                      <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
+                        <HrBtn
+                          size="small"
+                          disabled={selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)}
+                          onClick={() => setVisible(true)}
+                          icon="pi pi-check"
+                          label="Confirm"
+                        >
+                          {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)
+                            ? 'Waiting For Others To Approve'
+                            : 'Approve'}
+                        </HrBtn>
+                        <Reject size="small" icon="pi pi-check" label="Confirm">
+                          Reject
+                        </Reject>
+                      </ButtonGroup>
+                    )
+                  )}
                 </div>
               </>
             </div>

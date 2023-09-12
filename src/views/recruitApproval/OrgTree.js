@@ -28,7 +28,7 @@ import {
   StyledModal,
   StyledCardConatiner,
   Btncontainer,
-  StyledNode2
+  StyledNode2,
 } from './Const';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
@@ -47,17 +47,18 @@ const OrgTree = () => {
   useEffect(() => {
     fetchEmployeesData();
   }, []);
-useEffect(()=>{
-console.log(edata)
-},[edata])
+  useEffect(() => {
+    console.log(edata);
+  }, [edata]);
   const authId = useSelector((state) => state.customization.authId);
-  console.log(authId)
+  console.log(authId);
   const StyledAvatar = styled(Avatar)`
     && {
       background-color: ${deepOrange[500]};
       color: #fff;
     }
   `;
+  
   const fetchOrgData = async () => {
     try {
       setLoaderStatus(false);
@@ -70,7 +71,7 @@ console.log(edata)
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
-      console.log(Tier2Data)
+      console.log(Tier2Data);
     } catch (error) {
       console.log(error);
     }
@@ -100,14 +101,19 @@ console.log(edata)
   };
 
   const handleEmp = async (data) => {
-    const manData = {
-      managerName: {
-        name: data.name,
-        id: data._id
-      }
-    };
-    await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
-    fetchOrgData();
+    try {
+      const manData = {
+        managerName: {
+          name: data.name,
+          id: data._id
+        }
+      };
+      await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+      await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
+      fetchOrgData();
+    } catch (error) {
+      console.log(error);
+    }
   };
   const handleChange = (e, value) => {
     setautoComData(value);
@@ -161,9 +167,11 @@ console.log(edata)
                               </div>
                               <div style={{ display: 'flex', flexDirection: 'column' }}>
                                 <Tooltip title="View">
-                                  <IconButton sx={{ color: '#ffff' }} onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
-                                    <ChevronRightIcon />
-                                  </IconButton>
+                                  {data.employeeid === authId && (
+                                    <IconButton sx={{ color: '#ffff' }} onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
+                                      <ChevronRightIcon />
+                                    </IconButton>
+                                  )}
                                 </Tooltip>
                                 <IconButton sx={{ color: '#ffff' }} onClick={handleDeleteMan}>
                                   <PersonRemoveIcon />
@@ -321,7 +329,7 @@ console.log(edata)
                   !managerData.some((data) => data._id === option._id) &&
                   !Tier2Data.some((tierMem) => tierMem._id === option._id) &&
                   Tier2Data.map((item) => item.report) &&
-                  option.isReported===false
+                  option.isReported === false
               )}
               getOptionLabel={(option) => option.name}
               defaultValue={[]}
