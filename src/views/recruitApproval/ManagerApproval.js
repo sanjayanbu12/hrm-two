@@ -25,6 +25,14 @@ const cardAnimation = {
     x: 0
   }
 };
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
 const ManagerApproval = () => {
   const [data, setRecData] = useState([]);
   const navigate = useNavigate();

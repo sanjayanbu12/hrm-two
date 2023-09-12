@@ -69,12 +69,13 @@ const RecruitmentView = () => {
       life: 3000
     });
   };
+
   const acceptmanager = () => {
-    hanldeApproveMan();
+    hanldeApproveMan()
     toast.current.show({
       severity: 'success',
       summary: 'Confirmed',
-      detail: 'You have granted approval for this job',
+      detail: 'You Have Given Acceptance To This Job Congrats.....',
       life: 3000
     });
   };
