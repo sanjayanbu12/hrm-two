@@ -12,7 +12,7 @@ import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfService
 import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import NotFound404 from './NotFound404';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
-import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
+import LeaveTrackerForm from 'views/leavemanagement/LeaveRequestForm';
 import EmployeeLogin from 'views/employeeselfservices/EmployeeLogin';
 // dashboard routing
 const DashboardEmployee = Loadable(lazy(() => import('views/dashboard/Employee')));

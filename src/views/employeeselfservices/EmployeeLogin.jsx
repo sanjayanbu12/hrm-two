@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './EmployeeLogin.css';
 import { Card } from '@mui/material';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
-import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
+import LeaveTrackerForm from 'views/leavemanagement/LeaveRequestForm';
 import LearningModule from 'views/learninganddevelopment/LearningModule';
 import Newevent from 'views/dashboard/Default/Newevent';
 import Feedback from 'views/performance/Feedback'
