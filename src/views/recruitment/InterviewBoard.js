@@ -212,8 +212,7 @@ useEffect(()=>{
                                     <Feedback sx={{ marginRight: '10px' }} />
                                     Feedback
                                   </MenuItem>
-                                  {x.Resume &&(
-                                  <MenuItem onClick={(e) => handleResume(e,x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>)}
+                                  <MenuItem onClick={() =>handleResume(x._id, x.Name)}><TextSnippet sx={{ marginRight: '10px' }} /> View Resume</MenuItem>
                                   <MenuItem onClick={handleCloseMenu}><Forward sx={{ marginRight: '10px' }} /> Send Mail</MenuItem>
                                 </Menu>
                                 </div>
