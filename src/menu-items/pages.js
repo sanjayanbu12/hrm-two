@@ -58,6 +58,12 @@ const pages = {
         },
        
         {
+          id: 'shortlist',
+          title: ' Candidates Shortlisting',
+          type: 'item',
+          url: '/shortlist'
+        },
+        {
           id: 'applicationtracker',
           title: 'Interview Process ',
           type: 'collapse',
