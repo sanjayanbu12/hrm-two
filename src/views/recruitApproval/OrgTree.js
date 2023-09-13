@@ -22,6 +22,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import GroupRemoveOutlinedIcon from '@mui/icons-material/GroupRemoveOutlined';
 import { defaultOptions1 } from './Const';
+import Fade from '@mui/material/Fade';
 import {
   StyledNodeManager,
   StyledContainer,
@@ -231,14 +232,30 @@ const OrgTree = () => {
                                   </IconButton>
                                   <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
                                     <MenuItem onClick={handleClose}>
-                                      <Tooltip title="view">
-                                        <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/hrapproval/${data.employeeid}`)} />
-                                      </Tooltip>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="View"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/hrapproval/${data.employeeid}`)} />
+                                        </Tooltip>
+                                      </IconButton>
                                     </MenuItem>
                                     <MenuItem onClick={handleClose}>
-                                      <Tooltip title="Remove">
-                                        <GroupRemoveOutlinedIcon />
-                                      </Tooltip>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="Remove"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <GroupRemoveOutlinedIcon />
+                                        </Tooltip>
+                                      </IconButton>
                                     </MenuItem>
                                   </Menu>
                                 </div>
