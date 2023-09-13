@@ -1,4 +1,4 @@
-import { Button, Typography } from '@mui/material';
+import { Button, ButtonGroup, Typography } from '@mui/material';
 import React from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import { useState } from 'react';
@@ -7,25 +7,33 @@ import { useEffect } from 'react';
 import axios from 'axios';
 import { LinkedIn, Twitter } from '@mui/icons-material';
 import { useSelector } from 'react-redux';
+import { HrBtn, Reject } from './StyledConst';
+import { ConfirmDialog } from 'primereact/confirmdialog';
+import { Toast } from 'primereact/toast';
+import { useRef } from 'react';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
   const [selectedAts, setSelectedAts] = useState([]);
   const [Selected, setSelected] = useState(0);
   const [Loader, setLoader] = useState(true);
+  const [topTier, setTopTierData] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [visible1, setVisible1] = useState(false);
+  const toast = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
-  console.log(authId);
   useEffect(() => {
     fetchData();
   }, []);
-  useEffect(() => {
-    console.log(selectedJob);
-  }, [selectedJob]);
 
   const fetchData = async () => {
     try {
       const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+      console.log(res.data.data.orgData.find((data) => data.employeeId === authId));
       const Job = res.data.data;
       const abc = JSON.stringify(Job);
       setSelectedJob(JSON.parse(abc));
@@ -38,14 +46,45 @@ const RecruitmentView = () => {
     jobrole = selectedJob.Jobrole;
   }
   console.log(jobrole);
-
+  const fetchEmployeesData = async () => {
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const employees = response.data;
+      setTopTierData(employees.filter((data) => data.isTopTier === true));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchEmployeesData();
+  }, []);
   useEffect(() => {
     fetchApp();
   }, [selectedJob, selectedAts]);
+  const accept = () => {
+    hanldeApprove();
+    toast.current.show({
+      severity: 'success',
+      summary: 'Confirmed',
+      detail: 'Your acceptance for this job role has been confirmed. Redirecting you now...',
+      life: 3000
+    });
+  };
+  const acceptmanager = () => {
+    hanldeApproveMan();
+    toast.current.show({
+      severity: 'success',
+      summary: 'Confirmed',
+      detail: 'You have granted approval for this job',
+      life: 3000
+    });
+  };
 
+  const reject = () => {
+    toast.current.show({ severity: 'info', summary: 'Unapproved', detail: 'You have yet to grant your approval for this job', life: 3000 });
+  };
   const fetchApp = async () => {
     try {
-      setLoader(true);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
@@ -72,7 +111,6 @@ const RecruitmentView = () => {
   };
 
   const handleLinkedInShare = async () => {
-    console.log('eruma');
     if (selectedJob) {
       const shareText = `Check out this job opportunity:\n
           Job Role: ${selectedJob.Jobrole}\n
@@ -124,13 +162,20 @@ const RecruitmentView = () => {
         orgData: updatedOrgData
       };
       await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
+      setTimeout(() => {
+        navigate(`/hrapproval/${authId}`);
+      }, 2000);
     } catch (error) {
       console.log(error);
     }
   };
   const hanldeApproveMan = async () => {
-    const res = await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {});
-    console.log(res);
+    await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
+      jobApproved: true
+    });
+    setTimeout(() => {
+      navigate(`/managerapproval/${authId}`);
+    }, 2000);
   };
 
   return (
@@ -282,17 +327,60 @@ const RecruitmentView = () => {
                 <b> Remaining</b>
                 <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {`${selectedJob.Openings - Selected}`}
               </Typography>
-             
-                <Button size="small"
-                disabled={selectedJob.orgData.find(data=>data.employeeId===authId && data.approved===true)}
-                onClick={hanldeApprove}>
-                  ApproveByHr
-                </Button>
-              
 
-              <Button size="small" onClick={hanldeApproveMan}>
-                ApproveByManager
-              </Button>
+              <>
+                <Toast ref={toast} position="top-right" />
+                <ConfirmDialog
+                  visible={visible}
+                  onHide={() => setVisible(false)}
+                  message="Are you certain you wish to approve this job posting?"
+                  header="Confirmation"
+                  icon="pi pi-exclamation-triangle"
+                  accept={accept}
+                  reject={reject}
+                />
+                <ConfirmDialog
+                  visible={visible1}
+                  onHide={() => setVisible1(false)}
+                  message="Are you certain you wish to approve The Job?"
+                  header="Confirmation"
+                  icon="pi pi-exclamation-triangle"
+                  accept={acceptmanager}
+                  reject={reject}
+                />
+                <div style={{ marginTop: '20px' }}>
+                  {topTier.some((data) => data.employeeid === authId ) ? (
+                    <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
+                      <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
+                        Approve
+                      </HrBtn>
+                      <Reject size="small" icon="pi pi-check" label="Confirm">
+                        Reject
+                      </Reject>
+                    </ButtonGroup>
+                  ) : (
+                    selectedJob.jobApproved === false &&
+                    selectedJob.orgData.filter((item) => item.employeeId === authId).length > 0 && (
+                      <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
+                        <HrBtn
+                          size="small"
+                          disabled={selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)}
+                          onClick={() => setVisible(true)}
+                          icon="pi pi-check"
+                          label="Confirm"
+                        >
+                          {selectedJob.orgData.find((data) => data.employeeId === authId && data.approved === true)
+                            ? 'Waiting For Others To Approve'
+                            : 'Approve'}
+                        </HrBtn>
+                        <Reject size="small" icon="pi pi-check" label="Confirm">
+                          Reject
+                        </Reject>
+                      </ButtonGroup>
+                    )
+                  )}
+                </div>
+              </>
             </div>
           )}
         </MainCard>

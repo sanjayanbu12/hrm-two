@@ -2,6 +2,8 @@ import { Card, Container } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import MainCard from 'ui-component/cards/MainCard';
+import animationData from '../lottie/nodata.json';
+import animationData1 from '../lottie/loader.json';
 export const StyledNode = styled(Card)`
   padding: 5px;
   border-radius: 8px;
@@ -104,3 +106,19 @@ export const Btncontainer = styled(Container)`
     justify-content: center;
   }
 `;
+export const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
+export const defaultOptions1 = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData1,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
