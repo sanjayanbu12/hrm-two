@@ -195,6 +195,7 @@ const MediaList = () => {
                   <Typography variant="body2" color="text.secondary">
                     {media.courseDescription}
                   </Typography>
+                  
                 </CardContent>
               </Card>
             </Paper>

@@ -1,20 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Paper,
-} from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, IconButton, Typography, Card, CardContent, CardMedia, Grid, Paper } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
+import Layout from './Layout';
+import VideoPlayer from './VideoPlayer';
 
 export default function TitlebarImageList() {
   const [courseData, setCourseData] = useState([]);
@@ -84,8 +75,13 @@ export default function TitlebarImageList() {
               <Typography variant="h5" gutterBottom>
                 {selectedMedia.courseName}
               </Typography>
-              <Typography variant="body1">{selectedMedia.courseDescription}</Typography>
-              {/* Add more course details as needed */}
+              <Typography sx={{ marginBottom: '20px' }} variant="body1">
+                {selectedMedia.courseDescription}
+              </Typography>
+              <div style={{ display: 'flex', gap: 20 }}>
+                <VideoPlayer />
+                <Layout />
+              </div>
             </>
           )}
         </DialogContent>
