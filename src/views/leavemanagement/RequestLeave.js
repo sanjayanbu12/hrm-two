@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import {
   Grid,
@@ -7,13 +7,17 @@ import {
   InputLabel,
   FormHelperText,
   Select,
-  MenuItem,
   InputAdornment,
   Button,
   Box,
+  MenuItem,
 } from '@mui/material';
 import * as yup from 'yup';
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
+// Validation schemas
 export const validateSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
   employeeName: yup.string().required('Employee Name is required'),
@@ -33,7 +37,7 @@ export const validateSchema = yup.object().shape({
     .required('Number of Days is required')
     .positive('Number of Days must be positive')
     .integer('Number of Days must be an integer')
-    .transform((value) => (isNaN(value) ? undefined : value)), // Transform NaN to undefined
+    .transform((value) => (isNaN(value) ? undefined : value)),
   attachments: yup.array().of(yup.string()).nullable(),
   reason: yup.string().required('Reason is required'),
 });
@@ -54,6 +58,7 @@ export const updateValidateSchema = yup.object().shape({
 });
 
 const RequestLeave = () => {
+  const navigate = useNavigate();
   const [employeeId, setEmployeeId] = useState('');
   const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
@@ -65,43 +70,63 @@ const RequestLeave = () => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
 
-  const handleLeaveTypeChange = (e) => {
-    setLeaveType(e.target.value);
-  };
-
-  const handleStartDateChange = (e) => {
-    const newStartDate = e.target.value;
-    setStartDate(newStartDate);
-    calculateNumberOfDays(newStartDate, endDate);
-  };
-
-  const handleEndDateChange = (e) => {
-    const newEndDate = e.target.value;
-    setEndDate(newEndDate);
-    calculateNumberOfDays(startDate, newEndDate);
-  };
-
-  const calculateNumberOfDays = (start, end) => {
-    if (start && end) {
-      const startDateObj = new Date(start);
-      const endDateObj = new Date(end);
+  const leaveTypes = [
+    'Casual Leave (CL)',
+    'Sick Leave (SL)',
+    'Maternity Leave (ML)',
+    'Sabbatical Leave (CL)',
+    'Compensatory Off (Comp-off)',
+    'Marriage Leave',
+    'Paternity Leave',
+    'Medical Leave',
+    'One Day Leave',
+    'Half Day Leave',
+    'Annual Leave',
+    'Other Leave',
+  ];
+  // Function to calculate the number of days
+  useEffect(() => {
+    if (startDate && endDate) {
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
       if (!isNaN(startDateObj) && !isNaN(endDateObj)) {
         const daysDiff = Math.floor(
           (endDateObj - startDateObj) / (1000 * 60 * 60 * 24)
         );
         setNumberOfDays(daysDiff.toString());
-      } else {
-        setNumberOfDays('');
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          numberOfDays: '', // Clear the error when a value is calculated
+        }));
       }
     } else {
       setNumberOfDays('');
     }
+  }, [startDate, endDate]);
+
+  // Handle Leave Type change
+  const handleLeaveTypeChange = (e) => {
+    setLeaveType(e.target.value);
   };
 
+  // Handle Start Date change
+  const handleStartDateChange = (e) => {
+    const newStartDate = e.target.value;
+    setStartDate(newStartDate);
+  };
+
+  // Handle End Date change
+  const handleEndDateChange = (e) => {
+    const newEndDate = e.target.value;
+    setEndDate(newEndDate);
+  };
+
+  // Handle File Change
   const handleFileChange = (selectedFiles) => {
     setAttachments(Array.from(selectedFiles));
   };
 
+  // Handle form submission
   const handleSubmit = async () => {
     try {
       const data = {
@@ -117,7 +142,26 @@ const RequestLeave = () => {
 
       await validateSchema.validate(data, { abortEarly: false });
 
-      setSuccess(true);
+      const response = await axios.post(
+        'https://hrm-backend-square.onrender.com/api/leave',
+        data
+      );
+
+      if (response.status === 200) {
+        // Request was successful
+        Swal.fire({
+          icon: 'success',
+          title: 'Leave request submitted successfully!',
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        setSuccess(true);
+        setErrors({});
+        navigate('/viewleave');
+      } else {
+        // Request failed, handle the error
+        // You can show an error message here or handle it as needed
+      }
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         const validationErrors = {};
@@ -129,34 +173,56 @@ const RequestLeave = () => {
     }
   };
 
+  // Handle field change and clear errors
+  const handleFieldChange = (e) => {
+    const { name } = e.target;
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: '',
+    }));
+  };
+
   return (
     <MainCard title="Leave Tracker">
       <form>
         <Grid container spacing={3}>
+          {/* Employee ID */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               id="employeeId"
+              name="employeeId"
               label="Employee ID"
               variant="outlined"
               value={employeeId}
-              onChange={(e) => setEmployeeId(e.target.value)}
+              onChange={(e) => {
+                handleFieldChange(e);
+                setEmployeeId(e.target.value);
+              }}
               error={Boolean(errors.employeeId)}
               helperText={errors.employeeId}
             />
           </Grid>
+          
+          {/* Employee Name */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               id="employeeName"
+              name="employeeName"
               label="Employee Name"
               variant="outlined"
               value={employeeName}
-              onChange={(e) => setEmployeeName(e.target.value)}
+              onChange={(e) => {
+                handleFieldChange(e);
+                setEmployeeName(e.target.value);
+              }}
               error={Boolean(errors.employeeName)}
               helperText={errors.employeeName}
             />
           </Grid>
+          
+          {/* Leave Type */}
           <Grid item xs={6}>
             <FormControl
               fullWidth
@@ -167,35 +233,38 @@ const RequestLeave = () => {
               <Select
                 labelId="leaveType-label"
                 id="leaveType"
+                name="leaveType"
                 value={leaveType}
-                onChange={handleLeaveTypeChange}
+                onChange={(e) => {
+                  handleFieldChange(e);
+                  handleLeaveTypeChange(e);
+                }}
                 label="Leave Type"
               >
-                <MenuItem value="Casual Leave">Casual Leave (CL)</MenuItem>
-                <MenuItem value="Sick Leave">Sick Leave (SL)</MenuItem>
-                <MenuItem value="Maternity Leave">Maternity Leave (ML)</MenuItem>
-                <MenuItem value="Sabbatical Leave">Sabbatical Leave (CL)</MenuItem>
-                <MenuItem value="Comp-off">Compensatory Off (Comp-off)</MenuItem>
-                <MenuItem value="Marriage Leave">Marriage Leave</MenuItem>
-                <MenuItem value="Paternity Leave">Paternity Leave</MenuItem>
-                <MenuItem value="Medical Leave">Medical Leave</MenuItem>
-                <MenuItem value="One Day Leave">One Day Leave</MenuItem>
-                <MenuItem value="Half Day Leave">Half Day Leave</MenuItem>
-                <MenuItem value="Annual Leave">Annual Leave</MenuItem>
-                <MenuItem value="Other Leave">Other Leave</MenuItem>
+                {leaveTypes.map((type) => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
               </Select>
               <FormHelperText>{errors.leaveType}</FormHelperText>
             </FormControl>
           </Grid>
+          
+          {/* Start Date */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               id="startDate"
+              name="startDate"
               label="Start Date"
               variant="outlined"
               type="date"
               value={startDate || ''}
-              onChange={handleStartDateChange}
+              onChange={(e) => {
+                handleFieldChange(e);
+                handleStartDateChange(e);
+              }}
               error={Boolean(errors.startDate)}
               helperText={errors.startDate}
               InputLabelProps={{
@@ -203,15 +272,21 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
+          
+          {/* End Date */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               id="endDate"
+              name="endDate"
               label="End Date"
               variant="outlined"
               type="date"
               value={endDate || ''}
-              onChange={handleEndDateChange}
+              onChange={(e) => {
+                handleFieldChange(e);
+                handleEndDateChange(e);
+              }}
               error={Boolean(errors.endDate)}
               helperText={errors.endDate}
               InputLabelProps={{
@@ -219,17 +294,23 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
+          
+          {/* Number of Days */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               id="numberOfDays"
+              name="numberOfDays"
               label="Number of Days"
               variant="outlined"
-              value={numberOfDays || ''}
+              value={numberOfDays}
+              onChange={(e) => {
+                handleFieldChange(e);
+                setNumberOfDays(e.target.value);
+              }}
               error={Boolean(errors.numberOfDays)}
-              helperText={errors.numberOfDays}
+              helperText={errors.numberOfDays || '\u00A0'} 
               InputProps={{
-                readOnly: true,
                 startAdornment: (
                   <InputAdornment position="start"></InputAdornment>
                 ),
@@ -237,34 +318,49 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
+          
+          {/* Attachments */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               type="file"
               accept=".pdf,.jpg,.jpeg,.png"
               multiple
-              onChange={(e) => handleFileChange(e.target.files)}
+              onChange={(e) => {
+                handleFieldChange(e);
+                handleFileChange(e.target.files);
+              }}
             />
           </Grid>
+          
+          {/* Reason */}
           <Grid item xs={6}>
             <TextField
               fullWidth
               id="reason"
+              name="reason"
               label="Reason"
               variant="outlined"
               multiline
               rows={1}
               value={reason}
-              onChange={(e) => setReason(e.target.value)}
+              onChange={(e) => {
+                handleFieldChange(e);
+                setReason(e.target.value);
+              }}
               error={Boolean(errors.reason)}
               helperText={errors.reason}
             />
           </Grid>
+          
+          {/* Submit Button */}
           <Grid item xs={12}>
             <Button variant="contained" color="primary" onClick={handleSubmit}>
               Submit
             </Button>
           </Grid>
+          
+          {/* Success Message */}
           {success && (
             <Grid item xs={12}>
               <Box bgcolor="success.main" color="white" p={2} borderRadius={4}>
@@ -279,3 +375,5 @@ const RequestLeave = () => {
 };
 
 export default RequestLeave;
+
+
