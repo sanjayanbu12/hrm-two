@@ -1,73 +1,99 @@
 /**
- * Color intention that you want to used in your theme
+ * Color intention that you want to use in your theme
  * @param {JsonObject} theme Theme customization object
  */
-
 export default function themePalette(theme) {
-  return {
-    mode: theme?.customization?.navType,
+  // Default palette values in case 'theme' or its properties are undefined
+  const defaultPalette = {
+    mode: 'light', // Default mode
     common: {
-      black: theme.colors?.darkPaper
+      black: '#000',
     },
     primary: {
-      light: theme.colors?.primaryLight,
-      main: theme.colors?.grey500,
-      dark: theme.colors?.primary200,
-      200: theme.colors?.primary200,
-      800: theme.colors?.primary800
+      light: '#90caf9',
+      main: '#2196f3',
+      dark: '#1565c0',
+      200: '#9fa8da',
+      800: '#0d47a1',
+    },
+    // ... Define other palette colors here
+  };
+
+  // Check if 'theme' is defined and has the expected structure
+  if (!theme || !theme.customization || !theme.colors) {
+    console.error('Invalid theme object. Using default palette.');
+    return defaultPalette;
+  }
+
+  // Access properties from the 'theme' object
+  const { customization, colors } = theme;
+
+  const palette = {
+    mode: customization.navType || 'light',
+    common: {
+      black: colors.darkPaper || '#000',
+    },
+    primary: {
+      light: colors.primaryLight || '#90caf9',
+      main: colors.grey500 || '#2196f3',
+      dark: colors.primary200 || '#1565c0',
+      200: colors.primary200 || '#9fa8da',
+      800: colors.primary800 || '#0d47a1',
     },
     secondary: {
-      light: theme.colors?.primaryLight,
-      main: theme.colors?.grey500,
-      dark: theme.colors?.grey500,
-      200: theme.colors?.secondary200,
-      800: theme.colors?.secondary800
+      light: colors.primaryLight || '#90caf9',
+      main: colors.grey500 || '#2196f3',
+      dark: colors.grey500 || '#2196f3',
+      200: colors.secondary200 || '#9fa8da',
+      800: colors.secondary800 || '#0d47a1',
     },
     error: {
-      light: theme.colors?.errorLight,
-      main: theme.colors?.errorMain,
-      dark: theme.colors?.errorDark
+      light: colors.errorLight || '#e57373',
+      main: colors.errorMain || '#f44336',
+      dark: colors.errorDark || '#d32f2f',
     },
     orange: {
-      light: theme.colors?.orangeLight,
-      main: theme.colors?.orangeMain,
-      dark: theme.colors?.orangeDark
+      light: colors.orangeLight || '#ffb74d',
+      main: colors.orangeMain || '#ff9800',
+      dark: colors.orangeDark || '#f57c00',
     },
     warning: {
-      light: theme.colors?.warningLight,
-      main: theme.colors?.warningMain,
-      dark: theme.colors?.warningDark
+      light: colors.warningLight || '#ffb74d',
+      main: colors.warningMain || '#ff9800',
+      dark: colors.warningDark || '#f57c00',
     },
     success: {
-      light: theme.colors?.successLight,
-      200: theme.colors?.success200,
-      main: theme.colors?.successMain,
-      dark: theme.colors?.successDark
+      light: colors.successLight || '#81c784',
+      200: colors.success200 || '#66bb6a',
+      main: colors.successMain || '#4caf50',
+      dark: colors.successDark || '#388e3c',
     },
     grey: {
-      50: theme.colors?.grey50,
-      100: theme.colors?.grey100,
-      500: theme.darkTextSecondary,
-      600: theme.heading,
-      700: theme.darkTextPrimary,
-      900: theme.textDark
+      50: colors.grey50 || '#fafafa',
+      100: colors.grey100 || '#f5f5f5',
+      500: colors.darkTextSecondary || '#616161',
+      600: colors.heading || '#424242',
+      700: colors.darkTextPrimary || '#212121',
+      900: colors.textDark || '#000',
     },
     dark: {
-      light: theme.colors?.darkTextPrimary,
-      main: theme.colors?.darkLevel1,
-      dark: theme.colors?.darkLevel2,
-      800: theme.colors?.darkBackground,
-      900: theme.colors?.darkPaper
+      light: colors.darkTextPrimary || '#212121',
+      main: colors.darkLevel1 || '#121212',
+      dark: colors.darkLevel2 || '#000',
+      800: colors.darkBackground || '#000',
+      900: colors.darkPaper || '#121212',
     },
     text: {
-      primary: theme.darkTextPrimary,
-      secondary: theme.darkTextSecondary,
-      dark: theme.textDark,
-      hint: theme.colors?.grey100
+      primary: colors.darkTextPrimary || '#212121',
+      secondary: colors.darkTextSecondary || '#616161',
+      dark: colors.textDark || '#000',
+      hint: colors.grey100 || '#f5f5f5',
     },
     background: {
-      paper: theme.paper,
-      default: theme.backgroundDefault
-    }
+      paper: colors.paper || '#fff',
+      default: colors.backgroundDefault || '#f7f7f7',
+    },
   };
+
+  return palette;
 }
