@@ -76,6 +76,12 @@ const pages = {
               url: '/shortlist'
             },        
             {
+              id: 'shortlist',
+              title: ' Candidates Shortlisting',
+              type: 'item',
+              url: '/shortlist'
+            },
+            {
               id: 'interviewboard',
               title: 'Interview Board',
               type: 'item',

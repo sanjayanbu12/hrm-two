@@ -221,7 +221,7 @@ const Shortlist = () => {
         <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
       ) : (
         <MaterialTable
-          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Shortlist Candidates</div>}
+          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Candidates Shortlist </div>}
           columns={columns.map(column => {
             if (column.field === 'Resume') {
               return {
