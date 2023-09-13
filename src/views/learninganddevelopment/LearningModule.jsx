@@ -1,67 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Paper,
+} from '@mui/material';
+
+import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import { Paper, Dialog, DialogContent } from '@mui/material';
-import python from "./python.jpg";
-import video from "./video.mp4"
+import axios from 'axios';
 
-const LearningModule = () => {
-  const [isVideoOpen, setIsVideoOpen] = useState(false);
+export default function TitlebarImageList() {
+  const [courseData, setCourseData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedMedia, setSelectedMedia] = useState(null);
 
-  const openVideoDialog = () => {
-    setIsVideoOpen(true);
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/media/getAll')
+      .then((response) => {
+        setCourseData(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching course data:', error);
+        setError(error);
+        setLoading(false);
+      });
+  }, []);
+
+  const openMediaDialog = (media) => {
+    setSelectedMedia(media);
   };
 
-  const closeVideoDialog = () => {
-    setIsVideoOpen(false);
+  const closeMediaDialog = () => {
+    setSelectedMedia(null);
   };
 
   return (
-    <>
-      <MainCard title="Course Overview">
-        <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px' }}>
-          {/* image */}
-          <CardMedia
-            sx={{ height: 110 }}
-            image={python}
-            title="Python"
-          />
-          <CardContent>
-            {/* course Name */}
-            <Typography gutterBottom variant="h5" component="div">
-              Python
-            </Typography>
-            {/* Course description */}
-            <Typography variant="body2" color="text.secondary">
-              Python is a high-level, general-purpose programming language.
-              Its design philosophy emphasizes code readability with the use
-              of significant indentation
-            </Typography>
-          </CardContent>
-          <CardActions>
-            <Button color="secondary" onClick={openVideoDialog}>Play</Button>
-          </CardActions>
-        </Paper>
-      </MainCard>
-      
-      <Dialog open={isVideoOpen} onClose={closeVideoDialog}>
+    <MainCard title="Course Overview">
+      {loading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>Error: {error.message}</p>
+      ) : (
+        <Grid container spacing={3}>
+          {courseData.map((course) => (
+            <Grid item xs={12} sm={4} md={4} key={course.courseName}>
+              <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
+                <Card onClick={() => openMediaDialog(course)} style={{ cursor: 'pointer', height: '100%' }}>
+                  <CardMedia sx={{ height: 110 }} image={course.image} alt={course.courseName} />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {course.courseName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {course.courseDescription}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+      )}
+      <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
+        <DialogTitle>
+          Course Details
+          <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
-          {/* video */}
-          <iframe
-            width="560"
-            height="315"
-            src={video}
-            title="Video"
-            allowFullScreen
-          ></iframe>
+          {selectedMedia && (
+            <>
+              <Typography variant="h5" gutterBottom>
+                {selectedMedia.courseName}
+              </Typography>
+              <Typography variant="body1">{selectedMedia.courseDescription}</Typography>
+              {/* Add more course details as needed */}
+            </>
+          )}
         </DialogContent>
       </Dialog>
-    </>
+    </MainCard>
   );
-};
-
-export default LearningModule;
+}

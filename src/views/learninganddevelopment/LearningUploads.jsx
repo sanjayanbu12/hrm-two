@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { TextField, Button, Paper, Grid, IconButton, Skeleton } from '@mui/material';
+import React, { useState} from 'react';
+import { TextField, Button, Paper, Grid, IconButton } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MovieIcon from '@mui/icons-material/Movie';
 import ImageIcon from '@mui/icons-material/Image';
@@ -9,6 +9,14 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 
+const PercentageLoader = ({ progress }) => (
+  <div className="percentage-loader">
+    <div className="percentage-loader-progress" style={{ width: `${progress}%` }}>
+      {progress}%
+    </div>
+  </div>
+);
+
 const LearningUploads = () => {
   const [courseName, setCourseName] = useState('');
   const [courseDescription, setCourseDescription] = useState('');
@@ -17,15 +25,8 @@ const LearningUploads = () => {
   const [selectedImages, setSelectedImages] = useState([]);
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [errors, setErrors] = useState({});
-  const [contentReady, setContentReady] = useState(false);
-
-  useEffect(() => {
-    const loadingTimer = setTimeout(() => {
-      setContentReady(true);
-    }, 1500);
-
-    return () => clearTimeout(loadingTimer);
-  }, []);
+  const [contentReady, setContentReady] = useState(true);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleCourseNameChange = (e) => {
     setCourseName(e.target.value);
@@ -34,11 +35,11 @@ const LearningUploads = () => {
 
   const handleCourseDescriptionChange = (e) => {
     const description = e.target.value;
-    if (description.split(' ').length <= 20) {
+    if (description.split(' ').length <= 17) {
       setCourseDescription(description);
       setErrors((prevErrors) => ({ ...prevErrors, courseDescription: '' }));
     } else {
-      setErrors((prevErrors) => ({ ...prevErrors, courseDescription: 'Description must be 20 words or less.' }));
+      setErrors((prevErrors) => ({ ...prevErrors, courseDescription: 'Description must be 17 words or less.' }));
     }
   };
 
@@ -121,6 +122,10 @@ const LearningUploads = () => {
       const response = await axios.post('http://localhost:3001/media/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
+        },
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          setUploadProgress(percentCompleted);
         },
       });
       console.log(response);
@@ -241,12 +246,7 @@ const LearningUploads = () => {
             </Grid>
           </form>
         ) : (
-          <div>
-            <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
-            <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
-            <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
-            <Skeleton animation="wave" height={50} style={{ marginBottom: 16 }} />
-          </div>
+          <PercentageLoader progress={uploadProgress} />
         )}
       </Paper>
     </MainCard>

@@ -15,8 +15,11 @@ import {
   SpeedDialIcon,
   TextField,
   Button,
-  Divider,
+  Snackbar,
+  SnackbarContent
 } from '@mui/material';
+import './CourseOverview.css';
+import SmartDisplayIcon from '@mui/icons-material/SmartDisplay';
 import ArticleIcon from '@mui/icons-material/Article';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import MovieIcon from '@mui/icons-material/Movie';
@@ -24,7 +27,9 @@ import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import ReactPlayer from 'react-player/lazy';
-import { useDropzone } from 'react-dropzone';
+import Select from 'react-select';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const MediaList = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -33,8 +38,14 @@ const MediaList = () => {
   const [selectedMedia, setSelectedMedia] = useState(null);
   const [isSpeedDialOpen, setIsSpeedDialOpen] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [courseName, setCourseName] = useState('');
-  const [uploadedVideo, setUploadedVideo] = useState(null);
+  const [formText, setFormText] = useState('');
+  const [selectedVideoIndexes, setSelectedVideoIndexes] = useState([]);
+  const [formErrors, setFormErrors] = useState({
+    moduleName: '',
+    selectedVideos: ''
+  });
+  const [isSuccessSnackbarOpen, setIsSuccessSnackbarOpen] = useState(false);
+  const [isErrorSnackbarOpen, setIsErrorSnackbarOpen] = useState(false);
 
   const fetchMediaList = async () => {
     try {
@@ -67,51 +78,94 @@ const MediaList = () => {
     setSelectedMedia(null);
   };
 
-  const handleDrop = (acceptedFiles) => {
-    // Handle the dropped video file
-    if (acceptedFiles.length > 0) {
-      setUploadedVideo(acceptedFiles[0]);
-    }
+  const openFormDialog = () => {
+    setIsFormOpen(true);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
-    onDrop: handleDrop,
-    accept: 'video/*', // Allow only video files
-  });
-
-  // Speed Dial actions
-  const speedDialActions = [
-    {
-      icon: <ArticleIcon />,
-      name: 'Form',
-      onClick: () => {
-        setIsFormOpen(true);
-      },
-    },
-    {
-      icon: <VideoCallIcon />,
-      name: 'Add Video',
-      onClick: () => {
-        // Handle adding a video action here
-        // You can implement your logic for adding videos here
-      },
-    },
-  ];
-
-  const handleFormSubmit = () => {
-    // Handle form submission here, e.g., send courseName and uploadedVideo to your server
-    console.log('Course Name:', courseName);
-    console.log('Uploaded Video:', uploadedVideo);
-    // Reset form fields
-    setCourseName('');
-    setUploadedVideo(null);
+  const closeFormDialog = () => {
     setIsFormOpen(false);
+    setFormText('');
+    setSelectedVideoIndexes([]);
+    setFormErrors({
+      moduleName: '',
+      selectedVideos: ''
+    });
+  };
+
+  const handleFormTextChange = (e) => {
+    // Clear the module name error when the user starts typing
+    setFormErrors({ ...formErrors, moduleName: '' });
+    setFormText(e.target.value);
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const errors = {
+      moduleName: '',
+      selectedVideos: ''
+    };
+
+    if (formText.trim() === '') {
+      errors.moduleName = 'Module name is required';
+      isValid = false;
+    }
+
+    if (selectedVideoIndexes.length === 0) {
+      errors.selectedVideos = 'Please select at least one video';
+      isValid = false;
+    }
+
+    setFormErrors(errors);
+    return isValid;
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validate the form
+    const isValid = validateForm();
+
+    if (!isValid) {
+      return;
+    }
+
+    try {
+      // Continue with form submission if all validations pass
+      if (selectedVideoIndexes.length > 0 && selectedMedia && selectedMedia.videos) {
+        const selectedVideoUrls = selectedVideoIndexes.map((index) => selectedMedia.videos[index]);
+        console.log('Selected Video URLs:', selectedVideoUrls);
+
+        // Send a POST request to your backend to create a new video
+        const response = await axios.post('http://localhost:3001/videos/create', {
+          moduleId: selectedMedia._id,
+          moduleName: formText,
+          videoUrls: selectedVideoUrls
+        });
+
+        console.log('Video data saved:', response.data);
+
+        // Show success snackbar
+        setIsSuccessSnackbarOpen(true);
+      }
+    } catch (error) {
+      console.error('Error saving video data:', error);
+
+      // Show error snackbar
+      setIsErrorSnackbarOpen(true);
+    } finally {
+      closeFormDialog();
+    }
   };
 
   return (
     <MainCard title="Media List">
-      {/* Dialog for displaying videos */}
-      <Dialog open={isVideoOpen} onClose={closeVideoDialog}>
+      <Dialog open={isVideoOpen} onClose={closeVideoDialog} maxWidth="md" fullWidth>
+        <DialogTitle>
+          Video Player
+          <IconButton aria-label="close" onClick={closeVideoDialog} sx={{ position: 'absolute', top: 8, right: 8 }}>
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
         <DialogContent>
           <ReactPlayer
             controls={true}
@@ -121,23 +175,18 @@ const MediaList = () => {
             config={{
               file: {
                 attributes: {
-                  controlsList: 'nodownload', // Remove the download button
-                },
-              },
+                  controlsList: 'nodownload'
+                }
+              }
             }}
           />
         </DialogContent>
       </Dialog>
-
-      {/* Grid of media items */}
       <Grid container spacing={3}>
         {mediaList.map((media) => (
           <Grid item xs={12} sm={4} md={4} key={media._id}>
             <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
-              <Card
-                onClick={() => openMediaDialog(media)}
-                style={{ cursor: 'pointer', height: '100%' }}
-              >
+              <Card onClick={() => openMediaDialog(media)} style={{ cursor: 'pointer', height: '100%' }}>
                 <CardMedia sx={{ height: 110 }} image={media.image} title={media.courseName} />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
@@ -153,81 +202,145 @@ const MediaList = () => {
         ))}
       </Grid>
 
-      {/* Dialog for displaying selected media */}
       {selectedMedia && (
         <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
           <DialogTitle>
             All Uploaded Videos
-            <IconButton
-              aria-label="close"
-              onClick={closeMediaDialog}
-              sx={{ position: 'absolute', right: 8, top: 8 }}
-            >
+            <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
               <CloseIcon />
             </IconButton>
           </DialogTitle>
           <DialogContent style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             <Grid container spacing={0}>
-              {selectedMedia.videos.map((videoUrl, index) => (
-                <Grid item xs={12} key={index} style={{ marginBottom: '3px' }}>
-                  <MovieIcon
-                    onClick={() => openVideoDialog(videoUrl)}
-                    style={{ cursor: 'pointer', fontSize: 40 }}
-                  />
-                  <Typography variant="body2" sx={{ marginTop: 1 }}>
-                    Video {index + 1}
-                  </Typography>
-                </Grid>
-              ))}
+              {selectedMedia.videos ? (
+                selectedMedia.videos.map((videoUrl, index) => (
+                  <Grid item xs={12} key={index} style={{ marginBottom: '3px' }}>
+                    <MovieIcon onClick={() => openVideoDialog(videoUrl)} style={{ cursor: 'pointer', fontSize: 40 }} />
+                    <Typography variant="body2" sx={{ marginTop: 1 }}>
+                      Video {index + 1}
+                    </Typography>
+                  </Grid>
+                ))
+              ) : (
+                <Typography variant="body2">No videos available.</Typography>
+              )}
             </Grid>
           </DialogContent>
-            {/* Speed Dial component */}
-      <SpeedDial
-        ariaLabel="Speed Dial"
-        icon={<SpeedDialIcon />}
-        onClose={() => setIsSpeedDialOpen(false)}
-        onOpen={() => setIsSpeedDialOpen(true)}
-        open={isSpeedDialOpen}
-        direction="up"
-        sx={{ position: 'fixed', bottom: 16, right: 16 }}
-      >
-        {speedDialActions.map((action) => (
-          <SpeedDialAction
-            key={action.name}
-            icon={action.icon}
-            tooltipTitle={action.name}
-            onClick={action.onClick}
-          />
-        ))}
-      </SpeedDial>
+          <SpeedDial
+            ariaLabel="Speed Dial"
+            icon={<SpeedDialIcon />}
+            onClose={() => setIsSpeedDialOpen(false)}
+            onOpen={() => setIsSpeedDialOpen(true)}
+            open={isSpeedDialOpen}
+            direction="up"
+            sx={{ position: 'fixed', bottom: 16, right: 16 }}
+          >
+            <SpeedDialAction key="Form" icon={<ArticleIcon />} tooltipTitle="Form" onClick={openFormDialog} />
+            <SpeedDialAction
+              key="Add Video"
+              icon={<VideoCallIcon />}
+              tooltipTitle="Add Video"
+              onClick={() => {
+                // Handle adding a video action here
+                // You can implement your logic for adding videos here
+              }}
+            />
+          </SpeedDial>
         </Dialog>
       )}
 
-    
+      <Dialog open={isFormOpen} onClose={closeFormDialog}>
+        <DialogTitle>Add Video Form</DialogTitle>
+        <DialogContent sx={{ height: '500px', width: '500px' }}>
+          <form onSubmit={handleFormSubmit}>
+            <div className="custom-id-display">Video ID</div>
 
-      {/* Form for adding video and course name */}
-      <Dialog open={isFormOpen} onClose={() => setIsFormOpen(false)}>
-        <DialogTitle>Add Video and Course Name</DialogTitle>
-        <DialogContent>
-          <div {...getRootProps()} style={{ border: '2px dashed #cccccc', padding: '20px', textAlign: 'center', cursor: 'pointer', marginBottom: '20px' }}>
-            <input {...getInputProps()} />
-            <p>Drag and drop a video file here, or click to select one</p>
-          </div>
-          <TextField
-            label="Course Name"
-            variant="outlined"
-            fullWidth
-            value={courseName}
-            onChange={(e) => setCourseName(e.target.value)}
-            sx={{ marginBottom: '20px' }}
-          />
-          <Button variant="contained" color="primary" onClick={handleFormSubmit}>
-            Add
-          </Button>
-          <Divider sx={{ my: '20px' }} />
-         
+            <TextField
+              label="Module name"
+              fullWidth
+              variant="outlined"
+              margin="normal"
+              value={formText}
+              onChange={handleFormTextChange}
+              error={!!formErrors.moduleName}
+              helperText={formErrors.moduleName}
+              sx={{ marginBottom: '16px' }}
+            />
+
+            <Select
+              isMulti
+              placeholder="Select Videos"
+              options={
+                selectedMedia && selectedMedia.videos
+                  ? selectedMedia.videos.map((videoUrl, index) => ({
+                      value: index,
+                      label: (
+                        <div style={{ display: 'flex', alignItems: 'center' }}>
+                          <SmartDisplayIcon style={{ marginRight: '8px' }} /> {`Video ${index + 1}`}
+                        </div>
+                      )
+                    }))
+                  : []
+              }
+              value={selectedVideoIndexes.map((index) => ({ value: index, label: `Video ${index + 1}` }))}
+              onChange={(selectedOptions) => {
+                const selectedIndexes = selectedOptions.map((option) => option.value);
+                setSelectedVideoIndexes(selectedIndexes);
+
+                // Clear the selected videos error when the user makes a selection
+                setFormErrors({ ...formErrors, selectedVideos: '' });
+              }}
+              error={!!formErrors.selectedVideos}
+            />
+
+            <Typography variant="body2" color="error">
+              {formErrors.selectedVideos}
+            </Typography>
+
+            <IconButton aria-label="close" onClick={closeFormDialog} sx={{ position: 'absolute', top: 8, right: 8 }}>
+              <CloseIcon />
+            </IconButton>
+            <Button variant="contained" color="primary" type="submit" style={{ marginTop: '16px' }}>
+              Submit
+            </Button>
+          </form>
         </DialogContent>
       </Dialog>
+
+      <Snackbar
+        open={isSuccessSnackbarOpen}
+        autoHideDuration={1000} // Adjust the duration as needed
+        onClose={() => setIsSuccessSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: '#43a047', alignItems: 'center', display: 'flex' }} // Align items and use flex display
+          message={
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <CheckCircleIcon sx={{ marginRight: 1, alignSelf: 'center' }} />
+              <span> course video Sucessfully added </span>
+            </div>
+          }
+        />
+      </Snackbar>
+
+      {/* Snackbar for error message */}
+      <Snackbar
+        open={isErrorSnackbarOpen}
+        autoHideDuration={1000} // Adjust the duration as needed
+        onClose={() => setIsErrorSnackbarOpen(false)}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <SnackbarContent
+          sx={{ backgroundColor: '#d32f2f', alignItems: 'center', display: 'flex' }} // Align items and use flex display
+          message={
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <CancelIcon sx={{ marginRight: 1, alignSelf: 'center' }} /> {/* X icon with self-alignment */}
+              <span>Error submitting the form</span>
+            </div>
+          }
+        />
+      </Snackbar>
     </MainCard>
   );
 };
