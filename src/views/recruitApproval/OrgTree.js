@@ -12,15 +12,16 @@ import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
 import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
 import { StyledMainCard, StyledNode } from './Const';
 import Lottie from 'react-lottie';
-import {defaultOptions1} from './Const'
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import GroupRemoveOutlinedIcon from '@mui/icons-material/GroupRemoveOutlined';
+import { defaultOptions1 } from './Const';
 import {
   StyledNodeManager,
   StyledContainer,
@@ -32,6 +33,8 @@ import {
   StyledNode2,
   LoaderStyle
 } from './Const';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
@@ -42,6 +45,7 @@ const OrgTree = () => {
   const [autoComData, setautoComData] = useState([]);
   const [Tier2Data, setTier2Data] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [anchorEl1, setAnchorEl1] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
@@ -56,7 +60,7 @@ const OrgTree = () => {
       color: #fff;
     }
   `;
-  
+
   const fetchOrgData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
@@ -69,7 +73,6 @@ const OrgTree = () => {
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
       setLoaderStatus(false);
-      console.log(Tier2Data);
     } catch (error) {
       console.log(error);
     }
@@ -89,7 +92,13 @@ const OrgTree = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleClose = () => {
+    setAnchorEl1(null);
+  };
 
+  const handleClick = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -216,11 +225,23 @@ const OrgTree = () => {
                             </div>
                             <div>
                               {data.employeeid === authId && (
-                                <Tooltip title="view">
-                                  <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
-                                    <ChevronRightIcon />
+                                <div>
+                                  <IconButton aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                    <MoreVertIcon />
                                   </IconButton>
-                                </Tooltip>
+                                  <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
+                                    <MenuItem onClick={handleClose}>
+                                      <Tooltip title="view">
+                                        <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/hrapproval/${data.employeeid}`)} />
+                                      </Tooltip>
+                                    </MenuItem>
+                                    <MenuItem onClick={handleClose}>
+                                      <Tooltip title="Remove">
+                                        <GroupRemoveOutlinedIcon />
+                                      </Tooltip>
+                                    </MenuItem>
+                                  </Menu>
+                                </div>
                               )}
                             </div>
                           </StyledContainer>
@@ -304,11 +325,9 @@ const OrgTree = () => {
                   />
                 </Tree>
               ) : (
-                <LoaderStyle
-                >
-                   <Lottie options={defaultOptions1} height={100} width={100} />
+                <LoaderStyle>
+                  <Lottie options={defaultOptions1} height={100} width={100} />
                 </LoaderStyle>
-
               )}
             </div>
           </MapInteractionCSS>
