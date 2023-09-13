@@ -79,18 +79,19 @@ const Dashboard = () => {
     <Card raised={true}>
     <div style={{ overflow: 'hidden' }}>
 
-<Grid container spacing={gridSpacing}>
-        <Grid item xs={12} md={8}>
+
+        <Grid item xs={12} md={12}>
           <Upcomingevents isLoading={isLoading} />
         </Grid>
-        <Grid item xs={12} md={4}>
-            <PopularCard isLoading={isLoading} />
-          </Grid>
-        </Grid>
+       
+        
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
             <TotalGrowthBarChart isLoading={isLoading} />
+          </Grid>
+           <Grid item xs={12} md={4}>
+            <PopularCard isLoading={isLoading} />
           </Grid>
           
         </Grid>

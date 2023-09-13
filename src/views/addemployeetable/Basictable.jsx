@@ -2,6 +2,9 @@ import MaterialTable from 'material-table';
 import tableIcons from './MaterialTableIcons';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
+import {  Box, Button} from '@mui/material';
+import TableViewIcon from '@mui/icons-material/TableView';
+
 import axios from 'axios';
 const columns = [
   { title: 'EmployeeId', field: 'employeeid' },
@@ -61,6 +64,23 @@ const navigate=useNavigate()
     link.click();
   };
   return (
+   <>
+    <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+    <Button
+      onClick={() => navigate(`/newemployee`)}
+      sx={{
+        background: 'rgba(33, 150, 243, 0.04)',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        marginTop: '0px',
+        marginBottom: '0px'
+      }}
+    >
+      <TableViewIcon />
+      Form 
+    </Button>
+  </Box>
+
     <MaterialTable
     raised={true}
     title={<div style={{ fontWeight: 'bold' ,fontSize:'20px'}}>Employee Table</div>}
@@ -104,5 +124,6 @@ const navigate=useNavigate()
         },
       }}
     />
+    </>
   );
 };

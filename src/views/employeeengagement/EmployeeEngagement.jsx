@@ -6,8 +6,8 @@ const EmployeeEngagement = () => {
           fontSize:'30px',
           fontStyle:'bold',
           position:'absolute',
-          marginTop:'260px',
-          marginLeft:'500px',
+          marginTop:'230px',
+          marginLeft:'350px',
           fontWeight:'bolder'
     
         }}>

@@ -1,5 +1,5 @@
 import React from 'react';
-import './NotFound404.css'; // Import the CSS file for styling
+import './NotFound404.css';
 
 const NotFound404 = () => {
   return (
