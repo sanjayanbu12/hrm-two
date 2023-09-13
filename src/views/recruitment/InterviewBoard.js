@@ -23,6 +23,7 @@ const InterviewBoard = () => {
       setSelectedCandidate(selectedCandidate);
       setFeedbackOpen(true);
       setSelectedCandidateName(candidateName)
+    
     } else {
       console.error(`Candidate with ID ${candidateId} not found.`);
     }
@@ -180,7 +181,7 @@ useEffect(()=>{
                         {columnResults.map((x, index) => (
                           <Draggable key={x._id} draggableId={x._id.toString()} index={index}>
                             {(provided, snapshot) => (
-                              <Card
+                              <Card 
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
@@ -234,6 +235,7 @@ useEffect(()=>{
         onClose={handleCloseFeedback}
         onSubmit={handleSubmitFeedback}
         Name={selectedCandidateName}
+        matchedResults={matchedResults}
       />
     </MainCard>
   );
