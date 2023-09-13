@@ -1,16 +1,34 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
 
-const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
-  const [feedback, setFeedback] = useState('');
-  console.log({Name}+"Name")
-  const handleFeedbackChange = (e) => {
-    setFeedback(e.target.value);
+const FeedbackPopup = ({ open, onClose, onSubmit,Name}) => {
+  const [feedback1, setFeedback1] = useState('');
+  const [feedback2, setFeedback2] = useState('');
+  const [feedback3, setFeedback3] = useState('');
+ 
+
+  const handleFeedbackChange1 = (e) => {
+    setFeedback1(e.target.value);
+  };
+
+  const handleFeedbackChange2 = (e) => {
+    setFeedback2(e.target.value);
+  };
+
+  const handleFeedbackChange3 = (e) => {
+    setFeedback3(e.target.value);
   };
 
   const handleSubmit = () => {
+    const feedback={
+      feedback1,
+      feedback2,
+      feedback3
+    }
     onSubmit(feedback);
-    setFeedback('');
+    setFeedback1('');
+    setFeedback2('');
+    setFeedback3('');
     onClose();
   };
 
@@ -24,8 +42,8 @@ const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
           rows={1}
           fullWidth
           variant="outlined"
-          value={feedback}
-          onChange={handleFeedbackChange}
+          value={feedback1}
+          onChange={handleFeedbackChange1}
         />
          <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
           label="Round 2"
@@ -33,8 +51,8 @@ const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
           rows={1}
           fullWidth
           variant="outlined"
-          value={feedback}
-          onChange={handleFeedbackChange}
+          value={feedback2}
+          onChange={handleFeedbackChange2}
         />
          <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
           label="Round 3"
@@ -42,8 +60,8 @@ const FeedbackPopup = ({ open, onClose, onSubmit,Name }) => {
           rows={1}
           fullWidth
           variant="outlined"
-          value={feedback}
-          onChange={handleFeedbackChange}
+          value={feedback3}
+          onChange={handleFeedbackChange3}
         />
       </DialogContent>
       <DialogActions>
