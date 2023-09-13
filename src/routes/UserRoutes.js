@@ -50,8 +50,8 @@ const MainRoutes = {
     element: <AttendanceSystem />
   },
   {
-    path: '/leavetrackerform',
-    element: <LeaveTrackerForm />
+    path: '/requestleave',
+    element: <RequestLeave />
   },
     {
       path: '/newevent',

@@ -43,7 +43,7 @@ const EmployeeLogin = () => {
       
       {activeSection === 'goal' && (
         <section>
-          <LeaveTrackerForm />
+          <RequestLeave />
         </section>
       )}
 

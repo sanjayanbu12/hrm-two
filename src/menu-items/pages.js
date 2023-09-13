@@ -114,7 +114,7 @@ const pages = {
           id: 'leavetrackerform',
           title: ' Request Leave',
           type: 'item',
-          url: '/leavetrackerform'
+          url: '/requestleave'
         },
         // {
         //   id: 'Attendance Regulation',
@@ -126,13 +126,13 @@ const pages = {
           id: 'leavetrackerlist',
           title: 'View leave',
           type: 'item',
-          url: '/leavetrackerlist'
+          url: '/viewleave'
         },
         {
           id: 'approveleave',
           title: 'Track Leave',
           type: 'item',
-          url: '/approveleave'
+          url: '/trackleave'
         },
       ],
     },

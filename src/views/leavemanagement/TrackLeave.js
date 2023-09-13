@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import axios from 'axios';
@@ -7,7 +8,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
-const ApproveLeave = () => {
+const TrackLeave = () => {
   const [leaveList, setLeaveList] = useState([]);
   const [selectedLeave, setSelectedLeave] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
@@ -166,4 +167,4 @@ const ApproveLeave = () => {
   );
 };
 
-export default ApproveLeave;
+export default TrackLeave;

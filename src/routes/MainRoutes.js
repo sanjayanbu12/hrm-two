@@ -5,9 +5,9 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/BasicRecruittable';
-import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
-import LeaveTrackerList from 'views/leavemanagement/LeaveTrackerList';
-import ApproveLeave from 'views/leavemanagement/ApproveLeave';
+import RequestLeave from 'views/leavemanagement/RequestLeave';
+import ViewLeave from 'views/leavemanagement/ViewLeave';
+import TrackLeave from 'views/leavemanagement/TrackLeave';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
@@ -21,6 +21,7 @@ import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import Payroll from 'views/payroll/Payroll';
 import Shortlist from 'views/recruitment/Shortlist';
 import { BasicTable } from 'views/addemployeetable/Basictable';
+import { LeaveTable } from 'views/leavemanagement/LeaveTable';
 import RecruitmentView from 'views/recruitment/RecruitmentView';
 import ApplicationView from 'views/recruitment/ApplicationView';
 import BasicApptable from 'views/recruitment/BasicApptable';
@@ -63,20 +64,24 @@ const MainRoutes = {
     },
    
     {
-      path: '/leavetrackerform',
-      element: <LeaveTrackerForm />
+      path: '/requestleave',
+      element: <RequestLeave />
     },
     {
       path: '/applicationtracker',
       element: <ApplicationTracker />
     },
     {
-      path: '/leavetrackerlist',
-      element: <LeaveTrackerList />
+      path: '/leavetable',
+      element: <LeaveTable />
     },
     {
-      path: '/approveleave',
-      element: <ApproveLeave />
+      path: '/viewleave',
+      element: <ViewLeave />
+    },
+    {
+      path: '/trackleave',
+      element: <TrackLeave />
     },
     {
       path: '/leavecalendar',
