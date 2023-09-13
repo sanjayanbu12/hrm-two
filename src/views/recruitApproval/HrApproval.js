@@ -75,7 +75,7 @@ const HrApproval = () => {
   const handleClick = (id) => {
     navigate(`/recruitmentview/${id}`);
   };
-  const productTemplate = (data) => {
+  const jobTemplete = (data) => {
     return (
       <>
         <Card raised={true} key={data._id} sx={{ width: '90%',margin:'20px',height:'300px' }}>
@@ -129,7 +129,7 @@ const HrApproval = () => {
     <MainCard title='Job Requests' >
       {!loading ?  (
         data.length>0?(
-          <Carousel value={data} numVisible={2} numScroll={2} responsiveOptions={responsiveOptions} itemTemplate={productTemplate} />
+          <Carousel value={data} numVisible={2} numScroll={2} responsiveOptions={responsiveOptions} itemTemplate={jobTemplete} />
         ):(
           <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Lottie options={defaultOptions} height={500} width={500} />
