@@ -128,7 +128,7 @@ const AuthLogin = () => {
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
+                  {showPassword ?<Visibility /> : <VisibilityOff />  }
                 </IconButton>
               </InputAdornment>
             ),
