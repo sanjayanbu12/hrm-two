@@ -6,7 +6,6 @@ import axios from 'axios';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Autocomplete, TextField, Tooltip, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
@@ -20,6 +19,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
 import { StyledMainCard, StyledNode } from './Const';
+import Lottie from 'react-lottie';
+import {defaultOptions1} from './Const'
 import {
   StyledNodeManager,
   StyledContainer,
@@ -29,6 +30,7 @@ import {
   StyledCardConatiner,
   Btncontainer,
   StyledNode2,
+  LoaderStyle
 } from './Const';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
@@ -47,9 +49,6 @@ const OrgTree = () => {
   useEffect(() => {
     fetchEmployeesData();
   }, []);
-  useEffect(() => {
-    console.log(edata);
-  }, [edata]);
   const authId = useSelector((state) => state.customization.authId);
   const StyledAvatar = styled(Avatar)`
     && {
@@ -60,7 +59,6 @@ const OrgTree = () => {
   
   const fetchOrgData = async () => {
     try {
-      setLoaderStatus(false);
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
@@ -70,6 +68,7 @@ const OrgTree = () => {
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
+      setLoaderStatus(false);
       console.log(Tier2Data);
     } catch (error) {
       console.log(error);
@@ -305,9 +304,11 @@ const OrgTree = () => {
                   />
                 </Tree>
               ) : (
-                <CircularProgress
-                  sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}
-                ></CircularProgress>
+                <LoaderStyle
+                >
+                   <Lottie options={defaultOptions1} height={100} width={100} />
+                </LoaderStyle>
+
               )}
             </div>
           </MapInteractionCSS>

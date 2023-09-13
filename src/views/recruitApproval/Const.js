@@ -1,4 +1,4 @@
-import { Card, Container } from '@mui/material';
+import { Box, Card, Container } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import MainCard from 'ui-component/cards/MainCard';
@@ -71,6 +71,15 @@ export const StyledCard = styled(Card)`
     cursor: pointer;
   }
 `;
+export const LoaderStyle = styled(Box)`
+  && {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 150px;
+    left: 450px;
+  }
+`;
 export const StyledModal = styled(Modal)`
   && {
     display: flex;
@@ -122,3 +131,20 @@ export const defaultOptions1 = {
     preserveAspectRatio: 'xMidYMid slice'
   }
 };
+export const responsiveOptions = [
+  {
+      breakpoint: '1199px',
+      numVisible: 1,
+      numScroll: 1
+  },
+  {
+      breakpoint: '991px',
+      numVisible: 2,
+      numScroll: 1
+  },
+  {
+      breakpoint: '767px',
+      numVisible: 1,
+      numScroll: 1
+  }
+];
