@@ -209,7 +209,7 @@ useEffect(()=>{
                                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',cursor:"pointer",marginBottom:'5px' }}>
                                   <div style={{ display: 'flex',marginRight:'40%'}}>
                                   <Tooltip title='Feedback'>
-                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name,x.Status)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
+                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
                                   {x.Resume && (
                                       <Tooltip title='Download Resume'>
                                  <TextSnippet onClick={() =>handleResume(x._id, x.Name)} sx={{ marginRight: '13px',marginTop:'11px' }}/></Tooltip> )}
