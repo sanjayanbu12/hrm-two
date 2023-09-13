@@ -39,7 +39,7 @@ const pages = {
       children: [
         {
           id: 'employeeselfservices',
-          title: 'Leave',
+          title: 'Employee Module',
           type: 'item',
           url: '/employeedomain'
         },
