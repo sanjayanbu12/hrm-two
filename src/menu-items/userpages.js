@@ -31,13 +31,23 @@ const pages = {
   type: 'group', 
   children: [
     { 
-      id: 'employeeselfservices',
-      title: 'Employees',
+      id: 'employee',
+      title: 'Employees Self Services',
       icon: CameraFrontIcon,
-      type: 'item',
-      url: '/employeedomain'
+      type: 'collapse',
+
+      children: [
+        {
+          id: 'employeeselfservices',
+          title: 'Leave',
+          type: 'item',
+          url: '/employeedomain'
+        },
+      ]
     }
-  ]
+  ],
 };
+
+
 
 export default pages;
