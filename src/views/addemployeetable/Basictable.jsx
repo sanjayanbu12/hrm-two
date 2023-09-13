@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import {  Box, Button} from '@mui/material';
 import TableViewIcon from '@mui/icons-material/TableView';
+import jsPDF from 'jspdf';
 
 import axios from 'axios';
 const columns = [
@@ -63,6 +64,51 @@ const navigate=useNavigate()
     link.setAttribute('download', 'employee_data.csv');
     link.click();
   };
+  const exportPdf = (columns, data) => {
+    const pdf = new jsPDF('landscape');
+    pdf.text('Employee List', 10, 10);
+
+    const rows = data.map((item) => [
+      item.employeeid,
+      item.name,
+      item.desi,
+      item.gender,
+      item.email,
+      item.type,
+      // item.cgpa,
+      // item.graduationYear,
+      // item.experience,
+      // item.sslc,
+      // item.hsc,
+    ]);
+    const columnStyle={
+      0:{columnWidth:20},
+      1:{columnWidth:20},
+      2:{columnWidth:35},
+      3:{columnWidth:20},
+      4:{columnWidth:20},
+      5:{columnWidth:40},
+      // 6:{columnWidth:30},
+      // 7:{columnWidth:20},
+      // 8:{columnWidth:20},
+      // 9:{columnWidth:23},
+      // 10:{columnWidth:30},
+      // 11:{columnWidth:25},
+      // 12:{columnWidth:20},
+    }
+    const pdfHeaders = ['EmployeeId', 'Name', 'Designation ', 'Gender', 'Email', 'Type'];
+    pdf.autoTable({
+      head: [pdfHeaders],
+      body: rows,
+      startY: 20,
+      columnStyle:columnStyle,
+      theme:'grid',
+    });
+
+    pdf.save('Employee_List.pdf');
+  };
+
+
   return (
    <>
     <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
@@ -110,6 +156,7 @@ const navigate=useNavigate()
         actionsColumnIndex: 6,
         exportButton: true,
         exportCsv: exportCsv,
+        exportPdf: exportPdf,
         grouping: true,
         selection:true,
         // rowStyle: {
