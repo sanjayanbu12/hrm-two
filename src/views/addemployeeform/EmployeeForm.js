@@ -136,23 +136,6 @@ const EmployeeForm = () => {
       console.log(error);
     }
   };
-  useEffect(() => {
-    setLastname('a');
-    setGender('MALE');
-    seteMail('ajay@gmail.com');
-    setMob('1234567890');
-    setaltMob('9876543210');
-    setperAddress('123, Main Street');
-    settemAddress('456, Temporary Street');
-    setBloodgroup('A+VE');
-    setJoin('2023-09-08');
-    setDob('2000-01-01');
-    setType('Full Time');
-    setTitle('MR');
-    setFathername('John Doe');
-    setNationality('Indian');
-    setReligion('Hindu');
-  }, []);
 
   const fetchAuthData = async () => {
     const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
@@ -274,6 +257,7 @@ const EmployeeForm = () => {
         console.log(err.message);
       });
   }, []);
+
   // useEffect(() => {
   //   // Set default values for all form fields
   //   setName('John');
@@ -359,11 +343,11 @@ const EmployeeForm = () => {
         seteMail('');
         setMob('');
         setaltMob(''),
-          setperAddress(''),
-          settemAddress(''),
-          setBloodgroup(''),
-          //  setPassword(''), setconfirmPassword(''),
-          setJoin('');
+        setperAddress(''),
+        settemAddress(''),
+        setBloodgroup(''),
+        //  setPassword(''), setconfirmPassword(''),
+       setJoin('');
         setReport('');
         setDob('');
         setFathername('');
@@ -439,7 +423,6 @@ const EmployeeForm = () => {
             dob,
             fathername,
             nationality,
-
             religion,
             type,
             status,

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
@@ -10,24 +9,17 @@ import Card from '@mui/material/Card';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
-
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-      toast.success('Logged in successfully!', {
-        position: toast.POSITION.TOP_CENTER,
-        autoClose: 1000
-      });
-    }, 5000);
+    setLoading(false);
   }, []);
-
+  
   return (
     <Card raised={true}>
     <div style={{ overflow: 'hidden' }}>
 
         <Grid item xs={12} md={12}>
           <Upcomingevents isLoading={isLoading} />
-        </Grid>       
+        </Grid>     
       <Grid item xs={12}>
         <Grid container spacing={gridSpacing}>
           <Grid item xs={12} md={8}>
@@ -38,10 +30,9 @@ const Dashboard = () => {
           </Grid>         
         </Grid>
       </Grid>
-
+      
       <Grid container spacing={gridSpacing}>
       </Grid>
-      <ToastContainer />
     </div>
     </Card>
   );

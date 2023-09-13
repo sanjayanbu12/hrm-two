@@ -63,7 +63,7 @@ const Login = () => {
                           variant="subtitle1"
                           sx={{ textDecoration: 'none', color: theme.palette.secondary.dark }}
                         >
-                          signup
+                          Signup
                         </Typography>
                       </Typography>
                     </Grid>

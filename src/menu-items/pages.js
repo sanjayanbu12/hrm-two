@@ -57,6 +57,12 @@ const pages = {
           url: '/jobtable'
         },
         {
+          id: 'shortlist',
+          title: ' Candidates Shortlisting',
+          type: 'item',
+          url: '/shortlist'
+        },
+        {
           id: 'applicationtracker',
           title: 'Interview Process ',
           type: 'collapse',
@@ -165,19 +171,19 @@ const pages = {
       children: [
         {
           id: 'Learning Uploads',
-          title: 'Course Catalog',
+          title: 'Course Upload',
           type: 'item',
           url: '/LearningUploads'
         },
         {
           id: 'Learning Module',
-          title: 'Course Upload',
+          title: 'Course Review',
           type: 'item',
           url: '/LearningModule'
         },
         {
           id: 'CourseOverview',
-          title: 'Course Review',
+          title: 'Course Catalog',
           type: 'item',
           url: '/CourseOverview'
         },

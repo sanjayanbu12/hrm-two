@@ -3,12 +3,12 @@ import './EmployeeLogin.css';
 import { Card } from '@mui/material';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
-import LearningModule from 'views/learninganddevelopment/LearningModule';
+import CourseOverview from 'views/learninganddevelopment/CourseOverview';
 import Newevent from 'views/dashboard/Employee/Newevent';
 import Feedback from 'views/performance/Feedback'
 
 const EmployeeLogin = () => {
-  const [activeSection, setActiveSection] = useState('');
+  const [activeSection, setActiveSection] = useState('goal');
   return (
     <Card raised={true}> 
       
@@ -55,7 +55,7 @@ const EmployeeLogin = () => {
 
       {activeSection === 'learning' && (
         <section>
-          <LearningModule />
+          <CourseOverview />
         </section>
       )}
 
