@@ -346,7 +346,7 @@ const RecruitmentView = () => {
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> Remaining</b>
-                <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {`${selectedJob.Openings - Selected}`}
+                <b style={{ marginLeft: '218px', paddingRight: '10px' }}>:</b> {`${selectedJob.employeeName- Selected}`}
               </Typography>
 
               <>

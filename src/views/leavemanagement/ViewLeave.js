@@ -1,438 +1,175 @@
-// import React, { useState, useEffect } from 'react';
-// import MainCard from 'ui-component/cards/MainCard';
-// import { DialogActions } from '@mui/material';
-
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableContainer,
-//   TableHead,
-//   TableRow,
-//   Paper,
-//   Box,
-//   Dialog,
-//   DialogTitle,
-//   DialogContent,
-//   Typography,
-//   Button,
-//   Tooltip,
-//   TextField, // Add TextField for search
-//   InputAdornment,
-// } from '@mui/material';
-// import axios from 'axios';
-// import { Visibility, CheckCircleOutline, HourglassEmpty, CancelOutlined } from '@mui/icons-material'; // Import status icons
-// import { useNavigate } from 'react-router-dom';
-// import { CSVLink } from "react-csv"; // Import CSVLink
-
-// const ViewLeave = () => {
-//   const navigate = useNavigate();
-//   const [leaveTrackerList, setLeaveTrackerList] = useState([]);
-//   const [open, setOpen] = useState(false);
-//   const [selectedLeave, setSelectedLeave] = useState(null);
-//   const [searchText, setSearchText] = useState(''); // Add search text state
-
-//   // Function to display attached files as a list
-//   const displayAttachments = (attachments) => {
-//     return (
-//       <ul>
-//         {attachments.map((attachment, index) => (
-//           <li key={index}>
-//             <a href={attachment.url} target="_blank" rel="noopener noreferrer">
-//               {attachment.name}
-//             </a>
-//           </li>
-//         ))}
-//       </ul>
-//     );
-//   };
-
-//   // Function to format date to a shorter format
-//   const formatDate = (dateString) => {
-//     const options = { year: 'numeric', month: 'short', day: 'numeric' };
-//     return new Date(dateString).toLocaleDateString(undefined, options);
-//   };
-
-//   useEffect(() => {
-//     fetchData();
-//   }, []);
-
-//   const fetchData = async () => {
-//     try {
-//       const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave');
-//       const updatedLeaveList = response.data.map((leave) => {
-//         return { ...leave };
-//       });
-//       setLeaveTrackerList(updatedLeaveList);
-//     } catch (error) {
-//       console.log('Error retrieving leave tracker data:', error);
-//     }
-//   };
-
-//   const handleClose = () => {
-//     setOpen(false);
-//     setSelectedLeave(null);
-//   };
-
-//   const handleRowClick = (leave) => {
-//     setSelectedLeave(leave);
-//     setOpen(true);
-//   };
-
-//   const handleEditLeave = () => {
-//     navigate('/leavetrackerform', { state: selectedLeave });
-//   };
-
-//   const handleSearch = (event) => {
-//     setSearchText(event.target.value);
-//   };
-
-//   // Filter the leaveTrackerList based on searchText
-//   const filteredLeaveList = leaveTrackerList.filter((leave) => {
-//     const lowerSearchText = searchText.toLowerCase();
-//     return (
-//       leave.employeeId.toLowerCase().includes(lowerSearchText) ||
-//       leave.employeeName.toLowerCase().includes(lowerSearchText) ||
-//       leave.leaveType.toLowerCase().includes(lowerSearchText) ||
-//       leave.reason.toLowerCase().includes(lowerSearchText) ||
-//       leave.status.toLowerCase().includes(lowerSearchText)
-//     );
-//   });
-
-//   return (
-//     <MainCard title="Applied Leave List">
-//       <Box sx={{ overflowX: 'auto' }}>
-//         {/* Search input */}
-//         <TextField
-//           label="Search"
-//           variant="outlined"
-//           value={searchText}
-//           onChange={handleSearch}
-//           size="small"
-//           InputProps={{
-//             endAdornment: (
-//               <InputAdornment position="end">
-//                 <SearchIcon />
-//               </InputAdornment>
-//             ),
-//           }}
-//         />
-//         {/* CSV export link */}
-//         <CSVLink data={filteredLeaveList} filename={"leave_tracker.csv"}>Export CSV</CSVLink>
-//         <TableContainer component={Paper}>
-//           <Table>
-//             <TableHead>
-//               <TableRow>
-//                 <TableCell>Employee ID</TableCell>
-//                 <TableCell>Employee Name</TableCell>
-//                 <TableCell>Leave Type</TableCell>
-//                 <TableCell>Start Date</TableCell>
-//                 <TableCell>End Date</TableCell>
-//                 <TableCell>Number of Days</TableCell>
-//                 <TableCell>Attachments</TableCell>
-//                 <TableCell>Reason</TableCell>
-//                 <TableCell>Status</TableCell>
-//                 <TableCell>Action</TableCell>
-//               </TableRow>
-//             </TableHead>
-//             <TableBody>
-//               {filteredLeaveList.map((leave) => (
-//                 <TableRow
-//                   key={leave._id}
-//                   onClick={() => handleRowClick(leave)}
-//                   style={{ cursor: 'pointer' }}
-//                 >
-//                   <TableCell>{leave.employeeId}</TableCell>
-//                   <TableCell>{leave.employeeName}</TableCell>
-//                   <TableCell>{leave.leaveType}</TableCell>
-//                   <TableCell>{formatDate(leave.startDate)}</TableCell>
-//                   <TableCell>{formatDate(leave.endDate)}</TableCell>
-//                   <TableCell>{leave.numberOfDays}</TableCell>
-//                   <TableCell>
-//                     {leave.attachments && leave.attachments.length > 0 ? (
-//                       <Tooltip title="View Attachments">
-//                         <Button
-//                           onClick={() => handleRowClick(leave)}
-//                           color="primary"
-//                         >
-//                           <Visibility style={{ color: 'grey' }} />
-//                         </Button>
-//                       </Tooltip>
-//                     ) : (
-//                       'No Attachments'
-//                     )}
-//                   </TableCell>
-//                   <TableCell>{leave.reason}</TableCell>
-//                   <TableCell>
-//                     {leave.status === 'approved' ? (
-//                       <CheckCircleOutline style={{ color: 'green' }} />
-//                     ) : leave.status === 'rejected' ? (
-//                       <CancelOutlined style={{ color: 'red' }} />
-//                     ) : (
-//                       <HourglassEmpty style={{ color: 'orange' }} />
-//                     )}
-//                   </TableCell>
-//                   <TableCell>
-//                     <Button onClick={handleRowClick} color="primary">
-//                       <Visibility style={{ color: 'grey' }} />
-//                     </Button>
-//                   </TableCell>
-//                 </TableRow>
-//               ))}
-//             </TableBody>
-//           </Table>
-//         </TableContainer>
-//       </Box>
-
-//       <Dialog open={open} onClose={handleClose}>
-//         <DialogTitle>Leave Details</DialogTitle>
-//         <DialogContent>
-//           {selectedLeave && (
-//             <Box>
-//               <Typography variant="body1">Employee ID: {selectedLeave.employeeId}</Typography>
-//               <Typography variant="body1">Employee Name: {selectedLeave.employeeName}</Typography>
-//               <Typography variant="body1">Leave Type: {selectedLeave.leaveType}</Typography>
-//               <Typography variant="body1">Start Date: {formatDate(selectedLeave.startDate)}</Typography>
-//               <Typography variant="body1">End Date: {formatDate(selectedLeave.endDate)}</Typography>
-//               <Typography variant="body1">Number of Days: {selectedLeave.numberOfDays}</Typography>
-//               <Typography variant="body1">Attachments:</Typography>
-//               {selectedLeave.attachments && displayAttachments(selectedLeave.attachments)}
-//               <Typography variant="body1">Reason: {selectedLeave.reason}</Typography>
-//               <Typography variant="body1">Status: {selectedLeave.status}</Typography>
-//             </Box>
-//           )}
-//         </DialogContent>
-//         <DialogActions>
-//           <Button onClick={handleEditLeave} color="primary">
-//             <Edit />
-//             Edit
-//           </Button>
-//           <Button onClick={handleClose} color="inherit">
-//             Close
-//           </Button>
-//         </DialogActions>
-//       </Dialog>
-//     </MainCard>
-//   );
-// };
-
-// export default ViewLeave;
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Box,
-  Button,
-} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
+import React, { useState, useEffect } from 'react';
+import MaterialTable from 'material-table';
 import axios from 'axios';
-import MainCard from 'ui-component/cards/MainCard';
-import { gridSpacing } from 'store/constant';
-import { Grid } from '@mui/material';
-import { TextField, InputAdornment } from '@mui/material';
-import { Pagination } from '@mui/lab';
-import { CSVLink } from 'react-csv';
-import SearchIcon from '@mui/icons-material/Search';
+import { useNavigate } from 'react-router-dom';
+import tableIcons from 'views/addemployeetable/MaterialTableIcons'; // Import your tableIcons
+import jsPDF from 'jspdf';
+import { TextSnippet } from '@mui/icons-material';
+import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
+import { saveAs } from 'file-saver';
+
+const columns = [
+  { title: 'Employee ID', field: '_id', editable: true, width: '50px' },
+  { title: 'Employee Name', field: 'employeeId', editable: true },
+  { title: 'Leave Type', field: 'leaveType', sorting: true, editable: true },
+  { title: 'Start Date', field: 'startDate', sorting: true, editable: true },
+  { title: 'End Date', field: 'endDate', sorting: true, editable: true },
+  { title: 'Number of Days', field: 'numberOfDays', sorting: true, editable: true },
+  { title: 'Attachments', field: 'attachments', sorting: true, editable: true },
+  { title: 'Reason', field: 'reason', sorting: true, editable: true },
+  { title: 'Status', field: 'status', sorting: true, editable: true },
+];
 
 const ViewLeave = () => {
-  const [isLoading, setLoading] = useState(true);
-  console.log(isLoading);
-
-  useEffect(() => {
-    setLoading(false);
-  }, []);
-
-  const theme = useTheme();
+  const [Adata, setAdata] = useState([]);
+  const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
-  const [ldata, setLdata] = useState([]);
-  const [searchText, setSearchText] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const rowsPerPage = 5;
 
-  const fetchLeaveData = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave`);
-    console.log(res.data);
-    setLdata(res.data.reverse());
+  const fetchAts = async () => {
+    try {
+      setLoader(true);
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
+      const filldata = res.data.getData;
+      setAdata(filldata);
+      setLoader(true);
+      console.log(res.data.getData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAttachments = async (id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'attachments/pdf' });
+      saveAs(blob, `${name} attachments.pdf`);
+    } catch (error) {
+      console.log('Error downloading attachments:', error);
+    }
   };
 
   useEffect(() => {
-    fetchLeaveData();
+    fetchAts();
   }, []);
 
-  const handleSearch = (event) => {
-    setSearchText(event.target.value);
-    setCurrentPage(1);
+  const exportCsv = (columns, data) => {
+    const csvData = data.map((item) => ({
+      'Employee ID': item._id,
+      'Employee Name': item.employeeId,
+      'Leave Type': item.leaveType,
+      'Start Date': item.startDate,
+      'End Date': item.endDate,
+      'Number of Days': item.numberOfDays,
+      'Attachments': item.attachments,
+      'Reason': item.reason,
+      'Status': item.status,
+    }));
+    const csvHeaders = ['Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'End Date', 'Number of Days', 'Attachments', 'Reason', 'Status'];
+    const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'list.csv');
+    link.click();
   };
 
-  const filteredLeaveData = ldata.filter((leave) => {
-    const lowerSearchText = searchText.toLowerCase();
-    return Object.values(leave).some(
-      (value) => value && value.toString().toLowerCase().includes(lowerSearchText)
-    );
+  const exportPdf = (columns, data) => {
+    const pdf = new jsPDF('landscape');
+    pdf.text('View Leave', 10, 10);
+
+    const rows = data.map((item) => [
+      item._id,
+      item.employeeId,
+      item.leaveType,
+      item.startDate,
+      item.endDate,
+      item.numberOfDays,
+      item.attachments,
+      item.reason,
+      item.status,
+    ]);
+
+    pdf.autoTable({
+      head: [columns.map((column) => column.title)],
+      body: rows,
+      startY: 20,
+    });
+
+    pdf.save('list.pdf');
+  };
+
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#757575',
+      },
+      secondary: {
+        main: '#7e57c2',
+      },
+    },
   });
 
-  const handlePageChange = (event, value) => {
-    setCurrentPage(value);
+  const handleView = async (e, data) => {
+    const id = data.map((x) => x._id);
+    console.log(data);
+    navigate(`/approveleave/${id[0]}`);
   };
-
-  const idclick = (leaveId) => {
-    console.log(leaveId + 'sjs');
-    const selectedLeave = ldata.find((data) => data.leaveId === leaveId);
-    navigate(`/viewleavedetails/${leaveId}`, { state: { data: selectedLeave } });
-  };
-
-  const indexOfLastLeave = currentPage * rowsPerPage;
-  const indexOfFirstLeave = indexOfLastLeave - rowsPerPage;
-  const currentLeaveData = filteredLeaveData.slice(indexOfFirstLeave, indexOfLastLeave);
 
   return (
-    <>
-      <MainCard title="Leave Details">
-        <Grid container spacing={gridSpacing}>
-          <Grid item xs={12}>
-            <Grid
-              container
-              spacing={gridSpacing}
-              sx={{
-                gap: '50px',
-                margin: ' 0px 10px',
-              }}
-            ></Grid>
-          </Grid>
-        </Grid>
-
-        <div>
-          <Box
-            sx={{
-              flexGrow: 1,
-              justifyContent: 'flex-end',
-              display: 'flex',
+    <Card raised={true}>
+      <ThemeProvider theme={theme}>
+        {Loader ? (
+          <div className="spinner" style={{ position: 'absolute', bottom: '35%', right: '45%' }} />
+        ) : (
+          <MaterialTable
+            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>View Leave</div>}
+            columns={columns.map((column) => {
+              if (column.field === 'attachments') {
+                return {
+                  ...column,
+                  render: (rowData) => (
+                    <a href="#" onClick={() => handleAttachments(rowData._id, rowData.employeeName)}>
+                      <Tooltip title="Download attachments">
+                        <TextSnippet style={{ color: '#616161' }} />
+                      </Tooltip>
+                    </a>
+                  ),
+                };
+              }
+              return column;
+            })}
+            data={Adata}
+            icons={tableIcons}
+            actions={[
+              (rowData) => ({
+                icon: tableIcons.View,
+                tooltip: 'View Details',
+                onClick: (event, rowData) => handleView(event, rowData),
+                disabled: rowData.length !== 1,
+              }),
+            ]}
+            options={{
+              actionsColumnIndex: -3,
+              exportButton: true,
+              exportCsv: exportCsv,
+              exportPdf: exportPdf,
+              grouping: true,
+              selection: true,
+              columnsButton: true,
+              headerStyle: {
+                backgroundColor: '#42a5f5',
+                color: 'black',
+              },
             }}
-          >
-            <Button
-              onClick={() => navigate(`/requestleave`)}
-              sx={{
-                padding: 1.5,
-                background: 'rgba(33, 150, 243, 0.04)',
-                color: theme.palette.secondary.dark,
-                '&:hover': {
-                  color: theme.palette.secondary.dark,
-                },
-                top: '40px',
-              }}
-            >
-              Request Leave
-            </Button>
-            <CSVLink data={ldata}>Export</CSVLink>
-          </Box>
-          <Box
-            sx={{
-              flexGrow: 1,
-              justifyContent: 'flex-start',
-              alignItems: 'center',
-              mb: 2,
-              display: 'flex',
-            }}
-          >
-            <TextField
-              label="Search"
-              variant="outlined"
-              value={searchText}
-              onChange={handleSearch}
-              size="small"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                top: '-20px',
-              }}
-            />
-          </Box>
-        </div>
-
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="center">Leave ID</TableCell>
-                <TableCell align="center">Employee Name</TableCell>
-                <TableCell align="center">Leave Type</TableCell>
-                <TableCell align="center">Start Date</TableCell>
-                <TableCell align="center">End Date</TableCell>
-                <TableCell align="center">Number of Days</TableCell>
-                <TableCell align="center">Attachments</TableCell>
-                <TableCell align="center">Reason</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {currentLeaveData.length > 0 ? (
-                currentLeaveData.map((leave) => (
-                  <TableRow key={leave.leaveId}>
-                    <TableCell
-                      component="th"
-                      scope="row"
-                      align="center"
-                      onClick={() => idclick(leave.leaveId)}
-                      sx={{ '&:hover': { cursor: 'pointer' } }}
-                    >
-                      {leave.leaveId}
-                    </TableCell>
-                    <TableCell
-                      align="center"
-                      onClick={() => idclick(leave.leaveId)}
-                      sx={{ '&:hover': { cursor: 'pointer' } }}
-                    >
-                      {leave.employeeName}
-                    </TableCell>
-                    <TableCell align="center">{leave.leaveType}</TableCell>
-                    <TableCell align="center">{leave.startDate}</TableCell>
-                    <TableCell align="center">{leave.endDate}</TableCell>
-                    <TableCell align="center">{leave.numberOfDays}</TableCell>
-                    <TableCell align="center">{leave.attachments}</TableCell>
-                    <TableCell align="center">{leave.reason}</TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={8} align="center">
-                    No data found
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'end',
-            mt: 2,
-            padding: 1.5,
-            background: 'rgba(33, 150, 243, 0.04)',
-            color: theme.palette.secondary.dark,
-            '&:hover': {
-              color: theme.palette.secondary.dark,
-            },
-          }}
-        >
-          <Pagination
-            count={Math.ceil(filteredLeaveData.length / rowsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
           />
-        </Box>
-      </MainCard>
-    </>
+        )}
+      </ThemeProvider>
+    </Card>
   );
 };
 

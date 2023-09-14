@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-export const validateSchema = yup.object().shape({
+export const ValidationSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
   employeeName: yup.string().required('Employee Name is required'),
   leaveType: yup.string().required('Leave Type is required'),

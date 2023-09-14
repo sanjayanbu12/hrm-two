@@ -1,170 +1,176 @@
-
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import MaterialTable from 'material-table';
 import axios from 'axios';
-import MainCard from 'ui-component/cards/MainCard';
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
+import tableIcons from 'views/addemployeetable/MaterialTableIcons'; // Import your tableIcons
+import jsPDF from 'jspdf';
+import { TextSnippet } from '@mui/icons-material';
+import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
+import { saveAs } from 'file-saver';
 
-const TrackLeave = () => {
-  const [leaveList, setLeaveList] = useState([]);
-  const [selectedLeave, setSelectedLeave] = useState(null);
-  const [openDialog, setOpenDialog] = useState(false);
+const columns = [
+  { title: 'Employee ID', field: '_id', editable: true, width: '50px' },
+  { title: 'Employee Name', field: 'employeeId', editable: true },
+  { title: 'Leave Type', field: 'leaveType', sorting: true, editable: true },
+  { title: 'Start Date', field: 'startDate', sorting: true, editable: true },
+  { title: 'End Date', field: 'endDate', sorting: true, editable: true },
+  { title: 'Number of Days', field: 'numberOfDays', sorting: true, editable: true },
+  { title: 'Attachments', field: 'attachments', sorting: true, editable: true },
+  { title: 'Reason', field: 'reason', sorting: true, editable: true },
+  { title: 'Status', field: 'status', sorting: true, editable: true },
+];
+
+const ViewLeave = () => {
+  const [Adata, setAdata] = useState([]);
+  const [Loader, setLoader] = useState(true);
+  const navigate = useNavigate();
+
+  const fetchAts = async () => {
+    try {
+      setLoader(true);
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
+      const filldata = res.data.getData;
+      setAdata(filldata);
+      setLoader(true);
+      console.log(res.data.getData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleAttachments = async (id, name) => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'attachments/pdf' });
+      saveAs(blob, `${name} attachments.pdf`);
+    } catch (error) {
+      console.log('Error downloading attachments:', error);
+    }
+  };
 
   useEffect(() => {
-    fetchData();
+    fetchAts();
   }, []);
 
-  const fetchData = async () => {
-    try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave/');
-      const updatedLeaveList = response.data.map((leave) => {
-        return { ...leave };
-      });
-      setLeaveList(updatedLeaveList);
-    } catch (error) {
-      console.log('Error retrieving leave data:', error);
-    }
+  const exportCsv = (columns, data) => {
+    const csvData = data.map((item) => ({
+      'Employee ID': item._id,
+      'Employee Name': item.employeeId,
+      'Leave Type': item.leaveType,
+      'Start Date': item.startDate,
+      'End Date': item.endDate,
+      'Number of Days': item.numberOfDays,
+      'Attachments': item.attachments,
+      'Reason': item.reason,
+      'Status': item.status,
+    }));
+    const csvHeaders = ['Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'End Date', 'Number of Days', 'Attachments', 'Reason', 'Status'];
+    const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'list.csv');
+    link.click();
   };
 
-  const handleActionChange = async (leaveId, status) => {
-    const confirmed = window.confirm(`Are you sure you want to ${status.toUpperCase()} this leave request?`);
-    
-    if (confirmed) {
-      try {
-        await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, { status });
-        const updatedLeaveList = leaveList.map((leave) => {
-          if (leave._id === leaveId) {
-            return { ...leave, status };
-          }
-          return leave;
-        });
-        setLeaveList(updatedLeaveList);
-        handleCloseDialog();
-      } catch (error) {
-        console.log('Error updating leave:', error);
-      }
-    }
+  const exportPdf = (columns, data) => {
+    const pdf = new jsPDF('landscape');
+    pdf.text('View Leave', 10, 10);
+
+    const rows = data.map((item) => [
+      item._id,
+      item.employeeId,
+      item.leaveType,
+      item.startDate,
+      item.endDate,
+      item.numberOfDays,
+      item.attachments,
+      item.reason,
+      item.status,
+    ]);
+
+    pdf.autoTable({
+      head: [columns.map((column) => column.title)],
+      body: rows,
+      startY: 20,
+    });
+
+    pdf.save('list.pdf');
   };
 
-  const handleViewDetails = (leave) => {
-    setSelectedLeave(leave);
-    setOpenDialog(true);
-  };
+  const theme = createMuiTheme({
+    palette: {
+      primary: {
+        main: '#757575',
+      },
+      secondary: {
+        main: '#7e57c2',
+      },
+    },
+  });
 
-  const handleCloseDialog = () => {
-    setSelectedLeave(null);
-    setOpenDialog(false);
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+  const handleView = async (e, data) => {
+    const id = data.map((x) => x._id);
+    console.log(data);
+    navigate(`/approveleave/${id[0]}`);
   };
 
   return (
-    <MainCard title="Leave Status">
-      <TableContainer component={Paper}>
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Employee ID</TableCell>
-              <TableCell>Employee Name</TableCell>
-              <TableCell>Leave Type</TableCell>
-              <TableCell>Start Date</TableCell>
-              <TableCell>End Date</TableCell>
-              <TableCell>Number of Days</TableCell>
-              <TableCell>Reason</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Action</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {leaveList.map((leave) => (
-              <TableRow key={leave._id}>
-                <TableCell>{leave.employeeId}</TableCell>
-                <TableCell>{leave.employeeName}</TableCell>
-                <TableCell>{leave.leaveType}</TableCell>
-                <TableCell>{formatDate(leave.startDate)}</TableCell>
-                <TableCell>{formatDate(leave.endDate)}</TableCell>
-                <TableCell>{leave.numberOfDays}</TableCell>
-                <TableCell>{leave.reason}</TableCell>
-                <TableCell>
-                  {leave.status === 'approved' ? (
-                    <CheckIcon style={{ color: 'green' }} />
-                  ) : leave.status === 'rejected' ? (
-                    <CloseIcon style={{ color: 'red' }} />
-                  ) : (
-                    <HourglassEmptyIcon style={{ color: 'orange' }} />
-                  )}
-                </TableCell>
-                <TableCell>
-                  <VisibilityIcon onClick={() => handleViewDetails(leave)} style={{ cursor: 'pointer' }} />
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Leave Details</DialogTitle>
-        {selectedLeave && (
-          <DialogContent>
-            <Box>
-              <strong>Employee ID:</strong> {selectedLeave.employeeId}
-            </Box>
-            <Box>
-              <strong>Employee Name:</strong> {selectedLeave.employeeName}
-            </Box>
-            <Box>
-              <strong>Leave Type:</strong> {selectedLeave.leaveType}
-            </Box>
-            <Box>
-              <strong>Start Date:</strong> {formatDate(selectedLeave.startDate)}
-            </Box>
-            <Box>
-              <strong>End Date:</strong> {formatDate(selectedLeave.endDate)}
-            </Box>
-            <Box>
-              <strong>Number of Days:</strong> {selectedLeave.numberOfDays}
-            </Box>
-            <Box>
-              <strong>Reason:</strong> {selectedLeave.reason}
-            </Box>
-            <Box mt={2} display="flex" justifyContent="space-between">
-              <Button
-                variant="contained"
-                color="primary"
-                startIcon={<CheckIcon />}
-                onClick={() => handleActionChange(selectedLeave._id, 'approved')}
-              >
-                Approve
-              </Button>
-              <Button
-                variant="contained"
-                color="secondary"
-                startIcon={<CloseIcon />}
-                onClick={() => handleActionChange(selectedLeave._id, 'rejected')}
-              >
-                Reject
-              </Button>
-            </Box>
-          </DialogContent>
+    <Card raised={true}>
+      <ThemeProvider theme={theme}>
+        {Loader ? (
+          <div className="spinner" style={{ position: 'absolute', bottom: '35%', right: '45%' }} />
+        ) : (
+          <MaterialTable
+            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>View Leave</div>}
+            columns={columns.map((column) => {
+              if (column.field === 'attachments') {
+                return {
+                  ...column,
+                  render: (rowData) => (
+                    <a href="#" onClick={() => handleAttachments(rowData._id, rowData.employeeName)}>
+                      <Tooltip title="Download attachments">
+                        <TextSnippet style={{ color: '#616161' }} />
+                      </Tooltip>
+                    </a>
+                  ),
+                };
+              }
+              return column;
+            })}
+            data={Adata}
+            icons={tableIcons}
+            actions={[
+              (rowData) => ({
+                icon: tableIcons.View,
+                tooltip: 'View Details',
+                onClick: (event, rowData) => handleView(event, rowData),
+                disabled: rowData.length !== 1,
+              }),
+            ]}
+            options={{
+              actionsColumnIndex: -3,
+              exportButton: true,
+              exportCsv: exportCsv,
+              exportPdf: exportPdf,
+              grouping: true,
+              selection: true,
+              columnsButton: true,
+              headerStyle: {
+                backgroundColor: '#42a5f5',
+                color: 'black',
+              },
+            }}
+          />
         )}
-        <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </MainCard>
+      </ThemeProvider>
+    </Card>
   );
 };
 
-export default TrackLeave;
+export default ViewLeave;

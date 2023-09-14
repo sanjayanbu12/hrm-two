@@ -21,7 +21,6 @@ import EmployeeEngagement from 'views/employeeengagement/EmployeeEngagement';
 import Payroll from 'views/payroll/Payroll';
 import Shortlist from 'views/recruitment/Shortlist';
 import { BasicTable } from 'views/addemployeetable/Basictable';
-import { LeaveTable } from 'views/leavemanagement/LeaveTable';
 import RecruitmentView from 'views/recruitment/RecruitmentView';
 import ApplicationView from 'views/recruitment/ApplicationView';
 import BasicApptable from 'views/recruitment/BasicApptable';
@@ -71,10 +70,7 @@ const MainRoutes = {
       path: '/applicationtracker',
       element: <ApplicationTracker />
     },
-    {
-      path: '/leavetable',
-      element: <LeaveTable />
-    },
+  
     {
       path: '/viewleave',
       element: <ViewLeave />

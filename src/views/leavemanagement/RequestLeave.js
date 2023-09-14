@@ -18,7 +18,7 @@
 // import { useNavigate } from 'react-router-dom';
 
 // // Validation schemas
-// export const validateSchema = yup.object().shape({
+// const validateSchema = yup.object().shape({
 //   employeeId: yup.string().required('Employee ID is required'),
 //   employeeName: yup.string().required('Employee Name is required'),
 //   leaveType: yup.string().required('Leave Type is required'),
@@ -40,21 +40,6 @@
 //     .transform((value) => (isNaN(value) ? undefined : value)),
 //   attachments: yup.array().of(yup.string()).nullable(),
 //   reason: yup.string().required('Reason is required'),
-// });
-
-// export const updateValidateSchema = yup.object().shape({
-//   employeeId: yup.string().notRequired(),
-//   employeeName: yup.string().notRequired(),
-//   leaveType: yup.string().notRequired(),
-//   startDate: yup.date().notRequired(),
-//   endDate: yup.date().notRequired().when('startDate', (startDate, schema) => {
-//     return startDate
-//       ? schema.min(startDate, 'End Date must be after or equal to Start Date')
-//       : schema;
-//   }),
-//   numberOfDays: yup.number().notRequired().positive('Number of Days must be positive'),
-//   attachments: yup.array().of(yup.string()).notRequired(),
-//   reason: yup.string().notRequired(),
 // });
 
 // const RequestLeave = () => {
@@ -84,6 +69,7 @@
 //     'Annual Leave',
 //     'Other Leave',
 //   ];
+
 //   // Function to calculate the number of days
 //   useEffect(() => {
 //     if (startDate && endDate) {
@@ -160,7 +146,12 @@
 //         navigate('/viewleave');
 //       } else {
 //         // Request failed, handle the error
-//         // You can show an error message here or handle it as needed
+//         console.error('Error:', response); // Log the response for debugging
+//         Swal.fire({
+//           icon: 'error',
+//           title: 'Leave request failed!',
+//           text: 'An error occurred while submitting the request. Please try again later.',
+//         });
 //       }
 //     } catch (error) {
 //       if (error instanceof yup.ValidationError) {
@@ -374,8 +365,7 @@
 //   );
 // };
 
-// export default RequestLeave;
-
+// export default RequestLeave 
 
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
@@ -396,7 +386,6 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 
-// Validation schemas
 const validateSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
   employeeName: yup.string().required('Employee Name is required'),
@@ -449,7 +438,6 @@ const RequestLeave = () => {
     'Other Leave',
   ];
 
-  // Function to calculate the number of days
   useEffect(() => {
     if (startDate && endDate) {
       const startDateObj = new Date(startDate);
@@ -461,7 +449,7 @@ const RequestLeave = () => {
         setNumberOfDays(daysDiff.toString());
         setErrors((prevErrors) => ({
           ...prevErrors,
-          numberOfDays: '', // Clear the error when a value is calculated
+          numberOfDays: '',
         }));
       }
     } else {
@@ -469,30 +457,26 @@ const RequestLeave = () => {
     }
   }, [startDate, endDate]);
 
-  // Handle Leave Type change
   const handleLeaveTypeChange = (e) => {
     setLeaveType(e.target.value);
   };
 
-  // Handle Start Date change
   const handleStartDateChange = (e) => {
     const newStartDate = e.target.value;
     setStartDate(newStartDate);
   };
 
-  // Handle End Date change
   const handleEndDateChange = (e) => {
     const newEndDate = e.target.value;
     setEndDate(newEndDate);
   };
 
-  // Handle File Change
   const handleFileChange = (selectedFiles) => {
     setAttachments(Array.from(selectedFiles));
   };
 
-  // Handle form submission
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent the default form submission behavior
     try {
       const data = {
         employeeId,
@@ -507,29 +491,33 @@ const RequestLeave = () => {
 
       await validateSchema.validate(data, { abortEarly: false });
 
-      const response = await axios.post(
-        'https://hrm-backend-square.onrender.com/api/leave',
-        data
-      );
+      const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave/', data);
 
       if (response.status === 200) {
-        // Request was successful
+        setEmployeeId('');
+        setEmployeeName('');
+        setLeaveType('');
+        setStartDate(null);
+        setEndDate(null);
+        setNumberOfDays('');
+        setAttachments([]);
+        setReason('');
+        setErrors({});
+        setSuccess(true);
+
         Swal.fire({
           icon: 'success',
-          title: 'Leave request submitted successfully!',
-          timer: 2000,
-          showConfirmButton: false,
+          text: 'Leave request submitted successfully!',
+        }).then(() => {
+          navigate('/viewleave');
         });
-        setSuccess(true);
-        setErrors({});
-        navigate('/viewleave');
       } else {
-        // Request failed, handle the error
-        console.error('Error:', response); // Log the response for debugging
+        console.error('Error:', response);
         Swal.fire({
           icon: 'error',
           title: 'Leave request failed!',
-          text: 'An error occurred while submitting the request. Please try again later.',
+          text:
+            'An error occurred while submitting the request. Please try again later.',
         });
       }
     } catch (error) {
@@ -539,11 +527,12 @@ const RequestLeave = () => {
           validationErrors[err.path] = err.message;
         });
         setErrors(validationErrors);
+      } else {
+        console.log(error);
       }
     }
   };
 
-  // Handle field change and clear errors
   const handleFieldChange = (e) => {
     const { name } = e.target;
     setErrors((prevErrors) => ({
@@ -554,7 +543,7 @@ const RequestLeave = () => {
 
   return (
     <MainCard title="Leave Tracker">
-      <form>
+      <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}
           <Grid item xs={6}>
@@ -725,7 +714,7 @@ const RequestLeave = () => {
           
           {/* Submit Button */}
           <Grid item xs={12}>
-            <Button variant="contained" color="primary" onClick={handleSubmit}>
+            <Button type="submit" variant="contained" color="primary">
               Submit
             </Button>
           </Grid>
@@ -745,5 +734,3 @@ const RequestLeave = () => {
 };
 
 export default RequestLeave;
-
-
