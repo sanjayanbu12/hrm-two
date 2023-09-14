@@ -22,6 +22,7 @@ const RecruitmentView = () => {
   const [topTier, setTopTierData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
+  const [visible2, setVisible2] = useState(false);
   const toast = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,7 +46,6 @@ const RecruitmentView = () => {
   if (selectedJob) {
     jobrole = selectedJob.Jobrole;
   }
-  console.log(jobrole);
   const fetchEmployeesData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -80,6 +80,15 @@ const RecruitmentView = () => {
       life: 3000
     });
   };
+  const rejectJob = () => {
+    deleteJob();
+    toast.current.show({
+      severity: 'success',
+      summary: 'Confirmed',
+      detail: 'You have Rejected approval for this job',
+      life: 3000
+    });
+  };
 
   const reject = () => {
     toast.current.show({ severity: 'info', summary: 'Unapproved', detail: 'You have yet to grant your approval for this job', life: 3000 });
@@ -92,14 +101,14 @@ const RecruitmentView = () => {
       setSelectedAts(Job1.length);
       setSelected(Job2.length);
       setLoader(false);
-      console.log(Job1.length + ' is selected');
     } catch (error) {
       console.log(error);
     }
   };
-  const deleteJob = async(id) => {
+  const deleteJob = async () => {
     try {
-      await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+      await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${selectedJob._id}`);
+      navigate(`/hrapproval/${authId}`);
     } catch (error) {
       console.log(error);
     }
@@ -360,13 +369,22 @@ const RecruitmentView = () => {
                   accept={acceptmanager}
                   reject={reject}
                 />
+                <ConfirmDialog
+                  visible={visible2}
+                  onHide={() => setVisible2(false)}
+                  message="Are you certain you wish to Reject This Jobrole It will be deleted?"
+                  header="Confirmation"
+                  icon="pi pi-exclamation-triangle"
+                  accept={rejectJob}
+                  reject={reject}
+                />
                 <div style={{ marginTop: '20px' }}>
                   {topTier.some((data) => data.employeeid === authId) ? (
                     <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
                       <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
                         Approve
                       </HrBtn>
-                      <Reject onClick={() => deleteJob(selectedJob._id)} size="small" icon="pi pi-check" label="Confirm">
+                      <Reject onClick={() => setVisible2(true)}  size="small" icon="pi pi-check" label="Confirm">
                         Reject
                       </Reject>
                     </ButtonGroup>
@@ -385,7 +403,7 @@ const RecruitmentView = () => {
                             ? 'Waiting For Others To Approve'
                             : 'Approve'}
                         </HrBtn>
-                        <Reject  onClick={() => deleteJob(selectedJob._id)}  size="small" icon="pi pi-check" label="Confirm">
+                        <Reject onClick={() => setVisible2(true)} size="small" icon="pi pi-check" label="Confirm">
                           Reject
                         </Reject>
                       </ButtonGroup>

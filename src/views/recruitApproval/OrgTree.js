@@ -14,7 +14,6 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import IconButton from '@mui/material/IconButton';
 import { Button } from 'antd';
 import MainCard from 'ui-component/cards/MainCard';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
 import { StyledMainCard, StyledNode } from './Const';
 import Lottie from 'react-lottie';
@@ -180,18 +179,43 @@ const OrgTree = () => {
                                   {data.desi}
                                 </Typography>
                               </div>
-                              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Tooltip title="View">
-                                  {data.employeeid === authId && (
-                                    <IconButton sx={{ color: '#ffff' }} onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
-                                      <ChevronRightIcon />
-                                    </IconButton>
-                                  )}
-                                </Tooltip>
-                                <IconButton sx={{ color: '#ffff' }} onClick={handleDeleteMan}>
-                                  <PersonRemoveIcon />
-                                </IconButton>
-                              </div>
+                              <div>
+                              {data.employeeid === authId && (
+                                <div>
+                                  <IconButton aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                    <MoreVertIcon />
+                                  </IconButton>
+                                  <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
+                                    <MenuItem onClick={handleClose}>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="View"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/managerapproval/${data.employeeid}`)} />
+                                        </Tooltip>
+                                      </IconButton>
+                                    </MenuItem>
+                                    <MenuItem sx={{ height: '25px', width: '20px' }} onClick={handleClose}>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="Remove"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
+                                        </Tooltip>
+                                      </IconButton>
+                                    </MenuItem>
+                                  </Menu>
+                                </div>
+                              )}
+                            </div>
                             </StyledContainer>
                           </StyledNodeManager>
                         ))

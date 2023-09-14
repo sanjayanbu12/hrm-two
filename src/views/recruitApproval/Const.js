@@ -39,6 +39,7 @@ export const StyledNodeManager = styled(Card)`
   padding: 5px;
   border-radius: 8px;
   display: inline-block;
+  padding-top: 20px;
   width: 278px;
   height: 81px;
   padding-left: 13px;
