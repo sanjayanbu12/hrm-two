@@ -131,7 +131,6 @@ const OrgTree = () => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
     });
     const id = orgMems.map((data) => data._id);
-    console.log(membersArray);
     await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
@@ -139,11 +138,19 @@ const OrgTree = () => {
     handleModalClose();
     fetchOrgData();
   };
-  const handleDeleteMan = async () => {
-    const id = orgMems.map((data) => data._id);
-    await axios.delete(`http://localhost:3001/org/deleteorg/${id}`);
-    fetchOrgData();
+  const handleDeleteMan = async (dta) => {
+    try {
+      const orgId = orgMems.map((data) => data._id);
+      const employeeIdsToDelete = dta.employeeid;
+      const foundEmployees = orgMems.map((org) => org.hrName.filter((emp) => employeeIdsToDelete.includes(emp.employeeId))).flat();
+      const idToDel = foundEmployees.map((empid) => empid._id);
+      await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
+      fetchOrgData();
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <>
       <MainCard title="ORGANIZATON CHART">
@@ -244,7 +251,7 @@ const OrgTree = () => {
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
-                                    <MenuItem onClick={handleClose}>
+                                    <MenuItem sx={{ height: '25px', width: '20px' }} onClick={handleClose}>
                                       <IconButton>
                                         <Tooltip
                                           title="Remove"
@@ -253,7 +260,7 @@ const OrgTree = () => {
                                           TransitionComponent={Fade}
                                           TransitionProps={{ timeout: 600 }}
                                         >
-                                          <GroupRemoveOutlinedIcon />
+                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
