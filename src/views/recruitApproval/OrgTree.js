@@ -182,7 +182,7 @@ const OrgTree = () => {
                               <div>
                               {data.employeeid === authId && (
                                 <div>
-                                  <IconButton aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                  <IconButton sx={{color:'#fff'}} aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
                                     <MoreVertIcon />
                                   </IconButton>
                                   <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
@@ -258,7 +258,7 @@ const OrgTree = () => {
                             <div>
                               {data.employeeid === authId && (
                                 <div>
-                                  <IconButton aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                  <IconButton sx={{color:'#fff'}} aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
                                     <MoreVertIcon />
                                   </IconButton>
                                   <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
@@ -335,13 +335,13 @@ const OrgTree = () => {
                                     <StyledNode3 raised={true}>
                                       <StyledContainer disableGutters={true}>
                                         <div>
-                                          <StyledAvatar>{y.name[0].toUpperCase()}</StyledAvatar>
+                                          <StyledAvatar style={{color:'#fff'}}>{y.name[0].toUpperCase()}</StyledAvatar>
                                         </div>
                                         <div>
-                                          <Typography variant="h3" fontSize={'18px'}>
+                                          <Typography style={{color:'#fff'}} variant="h3" fontSize={'18px'}>
                                             {y.name}
                                           </Typography>
-                                          <Typography variant="body2">{y.desi}</Typography>
+                                          <Typography style={{color:'#fff'}} variant="body2">{y.desi}</Typography>
                                         </div>
                                         <div>
                                           {data.employeeid === authId && (
