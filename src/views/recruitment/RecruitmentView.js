@@ -97,6 +97,13 @@ const RecruitmentView = () => {
       console.log(error);
     }
   };
+  const deleteJob = async(id) => {
+    try {
+      await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleTwitterShare = () => {
     if (selectedJob) {
@@ -269,36 +276,40 @@ const RecruitmentView = () => {
                 <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom} to {selectedJob.ExperienceTo}{' '}
                 Years
               </Typography>
-              {selectedJob.Description ?(
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Description</b>
-                <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
-                {selectedJob.Description}
-              </Typography>): null}
+              {selectedJob.Description ? (
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> Description</b>
+                  <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
+                  {selectedJob.Description}
+                </Typography>
+              ) : null}
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> ApplicationLink</b>
                 <b style={{ marginLeft: '184px', paddingRight: '12px' }}>:</b>
                 {selectedJob.ApplicationLink}
               </Typography>
               {selectedJob.Clientname ? (
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Client Name </b>
-                <b style={{ marginLeft: '203px', paddingRight: '10px' }}>:</b> {selectedJob.Clientname}
-              </Typography>) : null}
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> Client Name </b>
+                  <b style={{ marginLeft: '203px', paddingRight: '10px' }}>:</b> {selectedJob.Clientname}
+                </Typography>
+              ) : null}
               {selectedJob.Clientcompany ? (
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Client Company </b>
-                <b style={{ marginLeft: '181px', paddingRight: '10px' }}>:</b> {selectedJob.Clientcompany}
-              </Typography>): null}
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> Client Company </b>
+                  <b style={{ marginLeft: '181px', paddingRight: '10px' }}>:</b> {selectedJob.Clientcompany}
+                </Typography>
+              ) : null}
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> HR Name</b>
                 <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Hrname}
               </Typography>
               {selectedJob.Hrcontact ? (
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> HR Contact</b>
-                <b style={{ marginLeft: '214px', paddingRight: '10px' }}>:</b> {selectedJob.Hrcontact}
-              </Typography>) :null} 
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> HR Contact</b>
+                  <b style={{ marginLeft: '214px', paddingRight: '10px' }}>:</b> {selectedJob.Hrcontact}
+                </Typography>
+              ) : null}
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> No of Interview Rounds</b>
                 <b style={{ marginLeft: '139px', paddingRight: '10px' }}>:</b> {selectedJob.Interviewrounds}
@@ -350,12 +361,12 @@ const RecruitmentView = () => {
                   reject={reject}
                 />
                 <div style={{ marginTop: '20px' }}>
-                  {topTier.some((data) => data.employeeid === authId ) ? (
+                  {topTier.some((data) => data.employeeid === authId) ? (
                     <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
                       <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
                         Approve
                       </HrBtn>
-                      <Reject size="small" icon="pi pi-check" label="Confirm">
+                      <Reject onClick={() => deleteJob(selectedJob._id)} size="small" icon="pi pi-check" label="Confirm">
                         Reject
                       </Reject>
                     </ButtonGroup>
@@ -374,7 +385,7 @@ const RecruitmentView = () => {
                             ? 'Waiting For Others To Approve'
                             : 'Approve'}
                         </HrBtn>
-                        <Reject size="small" icon="pi pi-check" label="Confirm">
+                        <Reject  onClick={() => deleteJob(selectedJob._id)}  size="small" icon="pi pi-check" label="Confirm">
                           Reject
                         </Reject>
                       </ButtonGroup>
