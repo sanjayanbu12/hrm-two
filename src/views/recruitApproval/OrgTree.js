@@ -6,20 +6,22 @@ import axios from 'axios';
 import { Tree, TreeNode } from 'react-organizational-chart';
 import { MapInteractionCSS } from 'react-map-interaction';
 import { useNavigate } from 'react-router';
-import CircularProgress from '@mui/material/CircularProgress';
 import { Autocomplete, TextField, Tooltip, Typography } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import Avatar from '@mui/material/Avatar';
 import { deepOrange } from '@mui/material/colors';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import IconButton from '@mui/material/IconButton';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
 import MainCard from 'ui-component/cards/MainCard';
-import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import styled from 'styled-components';
 import { StyledMainCard, StyledNode } from './Const';
+import Lottie from 'react-lottie';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import GroupRemoveOutlinedIcon from '@mui/icons-material/GroupRemoveOutlined';
+import { defaultOptions1 } from './Const';
+import Fade from '@mui/material/Fade';
 import {
   StyledNodeManager,
   StyledContainer,
@@ -29,7 +31,10 @@ import {
   StyledCardConatiner,
   Btncontainer,
   StyledNode2,
+  LoaderStyle
 } from './Const';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
@@ -40,6 +45,7 @@ const OrgTree = () => {
   const [autoComData, setautoComData] = useState([]);
   const [Tier2Data, setTier2Data] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [anchorEl1, setAnchorEl1] = useState(null);
   const navigate = useNavigate();
   useEffect(() => {
     fetchOrgData();
@@ -47,21 +53,16 @@ const OrgTree = () => {
   useEffect(() => {
     fetchEmployeesData();
   }, []);
-  useEffect(() => {
-    console.log(edata);
-  }, [edata]);
   const authId = useSelector((state) => state.customization.authId);
-  console.log(authId);
   const StyledAvatar = styled(Avatar)`
     && {
       background-color: ${deepOrange[500]};
       color: #fff;
     }
   `;
-  
+
   const fetchOrgData = async () => {
     try {
-      setLoaderStatus(false);
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
@@ -71,7 +72,7 @@ const OrgTree = () => {
       const x = orgData.map((data) => data.hrName);
       const ids = x[0].map((data) => data.id);
       setTier2Data(edata.filter((data) => ids.includes(data._id)));
-      console.log(Tier2Data);
+      setLoaderStatus(false);
     } catch (error) {
       console.log(error);
     }
@@ -91,7 +92,13 @@ const OrgTree = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+  const handleClose = () => {
+    setAnchorEl1(null);
+  };
 
+  const handleClick = (event) => {
+    setAnchorEl1(event.currentTarget);
+  };
   const handleModalOpen = () => {
     setIsModalOpen(true);
   };
@@ -123,7 +130,6 @@ const OrgTree = () => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
     });
     const id = orgMems.map((data) => data._id);
-    console.log(membersArray);
     await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
@@ -131,11 +137,19 @@ const OrgTree = () => {
     handleModalClose();
     fetchOrgData();
   };
-  const handleDeleteMan = async () => {
-    const id = orgMems.map((data) => data._id);
-    await axios.delete(`http://localhost:3001/org/deleteorg/${id}`);
-    fetchOrgData();
+  const handleDeleteMan = async (dta) => {
+    try {
+      const orgId = orgMems.map((data) => data._id);
+      const employeeIdsToDelete = dta.employeeid;
+      const foundEmployees = orgMems.map((org) => org.hrName.filter((emp) => employeeIdsToDelete.includes(emp.employeeId))).flat();
+      const idToDel = foundEmployees.map((empid) => empid._id);
+      await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
+      fetchOrgData();
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   return (
     <>
       <MainCard title="ORGANIZATON CHART">
@@ -165,18 +179,43 @@ const OrgTree = () => {
                                   {data.desi}
                                 </Typography>
                               </div>
-                              <div style={{ display: 'flex', flexDirection: 'column' }}>
-                                <Tooltip title="View">
-                                  {data.employeeid === authId && (
-                                    <IconButton sx={{ color: '#ffff' }} onClick={() => navigate(`/managerapproval/${data.employeeid}`)}>
-                                      <ChevronRightIcon />
-                                    </IconButton>
-                                  )}
-                                </Tooltip>
-                                <IconButton sx={{ color: '#ffff' }} onClick={handleDeleteMan}>
-                                  <PersonRemoveIcon />
-                                </IconButton>
-                              </div>
+                              <div>
+                              {data.employeeid === authId && (
+                                <div>
+                                  <IconButton sx={{color:'#fff'}} aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                    <MoreVertIcon />
+                                  </IconButton>
+                                  <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
+                                    <MenuItem onClick={handleClose}>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="View"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/managerapproval/${data.employeeid}`)} />
+                                        </Tooltip>
+                                      </IconButton>
+                                    </MenuItem>
+                                    <MenuItem sx={{ height: '25px', width: '20px' }} onClick={handleClose}>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="Remove"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
+                                        </Tooltip>
+                                      </IconButton>
+                                    </MenuItem>
+                                  </Menu>
+                                </div>
+                              )}
+                            </div>
                             </StyledContainer>
                           </StyledNodeManager>
                         ))
@@ -218,11 +257,39 @@ const OrgTree = () => {
                             </div>
                             <div>
                               {data.employeeid === authId && (
-                                <Tooltip title="view">
-                                  <IconButton onClick={() => navigate(`/hrapproval/${data.employeeid}`)}>
-                                    <ChevronRightIcon />
+                                <div>
+                                  <IconButton sx={{color:'#fff'}} aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                    <MoreVertIcon />
                                   </IconButton>
-                                </Tooltip>
+                                  <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
+                                    <MenuItem onClick={handleClose}>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="View"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/hrapproval/${data.employeeid}`)} />
+                                        </Tooltip>
+                                      </IconButton>
+                                    </MenuItem>
+                                    <MenuItem sx={{ height: '25px', width: '20px' }} onClick={handleClose}>
+                                      <IconButton>
+                                        <Tooltip
+                                          title="Remove"
+                                          placement="right-start"
+                                          arrow
+                                          TransitionComponent={Fade}
+                                          TransitionProps={{ timeout: 600 }}
+                                        >
+                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
+                                        </Tooltip>
+                                      </IconButton>
+                                    </MenuItem>
+                                  </Menu>
+                                </div>
                               )}
                             </div>
                           </StyledContainer>
@@ -268,13 +335,13 @@ const OrgTree = () => {
                                     <StyledNode3 raised={true}>
                                       <StyledContainer disableGutters={true}>
                                         <div>
-                                          <StyledAvatar>{y.name[0].toUpperCase()}</StyledAvatar>
+                                          <StyledAvatar style={{color:'#fff'}}>{y.name[0].toUpperCase()}</StyledAvatar>
                                         </div>
                                         <div>
-                                          <Typography variant="h3" fontSize={'18px'}>
+                                          <Typography style={{color:'#fff'}} variant="h3" fontSize={'18px'}>
                                             {y.name}
                                           </Typography>
-                                          <Typography variant="body2">{y.desi}</Typography>
+                                          <Typography style={{color:'#fff'}} variant="body2">{y.desi}</Typography>
                                         </div>
                                         <div>
                                           {data.employeeid === authId && (
@@ -306,9 +373,9 @@ const OrgTree = () => {
                   />
                 </Tree>
               ) : (
-                <CircularProgress
-                  sx={{ width: '100%', height: 'auto', position: 'absolute', top: '270px', left: '450px' }}
-                ></CircularProgress>
+                <LoaderStyle>
+                  <Lottie options={defaultOptions1} height={100} width={100} />
+                </LoaderStyle>
               )}
             </div>
           </MapInteractionCSS>

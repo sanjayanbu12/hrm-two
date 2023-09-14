@@ -11,7 +11,9 @@ import { useNavigate, useParams } from 'react-router';
 import { useSelector } from 'react-redux';
 // import MaterialTable from "material-table";
 import Lottie from 'react-lottie';
-import {defaultOptions,defaultOptions1} from './Const'
+import { Carousel } from 'primereact/carousel';
+import {  defaultOptions, defaultOptions1, responsiveOptions } from './Const';
+import MainCard from 'ui-component/cards/MainCard';
 const HrApproval = () => {
   const [data, setRecData] = useState([]);
   const [edata, setedata] = useState([]);
@@ -23,7 +25,7 @@ const HrApproval = () => {
   useEffect(() => {
     fetchData();
   }, [edata]);
- 
+
   useEffect(() => {
     const fetchDataOnMount = async () => {
       try {
@@ -73,66 +75,73 @@ const HrApproval = () => {
   const handleClick = (id) => {
     navigate(`/recruitmentview/${id}`);
   };
+  const jobTemplete = (data) => {
+    return (
+      <>
+        <Card raised={true} key={data._id} sx={{ width: '90%',margin:'20px',height:'300px' }}>
+          <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant="h1" gutterBottom>
+              {data.Company}
+            </Typography>
+            <Stack sx={{ margin: '0 auto' }} spacing={0.5}>
+              <Typography variant="h5" component="div">
+                <span style={{ marginRight: '20px' }}>
+                  Role<span style={{ marginLeft: '85px' }}>:</span>
+                </span>
+                {data.Jobrole}
+              </Typography>
+              <Typography color="text.secondary">
+                <Typography sx={{ display: 'inline' }} variant="h5" component="div">
+                  Experience
+                </Typography>
+                <span style={{ marginRight: '20px', marginLeft: '38px' }}>:</span>
+                <span style={{ marginLeft: '10px' }}>{data.ExperienceFrom}</span> - <span>{data.ExperienceTo} Years</span>
+              </Typography>
+              <Typography variant="h5" component="div">
+                <span style={{ marginRight: '20px' }}>
+                  Opeanings<span style={{ marginLeft: '44px', marginRight: '10px' }}>:</span>
+                </span>
+                {data.Openings}
+              </Typography>
+              <Typography variant="h5" component="div">
+                <span style={{ marginRight: '20px' }}>
+                  HR<span style={{ marginLeft: '92px', marginRight: '10px' }}>:</span>
+                </span>
+                {data.Hrname}
+              </Typography>
+              <Typography variant="h5" component="div">
+                <span style={{ marginRight: '20px' }}>
+                  Interviewrounds<span style={{ marginLeft: '10px', marginRight: '10px' }}>:</span>
+                </span>
+                {data.Interviewrounds}
+              </Typography>
+              <Button size="small" onClick={() => handleClick(data._id)}>
+                View More
+              </Button>
+            </Stack>
+          </CardContent>
+        </Card>
+      </>
+    );
+  };
+
   return (
-    <>
-      {!loading ? (
-        <Stack direction={'row'} gap={'30px'} sx={{ flexWrap: 'wrap' }}>
-          {data.length > 0 ? (
-            data.map((item) => (
-              <Card raised={true} key={item._id} sx={{ width: '50%' }}>
-                <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                  <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant="h1" gutterBottom>
-                    {item.Company}
-                  </Typography>
-                  <Stack sx={{ margin: '0 auto' }} spacing={0.5}>
-                    <Typography variant="h5" component="div">
-                      <span style={{ marginRight: '20px' }}>
-                        Role<span style={{ marginLeft: '85px' }}>:</span>
-                      </span>{' '}
-                      {item.Jobrole}
-                    </Typography>
-                    <Typography color="text.secondary">
-                      <Typography sx={{ display: 'inline' }} variant="h5" component="div">
-                        Experience{' '}
-                      </Typography>
-                      <span style={{ marginRight: '20px', marginLeft: '38px' }}>:</span>
-                      <span style={{ marginLeft: '10px' }}>{item.ExperienceFrom}</span> - <span>{item.ExperienceTo} Years</span>
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      <span style={{ marginRight: '20px' }}>
-                        Opeanings<span style={{ marginLeft: '44px', marginRight: '10px' }}>:</span>
-                      </span>{' '}
-                      {item.Openings}
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      <span style={{ marginRight: '20px' }}>
-                        HR<span style={{ marginLeft: '92px', marginRight: '10px' }}>:</span>
-                      </span>{' '}
-                      {item.Hrname}
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      <span style={{ marginRight: '20px' }}>
-                        Interviewrounds<span style={{ marginLeft: '10px', marginRight: '10px' }}>:</span>
-                      </span>{' '}
-                      {item.Interviewrounds}
-                    </Typography>
-                    <Button size="small" onClick={() => handleClick(item._id)}>
-                      View More
-                    </Button>
-                  </Stack>
-                </CardContent>
-              </Card>
-            ))
-          ) : (
-            <Lottie options={defaultOptions} height={500} width={600} />
-          )}
-        </Stack>
+    <MainCard title='Job Requests' >
+      {!loading ?  (
+        data.length>0?(
+          <Carousel value={data} numVisible={2} numScroll={2} responsiveOptions={responsiveOptions} itemTemplate={jobTemplete} />
+        ):(
+          <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Lottie options={defaultOptions} height={500} width={500} />
+        </Box>
+        )
+     
       ) : (
         <Box sx={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-         <Lottie options={defaultOptions1} height={100} width={100} />
+          <Lottie options={defaultOptions1} height={100} width={100} />
         </Box>
       )}
-    </>
+    </MainCard>
   );
 };
 

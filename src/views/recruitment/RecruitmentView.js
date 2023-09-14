@@ -22,6 +22,7 @@ const RecruitmentView = () => {
   const [topTier, setTopTierData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [visible1, setVisible1] = useState(false);
+  const [visible2, setVisible2] = useState(false);
   const toast = useRef(null);
   const { id } = useParams();
   const navigate = useNavigate();
@@ -45,7 +46,6 @@ const RecruitmentView = () => {
   if (selectedJob) {
     jobrole = selectedJob.Jobrole;
   }
-  console.log(jobrole);
   const fetchEmployeesData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -70,12 +70,22 @@ const RecruitmentView = () => {
       life: 3000
     });
   };
+
   const acceptmanager = () => {
     hanldeApproveMan();
     toast.current.show({
       severity: 'success',
       summary: 'Confirmed',
       detail: 'You have granted approval for this job',
+      life: 3000
+    });
+  };
+  const rejectJob = () => {
+    deleteJob();
+    toast.current.show({
+      severity: 'success',
+      summary: 'Confirmed',
+      detail: 'You have Rejected approval for this job',
       life: 3000
     });
   };
@@ -91,7 +101,14 @@ const RecruitmentView = () => {
       setSelectedAts(Job1.length);
       setSelected(Job2.length);
       setLoader(false);
-      console.log(Job1.length + ' is selected');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const deleteJob = async () => {
+    try {
+      await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${selectedJob._id}`);
+      navigate(`/hrapproval/${authId}`);
     } catch (error) {
       console.log(error);
     }
@@ -268,36 +285,40 @@ const RecruitmentView = () => {
                 <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom} to {selectedJob.ExperienceTo}{' '}
                 Years
               </Typography>
-              {selectedJob.Description ?(
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Description</b>
-                <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
-                {selectedJob.Description}
-              </Typography>): null}
+              {selectedJob.Description ? (
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> Description</b>
+                  <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
+                  {selectedJob.Description}
+                </Typography>
+              ) : null}
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> ApplicationLink</b>
                 <b style={{ marginLeft: '184px', paddingRight: '12px' }}>:</b>
                 {selectedJob.ApplicationLink}
               </Typography>
               {selectedJob.Clientname ? (
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Client Name </b>
-                <b style={{ marginLeft: '203px', paddingRight: '10px' }}>:</b> {selectedJob.Clientname}
-              </Typography>) : null}
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> Client Name </b>
+                  <b style={{ marginLeft: '203px', paddingRight: '10px' }}>:</b> {selectedJob.Clientname}
+                </Typography>
+              ) : null}
               {selectedJob.Clientcompany ? (
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> Client Company </b>
-                <b style={{ marginLeft: '181px', paddingRight: '10px' }}>:</b> {selectedJob.Clientcompany}
-              </Typography>): null}
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> Client Company </b>
+                  <b style={{ marginLeft: '181px', paddingRight: '10px' }}>:</b> {selectedJob.Clientcompany}
+                </Typography>
+              ) : null}
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> HR Name</b>
                 <b style={{ marginLeft: '225px', paddingRight: '10px' }}>:</b> {selectedJob.Hrname}
               </Typography>
               {selectedJob.Hrcontact ? (
-              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
-                <b> HR Contact</b>
-                <b style={{ marginLeft: '214px', paddingRight: '10px' }}>:</b> {selectedJob.Hrcontact}
-              </Typography>) :null} 
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                  <b> HR Contact</b>
+                  <b style={{ marginLeft: '214px', paddingRight: '10px' }}>:</b> {selectedJob.Hrcontact}
+                </Typography>
+              ) : null}
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> No of Interview Rounds</b>
                 <b style={{ marginLeft: '139px', paddingRight: '10px' }}>:</b> {selectedJob.Interviewrounds}
@@ -348,13 +369,22 @@ const RecruitmentView = () => {
                   accept={acceptmanager}
                   reject={reject}
                 />
+                <ConfirmDialog
+                  visible={visible2}
+                  onHide={() => setVisible2(false)}
+                  message="Are you certain you wish to Reject This Jobrole It will be deleted?"
+                  header="Confirmation"
+                  icon="pi pi-exclamation-triangle"
+                  accept={rejectJob}
+                  reject={reject}
+                />
                 <div style={{ marginTop: '20px' }}>
-                  {topTier.some((data) => data.employeeid === authId ) ? (
+                  {topTier.some((data) => data.employeeid === authId) ? (
                     <ButtonGroup sx={{ gap: '10px', width: '50%' }}>
                       <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
                         Approve
                       </HrBtn>
-                      <Reject size="small" icon="pi pi-check" label="Confirm">
+                      <Reject onClick={() => setVisible2(true)}  size="small" icon="pi pi-check" label="Confirm">
                         Reject
                       </Reject>
                     </ButtonGroup>
@@ -373,7 +403,7 @@ const RecruitmentView = () => {
                             ? 'Waiting For Others To Approve'
                             : 'Approve'}
                         </HrBtn>
-                        <Reject size="small" icon="pi pi-check" label="Confirm">
+                        <Reject onClick={() => setVisible2(true)} size="small" icon="pi pi-check" label="Confirm">
                           Reject
                         </Reject>
                       </ButtonGroup>

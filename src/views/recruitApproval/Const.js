@@ -1,4 +1,4 @@
-import { Card, Container } from '@mui/material';
+import { Box, Card, Container } from '@mui/material';
 import Modal from '@mui/material/Modal';
 import styled from 'styled-components';
 import MainCard from 'ui-component/cards/MainCard';
@@ -10,7 +10,10 @@ export const StyledNode = styled(Card)`
   display: inline-block;
   width: 278px;
   height: 81px;
-  background-color: #b47aea;
+  background: #000046; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #1cb5e0, #000046); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #1cb5e0, #000046); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   padding-left: 13px;
   padding-right: 21px;
   padding-top: 18px;
@@ -21,7 +24,10 @@ export const StyledNode2 = styled(Card)`
   display: inline-block;
   width: 278px;
   height: 81px;
-  background-color: #8c1c29;
+  background: #eb5757; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #000000, #eb5757); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #000000, #eb5757); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
   padding-right: 21px;
   padding-top: 18px;
 `;
@@ -31,7 +37,10 @@ export const StyledNode3 = styled(Card)`
   display: inline-block;
   width: 278px;
   height: 81px;
-  background-color: #ffb30f;
+  background: #20002c; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #cbb4d4, #20002c); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #cbb4d4, #20002c); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #fff;
   padding-right: 21px;
   padding-top: 18px;
 `;
@@ -39,19 +48,14 @@ export const StyledNodeManager = styled(Card)`
   padding: 5px;
   border-radius: 8px;
   display: inline-block;
+  padding-top: 20px;
   width: 278px;
   height: 81px;
   padding-left: 13px;
   padding-right: 21px;
-  background: rgb(2, 0, 36);
-  background: linear-gradient(
-    90deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(0, 212, 255, 1) 0%,
-    rgba(106, 56, 111, 1) 0%,
-    rgba(181, 11, 166, 0.8883928571428571) 100%,
-    rgba(148, 79, 141, 0.6979166666666667) 100%
-  );
+  background: #7f00ff; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #e100ff, #7f00ff); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #e100ff, #7f00ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 `;
 export const StyledContainer = styled.div`
   display: flex;
@@ -69,6 +73,15 @@ export const StyledCard = styled(Card)`
     padding-right: 21px;
     width: 100%;
     cursor: pointer;
+  }
+`;
+export const LoaderStyle = styled(Box)`
+  && {
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 150px;
+    left: 450px;
   }
 `;
 export const StyledModal = styled(Modal)`
@@ -91,7 +104,7 @@ export const StyledMainCard = styled(MainCard)`
 `;
 export const StyledCardConatiner = styled(Card)`
   && {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 220px);
   }
 `;
 export const Btncontainer = styled(Container)`
@@ -120,5 +133,34 @@ export const defaultOptions1 = {
   animationData: animationData1,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
+  }
+};
+export const responsiveOptions = [
+  {
+    breakpoint: '1199px',
+    numVisible: 1,
+    numScroll: 1
+  },
+  {
+    breakpoint: '991px',
+    numVisible: 2,
+    numScroll: 1
+  },
+  {
+    breakpoint: '767px',
+    numVisible: 1,
+    numScroll: 1
+  }
+];
+export const cardAnimation = {
+  hidden: {
+    scale: 0,
+    opacity: 0,
+    x: '-100vw'
+  },
+  show: {
+    scale: 1,
+    opacity: 1,
+    x: 0
   }
 };
