@@ -148,3 +148,15 @@ export const responsiveOptions = [
       numScroll: 1
   }
 ];
+export const cardAnimation = {
+  hidden: {
+    scale: 0,
+    opacity: 0,
+    x: '-100vw'
+  },
+  show: {
+    scale: 1,
+    opacity: 1,
+    x: 0
+  }
+};

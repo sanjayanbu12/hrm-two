@@ -11,32 +11,12 @@ import { Stack, Box } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import Lottie from 'react-lottie';
-import animationData from '../lottie/nodata.json';
-import { defaultOptions1, responsiveOptions } from './Const';
+import { defaultOptions1,defaultOptions, responsiveOptions,cardAnimation } from './Const';
 import MainCard from 'ui-component/cards/MainCard';
 import { Carousel } from 'primereact/carousel';
 
-const cardAnimation = {
-  hidden: {
-    scale: 0,
-    opacity: 0,
-    x: '-100vw'
-  },
-  show: {
-    scale: 1,
-    opacity: 1,
-    x: 0
-  }
-};
 
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animationData,
-  rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice'
-  }
-};
+
 const ManagerApproval = () => {
   const [loading, setLoading] = useState(true);
   const [data, setRecData] = useState([]);
