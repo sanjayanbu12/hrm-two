@@ -16,8 +16,8 @@ const Goals = () => {
 
     <div style={{}}>
       <Tabs value={selectedTab} onChange={handleTabChange} sx={{marginBottom:"10px"}}>
-        <Tab label="Goals" />
-        <Tab label="Your Goals"/>
+        <Tab label="Goal Setting" />
+        <Tab label="Goal Tracking"/>
       </Tabs>
 
 
