@@ -139,8 +139,10 @@ const MediaList = () => {
         const response = await axios.post('http://localhost:3001/videos/create', {
           moduleId: selectedMedia._id,
           moduleName: formText,
-          videoUrls: selectedVideoUrls
+          videoUrls: selectedVideoUrls,
+          courseName: selectedMedia.courseName
         });
+        
 
         console.log('Video data saved:', response.data);
 
