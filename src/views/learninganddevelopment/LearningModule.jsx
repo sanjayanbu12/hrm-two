@@ -1,20 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Typography,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Paper,
-} from '@mui/material';
-
+import { Dialog, DialogContent, DialogTitle, IconButton, Typography, Card, CardContent, CardMedia, Grid, Paper } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
+import Layout from './Layout';
+
 
 export default function TitlebarImageList() {
   const [courseData, setCourseData] = useState([]);
@@ -53,7 +43,7 @@ export default function TitlebarImageList() {
       ) : (
         <Grid container spacing={3}>
           {courseData.map((course) => (
-            <Grid item xs={12} sm={4} md={4} key={course.courseName}>
+            <Grid item xs={12} sm={4} md={4} key={course._id}>
               <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
                 <Card onClick={() => openMediaDialog(course)} style={{ cursor: 'pointer', height: '100%' }}>
                   <CardMedia sx={{ height: 110 }} image={course.image} alt={course.courseName} />
@@ -81,11 +71,9 @@ export default function TitlebarImageList() {
         <DialogContent>
           {selectedMedia && (
             <>
-              <Typography variant="h5" gutterBottom>
-                {selectedMedia.courseName}
-              </Typography>
-              <Typography variant="body1">{selectedMedia.courseDescription}</Typography>
-              {/* Add more course details as needed */}
+              
+              <Layout selectedMedia={selectedMedia} />
+             
             </>
           )}
         </DialogContent>
