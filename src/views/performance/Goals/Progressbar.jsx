@@ -3,7 +3,9 @@ import { Grid } from '@mui/material';
 import Item from 'antd/es/list/Item';
 import './Progressbar.css';
 
-const Progressbar = () => {
+const Progressbar = ({goal }) => {
+  const { GoalTit1, GoalPer1 } = goal
+  // console.log(GoalTit1,GoalPer1)
   return (
     <>
           <div className="center">
@@ -38,10 +40,10 @@ const Progressbar = () => {
               </div>
               <Grid container spacing={2}  sx={{listStyle:"none", }}>
   <Grid item xs={9}  sx={{marginLeft:"30px",  }}>
-    <Item><h3 style={{marginBottom:"0px"}}>Full-Stack Certification</h3></Item>
+    <Item><h3 style={{marginBottom:"0px"}}>{GoalTit1}</h3></Item>
   </Grid>
   <Grid item xs={2}  sx={{}}>
-    <Item><h4 className="h4" style={{marginBottom:"0px"}}>YEARLY</h4></Item>
+    <Item><h4 className="h4" style={{marginBottom:"0px"}}>{GoalPer1}</h4></Item>
   </Grid>
   <Grid item xs={1} sx={{marginLeft:"30px", }}>
     <Item>50%</Item>
