@@ -83,21 +83,21 @@ const ApproveLeave = () => {
     }
   };
 
-  const handleApproveReject = async (id, action) => {
-    const apiEndpoint = `https://your-api-url.com/approveLeave/${id}`; // Replace with your actual API endpoint
+  // const handleApproveReject = async (id, action) => {
+  //   const apiEndpoint = `https://your-api-url.com/approveLeave/${id}`; // Replace with your actual API endpoint
 
-    try {
-      const response = await axios.put(apiEndpoint, { action });
+  //   try {
+  //     const response = await axios.put(apiEndpoint, { action });
 
-      if (response.status === 200) {
-        fetchAts();
-      } else {
-        console.log('Failed to update leave status:', response.data);
-      }
-    } catch (error) {
-      console.log('Error approving/rejecting leave:', error);
-    }
-  };
+  //     if (response.status === 200) {
+  //       fetchAts();
+  //     } else {
+  //       console.log('Failed to update leave status:', response.data);
+  //     }
+  //   } catch (error) {
+  //     console.log('Error approving/rejecting leave:', error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchAts();
