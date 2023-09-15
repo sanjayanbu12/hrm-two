@@ -57,12 +57,6 @@ const pages = {
           url: '/jobtable'
         },
         {
-          id: 'shortlist',
-          title: ' Candidates Shortlisting',
-          type: 'item',
-          url: '/shortlist'
-        },
-        {
           id: 'applicationtracker',
           title: 'Interview Process ',
           type: 'item',
