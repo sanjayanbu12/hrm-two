@@ -8,7 +8,7 @@ import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Newevent from 'views/dashboard/Default/Newevent';
 import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfServices';
 import NotFound404 from './NotFound404';
-import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
+import RequestLeave from 'views/leavemanagement/RequestLeave';
 import CourseOverview from 'views/learninganddevelopment/CourseOverview'
 import EmployeeLogin from 'views/employeeselfservices/EmployeeLogin';
 // dashboard routing
@@ -50,8 +50,8 @@ const MainRoutes = {
     element: <AttendanceSystem />
   },
   {
-    path: '/leavetrackerform',
-    element: <LeaveTrackerForm />
+    path: '/requestleave',
+    element: <RequestLeave />
   },
     {
       path: '/newevent',

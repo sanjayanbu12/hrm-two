@@ -51,7 +51,7 @@ const columns = [
   },
 ];
 
-const ApproveLeave = () => {
+const ViewLeave = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
@@ -175,7 +175,7 @@ const ApproveLeave = () => {
           <div className="spinner" style={{ position: 'absolute', bottom: '35%', right: '45%' }} />
         ) : (
           <MaterialTable
-            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>View Leave</div>}
+            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Track Leave</div>}
             columns={columns.map((column) => {
               if (column.field === 'attachments') {
                 return {
@@ -221,4 +221,4 @@ const ApproveLeave = () => {
   );
 };
 
-export default ApproveLeave;
+export default ViewLeave;

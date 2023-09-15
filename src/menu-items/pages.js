@@ -111,10 +111,10 @@ const pages = {
           icon: icons.AccountTreeOutlinedIcon,
           children:[
         {
-          id: 'leavetrackerform',
+          id: 'requestleave',
           title: ' Request Leave',
           type: 'item',
-          url: '/leavetrackerform'
+          url: '/requestleave'
         },
         // {
         //   id: 'Attendance Regulation',
@@ -123,10 +123,10 @@ const pages = {
         //   url: '/attendanceManagement'
         // },
         {
-          id: 'leavetrackerlist',
+          id: 'viewleave',
           title: 'View leave',
           type: 'item',
-          url: '/leavetrackerlist'
+          url: '/viewleave'
         },
         {
           id: 'approveleave',
