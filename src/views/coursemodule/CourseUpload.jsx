@@ -1,29 +1,25 @@
-import React, { useState} from 'react';
-import { TextField, Button, Paper, Grid, IconButton } from '@mui/material';
+import React, { useState } from 'react';
+import { TextField, Button, Paper, Grid, IconButton, Box } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MovieIcon from '@mui/icons-material/Movie';
 import ImageIcon from '@mui/icons-material/Image';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify'; // Import react-toastify
+import 'react-toastify/dist/ReactToastify.css'; // Import react-toastify styles
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
+import Lottie from 'react-lottie';
+import animationData from '../lottie/loader.json';
 
-const AbstergoLoader = () => (
-  <div className="ui-abstergo">
-    <div className="abstergo-loader">
-      <div></div>
-      <div></div>
-      <div></div>
-    </div>
-    <div className="ui-text">
-      Synchronization
-      <div className="ui-dot"></div>
-      <div className="ui-dot"></div>
-      <div className="ui-dot"></div>
-    </div>
-  </div>
-);
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice',
+  },
+};
 
 const CourseUpload = () => {
   const [courseName, setCourseName] = useState('');
@@ -31,7 +27,7 @@ const CourseUpload = () => {
   const [image, setImage] = useState(null);
   const [videos, setVideos] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const [selectedVideos, setSelectedVideos] = useState([]);
+  const [selectedVideos, setSelectedVideos] = useState({});
   const [errors, setErrors] = useState({});
   const [contentReady, setContentReady] = useState(true);
 
@@ -78,18 +74,22 @@ const CourseUpload = () => {
   };
 
   const handleSuccess = () => {
-    Swal.fire({
-      icon: 'success',
-      title: 'Success',
-      text: 'Course uploaded successfully!',
+    toast.success('Course uploaded successfully!', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
     });
   };
 
   const handleError = () => {
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'Course upload failed. Please try again.',
+    toast.error('Course upload failed. Please try again.', {
+      position: 'top-right',
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
     });
   };
 
@@ -140,7 +140,7 @@ const CourseUpload = () => {
       setImage(null);
       setVideos([]);
       setSelectedImages([]);
-      setSelectedVideos([]);
+      setSelectedVideos({});
       setErrors({});
     } catch (error) {
       console.error(error);
@@ -156,10 +156,12 @@ const CourseUpload = () => {
   });
 
   return (
-    <MainCard title="Course Upload Form" >
-      <Paper elevation={3} style={{ padding: '16px',background:'black' }}>
+    <MainCard title="Course Upload Form">
+      <Paper elevation={3} style={{ padding: '16px' }}>
         {!contentReady ? (
-          <AbstergoLoader />
+          <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Lottie options={defaultOptions} height={200} width={200} />
+          </Box>
         ) : (
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -251,6 +253,7 @@ const CourseUpload = () => {
             </Grid>
           </form>
         )}
+        <ToastContainer /> 
       </Paper>
     </MainCard>
   );
