@@ -207,13 +207,7 @@ const pages = {
           title: 'Skill Matrix',
           type: 'item',
           url: '/skillsetmatrix'
-        },
-        {
-          id: 'feedbacks',
-          title: 'Review Feedbacks',
-          type: 'item',
-          url: '/feedbacks'
-        },       
+        },  
       ]
     },
   ]
