@@ -5,7 +5,7 @@ import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import LeaveTrackerForm from 'views/leavemanagement/LeaveTrackerForm';
 import CourseOverview from 'views/learninganddevelopment/CourseOverview';
 import Newevent from 'views/dashboard/Employee/Newevent';
-import Feedback from 'views/performance/Feedback'
+import Feedback from 'views/performance/Feedback/Feedback'
 
 const EmployeeLogin = () => {
   const [activeSection, setActiveSection] = useState('goal');
