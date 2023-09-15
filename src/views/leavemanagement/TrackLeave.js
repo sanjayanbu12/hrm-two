@@ -9,8 +9,8 @@ import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
 const columns = [
-  { title: 'Employee ID', field: '_id', editable: true, width: '50px' },
-  { title: 'Employee Name', field: 'employeeId', editable: true },
+  { title: 'Employee ID', field: 'employeeId', editable: true, width: '50px' },
+  { title: 'Employee Name', field: 'employeeName', editable: true },
   { title: 'Leave Type', field: 'leaveType', sorting: true, editable: true },
   { title: 'Start Date', field: 'startDate', sorting: true, editable: true },
   { title: 'End Date', field: 'endDate', sorting: true, editable: true },
@@ -29,10 +29,11 @@ const ViewLeave = () => {
     try {
       setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data.getData;
+      const filldata = res.data;
+      console.log(filldata)
       setAdata(filldata);
       setLoader(false);
-      console.log(res.data.getData);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -57,7 +58,7 @@ const ViewLeave = () => {
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
-      'Employee ID': item._id,
+      'Employee ID': item.id,
       'Employee Name': item.employeeId,
       'Leave Type': item.leaveType,
       'Start Date': item.startDate,
@@ -83,7 +84,7 @@ const ViewLeave = () => {
     pdf.text('View Leave', 10, 10);
 
     const rows = data.map((item) => [
-      item._id,
+      item.employeeId,
       item.employeeId,
       item.leaveType,
       item.startDate,
@@ -115,9 +116,9 @@ const ViewLeave = () => {
   });
 
   const handleView = async (e, data) => {
-    const id = data.map((x) => x._id);
+    const id = data.map((x) => x.id);
     console.log(data);
-    navigate(`/viewleave/${id[0]}`);
+    navigate(`/approveleave/${id[0]}`);
   };
 
   return (
@@ -133,7 +134,7 @@ const ViewLeave = () => {
                 return {
                   ...column,
                   render: (rowData) => (
-                    <a href="#" onClick={() => handleAttachments(rowData._id, rowData.employeeName)}>
+                    <a href="#" onClick={() => handleAttachments(rowData.id, rowData.employeeName)}>
                       <Tooltip title="Download attachments">
                         <TextSnippet style={{ color: '#616161' }} />
                       </Tooltip>
@@ -174,6 +175,3 @@ const ViewLeave = () => {
 };
 
 export default ViewLeave;
-
-
-
