@@ -16,8 +16,7 @@
 // import axios from 'axios';
 // import Swal from 'sweetalert2';
 // import { useNavigate } from 'react-router-dom';
-
-// // Validation schemas
+// import FormData from 'form-data';
 // const validateSchema = yup.object().shape({
 //   employeeId: yup.string().required('Employee ID is required'),
 //   employeeName: yup.string().required('Employee Name is required'),
@@ -70,7 +69,6 @@
 //     'Other Leave',
 //   ];
 
-//   // Function to calculate the number of days
 //   useEffect(() => {
 //     if (startDate && endDate) {
 //       const startDateObj = new Date(startDate);
@@ -82,7 +80,7 @@
 //         setNumberOfDays(daysDiff.toString());
 //         setErrors((prevErrors) => ({
 //           ...prevErrors,
-//           numberOfDays: '', // Clear the error when a value is calculated
+//           numberOfDays: '',
 //         }));
 //       }
 //     } else {
@@ -90,67 +88,70 @@
 //     }
 //   }, [startDate, endDate]);
 
-//   // Handle Leave Type change
 //   const handleLeaveTypeChange = (e) => {
 //     setLeaveType(e.target.value);
 //   };
 
-//   // Handle Start Date change
 //   const handleStartDateChange = (e) => {
 //     const newStartDate = e.target.value;
 //     setStartDate(newStartDate);
 //   };
 
-//   // Handle End Date change
 //   const handleEndDateChange = (e) => {
 //     const newEndDate = e.target.value;
 //     setEndDate(newEndDate);
 //   };
 
-//   // Handle File Change
 //   const handleFileChange = (selectedFiles) => {
-//     setAttachments(Array.from(selectedFiles));
+//     console.log(selectedFiles)
+//     const filesArray = Array.from(selectedFiles);
+//     setAttachments(filesArray);
 //   };
 
-//   // Handle form submission
-//   const handleSubmit = async () => {
+//   const handleSubmit = async (e) => {
+//     e.preventDefault(); // Prevent the default form submission behavior
 //     try {
-//       const data = {
-//         employeeId,
-//         employeeName,
-//         leaveType,
-//         startDate,
-//         endDate,
-//         numberOfDays,
-//         attachments,
-//         reason,
-//       };
+//       const data = new FormData();
+//       data.append('employeeId', employeeId);
+//       data.append('employeeName', employeeName);
+//       data.append('leaveType', leaveType);
+//       data.append('startDate', startDate);
+//       data.append('endDate', endDate);
+//       data.append('numberOfDays', numberOfDays);
+//       data.append('reason', reason);
+//       data.append('attachments', attachments[0]);
 
-//       await validateSchema.validate(data, { abortEarly: false });
+//       const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave/', data, {
+//         headers: {
+//           'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
+//         },
+//       });
 
-//       const response = await axios.post(
-//         'https://hrm-backend-square.onrender.com/api/leave',
-//         data
-//       );
+//       if (response.status === 201) {
+//         setEmployeeId('');
+//         setEmployeeName('');
+//         setLeaveType('');
+//         setStartDate(null);
+//         setEndDate(null);
+//         setNumberOfDays('');
+//         setAttachments([]);
+//         setReason('');
+//         setErrors({});
+//         setSuccess(true);
 
-//       if (response.status === 200) {
-//         // Request was successful
 //         Swal.fire({
 //           icon: 'success',
-//           title: 'Leave request submitted successfully!',
-//           timer: 2000,
-//           showConfirmButton: false,
+//           text: 'Leave request submitted successfully!',
+//         }).then(() => {
+//           navigate('/viewleave');
 //         });
-//         setSuccess(true);
-//         setErrors({});
-//         navigate('/viewleave');
 //       } else {
-//         // Request failed, handle the error
-//         console.error('Error:', response); // Log the response for debugging
+//         console.error('Error:', response);
 //         Swal.fire({
 //           icon: 'error',
 //           title: 'Leave request failed!',
-//           text: 'An error occurred while submitting the request. Please try again later.',
+//           text:
+//             'An error occurred while submitting the request. Please try again later.',
 //         });
 //       }
 //     } catch (error) {
@@ -160,11 +161,12 @@
 //           validationErrors[err.path] = err.message;
 //         });
 //         setErrors(validationErrors);
+//       } else {
+//         console.log(error);
 //       }
 //     }
 //   };
 
-//   // Handle field change and clear errors
 //   const handleFieldChange = (e) => {
 //     const { name } = e.target;
 //     setErrors((prevErrors) => ({
@@ -172,10 +174,9 @@
 //       [name]: '',
 //     }));
 //   };
-
 //   return (
 //     <MainCard title="Leave Tracker">
-//       <form>
+//       <form onSubmit={handleSubmit}>
 //         <Grid container spacing={3}>
 //           {/* Employee ID */}
 //           <Grid item xs={6}>
@@ -194,7 +195,6 @@
 //               helperText={errors.employeeId}
 //             />
 //           </Grid>
-          
 //           {/* Employee Name */}
 //           <Grid item xs={6}>
 //             <TextField
@@ -212,7 +212,6 @@
 //               helperText={errors.employeeName}
 //             />
 //           </Grid>
-          
 //           {/* Leave Type */}
 //           <Grid item xs={6}>
 //             <FormControl
@@ -241,7 +240,6 @@
 //               <FormHelperText>{errors.leaveType}</FormHelperText>
 //             </FormControl>
 //           </Grid>
-          
 //           {/* Start Date */}
 //           <Grid item xs={6}>
 //             <TextField
@@ -263,7 +261,6 @@
 //               }}
 //             />
 //           </Grid>
-          
 //           {/* End Date */}
 //           <Grid item xs={6}>
 //             <TextField
@@ -285,7 +282,6 @@
 //               }}
 //             />
 //           </Grid>
-          
 //           {/* Number of Days */}
 //           <Grid item xs={6}>
 //             <TextField
@@ -309,7 +305,6 @@
 //               }}
 //             />
 //           </Grid>
-          
 //           {/* Attachments */}
 //           <Grid item xs={6}>
 //             <TextField
@@ -323,7 +318,6 @@
 //               }}
 //             />
 //           </Grid>
-          
 //           {/* Reason */}
 //           <Grid item xs={6}>
 //             <TextField
@@ -346,7 +340,7 @@
           
 //           {/* Submit Button */}
 //           <Grid item xs={12}>
-//             <Button variant="contained" color="primary" onClick={handleSubmit}>
+//             <Button type="submit" variant="contained" color="primary">
 //               Submit
 //             </Button>
 //           </Grid>
@@ -365,7 +359,8 @@
 //   );
 // };
 
-// export default RequestLeave 
+// export default RequestLeave;
+
 
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
@@ -385,8 +380,10 @@ import * as yup from 'yup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import FormData from 'form-data';
 
-const validateSchema = yup.object().shape({
+// Define the validation schema
+const validationSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
   employeeName: yup.string().required('Employee Name is required'),
   leaveType: yup.string().required('Leave Type is required'),
@@ -394,20 +391,28 @@ const validateSchema = yup.object().shape({
     .date()
     .required('Start Date is required')
     .nullable()
-    .min(new Date(), 'Start Date must be today or later'),
+    .min(new Date(), 'Start Date must be today or later')
+    .test('startDate', 'Start Date must be earlier than End Date', function (
+      startDate
+    ) {
+      const { endDate } = this.parent;
+      if (!startDate || !endDate) {
+        return true; // Skip validation if either date is not set
+      }
+      return new Date(startDate) < new Date(endDate);
+    }),
   endDate: yup
     .date()
     .required('End Date is required')
     .nullable()
     .min(yup.ref('startDate'), 'End Date must be after or equal to Start Date'),
-  numberOfDays: yup
+    numberOfDays: yup
     .number()
+    .typeError('Number of Days must be a number')
     .required('Number of Days is required')
     .positive('Number of Days must be positive')
-    .integer('Number of Days must be an integer')
-    .transform((value) => (isNaN(value) ? undefined : value)),
-  attachments: yup.array().of(yup.string()).nullable(),
-  reason: yup.string().required('Reason is required'),
+    .integer('Number of Days must be an integer'),
+  
 });
 
 const RequestLeave = () => {
@@ -472,28 +477,50 @@ const RequestLeave = () => {
   };
 
   const handleFileChange = (selectedFiles) => {
-    setAttachments(Array.from(selectedFiles));
+    console.log(selectedFiles);
+    const filesArray = Array.from(selectedFiles);
+    setAttachments(filesArray);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent the default form submission behavior
+
     try {
-      const data = {
-        employeeId,
-        employeeName,
-        leaveType,
-        startDate,
-        endDate,
-        numberOfDays,
-        attachments,
-        reason,
-      };
+      await validationSchema.validate(
+        {
+          employeeId,
+          employeeName,
+          leaveType,
+          startDate,
+          endDate,
+          numberOfDays,
+          reason,
+          attachments,
+        },
+        { abortEarly: false }
+      );
 
-      await validateSchema.validate(data, { abortEarly: false });
+      const data = new FormData();
+      data.append('employeeId', employeeId);
+      data.append('employeeName', employeeName);
+      data.append('leaveType', leaveType);
+      data.append('startDate', startDate);
+      data.append('endDate', endDate);
+      data.append('numberOfDays', numberOfDays);
+      data.append('reason', reason);
+      data.append('attachments', attachments[0]);
 
-      const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave/', data);
+      const response = await axios.post(
+        'https://hrm-backend-square.onrender.com/api/leave/',
+        data,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
+          },
+        }
+      );
 
-      if (response.status === 200) {
+      if (response.status === 201) {
         setEmployeeId('');
         setEmployeeName('');
         setLeaveType('');
@@ -562,7 +589,6 @@ const RequestLeave = () => {
               helperText={errors.employeeId}
             />
           </Grid>
-          
           {/* Employee Name */}
           <Grid item xs={6}>
             <TextField
@@ -580,7 +606,6 @@ const RequestLeave = () => {
               helperText={errors.employeeName}
             />
           </Grid>
-          
           {/* Leave Type */}
           <Grid item xs={6}>
             <FormControl
@@ -609,7 +634,6 @@ const RequestLeave = () => {
               <FormHelperText>{errors.leaveType}</FormHelperText>
             </FormControl>
           </Grid>
-          
           {/* Start Date */}
           <Grid item xs={6}>
             <TextField
@@ -631,7 +655,6 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
-          
           {/* End Date */}
           <Grid item xs={6}>
             <TextField
@@ -653,7 +676,6 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
-          
           {/* Number of Days */}
           <Grid item xs={6}>
             <TextField
@@ -677,7 +699,6 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
-          
           {/* Attachments */}
           <Grid item xs={6}>
             <TextField
@@ -691,7 +712,6 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
-          
           {/* Reason */}
           <Grid item xs={6}>
             <TextField

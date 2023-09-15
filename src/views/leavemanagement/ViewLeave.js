@@ -27,12 +27,13 @@ const ViewLeave = () => {
 
   const fetchAts = async () => {
     try {
-      setLoader(true);
+      setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data.getData;
+      const filldata = res.data;
+      console.log(filldata)
       setAdata(filldata);
-      setLoader(true);
-      console.log(res.data.getData);
+      setLoader(false);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +54,7 @@ const ViewLeave = () => {
 
   useEffect(() => {
     fetchAts();
-  }, []);
+  }, [Adata]);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({

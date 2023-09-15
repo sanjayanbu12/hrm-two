@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
@@ -27,12 +29,13 @@ const ViewLeave = () => {
 
   const fetchAts = async () => {
     try {
-      setLoader(true);
+      setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data.getData;
+      const filldata = res.data;
+      console.log(filldata)
       setAdata(filldata);
-      setLoader(true);
-      console.log(res.data.getData);
+      setLoader(false);
+      console.log(res.data);
     } catch (err) {
       console.log(err);
     }
@@ -53,7 +56,7 @@ const ViewLeave = () => {
 
   useEffect(() => {
     fetchAts();
-  }, []);
+  }, [Adata]);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -127,7 +130,7 @@ const ViewLeave = () => {
           <div className="spinner" style={{ position: 'absolute', bottom: '35%', right: '45%' }} />
         ) : (
           <MaterialTable
-            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>View Leave</div>}
+            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Track Leave</div>}
             columns={columns.map((column) => {
               if (column.field === 'attachments') {
                 return {
