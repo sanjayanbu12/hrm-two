@@ -22,7 +22,7 @@ const SkillsetMatrix = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/skill/getskills');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/skill/getskills');
       setSkills(response.data.skill); // Update the state with the skill array
     } catch (error) {
       console.error('Error fetching skills:', error);

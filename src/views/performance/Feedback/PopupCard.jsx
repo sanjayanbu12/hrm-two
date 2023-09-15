@@ -15,7 +15,7 @@ const PopupCard = ({ onClose, updateComments }) => {
   const handleSubmit = async () => {
     try {
       if ( rating && comment) {
-        const response = await axios.post(`http://localhost:3001/feed/addcomment/64f01e76aecb5d1da5126707`, {
+        const response = await axios.post(`https://hrm-backend-square.onrender.com/feed/addcomment/64f01e76aecb5d1da5126707`, {
           employeeId: "64f01e76aecb5d1da5126707",
           comment: comment,
           star: rating,
