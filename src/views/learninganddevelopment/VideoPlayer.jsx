@@ -1,10 +1,18 @@
-import { Box } from '@mui/system'
-import React from 'react'
+import React from 'react';
+import ReactPlayer from 'react-player';
+import { Box } from '@mui/system';
 
-const VideoPlayer = () => {
+const VideoPlayer = ({ videoUrl }) => {
   return (
-    <Box sx={{height:"350px",width:"100%",background:"green"}}/>
-  )
-}
+    <Box sx={{ height: '400px', width: '100%', background: 'green' }}>
+      <ReactPlayer
+        url={videoUrl}
+        width="100%"
+        height="100%"
+        controls // Show video controls (play, pause, volume, etc.)
+      />
+    </Box>
+  );
+};
 
-export default VideoPlayer
+export default VideoPlayer;

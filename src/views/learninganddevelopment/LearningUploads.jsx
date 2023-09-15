@@ -9,10 +9,18 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 
-const PercentageLoader = ({ progress }) => (
-  <div className="percentage-loader">
-    <div className="percentage-loader-progress" style={{ width: `${progress}%` }}>
-      {progress}%
+const AbstergoLoader = () => (
+  <div className="ui-abstergo">
+    <div className="abstergo-loader">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <div className="ui-text">
+      Synchronization
+      <div className="ui-dot"></div>
+      <div className="ui-dot"></div>
+      <div className="ui-dot"></div>
     </div>
   </div>
 );
@@ -26,7 +34,6 @@ const LearningUploads = () => {
   const [selectedVideos, setSelectedVideos] = useState([]);
   const [errors, setErrors] = useState({});
   const [contentReady, setContentReady] = useState(true);
-  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleCourseNameChange = (e) => {
     setCourseName(e.target.value);
@@ -123,10 +130,6 @@ const LearningUploads = () => {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          setUploadProgress(percentCompleted);
-        },
       });
       console.log(response);
 
@@ -155,7 +158,9 @@ const LearningUploads = () => {
   return (
     <MainCard title="Course Upload Form">
       <Paper elevation={3} style={{ padding: '16px' }}>
-        {contentReady ? (
+        {!contentReady ? (
+          <AbstergoLoader />
+        ) : (
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
@@ -245,8 +250,6 @@ const LearningUploads = () => {
               </Grid>
             </Grid>
           </form>
-        ) : (
-          <PercentageLoader progress={uploadProgress} />
         )}
       </Paper>
     </MainCard>
