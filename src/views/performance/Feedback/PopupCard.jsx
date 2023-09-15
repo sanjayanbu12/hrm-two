@@ -37,35 +37,7 @@ const PopupCard = ({ onClose, updateComments }) => {
     }
   };
 
-  const [rating, setRating] = useState(null);
-  const [comment, setComment] = useState('');
 
-
-
-  const handleSubmit = async () => {
-    try {
-      if ( rating && comment) {
-        const response = await axios.post(`http://localhost:3001/feed/addcomment/64f01e76aecb5d1da5126707`, {
-          employeeId: "64f01e76aecb5d1da5126707",
-          comment: comment,
-          star: rating,
-        });
-        console.log('Comment added:', response.data);
-
-        setRating(null);
-        setComment('');
-
-        updateComments();
-        onClose();
-        
-
-      } else {
-        console.log('Please fill in all fields.');
-      }
-    } catch (error) {
-      console.error('Error adding comment:', error);
-    }
-  };
 
   const empnames = [
     { label: 'Sridhar S' },
