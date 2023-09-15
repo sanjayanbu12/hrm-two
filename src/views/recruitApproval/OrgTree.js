@@ -67,12 +67,12 @@ const OrgTree = () => {
       const orgData = response.data.orgData;
       setorgMems(orgData);
       if (orgData) {
-        const manId = orgData.map((data) => data.managerName.id);
-        const manData = edata.filter((data) => data._id === manId[0]);
+        const manId = orgData?.map((data) => data?.managerName?.id);
+        const manData = edata?.filter((data) => data?._id === manId[0]);
         setmanagerData(manData);
-        const x = orgData.map((data) => data.hrName);
-        const ids = x[0].map((data) => data.id);
-        setTier2Data(edata.filter((data) => ids.includes(data._id)));
+        const x = orgData?.map((data) => data?.hrName);
+        const ids = x[0]?.map((data) => data?.id);
+        setTier2Data(edata?.filter((data) => ids?.includes(data?._id)));
       }
 
       setLoaderStatus(false);
