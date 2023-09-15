@@ -66,15 +66,19 @@ const OrgTree = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
-      const manId = orgData.map((data) => data.managerName.id);
-      const manData = edata.filter((data) => data._id === manId[0]);
-      setmanagerData(manData);
-      const x = orgData.map((data) => data.hrName);
-      const ids = x[0].map((data) => data.id);
-      setTier2Data(edata.filter((data) => ids.includes(data._id)));
+      if (orgData) {
+        const manId = orgData.map((data) => data.managerName.id);
+        const manData = edata.filter((data) => data._id === manId[0]);
+        setmanagerData(manData);
+        const x = orgData.map((data) => data.hrName);
+        const ids = x[0].map((data) => data.id);
+        setTier2Data(edata.filter((data) => ids.includes(data._id)));
+      }
+
       setLoaderStatus(false);
     } catch (error) {
-      console.log(error);
+      console.log(error); 
+      setLoaderStatus(false);
     }
   };
   const fetchEmployeesData = async () => {
@@ -150,10 +154,10 @@ const OrgTree = () => {
     }
   };
 
-  const handledeltop=async()=>{
+  const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
-    await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}}`);
-  }
+    await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
+  };
 
   return (
     <>
@@ -185,42 +189,48 @@ const OrgTree = () => {
                                 </Typography>
                               </div>
                               <div>
-                              {data.employeeid === authId && (
-                                <div>
-                                  <IconButton sx={{color:'#fff'}} aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
-                                    <MoreVertIcon />
-                                  </IconButton>
-                                  <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
-                                    <MenuItem onClick={handleClose}>
-                                      <IconButton>
-                                        <Tooltip
-                                          title="View"
-                                          placement="right-start"
-                                          arrow
-                                          TransitionComponent={Fade}
-                                          TransitionProps={{ timeout: 600 }}
-                                        >
-                                          <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/managerapproval/${data.employeeid}`)} />
-                                        </Tooltip>
-                                      </IconButton>
-                                    </MenuItem>
-                                    <MenuItem sx={{ height: '25px', width: '20px' }} onClick={handleClose}>
-                                      <IconButton>
-                                        <Tooltip
-                                          title="Remove"
-                                          placement="right-start"
-                                          arrow
-                                          TransitionComponent={Fade}
-                                          TransitionProps={{ timeout: 600 }}
-                                        >
-                                          <GroupRemoveOutlinedIcon onClick={handledeltop} />
-                                        </Tooltip>
-                                      </IconButton>
-                                    </MenuItem>
-                                  </Menu>
-                                </div>
-                              )}
-                            </div>
+                                {data.employeeid === authId && (
+                                  <div>
+                                    <IconButton
+                                      sx={{ color: '#fff' }}
+                                      aria-label="ellipsis"
+                                      aria-controls="menu"
+                                      aria-haspopup="true"
+                                      onClick={handleClick}
+                                    >
+                                      <MoreVertIcon />
+                                    </IconButton>
+                                    <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
+                                      <MenuItem onClick={handleClose}>
+                                        <IconButton>
+                                          <Tooltip
+                                            title="View"
+                                            placement="right-start"
+                                            arrow
+                                            TransitionComponent={Fade}
+                                            TransitionProps={{ timeout: 600 }}
+                                          >
+                                            <RemoveRedEyeOutlinedIcon onClick={() => navigate(`/managerapproval/${data.employeeid}`)} />
+                                          </Tooltip>
+                                        </IconButton>
+                                      </MenuItem>
+                                      <MenuItem sx={{ height: '25px', width: '20px' }} onClick={handleClose}>
+                                        <IconButton>
+                                          <Tooltip
+                                            title="Remove"
+                                            placement="right-start"
+                                            arrow
+                                            TransitionComponent={Fade}
+                                            TransitionProps={{ timeout: 600 }}
+                                          >
+                                            <GroupRemoveOutlinedIcon onClick={() => handledeltop()} />
+                                          </Tooltip>
+                                        </IconButton>
+                                      </MenuItem>
+                                    </Menu>
+                                  </div>
+                                )}
+                              </div>
                             </StyledContainer>
                           </StyledNodeManager>
                         ))
@@ -263,7 +273,13 @@ const OrgTree = () => {
                             <div>
                               {data.employeeid === authId && (
                                 <div>
-                                  <IconButton sx={{color:'#fff'}} aria-label="ellipsis" aria-controls="menu" aria-haspopup="true" onClick={handleClick}>
+                                  <IconButton
+                                    sx={{ color: '#fff' }}
+                                    aria-label="ellipsis"
+                                    aria-controls="menu"
+                                    aria-haspopup="true"
+                                    onClick={handleClick}
+                                  >
                                     <MoreVertIcon />
                                   </IconButton>
                                   <Menu id="menu" anchorEl={anchorEl1} open={Boolean(anchorEl1)} onClose={handleClose}>
@@ -340,13 +356,15 @@ const OrgTree = () => {
                                     <StyledNode3 raised={true}>
                                       <StyledContainer disableGutters={true}>
                                         <div>
-                                          <StyledAvatar style={{color:'#fff'}}>{y.name[0].toUpperCase()}</StyledAvatar>
+                                          <StyledAvatar style={{ color: '#fff' }}>{y.name[0].toUpperCase()}</StyledAvatar>
                                         </div>
                                         <div>
-                                          <Typography style={{color:'#fff'}} variant="h3" fontSize={'18px'}>
+                                          <Typography style={{ color: '#fff' }} variant="h3" fontSize={'18px'}>
                                             {y.name}
                                           </Typography>
-                                          <Typography style={{color:'#fff'}} variant="body2">{y.desi}</Typography>
+                                          <Typography style={{ color: '#fff' }} variant="body2">
+                                            {y.desi}
+                                          </Typography>
                                         </div>
                                         <div>
                                           {data.employeeid === authId && (
