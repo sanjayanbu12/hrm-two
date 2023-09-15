@@ -23,13 +23,27 @@ const validationSchema = yup.object().shape({
     .required('End Date is required')
     .nullable()
     .min(yup.ref('startDate'), 'End Date must be after or equal to Start Date'),
-    numberOfDays: yup
+  numberOfDays: yup
     .number()
-    .typeError('Number of Days must be a number')
     .required('Number of Days is required')
     .positive('Number of Days must be positive')
-    .integer('Number of Days must be an integer'),
-  
+    .integer('Number of Days must be an integer')
+    .test(
+      'is-valid-number-of-days',
+      'Invalid number of days',
+      function (numberOfDays) {
+        const { startDate, endDate } = this.parent;
+        if (!startDate || !endDate) {
+          return true; // Skip validation if either date is not set
+        }
+        const daysDiff = Math.floor(
+          (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
+        );
+        return numberOfDays === daysDiff;
+      }
+    ),
+  attachments: yup.array().of(yup.string()),
+  reason: yup.string().required('Reason is required'),
 });
 
 export default validationSchema;

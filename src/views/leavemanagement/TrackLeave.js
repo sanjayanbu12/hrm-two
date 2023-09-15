@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
@@ -31,11 +29,10 @@ const ViewLeave = () => {
     try {
       setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data;
-      console.log(filldata)
+      const filldata = res.data.getData;
       setAdata(filldata);
       setLoader(false);
-      console.log(res.data);
+      console.log(res.data.getData);
     } catch (err) {
       console.log(err);
     }
@@ -56,7 +53,7 @@ const ViewLeave = () => {
 
   useEffect(() => {
     fetchAts();
-  }, [Adata]);
+  }, []);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -120,7 +117,7 @@ const ViewLeave = () => {
   const handleView = async (e, data) => {
     const id = data.map((x) => x._id);
     console.log(data);
-    navigate(`/approveleave/${id[0]}`);
+    navigate(`/viewleave/${id[0]}`);
   };
 
   return (
@@ -177,3 +174,6 @@ const ViewLeave = () => {
 };
 
 export default ViewLeave;
+
+
+
