@@ -1,8 +1,11 @@
+
+
+
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import tableIcons from 'views/addemployeetable/MaterialTableIcons'; // Import your tableIcons
+import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
@@ -17,7 +20,38 @@ const columns = [
   { title: 'Number of Days', field: 'numberOfDays', sorting: true, editable: true },
   { title: 'Attachments', field: 'attachments', sorting: true, editable: true },
   { title: 'Reason', field: 'reason', sorting: true, editable: true },
-  { title: 'Status', field: 'status', sorting: true, editable: true },
+  {
+    title: 'Status',
+    field: 'status',
+    sorting: true,
+    editable: true,
+    render: (rowData) => (
+      rowData.status === 'Approved' || rowData.status === 'Rejected' ? (
+        <span style={{ color: rowData.status === 'Approved' ? 'green' : 'red' }}>
+          {rowData.status}
+        </span>
+      ) : (
+        <span style={{ color: 'orange' }}>Pending</span>
+      )
+    ),
+  },
+  {
+    // title: 'Action',
+    // field: 'action',
+    sorting: false,
+    editable: false,
+    render: (rowData) => {
+      if (rowData.status === 'Pending') {
+        return (
+          <div>
+            <button onClick={() => handleApproveReject(rowData.id, 'approve')}>Approve</button>
+            <button onClick={() => handleApproveReject(rowData.id, 'reject')}>Reject</button>
+          </div>
+        );
+      }
+      return null;
+    },
+  },
 ];
 
 const ViewLeave = () => {
@@ -30,7 +64,7 @@ const ViewLeave = () => {
       setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
       const filldata = res.data;
-      console.log(filldata)
+      console.log(filldata);
       setAdata(filldata);
       setLoader(false);
       console.log(res.data);
@@ -49,6 +83,22 @@ const ViewLeave = () => {
       saveAs(blob, `${name} attachments.pdf`);
     } catch (error) {
       console.log('Error downloading attachments:', error);
+    }
+  };
+
+  const handleApproveReject = async (id, action) => {
+    const apiEndpoint = `https://your-api-url.com/approveLeave/${id}`; // Replace with your actual API endpoint
+
+    try {
+      const response = await axios.put(apiEndpoint, { action });
+
+      if (response.status === 200) {
+        fetchAts();
+      } else {
+        console.log('Failed to update leave status:', response.data);
+      }
+    } catch (error) {
+      console.log('Error approving/rejecting leave:', error);
     }
   };
 
