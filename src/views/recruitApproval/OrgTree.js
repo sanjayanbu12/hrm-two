@@ -150,6 +150,11 @@ const OrgTree = () => {
     }
   };
 
+  const handledeltop=async()=>{
+    const orgId = orgMems.map((data) => data._id);
+    await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}}`);
+  }
+
   return (
     <>
       <MainCard title="ORGANIZATON CHART">
@@ -208,7 +213,7 @@ const OrgTree = () => {
                                           TransitionComponent={Fade}
                                           TransitionProps={{ timeout: 600 }}
                                         >
-                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
+                                          <GroupRemoveOutlinedIcon onClick={handledeltop} />
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
