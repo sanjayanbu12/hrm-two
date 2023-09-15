@@ -3,7 +3,7 @@ import './EmployeeLogin.css';
 import { Card } from '@mui/material';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import LeaveTrackerForm from 'views/leavemanagement/RequestLeave';
-import CourseOverview from 'views/learninganddevelopment/CourseOverview';
+import CourseCatalog from 'views/coursemodule/CourseCatalog';
 import Newevent from 'views/dashboard/Employee/Newevent';
 import Feedback from 'views/performance/Feedback/Feedback'
 
@@ -55,7 +55,7 @@ const EmployeeLogin = () => {
 
       {activeSection === 'learning' && (
         <section>
-          <CourseOverview />
+          <CourseCatalog />
         </section>
       )}
 

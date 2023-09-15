@@ -3,8 +3,8 @@ import { Dialog, DialogContent, DialogTitle, IconButton, Typography, Card, CardC
 import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
-import Layout from './Layout';
-
+import CatalogLayout from './CatalogLayout';
+import './CourseReview.css'
 
 const CourseCatalog=()=> {
   const [courseData, setCourseData] = useState([]);
@@ -68,11 +68,11 @@ const CourseCatalog=()=> {
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent >
           {selectedMedia && (
             <>
               
-              <Layout selectedMedia={selectedMedia} />
+              <CatalogLayout selectedMedia={selectedMedia} />
              
             </>
           )}

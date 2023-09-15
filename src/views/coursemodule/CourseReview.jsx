@@ -18,7 +18,7 @@ import {
   Snackbar,
   SnackbarContent
 } from '@mui/material';
-import './CourseOverview.css';
+import './CourseReview.css';
 import SmartDisplayIcon from '@mui/icons-material/SmartDisplay';
 import ArticleIcon from '@mui/icons-material/Article';
 import VideoCallIcon from '@mui/icons-material/VideoCall';

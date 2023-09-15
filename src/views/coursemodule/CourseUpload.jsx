@@ -156,8 +156,8 @@ const CourseUpload = () => {
   });
 
   return (
-    <MainCard title="Course Upload Form">
-      <Paper elevation={3} style={{ padding: '16px' }}>
+    <MainCard title="Course Upload Form" >
+      <Paper elevation={3} style={{ padding: '16px',background:'black' }}>
         {!contentReady ? (
           <AbstergoLoader />
         ) : (

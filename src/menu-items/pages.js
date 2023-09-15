@@ -164,22 +164,22 @@ const pages = {
 
       children: [
         {
-          id: 'Learning Uploads',
+          id: '/course upload',
           title: 'Course Upload',
           type: 'item',
-          url: '/LearningUploads'
+          url: '/courseupload'
         },
         {
-          id: 'Learning Module',
+          id: 'Course Review',
           title: 'Course Review',
           type: 'item',
-          url: '/LearningModule'
+          url: '/coursereview'
         },
         {
-          id: 'CourseOverview',
+          id: '/Course Catalog',
           title: 'Course Catalog',
           type: 'item',
-          url: '/CourseOverview'
+          url: '/coursecatalog'
         },
       ]
     },

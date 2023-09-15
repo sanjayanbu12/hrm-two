@@ -5,7 +5,7 @@ import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primeicons/primeicons.css';
 import axios from 'axios';
 import { Typography } from '@mui/material';
-// import VideoPlayer from './VideoPlayer';
+import VideoPlayer from './VideoPlayer';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -62,7 +62,7 @@ const CatalogLayout = ({ selectedMedia }) => {
   };
 
   return (
-    <div className="card flex justify-content-center" style={{ width: '100%' }}>
+    <div  style={{ width: '100%' }}>
       {selectedMedia ? (
         <>
           <Typography variant="h5" gutterBottom>
@@ -75,7 +75,7 @@ const CatalogLayout = ({ selectedMedia }) => {
             <Grid container spacing={2}>
               <Grid item xs={7}>
                 <Item>
-                  {/* <VideoPlayer videoUrl={selectedVideoUrl} /> */}
+                  <VideoPlayer videoUrl={selectedVideoUrl} />
                 </Item>
               </Grid>
               <Grid item xs={5}>

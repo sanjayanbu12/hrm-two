@@ -24,9 +24,9 @@ import { BasicTable } from 'views/addemployeetable/Basictable';
 import RecruitmentView from 'views/recruitment/RecruitmentView';
 import ApplicationView from 'views/recruitment/ApplicationView';
 import BasicApptable from 'views/recruitment/BasicApptable';
-import LearningModule from 'views/learninganddevelopment/LearningModule';
-import LearningUploads from 'views/learninganddevelopment/LearningUploads';
-import CourseOverview from 'views/learninganddevelopment/CourseOverview';
+import CourseUpload from 'views/coursemodule/CourseUpload';
+import CourseReview from 'views/coursemodule/CourseReview';
+import CourseCatalog from 'views/coursemodule/CourseCatalog';
 import ViewApproval from 'views/recruitApproval/ViewApproval';
 import HrApproval from 'views/recruitApproval/HrApproval';
 import ManagerApproval from 'views/recruitApproval/ManagerApproval';
@@ -127,17 +127,17 @@ const MainRoutes = {
       element: <EmployeeEngagement />
     },
     {
-      path: '/learningUploads',
-      element: <LearningUploads/>
+      path: '/courseupload',
+      element: <CourseUpload />
     },
     {
-      path: '/learningModule',
-      element: <LearningModule />
-    },
+      path: '/coursereview',
+      element: <CourseReview />
+    }, 
     {
-      path: '/CourseOverview',
-      element: <CourseOverview />
-    },  
+      path: '/coursecatalog',
+      element: <CourseCatalog />
+    },
     {
       path: '/payroll',
       element: <Payroll />

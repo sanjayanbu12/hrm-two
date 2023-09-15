@@ -9,7 +9,7 @@ import Newevent from 'views/dashboard/Default/Newevent';
 import EmployeeSelfServices from 'views/employeeselfservices/EmployeeSelfServices';
 import NotFound404 from './NotFound404';
 import RequestLeave from 'views/leavemanagement/RequestLeave';
-import CourseOverview from 'views/learninganddevelopment/CourseOverview'
+import CourseCatalog from 'views/coursemodule/CourseCatalog';
 import EmployeeLogin from 'views/employeeselfservices/EmployeeLogin';
 // dashboard routing
 const DashboardEmployee = Loadable(lazy(() => import('views/dashboard/Employee')));
@@ -58,8 +58,8 @@ const MainRoutes = {
       element: <Newevent />
     },
     {
-      path: '/CourseOverview',
-      element: <CourseOverview />
+      path: '/coursecatalog',
+      element: <CourseCatalog />
     },
     {
       path: '/employeedomain',
