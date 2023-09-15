@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { List, ListItem, Typography, Button } from '@mui/material';
-import Marker1 from '../../assets/images/icons/progress_1.svg';
-import Marker2 from '../../assets/images/icons/progress_2.svg';
+import Marker1 from '../../../assets/images/icons/progress_1.svg';
+import Marker2 from '../../../assets/images/icons/progress_2.svg';
 
 import HorizontalNonLinearStepper from './HorizontalNonLinearStepper';
 import PopupSkill from './PopupSkill';
@@ -22,7 +22,7 @@ const SkillsetMatrix = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/skill/getskills');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/skill/getskills');
       setSkills(response.data.skill); // Update the state with the skill array
     } catch (error) {
       console.error('Error fetching skills:', error);
