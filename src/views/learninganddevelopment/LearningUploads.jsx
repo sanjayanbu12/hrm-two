@@ -126,7 +126,7 @@ const LearningUploads = () => {
 
       setContentReady(false);
 
-      const response = await axios.post('http://localhost:3001/media/create', formData, {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/media/create', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

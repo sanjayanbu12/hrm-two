@@ -26,7 +26,7 @@ const Layout = ({ selectedMedia }) => {
   useEffect(() => {
     if (selectedMedia) {
       axios
-        .get('http://localhost:3001/videos/getall')
+        .get('https://hrm-backend-square.onrender.com/videos/getall')
         .then((response) => {
           const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);

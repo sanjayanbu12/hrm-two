@@ -49,7 +49,7 @@ const MediaList = () => {
 
   const fetchMediaList = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/media/getAll');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/media/getAll');
       setMediaList(response.data);
     } catch (error) {
       console.error(error);
@@ -136,7 +136,7 @@ const MediaList = () => {
         console.log('Selected Video URLs:', selectedVideoUrls);
 
         // Send a POST request to your backend to create a new video
-        const response = await axios.post('http://localhost:3001/videos/create', {
+        const response = await axios.post('https://hrm-backend-square.onrender.com/videos/create', {
           moduleId: selectedMedia._id,
           moduleName: formText,
           videoUrls: selectedVideoUrls,
