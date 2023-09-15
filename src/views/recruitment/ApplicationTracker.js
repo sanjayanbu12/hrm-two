@@ -207,9 +207,16 @@ const ApplicationTracker = () => {
             grouping: true,
             selection: true,
             columnsButton: true,
+            // headerStyle: {
+            //   backgroundColor: '#42a5f5',
+            //   color: 'black',
+            // },
             headerStyle: {
-              backgroundColor: '#42a5f5',
-              color: 'black',
+              background: 'linear-gradient(180deg,#3a59af,#352786)',
+              color: '#fff', // Text color
+            },
+            headerCellStyle: {
+              color: 'white', // Text color for header cells
             },
           }}
         />

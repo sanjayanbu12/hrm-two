@@ -56,7 +56,6 @@ const pages = {
           type: 'item',
           url: '/jobtable'
         },
-       
         {
           id: 'applicationtracker',
           title: 'Interview Process ',
@@ -88,7 +87,7 @@ const pages = {
     },
     {
       id: 'employees',
-      title: 'Employees Self Service',
+      title: 'Employees',
       type: 'collapse',
       icon: icons.BadgeOutlinedIcon,
 
@@ -101,7 +100,7 @@ const pages = {
         // },
         {
           id: 'basictable',
-          title: 'Personal Information & Management',
+          title: 'Employee Information Management',
           type: 'item',
           url: '/basictable'
         },

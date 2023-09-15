@@ -12,7 +12,6 @@ import {
   Button,
   Box,
   CircularProgress,
- 
   Typography,
   TextField,
   InputAdornment,
@@ -273,7 +272,7 @@ const BasicRecruittable = () => {
                             )}
                           </Button>
                         </TableCell>
-                        <TableCell>Job Role</TableCell>
+                        <TableCell >Job Role</TableCell>
                         <TableCell>No of Openings</TableCell>
                         <TableCell>Worktype</TableCell>
                         <TableCell>Location</TableCell>
