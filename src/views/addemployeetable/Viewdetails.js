@@ -24,9 +24,9 @@ const Viewdetails = () => {
 
   const navigate = useNavigate();
 
-  const Edit = (id) => {
-    navigate(`/newemployee/${id}`);
-  };
+  // const Edit = (id) => {
+  //   navigate(`/newemployee/${id}`);
+  // };
 
   const formatteddob = employeedetails?.dob
     ? new Date(employeedetails.dob).toLocaleString(undefined, {
@@ -64,7 +64,7 @@ const Viewdetails = () => {
   return (
     <div>
       <MainCard title="Employee Details">
-        <Button
+        {/* <Button
           onClick={() => Edit(employeedetails._id)}
           sx={{
             position: 'absolute',
@@ -77,7 +77,7 @@ const Viewdetails = () => {
           }}
         >
           Edit
-        </Button>
+        </Button> */}
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))', gridGap: '15px',marginLeft:'60px' }}>
           <div >

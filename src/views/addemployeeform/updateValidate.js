@@ -1,7 +1,7 @@
 import * as yup from 'yup';
 export const updatevalidationSchema = yup.object().shape({
   title: yup.string().required('Title is required'),
-  name: yup.string().required('First Name is required'),
+  // name: yup.string().required('First Name is required'),
   lastname: yup.string().required('Last Name is required'),
   gender: yup.string().required('Gender is required'),
   dept: yup.string().required('Department is required'),
@@ -12,7 +12,7 @@ export const updatevalidationSchema = yup.object().shape({
   bloodgroup: yup.string().required('Blood Group is required'),
   peraddress: yup.string().required('Address is required'),
   temaddress: yup.string().required('Address is required'),
-  report: yup.string().required('Reporting to is required'),
+  // report: yup.string().required('Reporting to is required'),
   fathername: yup.string().required('Father Name is required'),
   nationality: yup.string().required('Nationality is required'),
   religion: yup.string().required('Religion is required'),
