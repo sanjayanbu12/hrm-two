@@ -1,6 +1,6 @@
 import React from 'react';
-import Marker1 from '../../assets/images/icons/progress_1.svg';
-import Marker2 from '../../assets/images/icons/progress_2.svg';
+import Marker1 from '../../../assets/images/icons/progress_1.svg';
+import Marker2 from '../../../assets/images/icons/progress_2.svg';
 import { Typography,} from '@mui/material';
 
 

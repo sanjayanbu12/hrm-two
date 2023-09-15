@@ -191,6 +191,18 @@ const pages = {
 
       children: [
         {
+          id: 'goals',
+          title: 'Goals',
+          type: 'item',
+          url: '/goals'
+        },
+        {
+          id: 'feedbacks',
+          title: 'Feedbacks',
+          type: 'item',
+          url: '/feedbacks'
+        },
+        {
           id: 'skillsetmatrix',
           title: 'Skill Matrix',
           type: 'item',

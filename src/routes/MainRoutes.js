@@ -30,8 +30,9 @@ import CourseOverview from 'views/learninganddevelopment/CourseOverview';
 import ViewApproval from 'views/recruitApproval/ViewApproval';
 import HrApproval from 'views/recruitApproval/HrApproval';
 import ManagerApproval from 'views/recruitApproval/ManagerApproval';
-import Feedback from 'views/performance/Feedback';
-import SkillsetMatrix from 'views/performance/SkillsetMatrix';
+import Goals from 'views/performance/Goals/Goals';
+import Feedback from 'views/performance/Feedback/Feedback';
+import SkillsetMatrix from 'views/performance/SkillSet/SkillsetMatrix';
 import InterviewBoard from 'views/recruitment/InterviewBoard';
 import ApplicationView1 from 'views/recruitment/ApplicationView1';
 // dashboard routing
@@ -84,6 +85,10 @@ const MainRoutes = {
     {
       path: '/attendanceManagement',
       element: <AttendanceSystem/>
+    },
+    {
+      path: '/goals',
+      element: <Goals />
     },
     {
       path: '/feedbacks',
