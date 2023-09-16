@@ -26,8 +26,7 @@ const LandingPage = () => {
                 <h1 className="hero-title mt-0">Human Resource Management</h1>
                 <p className="hero-paragraph">
                 Your gateway to seamless HR operations. Embark on a journey of streamlined processes, team empowerment, and elevated organizational efficiency with us</p>
-                <div className="hero-cta">
-            
+                <div className="hero-cta">           
               <Link className="button button-primary" to="/pages/register/register3">
               Register now 
               </Link>
