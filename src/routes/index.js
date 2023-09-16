@@ -23,7 +23,7 @@ function ThemeRoutes() {
   }
   useEffect(() => {
     // { !isLoggedIn && navigate('/pages/login/login3') }
-    { !isLoggedIn && navigate('/pages/landing') }
+    { !isLoggedIn && navigate('/') }
   }, [isLoggedIn])
   useEffect(()=>{
     protectRoute()
