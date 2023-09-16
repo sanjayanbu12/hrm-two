@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
-import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
+import { Card, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 
 const columns = [
@@ -151,7 +151,7 @@ const ViewLeave = () => {
     pdf.save('list.pdf');
   };
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       primary: {
         main: '#757575',
