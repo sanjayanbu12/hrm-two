@@ -10,14 +10,10 @@ const LandingPage = () => {
             <div className="container">
                 <div className="site-header-inner">
                     <div className="brand header-brand">
-                        <h2 className="m-0">							
-								
+                        <h2 className="m-0">															
                 <Link to="#">
                       <Logos/>
                     </Link>
-                      {/* <div className="header-logo-image">
-                  Square
-                </div> */}
                         </h2>
                     </div>
                 </div>
