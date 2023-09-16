@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Paper, Grid, IconButton, Box } from '@mui/material';
+import { TextField, Button, Paper, Grid, IconButton,Box } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MovieIcon from '@mui/icons-material/Movie';
 import ImageIcon from '@mui/icons-material/Image';
@@ -17,8 +17,8 @@ const defaultOptions = {
   autoplay: true,
   animationData: animationData,
   rendererSettings: {
-    preserveAspectRatio: 'xMidYMid slice',
-  },
+    preserveAspectRatio: 'xMidYMid slice'
+  }
 };
 
 const CourseUpload = () => {
@@ -79,7 +79,7 @@ const CourseUpload = () => {
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
-      pauseOnHover: true,
+      pauseOnHover: true
     });
   };
 
@@ -89,7 +89,7 @@ const CourseUpload = () => {
       autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
-      pauseOnHover: true,
+      pauseOnHover: true
     });
   };
 
@@ -126,10 +126,10 @@ const CourseUpload = () => {
 
       setContentReady(false);
 
-      const response = await axios.post('http://localhost:3001/media/create', formData, {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/media/create', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       });
       console.log(response);
 
@@ -152,15 +152,20 @@ const CourseUpload = () => {
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
-    onDrop: handleImageDrop,
+    onDrop: handleImageDrop
   });
 
   return (
     <MainCard title="Course Upload Form">
-      <Paper elevation={3} style={{ padding: '16px' }}>
+      <Paper elevation={3} style={{ padding: '16px',height:'100vh' }}>
         {!contentReady ? (
-          <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <Lottie options={defaultOptions} height={200} width={200} />
+           <Box sx={{height:'80vh',width:'100%',display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Lottie
+           
+            options={defaultOptions}
+            height={70}
+            width={70}
+          />
           </Box>
         ) : (
           <form onSubmit={handleSubmit}>
@@ -253,7 +258,7 @@ const CourseUpload = () => {
             </Grid>
           </form>
         )}
-        <ToastContainer /> 
+        <ToastContainer />
       </Paper>
     </MainCard>
   );
