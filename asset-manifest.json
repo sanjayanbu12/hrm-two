@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/hrm-two/static/css/main.068604d6.css",
-    "main.js": "/hrm-two/static/js/main.97c61d53.js",
+    "main.js": "/hrm-two/static/js/main.bcc0fb77.js",
     "static/css/635.614341df.chunk.css": "/hrm-two/static/css/635.614341df.chunk.css",
     "static/js/635.40dfc14e.chunk.js": "/hrm-two/static/js/635.40dfc14e.chunk.js",
     "static/js/905.c6ad8319.chunk.js": "/hrm-two/static/js/905.c6ad8319.chunk.js",
@@ -24,9 +24,9 @@
     "static/js/514.6f5665b6.chunk.js": "/hrm-two/static/js/514.6f5665b6.chunk.js",
     "static/css/417.b14942e3.chunk.css": "/hrm-two/static/css/417.b14942e3.chunk.css",
     "static/js/417.de344800.chunk.js": "/hrm-two/static/js/417.de344800.chunk.js",
-    "static/js/885.77f96797.chunk.js": "/hrm-two/static/js/885.77f96797.chunk.js",
+    "static/js/885.84455b1c.chunk.js": "/hrm-two/static/js/885.84455b1c.chunk.js",
     "static/css/674.0c64f7b3.chunk.css": "/hrm-two/static/css/674.0c64f7b3.chunk.css",
-    "static/js/674.64d8b2ef.chunk.js": "/hrm-two/static/js/674.64d8b2ef.chunk.js",
+    "static/js/674.5e82147f.chunk.js": "/hrm-two/static/js/674.5e82147f.chunk.js",
     "static/js/461.46342b33.chunk.js": "/hrm-two/static/js/461.46342b33.chunk.js",
     "static/media/primeicons.svg": "/hrm-two/static/media/primeicons.e1441b135b3ca9ad643c.svg",
     "static/media/user-round.svg": "/hrm-two/static/media/user-round.27fe79b102ea6aad2f60e66cff82818d.svg",
@@ -43,6 +43,6 @@
   },
   "entrypoints": [
     "static/css/main.068604d6.css",
-    "static/js/main.97c61d53.js"
+    "static/js/main.bcc0fb77.js"
   ]
 }
