@@ -1,6 +1,7 @@
 import React from 'react';
 import './landing.css';
 import { Link } from 'react-router-dom';
+import Logos from 'ui-component/Logos';
   
 const LandingPage = () => {
   return (
@@ -9,12 +10,14 @@ const LandingPage = () => {
             <div className="container">
                 <div className="site-header-inner">
                     <div className="brand header-brand">
-                        <h2 className="m-0">
-							
-								{/* <img className="header-logo-image" src="./logo.svg" alt="Logo" /> */}
-                <div className="header-logo-image">
+                        <h2 className="m-0">							
+								
+                <Link to="#">
+                      <Logos/>
+                    </Link>
+                      {/* <div className="header-logo-image">
                   Square
-                </div>
+                </div> */}
                         </h2>
                     </div>
                 </div>
