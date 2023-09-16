@@ -2,7 +2,7 @@
   "name": "berry--material-react-cra",
   "version": "3.3.2",
   "private": true,
-  "homepage": "https://pulsehr-dnr5.onrender.com/hrm/pages/login/login3",
+  "homepage": "https://AjayB101.github.io/hrm-two",
   "dependencies": {
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.11.1",
@@ -87,7 +87,9 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start", 
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -125,6 +127,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.25.3",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "gh-pages": "^6.0.0",
     "immutable": "^4.3.0",
     "prettier": "^2.8.7",
     "sass": "^1.53.0"
