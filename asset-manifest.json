@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/hrm-two/static/css/main.068604d6.css",
-    "main.js": "/hrm-two/static/js/main.27625218.js",
+    "main.js": "/hrm-two/static/js/main.97c61d53.js",
     "static/css/635.614341df.chunk.css": "/hrm-two/static/css/635.614341df.chunk.css",
     "static/js/635.40dfc14e.chunk.js": "/hrm-two/static/js/635.40dfc14e.chunk.js",
     "static/js/905.c6ad8319.chunk.js": "/hrm-two/static/js/905.c6ad8319.chunk.js",
@@ -43,6 +43,6 @@
   },
   "entrypoints": [
     "static/css/main.068604d6.css",
-    "static/js/main.27625218.js"
+    "static/js/main.97c61d53.js"
   ]
 }
