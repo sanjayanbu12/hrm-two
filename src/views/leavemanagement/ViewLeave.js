@@ -1,3 +1,5 @@
+
+
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
@@ -7,6 +9,7 @@ import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
+import { format } from 'date-fns'; // Import the date formatting function
 
 const columns = [
   { title: 'Employee ID', field: 'employeeId', editable: true, width: '50px' },
@@ -33,16 +36,14 @@ const columns = [
     ),
   },
   {
-    // title: 'Action',
-    // field: 'action',
     sorting: false,
     editable: false,
     render: (rowData) => {
       if (rowData.status === 'Pending') {
         return (
           <div>
-            <button onClick={() => handleApproveReject(rowData.id, 'approve')}>Approve</button>
-            <button onClick={() => handleApproveReject(rowData.id, 'reject')}>Reject</button>
+            <button onClick={() => console.log('Approve')}>Approve</button>
+            <button onClick={() => console.log('Reject')}>Reject</button>
           </div>
         );
       }
@@ -50,6 +51,11 @@ const columns = [
     },
   },
 ];
+
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return format(date, 'MM/dd/yyyy'); // Format the date as 'MM/dd/yyyy'
+};
 
 const ViewLeave = () => {
   const [Adata, setAdata] = useState([]);
@@ -60,7 +66,11 @@ const ViewLeave = () => {
     try {
       setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data;
+      const filldata = res.data.map((item) => ({
+        ...item,
+        startDate: formatDate(item.startDate), // Format the start date
+        endDate: formatDate(item.endDate), // Format the end date
+      }));
       console.log(filldata);
       setAdata(filldata);
       setLoader(false);
@@ -83,30 +93,10 @@ const ViewLeave = () => {
     }
   };
 
-  const handleApproveReject = async (id, action) => {
-    const apiEndpoint = `https://your-api-url.com/approveLeave/${id}`; // Replace with your actual API endpoint
-
-    try {
-      const response = await axios.put(apiEndpoint, { action });
-
-      if (response.status === 200) {
-        fetchAts();
-      } else {
-        console.log('Failed to update leave status:', response.data);
-      }
-    } catch (error) {
-      console.log('Error approving/rejecting leave:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchAts();
-  }, []);
-
-  const exportCsv = (columns, data) => {
-    const csvData = data.map((item) => ({
-      'Employee ID': item.id,
-      'Employee Name': item.employeeId,
+  const exportCsv = () => {
+    const csvData = Adata.map((item) => ({
+      'Employee ID': item.employeeId,
+      'Employee Name': item.employeeName,
       'Leave Type': item.leaveType,
       'Start Date': item.startDate,
       'End Date': item.endDate,
@@ -119,18 +109,14 @@ const ViewLeave = () => {
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'list.csv');
-    link.click();
+    saveAs(blob, 'list.csv');
   };
 
-  const exportPdf = (columns, data) => {
+  const exportPdf = () => {
     const pdf = new jsPDF('landscape');
     pdf.text('View Leave', 10, 10);
 
-    const rows = data.map((item) => [
+    const rows = Adata.map((item) => [
       item.employeeId,
       item.employeeId,
       item.leaveType,
@@ -167,6 +153,10 @@ const ViewLeave = () => {
     console.log(data);
     navigate(`/approveleave/${id[0]}`);
   };
+
+  useEffect(() => {
+    fetchAts();
+  }, []);
 
   return (
     <Card raised={true}>

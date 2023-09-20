@@ -7,7 +7,7 @@ import EmployeeForm from 'views/addemployeeform/EmployeeForm';
 import Recruitment from 'views/recruitment/BasicRecruittable';
 import RequestLeave from 'views/leavemanagement/RequestLeave';
 import ViewLeave from 'views/leavemanagement/ViewLeave';
-import ApproveLeave from 'views/leavemanagement/ApproveLeave';
+import ApproveLeave from 'views/leavemanagement/TrackLeave';
 import Employeeperformance from 'views/addemployeetable/Employeeperformance';
 import Viewdetails from 'views/addemployeetable/Viewdetails';
 import RecruitmentForm from 'views/recruitment/RecruitmentForm';
