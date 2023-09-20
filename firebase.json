@@ -5,6 +5,15 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
-    ]
+    ],
+    "app": {
+      "platform": "HOSTING", 
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html" 
+        }
+      ]
+    }
   }
 }
