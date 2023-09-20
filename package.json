@@ -2,7 +2,6 @@
   "name": "berry--material-react-cra",
   "version": "3.3.2",
   "private": true,
-  "homepage": "http://localhost:3001/hrm/",
   "dependencies": {
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.11.1",
