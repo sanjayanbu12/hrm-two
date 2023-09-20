@@ -2,7 +2,7 @@
   "name": "berry--material-react-cra",
   "version": "3.3.2",
   "private": true,
-  "homepage": "http://localhost:3001/hrm/",
+  "homepage": "https://github.com/sanjayanbu12/hrm-two",
   "dependencies": {
     "@emotion/cache": "^11.9.3",
     "@emotion/react": "^11.11.1",
@@ -87,14 +87,15 @@
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start", 
+    "start": "react-scripts start",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "install": "npm install --legacy-peer-deps"
-  },
+  }
+,  
   "eslintConfig": {
     "extends": [
       "react-app"
