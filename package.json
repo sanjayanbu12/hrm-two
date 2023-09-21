@@ -1,7 +1,7 @@
 {
   "name": "berry--material-react-cra",
   "version": "3.3.2",
-  "homepage": "https://propulse.onrender.com",
+  "homepage": "https://pulsehr-mifz.onrender.com/",
   "private": true,
   "dependencies": {
     "@emotion/cache": "^11.9.3",
@@ -92,9 +92,8 @@
     "deploy": "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "install": "npm install --legacy-peer-deps"
-  }
+    "eject": "react-scripts eject"
+    }
 ,  
   "eslintConfig": {
     "extends": [
