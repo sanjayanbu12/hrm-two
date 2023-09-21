@@ -1,7 +1,7 @@
 {
   "name": "berry--material-react-cra",
   "version": "3.3.2",
-  "homepage": "https://pulsehr-f22dc.firebaseapp.com/",
+  "homepage": "https://propulse.onrender.com",
   "private": true,
   "dependencies": {
     "@emotion/cache": "^11.9.3",
