@@ -5,8 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
-import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
+import { Card, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
+import { format } from 'date-fns'; 
 
 const columns = [
   { title: 'Employee ID', field: 'employeeId', editable: true, width: '50px' },
@@ -33,16 +34,14 @@ const columns = [
     ),
   },
   {
-    // title: 'Action',
-    // field: 'action',
     sorting: false,
     editable: false,
     render: (rowData) => {
       if (rowData.status === 'Pending') {
         return (
           <div>
-            <button onClick={() => handleApproveReject(rowData.id, 'approve')}>Approve</button>
-            <button onClick={() => handleApproveReject(rowData.id, 'reject')}>Reject</button>
+            <button onClick={() => console.log('Approve')}>Approve</button>
+            <button onClick={() => console.log('Reject')}>Reject</button>
           </div>
         );
       }
@@ -51,7 +50,12 @@ const columns = [
   },
 ];
 
-const ApproveLeave = () => {
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return format(date, 'MM/dd/yyyy'); 
+};
+
+const ViewLeave = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
@@ -60,7 +64,11 @@ const ApproveLeave = () => {
     try {
       setLoader(false);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data;
+      const filldata = res.data.map((item) => ({
+        ...item,
+        startDate: formatDate(item.startDate), 
+        endDate: formatDate(item.endDate), 
+      }));
       console.log(filldata);
       setAdata(filldata);
       setLoader(false);
@@ -83,30 +91,10 @@ const ApproveLeave = () => {
     }
   };
 
-  // const handleApproveReject = async (id, action) => {
-  //   const apiEndpoint = `https://your-api-url.com/approveLeave/${id}`; // Replace with your actual API endpoint
-
-  //   try {
-  //     const response = await axios.put(apiEndpoint, { action });
-
-  //     if (response.status === 200) {
-  //       fetchAts();
-  //     } else {
-  //       console.log('Failed to update leave status:', response.data);
-  //     }
-  //   } catch (error) {
-  //     console.log('Error approving/rejecting leave:', error);
-  //   }
-  // };
-
-  useEffect(() => {
-    fetchAts();
-  }, []);
-
-  const exportCsv = (columns, data) => {
-    const csvData = data.map((item) => ({
-      'Employee ID': item.id,
-      'Employee Name': item.employeeId,
+  const exportCsv = () => {
+    const csvData = Adata.map((item) => ({
+      'Employee ID': item.employeeId,
+      'Employee Name': item.employeeName,
       'Leave Type': item.leaveType,
       'Start Date': item.startDate,
       'End Date': item.endDate,
@@ -119,18 +107,14 @@ const ApproveLeave = () => {
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.setAttribute('download', 'list.csv');
-    link.click();
+    saveAs(blob, 'list.csv');
   };
 
-  const exportPdf = (columns, data) => {
+  const exportPdf = () => {
     const pdf = new jsPDF('landscape');
     pdf.text('View Leave', 10, 10);
 
-    const rows = data.map((item) => [
+    const rows = Adata.map((item) => [
       item.employeeId,
       item.employeeId,
       item.leaveType,
@@ -151,7 +135,7 @@ const ApproveLeave = () => {
     pdf.save('list.pdf');
   };
 
-  const theme = createMuiTheme({
+  const theme = createTheme({
     palette: {
       primary: {
         main: '#757575',
@@ -168,6 +152,10 @@ const ApproveLeave = () => {
     navigate(`/approveleave/${id[0]}`);
   };
 
+  useEffect(() => {
+    fetchAts();
+  }, []);
+
   return (
     <Card raised={true}>
       <ThemeProvider theme={theme}>
@@ -175,7 +163,7 @@ const ApproveLeave = () => {
           <div className="spinner" style={{ position: 'absolute', bottom: '35%', right: '45%' }} />
         ) : (
           <MaterialTable
-            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>View Leave</div>}
+            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Track Leave</div>}
             columns={columns.map((column) => {
               if (column.field === 'attachments') {
                 return {
@@ -221,4 +209,4 @@ const ApproveLeave = () => {
   );
 };
 
-export default ApproveLeave;
+export default ViewLeave;
