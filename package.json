@@ -1,7 +1,6 @@
 {
   "name": "berry--material-react-cra",
   "version": "3.3.2",
-  "homepage": "https://pulsehr-mifz.onrender.com/pages/login/login3",
   "private": true,
   "dependencies": {
     "@emotion/cache": "^11.9.3",
