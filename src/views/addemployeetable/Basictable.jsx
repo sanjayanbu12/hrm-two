@@ -2,8 +2,8 @@ import MaterialTable from 'material-table';
 import tableIcons from './MaterialTableIcons';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
-import { Box, Button } from '@mui/material';
-import TableViewIcon from '@mui/icons-material/TableView';
+// import { Box, Button } from '@mui/material';
+// import TableViewIcon from '@mui/icons-material/TableView';
 import jsPDF from 'jspdf';
 
 import axios from 'axios';
@@ -147,7 +147,7 @@ export const BasicTable = () => {
 
   return (
     <>
-      <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+      {/* <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
         <Button
           onClick={() => navigate(`/newemployee`)}
           sx={{
@@ -161,7 +161,7 @@ export const BasicTable = () => {
           <TableViewIcon />
           Form
         </Button>
-      </Box>
+      </Box> */}
 
       <MaterialTable
         raised={true}
@@ -171,21 +171,16 @@ export const BasicTable = () => {
         icons={tableIcons}
         actions={[
           {
-            icon: tableIcons.Edit,
+            icon: tableIcons.View,
             tooltip: 'View Details',
             onClick: (event, rowData) => handleView(event, rowData)
-          }
-
-          // {
-          //   icon: tableIcons.Clear,
-          //   tooltip: 'Edit',
-          //   onClick: (event, rowData) => alert(rowData.map(x=>x.name))
-          // },
-          // {
-          //   icon: tableIcons.Delete,
-          //   tooltip: 'Delete User',
-          //   onClick: (event, rowData) => confirm("You want to delete " + rowData.map(x=>x._id))
-          // }
+          },
+          {
+            icon: tableIcons.Add,
+            tooltip: "New Employee",
+            isFreeAction: true,
+            onClick: () => navigate("/newemployee"),
+          },
         ]}
         style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
         options={{
