@@ -215,7 +215,7 @@ const RequestLeave = () => {
   };
 
   return (
-    <MainCard title="Leave Tracker">
+    <MainCard title=" Leave">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}

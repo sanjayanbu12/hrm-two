@@ -14,7 +14,7 @@ const validationSchema = yup.object().shape({
     ) {
       const { endDate } = this.parent;
       if (!startDate || !endDate) {
-        return true; // Skip validation if either date is not set
+        return true; 
       }
       return new Date(startDate) < new Date(endDate);
     }),
@@ -34,7 +34,7 @@ const validationSchema = yup.object().shape({
       function (numberOfDays) {
         const { startDate, endDate } = this.parent;
         if (!startDate || !endDate) {
-          return true; // Skip validation if either date is not set
+          return true; 
         }
         const daysDiff = Math.floor(
           (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
