@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
 import {
@@ -215,7 +216,7 @@ const RequestLeave = () => {
   };
 
   return (
-    <MainCard title=" Leave">
+    <MainCard title="Leave Tracker">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}

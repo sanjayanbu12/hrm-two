@@ -55,7 +55,7 @@ const formatDate = (dateString) => {
   return format(date, 'MM/dd/yyyy'); 
 };
 
-const ViewLeave = () => {
+const TrackLeave = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
@@ -209,4 +209,4 @@ const ViewLeave = () => {
   );
 };
 
-export default ViewLeave;
+export default TrackLeave;
