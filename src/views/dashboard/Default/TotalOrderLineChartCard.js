@@ -30,8 +30,8 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     height: 210,
     background: theme.palette.secondary[800],
     borderRadius: 15 ,
-    top: -85,
-    right: -95,
+    // top: -85,
+    // right: -95,
     [theme.breakpoints.down('sm')]: {
       top: -105,
       right: -140
@@ -73,20 +73,6 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
             <Grid container direction="column">
               <Grid item>
                 <Grid container justifyContent="space-between">
-                  {/* <Grid item>
-                    <Avatar
-                      variant="rounded"
-                      sx={{
-                        ...theme.typography.commonAvatar,
-                        ...theme.typography.largeAvatar,
-                        backgroundColor: theme.palette.primary[800],
-                        color: '#fff',
-                        mt: 1
-                      }}
-                    >
-                      <LocalMallOutlinedIcon fontSize="inherit" />
-                    </Avatar>
-                  </Grid> */}
                   <Grid item>
                     <Button
                       disableElevation
@@ -120,18 +106,6 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                           <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2</Typography>
                         )}
                       </Grid>
-                      {/* <Grid item>
-                        <Avatar
-                          sx={{
-                            ...theme.typography.smallAvatar,
-                            cursor: 'pointer',
-                            backgroundColor: theme.palette.primary[200],
-                            color: theme.palette.primary.dark
-                          }}
-                        >
-                          <ArrowDownwardIcon fontSize="inherit" sx={{ transform: 'rotate3d(1, 1, 1, 45deg)' }} />
-                        </Avatar>
-                      </Grid> */}
                       <Grid item xs={12}>
                         <Typography
                           sx={{
@@ -145,9 +119,6 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                       </Grid>
                     </Grid>
                   </Grid>
-                  {/* <Grid item xs={6}>
-                    {timeValue ? <Chart {...ChartDataMonth} /> : <Chart {...ChartDataYear} />}
-                  </Grid> */}
                 </Grid>
               </Grid>
             </Grid>
