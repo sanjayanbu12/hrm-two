@@ -3,9 +3,13 @@ import { Grid } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
-import TotalOrderLineChartCard from './TotalOrderLineChartCard';
+import Card1 from './Card1';
+import Card2 from './Card2';
+import Card3 from './Card3';
+import Card4 from './Card4';
 import { gridSpacing } from 'store/constant';
 import Card from '@mui/material/Card';
+import TotalGrowthBarChart from './TotalGrowthBarChart';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -19,16 +23,16 @@ const Dashboard = () => {
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={3}>
-              <TotalOrderLineChartCard isLoading={isLoading} />
+              <Card1 isLoading={isLoading} />
             </Grid>
             <Grid item xs={12} md={3}>
-              <TotalOrderLineChartCard isLoading={isLoading} />
+              <Card2 isLoading={isLoading} />
             </Grid>
             <Grid item xs={12} md={3}>
-              <TotalOrderLineChartCard isLoading={isLoading} />
+              <Card3 isLoading={isLoading} />
             </Grid>
             <Grid item xs={12} md={3}>
-              <TotalOrderLineChartCard isLoading={isLoading} />
+              <Card4 isLoading={isLoading} />
             </Grid>
           </Grid>
         </Grid>
@@ -36,7 +40,7 @@ const Dashboard = () => {
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={8}>
-              <Upcomingevents isLoading={isLoading} />
+              <TotalGrowthBarChart isLoading={isLoading} />
             </Grid>
             <Grid item xs={12} md={4}>
               <PopularCard isLoading={isLoading} />

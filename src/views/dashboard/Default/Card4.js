@@ -1,25 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
-// material-ui
 import { useTheme, styled } from '@mui/material/styles';
 import { Box, Button, Grid, Typography } from '@mui/material';
-
-// third-party
-// import Chart from 'react-apexcharts';
-
-// project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-
-// import ChartDataMonth from './chart-data/total-order-month-line-chart';
-// import ChartDataYear from './chart-data/total-order-year-line-chart';
-
-// assets
-// import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: theme.palette.secondary.dark,
+  backgroundColor: '#12486B',
   color: '#fff',
   overflow: 'hidden',
   position: 'relative',
@@ -42,7 +28,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     position: 'absolute',
     width: 210,
     height: 210,
-    background: theme.palette.secondary[800],
+    // background: theme.palette.secondary[800],
     borderRadius:100,
     top: -125,
     right: -15,
@@ -55,10 +41,11 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 }));
 // ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
-const TotalOrderLineChartCard = ({ isLoading }) => {
+const Card4 = ({ isLoading }) => {
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = useState(false);
+  console.log(timeValue)
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
@@ -74,7 +61,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
               <Grid item>
                 <Grid container justifyContent="space-between">
                   <Grid item>
-                    <Button
+                    {/* <Button
                       disableElevation
                       variant={timeValue ? 'contained' : 'text'}
                       size="small"
@@ -82,15 +69,15 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                       onClick={(e) => handleChangeTime(e, true)}
                     >
                       ONGOING
-                    </Button>
+                    </Button> */}
                     <Button
                       disableElevation
-                      variant={!timeValue ? 'contained' : 'text'}
+                      variant={'text'}
                       size="small"
                       sx={{ color: 'inherit' }}
                       onClick={(e) => handleChangeTime(e, false)}
                     >
-                      FINISHED
+                      TOTAL EMPLOYEES
                     </Button>
                   </Grid>
                 </Grid>
@@ -100,9 +87,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                   <Grid item xs={6}>
                     <Grid container alignItems="center">
                       <Grid item>
-                        {timeValue ? (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>15</Typography>
-                        ) : (
+                        {(
                           <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2</Typography>
                         )}
                       </Grid>
@@ -114,7 +99,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                             color: theme.palette.primary[100]
                           }}
                         >
-                          Projects
+                          {/* Projects */}
                         </Typography>
                       </Grid>
                     </Grid>
@@ -129,8 +114,8 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
   );
 };
 
-TotalOrderLineChartCard.propTypes = {
+Card4.propTypes = {
   isLoading: PropTypes.bool
 };
 
-export default TotalOrderLineChartCard;
+export default Card4;
