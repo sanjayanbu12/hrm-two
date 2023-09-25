@@ -17,11 +17,13 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     width: 210,
     height: 210,
     background: theme.palette.secondary[800],
-    borderRadius: 15,
+    borderRadius: 15 ,
+    // top: -85,
+    // right: -95,
     [theme.breakpoints.down('sm')]: {
       top: -105,
-      right: -140,
-    },
+      right: -140
+    }
   },
   
 }));
