@@ -1,33 +1,39 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import axios from 'axios'; // Import axios
 
-const FeedbackPopup = ({ open, onClose, onSubmit,Name}) => {
+const FeedbackPopup = ({ open, onClose, onSubmit, Name, Title, matchedResults }) => {
   const [feedback1, setFeedback1] = useState('');
-
- 
 
   const handleFeedbackChange1 = (e) => {
     setFeedback1(e.target.value);
   };
 
-
-  const handleSubmit = () => {
-    const feedback={
-      feedback1,
+  const handleSubmit = async () => {
+    const feedback = {
+      round1: feedback1,
+    };
+    const selectedCandidate = matchedResults.find((candidate) => candidate.Name === Name && candidate.Status === Title);
+    if (selectedCandidate) {
+      try {
+        await axios.put(`https://hrm-backend-square.onrender.com/ats/updateats/${selectedCandidate._id}`, feedback);
+        onSubmit(feedback1); 
+        setFeedback1('');
+        onClose();
+      } catch (err) {
+        console.error('Error submitting feedback:', err);
+      }
+    } else {
+      console.error(`Candidate with Name ${Name} and Status ${Title} not found.`);
     }
-    onSubmit(feedback);
-    setFeedback1('');
-  
-    onClose();
   };
 
-  
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Provide Feedback For <b style={{fontSize:'15px'}}>{Name}</b></DialogTitle>
+      <DialogTitle>Provide Feedback For <b style={{ fontSize: '15px' }}>{Name}</b></DialogTitle>
       <DialogContent>
-        <TextField sx={{marginTop:'10px',marginBottom:'10px',width:'400px'}}
-          label=""
+        <TextField sx={{ marginTop: '10px', marginBottom: '10px', width: '400px' }}
+          label={`Feedback for ${Title}`}
           multiline
           rows={1}
           fullWidth
@@ -35,22 +41,6 @@ const FeedbackPopup = ({ open, onClose, onSubmit,Name}) => {
           value={feedback1}
           onChange={handleFeedbackChange1}
         />
-         {/* <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
-          label="Round 2"
-          multiline
-          rows={1}
-          fullWidth
-         
-        /> */}
-         {/* <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
-          label="Round 3"
-          multiline
-          rows={1}
-          fullWidth
-          variant="outlined"
-          value={feedback3}
-          onChange={handleFeedbackChange3}
-        /> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">

@@ -16,19 +16,23 @@ const InterviewBoard = () => {
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [selectedCandidateName, setSelectedCandidateName] = useState(null);
+  const [selectedCandidateTitle, setSelectedCandidateTitle] = useState(null);
 
-  const handleOpenFeedback = (candidateId,candidateName) => {
-    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);  
+  const handleOpenFeedback = (candidateId, candidateName, title) => {
+    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
   
     if (selectedCandidate) {
       setSelectedCandidate(selectedCandidate);
       setFeedbackOpen(true);
-      setSelectedCandidateName(candidateName)
-    
+      setSelectedCandidateName(candidateName);
+      setSelectedCandidateTitle(title); 
+      console.log("person iddddd",candidateId)
+      
     } else {
       console.error(`Candidate with ID ${candidateId} not found.`);
     }
   };
+  
  
   const handleCloseFeedback = () => {
     setSelectedCandidate(null);
@@ -211,8 +215,7 @@ useEffect(()=>{
                                   <div style={{ display: 'flex',marginRight:'40%'}}>
                                   {title !== 'Shortlist' && (
                                   <Tooltip title='Feedback'>
-                                    
-                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name)}sx={{ marginRight: '10px',marginTop:'13px' }} />
+                                    <Feedback onClick={() => handleOpenFeedback(x._id, x.Name, title)} sx={{ marginRight: '10px', marginTop: '13px' }} />
                                 </Tooltip>
                                   )}
                                   {x.Resume && (
@@ -238,12 +241,13 @@ useEffect(()=>{
         </DragDropContext>
       </div>
       <FeedbackPopup
-        open={feedbackOpen}
-        onClose={handleCloseFeedback}
-        onSubmit={handleSubmitFeedback}
-        Name={selectedCandidateName}
-        matchedResults={matchedResults}
-      />
+  open={feedbackOpen}
+  onClose={handleCloseFeedback}
+  onSubmit={handleSubmitFeedback}
+  Name={selectedCandidateName}
+  Title={selectedCandidateTitle}
+  matchedResults={matchedResults} // Pass the matchedResults as a prop
+/>
     </MainCard>
   );
 };
