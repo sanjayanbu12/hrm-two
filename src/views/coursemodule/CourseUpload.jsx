@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Paper, Grid, IconButton,Box } from '@mui/material';
+import { TextField, Button,Grid, IconButton} from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import MovieIcon from '@mui/icons-material/Movie';
 import ImageIcon from '@mui/icons-material/Image';
@@ -10,16 +10,36 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import Lottie from 'react-lottie';
-import animationData from '../lottie/loader.json';
+// import loader from '../lottie/formloader.json';
+// import learn from '../lottie/learnloader.json'
+import upload from '../lottie/uploading.json'
 
-const defaultOptions = {
+//  const loaderOption = {
+//   loop: true,
+//   autoplay: true,
+//   animationData: loader,
+//   rendererSettings: {
+//     preserveAspectRatio: 'xMidYMid slice'
+//   }
+// };
+// const loaderOption1 = {
+//   loop: true,
+//   autoplay: true,
+//   animationData: learn,
+//   rendererSettings: {
+//     preserveAspectRatio: 'xMidYMid slice'
+//   }
+// };
+
+const uploading = {
   loop: true,
   autoplay: true,
-  animationData: animationData,
+  animationData: upload,
   rendererSettings: {
     preserveAspectRatio: 'xMidYMid slice'
   }
 };
+
 
 const CourseUpload = () => {
   const [courseName, setCourseName] = useState('');
@@ -157,16 +177,15 @@ const CourseUpload = () => {
 
   return (
     <MainCard title="Course Upload Form">
-      <Paper elevation={3} style={{ padding: '16px' }}>
+      {/* <Paper elevation={3} style={{ padding: '16px' }}> */}
         {!contentReady ? (
-           <Box sx={{height:'80vh',width:'100%',display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Lottie
-           
-            options={defaultOptions}
-            height={70}
-            width={70}
-          />
-          </Box>
+      
+       <Lottie
+         options={uploading}
+         height={275} 
+         width="70%"
+       />
+    
         ) : (
           <form onSubmit={handleSubmit}>
             <Grid container spacing={2}>
@@ -259,7 +278,7 @@ const CourseUpload = () => {
           </form>
         )}
         <ToastContainer />
-      </Paper>
+      {/* </Paper> */}
     </MainCard>
   );
 };

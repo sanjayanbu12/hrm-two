@@ -30,6 +30,17 @@ import ReactPlayer from 'react-player/lazy';
 import Select from 'react-select';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import Lottie from 'react-lottie'; 
+import nodata from '../lottie/nodata.json';
+
+const nodataavalible = {
+  loop: true,
+  autoplay: true,
+  animationData: nodata,
+  rendererSettings: {
+    preserveAspectRatio: 'xMidYMid slice'
+  }
+};
 
 const CourseReview = () => {
   const [mediaList, setMediaList] = useState([]);
@@ -142,7 +153,6 @@ const CourseReview = () => {
           videoUrls: selectedVideoUrls,
           courseName: selectedMedia.courseName
         });
-        
 
         console.log('Video data saved:', response.data);
 
@@ -185,23 +195,31 @@ const CourseReview = () => {
         </DialogContent>
       </Dialog>
       <Grid container spacing={3}>
-        {mediaList.map((media) => (
-          <Grid item xs={12} sm={4} md={4} key={media._id}>
-            <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
-              <Card onClick={() => openMediaDialog(media)} style={{ cursor: 'pointer', height: '100%' }}>
-                <CardMedia sx={{ height: 110 }} image={media.image} title={media.courseName} />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    {media.courseName}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {media.courseDescription}
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Paper>
-          </Grid>
-        ))}
+        {mediaList.length === 0 ? (
+           <Lottie
+           options={nodataavalible}
+           height='100%' // Set the desired fixed height
+           width="100%"
+         />
+        ) : (
+          mediaList.map((media) => (
+            <Grid item xs={12} sm={4} md={4} key={media._id}>
+              <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
+                <Card onClick={() => openMediaDialog(media)} style={{ cursor: 'pointer', height: '100%' }}>
+                  <CardMedia sx={{ height: 110 }} image={media.image} title={media.courseName} />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {media.courseName}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {media.courseDescription}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Paper>
+            </Grid>
+          ))
+        )}
       </Grid>
 
       {selectedMedia && (
