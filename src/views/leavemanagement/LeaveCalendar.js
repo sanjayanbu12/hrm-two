@@ -1,53 +1,87 @@
-import React from "react";
-import FullCalendar from "@fullcalendar/react";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import interactionPlugin from "@fullcalendar/interaction";
-
-function LeaveCalendar() {
-  const holidays = [
-    {
-      title: "New Year's Day",
-      date: "2023-01-01",
-      color: "#FF0000", // Red color
-    },
-    {
-      title: "Diwali",
-      date: "2023-11-04",
-      color: "#FF6347", // Tomato color
-    },
-    {
-      title: "Pongal",
-      date: "2024-01-14",
-      color: "#4B0082", // Indigo color
-    },
-  ];
-
-  const eventRender = (info) => {
-    if (info.el) {
-      const eventColor = info.event.extendedProps.color;
-      info.el.style.backgroundColor = eventColor;
-      info.el.style.color = "#FFFFFF"; // White text color
+import FullCalendar from '@fullcalendar/react';
+import daygridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import { useState } from 'react';
+import { Dialog } from 'primereact/dialog';
+import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { useEffect } from 'react';
+const LeaveCalendar = () => {
+  const [events, setEvents] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [name,setname]=useState('')
+  const [eventStartDate, setEventStartDate] = useState(null);
+  const [eventEndDate, setEventEndDate] = useState(null);
+  const flexStyle={
+    display: 'flex', flexDirection: 'column', gap: '15px'
+  }
+  const handleSelect = (info) => {
+    const { start, end } = info;
+    setEventStartDate(start); // Format as ISO string
+    setEventEndDate(end);
+    setVisible(true);
+  };
+  useEffect(()=>{
+    console.log(events)
+  },[events])
+  const handleSubmitEvent = () => {
+    if (name && eventStartDate && eventEndDate) {
+      setEvents([
+        ...events,
+        {
+          start: eventStartDate,
+          end: eventEndDate,
+          title: name,
+        },
+      ]);
+      
+      setVisible(false)
+      setname("");
+      setEventStartDate(null);
+      setEventEndDate(null);
     }
   };
 
+  const customTitle =(args)=>{
+    const {event}=args
+    return(
+      <h3>{event.title}</h3>
+    )
+  }
   return (
-    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#F5F5F5" }}>
-      <div style={{ width: "600px", backgroundColor: "#FFFFFF", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-        <FullCalendar
-          plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
-          initialView="dayGridMonth"
-          headerToolbar={{
-            start: "today prev,next",
-            center: "title",
-            end: "dayGridMonth,timeGridWeek,timeGridDay",
-          }}
-          events={holidays}
-          eventContent={eventRender}
-        />
+    <div>
+      <FullCalendar
+        editable
+        selectable
+        events={events}
+        select={handleSelect}
+        headerToolbar={{
+          start: 'prev,next today',
+          center: 'title',
+          end: 'dayGridMonth,dayGridWeek,dayGridDay'
+        }}
+        plugins={[daygridPlugin, interactionPlugin]}
+        views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
+        
+        eventContent={customTitle}
+        eventBackgroundColor='green'
+      />
+      <div className="card flex justify-content-center">
+        <Dialog
+          header="Add Holiday"
+          visible={visible}
+          onHide={() => setVisible(false)}
+          style={{ width: '30vw' }}
+          breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+        >
+          <div style= {flexStyle} className="flex flex-column gap-2">
+            <InputText id="username" aria-describedby="username-help" onChange={(e)=>setname(e.target.value)}/>
+            <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
+          </div>
+        </Dialog>
       </div>
     </div>
   );
-}
+};
 
 export default LeaveCalendar;
