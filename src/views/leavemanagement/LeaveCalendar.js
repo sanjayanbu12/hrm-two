@@ -5,28 +5,49 @@ import { useState } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { useEffect } from 'react';
 const LeaveCalendar = () => {
   const [events, setEvents] = useState([]);
   const [visible, setVisible] = useState(false);
-  
+  const [name,setname]=useState('')
+  const [eventStartDate, setEventStartDate] = useState(null);
+  const [eventEndDate, setEventEndDate] = useState(null);
   const flexStyle={
     display: 'flex', flexDirection: 'column', gap: '15px'
   }
   const handleSelect = (info) => {
-    setVisible(true);
-
     const { start, end } = info;
-    if (visible === true) {
+    setEventStartDate(start); // Format as ISO string
+    setEventEndDate(end);
+    setVisible(true);
+  };
+  useEffect(()=>{
+    console.log(events)
+  },[events])
+  const handleSubmitEvent = () => {
+    if (name && eventStartDate && eventEndDate) {
       setEvents([
         ...events,
         {
-          start,
-          end,
-          title: eventNamePrompt
-        }
+          start: eventStartDate,
+          end: eventEndDate,
+          title: name,
+        },
       ]);
+      
+      setVisible(false)
+      setname("");
+      setEventStartDate(null);
+      setEventEndDate(null);
     }
   };
+
+  const customTitle =(args)=>{
+    const {event}=args
+    return(
+      <h3>{event.title}</h3>
+    )
+  }
   return (
     <div>
       <FullCalendar
@@ -41,6 +62,9 @@ const LeaveCalendar = () => {
         }}
         plugins={[daygridPlugin, interactionPlugin]}
         views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
+        
+        eventContent={customTitle}
+        eventBackgroundColor='green'
       />
       <div className="card flex justify-content-center">
         <Dialog
@@ -51,8 +75,8 @@ const LeaveCalendar = () => {
           breakpoints={{ '960px': '75vw', '641px': '100vw' }}
         >
           <div style= {flexStyle} className="flex flex-column gap-2">
-            <InputText id="username" aria-describedby="username-help" />
-            <Button label="Submit" icon="pi pi-check" />
+            <InputText id="username" aria-describedby="username-help" onChange={(e)=>setname(e.target.value)}/>
+            <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
           </div>
         </Dialog>
       </div>
