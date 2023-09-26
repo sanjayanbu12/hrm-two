@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // import MainCard from 'ui-component/cards/MainCard';
-import { Card, CardContent, Grid, Typography, Button } from '@mui/material';
+import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
 // import MoreVertIcon from '@mui/icons-material/MoreVert';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
@@ -26,7 +26,7 @@ const Upcomingevents = () => {
   }, []);
 
   // const theme = useTheme();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // const handleMenuOpen = (event) => {
   //   setAnchorEl(event.currentTarget);
@@ -64,6 +64,10 @@ const Upcomingevents = () => {
     location1: 'Coimbatore',
     location2: 'Bangalore',
     location3: 'Chennai'
+  };
+  const eventLinkStyle = {
+    color: '#ffff',
+    textDecoration: 'none', // Removes underlines from links
   };
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
@@ -119,25 +123,26 @@ const Upcomingevents = () => {
       ) : (
         <Card content={false}>
           <CardContent>
-            <Typography variant="h4" style={{ marginBottom: '10px',marginTop:'0'}}>
+            <Typography variant="h4" style={{ marginBottom: '20px',marginTop:'0',fontSize:'20px'}}>
               <b>Upcoming Events</b>
             </Typography>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginBottom: '20px' }}>
+            {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginBottom: '20px' }}>
               <div>
                 <Button
                   onClick={() => navigate('/newevent')}
                   variant="contained"
                   endIcon={<KeyboardDoubleArrowRightIcon />}
                   sx={{
-                    backgroundColor: 'blue',
+                    backgroundColor: '#12486B',
                     '&:hover': {
-                      backgroundColor: '#blue'
+                      backgroundColor: '#12486B'
                     }
                   }}
                 >
                   All Events
                 </Button>
               </div>
+              </div> */}
               {/* <div>
             <Button
               onClick={handleMenuOpen}
@@ -147,7 +152,7 @@ const Upcomingevents = () => {
               <MoreVertIcon />
             </Button>
           </div> */}
-            </div>
+            {/* </div> */}
             {/* <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
@@ -222,7 +227,7 @@ const Upcomingevents = () => {
                           direction="column"
                           alignItems="center"
                           style={{
-                            backgroundColor: '#f0f0f0',
+                            backgroundColor: '#CCC8AA',
                             borderRadius: '15px',
                             padding: '15px',
                             height: '100%'
@@ -236,7 +241,7 @@ const Upcomingevents = () => {
                               {event.title}
                             </Typography>
                           </Grid>
-
+<Grid style={{fontWeight:'bold'}}>
                           <Grid item>
                             <Typography variant="body2" style={{ marginBottom: '5px' }}>
                               {locationNames[event.location]}
@@ -248,17 +253,18 @@ const Upcomingevents = () => {
                             </Typography>
                           </Grid>
                           <Grid item>
-                            <Typography variant="body2" style={{ color: '#666' }}>
+                            <Typography variant="body2" style={{ marginBottom: '7px' }}>
                               {startTime} - {endTime}
                             </Typography>
                           </Grid>
+                          </Grid>
                           {event.eventLink && (
                             <Grid item>
-                              <a href={event.eventLink} target="_blank" rel="noopener noreferrer">
+                              <a href={event.eventLink} target="_blank" rel="noopener noreferrer"  style={eventLinkStyle}>
                                 Event Link
                               </a>
                             </Grid>
-                          )}
+                          )}                       
                         </Grid>
                       </div>
                     );
