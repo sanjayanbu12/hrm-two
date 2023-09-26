@@ -182,8 +182,8 @@ const CourseUpload = () => {
       
        <Lottie
          options={uploading}
-         height={275} 
-         width="70%"
+         height={310} 
+         width="50%"
        />
     
         ) : (
