@@ -7,6 +7,7 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Feedback,Send,TextSnippet } from '@mui/icons-material';
 import FeedbackPopup from './Feedback';
 
+
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
   const [filter, setFilter] = useState([]);
@@ -17,7 +18,7 @@ const InterviewBoard = () => {
   const [selectedCandidateName, setSelectedCandidateName] = useState(null);
 
   const handleOpenFeedback = (candidateId,candidateName) => {
-    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
+    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);  
   
     if (selectedCandidate) {
       setSelectedCandidate(selectedCandidate);
@@ -150,7 +151,7 @@ useEffect(()=>{
   console.log(JSON.parse(str))
 },[matchedResults])
   return (
-    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
+    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px'}}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
         <DragDropContext onDragEnd={handleDragEnd}>
           {allStatuses.map((title, columnIndex) => {
@@ -180,25 +181,25 @@ useEffect(()=>{
                       >
                         {columnResults.map((x, index) => (
                           <Draggable key={x._id} draggableId={x._id.toString()} index={index}>
-                            {(provided, snapshot) => (
-                              <Card 
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                key={x._id}
-                                sx={{
-                                  marginTop: '10px',
-                                  padding: '10px',
-                                  border: '1px solid #ddd',
-                                  borderRadius: '5px',
-                                  cursor: 'pointer',
-                                  minWidth:'180px',
-                                  backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
-                                }}
-                              >
+                          {(provided, snapshot) => (
+                            <Card 
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              key={x._id}
+                              sx={{
+                                marginTop: '10px',
+                                padding: '10px',
+                                border: '1px solid #ddd',
+                                borderRadius: '5px',
+                                cursor: 'pointer',
+                                minWidth: '180px',
+                                backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
+                              }}
+                            >
                                 <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
                                   <Tooltip title='Send Mail'>
-                                  <Send onClick={handleOpenFeedback} sx={{ marginRight: '10px', fontSize:'15px',cursor:'pointer'}} /></Tooltip>
+                                  <Send  sx={{ marginRight: '10px', fontSize:'15px',cursor:'pointer'}} /></Tooltip>
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
@@ -208,13 +209,19 @@ useEffect(()=>{
                                 <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
                                 <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',cursor:"pointer",marginBottom:'5px' }}>
                                   <div style={{ display: 'flex',marginRight:'40%'}}>
+                                  {title !== 'Shortlist' && (
                                   <Tooltip title='Feedback'>
-                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name)}sx={{ marginRight: '10px',marginTop:'13px' }} /></Tooltip>
+                                    
+                                <Feedback onClick={() => handleOpenFeedback(x._id,x.Name)}sx={{ marginRight: '10px',marginTop:'13px' }} />
+                                </Tooltip>
+                                  )}
                                   {x.Resume && (
                                       <Tooltip title='Download Resume'>
                                  <TextSnippet onClick={() =>handleResume(x._id, x.Name)} sx={{ marginRight: '13px',marginTop:'11px' }}/></Tooltip> )}
                                  </div>
+                                 <Tooltip title={x.Name} >
                                   <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
+                                  </Tooltip>
                                 </div>                           
                               </Card>
                             )}
