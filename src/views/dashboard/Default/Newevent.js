@@ -4,12 +4,12 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './newevent.css';
-import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem , Select ,FormControl,InputLabel  } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextArea from 'antd/es/input/TextArea';
 import MainCard from 'ui-component/cards/MainCard';
-import { useNavigate } from 'react-router-dom';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+// import { useNavigate } from 'react-router-dom';
+// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 function Newevent() {
   const [events, setEvents] = useState([]);
@@ -25,9 +25,9 @@ function Newevent() {
   const [location, setLocation] = useState('');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
 
-console.log(selectedDate);
+  console.log(selectedDate);
 
-const navigate = useNavigate();
+  // const navigate = useNavigate();
   useEffect(() => {
     const storedEvents = localStorage.getItem('events');
     if (storedEvents) {
@@ -72,7 +72,7 @@ const navigate = useNavigate();
         start: startDateTime,
         end: endDateTime,
         eventLink: eventLink,
-        location:location,
+        location: location,
         description: description
       };
 
@@ -103,18 +103,13 @@ const navigate = useNavigate();
   const eventContent = (eventInfo) => {
     return (
       <>
-         <div>{eventInfo.timeText}</div>
-      <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
-      {eventInfo.event.extendedProps.location && (
-        <div style={{ color: '#ffffff' }}>{locationNames[eventInfo.event.extendedProps.location]}</div>
-      )}
-      {eventInfo.event.extendedProps.eventLink && (
-          <a
-            href={eventInfo.event.extendedProps.eventLink}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: '#ffffff' }}
-          >
+        <div>{eventInfo.timeText}</div>
+        <div style={{ color: '#ffffff' }}>{eventInfo.event.title}</div>
+        {eventInfo.event.extendedProps.location && (
+          <div style={{ color: '#ffffff' }}>{locationNames[eventInfo.event.extendedProps.location]}</div>
+        )}
+        {eventInfo.event.extendedProps.eventLink && (
+          <a href={eventInfo.event.extendedProps.eventLink} target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff' }}>
             {eventInfo.event.extendedProps.eventLink}
           </a>
         )}
@@ -124,30 +119,30 @@ const navigate = useNavigate();
 
   return (
     <div>
-      <div style={{display:'flex',justifyContent:'flex-end',marginTop:'0px',marginBottom:'15px'}}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '0px', marginBottom: '15px' }}>
         <div>
-            <Button
+          {/* <Button
               onClick={() => navigate('/dashboard/default')}
               variant="contained"
               color="secondary"
               endIcon={<KeyboardDoubleArrowRightIcon />}
             >
               Back 
-            </Button>
-          </div>
-           </div>
+            </Button> */}
+        </div>
+      </div>
       <MainCard>
-        
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
           headerToolbar={{
             start: 'today prev,next',
             center: 'title',
-            end: 'dayGridMonth,timeGridWeek,timeGridDay' 
+            end: 'dayGridMonth,timeGridWeek,timeGridDay'
           }}
           height={'90vh'}
           events={upcomingEvents}
+          editable
           selectable={true}
           dateClick={handleDateClick}
           eventContent={eventContent} // Custom event rendering
@@ -246,19 +241,14 @@ const navigate = useNavigate();
                 sx={{ width: '335px', marginBottom: '12px' }}
               />
 
-<FormControl fullWidth sx={{ width: '335px', marginBottom: '12px' }}>
-        <InputLabel id="location-label">Location</InputLabel>
-        <Select
-          labelId="location-label"
-          value={location}
-          onChange={handleLocationChange}
-          label="Location"
-        >
-          <MenuItem value="location1">Coimbatore</MenuItem>
-          <MenuItem value="location2">Bangalore</MenuItem>
-          <MenuItem value="location3">Chennai</MenuItem>
-        </Select>
-      </FormControl>
+              <FormControl fullWidth sx={{ width: '335px', marginBottom: '12px' }}>
+                <InputLabel id="location-label">Location</InputLabel>
+                <Select labelId="location-label" value={location} onChange={handleLocationChange} label="Location">
+                  <MenuItem value="location1">Coimbatore</MenuItem>
+                  <MenuItem value="location2">Bangalore</MenuItem>
+                  <MenuItem value="location3">Chennai</MenuItem>
+                </Select>
+              </FormControl>
               <TextArea
                 margin="dense"
                 label="Description"

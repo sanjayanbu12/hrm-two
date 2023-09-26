@@ -9,7 +9,6 @@ import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowth
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import chartData from './chart-data/total-growth-bar-chart';
-// ==============================|| DASHBOARD DEFAULT -  BAR CHART ||============================== //
 
 const TotalGrowthBarChart = ({ isLoading }) => {
   // const [value, setValue] = useState('today');

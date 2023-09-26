@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // import MainCard from 'ui-component/cards/MainCard';
-import { Card,CardContent, Grid, Typography, Button } from '@mui/material';
+import { Card, CardContent, Grid, Typography, Button } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
@@ -14,7 +14,7 @@ const Upcomingevents = () => {
   const [isLoading, setIsLoading] = useState(false);
   // const [anchorEl, setAnchorEl] = useState(null);
   // const [colorAnchorEl, setColorAnchorEl] = useState(null);
-  // const [selectedColor, setSelectedColor] = useState('#ffffff');  
+  // const [selectedColor, setSelectedColor] = useState('#ffffff');
 
   useEffect(() => {
     setIsLoading(true);
@@ -58,14 +58,13 @@ const Upcomingevents = () => {
   //   { color: '#ff0000' },
   //   { color: '#e9967a' },
   //   { color: '#00ff00' },
- 
+
   // ];
   const locationNames = {
     location1: 'Coimbatore',
     location2: 'Bangalore',
     location3: 'Chennai'
   };
-  
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
     hasPrev && (
@@ -114,35 +113,32 @@ const Upcomingevents = () => {
   return (
     <>
       {isLoading ? (
-        <Card  content={false} >
-          
+        <Card content={false}>
           <CardContent>Loading...</CardContent>
         </Card>
       ) : (
-        <Card content={false} raised={true}>
-        <CardContent>
-          <Typography variant="h4" style={{ marginBottom: '20px' }}>
-            <b>Upcoming Events</b>
-          </Typography>
-          <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', marginBottom: '30px'}}>
-
-          <div>
-            <Button
-              onClick={() => navigate('/newevent')}
-              variant="contained"
-              endIcon={<KeyboardDoubleArrowRightIcon />}
-              sx={{
-                backgroundColor:"#FF5C93",
-                '&:hover': {
-                  backgroundColor: "#FF5C93",
-                }
-              }}
-            >
-              All Events
-            </Button>
-          </div>
-  
-          {/* <div>
+        <Card content={false}>
+          <CardContent>
+            <Typography variant="h4" style={{ marginBottom: '10px',marginTop:'0'}}>
+              <b>Upcoming Events</b>
+            </Typography>
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginBottom: '20px' }}>
+              <div>
+                <Button
+                  onClick={() => navigate('/newevent')}
+                  variant="contained"
+                  endIcon={<KeyboardDoubleArrowRightIcon />}
+                  sx={{
+                    backgroundColor: 'blue',
+                    '&:hover': {
+                      backgroundColor: '#blue'
+                    }
+                  }}
+                >
+                  All Events
+                </Button>
+              </div>
+              {/* <div>
             <Button
               onClick={handleMenuOpen}
               variant="text"
@@ -151,7 +147,7 @@ const Upcomingevents = () => {
               <MoreVertIcon />
             </Button>
           </div> */}
-          </div>
+            </div>
             {/* <Menu
               anchorEl={anchorEl}
               open={Boolean(anchorEl)}
@@ -168,7 +164,7 @@ const Upcomingevents = () => {
               <MenuItem onClick={handleColorMenuOpen}>Solid-Color</MenuItem>
               <MenuItem onClick={handleMenuClose}>Background</MenuItem>
             </Menu> */}
-{/* 
+            {/* 
             <Menu
               anchorEl={colorAnchorEl}
               open={Boolean(colorAnchorEl)}
@@ -183,7 +179,7 @@ const Upcomingevents = () => {
               }}
             > */}
 
-              {/* <Grid container>
+            {/* <Grid container>
     {colorOptions.slice(0, 4).map((option, index) => (
       <Grid item key={index} style={{ marginRight: '10px' }} onClick={() => handleColorSelect(option.color)}>
         <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
@@ -200,7 +196,7 @@ const Upcomingevents = () => {
   </Grid>
 </Menu> */}
 
-            <div style={{ overflow: 'hidden'}}>
+            <div style={{ overflow: 'hidden' }}>
               {events.length > 0 ? (
                 <Carousel
                   showArrows={true}
@@ -239,13 +235,13 @@ const Upcomingevents = () => {
                             <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '5px' }}>
                               {event.title}
                             </Typography>
-                            </Grid>
-   
-        <Grid item>
-          <Typography variant="body2" style={{ marginBottom: '5px' }}>
-            {locationNames[event.location]}
-          </Typography>
-        </Grid>
+                          </Grid>
+
+                          <Grid item>
+                            <Typography variant="body2" style={{ marginBottom: '5px' }}>
+                              {locationNames[event.location]}
+                            </Typography>
+                          </Grid>
                           <Grid item>
                             <Typography variant="body2" style={{ marginBottom: '7px' }}>
                               {startMonth} {startDate.getDate()} - {endMonth} {endDate.getDate()}, {endDate.getFullYear()}
@@ -269,7 +265,7 @@ const Upcomingevents = () => {
                   })}
                 </Carousel>
               ) : (
-                <Typography variant="body1" style={{ textAlign: 'center',fontWeight:'bolder',fontSize:'20px' }}>
+                <Typography variant="body1" style={{ textAlign: 'center', fontWeight: 'bolder', fontSize: '20px' }}>
                   NO EVENTS AVAILABLE
                 </Typography>
               )}

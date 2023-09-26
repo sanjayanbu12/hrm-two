@@ -10,6 +10,7 @@ import Card4 from './Card4';
 import { gridSpacing } from 'store/constant';
 import Card from '@mui/material/Card';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
+import Newevent from './Newevent';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -18,8 +19,12 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Card raised={true}>
+    <Card>
       <div style={{ overflow: 'hidden' }}>
+        <div style={{ fontWeight: 'bolder', fontSize: '25px', marginTop: '10px', marginLeft: '10px' }}>Welcome Admin!</div>
+        <div style={{ fontWeight: 'bold', fontSize: '15px', marginLeft: '10px', marginBottom: '10px' }}>
+          <p>Dashboard</p>
+        </div>
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={3}>
@@ -50,6 +55,10 @@ const Dashboard = () => {
 
         <Grid item xs={12} md={12}>
           <Upcomingevents isLoading={isLoading} />
+        </Grid>
+
+        <Grid item xs={12} md={12}>
+          <Newevent isLoading={isLoading} />
         </Grid>
       </div>
     </Card>
