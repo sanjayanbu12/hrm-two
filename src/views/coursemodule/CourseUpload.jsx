@@ -157,7 +157,7 @@ const CourseUpload = () => {
 
   return (
     <MainCard title="Course Upload Form">
-      <Paper elevation={3} style={{ padding: '16px',height:'100vh' }}>
+      <Paper elevation={3} style={{ padding: '16px' }}>
         {!contentReady ? (
            <Box sx={{height:'80vh',width:'100%',display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Lottie
