@@ -7,6 +7,9 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Feedback, Send, TextSnippet } from '@mui/icons-material';
 import FeedbackPopup from './Feedback';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import FeedbackInfo from './FeedbackInfo';
+import Stack from '@mui/material/Stack';
+import CircularProgress from '@mui/material/CircularProgress';
 
 
 const InterviewBoard = () => {
@@ -15,9 +18,11 @@ const InterviewBoard = () => {
   const [matchedResults, setMatchedResults] = useState([]);
   const allStatuses = ['Shortlist', 'Round 1', 'Round 2', 'Round 3', 'Selected', 'Hold', 'Rejected'];
   const [feedbackOpen, setFeedbackOpen] = useState(false);
+  const [infoOpen, setInfoOpen] = useState(false);
   const [selectedCandidate, setSelectedCandidate] = useState(null);
   const [selectedCandidateName, setSelectedCandidateName] = useState(null);
   const [selectedCandidateTitle, setSelectedCandidateTitle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const handleOpenFeedback = (candidateId, candidateName, title) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
@@ -34,11 +39,30 @@ const InterviewBoard = () => {
     }
   };
 
+  const handleOpenInfo = (candidateId, candidateName, title) => {
+    const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
 
+    if (selectedCandidate) {
+      setInfoOpen(true);
+      setSelectedCandidate(selectedCandidate);
+      setSelectedCandidateName(candidateName);
+      setSelectedCandidateTitle(title);
+
+   
+    } else {
+      console.error(`Candidate with ID ${candidateId} not found.`);
+    }
+  };
+  
   const handleCloseFeedback = () => {
     setSelectedCandidate(null);
     setFeedbackOpen(false);
   };
+
+  const handleCloseInfo=()=>{
+    setSelectedCandidate(null);
+    setInfoOpen(false)
+  }
 
   const handleSubmitFeedback = (feedbackText) => {
     console.log(`Feedback for ${selectedCandidate.Name}: ${feedbackText}`);
@@ -46,13 +70,21 @@ const InterviewBoard = () => {
 
   const fetchEmployees = async () => {
     try {
+      // Show the loader
+      setLoading(true);
+  
       const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
       const filldata = res.data.getData;
-      console.log(filldata);
+  
       setAdata(filldata);
       console.log(res.data.getData);
+      
+      // Hide the loader when data is fetched
+      setLoading(false);
     } catch (err) {
       console.log(err);
+      // Hide the loader on error as well
+      setLoading(false);
     }
   };
 
@@ -157,6 +189,11 @@ const InterviewBoard = () => {
   }, [matchedResults])
   return (
     <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
+        {loading ? (
+           <Stack sx={{ color: 'grey.500',display:'flex',justifyContent:'center',mt:'20%'}} spacing={2} direction="row">
+           <CircularProgress color="inherit" />
+         </Stack> // Replace with your loader component
+          ) : (
       <div style={{ display: 'flex', overflowX: 'auto' }}>
         <DragDropContext onDragEnd={handleDragEnd}>
           {allStatuses.map((title, columnIndex) => {
@@ -223,11 +260,12 @@ const InterviewBoard = () => {
                                     {x.Resume && (
                                       <Tooltip title='Download Resume'>
                                         <TextSnippet onClick={() => handleResume(x._id, x.Name)} sx={{ marginRight: '13px', marginTop: '11px' }} /></Tooltip>)}
-                                        {(title === 'Shortlist' && title === 'Selected' && title === 'Hold' && title === 'Rejected') && (
-                                    <Tooltip title='Interview feedback'>
-                                      <ErrorOutlineIcon  sx={{marginTop: '11px'}} />
-                                    </Tooltip>  
-                                          )}
+                                    {(title === 'Selected' || title === 'Hold' || title === 'Rejected') && (
+                                      <Tooltip title='Interview feedback'>
+                                        <ErrorOutlineIcon onClick={() => handleOpenInfo(x._id, x.Name, title)} sx={{ marginTop: '11px' }} />
+                                      </Tooltip>
+                                    )}
+
                                   </div>
                                   <Tooltip title={x.Name} >
                                     <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
@@ -247,14 +285,22 @@ const InterviewBoard = () => {
           })}
         </DragDropContext>
       </div>
+          )}
       <FeedbackPopup
         open={feedbackOpen}
         onClose={handleCloseFeedback}
         onSubmit={handleSubmitFeedback}
         Name={selectedCandidateName}
         Title={selectedCandidateTitle}
-        matchedResults={matchedResults} // Pass the matchedResults as a prop
+        matchedResults={matchedResults} 
       />
+     <FeedbackInfo
+  open={infoOpen}
+  onClose={handleCloseInfo}
+  Name={selectedCandidateName}
+  Title={selectedCandidateTitle}
+  selectedCandidate={selectedCandidate} 
+/>
     </MainCard>
   );
 };
