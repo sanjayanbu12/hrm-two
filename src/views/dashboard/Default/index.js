@@ -25,6 +25,7 @@ const Dashboard = () => {
         <div style={{ fontWeight: 'bold', fontSize: '15px', marginLeft: '10px', marginBottom: '10px' }}>
           <p>Dashboard</p>
         </div>
+
         <Grid item xs={12}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12} md={3}>

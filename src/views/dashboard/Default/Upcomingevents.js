@@ -168,7 +168,7 @@ const Upcomingevents = () => {
                                 Event Link
                               </a>
                             </Grid>
-                          )}                       
+                          )}
                         </Grid>
                       </div>
                     );
