@@ -8,6 +8,7 @@ import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import { Card } from '@mui/material';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
@@ -52,6 +53,7 @@ export default function PopularCard() {
   };
   return (
     <>
+     <Card elevation={3} style={{marginTop:'40px'}}>
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
     <Paper
       square
@@ -59,7 +61,7 @@ export default function PopularCard() {
       sx={{
         display: 'flex',
         alignItems: 'center',
-        height: 40,
+        height: 0,
         pl: 2,
         bgcolor: '#ffff',
       }}
@@ -121,9 +123,12 @@ export default function PopularCard() {
       }
     />
   </Box>
+  </Card>
+  <Card elevation={3}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DateCalendar />
     </LocalizationProvider>
+    </Card>
     </>
   );
 }

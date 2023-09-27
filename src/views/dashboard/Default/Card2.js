@@ -1,25 +1,12 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-
-// material-ui
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, Button, Grid, Typography } from '@mui/material';
-
-// third-party
-// import Chart from 'react-apexcharts';
-
-// project imports
+import { Box, Button, Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 
-// import ChartDataMonth from './chart-data/total-order-month-line-chart';
-// import ChartDataYear from './chart-data/total-order-year-line-chart';
-
-// assets
-// import LocalMallOutlinedIcon from '@mui/icons-material/LocalMallOutlined';
-// import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: '#26577C',
+  backgroundColor: '#12486B',
   color: '#fff',
   overflow: 'hidden',
   position: 'relative',
@@ -53,7 +40,6 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     }
   }
 }));
-// ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
 const Card2 = ({ isLoading }) => {
   const theme = useTheme();
@@ -68,6 +54,7 @@ const Card2 = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalOrderCard />
       ) : (
+        <Card elevation={10}>
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
@@ -124,6 +111,7 @@ const Card2 = ({ isLoading }) => {
             </Grid>
           </Box>
         </CardWrapper>
+        </Card>
       )}
     </>
   );

@@ -2,11 +2,10 @@ import PropTypes from 'prop-types';
 import {  useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import { Grid  } from '@mui/material';
+import { Grid,Card  } from '@mui/material';
 import ApexCharts from 'apexcharts';
 import Chart from 'react-apexcharts';
 import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowthBarChart';
-import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 import chartData from './chart-data/total-growth-bar-chart';
 
@@ -68,7 +67,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalGrowthBarChart />
       ) : (
-        <MainCard>
+        <Card elevation={3} style={{marginTop:'40px'}}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
               <Grid container alignItems="center" justifyContent="space-between">
@@ -88,7 +87,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
               <Chart {...chartData} />
             </Grid>
           </Grid>
-        </MainCard>
+        </Card>
       )}
     </>
   );

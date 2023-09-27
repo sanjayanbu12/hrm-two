@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, Button, Grid, Typography } from '@mui/material';
+import { Box, Button, Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -39,7 +39,6 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     }
   }
 }));
-// ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
 const Card4 = ({ isLoading }) => {
   const theme = useTheme();
@@ -55,6 +54,7 @@ const Card4 = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalOrderCard />
       ) : (
+        <Card elevation={3}>
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">
@@ -109,6 +109,7 @@ const Card4 = ({ isLoading }) => {
             </Grid>
           </Box>
         </CardWrapper>
+        </Card>
       )}
     </>
   );

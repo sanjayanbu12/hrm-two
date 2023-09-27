@@ -4,12 +4,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import './newevent.css';
-import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem, Select, FormControl, InputLabel } from '@mui/material';
+import { Button, Dialog, DialogContent, TextField, Grid, InputAdornment, MenuItem, Select, FormControl, InputLabel ,Card} from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import TextArea from 'antd/es/input/TextArea';
-import MainCard from 'ui-component/cards/MainCard';
-// import { useNavigate } from 'react-router-dom';
-// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 function Newevent() {
   const [events, setEvents] = useState([]);
@@ -24,10 +21,8 @@ function Newevent() {
   const [description, setDescription] = useState('');
   const [location, setLocation] = useState('');
   const [upcomingEvents, setUpcomingEvents] = useState([]);
-
   console.log(selectedDate);
-
-  // const navigate = useNavigate();
+  
   useEffect(() => {
     const storedEvents = localStorage.getItem('events');
     if (storedEvents) {
@@ -131,7 +126,7 @@ function Newevent() {
             </Button> */}
         </div>
       </div>
-      <MainCard>
+      <Card elevation={3}>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView="dayGridMonth"
@@ -266,7 +261,7 @@ function Newevent() {
             Save
           </Button>
         </Dialog>
-      </MainCard>
+      </Card>
     </div>
   );
 }

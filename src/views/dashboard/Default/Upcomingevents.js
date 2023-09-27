@@ -1,20 +1,13 @@
 import React, { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import MainCard from 'ui-component/cards/MainCard';
 import { Card, CardContent, Grid, Typography } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
-// import MoreVertIcon from '@mui/icons-material/MoreVert';
-// import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [anchorEl, setAnchorEl] = useState(null);
-  // const [colorAnchorEl, setColorAnchorEl] = useState(null);
-  // const [selectedColor, setSelectedColor] = useState('#ffffff');
 
   useEffect(() => {
     setIsLoading(true);
@@ -25,49 +18,15 @@ const Upcomingevents = () => {
     setIsLoading(false);
   }, []);
 
-  // const theme = useTheme();
-  // const navigate = useNavigate();
-
-  // const handleMenuOpen = (event) => {
-  //   setAnchorEl(event.currentTarget);
-  // };
-
-  // const handleMenuClose = () => {
-  //   setAnchorEl(null);
-  // };
-
-  // const handleColorMenuOpen = (event) => {
-  //   setColorAnchorEl(event.currentTarget);
-  // };
-
-  // const handleColorMenuClose = () => {
-  //   setColorAnchorEl(null);
-  // };
-
-  // const handleColorSelect = (color) => {
-  //   setSelectedColor(color);
-  //   handleColorMenuClose();
-  // };
-
-  // const colorOptions = [
-  //   { color: '#ff0000' },
-  //   { color: '#00ff00' },
-  //   { color: '#0000ff' },
-  //   { color: '#e9967a' },
-  //   { color: '#0000ff' },
-  //   { color: '#ff0000' },
-  //   { color: '#e9967a' },
-  //   { color: '#00ff00' },
-
-  // ];
   const locationNames = {
     location1: 'Coimbatore',
     location2: 'Bangalore',
     location3: 'Chennai'
   };
   const eventLinkStyle = {
-    color: '#ffff',
-    textDecoration: 'none', // Removes underlines from links
+    color: '#F94C10',
+    textDecoration: '',
+    fontWeight: 'bold'
   };
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
@@ -121,85 +80,11 @@ const Upcomingevents = () => {
           <CardContent>Loading...</CardContent>
         </Card>
       ) : (
-        <Card content={false}>
+        <Card content={false} elevation={3}>
           <CardContent>
-            <Typography variant="h4" style={{ marginBottom: '20px',marginTop:'0',fontSize:'20px'}}>
+            <Typography variant="h4" style={{ marginBottom: '20px', marginTop: '0', fontSize: '20px' }}>
               <b>Upcoming Events</b>
             </Typography>
-            {/* <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginBottom: '20px' }}>
-              <div>
-                <Button
-                  onClick={() => navigate('/newevent')}
-                  variant="contained"
-                  endIcon={<KeyboardDoubleArrowRightIcon />}
-                  sx={{
-                    backgroundColor: '#12486B',
-                    '&:hover': {
-                      backgroundColor: '#12486B'
-                    }
-                  }}
-                >
-                  All Events
-                </Button>
-              </div>
-              </div> */}
-              {/* <div>
-            <Button
-              onClick={handleMenuOpen}
-              variant="text"
-              color="secondary"
-            >
-              <MoreVertIcon />
-            </Button>
-          </div> */}
-            {/* </div> */}
-            {/* <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-            >
-              <MenuItem onClick={handleColorMenuOpen}>Solid-Color</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Background</MenuItem>
-            </Menu> */}
-            {/* 
-            <Menu
-              anchorEl={colorAnchorEl}
-              open={Boolean(colorAnchorEl)}
-              onClose={handleColorMenuClose}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
-              }}
-            > */}
-
-            {/* <Grid container>
-    {colorOptions.slice(0, 4).map((option, index) => (
-      <Grid item key={index} style={{ marginRight: '10px' }} onClick={() => handleColorSelect(option.color)}>
-        <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
-      </Grid>  
-    ))}
- </Grid>
-
-<Grid container>
-      {colorOptions.slice(4, 8).map((option, index) => (
-      <Grid item key={index} style={{ marginRight: '10px', marginTop: '10px' }} onClick={() => handleColorSelect(option.color)}>
-        <div style={{ width: '20px', height: '20px', backgroundColor: option.color }}></div>
-      </Grid>
-    ))}
-  </Grid>
-</Menu> */}
 
             <div style={{ overflow: 'hidden' }}>
               {events.length > 0 ? (
@@ -227,51 +112,51 @@ const Upcomingevents = () => {
                           direction="column"
                           alignItems="center"
                           style={{
-                            backgroundColor: '#CCC8AA',
+                            backgroundColor: '#12486B',
                             borderRadius: '15px',
                             padding: '15px',
                             height: '100%'
                           }}
                         >
-                          <Grid item>
+                          <Grid item style={{ color: '#ffff' }}>
                             <EventAvailableIcon />
                           </Grid>
                           <Grid item>
-                            <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                            <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '5px', color: '#ffff' }}>
                               {event.title}
                             </Typography>
                           </Grid>
-<Grid style={{fontWeight:'bold'}}>
-                          <Grid item>
-                            <Typography variant="body2" style={{ marginBottom: '5px' }}>
-                              {locationNames[event.location]}
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography variant="body2" style={{ marginBottom: '7px' }}>
-                              {startMonth} {startDate.getDate()} - {endMonth} {endDate.getDate()}, {endDate.getFullYear()}
-                            </Typography>
-                          </Grid>
-                          <Grid item>
-                            <Typography variant="body2" style={{ marginBottom: '7px' }}>
-                              {startTime} - {endTime}
-                            </Typography>
-                          </Grid>
+                          <Grid style={{ fontWeight: 'bold' }}>
+                            <Grid item>
+                              <Typography variant="body2" style={{ marginBottom: '5px', color: '#ffff' }}>
+                                {locationNames[event.location]}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography variant="body2" style={{ marginBottom: '7px', color: '#ffff' }}>
+                                {startMonth} {startDate.getDate()} - {endMonth} {endDate.getDate()}, {endDate.getFullYear()}
+                              </Typography>
+                            </Grid>
+                            <Grid item>
+                              <Typography variant="body2" style={{ marginBottom: '7px', color: '#ffff' }}>
+                                {startTime} - {endTime}
+                              </Typography>
+                            </Grid>
                           </Grid>
                           {event.eventLink && (
                             <Grid item>
-                              <a href={event.eventLink} target="_blank" rel="noopener noreferrer"  style={eventLinkStyle}>
+                              <a href={event.eventLink} target="_blank" rel="noopener noreferrer" style={eventLinkStyle}>
                                 Event Link
                               </a>
                             </Grid>
-                          )}                       
+                          )}
                         </Grid>
                       </div>
                     );
                   })}
                 </Carousel>
               ) : (
-                <Typography variant="body1" style={{ textAlign: 'center', fontWeight: 'bolder', fontSize: '20px' }}>
+                <Typography variant="body1" style={{ textAlign: 'center', fontWeight: 'bolder', fontSize: '20px',margin:'20px'}}>
                   NO EVENTS AVAILABLE
                 </Typography>
               )}

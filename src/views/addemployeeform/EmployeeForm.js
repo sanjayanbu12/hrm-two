@@ -381,8 +381,6 @@ const EmployeeForm = () => {
           lastname,
           gender,
           email,
-          // password,
-          // confirmPassword,
           dob,
           mob,
           altmob,
