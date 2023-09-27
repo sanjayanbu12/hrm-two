@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MainCard from 'ui-component/cards/MainCard';
-import { Avatar, Card, CardContent, CardHeader,Paper, Tooltip } from '@mui/material';
+import { Avatar, Card, CardContent, CardHeader, Paper, Tooltip } from '@mui/material';
 import { Typography } from '@mui/material';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Feedback,Send,TextSnippet } from '@mui/icons-material';
+import { Feedback, Send, TextSnippet } from '@mui/icons-material';
 import FeedbackPopup from './Feedback';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 
 const InterviewBoard = () => {
@@ -20,20 +21,20 @@ const InterviewBoard = () => {
 
   const handleOpenFeedback = (candidateId, candidateName, title) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
-  
+
     if (selectedCandidate) {
       setSelectedCandidate(selectedCandidate);
       setFeedbackOpen(true);
       setSelectedCandidateName(candidateName);
-      setSelectedCandidateTitle(title); 
-      console.log("person iddddd",candidateId)
-      
+      setSelectedCandidateTitle(title);
+      console.log("person iddddd", candidateId)
+
     } else {
       console.error(`Candidate with ID ${candidateId} not found.`);
     }
   };
-  
- 
+
+
   const handleCloseFeedback = () => {
     setSelectedCandidate(null);
     setFeedbackOpen(false);
@@ -67,7 +68,7 @@ const InterviewBoard = () => {
   };
 
   const handleResume = async (id, name) => {
-    console.log(id +'ID RESUME')
+    console.log(id + 'ID RESUME')
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
         responseType: 'arraybuffer',
@@ -75,7 +76,7 @@ const InterviewBoard = () => {
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
       saveAs(blob, `${name} resume.pdf`);
-      console.log(id,name + 'name');
+      console.log(id, name + 'name');
     } catch (error) {
       console.log('Error downloading resume:', error);
     }
@@ -150,12 +151,12 @@ const InterviewBoard = () => {
       setMatchedResults(updatedResults);
     }
   };
-useEffect(()=>{
-  const str=JSON.stringify(matchedResults)
-  console.log(JSON.parse(str))
-},[matchedResults])
+  useEffect(() => {
+    const str = JSON.stringify(matchedResults)
+    console.log(JSON.parse(str))
+  }, [matchedResults])
   return (
-    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px'}}>
+    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
       <div style={{ display: 'flex', overflowX: 'auto' }}>
         <DragDropContext onDragEnd={handleDragEnd}>
           {allStatuses.map((title, columnIndex) => {
@@ -185,25 +186,25 @@ useEffect(()=>{
                       >
                         {columnResults.map((x, index) => (
                           <Draggable key={x._id} draggableId={x._id.toString()} index={index}>
-                          {(provided, snapshot) => (
-                            <Card 
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                              key={x._id}
-                              sx={{
-                                marginTop: '10px',
-                                padding: '10px',
-                                border: '1px solid #ddd',
-                                borderRadius: '5px',
-                                cursor: 'pointer',
-                                minWidth: '180px',
-                                backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
-                              }}
-                            >
+                            {(provided, snapshot) => (
+                              <Card
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                key={x._id}
+                                sx={{
+                                  marginTop: '10px',
+                                  padding: '10px',
+                                  border: '1px solid #ddd',
+                                  borderRadius: '5px',
+                                  cursor: 'pointer',
+                                  minWidth: '180px',
+                                  backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
+                                }}
+                              >
                                 <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
                                   <Tooltip title='Send Mail'>
-                                  <Send  sx={{ marginRight: '10px', fontSize:'15px',cursor:'pointer'}} /></Tooltip>
+                                    <Send sx={{ marginRight: '10px', fontSize: '15px', cursor: 'pointer' }} /></Tooltip>
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
@@ -211,21 +212,27 @@ useEffect(()=>{
                                 <Typography variant="body2">{x.Jobrole}</Typography>
                                 <Typography variant="body2"><b>Qualification:</b>{x.Qualification}</Typography>
                                 <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
-                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end',cursor:"pointer",marginBottom:'5px' }}>
-                                  <div style={{ display: 'flex',marginRight:'40%'}}>
-                                  {title !== 'Shortlist' && (
-                                  <Tooltip title='Feedback'>
-                                    <Feedback onClick={() => handleOpenFeedback(x._id, x.Name, title)} sx={{ marginRight: '10px', marginTop: '13px' }} />
-                                </Tooltip>
-                                  )}
-                                  {x.Resume && (
+                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', cursor: "pointer", marginBottom: '5px' }}>
+                                  <div style={{ display: 'flex', marginRight: '40%' }}>
+                                    {(title !== 'Shortlist' && title !== 'Selected' && title !== 'Hold' && title !== 'Rejected') && (
+                                      <Tooltip title='Feedback'>
+                                        <Feedback onClick={() => handleOpenFeedback(x._id, x.Name, title)} sx={{ marginRight: '10px', marginTop: '13px' }} />
+                                      </Tooltip>
+                                    )}
+
+                                    {x.Resume && (
                                       <Tooltip title='Download Resume'>
-                                 <TextSnippet onClick={() =>handleResume(x._id, x.Name)} sx={{ marginRight: '13px',marginTop:'11px' }}/></Tooltip> )}
-                                 </div>
-                                 <Tooltip title={x.Name} >
-                                  <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
+                                        <TextSnippet onClick={() => handleResume(x._id, x.Name)} sx={{ marginRight: '13px', marginTop: '11px' }} /></Tooltip>)}
+                                        {(title === 'Shortlist' && title === 'Selected' && title === 'Hold' && title === 'Rejected') && (
+                                    <Tooltip title='Interview feedback'>
+                                      <ErrorOutlineIcon  sx={{marginTop: '11px'}} />
+                                    </Tooltip>  
+                                          )}
+                                  </div>
+                                  <Tooltip title={x.Name} >
+                                    <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
                                   </Tooltip>
-                                </div>                           
+                                </div>
                               </Card>
                             )}
                           </Draggable>
@@ -241,13 +248,13 @@ useEffect(()=>{
         </DragDropContext>
       </div>
       <FeedbackPopup
-  open={feedbackOpen}
-  onClose={handleCloseFeedback}
-  onSubmit={handleSubmitFeedback}
-  Name={selectedCandidateName}
-  Title={selectedCandidateTitle}
-  matchedResults={matchedResults} // Pass the matchedResults as a prop
-/>
+        open={feedbackOpen}
+        onClose={handleCloseFeedback}
+        onSubmit={handleSubmitFeedback}
+        Name={selectedCandidateName}
+        Title={selectedCandidateTitle}
+        matchedResults={matchedResults} // Pass the matchedResults as a prop
+      />
     </MainCard>
   );
 };
