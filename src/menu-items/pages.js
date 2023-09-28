@@ -81,6 +81,12 @@ const pages = {
               type: 'item',
               url: '/interviewboard'
             },    
+            {
+              id: 'FeedSelectedTable',
+              title: 'Selected Candidates',
+              type: 'item',
+              url: '/FeedSelectedTable'
+            },    
           ]
         },       
       ]

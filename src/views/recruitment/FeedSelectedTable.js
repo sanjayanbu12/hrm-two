@@ -1,0 +1,212 @@
+import MaterialTable from 'material-table';
+import tableIcons from '../addemployeetable/MaterialTableIcons';
+import { useState, useEffect } from 'react';
+import jsPDF from 'jspdf';
+import { Tooltip} from '@mui/material';
+import {TextSnippet } from '@mui/icons-material';
+import { saveAs } from 'file-saver';
+
+import axios from 'axios';
+const columns = [
+  { title: 'Name',field:'name'},
+  { title: 'Email',field:'email'},
+  { title: 'Phone',field:'phone' },
+  { title: 'Qualification',field:'qualification'},
+  { title: 'Status',field:'Status' },
+  { title: 'Resume',field:''}
+];
+const csvColumns = [
+  'name',
+  'email',
+  'phone',
+  'position',
+  'qualification',
+  'college',
+  'graduationYear',
+  'department',
+  'cgpa',
+  'hse',
+  'sslc',
+  'experience',
+  'round1',
+  'round2',
+  'round3',
+  'status'
+];
+
+export const FeedSelectedTable = () => {
+  const [edata, setedata] = useState([]);
+ 
+  console.log("xxxxx",edata)
+  const fetchEmployeesData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/ats/');
+      const employees = response.data.getData; 
+      setedata(employees);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  
+  useEffect(() => {
+    fetchEmployeesData();
+  }, []);
+
+  const handleResume = async (id, name) => {
+    try {
+      const response = await axios.get(`http://localhost:3001/ats/resume/${id}`, {
+        responseType: 'arraybuffer',
+      });
+      const byteArray = new Uint8Array(response.data);
+      const blob = new Blob([byteArray], { type: 'application/pdf' });
+      saveAs(blob, `${name} resume.pdf`);
+    } catch (error) {
+      console.log('Error downloading resume:', error);
+    }
+  };
+
+  const exportCsv = (columns, data) => {
+    const csvData = data.map((item) => ({
+        name: item.name,
+        email: item.email,
+        phone: item.phone,
+        position: item.position,
+        qualification: item.qualification,
+        college: item.college,
+        graduationYear: item.graduationYear,
+        department: item.department,
+        cgpa: item.cgpa,
+        hse: item.hse,
+        sslc: item.sslc,
+        experience: item.experience,
+        round1: item.round1,
+        round2: item.round2,
+        round3: item.round3,
+        status: item.status
+    }));
+
+    const csvHeaders = csvColumns.map((column) => column);
+    const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
+    const csvContent = csvRows.map((row) => row.join(',')).join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'Selected.csv');
+    link.click();
+  };
+  const exportPdf = (columns, data) => {
+    const pdf = new jsPDF('landscape');
+    pdf.text('Employee List', 10, 10);
+
+    const rows = data.map((item) => [
+      item.name,
+      item.email,
+      item.phone,
+      item.position,
+      item.qualification,
+      item.college,
+      item.graduationYear,
+      item.department,
+      item.cgpa,
+      item.hse,
+      item.sslc,
+      item.experience,
+      item.round1,
+      item.round2,
+      item.round3,
+      item.status
+    ]);
+    const columnStyle = {
+      0: { columnWidth: 20 },
+      1: { columnWidth: 20 },
+      2: { columnWidth: 20 },
+      3: { columnWidth: 25 },
+      4: { columnWidth: 20 },
+      5: { columnWidth: 40 },
+      6: { columnWidth: 30 },
+      7: { columnWidth: 20 },
+      8: { columnWidth: 20 },
+      9: { columnWidth: 23 },
+      10: { columnWidth: 30 },
+      11: { columnWidth: 25 },
+      12: { columnWidth: 20 },
+      13: { columnWidth: 25 }
+    };
+    const pdfHeaders = [
+      'EmployeeId',
+      'Name',
+      'LastName',
+      'Email',
+      'Gender',
+      'Designation ',
+      'Type',
+      'Mobilenumber',
+      'AlternateMob',
+      'Reporting to',
+      'PermenentAddress',
+      'TempAddress',
+      'Bloodgroup',
+      'Department',
+      'Join'
+    ];
+    pdf.autoTable({
+      head: [pdfHeaders],
+      body: rows,
+      startY: 20,
+      columnStyle: columnStyle,
+      theme: 'grid'
+    });
+
+    pdf.save('Selected_candidate.pdf');
+  };
+
+  return (
+    <>
+      {/* <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+        <Button
+          onClick={() => navigate(`/newemployee`)}
+          sx={{
+            background: 'rgba(33, 150, 243, 0.04)',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            marginTop: '0px',
+            marginBottom: '0px'
+          }}
+        >
+          <TableViewIcon />
+          Form
+        </Button>
+      </Box> */}
+
+      <MaterialTable
+        raised={true}
+        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Employee Table</div>}
+        
+        columns={columns}
+        data={edata}
+        icons={tableIcons}
+        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+        options={{
+          actionsColumnIndex: 6,
+          exportButton: true,
+          exportCsv: exportCsv,
+          exportPdf: exportPdf,
+          grouping: true,
+          selection: true,
+         
+          headerStyle: {
+            background: 'linear-gradient(180deg,#3a59af,#352786)',
+            color: '#fff' 
+          },
+          headerCellStyle: {
+            color: 'white'
+          }
+        }}
+      />
+    </>
+
+  );
+ 
+};
