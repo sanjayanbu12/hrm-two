@@ -39,7 +39,7 @@ const pages = {
   children: [
     {
       id: 'recruitment',
-      title: 'Recruitment',
+      title: 'Talent Acquisition Hub',
       type: 'collapse',
       url: '/recruitment',
       icon: icons.AccountTreeOutlinedIcon,
@@ -52,13 +52,13 @@ const pages = {
         },
         {
           id: 'jobtable',
-          title: 'Position Details',
+          title: 'Job Opeanings',
           type: 'item',
           url: '/jobtable'
         },
         {
           id: 'applicationtracker',
-          title: 'Interview Process ',
+          title: 'Selection & Assessment ',
           type: 'collapse',
           url: '/applicationtracker',
           icon: icons.PersonSearchIcon,
@@ -71,7 +71,7 @@ const pages = {
             },   
             {
               id: 'shortlist',
-              title: ' Candidates Shortlisting',
+              title: ' Candidate Evaluation',
               type: 'item',
               url: '/shortlist'
             },
@@ -87,7 +87,7 @@ const pages = {
     },
     {
       id: 'employees',
-      title: 'Employees',
+      title: 'Employee ',
       type: 'collapse',
       icon: icons.BadgeOutlinedIcon,
 
@@ -112,7 +112,7 @@ const pages = {
           children:[
         {
           id: 'requestleave',
-          title: ' Request Leave',
+          title: ' Leave Appication',
           type: 'item',
           url: '/requestleave'
         },
@@ -192,7 +192,7 @@ const pages = {
       children: [
         {
           id: 'goals',
-          title: 'Goals',
+          title: 'Goal Tracking',
           type: 'item',
           url: '/goals'
         },
@@ -202,7 +202,7 @@ const pages = {
           type: 'item',
           url: '/feedbacks'
         },
-        {
+        { 
           id: 'skillsetmatrix',
           title: 'Skill Matrix',
           type: 'item',
