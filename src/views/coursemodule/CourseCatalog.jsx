@@ -63,10 +63,12 @@ const CourseCatalog=()=> {
       )}
       <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
         <DialogTitle>
+         
           Course Details
           <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
             <CloseIcon />
           </IconButton>
+         
         </DialogTitle>
         <DialogContent >
           {selectedMedia && (

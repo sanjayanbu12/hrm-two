@@ -170,7 +170,7 @@ const CourseReview = () => {
   };
 
   return (
-    <MainCard title="Media List">
+    <MainCard title="Media List" >
       <Dialog open={isVideoOpen} onClose={closeVideoDialog} maxWidth="md" fullWidth>
         <DialogTitle>
           Video Player
@@ -224,10 +224,10 @@ const CourseReview = () => {
 
       {selectedMedia && (
         <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
-          <DialogTitle>
+          <DialogTitle sx={{background:'black',color:'white'}}>
             All Uploaded Videos
             <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
-              <CloseIcon />
+              <CloseIcon sx={{background:'white'}} />
             </IconButton>
           </DialogTitle>
           <DialogContent style={{ maxHeight: '70vh', overflowY: 'auto' }}>
