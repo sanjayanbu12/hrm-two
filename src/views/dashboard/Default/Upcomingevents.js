@@ -90,6 +90,7 @@ const Upcomingevents = () => {
             </Typography>
 
              <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', marginBottom: '30px'}}>
+            <Button
               onClick={() => navigate('/newevent')}
               variant="contained"
               endIcon={<KeyboardDoubleArrowRightIcon />}
