@@ -4,16 +4,28 @@ import { useState, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import { Tooltip} from '@mui/material';
 import {TextSnippet } from '@mui/icons-material';
-import { saveAs } from 'file-saver';
-
+import { saveAs } from 'file-saver'; 
 import axios from 'axios';
 const columns = [
-  { title: 'Name',field:'name'},
-  { title: 'Email',field:'email'},
-  { title: 'Phone',field:'phone' },
-  { title: 'Qualification',field:'qualification'},
-  { title: 'Status',field:'Status' },
-  { title: 'Resume',field:''}
+  { title: 'Name', field: 'name' },
+  { title: 'Email', field: 'email' },
+  { title: 'Phone', field: 'phone' },
+  { title: 'Qualification', field: 'qualification' },
+  {
+    title: 'Status',
+    field: 'Status',
+    render: (rowData) => {
+      if (rowData.Status === 'Selected') {
+        return ( 
+          <Tooltip title="Selected">
+            <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: 'green',marginLeft:'5px' }} />
+          </Tooltip>
+        );
+      }
+      return null;
+    },
+  },
+  { title: 'Resume', field: 'resume' },
 ];
 const csvColumns = [
   'name',
@@ -31,28 +43,31 @@ const csvColumns = [
   'round1',
   'round2',
   'round3',
-  'status'
+  'Status'
 ];
 
 export const FeedSelectedTable = () => {
   const [edata, setedata] = useState([]);
  
   console.log("xxxxx",edata)
-  const fetchEmployeesData = async () => {
-    try {
-      const response = await axios.get('http://localhost:3001/ats/');
-      const employees = response.data.getData; 
-      setedata(employees);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+
+const fetchEmployeesData = async () => {
+  try {
+    const response = await axios.get('http://localhost:3001/ats/');
+    const employees = response.data.getData.filter(item => item.Status === 'Selected');
+    setedata(employees);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   
   useEffect(() => {
     fetchEmployeesData();
   }, []);
 
+ 
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`http://localhost:3001/ats/resume/${id}`, {
@@ -93,12 +108,12 @@ export const FeedSelectedTable = () => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.setAttribute('download', 'Selected.csv');
+    link.setAttribute('download', 'Selected Candidate');
     link.click();
   };
   const exportPdf = (columns, data) => {
     const pdf = new jsPDF('landscape');
-    pdf.text('Employee List', 10, 10);
+    pdf.text('Selected Candidate', 10, 10);
 
     const rows = data.map((item) => [
       item.name,
@@ -116,40 +131,41 @@ export const FeedSelectedTable = () => {
       item.round1,
       item.round2,
       item.round3,
-      item.status
+      item.Status
     ]);
     const columnStyle = {
-      0: { columnWidth: 20 },
-      1: { columnWidth: 20 },
-      2: { columnWidth: 20 },
-      3: { columnWidth: 25 },
-      4: { columnWidth: 20 },
-      5: { columnWidth: 40 },
-      6: { columnWidth: 30 },
-      7: { columnWidth: 20 },
-      8: { columnWidth: 20 },
-      9: { columnWidth: 23 },
-      10: { columnWidth: 30 },
-      11: { columnWidth: 25 },
-      12: { columnWidth: 20 },
-      13: { columnWidth: 25 }
+      0: { columnWidth: 50 },
+      1: { columnWidth: 50 },
+      2: { columnWidth: 50 },
+      3: { columnWidth: 50 },
+      4: { columnWidth: 50 },
+      5: { columnWidth: 50 },
+      6: { columnWidth: 50 },
+      7: { columnWidth: 50 },
+      8: { columnWidth: 50 },
+      9: { columnWidth: 50 },
+      10: { columnWidth: 50 },
+      11: { columnWidth: 50 },
+      12: { columnWidth: 50 },
+      13: { columnWidth: 50 }
     };
     const pdfHeaders = [
-      'EmployeeId',
-      'Name',
-      'LastName',
-      'Email',
-      'Gender',
-      'Designation ',
-      'Type',
-      'Mobilenumber',
-      'AlternateMob',
-      'Reporting to',
-      'PermenentAddress',
-      'TempAddress',
-      'Bloodgroup',
-      'Department',
-      'Join'
+      'name',
+      'email',
+      'phone',
+      'position',
+      'qualification',
+      'college ',
+      'graduationYear',
+      'department',
+      'cgpa',
+      'hse',
+      'sslc',
+      'experience',
+      'round1',
+      'round2',
+      'round3',
+      'Status'
     ];
     pdf.autoTable({
       head: [pdfHeaders],
@@ -180,31 +196,42 @@ export const FeedSelectedTable = () => {
         </Button>
       </Box> */}
 
-      <MaterialTable
-        raised={true}
-        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Employee Table</div>}
-        
-        columns={columns}
-        data={edata}
-        icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-        options={{
-          actionsColumnIndex: 6,
-          exportButton: true,
-          exportCsv: exportCsv,
-          exportPdf: exportPdf,
-          grouping: true,
-          selection: true,
-         
-          headerStyle: {
-            background: 'linear-gradient(180deg,#3a59af,#352786)',
-            color: '#fff' 
-          },
-          headerCellStyle: {
-            color: 'white'
-          }
-        }}
-      />
+<MaterialTable
+  raised={true}
+  title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Selected Candidates</div>}
+  columns={columns.map(column => {
+    if (column.field === 'resume') {
+      return {
+        ...column,
+        render: rowData => (
+          <a href="#" onClick={() => handleResume(rowData._id, rowData.name)}>
+            <Tooltip title="Download Resume">
+              <TextSnippet style={{ color: 'red' }} />
+            </Tooltip>
+          </a>
+        ),
+      };
+    } 
+    return column;
+  })}
+  data={edata}
+  icons={tableIcons}
+  style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }} 
+  options={{
+    actionsColumnIndex: 6,
+    exportButton: true,
+    exportCsv: exportCsv,
+    exportPdf: exportPdf,
+    grouping: true,
+    headerStyle: {
+      background: 'linear-gradient(180deg,#3a59af,#352786)',
+      color: '#fff' 
+    },
+    headerCellStyle: {
+      color: 'white'
+    }
+  }}
+/>
     </>
 
   );
