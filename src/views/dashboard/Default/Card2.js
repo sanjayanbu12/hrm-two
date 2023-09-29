@@ -45,6 +45,7 @@ const Card2 = ({ isLoading }) => {
   const theme = useTheme();
 
   const [timeValue, setTimeValue] = useState(false);
+  console.log(timeValue)
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
@@ -61,7 +62,7 @@ const Card2 = ({ isLoading }) => {
               <Grid item>
                 <Grid container justifyContent="space-between">
                   <Grid item>
-                    <Button
+                    {/* <Button
                       disableElevation
                       variant={timeValue ? 'contained' : 'text'}
                       size="small"
@@ -69,15 +70,16 @@ const Card2 = ({ isLoading }) => {
                       onClick={(e) => handleChangeTime(e, true)}
                     >
                       PRESENT
-                    </Button>
+                    </Button> */}
                     <Button
                       disableElevation
-                      variant={!timeValue ? 'contained' : 'text'}
+                      // variant={!timeValue ? 'contained' : 'text'}
+                      variant={'text'}
                       size="small"
                       sx={{ color: 'inherit' }}
                       onClick={(e) => handleChangeTime(e, false)}
                     >
-                      ABSENT
+                    PRESENT
                     </Button>
                   </Grid>
                 </Grid>
@@ -87,10 +89,11 @@ const Card2 = ({ isLoading }) => {
                   <Grid item xs={6}>
                     <Grid container alignItems="center">
                       <Grid item>
-                        {timeValue ? (
+                        {/* {timeValue ? (
                           <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>15</Typography>
-                        ) : (
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>2</Typography>
+                        ) : ( */}
+                        {(
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>10</Typography>
                         )}
                       </Grid>
                       <Grid item xs={12}>

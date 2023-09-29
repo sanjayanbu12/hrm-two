@@ -10,7 +10,7 @@ import Card4 from './Card4';
 import { gridSpacing } from 'store/constant';
 import Card from '@mui/material/Card';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
-import Newevent from './Newevent';
+// import Newevent from './Newevent';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -58,9 +58,9 @@ const Dashboard = () => {
           <Upcomingevents isLoading={isLoading} />
         </Grid>
 
-        <Grid item xs={12} md={12}>
+        {/* <Grid item xs={12} md={12}>
           <Newevent isLoading={isLoading} />
-        </Grid>
+        </Grid> */}
       </div>
     </Card>
   );

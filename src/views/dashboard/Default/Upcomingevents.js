@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Grid, Typography } from '@mui/material';
+import { Card, CardContent, Grid, Typography,Button } from '@mui/material';
 import { Carousel } from 'react-responsive-carousel';
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 import { FiChevronLeft, FiChevronRight } from 'react-icons/fi';
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { useNavigate } from 'react-router-dom';
 
 const Upcomingevents = () => {
   const [events, setEvents] = useState([]);
@@ -28,6 +30,7 @@ const Upcomingevents = () => {
     textDecoration: '',
     fontWeight: 'bold'
   };
+  const navigate=useNavigate();
 
   const renderArrowPrev = (clickHandler, hasPrev, label) =>
     hasPrev && (
@@ -85,6 +88,21 @@ const Upcomingevents = () => {
             <Typography variant="h4" style={{ marginBottom: '20px', marginTop: '0', fontSize: '20px' }}>
               <b>Upcoming Events</b>
             </Typography>
+
+             <div style={{ display: 'flex', flexDirection:'row' ,justifyContent: 'flex-end', marginBottom: '30px'}}>
+              onClick={() => navigate('/newevent')}
+              variant="contained"
+              endIcon={<KeyboardDoubleArrowRightIcon />}
+              sx={{
+                backgroundColor:"#FF5C93",
+                '&:hover': {
+                  backgroundColor: "#FF5C93",
+                }
+              }}
+            >
+              All Events
+            </Button>
+          </div>
 
             <div style={{ overflow: 'hidden' }}>
               {events.length > 0 ? (
