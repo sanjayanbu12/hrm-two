@@ -48,20 +48,22 @@ const csvColumns = [
 
 export const FeedSelectedTable = () => {
   const [edata, setedata] = useState([]);
+  const [loading, setLoading] = useState(true); 
  
   console.log("xxxxx",edata)
 
 
-const fetchEmployeesData = async () => {
-  try {
-    const response = await axios.get('http://localhost:3001/ats/');
-    const employees = response.data.getData.filter(item => item.Status === 'Selected');
-    setedata(employees);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
+  const fetchEmployeesData = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/ats/');
+      const employees = response.data.getData.filter(item => item.Status === 'Selected');
+      setedata(employees);
+      setLoading(false); // Set loading to false when data is fetched
+    } catch (error) {
+      console.log(error);
+      setLoading(false); // Set loading to false on error as well
+    }
+  };
   
   useEffect(() => {
     fetchEmployeesData();
@@ -196,6 +198,11 @@ const fetchEmployeesData = async () => {
         </Button>
       </Box> */}
 
+{loading ? (
+        // Show loader while loading
+        <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
+      ) : (
+
 <MaterialTable
   raised={true}
   title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Selected Candidates</div>}
@@ -232,6 +239,7 @@ const fetchEmployeesData = async () => {
     }
   }}
 />
+      )}
     </>
 
   );
