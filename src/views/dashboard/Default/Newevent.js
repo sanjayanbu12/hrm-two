@@ -19,7 +19,7 @@ const Newevent = () => {
   const flexStyle = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '15px'
+    gap: '15px',
   };
 
   const eventStyle = {
@@ -204,3 +204,4 @@ const Newevent = () => {
 };
 
 export default Newevent;
+  
