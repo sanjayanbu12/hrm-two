@@ -4,7 +4,6 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primeicons/primeicons.css';
 import axios from 'axios';
-import { Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
@@ -17,12 +16,13 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.secondary
 }));
 
 const CatalogLayout = ({ selectedMedia }) => {
   const [moduleVideoData, setModuleVideoData] = useState([]);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
+  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control menu open/closed
 
   useEffect(() => {
     if (selectedMedia) {
@@ -42,6 +42,7 @@ const CatalogLayout = ({ selectedMedia }) => {
 
   const handleVideoSelection = (videoUrl) => {
     setSelectedVideoUrl(videoUrl);
+    setIsMenuOpen(true); // Keep the menu open when a video is selected
   };
 
   const generateMenuItems = () => {
@@ -53,8 +54,11 @@ const CatalogLayout = ({ selectedMedia }) => {
         items: module.videoUrls.map((videoUrl, index) => ({
           label: `Video ${index + 1}`,
           icon: 'pi pi-fw pi-youtube',
-          command: () => handleVideoSelection(videoUrl),
-        })),
+          expanded: isMenuOpen,
+          command: () => handleVideoSelection(videoUrl)
+          
+        }))
+        
       }));
 
       console.log('Generated Menu Items:', menuItems);
@@ -67,12 +71,6 @@ const CatalogLayout = ({ selectedMedia }) => {
     <div style={{ width: '100%' }}>
       {selectedMedia ? (
         <>
-          <Typography variant="h5" gutterBottom>
-            {selectedMedia.courseName}
-          </Typography>
-          <Typography sx={{ marginBottom: '20px' }} variant="body1">
-            {selectedMedia.courseDescription}
-          </Typography>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={5}>
@@ -84,10 +82,14 @@ const CatalogLayout = ({ selectedMedia }) => {
                           {
                             label: selectedMedia.courseName || 'Course name',
                             icon: 'pi pi-fw pi-bars',
-                            items: generateMenuItems().filter((item) => item !== null),
-                          },
+                            expanded: isMenuOpen, // Control menu open/closed state
+                            items: generateMenuItems().filter((item) => item !== null)
+                            
+                          }
                         ]}
                         className="w-full md:w-25rem"
+                       
+                        onToggle={(e) => setIsMenuOpen(e.value)}
                       />
                     </>
                   ) : (
@@ -96,16 +98,16 @@ const CatalogLayout = ({ selectedMedia }) => {
                 </Item>
               </Grid>
               <Grid item xs={12} sm={7}>
-                {selectedVideoUrl && (
-                  <ReactPlayer
-                    url={selectedVideoUrl}
-                    controls={true}
-                    width="100%"
-                  />
-                )}
+                {selectedVideoUrl && <ReactPlayer url={selectedVideoUrl} controls={true} width="100%" />}
               </Grid>
             </Grid>
-            <BaseLayout/>
+            {selectedMedia._id ? (
+              <>
+                <BaseLayout courseName={selectedMedia.courseName} courseDescription={selectedMedia.courseDescription} />
+              </>
+            ) : (
+              <div>No Description available</div>
+            )}
           </Box>
         </>
       ) : (
