@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import ReactPlayer from 'react-player/lazy';
+import BaseLayout from './BaseLayout';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -104,6 +105,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                 )}
               </Grid>
             </Grid>
+            <BaseLayout/>
           </Box>
         </>
       ) : (
