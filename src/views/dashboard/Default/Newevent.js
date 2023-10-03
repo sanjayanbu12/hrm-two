@@ -1,39 +1,36 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import FullCalendar from '@fullcalendar/react';
-import daygridPlugin from '@fullcalendar/daygrid';
+import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { useState, useEffect } from 'react';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
-import { TextField, Grid, InputAdornment } from '@mui/material';
-import axios from 'axios';
 
 const Newevent = () => {
   const [events, setEvents] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [name, setname] = useState('');
+  const [name, setName] = useState('');
   const [eventStartDate, setEventStartDate] = useState(null);
   const [eventEndDate, setEventEndDate] = useState(null);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [fetcheddata, setFetcheddata] = useState([]);
+  const [selectedEvent, setSelectedEvent] = useState(null);
+
   const flexStyle = {
     display: 'flex',
     flexDirection: 'column',
-    gap: '15px',
+    gap: '15px'
   };
 
   const eventStyle = {
-    width: '170px',
-    height: '100px',
-    background: '#6499E9',
-    border: '1px solid #6499E9',
+    width: '80px',
+    height: '40px',
     color: 'white',
     borderRadius: '5px',
     textAlign: 'center',
     margin: '0',
     padding: '0'
   };
-
 
   const handleSelect = (info) => {
     const { start, end } = info;
@@ -42,63 +39,23 @@ const Newevent = () => {
     setVisible(true);
   };
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const response = await axios.get('https://hrm-backend-square.onrender.com/event/getall');
-        console.log(response.data.data);
-        if (response.data.data) {
-          const fetchedEvents = response.data.data.map((event) => ({
-            id: event._id,
-            title: event.title,
-            start: event.startDate,
-            end: event.endDate,
-          }));
-
-          setEvents(fetchedEvents);
-        }
-      } catch (error) {
-        console.error('Error fetching events:', error);
-      }
-    };
-
-    fetchEvents();
-  }, []); // The empty dependency array means this effect will run once on component mount.
-
   const handleSubmitEvent = async () => {
     if (name && eventStartDate && eventEndDate) {
-      const Eventdata = {
+      const event = {
+        title: name,
         startDate: eventStartDate,
         endDate: eventEndDate,
-        title: name,
-        startTime: startTime,
-        endTime: endTime,
       };
 
       try {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/event/create', Eventdata);
-
+        const response = await axios.post('https://hrm-backend-square.onrender.com/event/create', event);
         if (response.status === 200) {
           console.log('Event created successfully:', response.data);
-
-          // Fetch updated events after creating a new one
-          const updatedResponse = await axios.get('https://hrm-backend-square.onrender.com/event/getall');
-          if (updatedResponse.data.data) {
-            const updatedEvents = updatedResponse.data.data.map((event) => ({
-              id: event._id,
-              title: event.title,
-              start: event.startDate,
-              end: event.endDate,
-            }));
-            setEvents(updatedEvents);
-          }
-
+          setEvents([...events, event]);
           setVisible(false);
-          setname('');
+          setName('');
           setEventStartDate(null);
           setEventEndDate(null);
-          setEndTime('');
-          setStartTime('');
         }
       } catch (error) {
         console.error('Error creating event:', error);
@@ -106,15 +63,99 @@ const Newevent = () => {
     }
   };
 
+  useEffect(() => {
+    fetchdata()
+  }, []);
+  const fetchdata = async () => {
+    const apiurl = 'https://hrm-backend-square.onrender.com/event/getall'; 
+    axios
+      .get(apiurl)
+      .then((response) => {
+        const alldata = response.data.data.map((event) => ({
+          id: event._id,
+          title: event.title,
+          start: event.startDate,
+          end: event.endDate,
+        }));
+        console.log(alldata);
+        setFetcheddata(alldata);
+      })
+      .catch((error) => {
+        console.error('Error in fetching calendar:', error);
+      });
+  }
+
   const customTitle = (args) => {
     const { event } = args;
+
+    const handleClick = () => {
+      handleEventClick(event);
+    };
+
     return (
       <div style={eventStyle}>
-        <h4>{event.title}</h4>
-        <p> {event.start.toLocaleTimeString()}</p>
-        <p> {event.end.toLocaleTimeString()}</p>
+        <button
+          onClick={handleClick}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            padding: '0',
+            font: 'inherit',
+            cursor: 'pointer',
+          }}
+        >
+          <h3 style={{color:'white'}}>{event.title}</h3>
+        </button>
       </div>
     );
+  };
+
+  const handleEventDrop = (info) => {
+    const { event } = info;
+
+    const updatedEvent = {
+      id: event.id,
+      title: event.title,
+      startDate: event.start,
+      endDate: event.end,
+    };
+
+
+    axios
+      .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
+      .then((response) => {
+        if (response.status === 200) {
+          console.log('Event updated successfully:', response.data);
+        }
+      })
+      .catch((error) => {
+        console.error('Error updating event:', error);
+      });
+  };
+
+  const handleEventClick = (event) => {
+    setSelectedEvent(event);
+    setVisible(true);
+  };
+
+  const handleDeleteEvent = () => {
+
+    if (selectedEvent) {
+      axios
+        .delete(`https://hrm-backend-square.onrender.com/event/delete/${selectedEvent.id}`)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log('Event deleted successfully:', response.data);
+            setEvents(events.filter((e) => e.id !== selectedEvent.id));
+            fetchdata()
+          }
+        })
+        .catch((error) => {
+          console.error('Error deleting event:', error);
+        });
+      setVisible(false);
+      setSelectedEvent(null);
+    }
   };
 
   return (
@@ -122,63 +163,39 @@ const Newevent = () => {
       <FullCalendar
         editable
         selectable
-        events={events}
+        events={events.concat(fetcheddata)}
         select={handleSelect}
         headerToolbar={{
           start: 'prev,next today',
           center: 'title',
           end: 'dayGridMonth,dayGridWeek',
         }}
-        plugins={[daygridPlugin, interactionPlugin]}
+        plugins={[dayGridPlugin, interactionPlugin]}
         views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
         eventContent={customTitle}
-        eventBackgroundColor="#6499E9"
-        eventBorderColor="#6499E9"
+        eventBackgroundColor='red'
+        eventBorderColor='red'
+        eventDrop={handleEventDrop}
       />
       <div className="card flex justify-content-center">
         <Dialog
-          header="New Event"
+          header={selectedEvent ? 'Update Event' : 'Add Event'}
           visible={visible}
-          onHide={() => setVisible(false)}
+          onHide={() => {
+            setVisible(false);
+            setSelectedEvent(null);
+          }}
           style={{ width: '30vw' }}
           breakpoints={{ '960px': '75vw', '641px': '100vw' }}
         >
           <div style={flexStyle} className="flex flex-column gap-2">
-            <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setname(e.target.value)} />
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <TextField
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start"></InputAdornment>,
-                  }}
-                  margin="dense"
-                  label="Start Time"
-                  fullWidth
-                  type="time"
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
-                  sx={{ width: '170px', marginRight: '26px', marginBottom: '40px' }}
-                />
-              </Grid>
-              <Grid item xs={6}>
-                <div className="form-group">
-                  <TextField
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start"></InputAdornment>,
-                    }}
-                    margin="dense"
-                    label="End Time"
-                    fullWidth
-                    type="time"
-                    value={endTime}
-                    onChange={(e) => setEndTime(e.target.value)}
-                    sx={{ width: '170px' }}
-                  />
-                </div>
-              </Grid>
-            </Grid>
-
-            <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
+            <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setName(e.target.value)} />
+            {selectedEvent ? (
+              <Button label="Update" icon="pi pi-check" onClick={() => handleEventDrop()} />
+            ) : (
+              <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
+            )}
+            {selectedEvent ? <Button label="Delete" onClick={handleDeleteEvent} /> : ''}
           </div>
         </Dialog>
       </div>
@@ -187,4 +204,3 @@ const Newevent = () => {
 };
 
 export default Newevent;
-  
