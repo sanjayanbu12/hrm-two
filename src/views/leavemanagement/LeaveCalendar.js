@@ -58,7 +58,8 @@ const LeaveCalendar = () => {
         headerToolbar={{
           start: 'prev,next today',
           center: 'title',
-          end: 'dayGridMonth,dayGridWeek,dayGridDay'
+          // end: 'dayGridMonth,dayGridWeek,dayGridDay'
+          end:''
         }}
         plugins={[daygridPlugin, interactionPlugin]}
         views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
