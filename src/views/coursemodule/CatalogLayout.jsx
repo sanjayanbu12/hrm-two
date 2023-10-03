@@ -83,7 +83,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                           {
                             label: selectedMedia.courseName || 'Course name',
                             icon: 'pi pi-fw pi-bars',
-                            expanded: isMenuOpen, // Control menu open/closed state
+                            expanded: true, 
                             items: generateMenuItems().filter((item) => item !== null)
                             
                           }
