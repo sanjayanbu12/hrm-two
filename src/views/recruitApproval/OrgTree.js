@@ -36,6 +36,8 @@ import {
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2'
+import 'sweetalert2/src/sweetalert2.scss'
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -153,7 +155,22 @@ const OrgTree = () => {
       console.log(error);
     }
   };
+  const handleDeleteWithConfirmation = (data) => {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
 
+        handleDeleteMan(data);
+      }
+    });
+  };
   const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
     await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
@@ -305,7 +322,7 @@ const OrgTree = () => {
                                           TransitionComponent={Fade}
                                           TransitionProps={{ timeout: 600 }}
                                         >
-                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
+                                             <GroupRemoveOutlinedIcon onClick={() => handleDeleteWithConfirmation(data)} />
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
