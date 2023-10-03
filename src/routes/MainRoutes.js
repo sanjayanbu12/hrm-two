@@ -36,6 +36,7 @@ import SkillsetMatrix from 'views/performance/SkillSet/SkillsetMatrix';
 import InterviewBoard from 'views/recruitment/InterviewBoard';
 import ApplicationView1 from 'views/recruitment/ApplicationView1';
 // dashboard routing
+import LeaveTab from 'views/leavemanagement/LeaveTab';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -185,6 +186,10 @@ const MainRoutes = {
     {
       path: '/newevent',
       element: <Newevent />
+    },
+    {
+      path: '/leave',
+      element: <LeaveTab />
     },
     {
       path: '/hrapproval/:id',

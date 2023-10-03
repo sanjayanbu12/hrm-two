@@ -107,34 +107,35 @@ const pages = {
         {
           id: 'applicationtracker',
           title: 'Leave & Attendance',
-          type: 'collapse',
-          icon: icons.AccountTreeOutlinedIcon,
-          children:[
-        {
-          id: 'requestleave',
-          title: ' Request Leave',
           type: 'item',
-          url: '/requestleave'
-        },
-        // {
-        //   id: 'Attendance Regulation',
-        //   title: 'Attendance Regulation',
-        //   type: 'item',
-        //   url: '/attendanceManagement'
-        // },
-        {
-          id: 'viewleave',
-          title: 'View leave',
-          type: 'item',
-          url: '/viewleave'
-        },
-        {
-          id: 'approveleave',
-          title: 'Track Leave',
-          type: 'item',
-          url: '/approveleave'
-        },
-      ],
+          url: '/leave',
+          // icon: icons.AccountTreeOutlinedIcon,
+      //     children:[
+      //   // {
+      //   //   id: 'requestleave',
+      //   //   title: ' Request Leave',
+      //   //   type: 'item',
+      //   //   url: '/requestleave'
+      //   // },
+      //   // {
+      //   //   id: 'Attendance Regulation',
+      //   //   title: 'Attendance Regulation',
+      //   //   type: 'item',
+      //   //   url: '/attendanceManagement'
+      //   // },
+      //   // {
+      //   //   id: 'viewleave',
+      //   //   title: 'View leave',
+      //   //   type: 'item',
+      //   //   url: '/viewleave'
+      //   // },
+      //   // {
+      //   //   id: 'approveleave',
+      //   //   title: 'Track Leave',
+      //   //   type: 'item',
+      //   //   url: '/approveleave'
+      //   // },
+      // ],
     },
     {
       id: 'Organisation Chart',
