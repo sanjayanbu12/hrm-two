@@ -170,7 +170,29 @@ const OrgTree = () => {
         handleDeleteMan(data);
         Swal.fire(
           'Deleted!',
-          'Your file has been deleted.',
+          'Employee has been deleted.',
+          'success'
+        )
+      }
+    });
+  };
+  const handleDeleteWithConfirmationTop = () => {
+    Swal.fire({
+      title: 'Are you sure you want to delete ?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await handledeltop();
+        await fetchOrgData();
+        navigate('/payroll')
+        Swal.fire(
+          'Deleted!',
+          'Employee has been deleted.',
           'success'
         )
       }
@@ -179,6 +201,7 @@ const OrgTree = () => {
   const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
     await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
+
   };
 
   return (
@@ -245,7 +268,7 @@ const OrgTree = () => {
                                             TransitionComponent={Fade}
                                             TransitionProps={{ timeout: 600 }}
                                           >
-                                            <GroupRemoveOutlinedIcon onClick={() => handledeltop()} />
+                                            <GroupRemoveOutlinedIcon onClick={() => handleDeleteWithConfirmationTop()} />
                                           </Tooltip>
                                         </IconButton>
                                       </MenuItem>
