@@ -13,17 +13,27 @@ const FirebaseRegister = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [err, setErr] = useState({});
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordMismatchAlert, setPasswordMismatchAlert] = useState('');
   //use to route to another page
   const navigate = useNavigate();
   //func define
   const handle = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setPasswordMismatchAlert('Passwords do not match');
+      return;
+    }
+  
+    // Clear the password mismatch alert if passwords match
+    setPasswordMismatchAlert('');
 
     const dataVar = {
       firstname: firstname,
       lastname: lastname,
       email: email,
       password: password,
+      confirmPassword: confirmPassword
     };
 
     try {
@@ -85,6 +95,11 @@ const FirebaseRegister = () => {
     setPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, password: '' }));
   };
+  const handlecheckConfirmPass=(e)=>{
+    setConfirmPassword(e.target.value);
+    setErr((prevErr) => ({ ...prevErr, confirmPassword: '' }));
+
+  }
   return (
     <div className="signup-wrapper">
       <Box sx={{ flexGrow: 1 }}>
@@ -139,6 +154,19 @@ const FirebaseRegister = () => {
               onChange={(e) => handlePasswordChange(e)}
             />
           </Grid>
+          <Grid item xs={12}>
+  <TextField
+    sx={{ minWidth: '100%' }}
+    variant="outlined"
+    id="outlined-required"
+    label="Confirm Password"
+    type="password"
+    value={confirmPassword}
+    onChange={(e) => handlecheckConfirmPass(e)}
+    error={passwordMismatchAlert !== ''}
+    helperText={passwordMismatchAlert}
+  />
+</Grid>
         </Grid>
       </Box>
       <Box sx={{ flexGrow: 1, marginTop: 2 }}>

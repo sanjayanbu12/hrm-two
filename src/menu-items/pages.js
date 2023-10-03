@@ -63,12 +63,18 @@ const pages = {
           url: '/applicationtracker',
           icon: icons.PersonSearchIcon,
           children:[
+            // {
+            //   id: 'applicationtracker',
+            //   title: 'Application Tracker',
+            //   type: 'item',
+            //   url: '/applicationtracker',
+            // }, 
             {
-              id: 'applicationtracker',
+              id: 'Application Tracker',
               title: 'Application Tracker',
               type: 'item',
-              url: '/applicationtracker',
-            },   
+              url: '/ApplicationTrackTab'
+            },     
             {
               id: 'shortlist',
               title: ' Candidates Shortlisting',

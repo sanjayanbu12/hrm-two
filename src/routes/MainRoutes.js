@@ -36,6 +36,7 @@ import SkillsetMatrix from 'views/performance/SkillSet/SkillsetMatrix';
 import InterviewBoard from 'views/recruitment/InterviewBoard';
 import ApplicationView1 from 'views/recruitment/ApplicationView1';
 import { FeedSelectedTable } from 'views/recruitment/FeedSelectedTable';
+import ApplicationTrackTab from 'views/recruitment/ApplicationTrackTab';
 // dashboard routing
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -203,7 +204,13 @@ const MainRoutes = {
     {
       path: '/FeedSelectedTable',
       element: <FeedSelectedTable />
+    },
+    
+    {
+      path: '/ApplicationTrackTab',
+      element: <ApplicationTrackTab />
     }
+
     
   ]
 };
