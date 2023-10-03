@@ -121,7 +121,8 @@ const OrgTree = () => {
           id: data._id
         }
       };
-      await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+      const id = orgMems.map((data) => data._id);
+      await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, manData);
       await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
       fetchOrgData();
     } catch (error) {
@@ -151,23 +152,27 @@ const OrgTree = () => {
       const idToDel = foundEmployees.map((empid) => empid._id);
       await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
       fetchOrgData();
-    } catch (error) {
+    }  catch (error) {
       console.log(error);
     }
   };
   const handleDeleteWithConfirmation = (data) => {
     Swal.fire({
-      title: 'Are you sure?',
+      title: 'Are you sure you want to delete ?',
       text: "You won't be able to revert this!",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes, delete it!'
+      confirmButtonText: 'Delete'
     }).then((result) => {
       if (result.isConfirmed) {
-
         handleDeleteMan(data);
+        Swal.fire(
+          'Deleted!',
+          'Your file has been deleted.',
+          'success'
+        )
       }
     });
   };
