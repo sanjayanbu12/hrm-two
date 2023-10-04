@@ -74,7 +74,7 @@ export const FeedSelectedTable = () => {
  
   const handleResume = async (id, name) => {
     try {
-      const response = await axios.get(`http://localhost:3001/ats/resume/${id}`, {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
         responseType: 'arraybuffer',
       });
       const byteArray = new Uint8Array(response.data);
