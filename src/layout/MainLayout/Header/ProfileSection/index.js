@@ -1,9 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import {
   Avatar,
@@ -20,6 +17,9 @@ import {
   Stack,
   Typography
 } from '@mui/material';
+
+import WbSunnyTwoToneIcon from '@mui/icons-material/WbSunnyTwoTone';
+
 
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
@@ -188,15 +188,29 @@ WhoLog();
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Box sx={{ p: 2 }}>
-                    <Stack>
-                      <Stack direction="row" spacing={0.5} alignItems="center">
-                        <Typography variant="h4">{greeting},</Typography>
+                  <Typography display='flex'justifyContent='center' variant="h4">{greeting},<WbSunnyTwoToneIcon sx={{ml:'5px',color:'red'}}/></Typography>
+                  
+                   
+                      <Stack sx={{ml:'20px',mt:'10px'}} direction="row" spacing={2} alignItems="center">
+                        <div>
+                      <Avatar
+        alt="Remy Sharp"
+        src="/static/images/avatar/1.jpg"
+        sx={{ width: 56, height: 56 }}
+      />  
+      </div>
+                          <div>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px' }}>
                         {matched.firstname}
                         </Typography>
-                      </Stack>
-                      <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>{matched.role}</Typography>
-                    </Stack>
+                        <Typography   variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px',mt:'3px' }}>
+                        {matched.email}
+                        </Typography>
+                        </div>
+                        </Stack>
+                  
+                      {/* <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>{matched.role}</Typography> */}
+                    
                     {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
                       id="input-search-profile"
