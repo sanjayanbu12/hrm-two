@@ -18,6 +18,8 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
+import { useSelector } from 'react-redux';
+
 
 const validationSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
@@ -76,7 +78,10 @@ const RequestLeave = () => {
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
-
+  const [employeeDetails, setEmployeeDetails] = useState({});
+const employee = useSelector((state)=>state.customization.authId)
+console.log(employeeId)
+console.log(employeeName)
   const leaveTypes = [
     'Casual Leave (CL)',
     'Sick Leave (SL)',
@@ -110,6 +115,35 @@ const RequestLeave = () => {
       setNumberOfDays('');
     }
   }, [startDate, endDate]);
+
+  useEffect(() => {
+    // Define the API endpoint for fetching all employee details
+    const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
+
+    // Make an API call to fetch all employee details
+    axios.get(apiUrl)
+      .then((response) => {
+        // Assuming the response data contains an array of employee details
+        const allEmployeeData = response.data;
+        
+        // Find the specific employee based on the employee ID
+        const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === employee);
+        
+        // Update the employeeDetails state with the specific employee details
+        setEmployeeDetails(specificEmployee);
+      
+        console.log(specificEmployee);
+        console.log(employeeDetails)
+      })
+      .catch((error) => {
+        console.error('Error fetching employee details:', error);
+        // Handle errors here, e.g., show an error message to the user
+      });
+  }, []);
+useEffect(()=>{
+  setEmployeeId(employeeDetails.employeeid)
+  setEmployeeName(employeeDetails.name);
+})
 
   const handleLeaveTypeChange = (e) => {
     setLeaveType(e.target.value);
@@ -220,7 +254,9 @@ const RequestLeave = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}
+          
           <Grid item xs={6}>
+            
             <TextField
               fullWidth
               id="employeeId"
@@ -228,12 +264,15 @@ const RequestLeave = () => {
               label="Employee ID"
               variant="outlined"
               value={employeeId}
-              onChange={(e) => {
-                handleFieldChange(e);
-                setEmployeeId(e.target.value);
+              
+              // error={Boolean(errors.employeeId)}
+              // helperText={errors.employeeId}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+                shrink: true,
               }}
-              error={Boolean(errors.employeeId)}
-              helperText={errors.employeeId}
             />
           </Grid>
           {/* Employee Name */}
@@ -245,12 +284,15 @@ const RequestLeave = () => {
               label="Employee Name"
               variant="outlined"
               value={employeeName}
-              onChange={(e) => {
-                handleFieldChange(e);
-                setEmployeeName(e.target.value);
+              
+              // error={Boolean(errors.employeeName)}
+              // helperText={errors.employeeName}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start"></InputAdornment>
+                ),
+                shrink: true,
               }}
-              error={Boolean(errors.employeeName)}
-              helperText={errors.employeeName}
             />
           </Grid>
           {/* Leave Type */}

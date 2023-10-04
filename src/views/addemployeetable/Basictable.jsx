@@ -40,6 +40,7 @@ export const BasicTable = () => {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data.reverse(); // Reverse the data if needed
       setedata(employees);
+      console.log('all emp',employees)
     } catch (error) {
       console.log(error);
     }
