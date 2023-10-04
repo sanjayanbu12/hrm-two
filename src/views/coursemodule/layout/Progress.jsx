@@ -25,6 +25,10 @@ const Progress = () => {
       {
         name: 'series-2',
         data: [60, 30, 55, 56, 40, 80, 75, 91]
+      },
+      {
+        name: 'series-',
+        data: [60, 30, 55, 56, 40, 80, 75, 91]
       }
     ]
   });
@@ -46,17 +50,11 @@ const Progress = () => {
         </Box>
       </Paper>
       <Paper sx={{ m: 4, display: 'flex', justifyContent: 'space-evenly' }}>
-        <Chart options={chartData.options} series={chartData.series} type="bar" />
+      <Chart options={chartData.options} series={chartData.series} type="radar" />
         <Chart options={chartData.options} series={chartData.series} type="line" />
       </Paper>
-      <Paper sx={{ m: 4, display: 'flex', justifyContent: 'space-evenly' }}>
-        <Chart options={chartData.options} series={chartData.series} type="area" />
-        <Chart options={chartData.options} series={chartData.series} type="radar" />
-      </Paper>
-      <Paper sx={{ m: 4, display: 'flex', justifyContent: 'space-evenly' }}>
-        <Chart options={chartData.options} series={chartData.series} type="scatter" />
-        <Chart options={chartData.options} series={chartData.series} type="heatmap" />
-      </Paper>
+     
+     
     </Paper>
   );
 };

@@ -16,20 +16,22 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary
+  color: theme.palette.text.secondary,
 }));
 
 const CatalogLayout = ({ selectedMedia }) => {
   const [moduleVideoData, setModuleVideoData] = useState([]);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control menu open/closed
+  const [currentlyPlayingModule, setCurrentlyPlayingModule] = useState(null);
 
   useEffect(() => {
     if (selectedMedia) {
       axios
         .get('https://hrm-backend-square.onrender.com/videos/getall')
         .then((response) => {
-          const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
+          const moduleVideoData = response.data.filter(
+            (module) => module.courseName === selectedMedia.courseName
+          );
           setModuleVideoData(moduleVideoData);
           console.log('Module Video Data:', moduleVideoData);
           console.log('Selected Media:', selectedMedia);
@@ -40,25 +42,22 @@ const CatalogLayout = ({ selectedMedia }) => {
     }
   }, [selectedMedia]);
 
-  const handleVideoSelection = (videoUrl) => {
+  const handleVideoSelection = (videoUrl, module) => {
     setSelectedVideoUrl(videoUrl);
-    setIsMenuOpen(true); // Keep the menu open when a video is selected
+    setCurrentlyPlayingModule(module);
   };
 
   const generateMenuItems = () => {
     if (selectedMedia && selectedMedia._id) {
-      const filteredModules = moduleVideoData.filter((module) => module.moduleId === selectedMedia._id);
-      const menuItems = filteredModules.map((module) => ({
+      const menuItems = moduleVideoData.map((module) => ({
         label: module.moduleName,
         icon: 'pi pi-fw pi-stop',
+        expanded: currentlyPlayingModule === module, 
         items: module.videoUrls.map((videoUrl, index) => ({
           label: `Video ${index + 1}`,
           icon: 'pi pi-fw pi-youtube',
-          expanded: isMenuOpen,
-          command: () => handleVideoSelection(videoUrl)
-          
-        }))
-        
+          command: () => handleVideoSelection(videoUrl, module),
+        })),
       }));
 
       console.log('Generated Menu Items:', menuItems);
@@ -72,7 +71,6 @@ const CatalogLayout = ({ selectedMedia }) => {
       {selectedMedia ? (
         <>
           <Box sx={{ flexGrow: 1 }}>
-            
             <Grid container spacing={2}>
               <Grid item xs={12} sm={5}>
                 <Item>
@@ -83,14 +81,11 @@ const CatalogLayout = ({ selectedMedia }) => {
                           {
                             label: selectedMedia.courseName || 'Course name',
                             icon: 'pi pi-fw pi-bars',
-                            expanded: true, 
-                            items: generateMenuItems().filter((item) => item !== null)
-                            
-                          }
+                            expanded: true,
+                            items: generateMenuItems().filter((item) => item !== null),
+                          },
                         ]}
                         className="w-full md:w-25rem"
-                       
-                        onToggle={(e) => setIsMenuOpen(e.value)}
                       />
                     </>
                   ) : (
