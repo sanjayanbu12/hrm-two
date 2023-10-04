@@ -63,12 +63,18 @@ const pages = {
           url: '/applicationtracker',
           icon: icons.PersonSearchIcon,
           children:[
+            // {
+            //   id: 'applicationtracker',
+            //   title: 'Application Tracker',
+            //   type: 'item',
+            //   url: '/applicationtracker',
+            // }, 
             {
-              id: 'applicationtracker',
+              id: 'Application Tracker',
               title: 'Application Tracker',
               type: 'item',
-              url: '/applicationtracker',
-            },   
+              url: '/ApplicationTrackTab'
+            },     
             {
               id: 'shortlist',
               title: ' Candidates Shortlisting',
@@ -80,6 +86,12 @@ const pages = {
               title: 'Interview Board',
               type: 'item',
               url: '/interviewboard'
+            },    
+            {
+              id: 'FeedSelectedTable',
+              title: 'Selected Candidates',
+              type: 'item',
+              url: '/FeedSelectedTable'
             },    
           ]
         },       

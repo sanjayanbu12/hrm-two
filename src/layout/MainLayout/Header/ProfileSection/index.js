@@ -34,6 +34,10 @@ import User1 from 'assets/images/users/user-round.svg';
 import { IconLogout, IconSettings } from '@tabler/icons';
 import { useDispatch } from 'react-redux';
 import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
+import axios from 'axios';
+// import { userSchema } from 'validation/Validation';
+// import { clearConfigCache } from 'prettier';
+
 // ==============================|| PROFILE MENU ||============================== //
 
 const ProfileSection = () => {
@@ -43,8 +47,12 @@ const ProfileSection = () => {
 const dispatch = useDispatch()
   // const [sdm, setSdm] = useState(true);
   // const [notification, setNotification] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(-1);
+  
   const [open, setOpen] = useState(false);
+  const[matched,setMatched]=useState("");
+  console.log("ccc",matched)
+  const authId = useSelector((state) => state.customization.authId);
+
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
@@ -80,14 +88,7 @@ const dispatch = useDispatch()
   };
 
 
-  const handleListItemClick = (event, index, route = '') => {
-    setSelectedIndex(index);
-    handleClose(event);
-
-    if (route && route !== '') {
-      navigate(route);
-    }
-  };
+  
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -100,6 +101,24 @@ const dispatch = useDispatch()
 
     prevOpen.current = open;
   }, [open]);
+
+  const WhoLog = async () => {
+    try {
+      const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+      const users = res.data.user; 
+      const matchedUser = users.find(user => user.employeeId === authId);
+      if (matchedUser) {
+        setMatched(matchedUser);
+      } else {
+        console.log("No user found with the provided authId.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(()=>{
+WhoLog();
+  },[])
 
   return (
     <>
@@ -173,10 +192,10 @@ const dispatch = useDispatch()
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <Typography variant="h4">{greeting},</Typography>
                         <Typography component="span" variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px' }}>
-                          Ajay B
+                        {matched.firstname}
                         </Typography>
                       </Stack>
-                      <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>Admin</Typography>
+                      <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>{matched.role}</Typography>
                     </Stack>
                     {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
@@ -259,16 +278,7 @@ const dispatch = useDispatch()
                           }
                         }}
                       >
-                        <ListItemButton
-                          sx={{ borderRadius: `${customization.borderRadius}px` }}
-                          selected={selectedIndex === 0}
-                          onClick={(event) => handleListItemClick(event, 0, '#')}
-                        >
-                          <ListItemIcon>
-                            <IconSettings stroke={1.5} size="1.3rem" />
-                          </ListItemIcon>
-                          <ListItemText primary={<Typography variant="body2">Account Settings</Typography>} />
-                        </ListItemButton>
+                      
                         {/* <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 1}
@@ -299,11 +309,11 @@ const dispatch = useDispatch()
                         </ListItemButton> */}
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
-                          selected={selectedIndex === 4}
+                         
                           onClick={handleLogout}
                         >
                           <ListItemIcon>
-                            <IconLogout stroke={1.5} size="1.3rem" />
+                            <IconLogout color='black' stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
                         </ListItemButton>

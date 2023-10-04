@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField } from '@mui/material';
+import axios from 'axios';
 
-const FeedbackPopup = ({ open, onClose, onSubmit,Name}) => {
+const FeedbackPopup = ({ open, onClose, onSubmit, Name, Title, matchedResults }) => {
   const [feedback1, setFeedback1] = useState('');
   const [feedback2, setFeedback2] = useState('');
   const [feedback3, setFeedback3] = useState('');
- 
 
   const handleFeedbackChange1 = (e) => {
     setFeedback1(e.target.value);
@@ -19,50 +19,95 @@ const FeedbackPopup = ({ open, onClose, onSubmit,Name}) => {
     setFeedback3(e.target.value);
   };
 
-  const handleSubmit = () => {
-    const feedback={
-      feedback1,
-      feedback2,
-      feedback3
+  const handleSubmit = async () => {
+    const feedbackToUpdate = {};
+  
+    if (feedback1) {
+      feedbackToUpdate.round1 = feedback1;
     }
-    onSubmit(feedback);
-    setFeedback1('');
-    setFeedback2('');
-    setFeedback3('');
-    onClose();
+  
+    if (feedback2) {
+      feedbackToUpdate.round2 = feedback2;
+    }
+  
+    if (feedback3) {
+      feedbackToUpdate.round3 = feedback3;
+    }
+    
+    if (Object.keys(feedbackToUpdate).length === 0) {
+      onClose();
+      return;
+    }
+  
+    const selectedCandidate = matchedResults.find(
+      (candidate) => candidate.Name === Name && candidate.Status === Title
+    );
+  
+    if (selectedCandidate) {
+      try {
+        await axios.put(`http://localhost:3001/ats/updateats/${selectedCandidate._id}`, feedbackToUpdate);
+
+        if (feedbackToUpdate.round1) {
+          setFeedback1('');
+        }
+        if (feedbackToUpdate.round2) {
+          setFeedback2('');
+        }
+        if (feedbackToUpdate.round3) {
+          setFeedback3('');
+        }
+  
+        onSubmit(feedbackToUpdate);
+        onClose();
+      } catch (err) {
+        console.error('Error submitting feedback:', err);
+      }
+    } else {
+      console.error(`Candidate with Name ${Name} and Status ${Title} not found.`);
+    }
   };
+  
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <DialogTitle>Provide Feedback For <b style={{fontSize:'15px'}}>{Name}</b></DialogTitle>
+      <DialogTitle>Provide Feedback For <b style={{ fontSize: '15px' }}>{Name}</b></DialogTitle>
       <DialogContent>
-        <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
-          label="Round 1"
-          multiline
-          rows={1}
-          fullWidth
-          variant="outlined"
-          value={feedback1}
-          onChange={handleFeedbackChange1}
-        />
-         <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
-          label="Round 2"
-          multiline
-          rows={1}
-          fullWidth
-          variant="outlined"
-          value={feedback2}
-          onChange={handleFeedbackChange2}
-        />
-         <TextField sx={{marginTop:'10px',marginBottom:'10px'}}
-          label="Round 3"
-          multiline
-          rows={1}
-          fullWidth
-          variant="outlined"
-          value={feedback3}
-          onChange={handleFeedbackChange3}
-        />
+        {Title === 'Round 1' && (
+          <TextField
+            sx={{ marginTop: '10px', marginBottom: '10px', width: '400px' }}
+            label={`Feedback for Round 1`}
+            multiline
+            rows={1}
+            fullWidth
+            variant="outlined"
+            value={feedback1}
+            onChange={handleFeedbackChange1}
+          />
+        )}
+        {Title === 'Round 2' && (
+          <TextField
+            sx={{ marginTop: '10px', marginBottom: '10px', width: '400px' }}
+            label={`Feedback for Round 2`}
+            multiline
+            rows={1}
+            fullWidth
+            variant="outlined"
+            value={feedback2}
+            onChange={handleFeedbackChange2}
+          />
+        )}
+        {Title === 'Round 3' && (
+          <TextField
+            sx={{ marginTop: '10px', marginBottom: '10px', width: '400px' }}
+            label={`Feedback for Round 3`}
+            multiline
+            rows={1}
+            fullWidth
+            variant="outlined"
+            value={feedback3}
+            onChange={handleFeedbackChange3}
+          />
+        )}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">

@@ -7,6 +7,7 @@ import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
+import { Badge } from 'primereact/badge';
 
 const columns = [
   { title: 'Name', field: 'Name', editable: false,Width:'50px'},
@@ -16,8 +17,14 @@ const columns = [
   { title: 'Resume', field: 'Resume', sorting: false, editable: false },
   { title: 'Photo', field: 'Photo', sorting: false, editable: false },
   // { title: 'Applying Date', field: 'AppliedAt', type: 'date', sorting: false, editable: false},
-  {title:'Rating', field: 'roundrating', sorting: false, editable: false}
+  { title: 'Rating', field: 'roundrating', sorting: false, editable: false, render: rowData => (
+    <Badge 
+      value={rowData.roundrating}
+      severity={rowData.roundrating >= 8 ? 'success' : rowData.roundrating >= 4 ? 'info' : 'danger'}
+    />
+  )},
 ];
+
 
 const Shortlist = () => {
   const [Adata, setAdata] = useState([]);
@@ -248,6 +255,7 @@ const Shortlist = () => {
             }
             return column;
           })}
+          
           data={matchedResults}
           icons={tableIcons}
           actions={[
