@@ -74,7 +74,6 @@ const Upcomingevents = () => {
       </button>
     );
 
-  const sortedEvents = events.sort((a, b) => new Date(a.start) - new Date(b.start));
 
   return (
     <>
