@@ -1,53 +1,134 @@
-import { CardContent,Card, Grid } from '@mui/material';
-// import MainCard from 'ui-component/cards/MainCard';
-import SkeletonPopularCard from 'ui-component/cards/Skeleton/PopularCard';
-import { gridSpacing } from 'store/constant';
-import React, { useState } from 'react';
-import ReactCalendar from 'react-calendar';
-import 'react-calendar/dist/Calendar.css';
-// const leaveData = [
-//   { id: 1, name: 'Ajay', position: 'Developer' },
-//   { id: 2, name: 'Sanjay', position: 'Manager' },
-// ];
+import * as React from 'react';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import { useTheme } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import MobileStepper from '@mui/material/MobileStepper';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import { Card } from '@mui/material';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import SwipeableViews from 'react-swipeable-views';
+import { autoPlay } from 'react-swipeable-views-utils';
 
-// ==============================|| DASHBOARD DEFAULT - POPULAR CARD ||============================== //
-const PopularCard = ({ isLoading }) => {
-  const [selectedDate, setSelectedDate] = useState(new Date());
+const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+const images = [
+  {
+    imgPath:
+      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+  },
+  {
+    imgPath:
+      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+  },
+  {
+    imgPath:
+      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250',
+  },
+  {
+    imgPath:
+      'https://images.unsplash.com/photo-1512341689857-198e7e2f3ca8?auto=format&fit=crop&w=400&h=250&q=60',
+  },
+];
+
+export default function PopularCard() {
+  const theme = useTheme();
+  const [activeStep, setActiveStep] = React.useState(0);
+  const maxSteps = images.length;
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleStepChange = (step) => {
+    setActiveStep(step);
+  };
   return (
     <>
-      {isLoading ? (
-        <SkeletonPopularCard />
-      ) : (
-        <Card content={false} raised={true}>
-          <CardContent >
-            <Grid container spacing={gridSpacing}>
-              {/* <Grid item xs={12}>
-                <Grid container alignContent="center" justifyContent="space-between">
-                  <Grid item>
-                    <Typography variant="h4">Calendar</Typography>
-                  </Grid>
-                </Grid>
-              </Grid> */}
-              <Grid item xs={12.5}>
-                {/* Add the Calendar component */}
-                <ReactCalendar
-                  onChange={handleDateChange}
-                  value={selectedDate}
-                  calendarType="US" // Specify the calendar type (e.g., 'US', 'ISO 8601')
-                  className="custom-calendar"
-                />
-              </Grid>    
-            </Grid>
-          </CardContent>
-        </Card>
-      )}
+     <Card elevation={3} style={{marginTop:'40px'}}>
+    <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
+    <Paper
+      square
+      elevation={0}
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        height: 0,
+        pl: 2,
+        bgcolor: '#ffff',
+      }}
+    >
+      <Typography>{images[activeStep].label}</Typography>
+    </Paper>
+    <AutoPlaySwipeableViews
+      axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+      index={activeStep}
+      onChangeIndex={handleStepChange}
+      enableMouseEvents
+    >
+      {images.map((step, index) => (
+        <div key={step.label}>
+          {Math.abs(activeStep - index) <= 2 ? (
+            <Box
+              component="img"
+              sx={{
+                height: 255,
+                display: 'block',
+                maxWidth: 400,
+                overflow: 'hidden',
+                width: '100%',
+              }}
+              src={step.imgPath}
+              alt={step.label}
+            />
+          ) : null}
+        </div>
+      ))}
+    </AutoPlaySwipeableViews>
+    <MobileStepper
+      steps={maxSteps}
+      position="static"
+      activeStep={activeStep}
+      nextButton={
+        <Button
+          size="small"
+          onClick={handleNext}
+          disabled={activeStep === maxSteps - 1}
+        >
+          Next
+          {theme.direction === 'rtl' ? (
+            <KeyboardArrowLeft />
+          ) : (
+            <KeyboardArrowRight />
+          )}
+        </Button>
+      }
+      backButton={
+        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+          {theme.direction === 'rtl' ? (
+            <KeyboardArrowRight />
+          ) : (
+            <KeyboardArrowLeft />
+          )}
+          Back
+        </Button>
+      }
+    />
+  </Box>
+  </Card>
+  <Card elevation={3}>
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateCalendar />
+    </LocalizationProvider>
+    </Card>
     </>
   );
-};
-
-export default PopularCard;
+}

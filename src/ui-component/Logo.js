@@ -27,7 +27,7 @@ const Logo = () => {
       color:'white',
       marginBottom:'10px',     
     }}>
-      Square Elite   
+      Pulse HR
       </div>
       
       <div style={{
