@@ -40,6 +40,7 @@
     "lottie-react": "^2.4.0",
     "material-table": "^2.0.5",
     "material-ui-popup-state": "^4.0.1",
+    "mdb-react-ui-kit": "^6.3.0",
     "moment": "^2.29.4",
     "next": "^13.4.13",
     "pdf-lib": "^1.17.1",
