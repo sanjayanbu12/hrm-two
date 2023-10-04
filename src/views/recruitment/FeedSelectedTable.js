@@ -57,7 +57,7 @@ export const FeedSelectedTable = () => {
 
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/ats/');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
       const employees = response.data.getData.filter(item => item.Status === 'Selected');
       setedata(employees);
       setLoading(false); // Set loading to false when data is fetched
