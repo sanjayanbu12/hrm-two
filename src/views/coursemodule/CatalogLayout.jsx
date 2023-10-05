@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { PanelMenu } from 'primereact/panelmenu';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primeicons/primeicons.css';
@@ -9,8 +8,10 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import ReactPlayer from 'react-player/lazy';
+import { PanelMenu } from 'primereact/panelmenu';
 import BaseLayout from './BaseLayout';
 import { Progress } from 'antd';
+import { red, orange, green } from '@ant-design/colors';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -26,7 +27,9 @@ const CatalogLayout = ({ selectedMedia }) => {
   const [moduleVideoData, setModuleVideoData] = useState([]);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
   const [currentlyPlayingModule, setCurrentlyPlayingModule] = useState(null);
-  const [videoCompletion, setVideoCompletion] = useState({}); // Store video completion status
+  const [videoCompletion, setVideoCompletion] = useState({});
+  const [videoProgress, setVideoProgress] = useState(0);
+  const [panelMenuModel, setPanelMenuModel] = useState([]);
 
   useEffect(() => {
     if (selectedMedia) {
@@ -37,8 +40,6 @@ const CatalogLayout = ({ selectedMedia }) => {
             (module) => module.courseName === selectedMedia.courseName
           );
           setModuleVideoData(moduleVideoData);
-          console.log('Module Video Data:', moduleVideoData);
-          console.log('Selected Media:', selectedMedia);
         })
         .catch((error) => {
           console.error('Error fetching module and video data:', error);
@@ -46,20 +47,8 @@ const CatalogLayout = ({ selectedMedia }) => {
     }
   }, [selectedMedia]);
 
-  const handleVideoSelection = (videoUrl, module) => {
-    setSelectedVideoUrl(videoUrl);
-    setCurrentlyPlayingModule(module);
-  };
-
-  const handleVideoEnd = (videoUrl) => {
-    setVideoCompletion((prevCompletion) => ({
-      ...prevCompletion,
-      [videoUrl]: true, // Set video completion status to true for the completed video
-    }));
-  };
-
-  const generateMenuItems = () => {
-    if (selectedMedia && selectedMedia._id) {
+  useEffect(() => {
+    if (moduleVideoData.length > 0 && selectedMedia._id) {
       const menuItems = moduleVideoData.map((module) => ({
         label: module.moduleName,
         icon: 'pi pi-fw pi-stop',
@@ -84,10 +73,33 @@ const CatalogLayout = ({ selectedMedia }) => {
         })),
       }));
 
-      console.log('Generated Menu Items:', menuItems);
-      return menuItems;
+      setPanelMenuModel([
+        {
+          label: selectedMedia.courseName || 'Course name',
+          icon: 'pi pi-fw pi-bars',
+          expanded: true,
+          items: menuItems.filter((item) => item !== null),
+        },
+      ]);
+    } else {
+      setPanelMenuModel([]);
     }
-    return [];
+  }, [moduleVideoData, selectedMedia, currentlyPlayingModule, videoCompletion, selectedVideoUrl]);
+
+  const handleVideoSelection = (videoUrl, module) => {
+    setSelectedVideoUrl(videoUrl);
+    setCurrentlyPlayingModule(module);
+  };
+
+  const handleVideoEnd = (videoUrl) => {
+    setVideoCompletion((prevCompletion) => ({
+      ...prevCompletion,
+      [videoUrl]: true,
+    }));
+  };
+
+  const handleVideoProgress = (state) => {
+    setVideoProgress(Math.floor(state.played * 100));
   };
 
   return (
@@ -101,14 +113,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                   {selectedMedia._id ? (
                     <>
                       <PanelMenu
-                        model={[
-                          {
-                            label: selectedMedia.courseName || 'Course name',
-                            icon: 'pi pi-fw pi-bars',
-                            expanded: true,
-                            items: generateMenuItems().filter((item) => item !== null),
-                          },
-                        ]}
+                        model={panelMenuModel}
                         className="w-full md:w-25rem"
                       />
                     </>
@@ -119,12 +124,41 @@ const CatalogLayout = ({ selectedMedia }) => {
               </Grid>
               <Grid item xs={12} sm={7}>
                 {selectedVideoUrl && (
-                  <ReactPlayer
-                    url={selectedVideoUrl}
-                    controls={true}
-                    width="100%"
-                    onEnded={() => handleVideoEnd(selectedVideoUrl)} // Handle video completion
-                  />
+                  <>
+                    <ReactPlayer
+                      url={selectedVideoUrl}
+                      controls={true}
+                      width="100%"
+                      onEnded={() => handleVideoEnd(selectedVideoUrl)}
+                      onProgress={(state) => handleVideoProgress(state)}
+                    />
+                    <Progress
+                      percent={videoProgress}
+                      steps={20}
+                      strokeColor={[
+                        red[5],
+                        red[5],
+                        red[5],
+                        red[5],
+                        red[5],
+                        orange[5],
+                        orange[5],
+                        orange[5],
+                        orange[5],
+                        orange[5],
+                        '#FEFFAC',
+                        '#FEFFAC',
+                        '#FEFFAC',
+                        '#FEFFAC',
+                        '#FEFFAC',
+                        green[5],
+                        green[5],
+                        green[5],
+                        green[5],
+                        green[5],
+                      ]}
+                    />
+                  </>
                 )}
               </Grid>
             </Grid>
