@@ -34,7 +34,7 @@ const Login = () => {
       <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
         <Grid item xs={12}>
           <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-            <Lottie  style={{ marginTop:'360px'}} options={lt1} height="300px" width="300px" />
+            <Lottie   options={lt1} height="300px" width="300px" />
 
             <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
               <AuthCardWrapper>
@@ -84,7 +84,7 @@ const Login = () => {
               </AuthCardWrapper>
             </Grid>
             <Lottie
-   style={{ marginTop:'400px'}}
+   
   options={lt2}
   height='300px'
   width='300px'  
@@ -92,7 +92,7 @@ const Login = () => {
 
           </Grid>
         </Grid>
-        <Grid item xs={12} sx={{ m: 3, mt: 1 }}></Grid>
+       
       </Grid>
     </AuthWrapper1>
   );
