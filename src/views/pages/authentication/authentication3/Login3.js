@@ -9,6 +9,9 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
 import Logos from 'ui-component/Logos';
+import Lottie from 'react-lottie';
+import lottie1 from './Lotties/Lottie4.json'
+import lottie2 from './Lotties/Lottie6.json'
 // import Logo from 'ui-component/Logo';
 
 
@@ -20,17 +23,25 @@ const Login = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
+  const lt1={
+    animationData: lottie1,
+  }
+  const lt2={
+    animationData: lottie2,
+  }
   return (
     <AuthWrapper1>
       <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
         <Grid item xs={12}>
           <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
+            <Lottie  style={{ marginTop:'360px'}} options={lt1} height="300px" width="300px" />
+
             <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
-                  <Grid >
+                  <Grid item>
                     <Link to="#">
-                      <Logos/>
+                      <Logos />
                     </Link>
                   </Grid>
                   <Grid item xs={12}>
@@ -72,6 +83,13 @@ const Login = () => {
                 </Grid>
               </AuthCardWrapper>
             </Grid>
+            <Lottie
+   style={{ marginTop:'400px'}}
+  options={lt2}
+  height='300px'
+  width='300px'  
+/>
+
           </Grid>
         </Grid>
         <Grid item xs={12} sx={{ m: 3, mt: 1 }}></Grid>
