@@ -10,6 +10,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import ReactPlayer from 'react-player/lazy';
 import BaseLayout from './BaseLayout';
+import { Progress } from 'antd';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -19,10 +20,13 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
+const twoColors = { '0%': '#108ee9', '100%': '#87d068' };
+
 const CatalogLayout = ({ selectedMedia }) => {
   const [moduleVideoData, setModuleVideoData] = useState([]);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
   const [currentlyPlayingModule, setCurrentlyPlayingModule] = useState(null);
+  const [videoCompletion, setVideoCompletion] = useState({}); // Store video completion status
 
   useEffect(() => {
     if (selectedMedia) {
@@ -47,15 +51,35 @@ const CatalogLayout = ({ selectedMedia }) => {
     setCurrentlyPlayingModule(module);
   };
 
+  const handleVideoEnd = (videoUrl) => {
+    setVideoCompletion((prevCompletion) => ({
+      ...prevCompletion,
+      [videoUrl]: true, // Set video completion status to true for the completed video
+    }));
+  };
+
   const generateMenuItems = () => {
     if (selectedMedia && selectedMedia._id) {
       const menuItems = moduleVideoData.map((module) => ({
         label: module.moduleName,
         icon: 'pi pi-fw pi-stop',
-        expanded: currentlyPlayingModule === module, 
+        expanded: currentlyPlayingModule === module,
         items: module.videoUrls.map((videoUrl, index) => ({
-          label: `Video ${index + 1}`,
+          label: (
+            <>
+              <div style={{ marginRight: '8px' }}>{`Video ${index + 1}`}</div>
+              <Progress
+                style={{ maxWidth: '100%' }}
+                percent={videoCompletion[videoUrl] ? 100 : 0}
+                strokeColor={twoColors}
+              />
+            </>
+          ),
           icon: 'pi pi-fw pi-youtube',
+          style: {
+            backgroundColor: selectedVideoUrl === videoUrl ? '#D8D8D8' : 'white',
+            color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black',
+          },
           command: () => handleVideoSelection(videoUrl, module),
         })),
       }));
@@ -94,12 +118,22 @@ const CatalogLayout = ({ selectedMedia }) => {
                 </Item>
               </Grid>
               <Grid item xs={12} sm={7}>
-                {selectedVideoUrl && <ReactPlayer url={selectedVideoUrl} controls={true} width="100%" />}
+                {selectedVideoUrl && (
+                  <ReactPlayer
+                    url={selectedVideoUrl}
+                    controls={true}
+                    width="100%"
+                    onEnded={() => handleVideoEnd(selectedVideoUrl)} // Handle video completion
+                  />
+                )}
               </Grid>
             </Grid>
             {selectedMedia._id ? (
               <>
-                <BaseLayout courseName={selectedMedia.courseName} courseDescription={selectedMedia.courseDescription} />
+                <BaseLayout
+                  courseName={selectedMedia.courseName}
+                  courseDescription={selectedMedia.courseDescription}
+                />
               </>
             ) : (
               <div>No Description available</div>
