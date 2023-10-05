@@ -80,15 +80,17 @@ console.log(selectedEvent)
       });
   }, []);
 
-  const customTitle =(args)=>{
-    const {event}=args
-   console.log(event)
- 
-    return(
-      <h3 onClick={()=>handleEventClick(event)} >{event.title}</h3>
-    
-    )
-  }
+  const customTitle = (args) => {
+    const { event } = args;
+    console.log(event);
+  
+    return (
+      <button onClick={() => handleEventClick(event)} className="event-title-button">
+        {event.title}
+      </button>
+    );
+  };
+  
   const handleEventDrop = (info) => {
     const { event } = info;
     console.log(event)
