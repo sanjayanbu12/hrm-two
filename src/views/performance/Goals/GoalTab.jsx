@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Paper, Button, } from '@mui/material';
+import { Paper, Button } from '@mui/material';
 
 import Progressbar from './Progressbar';
 import PopupGoal from './PopupGoal';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
 const GoalTab = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [goals, setGoals] = useState([]);
+  const authId = useSelector((state) => state.customization.authId);
+  console.log(authId);
+  const navigate = useNavigate()
   const openPopup = () => {
     setPopupOpen(true);
   };
-
   const closePopup = () => {
     setPopupOpen(false);
   };
 
   const fetchGoals = async () => {
     try {
+      // const response = await axios.get(`https://hrm-backend-square.onrender.com/goal/getgoal/${authId}`);
       const response = await axios.get('https://hrm-backend-square.onrender.com/goal/getgoals');
-      console.log(response.data);
+   
       // setGoals(response.data.goa); // Update the state with the skill array
-      const mappedGoals = response.data.goa.map((goal) => ({
-        _id: goal._id,
-        GoalTit1: goal.GoalT,
-        GoalPer1: goal.GoalP
-        // Add other properties as needed
-      }));
-      console.log(mappedGoals);
+       
+      
       setGoals(mappedGoals);
     } catch (error) {
       console.error('Error fetching goals:', error);
@@ -50,19 +50,13 @@ const GoalTab = () => {
         </Button>
         {isPopupOpen && <PopupGoal onClose={closePopup} reloadGoals={reloadGoals} />}
       </div>
-      <div style={{ display:"flex", flexWrap:"wrap" }}>
-
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {goals.map((goal) => (
-          
-              
-                <div style={{width:"50%"}} key={goal._id}>
-                  <Progressbar goal={goal} />
-                </div>
-              
-        
-          ))}
-
+          <div style={{ width: '50%' }} key={goal._id}>
+            <Progressbar goal={goal}  onClick={()=>navigate(`/board/${goal._id}`)} />
           </div>
+        ))}
+      </div>
     </Paper>
   );
 };

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import { Grid, Typography, Card, MenuItem, Menu, Paper, Button } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-
+import PopupTask from './PopupTask';
+import { useParams } from 'react-router';
 const initialItems = [
   {
     title: 'ICEBOX',
@@ -44,6 +45,46 @@ const options = [
 const ITEM_HEIGHT = 48;
 
 const YourGoalTab = () => {
+  const id=useParams()
+  const fetchGoals = async () => {
+    try {
+      console.log(id.id)
+      // const response = await axios.get(`https://hrm-backend-square.onrender.com/goal/getgoal/${authId}`);
+      const response = await axios.get('https://hrm-backend-square.onrender.com/task/getall');
+      console.log(response)
+
+      
+      // setGoals(response.data); // Update the state with the skill array
+      // const mappedGoals = response.data.goa.map((goal) => ({
+      //   _id: goal._id,
+      //   GoalTit1: goal.GoalT,
+      //   GoalPer1: goal.GoalP
+      //   // Add other properties as needed
+      // }));
+      
+      // setyourGoals(mappedGoals);
+    } catch (error) {
+      console.error('Error fetching goals:', error);
+    }
+  };
+  const [yourgoals, setyourGoals] = useState([]);
+  useEffect(() => {
+    fetchGoals();
+  }, []);
+
+  const reloadGoals = () => {
+    fetchGoals();
+  };
+
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const openPopup = () => {
+    setPopupOpen(true);
+  };
+  const closePopup = () => {
+    setPopupOpen(false);
+  };
+
+
   const [items, setItems] = useState(initialItems);
 
   const handleDragEnd = (result) => {
@@ -78,9 +119,11 @@ const YourGoalTab = () => {
 
   return (
     <Paper style={{ padding: '20px', height:"fit-content", maxWidth:"100%" }}>
-        <div style={{display:"flex" ,justifyContent:'flex-end',}}><Button variant="contained" color="secondary" >
+        <div style={{display:"flex" ,justifyContent:'flex-end',}}><Button variant="contained" color="secondary"  onClick={openPopup}>
             Add New Task 
+            
           </Button>
+          {isPopupOpen && <PopupTask onClose={closePopup} />}
           </div>
       <Grid container spacing={2} sx={{ listStyle: 'none', display: 'flex', flexDirection: 'row', marginTop:"10px"}}>
         <Grid item xs={10} sx={{ display: 'flex', gap: '10px', justifyContent: 'left' }}>
@@ -108,6 +151,7 @@ const YourGoalTab = () => {
                           <Draggable key={item.id} draggableId={item.id} index={index}>
                             {(provided) => (
                               <Card
+                              
                                 ref={provided.innerRef}
                                 {...provided.draggableProps}
                                 {...provided.dragHandleProps}
