@@ -99,7 +99,7 @@ const NotificationSection = () => {
           }
         }}
       >
-        <ButtonBase sx={{ borderRadius: '12px' }}>
+        <ButtonBase sx={{ borderRadius: '12px',display:'none' }}>
           <Avatar
             variant="rounded"
             sx={{

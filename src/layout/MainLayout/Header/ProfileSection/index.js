@@ -44,7 +44,8 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
-const dispatch = useDispatch()
+const dispatch = useDispatch();
+const [rotationAngle, setRotationAngle] = useState(0);
   // const [sdm, setSdm] = useState(true);
   // const [notification, setNotification] = useState(false);
   
@@ -56,6 +57,12 @@ const dispatch = useDispatch()
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
+
+  useEffect(() => {
+    const newRotationAngle = open ? 180 : 0;
+    setRotationAngle(newRotationAngle);
+  }, [open]);
+
   const anchorRef = useRef(null);
   const handleLogout = async () => {
     dispatch({type:LOGGED_OUT})
@@ -188,14 +195,24 @@ WhoLog();
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Box sx={{ p: 2 }}>
-                  <Typography display='flex'justifyContent='center' variant="h4">{greeting},<WbSunnyTwoToneIcon sx={{ml:'5px',color:'red'}}/></Typography>
+                  <Typography display='flex'justifyContent='center' variant="h4">{greeting}
+                  <WbSunnyTwoToneIcon
+  sx={{
+    ml: '7px',
+    color: 'red',
+    mb:'8px',
+    transform: `rotate(${rotationAngle}deg)`,
+    transition: 'transform 0.8s ease-in-out',
+  }}
+/>
+                  </Typography>
                   
                    
                       <Stack sx={{ml:'20px',mt:'10px'}} direction="row" spacing={2} alignItems="center">
                         <div>
                       <Avatar
         alt="Remy Sharp"
-        src="/static/images/avatar/1.jpg"
+       
         sx={{ width: 56, height: 56 }}
       />  
       </div>

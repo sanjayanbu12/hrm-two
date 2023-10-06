@@ -11,8 +11,8 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import AuthRegister from '../auth-forms/AuthRegister';
 import Logos from 'ui-component/Logos';
 import Lottie from 'react-lottie';
-import lottie1 from './Lotties/Lottie7';
-import lottie2 from './Lotties/Lottie8'
+import lottie1 from './Lotties/Lottie9';
+import lottie2 from './Lotties/Lottie8';
 
 
 // assets
@@ -84,7 +84,7 @@ const Register = () => {
                 </Grid>
               
               </AuthCardWrapper>
-              <Lottie   options={lt2} height="400px" width="400px" />
+              <Lottie style={{marginTop:'70px'}}   options={lt2} height="400px" width="400px" />
           </Grid>
         </Grid>
       </Grid>
