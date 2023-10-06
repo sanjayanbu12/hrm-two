@@ -31,6 +31,7 @@ import ViewApproval from 'views/recruitApproval/ViewApproval';
 import HrApproval from 'views/recruitApproval/HrApproval';
 import ManagerApproval from 'views/recruitApproval/ManagerApproval';
 import Goals from 'views/performance/Goals/Goals';
+import YourGoalTab from 'views/performance/Goals/YourGoalTab';
 import Feedback from 'views/performance/Feedback/Feedback';
 import SkillsetMatrix from 'views/performance/SkillSet/SkillsetMatrix';
 import InterviewBoard from 'views/recruitment/InterviewBoard';
@@ -89,6 +90,10 @@ const MainRoutes = {
     {
       path: '/goals',
       element: <Goals />
+    },
+    {
+      path: '/board/:id',
+      element: <YourGoalTab />
     },
     {
       path: '/feedbacks',

@@ -122,6 +122,8 @@ const PopupGoal = ({ onClose, reloadGoals }) => {
             variant="outlined"
             sx={{ width: '100%', marginTop: '10px' }}
             value={GoalDes}
+            multiline
+            rowsMax={6}
             onChange={(e) => setGoalDes(e.target.value)}
           />
         </div>

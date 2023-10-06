@@ -12,7 +12,7 @@
   
   .card {
     width: 95%;
-    height: 80px;
+    height: 15vh;
     background-color: #fff;
     background: linear-gradient(#f8f8f8, #fff);
     box-shadow: 0 8px 16px -8px rgba(0,0,0,0.4);
