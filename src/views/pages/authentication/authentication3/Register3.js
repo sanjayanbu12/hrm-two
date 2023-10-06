@@ -10,6 +10,9 @@ import AuthCardWrapper from '../AuthCardWrapper';
 // import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
 import Logos from 'ui-component/Logos';
+import Lottie from 'react-lottie';
+import lottie1 from './Lotties/Lottie9';
+import lottie2 from './Lotties/Lottie8';
 
 
 // assets
@@ -20,12 +23,22 @@ const Register = () => {
   const theme = useTheme();
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
+  const lt1={
+    animationData: lottie1,
+  }
+  const lt2={
+    animationData: lottie2,
+  }
+
   return (
     <AuthWrapper1 sx={{ overflow:'hidden' }}>
+   
       <Grid container direction="column" justifyContent="flex-end" sx={{ minHeight: '100vh' }}>
+     
         <Grid item xs={12}>
+        
           <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-           
+          <Lottie   options={lt1} height="400px" width="400px" />
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid >
@@ -69,8 +82,9 @@ const Register = () => {
                     </Grid>
                   </Grid>
                 </Grid>
+              
               </AuthCardWrapper>
-          
+              <Lottie style={{marginTop:'70px'}}   options={lt2} height="400px" width="400px" />
           </Grid>
         </Grid>
       </Grid>
