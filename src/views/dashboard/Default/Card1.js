@@ -4,7 +4,7 @@ import { useTheme, styled } from '@mui/material/styles';
 import { Box, Button, Grid, Typography, Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-import axios from 'axios'; // Import Axios for making API requests.
+import axios from 'axios';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#12486B',
@@ -42,19 +42,16 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const Card1 = ({ isLoading }) => {
   const theme = useTheme();
 
-  const [totalEmployees, setTotalEmployees] = useState(0); // Initialize totalEmployees state.
+  const [totalEmployees, setTotalEmployees] = useState(0);
 
   useEffect(() => {
-    // Function to fetch total employees from the API.
     const fetchTotalEmployees = async () => {
       try {
         const response = await axios.get(
           'https://hrm-backend-square.onrender.com/api/allemployee'
         );
-
-        // Extract the total employees count from the API response.
         if (response.data) {
-          const total = response.data.length; // Assuming the API returns an array of employees.
+          const total = response.data.length;
           setTotalEmployees(total);
         }
       } catch (error) {
@@ -62,7 +59,7 @@ const Card1 = ({ isLoading }) => {
       }
     };
 
-    fetchTotalEmployees(); // Call the function when the component mounts.
+    fetchTotalEmployees(); 
   }, []);
 
   // const handleChangeTime = (event, newValue) => {
@@ -98,7 +95,7 @@ const Card1 = ({ isLoading }) => {
                     <Grid item xs={6}>
                       <Grid container alignItems="center">
                         <Grid item>
-                          {totalEmployees !== 0 ? ( // Check if totalEmployees is available.
+                          {totalEmployees !== 0 ? ( 
                             <Typography
                               sx={{
                                 fontSize: '2.125rem',
