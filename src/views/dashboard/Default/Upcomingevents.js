@@ -169,8 +169,7 @@ const Upcomingevents = () => {
                               </a>
                             </Grid>
                           )}
-                        </Grid>
-                      </div>
+                        </div>
                     );
                   })}
                 </Carousel>
