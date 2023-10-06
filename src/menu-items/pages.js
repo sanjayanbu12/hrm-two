@@ -59,41 +59,41 @@ const pages = {
         {
           id: 'applicationtracker',
           title: 'Interview Process ',
-          type: 'collapse',
-          url: '/applicationtracker',
-          icon: icons.PersonSearchIcon,
-          children:[
-            // {
-            //   id: 'applicationtracker',
-            //   title: 'Application Tracker',
-            //   type: 'item',
-            //   url: '/applicationtracker',
-            // }, 
-            {
-              id: 'Application Tracker',
-              title: 'Application Tracker',
-              type: 'item',
-              url: '/ApplicationTrackTab'
-            },     
-            {
-              id: 'shortlist',
-              title: ' Candidates Shortlisting',
-              type: 'item',
-              url: '/shortlist'
-            },
-            {
-              id: 'interviewboard',
-              title: 'Interview Board',
-              type: 'item',
-              url: '/interviewboard'
-            },    
-            {
-              id: 'FeedSelectedTable',
-              title: 'Selected Candidates',
-              type: 'item',
-              url: '/FeedSelectedTable'
-            },    
-          ]
+          type: 'item',
+          url: '/ApplicationTrackTab',
+          
+          // children:[
+          //   // {
+          //   //   id: 'applicationtracker',
+          //   //   title: 'Application Tracker',
+          //   //   type: 'item',
+          //   //   url: '/applicationtracker',
+          //   // }, 
+          //   {
+          //     id: 'Application Tracker',
+          //     title: 'Interview Process',
+          //     type: 'item',
+          //     url: '/ApplicationTrackTab'
+          //   },     
+          //   {
+          //     id: 'shortlist',
+          //     title: ' Candidates Shortlisting',
+          //     type: 'item',
+          //     url: '/shortlist'
+          //   },
+          //   {
+          //     id: 'interviewboard',
+          //     title: 'Interview Board',
+          //     type: 'item',
+          //     url: '/interviewboard'
+          //   },    
+          //   {
+          //     id: 'FeedSelectedTable',
+          //     title: 'Selected Candidates',
+          //     type: 'item',
+          //     url: '/FeedSelectedTable'
+          //   },    
+          // ]
         },       
       ]
     },
