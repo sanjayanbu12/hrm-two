@@ -161,6 +161,7 @@ const Upcomingevents = () => {
                               </Typography>
                             </Grid>
                           </Grid>
+                          </Grid>
                           {event.eventLink && (
                             <Grid item>
                               <a href={event.eventLink} target="_blank" rel="noopener noreferrer" style={eventLinkStyle}>
@@ -168,8 +169,7 @@ const Upcomingevents = () => {
                               </a>
                             </Grid>
                           )}
-                        </Grid>
-                      </div>
+                        </div>
                     );
                   })}
                 </Carousel>

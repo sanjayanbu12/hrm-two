@@ -1,5 +1,3 @@
-// ===========================|| DASHBOARD - TOTAL GROWTH BAR CHART ||=========================== //
-
 const chartData = {
   height: 480,
   type: 'bar',
@@ -67,21 +65,21 @@ const chartData = {
   },
   series: [
     {
-      name: 'Development',
+      name: 'Front-end',
       data: [15, 12, 25, 35, 25, 40, 35, 20, 35, 25, 15, 35]
     },
     {
-      name: 'Testing',
+      name: 'Back-end',
       data: [35, 15, 15, 25, 35, 40, 60, 25, 25, 15, 25, 25]
     },
     {
-      name: 'UI/UX',
+      name: 'Java',
       data: [25, 15, 35, 35, 20, 15, 10, 10, 25, 45, 30, 10]
     },
-    // {
-    //   name: 'Business Development',
-    //   data: [10, 0, 45, 0, 0, 15, 0, 0, 0, 0, 30, 0]
-    // }
+    {
+      name: 'Software',
+      data: [10, 0, 45, 0, 0, 15, 0, 0, 0, 0, 30, 0]
+    }
   ]
 };
 export default chartData;
