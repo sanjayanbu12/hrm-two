@@ -6,11 +6,10 @@ import PopularCard from './PopularCard';
 import Card1 from './Card1';
 import Card2 from './Card2';
 import Card3 from './Card3';
-import Card4 from './Card4';
+import AnnualCard from './AnnualCard'
 import { gridSpacing } from 'store/constant';
 import Card from '@mui/material/Card';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
-// import Newevent from './Newevent';
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -37,9 +36,13 @@ const Dashboard = () => {
             <Grid item xs={12} md={3}>
               <Card3 isLoading={isLoading} />
             </Grid>
-            <Grid item xs={12} md={3}>
+            {/* <Grid item xs={12} md={3}>
               <Card4 isLoading={isLoading} />
+            </Grid> */}
+            <Grid item xs={12} md={3}>
+              <AnnualCard isLoading={isLoading} />
             </Grid>
+           
           </Grid>
         </Grid>
 
