@@ -31,11 +31,11 @@ const CatalogLayout = ({ selectedMedia }) => {
   const [videoCompletion, setVideoCompletion] = useState({});
   const [videoProgress, setVideoProgress] = useState(0);
   const [panelMenuModel, setPanelMenuModel] = useState([]);
-  const [playerEvents, setPlayerEvents] = useState([]); // State to hold video player events
+  
   const userId = useSelector((state) => state.customization.authId);
   
   console.log(userId);
-  console.log(playerEvents);
+
  
 
 
@@ -144,14 +144,7 @@ const CatalogLayout = ({ selectedMedia }) => {
     setVideoProgress(Math.floor(state.played * 100));
   };
 
-  const handlePlayerEvent = (eventName, event) => {
-    // Log all events from ReactPlayer
-    console.log(`Player Event - ${eventName}:`, event);
-
-    // Store the event in the state for reference
-    setPlayerEvents((prevEvents) => [...prevEvents, { name: eventName, event }]);
-  };
-
+ 
   return (
     <div style={{ width: '100%' }}>
       {selectedMedia ? (
