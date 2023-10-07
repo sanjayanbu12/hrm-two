@@ -14,7 +14,7 @@ const FeedbackInfo = ({ open, onClose, Name,selectedCandidate }) => {
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/ats/${selectedCandidate._id}`);
+        const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/${selectedCandidate._id}`);
         setData(response.data.data);
       } catch (error) {
         console.log(error);

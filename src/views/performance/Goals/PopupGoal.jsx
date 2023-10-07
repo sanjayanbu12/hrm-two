@@ -20,7 +20,7 @@ console.log(usrId)
   const handleSubmit = async () => {
     try {
       if (GoalTit && GoalPer && GoalType && GoalWhy && GoalDes) {
-        const response = await axios.post(`http://localhost:3001/goal/addgoal/${usrId}`, {
+        const response = await axios.post(`https://hrm-backend-square.onrender.com/goal/addgoal/${usrId}`, {
           employeeId: usrId,
           GoalT: GoalTit,
           GoalP: GoalPer,

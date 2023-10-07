@@ -14,7 +14,7 @@ const YourGoalTab = () => {
 
   const fetchGoals = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/task/getall/${id.id}`);
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/task/getall/${id.id}`);
       setTasks(response.data.getData);
     } catch (error) {
       console.error('Error fetching goals:', error);
@@ -95,7 +95,7 @@ const YourGoalTab = () => {
       pos = result.destination.index;
       setItems(newItems);
       try {
-        await axios.put(`http://localhost:3001/task/update/${reorderedItem.id}`, {
+        await axios.put(`https://hrm-backend-square.onrender.com/task/update/${reorderedItem.id}`, {
           position: pos
         });
       } catch (error) {
@@ -108,7 +108,7 @@ const YourGoalTab = () => {
       newItems[destinationGroupIndex].items.splice(result.destination.index, 0, movedItem);
       setItems(newItems);
       try {
-        await axios.put(`http://localhost:3001/task/update/${movedItem.id}`, {
+        await axios.put(`https://hrm-backend-square.onrender.com/task/update/${movedItem.id}`, {
           status: destinationGroupIndex
         });
       } catch (error) {

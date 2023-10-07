@@ -65,7 +65,7 @@ const FirebaseRegister = () => {
   };
   const checkUserExist = async (email) => {
     try {
-      const response = await axios.get(`http://localhost:3001/Users`);
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/Users`);
       const resData = response.data;
       const userExist = resData.some((x) => x.email === email);
       return userExist;
