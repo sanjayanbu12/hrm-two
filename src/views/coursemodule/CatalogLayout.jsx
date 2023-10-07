@@ -12,6 +12,7 @@ import { PanelMenu } from 'primereact/panelmenu';
 import BaseLayout from './BaseLayout';
 import { Progress } from 'antd';
 import { red, orange, green } from '@ant-design/colors';
+import { useSelector } from 'react-redux';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -30,6 +31,12 @@ const CatalogLayout = ({ selectedMedia }) => {
   const [videoCompletion, setVideoCompletion] = useState({});
   const [videoProgress, setVideoProgress] = useState(0);
   const [panelMenuModel, setPanelMenuModel] = useState([]);
+  const [playerEvents, setPlayerEvents] = useState([]); // State to hold video player events
+  const userId = useSelector((state) => state.customization.authId);
+  
+  console.log(userId);
+  console.log(playerEvents);
+
 
   useEffect(() => {
     if (selectedMedia) {
@@ -51,7 +58,7 @@ const CatalogLayout = ({ selectedMedia }) => {
     if (moduleVideoData.length > 0 && selectedMedia._id) {
       const menuItems = moduleVideoData.map((module) => ({
         label: module.moduleName,
-        icon: 'pi pi-fw pi-stop',
+        icon: 'pi pi-box',
         expanded: currentlyPlayingModule === module,
         items: module.videoUrls.map((videoUrl, index) => ({
           label: (
@@ -86,6 +93,27 @@ const CatalogLayout = ({ selectedMedia }) => {
     }
   }, [moduleVideoData, selectedMedia, currentlyPlayingModule, videoCompletion, selectedVideoUrl]);
 
+  useEffect(() => {
+    if (selectedVideoUrl) {
+      axios
+        .get('https://hrm-backend-square.onrender.com/video-progress/get', {
+          params: {
+            userId: userId,
+            videoUrl: selectedVideoUrl,
+          },
+        })
+        .then((response) => {
+          const progressData = response.data;
+          if (progressData && progressData.progress) {
+            setVideoProgress(progressData.progress);
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching video progress data:', error);
+        });
+    }
+  }, [selectedVideoUrl]);
+
   const handleVideoSelection = (videoUrl, module) => {
     setSelectedVideoUrl(videoUrl);
     setCurrentlyPlayingModule(module);
@@ -96,10 +124,31 @@ const CatalogLayout = ({ selectedMedia }) => {
       ...prevCompletion,
       [videoUrl]: true,
     }));
+
+    axios
+      .post('https://hrm-backend-square.onrender.com/video-progress/save', {
+        userId: userId,
+        videoUrl: videoUrl,
+        progress: 100,
+      })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.error('Error saving video progress:', error);
+      });
   };
 
   const handleVideoProgress = (state) => {
     setVideoProgress(Math.floor(state.played * 100));
+  };
+
+  const handlePlayerEvent = (eventName, event) => {
+    // Log all events from ReactPlayer
+    console.log(`Player Event - ${eventName}:`, event);
+
+    // Store the event in the state for reference
+    setPlayerEvents((prevEvents) => [...prevEvents, { name: eventName, event }]);
   };
 
   return (
@@ -131,6 +180,8 @@ const CatalogLayout = ({ selectedMedia }) => {
                       width="100%"
                       onEnded={() => handleVideoEnd(selectedVideoUrl)}
                       onProgress={(state) => handleVideoProgress(state)}
+                    
+                     
                     />
                     <Progress
                       percent={videoProgress}

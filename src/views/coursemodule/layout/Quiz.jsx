@@ -2,7 +2,7 @@ import React from 'react'
 
 const Quiz = () => {
   return (
-    <div>Quiz</div>
+    <h1 style={{display:'flex',justifyContent:'center',alignItems:'center'}}>Under Development</h1>
   )
 }
 
