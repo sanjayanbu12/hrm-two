@@ -245,7 +245,7 @@ const InterviewBoard = () => {
                               >
                                 <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
                                   <Tooltip title='Send Mail'>
-                                    <Send sx={{ marginRight: '10px', fontSize: '15px', cursor: 'pointer' }} /></Tooltip>
+                                    <Send sx={{ marginRight: '10px', fontSize: '15px', cursor: 'pointer',display:'none' }} /></Tooltip>
                                 </div>
                                 <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
                                   {x.Name}
