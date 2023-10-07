@@ -36,6 +36,7 @@ const CatalogLayout = ({ selectedMedia }) => {
   
   console.log(userId);
   console.log(playerEvents);
+  console.log(handlePlayerEvent)
 
 
   useEffect(() => {

@@ -3,23 +3,25 @@ import { Autocomplete, TextField, Button, IconButton, Grid } from '@mui/material
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import '../Feedback/PopupCard.css';
-
+import { useSelector } from 'react-redux';
 export const level = ['Yearly', 'Monthly', 'Weekly'];
 export const level1 = ['Skill Goal', 'Career Goal', 'Team Goal'];
 export const approval = ['Jothi Mani', 'Jothi Sekaran'];
 
-const PopupGoal = ({ onClose, reloadGoals }) => {
+const PopupGoal = ({ onClose, reloadGoals, usrId }) => {
   const [GoalTit, setGoalTit] = useState('');
   const [GoalPer, setGoalPer] = useState('');
   const [GoalType, setGoalType] = useState('');
   const [GoalWhy, setGoalWhy] = useState('');
   const [GoalDes, setGoalDes] = useState('');
-
+const authId=useSelector(state=>state.customization.authId)
+console.log(authId)
+console.log(usrId)
   const handleSubmit = async () => {
     try {
       if (GoalTit && GoalPer && GoalType && GoalWhy && GoalDes) {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/goal/addgoal/64f01e76aecb5d1da5126707', {
-          employeeId: '64f01e76aecb5d1da5126707',
+        const response = await axios.post(`https://hrm-backend-square.onrender.com/goal/addgoal/${usrId}`, {
+          employeeId: usrId,
           GoalT: GoalTit,
           GoalP: GoalPer,
           GoalTyp: GoalType,
@@ -122,6 +124,8 @@ const PopupGoal = ({ onClose, reloadGoals }) => {
             variant="outlined"
             sx={{ width: '100%', marginTop: '10px' }}
             value={GoalDes}
+            multiline
+            rowsMax={6}
             onChange={(e) => setGoalDes(e.target.value)}
           />
         </div>

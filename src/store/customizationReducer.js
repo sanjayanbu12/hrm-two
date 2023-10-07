@@ -39,6 +39,7 @@
           ...state,
           authId: action.payload
         };
+
       case actionTypes.SHORT_LIST:
         return {
           ...state,

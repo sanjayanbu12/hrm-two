@@ -49,7 +49,7 @@ const Card2 = ({ isLoading }) => {
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
-
+console.log(handleChangeTime)
   return (
     <>
       {isLoading ? (

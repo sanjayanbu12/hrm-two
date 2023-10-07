@@ -45,7 +45,7 @@ const OrgTree = () => {
   };
 const fetchOrgData = async () => {
   try {
-    const response = await axios.get('http://localhost:3001/org/getorgs');
+    const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorgs');
     const orgData = response.data.orgData; // Store the fetched data in a variable
     setorgMems(orgData);
 
