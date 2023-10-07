@@ -36,6 +36,8 @@ import {
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2'
+import 'sweetalert2/src/sweetalert2.scss'
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -119,7 +121,8 @@ const OrgTree = () => {
           id: data._id
         }
       };
-      await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+      const id = orgMems.map((data) => data._id);
+      await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, manData);
       await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
       fetchOrgData();
     } catch (error) {
@@ -149,14 +152,56 @@ const OrgTree = () => {
       const idToDel = foundEmployees.map((empid) => empid._id);
       await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
       fetchOrgData();
-    } catch (error) {
+    }  catch (error) {
       console.log(error);
     }
   };
-
+  const handleDeleteWithConfirmation = (data) => {
+    Swal.fire({
+      title: 'Are you sure you want to delete ?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleDeleteMan(data);
+        Swal.fire(
+          'Deleted!',
+          'Employee has been deleted.',
+          'success'
+        )
+      }
+    });
+  };
+  const handleDeleteWithConfirmationTop = () => {
+    Swal.fire({
+      title: 'Are you sure you want to delete ?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Delete'
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        await handledeltop();
+        await fetchOrgData();
+        navigate('/payroll')
+        Swal.fire(
+          'Deleted!',
+          'Employee has been deleted.',
+          'success'
+        )
+      }
+    });
+  };
   const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
     await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
+
   };
 
   return (
@@ -223,7 +268,7 @@ const OrgTree = () => {
                                             TransitionComponent={Fade}
                                             TransitionProps={{ timeout: 600 }}
                                           >
-                                            <GroupRemoveOutlinedIcon onClick={() => handledeltop()} />
+                                            <GroupRemoveOutlinedIcon onClick={() => handleDeleteWithConfirmationTop()} />
                                           </Tooltip>
                                         </IconButton>
                                       </MenuItem>
@@ -305,7 +350,7 @@ const OrgTree = () => {
                                           TransitionComponent={Fade}
                                           TransitionProps={{ timeout: 600 }}
                                         >
-                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteMan(data)} />
+                                             <GroupRemoveOutlinedIcon onClick={() => handleDeleteWithConfirmation(data)} />
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
