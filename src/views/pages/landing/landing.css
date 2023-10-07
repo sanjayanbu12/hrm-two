@@ -44,7 +44,7 @@ html [type='button'],
 button:-moz-focusring,
 [type="button"]:-moz-focusring,
 [type="reset"]:-moz-focusring,
-[type="submit"]:-moz-focusring 
+[type="submit"]:-moz-focusring
 /* {
 	outline: 1px dotted ButtonText
 } */
@@ -59,6 +59,7 @@ button:-moz-focusring,
 }
 
 @media (min-width: 481px) {
+
   .container,
   .container-sm {
     padding-left: 24px;
@@ -531,6 +532,7 @@ h1,
 }
 
 @media (min-width: 641px) {
+
   h1,
   .h1 {
     font-size: 44px;
@@ -538,6 +540,7 @@ h1,
     letter-spacing: 0px;
   }
 }
+
 .hero-paragraph {
   font-size: 17px;
   line-height: 25px;
@@ -602,14 +605,17 @@ h1,
   display: flex;
   width: 100%;
 }
+
 .header-logo-image {
   font-size: 30px;
   font-weight: bold;
   color: #8a94a7;
 }
+
 .pricing-header {
   margin-bottom: 48px;
 }
+
 .pricing-tables-wrap {
   display: flex;
   flex-wrap: wrap;
@@ -617,12 +623,15 @@ h1,
   margin-right: -12px;
   margin-left: -12px;
 }
+
 .pricing-tables-wrap:first-child {
   margin-top: -12px;
 }
+
 .pricing-tables-wrap:last-child {
   margin-bottom: -12px;
 }
+
 .pricing-table {
   position: relative;
   padding: 12px;
@@ -630,6 +639,7 @@ h1,
   max-width: 368px;
   flex-grow: 1;
 }
+
 .pricing-table::before {
   content: '';
   position: absolute;
@@ -644,16 +654,19 @@ h1,
   transform: translateX(-50%);
   background-image: url('./images/pricing-illustration.svg');
 }
+
 .pricing-table-header,
 .pricing-table-features-title,
 .pricing-table-features li {
   border-bottom: 1px solid rgba(138, 148, 167, 0.24);
 }
+
 .featues.title {
   font-weight: bolder;
   font-size: 70px;
   color: white;
 }
+
 .pricing-table-inner {
   position: relative;
   display: flex;
@@ -662,10 +675,12 @@ h1,
   padding: 24px;
   height: 100%;
 }
-.pricing-table-inner > * {
+
+.pricing-table-inner>* {
   position: relative;
   width: 100%;
 }
+
 .pricing-table-inner::before {
   content: '';
   position: absolute;
@@ -676,18 +691,22 @@ h1,
   box-shadow: 0 24px 48px rgba(21, 24, 29, 0.24);
   mix-blend-mode: multiply;
 }
+
 .pricing-table-price-currency {
   color: #8a94a7;
 }
+
 .feature-title {
   color: #fff;
   font-weight: 700;
 }
+
 .pricing-table-features li {
   display: flex;
   align-items: center;
   padding: 14px 0;
 }
+
 .pricing-table-features li::before {
   content: '';
   width: 16px;
@@ -695,34 +714,42 @@ h1,
   margin-right: 16px;
   background-repeat: no-repeat;
 }
+
 .pricing-table-cta {
   align-self: flex-end;
 }
+
 @media (min-width: 641px) {
   .pricing .section-paragraph {
     padding-left: 90px;
     padding-right: 90px;
   }
+
   .pricing-header {
     margin-bottom: 52px;
   }
 }
+
 .cta {
   text-align: center;
 }
+
 .cta .section-inner {
   padding: 48px 16px;
 }
+
 .cta .section-title {
   margin-bottom: 40px;
   color: white;
   font-size: 30px;
   margin: 10px 0;
 }
+
 .cta-inner {
   position: relative;
   overflow: hidden;
 }
+
 .cta-inner::before {
   content: '';
   position: absolute;
@@ -733,29 +760,36 @@ h1,
   background-image: url('./images/cta-illustration.svg');
   background-repeat: no-repeat;
 }
-.cta-inner > * {
+
+.cta-inner>* {
   position: relative;
 }
+
 @media (min-width: 641px) {
   .cta {
     text-align: left;
   }
+
   .cta .section-inner {
     padding: 64px 32px;
   }
+
   .cta .section-title {
     margin-bottom: 0;
     padding-right: 24px;
   }
+
   .cta-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 }
+
 .is-boxed {
   background: #242830;
 }
+
 .body-wrap {
   background: #1d2026;
   overflow: hidden;
@@ -763,6 +797,7 @@ h1,
   flex-direction: column;
   min-height: 100vh;
 }
+
 .boxed-container {
   max-width: 1440px;
   margin: 0 auto;
@@ -770,20 +805,24 @@ h1,
   mix-blend-mode: multiply;
   mix-blend-mode: normal;
 }
+
 main {
   flex: 1 0 auto;
 }
+
 .section-inner {
   position: relative;
   padding-top: 48px;
   padding-bottom: 48px;
 }
+
 @media (min-width: 641px) {
   .section-inner {
     padding-top: 88px;
     padding-bottom: 88px;
   }
 }
+
 .site-footer {
   font-size: 14px;
   line-height: 22px;
@@ -792,15 +831,20 @@ main {
   background: linear-gradient(80deg, rgba(36, 40, 48, 0.5) 0%, rgba(36, 40, 48, 0) 100%);
   transform-origin: 0;
   margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 50px;
 }
+
 .site-footer a {
   color: white;
   text-decoration: none;
 }
+
 .site-footer a:hover,
 .site-footer a:active {
   text-decoration: underline;
 }
+
 .site-footer-inner {
   position: relative;
   display: flex;
@@ -808,6 +852,7 @@ main {
   padding-top: 48px;
   padding-bottom: 48px;
 }
+
 .footer-brand,
 .footer-links,
 .footer-social-links,
@@ -817,46 +862,57 @@ main {
   display: inline-flex;
   justify-content: center;
 }
+
 .footer-brand,
 .footer-links,
 .footer-social-links {
   margin-bottom: 24px;
 }
+
 .footer-social-links li {
   display: inline-flex;
 }
-.footer-social-links li + li {
+
+.footer-social-links li+li {
   margin-left: 16px;
 }
+
 .footer-social-links li a {
   padding: 8px;
 }
-.footer-links li + li {
+
+.footer-links li+li {
   margin-left: 24px;
 }
+
 @media (min-width: 641px) {
   .site-footer {
     margin-top: 20px;
   }
+
   .site-footer-inner {
     justify-content: space-between;
     padding-top: 64px;
     padding-bottom: 64px;
   }
+
   .footer-brand,
   .footer-links,
   .footer-social-links,
   .footer-copyright {
     flex: 50%;
   }
+
   .footer-brand,
   .footer-copyright {
     justify-content: flex-start;
   }
+
   .footer-links,
   .footer-social-links {
     justify-content: flex-end;
   }
+
   .footer-links {
     order: 1;
     margin-bottom: 0;
@@ -870,32 +926,40 @@ main {
   margin-right: -32px;
   margin-left: -32px;
 }
+
 .features-wrap:first-of-type {
   margin-top: -16px;
 }
+
 .features-wrap:last-of-type {
   margin-bottom: -16px;
 }
+
 .feature {
   padding: 16px 32px;
   width: 380px;
   max-width: 380px;
   flex-grow: 1;
 }
+
 .feature-inner {
   height: 100%;
 }
+
 .feature-icon {
   display: flex;
   justify-content: center;
 }
+
 @media (min-width: 641px) {
   .features-wrap:first-of-type {
     margin-top: -24px;
   }
+
   .features-wrap:last-of-type {
     margin-bottom: -24px;
   }
+
   .feature {
     padding: 32px 32px;
   }

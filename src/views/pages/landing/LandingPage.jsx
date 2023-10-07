@@ -4,13 +4,9 @@ import { Link } from 'react-router-dom';
 import Logos from 'ui-component/Logos';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
-// import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
-// import Button from '@mui/material/Button';
 import { Card } from '@mui/material';
-// import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-// import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 
@@ -18,31 +14,22 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const images = [
   {
-    imgPath: 'https://drive.google.com/uc?id=1PH_c63qVDCS4WNIlwhLfrZOGFi4S2B-q'
+    imgPath: 'https://drive.google.com/uc?id=1qUukx6adszNon4CmZD6Hjz1Ot33Y-vgB'
   },
   {
-    imgPath: 'https://drive.google.com/uc?id=1lN0QdnOUr8Hzhs3iZH189gVfDtcTfQQ0'
+    imgPath: 'https://drive.google.com/uc?id=1ynKIK2Vgr72QMDYMGIl38n6kBxqNY1NW'
   },
   {
-    imgPath: 'https://drive.google.com/uc?id=1fsMVM6rPJrVugorkayolrNWutzOo5fli'
+    imgPath: 'https://drive.google.com/uc?id=1MGBRPBid3FQMN4TS1-hfPEHFc4LE9abd'
   },
   {
-    imgPath: 'https://drive.google.com/uc?id=1YLJBkILhQ01XozDiTSAYRdn47iDEQLju'
+    imgPath: 'https://drive.google.com/uc?id=1F5yYoXbPS5WxFjPws4BidjLONNh7n12n'
   }
 ];
 
 const LandingPage = () => {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
-  // const maxSteps = images.length;
-
-  // const handleNext = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  // };
-
-  // const handleBack = () => {
-  //   setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  // };
 
   const handleStepChange = (step) => {
     setActiveStep(step);
@@ -78,7 +65,6 @@ const LandingPage = () => {
             </div>
             <div className="hero-figure anime-element">
               <svg className="placeholder" width="528" height="375" viewBox="0 0 528 396">
-                {/* <rect width="528" height="375" /> */}
               </svg>
               <div className="hero-figure-box hero-figure-box-01" data-rotation="45deg"></div>
               <div className="hero-figure-box hero-figure-box-02" data-rotation="-45deg"></div>
@@ -101,8 +87,8 @@ const LandingPage = () => {
             <div className="cta-inner section-inner">
               <h3 className="section-title mt-0">About Our Tool</h3>
               <div className="cta-cta">
-                <a className="button button-primary button-wide-mobile" href="#">
-                  Demo
+                <a className="button button-primary button-wide-mobile" href="https://drive.google.com/drive/my-drive">
+                  Youtube Link
                 </a>
               </div>
             </div>
@@ -159,35 +145,6 @@ const LandingPage = () => {
                 </div>
               ))}
             </AutoPlaySwipeableViews>
-            {/* <MobileStepper
-      steps={maxSteps}
-      position="static"
-      activeStep={activeStep}
-      nextButton={
-        <Button
-          size="small"
-          onClick={handleNext}
-          disabled={activeStep === maxSteps - 1}
-        >
-        
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )}
-        </Button>
-      }
-      backButton={
-        <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-          {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )}
-          
-        </Button>
-      }
-    /> */}
           </Box>
         </Card>
       </div>
@@ -253,9 +210,6 @@ const LandingPage = () => {
           </div>
         </div>
       </footer>
-      {/* <div class="scroll-top">
-            <i class="fa fa-angle-up" aria-hidden="true"></i>
-        </div> */}
     </div>
   );
 };
