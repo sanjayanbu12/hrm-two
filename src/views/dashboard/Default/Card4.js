@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, Button, Grid, Typography,Card } from '@mui/material';
+import { Box,  Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -61,24 +61,8 @@ const Card4 = ({ isLoading }) => {
               <Grid item>
                 <Grid container justifyContent="space-between">
                   <Grid item>
-                    {/* <Button
-                      disableElevation
-                      variant={timeValue ? 'contained' : 'text'}
-                      size="small"
-                      sx={{ color: 'inherit' }}
-                      onClick={(e) => handleChangeTime(e, true)}
-                    >
-                      ONGOING
-                    </Button> */}
-                    <Button
-                      disableElevation
-                      variant={'text'}
-                      size="small"
-                      sx={{ color: 'inherit' }}
-                      onClick={(e) => handleChangeTime(e, false)}
-                    >
-                      TOTAL EMPLOYEES
-                    </Button>
+                   
+                  <Typography sx={{fontSize:"15px",fontWeight:'bold'}}>TOTAL EMPLOYEES</Typography> 
                   </Grid>
                 </Grid>
               </Grid>
