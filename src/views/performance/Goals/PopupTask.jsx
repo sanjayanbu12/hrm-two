@@ -5,14 +5,14 @@ import axios from 'axios';
 import '../Feedback/PopupCard.css';
 import { useParams } from 'react-router';
 
-const PopupTask = ({ onClose }) => {
+const PopupTask = ({ onClose, reloadTasks }) => {
   const [TaskTitle, setTaskTit] = useState('');
   const [TaskDescription, setTaskDes] = useState('');
   const id=useParams()
   const handleSubmit = async () => {
     try {
       if (TaskTitle && TaskDescription) {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/task/create', {
+        const response = await axios.post('http://localhost:3001/task/create', {
 
           title: TaskTitle,
           description: TaskDescription,
@@ -25,7 +25,7 @@ const PopupTask = ({ onClose }) => {
 
 
         // Reload skills in the parent component
-        // reloadTask();
+        reloadTasks();
 
         onClose();
       } else {

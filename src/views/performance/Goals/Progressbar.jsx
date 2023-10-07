@@ -4,8 +4,8 @@ import Item from 'antd/es/list/Item';
 import './Progressbar.css';
 
 const Progressbar = ({ goal, onClick }) => {
-  const { GoalTit1, GoalPer1 } = goal;
-  // console.log(GoalTit1,GoalPer1)
+  const { GoalT, GoalP } = goal;
+  console.log(GoalT,GoalP)
   return (
     <>
       <Box onClick={onClick} className="center">
@@ -14,13 +14,14 @@ const Progressbar = ({ goal, onClick }) => {
             <div className="user-card"></div>
             <div className="more-info">
               <div className="stats">
-                <div>
-                  <div className="title">IceBox</div>
+                <div className='title'>UNDER DEVELOPMENT</div>
+                {/* <div>
+                  <div className="title">UNDER</div>
 
                   <div className="value">2</div>
                 </div>
                 <div>
-                  <div className="title">Inprogress</div>
+                  <div className="title">DEVELOPMENT</div>
 
                   <div className="value">6</div>
                 </div>
@@ -33,20 +34,20 @@ const Progressbar = ({ goal, onClick }) => {
                   <div className="title">Blocked</div>
 
                   <div className="value">1</div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
           <Grid container spacing={2} sx={{ listStyle: 'none' }}>
             <Grid item xs={9} sx={{ marginLeft: '30px' }}>
               <Item>
-                <h3 style={{ marginBottom: '0px' }}>{GoalTit1}</h3>
+                <h3 style={{ marginBottom: '0px' }}>{GoalT}</h3>
               </Item>
             </Grid>
             <Grid item xs={2} sx={{}}>
               <Item>
                 <h4 className="h4" style={{ marginBottom: '0px' }}>
-                  {GoalPer1}
+                  {GoalP}
                 </h4>
               </Item>
             </Grid>

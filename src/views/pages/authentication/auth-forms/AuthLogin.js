@@ -11,7 +11,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID } from 'store/actions';
+import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID} from 'store/actions';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 const AuthLogin = () => {
