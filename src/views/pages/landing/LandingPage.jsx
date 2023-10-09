@@ -87,8 +87,8 @@ const LandingPage = () => {
             <div className="cta-inner section-inner">
               <h3 className="section-title mt-0">About Our Tool</h3>
               <div className="cta-cta">
-                <a className="button button-primary button-wide-mobile" href="https://drive.google.com/drive/my-drive">
-                  Youtube Link
+                <a className="button button-primary button-wide-mobile" href="#">
+                  Link
                 </a>
               </div>
             </div>
@@ -98,7 +98,7 @@ const LandingPage = () => {
         <Card
           style={{
             backgroundColor: '#1D2026',
-            marginRight: '70px',
+            marginRight: '30px',
             border: 'none',
             display: 'flex',
             justifyContent: 'center',

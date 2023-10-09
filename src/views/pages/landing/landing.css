@@ -261,10 +261,11 @@ button:-moz-focusring,
 }
 
 .hero {
-  text-align: center;
-  padding-top: 48px;
+  text-align: flex-start;
+  padding-top: 60px;
   padding-bottom: 88px;
-  margin-left: 50px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .hero-copy {
