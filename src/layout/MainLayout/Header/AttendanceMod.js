@@ -10,6 +10,8 @@ const AttendanceMod = () => {
     const[clockid,setClockid]=useState('');
     const [checkInDisabled, setCheckInDisabled] = useState(false);
     const [checkOutDisabled, setCheckOutDisabled] = useState(true);
+    const[parclock,setParclock]=useState("");
+    console.log("zzz",parclock)
 
     console.log("clockid",clockid)
 
@@ -42,6 +44,7 @@ const AttendanceMod = () => {
         };
         try {
             const response = await axios.post("https://hrm-backend-square.onrender.com/clock/create", checkInData);
+            setParclock(response.data.savedData._id)
             if (response.status === 200) {
                 console.log("Check-in successful!");
                 setCheckInDisabled(true);
@@ -57,7 +60,7 @@ const AttendanceMod = () => {
         try {
             console.log("ww", employee._id);
             const resp = await axios.get(`https://hrm-backend-square.onrender.com/api/getemployee/${employee._id}`);
-            const fetchClock=resp.data._id;
+            const fetchClock=resp.data.clockid
             setClockid(fetchClock)
         } catch (error) {
             console.error("Error while fetching data:", error);
@@ -70,20 +73,20 @@ useEffect(()=>{
  
 
     const handleCheckOutClick = async() => {
-        // const currentDate = new Date();
+        const currentDate = new Date();
     
-        // try {
-        //     const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${employee._id}`,{ checkOutTime:currentDate.toISOString()});
-        //     if (response.status === 200) {
-        //         console.log("Check-Out successful!");
+        try {
+            const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock}`,{ checkOutTime:currentDate.toISOString()});
+            if (response.status === 200) {
+                console.log("Check-Out successful!");
                 setCheckInDisabled(false);
                 setCheckOutDisabled(true);
-        //     } else {
-        //         console.log("Failed to check in.");
-        //     }
-        // } catch (error) {
-        //     console.error("Error while checking in:", error);
-        // }
+            } else {
+                console.log("Failed to check in.");
+            }
+        } catch (error) {
+            console.error("Error while checking in:", error);
+        }
 
       
     };
