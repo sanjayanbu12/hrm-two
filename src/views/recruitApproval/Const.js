@@ -104,7 +104,7 @@ export const StyledMainCard = styled(MainCard)`
 `;
 export const StyledCardConatiner = styled(Card)`
   && {
-    height: calc(100vh - 220px);
+    height: calc(100vh - 120px);
   }
 `;
 export const Btncontainer = styled(Container)`
