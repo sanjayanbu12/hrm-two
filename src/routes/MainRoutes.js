@@ -38,6 +38,7 @@ import InterviewBoard from 'views/recruitment/InterviewBoard';
 import ApplicationView1 from 'views/recruitment/ApplicationView1';
 import { FeedSelectedTable } from 'views/recruitment/FeedSelectedTable';
 import ApplicationTrackTab from 'views/recruitment/ApplicationTrackTab';
+import AtttendanceTab from 'layout/MainLayout/Header/AtttendanceTab';
 // dashboard routing
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
@@ -219,6 +220,10 @@ const MainRoutes = {
     {
       path: '/Accountsetting',
       element: <AccountSetting />
+    },
+    {
+      path: '/AtttendanceTab',
+      element: <AtttendanceTab />
     }
 
     

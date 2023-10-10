@@ -44,7 +44,7 @@ const AttendanceMod = () => {
         };
         try {
             const response = await axios.post("https://hrm-backend-square.onrender.com/clock/create", checkInData);
-            setParclock(response.data.savedData._id)
+            setParclock(response.data.savedData)
             if (response.status === 200) {
                 console.log("Check-in successful!");
                 setCheckInDisabled(true);
@@ -60,8 +60,16 @@ const AttendanceMod = () => {
         try {
             console.log("ww", employee._id);
             const resp = await axios.get(`https://hrm-backend-square.onrender.com/api/getemployee/${employee._id}`);
+            const particulr=resp.data.clockid;
+            console.log("zzz",particulr)
             const fetchClock=resp.data.clockid
             setClockid(fetchClock)
+            if (Array.isArray(particulr) && particulr.length > 0) {
+                const extractedIds = particulr.map(item => item._id);
+                console.log("zxc",extractedIds)
+            } else {
+                console.log("particulr is not an array or is empty");
+              }
         } catch (error) {
             console.error("Error while fetching data:", error);
         }
@@ -72,11 +80,11 @@ useEffect(()=>{
 },[employee])
  
 
-    const handleCheckOutClick = async() => {
+    const handleCheckOutClick = async() => {    
         const currentDate = new Date();
     
         try {
-            const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock}`,{ checkOutTime:currentDate.toISOString()});
+            const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock._id}`,{ checkOutTime:currentDate.toISOString()});
             if (response.status === 200) {
                 console.log("Check-Out successful!");
                 setCheckInDisabled(false);
