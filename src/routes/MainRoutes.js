@@ -40,6 +40,7 @@ import { FeedSelectedTable } from 'views/recruitment/FeedSelectedTable';
 import ApplicationTrackTab from 'views/recruitment/ApplicationTrackTab';
 // dashboard routing
 import LeaveTab from 'views/leavemanagement/LeaveTab';
+import AccountSetting from 'views/accountsetting/AccountSetting';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -214,6 +215,10 @@ const MainRoutes = {
     {
       path: '/ApplicationTrackTab',
       element: <ApplicationTrackTab />
+    },
+    {
+      path: '/Accountsetting',
+      element: <AccountSetting />
     }
 
     
