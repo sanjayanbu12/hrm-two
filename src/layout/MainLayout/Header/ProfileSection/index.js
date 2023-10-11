@@ -127,6 +127,9 @@ const [rotationAngle, setRotationAngle] = useState(0);
 WhoLog();
   },[])
 
+  const handleAccount=()=>{
+navigate('/Accountsetting')
+  }
   return (
     <>
       <Chip
@@ -339,12 +342,16 @@ WhoLog();
                             }
                           />
                         </ListItemButton> */}
+                        <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}
+                        onClick={handleAccount}>
+                          <ListItemText primary={<Typography variant='body2'>Account Setting</Typography>} />
+                        </ListItemButton>
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                          
                           onClick={handleLogout}
                         >
-                          <ListItemIcon>
+                          <ListItemIcon >
                             <IconLogout color='black' stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
