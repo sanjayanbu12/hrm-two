@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import axios from 'axios';
 // import {TextSnippet } from '@mui/icons-material';
 import jsPDF from 'jspdf';
@@ -10,7 +10,7 @@ import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 
 
 const AtttendanceTab = () => {
-    const authId = useSelector((state) => state.customization.authId);
+    // const authId = useSelector((state) => state.customization.authId);
 
     const [employee, setEmployee] = useState([]);
     
@@ -55,27 +55,22 @@ const AtttendanceTab = () => {
       const fetchEmployee = async () => {
         try {
           const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
-          const matchingEmployee = res.data.find(emp => emp.employeeid === authId);
+          
+          const allEmployeeData = res.data.map(matchingEmployee => {
+            const clockData = matchingEmployee.clockid || [];
+            return clockData.map(clockData => ({
+              name: matchingEmployee.name,
+              date: formatDate(clockData.date),
+              checkInTime: formatTime(clockData.checkInTime),
+              checkOutTime: formatTime(clockData.checkOutTime),
+              workingHours: calculateWorkingHours(clockData.checkInTime, clockData.checkOutTime),
+            }));
+          });
       
-          if (matchingEmployee) {
-            const clockkkid = matchingEmployee.clockid;
+          // Flatten the array to get a single list of all clock data
+          const flattenedEmployeeData = [].concat(...allEmployeeData);
       
-            if (clockkkid) {
-              // Add the 'name' field to the clock data
-              const employeeData = clockkkid.map(clockData => ({
-                name: matchingEmployee.name,
-                date:formatDate(clockData.date),
-                checkInTime: formatTime(clockData.checkInTime), // Format checkInTime
-                checkOutTime: formatTime(clockData.checkOutTime), // Format checkOutTime
-                workingHours: calculateWorkingHours(clockData.checkInTime, clockData.checkOutTime),
-              }));
-              setEmployee(employeeData);
-            } else {
-              console.log("Clock data not found for authId:", authId);
-            }
-          } else {
-            console.log("Employee not found for authId:", authId);
-          }
+          setEmployee(flattenedEmployeeData);
         } catch (error) {
           console.log(error);
         }

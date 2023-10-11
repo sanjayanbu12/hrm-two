@@ -10,6 +10,8 @@ const AttendanceMod = () => {
     const[clockid,setClockid]=useState('');
     const [checkInDisabled, setCheckInDisabled] = useState(false);
     const [checkOutDisabled, setCheckOutDisabled] = useState(true);
+    const [breakDisabled, setBreakDisabled] = useState(true);
+    const [breakButtonLabel, setBreakButtonLabel] = useState('Break');
     const[parclock,setParclock]=useState("");
     console.log("zzz",parclock)
 
@@ -32,9 +34,9 @@ const AttendanceMod = () => {
     useEffect(() => {
         fetchEmployee();
     }, []);
+    
 
     const handleCheckInClick = async () => {
-    
         const currentDate = new Date();
         const checkInData = {
             date: currentDate.toISOString(),
@@ -49,6 +51,8 @@ const AttendanceMod = () => {
                 console.log("Check-in successful!");
                 setCheckInDisabled(true);
                 setCheckOutDisabled(false);
+                setBreakDisabled(false);
+               
             } else {
                 console.log("Failed to check in.");
             }
@@ -56,6 +60,16 @@ const AttendanceMod = () => {
             console.error("Error while checking in:", error);
         }
     };
+    const handleBreakClick = async () => {
+        if (breakButtonLabel === 'Break') {
+            setCheckOutDisabled(true);
+        } else if (breakButtonLabel === 'In') {
+            setCheckOutDisabled(false);
+        }
+        setBreakButtonLabel((currentLabel) => (currentLabel === 'Break' ? 'In' : 'Break'));
+    };
+
+
     const getdata = async () => {
         try {
             console.log("ww", employee._id);
@@ -68,7 +82,7 @@ const AttendanceMod = () => {
                 const extractedIds = particulr.map(item => item._id);
                 console.log("zxc",extractedIds)
             } else {
-                console.log("particulr is not an array or is empty");
+                console.log("particulr is not an array or is empty");    
               }
         } catch (error) {
             console.error("Error while fetching data:", error);
@@ -89,17 +103,16 @@ useEffect(()=>{
                 console.log("Check-Out successful!");
                 setCheckInDisabled(false);
                 setCheckOutDisabled(true);
+                setBreakDisabled(true);
+                
             } else {
                 console.log("Failed to check in.");
             }
         } catch (error) {
             console.error("Error while checking in:", error);
         }
-
-      
     };
 
-    // Define inline styles for zoom-in and zoom-out animations
     const zoomInStyle = {
         transform: checkInDisabled ? 'scale(0.6)' : 'scale(1)',
         transition: 'transform 0.1s',
@@ -109,6 +122,11 @@ useEffect(()=>{
         transform: checkOutDisabled ? 'scale(0.6)' : 'scale(1)',
         transition: 'transform 0.1s',
     };
+    const breakStyle = {
+        transform: breakDisabled ? 'scale(0.6)' : 'scale(1)',
+        transition: 'transform 0.1s',
+    };
+
   
     return (
         <>
@@ -127,6 +145,13 @@ useEffect(()=>{
                 onClick={handleCheckOutClick}
               
             />
+   <Button
+      label={breakButtonLabel}
+    severity="warning"
+    onClick={handleBreakClick}
+    disabled={breakDisabled}
+    style={{ marginLeft: '12px', ...breakStyle }}
+/>
         </>
     )
 }
