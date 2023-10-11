@@ -42,6 +42,7 @@ import AtttendanceTab from 'layout/MainLayout/Header/AtttendanceTab';
 // dashboard routing
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
+import LeaveApproval from 'views/leavemanagement/LeaveApproval';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -224,6 +225,9 @@ const MainRoutes = {
     {
       path: '/AtttendanceTab',
       element: <AtttendanceTab />
+    },{
+      path:'/leaveapprove',
+      element:<LeaveApproval />
     }
 
     
