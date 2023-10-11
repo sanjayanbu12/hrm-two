@@ -27,7 +27,7 @@ const LeaveTab = () => {
       <Tabs sx={{marginBottom:2}} value={value} onChange={handleChange} aria-label="icon position tabs example" centered>
         <Tab  label="Request Leave" />
         <Tab label="View Leave " />
-        <Tab label="Leave Calenedar" />
+        <Tab label="Leave Calendar" />
       </Tabs>
       {renderTabContent()}
     </div>
