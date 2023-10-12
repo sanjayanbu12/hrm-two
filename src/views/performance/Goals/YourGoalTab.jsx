@@ -1,16 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
-import { Grid, Typography, Card, MenuItem, Menu, Paper, Button } from '@mui/material';
-import IconButton from '@mui/material/IconButton';
+import { Grid, Card, Paper, Button } from '@mui/material';
+import { EditText } from 'react-edit-text';
+
 import PopupTask from './PopupTask';
 import { useParams } from 'react-router';
 
-const ITEM_HEIGHT = 48;
 
 const YourGoalTab = () => {
+  const id = useParams();
+
   const [tasks, setTasks] = useState([]);
   const [items, setItems] = useState([]);
+  const [textc, setTextc] = useState([]);
+  const [textd, setTextd] = useState([]);
+  const [specificIdd, setSpecificIdd] = useState([]);
+  const [specificIdc, setSpecificIdc] = useState([]);
+
 
   const fetchGoals = async () => {
     try {
@@ -20,13 +27,14 @@ const YourGoalTab = () => {
       console.error('Error fetching goals:', error);
     }
   };
-  useEffect(() => {
-    fetchGoals();
-  }, []);
+
   const reloadTasks = () => {
     fetchGoals();
   };
 
+  useEffect(() => {
+    fetchGoals();
+  }, [items]);
   useEffect(() => {
     // Initialize 'items' whenever 'tasks' change
     const initialItems = [
@@ -45,9 +53,14 @@ const YourGoalTab = () => {
       {
         title: 'BLOCKED',
         items: []
+      },
+      {
+        title: 'DELETE',
+        items: []
       }
     ];
-    console.log(tasks);
+
+
     tasks.forEach((getData) => {
       if (getData.status == 0) {
         initialItems[0].items.push({ id: getData._id, content: getData.title, des: getData.description, pos: getData.position });
@@ -63,9 +76,6 @@ const YourGoalTab = () => {
     setItems(initialItems);
   }, [tasks]);
 
-  const options = ['Edit', 'Delete'];
-  const id = useParams();
-
   const [isPopupOpen, setPopupOpen] = useState(false);
 
   const openPopup = () => {
@@ -78,7 +88,6 @@ const YourGoalTab = () => {
 
   let movedItem;
   let reorderedItem;
-  let pos;
 
   const handleDragEnd = async (result) => {
     if (!result.destination) return; // Dropped outside the list
@@ -92,15 +101,7 @@ const YourGoalTab = () => {
       const group = newItems[sourceGroupIndex];
       [reorderedItem] = group.items.splice(result.source.index, 1);
       group.items.splice(result.destination.index, 0, reorderedItem);
-      pos = result.destination.index;
       setItems(newItems);
-      try {
-        await axios.put(`https://hrm-backend-square.onrender.com/task/update/${reorderedItem.id}`, {
-          position: pos
-        });
-      } catch (error) {
-        console.log('error', error);
-      }
     } else {
       // Move items between groups
       const newItems = [...items];
@@ -117,16 +118,39 @@ const YourGoalTab = () => {
     }
   };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleChangec = (e, item) => {
+    setTextc(e.target.value);
+    setSpecificIdc(item);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleChanged = (e, item) => {
+    setTextd(e.target.value);
+    setSpecificIdd(item);
   };
+
+  const handleSavec = async () =>  { 
+    try {
+      await axios.put(`https://hrm-backend-square.onrender.com/task/update/${specificIdc}`, {
+        title: textc
+        
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+  const handleSaved = async () =>  { 
+    try {
+      await axios.put(`https://hrm-backend-square.onrender.com/task/update/${specificIdd}`, {
+        description: textd
+      });
+    } catch (error) {
+      console.log('error', error);
+    }
+  };
+ 
+
+
+  // };
 
   return (
     <Paper style={{ padding: '20px', height: 'fit-content', maxWidth: '100%' }}>
@@ -137,12 +161,12 @@ const YourGoalTab = () => {
         {isPopupOpen && <PopupTask onClose={closePopup} reloadTasks={reloadTasks} />}
       </div>
       <Grid container spacing={2} sx={{ listStyle: 'none', display: 'flex', flexDirection: 'row', marginTop: '10px' }}>
-        <Grid item xs={10} sx={{ display: 'flex', gap: '10px', justifyContent: 'left' }}>
+        <Grid item xs={12} sx={{ display: 'flex', gap: '10px', justifyContent: 'left' }}>
           <DragDropContext onDragEnd={handleDragEnd}>
             {items.map((group, groupIndex) => (
               <Grid item xs={12} key={groupIndex} style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
                 <Droppable droppableId={groupIndex.toString()} key={groupIndex}>
-                  {(provided) => (
+                  {(provided, snapshot) => (
                     <div
                       {...provided.droppableProps}
                       ref={provided.innerRef}
@@ -151,13 +175,32 @@ const YourGoalTab = () => {
                         border: '1px solid #ccc',
                         borderRadius: 10,
                         width: '100%',
-                        height: '100%'
+                        height: '100%',
+                        ...(groupIndex === 4
+                          ? {
+                              // Apply specific CSS for groupIndex 4
+                              width: snapshot.isDraggingOver ? '100%' : '10px',
+                              transition: 'width 0.3s ease',
+                              color: snapshot.isDraggingOver ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 0)',
+                              tarnsition: 'color 0.6 ease'
+                                                           
+                             
+                            }
+                          : null),
+                        ...(groupIndex === 0 || groupIndex === 1 || groupIndex === 2 || groupIndex === 3 
+                          ? {
+                              // Apply specific CSS for groupIndex 4
+
+
+                             
+                            }
+                          : null),
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>
                         <h3 key={groupIndex}>{group.title} </h3>
                       </div>
-                      {console.log(group.items)}
+
                       {group.items.map((item, index) => (
                         <Draggable key={item.id} draggableId={item.id} index={index}>
                           {(provided) => (
@@ -167,8 +210,8 @@ const YourGoalTab = () => {
                               {...provided.dragHandleProps}
                               style={{
                                 userSelect: 'none',
-                                padding: 16,
-                                margin: '0 0 8px 0',
+                                padding: 10,
+                                margin: '0px 0px 5px 0px',
                                 backgroundColor: '#fff',
                                 border: '1px solid #ddd',
                                 display: 'flex',
@@ -178,8 +221,8 @@ const YourGoalTab = () => {
                               }}
                             >
                               <Grid container spacing={2} sx={{ listStyle: 'none', display: 'flex', flexDirection: 'row' }}>
-                                <Grid item xs={10} sx={{ display: 'flex', justifyContent: 'left' }}>
-                                  <h4
+                                <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'left' }}>
+                                  <EditText
                                     key={groupIndex}
                                     style={{
                                       margin: '0px',
@@ -188,47 +231,10 @@ const YourGoalTab = () => {
                                       borderRadius: '4px',
                                       width: 'fit-content'
                                     }}
-                                  >
-                                    {item.content}
-                                  </h4>
-                                </Grid>
-                                <Grid item xs={2} sx={{ display: 'flex', justifyContent: 'left' }}>
-                                  <IconButton
-                                    aria-label="more"
-                                    id="long-button"
-                                    aria-controls={open ? 'long-menu' : undefined}
-                                    aria-expanded={open ? 'true' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={handleClick}
-                                    style={{
-                                      backgroundColor: 'grey',
-                                      width: '2px',
-                                      height: '2px',
-                                      display: 'flex',
-                                      alignContent: 'center'
-                                    }}
-                                  ></IconButton>
-                                  <Menu
-                                    id="long-menu"
-                                    MenuListProps={{
-                                      'aria-labelledby': 'long-button'
-                                    }}
-                                    anchorEl={anchorEl}
-                                    open={open}
-                                    onClose={handleClose}
-                                    PaperProps={{
-                                      style: {
-                                        maxHeight: ITEM_HEIGHT * 4.5,
-                                        width: '20ch'
-                                      }
-                                    }}
-                                  >
-                                    {options.map((option) => (
-                                      <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-                                        {option}
-                                      </MenuItem>
-                                    ))}
-                                  </Menu>
+                                    value={item.id === specificIdc ? (textc ? textc : item.content) : item.content}
+                                    onChange={(e) => handleChangec(e, item.id)}
+                                    onSave={handleSavec}
+                                  />
                                 </Grid>
 
                                 <Grid
@@ -239,10 +245,15 @@ const YourGoalTab = () => {
                                     flexWrap: 'wrap',
                                     justifyContent: 'left',
                                     padding: '5px',
-                                    marginTop: '5px'
+                                    marginTop: '5px',
+                                    marginLeft: '10px'
                                   }}
                                 >
-                                  <Typography>{item.des}</Typography>
+                                  <EditText
+                                    value={item.id === specificIdd ? (textd ? textd : item.des) : item.des}
+                                    onChange={(e) => handleChanged(e, item.id)}
+                                    onSave={handleSaved}
+                                  />
                                 </Grid>
                               </Grid>
                             </Card>
@@ -257,7 +268,7 @@ const YourGoalTab = () => {
             ))}
           </DragDropContext>
         </Grid>
-
+        {/* 
         <Grid item xs={2} sx={{}}>
           <Grid item xs={12} sx={{}}>
             <Typography sx={{ fontWeight: '600', fontSize: 'medium', width: '100%' }}>Task Progress</Typography>
@@ -278,7 +289,7 @@ const YourGoalTab = () => {
               <rect y="30%" fill="#92bCa6" width="50%" height="7" strokeLinecap="round" rx="5" ry="5" />
             </svg>
           </Grid>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Paper>
   );
