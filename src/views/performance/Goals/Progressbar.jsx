@@ -4,8 +4,36 @@ import Item from 'antd/es/list/Item';
 import './Progressbar.css';
 
 const Progressbar = ({ goal, onClick }) => {
-  const { GoalT, GoalP } = goal;
-  console.log(GoalT,GoalP)
+  const { GoalT, GoalP, goaltrack } = goal;
+  const statusCount = {
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0
+  };
+  const statusLabels = {
+    0: 'ICEBOX',
+    1: 'INPROGRESS',
+    2: 'COMPLETED',
+    3: 'BLOCKED'
+  };
+
+  goaltrack.forEach((task) => {
+    const status = task.status;
+    if (Object.prototype.hasOwnProperty.call(statusCount, status)) {
+      statusCount[status]++;
+    }
+  });
+  const completedCount = statusCount[2] || 0;
+  const totalCount = (statusCount[0] || 0) + (statusCount[1] || 0) + (statusCount[3] || 0) + completedCount;
+  let completedPercentage = 0;
+  if (totalCount !== 0) {
+    completedPercentage = (completedCount / totalCount) * 100;
+  }
+
+
+
+
   return (
     <>
       <Box onClick={onClick} className="center">
@@ -13,29 +41,15 @@ const Progressbar = ({ goal, onClick }) => {
           <div className="additional">
             <div className="user-card"></div>
             <div className="more-info">
-              <div className="stats">
-                <div className='title'>UNDER DEVELOPMENT</div>
-                {/* <div>
-                  <div className="title">UNDER</div>
+            <div className="stats">
+            {Object.keys(statusCount).map((status) => (
+  <div key={status}>
+    <div className="title">{statusLabels[status]}</div>
+    <div className="value">{statusCount[status]}</div>
+  </div>
+))}
+  </div>
 
-                  <div className="value">2</div>
-                </div>
-                <div>
-                  <div className="title">DEVELOPMENT</div>
-
-                  <div className="value">6</div>
-                </div>
-                <div>
-                  <div className="title">Completed</div>
-
-                  <div className="value">7</div>
-                </div>
-                <div>
-                  <div className="title">Blocked</div>
-
-                  <div className="value">1</div>
-                </div> */}
-              </div>
             </div>
           </div>
           <Grid container spacing={2} sx={{ listStyle: 'none' }}>
@@ -52,13 +66,13 @@ const Progressbar = ({ goal, onClick }) => {
               </Item>
             </Grid>
             <Grid item xs={1} sx={{ marginLeft: '30px' }}>
-              <Item>50%</Item>
+              <Item>{completedPercentage}%</Item>
             </Grid>
             <Grid item xs={10} sx={{}}>
               <Item sx={{}}>
                 <svg width="100%" height="15" xmlns="http://www.w3.org/2000/svg">
                   <rect y="30%" fill="#dce0e3" width="100%" height="7" strokeLinecap="round" rx="5" ry="5" />
-                  <rect y="30%" fill="#92bCa6" width="50%" height="7" strokeLinecap="round" rx="5" ry="5" />
+                  <rect y="30%" fill="#92bCa6" width={`${completedPercentage}%`} height="7" strokeLinecap="round" rx="5" ry="5" />
                 </svg>
               </Item>
             </Grid>
