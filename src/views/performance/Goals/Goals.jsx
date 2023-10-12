@@ -13,6 +13,9 @@ const Goals = () => {
   const [empId, setEmpId] = useState([]);
   const authId = useSelector((state) => state.customization.authId);
 
+
+
+
   useEffect(() => {
     fetchEmployee();
   }, []); // Run this effect only once when the component is mounted
@@ -43,11 +46,13 @@ const Goals = () => {
 
   const fetchGoals = async () => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/goal/getgoal/${empId[0]}`);
+      const response = await axios.get(`http://localhost:3001/goal/getgoal/${empId[0]}`);
 
       
       console.log('this is for testing', response);
-      setGoals(response.data);
+      console.log("summa", response.data.result)
+      setGoals(response.data.result);
+
     } catch (error) {
       console.error('Error fetching goals:', error);
     }
