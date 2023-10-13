@@ -46,7 +46,7 @@ const Goals = () => {
 
   const fetchGoals = async () => {
     try {
-      const response = await axios.get(`http://localhost:3001/goal/getgoal/${empId[0]}`);
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/goal/getgoal/${empId[0]}`);
 
       
       console.log('this is for testing', response);
