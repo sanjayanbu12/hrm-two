@@ -99,7 +99,7 @@ const pages = {
     },
     {
       id: 'employees',
-      title: 'Employees',
+      title: 'Employee Self Service',
       type: 'collapse',
       icon: icons.BadgeOutlinedIcon,
 
