@@ -37,6 +37,7 @@ const AttendanceMod = () => {
     
 
     const handleCheckInClick = async () => {
+    
         const currentDate = new Date();
         const checkInData = {
             date: currentDate.toISOString(),
@@ -82,7 +83,7 @@ const AttendanceMod = () => {
                 const extractedIds = particulr.map(item => item._id);
                 console.log("zxc",extractedIds)
             } else {
-                console.log("particulr is not an array or is empty");    
+                console.log("particulr is not an array or is empty");
               }
         } catch (error) {
             console.error("Error while fetching data:", error);
@@ -111,8 +112,11 @@ useEffect(()=>{
         } catch (error) {
             console.error("Error while checking in:", error);
         }
+
+      
     };
 
+    // Define inline styles for zoom-in and zoom-out animations
     const zoomInStyle = {
         transform: checkInDisabled ? 'scale(0.6)' : 'scale(1)',
         transition: 'transform 0.1s',
