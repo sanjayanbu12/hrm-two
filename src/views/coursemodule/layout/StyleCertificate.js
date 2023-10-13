@@ -20,17 +20,7 @@ export const FlexContainer = styled(Box)`
 `;
 
 export const PaddedDiv = styled(Box)`
+ display: flex;
   padding-left: 40px;
   padding-top: 40px;
 `;
-export const Coloredcontainer = styled(Box)`
-  background-color: #f0de36;
-  height: 30px;
-  width: 350px;
-`;
-
-export const Container = styled(Box)`
-  display: flex;
-  justify-content: flex-end;
-`;
-

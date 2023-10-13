@@ -1,118 +1,112 @@
-// import { Box } from '@mui/material';
-// import React from 'react';
-// import logo from '../layout/SquareLogo.jpeg';
-// import { StyledPaper, StyledBox, FlexContainer,PaddedDiv,Coloredcontainer,Container} from './StyleCertificate';
+import React from 'react';
+import logo from '../layout/SquareLogo.jpeg';
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { StyledPaper, StyledBox, FlexContainer, PaddedDiv } from './StyleCertificate';
+import axios from 'axios';
+import html2pdf from 'html2pdf.js';
 
-// const Certificate = () => {
-//   return (
-//     <>
-//       <StyledPaper>
-//         <StyledBox>
-//           <FlexContainer>
-//             <PaddedDiv>
-//               <img style={{ display: 'flex' }} src={logo} alt="Square Logo" />
-//             </PaddedDiv>
-//             <h1 style={{ marginTop: '90px', display: 'block' }}>SNS Square Skill Training</h1>
+const Certificate = ({ name }) => {
+  const [matched, setMatched] = useState('');
 
-//             <Coloredcontainer/>
-//           </FlexContainer>
-//           <Container>
-//             <Box
-//               sx={{
-//                 marginTop: '-170px',
-//                 backgroundColor: '#F0DE36',
-//                 height: '85px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 marginTop: '-85px',
-//                 backgroundColor: '#47B5FF',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 marginTop: '-10px',
-//                 backgroundColor: '#FFB000',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 backgroundColor: '#220160',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 backgroundColor: '#cd0a0a',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 backgroundColor: '#299a67',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 backgroundColor: '#3458ad',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px' // Add some padding to make the content visible
-//               }}
-//             />
-//           </Container>
-//           <Container>
-//             <Box
-//               sx={{
-//                 backgroundColor: '#c60c85',
-//                 height: '76px',
-//                 width: '20px',
-//                 padding: '10px'
-//               }}
-//             />
-//           </Container>
-//         </StyledBox>
-//       </StyledPaper>
-//     </>
-//   );
-// };
+  console.log('match', matched);
+  const authId = useSelector((state) => state.customization.authId);
 
-// export default Certificate;
+  const companyname = 'SNS SQUARE CONSULTANCY SERVICES PVT LTD ';
 
-import React from 'react'
+  const WhoLog = async () => {
+    try {
+      const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+      const users = res.data.user;
+      const matchedUser = users.find((user) => user.employeeId === authId);
+      if (matchedUser) {
+        setMatched(matchedUser);
+      } else {
+        console.log('No user found with the provided authId.');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    WhoLog();
+  }, []);
 
-const Certificate = () => {
+  const generatePDF = () => {
+    const element = document.getElementById('certificate');
+    const pdfOptions = {
+      margin: 10,
+      filename: 'certificate.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    };
+
+    html2pdf()
+      .from(element)
+      .set(pdfOptions)
+      .outputPdf()
+      .then((pdf) => {
+        pdf.save();
+      });
+  };
+
   return (
-    <h1 style={{display:'flex',justifyContent:'center',alignItems:'center'}}>Under Development</h1>
-  )
-}
+    <>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Caveat&family=Roboto:wght@400;500;700&family=Tangerine:wght@700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
 
-export default Certificate
+      <StyledPaper>
+        <StyledBox>
+          <FlexContainer>
+            <PaddedDiv>
+              <img style={{ display: 'flex' }} src={logo} alt="Square Logo" />
+              <div>
+                <h1 style={{ display: 'block', marginLeft: 40 }}>SNS SQUARE CONSULTANCY SERVICES PVT LTD</h1>
+                <div
+                  style={{
+                    display: 'flex',
+                    marginLeft: 45,
+                    alignItems: 'center'
+                  }}
+                >
+                  <div
+                    style={{
+                      backgroundColor: 'black',
+                      padding: '10px',
+                      color: 'yellow',
+                      fontSize: 20,
+                      fontFamily: 'monospace'
+                    }}
+                  >
+                    {name}
+                  </div>
+                </div>
+              </div>
+            </PaddedDiv>
+          </FlexContainer>
+          <div style={{ display: 'flex' }}>
+            <h2 style={{ marginTop: 90, marginLeft: 150, fontFamily: 'Tangerine, cursive', fontSize: '80px' }}>Certificate</h2>
+          </div>
+          <div>
+            <h3 style={{ marginTop: -53, marginLeft: 300 }}>OF APPRECIATION PROUDLY PRESENTED TO</h3>
+
+            <h2 style={{ marginTop: 25, marginLeft: 670, fontFamily: 'Tangerine, cursive', fontSize: '70px' }}> {matched.firstname}</h2>
+          </div>
+          <h3 style={{ marginTop: -20, marginLeft: 150 }}>
+            Has successfully completed the {name} offered by {companyname} <br />
+          </h3>
+        </StyledBox>
+      </StyledPaper>
+      <button onClick={generatePDF}>Download Certificate</button>
+    </>
+  );
+};
+
+export default Certificate;
