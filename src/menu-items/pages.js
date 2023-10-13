@@ -161,12 +161,12 @@ const pages = {
     //   type: 'item',
     //   url: '/employeeengagement'
     // },
-    // {
-    //   id: 'employeeselfservices',
-    //   title: 'Employee Self Services',
-    //   type: 'item',
-    //   url: '/employeeselfservices'
-    // },
+    {
+      id: 'employeeselfservices',
+      title: 'Employee Self Services',
+      type: 'item',
+      url: '/employeeselfservices'
+    },
       ]
     },
     {

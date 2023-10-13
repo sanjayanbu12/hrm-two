@@ -737,11 +737,11 @@ const EmployeeForm = () => {
                     // helperText={errors && errors.desi}
                     onChange={(e) => handleDesi(e)}
                   >
-                    <MenuItem value="HR">HR</MenuItem>
-                    <MenuItem value="Software Developer">Software Developer</MenuItem>
+                    <MenuItem value="HR">Front-End Developer</MenuItem>
+                    <MenuItem value="Software Developer">Back-End Software Developer</MenuItem>
                     <MenuItem value="AWS">AWS</MenuItem>
-                    <MenuItem value="Data Analyst">Data Analyst</MenuItem>
-                    <MenuItem value="Audit">Audit</MenuItem>
+                    <MenuItem value="Data Analyst">Figma</MenuItem>
+                    <MenuItem value="Data Analyst">HR</MenuItem>
                   </Select>
                   <FormHelperText>{errors && errors.desi}</FormHelperText>
                 </FormControl>
