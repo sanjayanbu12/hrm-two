@@ -31,6 +31,8 @@ const LeaveTab = () => {
         <Tab  label="Request Leave" />
         <Tab label="View Leave " />
         <Tab label="Leave Calendar" />
+        <Tab label="Attendance Table" />
+      
       </Tabs>
       {renderTabContent()}
     </div>
