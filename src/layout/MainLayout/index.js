@@ -65,7 +65,7 @@ const MainLayout = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+      <CssBaseline /> 
       {/* header */}
       <AppBar
         enableColorOnDark
