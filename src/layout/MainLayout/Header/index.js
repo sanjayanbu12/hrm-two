@@ -9,6 +9,7 @@ import LogoSection from '../LogoSection';
 // import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
+import AttendanceMod from './AttendanceMod';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
@@ -25,14 +26,17 @@ const Header = ({ handleLeftDrawerToggle }) => {
         sx={{
           width: 228,
           display: 'flex',
+          justifyContent:'space-between',
           [theme.breakpoints.down('md')]: {
             width: 'auto'
           }
         }}
       >
+
         <Box component="span" sx={{ display: { xs: 'none', md: 'block' }, flexGrow: 1 }}>
           <LogoSection />
         </Box>
+        
         <ButtonBase sx={{ borderRadius: '12px', overflow: 'hidden' }}>
           <Avatar
             variant="rounded"
@@ -54,6 +58,10 @@ const Header = ({ handleLeftDrawerToggle }) => {
           </Avatar>
         </ButtonBase>
       </Box>
+     
+        <Box sx={{ flexGrow: 2.5 }} />
+        <AttendanceMod/>
+    
 
       {/* header search */}
       {/* <SearchSection /> */}
@@ -61,6 +69,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       <Box sx={{ flexGrow: 1 }} />
 
       {/* notification & profile */}
+    
       <NotificationSection />
       
       <ProfileSection />
