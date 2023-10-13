@@ -51,7 +51,7 @@ const [rotationAngle, setRotationAngle] = useState(0);
   
   const [open, setOpen] = useState(false);
   const[matched,setMatched]=useState("");
-  console.log("ccc",matched)
+  console.log("",matched)
   const authId = useSelector((state) => state.customization.authId);
 
   /**
