@@ -2,7 +2,6 @@ import React from 'react';
 import { TabView, TabPanel } from 'primereact/tabview';
 import Quiz from './Quiz';
 import QuizForm from './QuizForm';
-
 const TabQuiz=()=> {
     return (
         <div >

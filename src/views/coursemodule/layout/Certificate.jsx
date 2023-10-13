@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { StyledPaper, StyledBox, FlexContainer, PaddedDiv } from './StyleCertificate';
 import axios from 'axios';
-import html2pdf from 'html2pdf.js';
 
 const Certificate = ({ name }) => {
   const [matched, setMatched] = useState('');
@@ -32,24 +31,6 @@ const Certificate = ({ name }) => {
     WhoLog();
   }, []);
 
-  const generatePDF = () => {
-    const element = document.getElementById('certificate');
-    const pdfOptions = {
-      margin: 10,
-      filename: 'certificate.pdf',
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2 },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-
-    html2pdf()
-      .from(element)
-      .set(pdfOptions)
-      .outputPdf()
-      .then((pdf) => {
-        pdf.save();
-      });
-  };
 
   return (
     <>
@@ -104,7 +85,7 @@ const Certificate = ({ name }) => {
           </h3>
         </StyledBox>
       </StyledPaper>
-      <button onClick={generatePDF}>Download Certificate</button>
+      
     </>
   );
 };
