@@ -10,8 +10,10 @@ const AttendanceMod = () => {
     const[clockid,setClockid]=useState('');
     const [checkInDisabled, setCheckInDisabled] = useState(false);
     const [checkOutDisabled, setCheckOutDisabled] = useState(true);
-    // const [breakDisabled, setBreakDisabled] = useState(true);
-    // const [breakButtonLabel, setBreakButtonLabel] = useState('Break');
+    const [breakDisabled, setBreakDisabled] = useState(true);
+    const [breakButtonLabel, setBreakButtonLabel] = useState('Break');
+    const[breakinID,setBreackinId]=useState("");
+    console.log("breack in id",breakinID)
     const[parclock,setParclock]=useState("");
     console.log("zzz",parclock)
 
@@ -37,7 +39,6 @@ const AttendanceMod = () => {
     
 
     const handleCheckInClick = async () => {
-    
         const currentDate = new Date();
         const checkInData = {
             date: currentDate.toISOString(),
@@ -52,29 +53,63 @@ const AttendanceMod = () => {
                 console.log("Check-in successful!");
                 setCheckInDisabled(true);
                 setCheckOutDisabled(false);
-                // setBreakDisabled(false);
-               
+                setBreakDisabled(false);   
             } else {
-                console.log("Failed to check in.");
+                console.log("Failed to check in");
             }
         } catch (error) {
             console.error("Error while checking in:", error);
         }
     };
-    // const handleBreakClick = async () => {
-    //     if (breakButtonLabel === 'Break') {
-    //         setCheckOutDisabled(true);
-    //     } else if (breakButtonLabel === 'In') {
-    //         setCheckOutDisabled(false);
-    //     }
-    //     setBreakButtonLabel((currentLabel) => (currentLabel === 'Break' ? 'In' : 'Break'));
-    // };
+    const handleBreakClick = async () => {
+        if (breakButtonLabel === 'Break') {
+            const currentDate = new Date();
+            try {
+                const response = await axios.post(`https://hrm-backend-square.onrender.com/break/create`,
+                { breakin:currentDate.toISOString(),
+                attid :parclock._id
+                });
+                setBreackinId(response.data.savedData._id)
+                
+                if (response.status === 200) {
+                    console.log("Break in successful!",response);
+                } else {
+                    console.log("Failed to Break in.");
+                }
+
+            } catch (error) {
+                console.log(error)
+            }
+
+            setCheckOutDisabled(true);
+        } else if (breakButtonLabel === 'In') {
+            const currentDate = new Date();
+            try {
+                const response = await axios.put(`https://hrm-backend-square.onrender.com/break/update/${breakinID}`,
+                { breakout:currentDate.toISOString(),
+                    })
+                    if (response.status === 200) {
+                        console.log("Break Out successful!",response);
+                    } else {
+                        console.log("Failed to Break Out");
+                    }
+                
+            } catch (error) {
+                
+            }
+
+
+            setCheckOutDisabled(false);
+        }
+        setBreakButtonLabel((currentLabel) => (currentLabel === 'Break' ? 'In' : 'Break'));
+    };
 
 
     const getdata = async () => {
         try {
             console.log("ww", employee._id);
             const resp = await axios.get(`https://hrm-backend-square.onrender.com/api/getemployee/${employee._id}`);
+            console.log("Total employee data",resp)
             const particulr=resp.data.clockid;
             console.log("zzz",particulr)
             const fetchClock=resp.data.clockid
@@ -83,7 +118,7 @@ const AttendanceMod = () => {
                 const extractedIds = particulr.map(item => item._id);
                 console.log("zxc",extractedIds)
             } else {
-                console.log("particulr is not an array or is empty");
+                console.log("particulr is not an array or is empty");    
               }
         } catch (error) {
             console.error("Error while fetching data:", error);
@@ -104,7 +139,7 @@ useEffect(()=>{
                 console.log("Check-Out successful!");
                 setCheckInDisabled(false);
                 setCheckOutDisabled(true);
-                // setBreakDisabled(true);
+                setBreakDisabled(true);
                 
             } else {
                 console.log("Failed to check in.");
@@ -112,11 +147,8 @@ useEffect(()=>{
         } catch (error) {
             console.error("Error while checking in:", error);
         }
-
-      
     };
 
-    // Define inline styles for zoom-in and zoom-out animations
     const zoomInStyle = {
         transform: checkInDisabled ? 'scale(0.6)' : 'scale(1)',
         transition: 'transform 0.1s',
@@ -126,11 +158,10 @@ useEffect(()=>{
         transform: checkOutDisabled ? 'scale(0.6)' : 'scale(1)',
         transition: 'transform 0.1s',
     };
-    // const breakStyle = {
-        
-    //     transform: breakDisabled ? 'scale(0.6)' : 'scale(1)',
-    //     transition: 'transform 0.1s',
-    // };
+    const breakStyle = {
+        transform: breakDisabled ? 'scale(0.6)' : 'scale(1)',
+        transition: 'transform 0.1s',
+    };
 
   
     return (
@@ -150,15 +181,15 @@ useEffect(()=>{
                 onClick={handleCheckOutClick}
               
             />
-   {/* <Button
+   <Button
       label={breakButtonLabel}
     severity="warning"
     onClick={handleBreakClick}
     disabled={breakDisabled}
     style={{ marginLeft: '12px', ...breakStyle }}
-/> */}
+/>
         </>
     )
 }
 
-export default AttendanceMod;
+export default AttendanceMod;
