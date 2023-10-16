@@ -22,7 +22,7 @@
           { title: 'Checkin Time', field: 'checkInTime' },
           { title: 'Checkout Time', field: 'checkOutTime' },
           { title: 'Working Hours', field: 'workingHours' },
-          { title: 'Break time ', field: 'breakTime' } 
+          
         ];
         const formatTime = (timestamp) => {
           if (!timestamp) return ''; // Handle cases where timestamp is not available
@@ -40,46 +40,59 @@
         
           return `${formattedHours}:${formattedMinutes} ${ampm}`;
         };
-        const calculateWorkingHours = (checkInTime, checkOutTime) => {
+        const calculateWorkingHours = (checkInTime, checkOutTime, breakData) => {
           if (!checkInTime || !checkOutTime) return ''; // Handle cases where timestamps are not available
-        
+      
           const checkIn = new Date(checkInTime);
           const checkOut = new Date(checkOutTime);
-        
+      
           const millisecondsDiff = checkOut - checkIn;
+      
+          // Subtract break time
+          if (breakData && breakData.length > 0) {
+            breakData.forEach((breakItem) => {
+              if (breakItem.breakin && breakItem.breakout) {
+                const breakInTime = new Date(breakItem.breakin);
+                const breakOutTime = new Date(breakItem.breakout);
+                const breakDuration = breakOutTime - breakInTime;
+                millisecondsDiff -= breakDuration;
+              }
+            });
+          }
+      
           const hours = Math.floor(millisecondsDiff / 3600000); // 3600000 ms = 1 hour
           const minutes = Math.floor((millisecondsDiff % 3600000) / 60000); // 60000 ms = 1 minute
-        
+      
           return `${hours} hours ${minutes} minutes`;
         };
-        const calculateBreakTime = (breaks) => {
-          if (!breaks || breaks.length === 0) return '0 hours 0 minutes';
+        // const calculateBreakTime = (breaks) => {
+        //   if (!breaks || breaks.length === 0) return '0 hours 0 minutes';
         
-          let totalBreakTimeHours = 0;
-          let totalBreakTimeMinutes = 0;
+        //   let totalBreakTimeHours = 0;
+        //   let totalBreakTimeMinutes = 0;
         
-          breaks.forEach((breakData) => {
-            if (breakData.breakin && breakData.breakout) {
-              const breakInTime = new Date(breakData.breakin);
-              const breakOutTime = new Date(breakData.breakout);
+        //   breaks.forEach((breakData) => {
+        //     if (breakData.breakin && breakData.breakout) {
+        //       const breakInTime = new Date(breakData.breakin);
+        //       const breakOutTime = new Date(breakData.breakout);
         
-              const millisecondsDiff = breakOutTime - breakInTime;
-              const hours = Math.floor(millisecondsDiff / 3600000); // 3600000 ms = 1 hour
-              const minutes = Math.floor((millisecondsDiff % 3600000) / 60000); // 60000 ms = 1 minute
+        //       const millisecondsDiff = breakOutTime - breakInTime;
+        //       const hours = Math.floor(millisecondsDiff / 3600000); // 3600000 ms = 1 hour
+        //       const minutes = Math.floor((millisecondsDiff % 3600000) / 60000); // 60000 ms = 1 minute
         
-              totalBreakTimeHours += hours;
-              totalBreakTimeMinutes += minutes;
-            }
-          });
+        //       totalBreakTimeHours += hours;
+        //       totalBreakTimeMinutes += minutes;
+        //     }
+        //   });
         
-          // Adjust minutes if they exceed 60 and update hours accordingly
-          if (totalBreakTimeMinutes >= 60) {
-            totalBreakTimeHours += Math.floor(totalBreakTimeMinutes / 60);
-            totalBreakTimeMinutes = totalBreakTimeMinutes % 60;
-          }
+        //   // Adjust minutes if they exceed 60 and update hours accordingly
+        //   if (totalBreakTimeMinutes >= 60) {
+        //     totalBreakTimeHours += Math.floor(totalBreakTimeMinutes / 60);
+        //     totalBreakTimeMinutes = totalBreakTimeMinutes % 60;
+        //   }
         
-          return `${totalBreakTimeHours} hours ${totalBreakTimeMinutes} minutes`;
-        };
+        //   return `${totalBreakTimeHours} hours ${totalBreakTimeMinutes} minutes`;
+        // };
         const fetchEmployee = async () => {
           try {
             const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
@@ -94,7 +107,7 @@
                 breakin:formatTime(clockData.break.map(data=>data.breakin)),
                 breakout:formatTime(clockData.break.map(data=>data.breakout)),
                 workingHours: calculateWorkingHours(clockData.checkInTime, clockData.checkOutTime),
-                breakTime: calculateBreakTime(clockData.break),
+                break: clockData.break,
               }));
             });
             const flattenedEmployeeData = [].concat(...allEmployeeData);
@@ -217,7 +230,7 @@
         icons={tableIcons}
         style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
         options={{
-          actionsColumnIndex: 6,
+          actionsColumnIndex: 5,
           exportButton: true,
           exportCsv: exportCsv,
           exportPdf: exportPdf,

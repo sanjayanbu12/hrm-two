@@ -43,14 +43,12 @@ const AttendanceMod = () => {
     };
 
     useEffect(() => {
-
         const lastCheckInDate = Cookies.get('lastCheckInDate');
         const currentDate = new Date().toLocaleDateString();
 
         if (lastCheckInDate === currentDate) {
             setCheckInDisabled(true); 
         }
-
         fetchEmployee();
     }, []);
     
