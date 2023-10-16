@@ -10,26 +10,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import Lottie from 'react-lottie';
-// import loader from '../lottie/formloader.json';
-// import learn from '../lottie/learnloader.json'
 import upload from '../lottie/uploading.json'
 
-//  const loaderOption = {
-//   loop: true,
-//   autoplay: true,
-//   animationData: loader,
-//   rendererSettings: {
-//     preserveAspectRatio: 'xMidYMid slice'
-//   }
-// };
-// const loaderOption1 = {
-//   loop: true,
-//   autoplay: true,
-//   animationData: learn,
-//   rendererSettings: {
-//     preserveAspectRatio: 'xMidYMid slice'
-//   }
-// };
 
 const uploading = {
   loop: true,

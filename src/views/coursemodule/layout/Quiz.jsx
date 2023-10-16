@@ -17,7 +17,7 @@ const Quiz=() =>{
             options: ['Earth', 'Jupiter', 'Mars', 'Venus'],
             correctAnswer: 'Mars',
         },
-        // Add more quiz questions here
+        
     ]);
     console.log(setQuizData)
 

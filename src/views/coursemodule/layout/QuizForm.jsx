@@ -1,66 +1,72 @@
-// import React, { useState } from 'react';
+import React from 'react';
+import MainCard from 'ui-component/cards/MainCard';
+import TextField from '@material-ui/core/TextField';
+import { Grid, Button } from '@mui/material';
+import { makeStyles } from '@material-ui/core/styles';
 
-// const QuizForm = ({ onAddQuestion }) => {
-//   const [newQuestion, setNewQuestion] = useState('');
-//   const [newOptions, setNewOptions] = useState(['', '', '', '']);
-//   const [correctAnswer, setCorrectAnswer] = useState('');
-
-//   const handleAddQuestion = () => {
-//     const questionObject = {
-//       question: newQuestion,
-//       options: newOptions.filter((option) => option.trim() !== ''),
-//       correctAnswer,
-//     };
-
-//     onAddQuestion(questionObject);
-//     setNewQuestion('');
-//     setNewOptions(['', '', '', '']);
-//     setCorrectAnswer('');
-//   };
-
-//   return (
-//     <div>
-//       <h2>Add a New Quiz Question</h2>
-//       <div>
-//         <label htmlFor="question">Question:</label>
-//         <input type="text" id="question" value={newQuestion} onChange={(e) => setNewQuestion(e.target.value)} />
-//       </div>
-//       <div>
-//         <label htmlFor="Options">Options:</label>
-//         {newOptions.map((option, index) => (
-//           <div key={index}>
-//             <label htmlFor={`option${index}`}>{`Option ${index + 1}:`}</label>
-//             <input
-//               type="text"
-//               id={`option${index}`}
-//               value={option}
-//               onChange={(e) => {
-//                 const updatedOptions = [...newOptions];
-//                 updatedOptions[index] = e.target.value;
-//                 setNewOptions(updatedOptions);
-//               }}
-//             />
-//           </div>
-//         ))}
-//       </div>
-//       <div>
-//         <label htmlFor="correctAnswer">Correct Answer:</label>
-//         <input type="text" id="correctAnswer" value={correctAnswer} onChange={(e) => setCorrectAnswer(e.target.value)} />
-//       </div>
-//       <button onClick={handleAddQuestion}>Add Question</button>
-//     </div>
-//   );
-// };
-
-// export default QuizForm;
-
-
-import React from 'react'
+const useStyles = makeStyles((theme) => ({
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  optionContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
+  optionInput: {
+    marginRight: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+  postButton: {
+    marginTop: theme.spacing(2),
+    animation: 'pulse 1s infinite',
+  },
+  '@keyframes pulse': {
+    '0%': {
+      transform: 'scale(1)',
+    },
+    '50%': {
+      transform: 'scale(1.1)',
+    },
+    '100%': {
+      transform: 'scale(1)',
+    },
+  },
+}));
 
 const QuizForm = () => {
-  return (
-    <h1 style={{display:'flex',justifyContent:'center',alignItems:'center'}}>Under Development</h1>
-  )
-}
+  const classes = useStyles();
 
-export default QuizForm
+  return (
+    <MainCard title="🧠 Quiz Form">
+      <form className={classes.form}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField label="❓ Question" variant="outlined" fullWidth />
+          </Grid>
+          <Grid item xs={12} className={classes.optionContainer}>
+            {[1, 2, 3, 4].map((optionNumber) => (
+              <TextField
+                key={`option${optionNumber}`}
+                label={`Option ${optionNumber}`}
+                variant="outlined"
+                className={classes.optionInput}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={12}>
+            <TextField label="✅ Correct Answer" variant="outlined" fullWidth />
+          </Grid>
+          <Grid item xs={12}>
+            <Button type="submit" variant="contained" color="primary" className={classes.postButton}>
+              Post Quiz
+            </Button>
+          </Grid>
+        </Grid>
+      </form>
+    </MainCard>
+  );
+};
+
+export default QuizForm;
