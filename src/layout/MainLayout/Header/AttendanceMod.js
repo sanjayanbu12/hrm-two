@@ -3,6 +3,11 @@ import { Button } from 'primereact/button';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { useEffect } from 'react';
+import LightModeIcon from '@mui/icons-material/LightMode';
+import NightsStayIcon from '@mui/icons-material/NightsStay';
+import CoffeeSharpIcon from '@mui/icons-material/CoffeeSharp';
+import MeetingRoomSharpIcon from '@mui/icons-material/MeetingRoomSharp';
+import Cookies from 'js-cookie';
 
 const AttendanceMod = () => {
     const authId = useSelector((state) => state.customization.authId);
@@ -16,6 +21,10 @@ const AttendanceMod = () => {
     console.log("breack in id",breakinID)
     const[parclock,setParclock]=useState("");
     console.log("zzz",parclock)
+    
+    
+    
+
 
     console.log("clockid",clockid)
 
@@ -34,31 +43,57 @@ const AttendanceMod = () => {
     };
 
     useEffect(() => {
+
+        const lastCheckInDate = Cookies.get('lastCheckInDate');
+        const currentDate = new Date().toLocaleDateString();
+
+        if (lastCheckInDate === currentDate) {
+            setCheckInDisabled(true); 
+        }
+
         fetchEmployee();
     }, []);
     
 
     const handleCheckInClick = async () => {
-        const currentDate = new Date();
-        const checkInData = {
-            date: currentDate.toISOString(),
-            checkInTime: currentDate.toISOString(), 
-            employeeId: employee._id,
-            authId: authId
-        };
-        try {
-            const response = await axios.post("https://hrm-backend-square.onrender.com/clock/create", checkInData);
-            setParclock(response.data.savedData)
-            if (response.status === 200) {
-                console.log("Check-in successful!");
-                setCheckInDisabled(true);
-                setCheckOutDisabled(false);
-                setBreakDisabled(false);   
-            } else {
-                console.log("Failed to check in");
+       
+        if (!checkInDisabled) {
+            const currentDate = new Date();
+    
+            // Create the check-in data
+            const checkInData = {
+                date: currentDate.toISOString(),
+                checkInTime: currentDate.toISOString(),
+                employeeId: employee._id,
+                authId: authId
+            };
+    
+            try {
+                // Send a POST request to create the check-in record
+                const response = await axios.post("https://hrm-backend-square.onrender.com/clock/create", checkInData);
+                setParclock(response.data.savedData);
+    
+                if (response.status === 200) {
+                    console.log("Check-in successful!");
+    
+                    // Disable the "Check In" button
+                    setCheckInDisabled(true);
+    
+                    // Enable the "Check Out" and "Break" buttons
+                    setCheckOutDisabled(false);
+                    setBreakDisabled(false);
+    
+                    // Store the check-in date in a cookie to prevent further check-ins on the same day
+                    const currentDate = new Date().toLocaleDateString();
+                    Cookies.set('lastCheckInDate', currentDate, { expires: 1 }); // Cookie expires after 1 day
+                } else {
+                    console.log("Failed to check in");
+                }
+            } catch (error) {
+                console.error("Error while checking in:", error);
             }
-        } catch (error) {
-            console.error("Error while checking in:", error);
+        } else {
+            console.log("You have already checked in today.");
         }
     };
     const handleBreakClick = async () => {
@@ -162,11 +197,16 @@ useEffect(()=>{
         transform: breakDisabled ? 'scale(0.6)' : 'scale(1)',
         transition: 'transform 0.1s',
     };
+   
+  
+ 
 
   
     return (
         <>
+         
             <Button
+           icon ={ <LightModeIcon sx={{ fontSize:'20px',mr:'8px',mt:'3px'}}/>}
                 label="Check In"
                 severity="success"
                 disabled={checkInDisabled}
@@ -174,6 +214,7 @@ useEffect(()=>{
                 style={zoomInStyle} // Apply zoom-in style when needed
             />
             <Button
+            icon = {<NightsStayIcon sx={{ fontSize:'20px',mr:'8px',mt:'3px'}}/>}
                 style={zoomOutStyle }
                 label="Check Out"
                 severity="danger"
@@ -182,6 +223,7 @@ useEffect(()=>{
               
             />
    <Button
+    icon={breakButtonLabel==="Break"?<CoffeeSharpIcon sx={{ fontSize:'20px',mr:'8px',mt:'3px'}}/>:<MeetingRoomSharpIcon sx={{mr:'8px',mt:'3px'}}/>}
       label={breakButtonLabel}
     severity="warning"
     onClick={handleBreakClick}
