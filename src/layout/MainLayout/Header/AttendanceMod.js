@@ -7,7 +7,7 @@ import LightModeIcon from '@mui/icons-material/LightMode';
 import NightsStayIcon from '@mui/icons-material/NightsStay';
 import CoffeeSharpIcon from '@mui/icons-material/CoffeeSharp';
 import MeetingRoomSharpIcon from '@mui/icons-material/MeetingRoomSharp';
-import Cookies from 'js-cookie';
+
 
 const AttendanceMod = () => {
     const authId = useSelector((state) => state.customization.authId);
@@ -43,19 +43,16 @@ const AttendanceMod = () => {
     };
 
     useEffect(() => {
-        const lastCheckInDate = Cookies.get('lastCheckInDate');
-        const currentDate = new Date().toLocaleDateString();
 
-        if (lastCheckInDate === currentDate) {
-            setCheckInDisabled(true); 
-        }
+    
+
         fetchEmployee();
     }, []);
     
 
     const handleCheckInClick = async () => {
        
-        if (!checkInDisabled) {
+       
             const currentDate = new Date();
     
             // Create the check-in data
@@ -90,9 +87,7 @@ const AttendanceMod = () => {
             } catch (error) {
                 console.error("Error while checking in:", error);
             }
-        } else {
-            console.log("You have already checked in today.");
-        }
+      
     };
     const handleBreakClick = async () => {
         if (breakButtonLabel === 'Break') {
