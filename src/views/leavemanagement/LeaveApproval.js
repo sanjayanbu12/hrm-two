@@ -6,17 +6,26 @@ import axios from 'axios';
 import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { Button } from 'primereact/button';
+import SwalComp from './SwalComp';
 const LeaveApproval = () => {
-  const userId = useSelector((state) => state.customization.userId);
+  const authId = useSelector((state) => state.customization.authId);
   const [leaveData, setLeaveData] = useState([]);
-  console.log(userId);
+  const [showSwal, setShowSwal] = useState(false);
+  const [leaveId, setLeaveId] = useState(null);
+  console.log(authId);
   const fetchLeave = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave');
-      setLeaveData(response.data.filter((leave) => leave.reportingto.status === false));
+      console.log(response.data.leaveRequests)
+      setLeaveData(response.data.leaveRequests.filter((leave) => leave.reportingto.status === false));
     } catch (error) {
       console.log(error);
     }
+  };
+  const handleApprove = (id) => {
+    setShowSwal(true);
+    setLeaveId(id);
+    fetchLeave();
   };
   useEffect(() => {
     fetchLeave();
@@ -26,7 +35,13 @@ const LeaveApproval = () => {
       <StyledContainer title="Leave Request">
         <Grid container spacing={2} rowSpacing={3} style={parentStyle}>
           {leaveData.map((leave) => (
-            <Grid key={leave._id} xs={12} sm={6} md={6} lg={6}>
+            <Grid
+              key={leave._id}
+              xs={12}
+              sm={leaveData.length < 2 ? 10 : 6}
+              md={leaveData.length < 2 ? 10 : 6}
+              lg={leaveData.length < 2 ? 10 : 6}
+            >
               <StyledCard key={leave._id}>
                 <StyledTypography variant="h4">
                   Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
@@ -43,16 +58,27 @@ const LeaveApproval = () => {
                   Days &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{leave.numberOfDays}
                 </StyledTypography>
-
-                <>
-                <Button text raised style={{marginRight:12}} icon="pi pi-check" rounded outlined aria-label="Filter" />
-                <Button text raised icon="pi pi-times" rounded outlined severity="danger" aria-label="Cancel" />
-                </>
+                {authId === leave.reportingto.reporterid.employeeid && (
+                  <>
+                    <Button
+                      text
+                      raised
+                      style={{ marginRight: 12 }}
+                      icon="pi pi-check"
+                      rounded
+                      outlined
+                      aria-label="Filter"
+                      onClick={() => handleApprove(leave._id)}
+                    />
+                    <Button text raised icon="pi pi-times" rounded outlined severity="danger" aria-label="Cancel" />
+                  </>
+                )}
               </StyledCard>
             </Grid>
           ))}
         </Grid>
       </StyledContainer>
+      {showSwal && <SwalComp leaveId={leaveId} fetchLeave={fetchLeave} />}
     </div>
   );
 };
