@@ -6,10 +6,12 @@ import User1 from 'assets/images/users/user-round.svg';
 import FeedbackCard from './FeedbackCard';
 import PopupCard from './PopupCard';
 import Item from 'antd/es/list/Item';
+import {useRive, } from 'rive-react';
 
 const Feedback = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [comments, setComments] = useState([]);
+  const STATE_MACHINE_NAME = "State Machine 1";
 
   const openPopup = () => {
     setPopupOpen(true);
@@ -36,9 +38,20 @@ const Feedback = () => {
   const updateComments = () => {
     fetchComments();
   };
+  const {rive, RiveComponent} = useRive({
+    src: "summalod.riv",
+    autoplay: true,
+    stateMachines: STATE_MACHINE_NAME
+})
 
+if (rive) {
+  console.log(rive.contents);
+}
   return (
     <MainCard title="Feedbacks" sx={{ height: '99%' }}>
+      <div >
+                        <RiveComponent style={{width:'400px', height:'400px'}} src="summalod.riv"/>
+                    </div>
       <Stack direction="row" spacing={2} sx={{ listStyleType: 'none', display: 'flex', alignItems: 'center' }}>
         <Item>
           <Avatar
