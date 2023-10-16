@@ -17,7 +17,7 @@ const LeaveApproval = () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave');
       console.log(response.data.leaveRequests)
-      setLeaveData(response.data.leaveRequests.filter((leave) => leave.reportingto.status === false));
+      setLeaveData(response.data.leaveRequests.filter((leave) => leave.reportingto.status === false && leave.reportingto.reporterid.employeeid===authId));
     } catch (error) {
       console.log(error);
     }

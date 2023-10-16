@@ -6,7 +6,7 @@ const SwalComp = ({ leaveId,fetchLeave }) => {
   console.log(leaveId);
   const updateLeaveStatus = async () => {
     try {
-      const response = await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, {
+      const response = await axios.put(`http://localhost:3001/api/leave/${leaveId}`, {
         reportingto: {
           status: true
         }
