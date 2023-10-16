@@ -15,7 +15,8 @@
     members:[],
     employees:[],
     authId:[],
-    shortlist:[], 
+    shortlist:[],
+    userId:[] 
   };
 
   // ==============================|| CUSTOMIZATION REDUCER ||============================== //
@@ -38,6 +39,11 @@
         return {
           ...state,
           authId: action.payload
+        };
+      case actionTypes.USER_ID:
+        return {
+          ...state,
+          userId: action.payload
         };
 
       case actionTypes.SHORT_LIST:

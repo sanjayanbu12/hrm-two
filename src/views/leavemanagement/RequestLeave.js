@@ -63,7 +63,7 @@ const RequestLeave = () => {
   const [edata, setedata] = useState([]);
   const [report, setReport] = useState([]);
   const employee = useSelector((state) => state.customization.authId);
-  console.log(employeeId);
+  console.log(employee);
   console.log(employeeName);
   const leaveTypes = [
     'Casual Leave (CL)',

@@ -12,3 +12,4 @@ export const ORG_MEM = 'ORG_MEM';
 export const FETCH_EMPLOYEES = 'FETCH_EMPLOYEES';
 export const AUTH_ID = 'AUTH_ID';
 export const SHORT_LIST= 'SHORT_LIST';
+export const USER_ID= 'USER_ID';
