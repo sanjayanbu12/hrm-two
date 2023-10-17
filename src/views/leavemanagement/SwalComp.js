@@ -1,12 +1,15 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
-
+import useToast from './useToast';
+import { Toast } from 'primereact/toast';
 const SwalComp = ({ leaveId,fetchLeave }) => {
   console.log(leaveId);
+  const { toast, showToast } = useToast();
   const updateLeaveStatus = async () => {
+    
     try {
-      const response = await axios.put(`http://localhost:3001/api/leave/${leaveId}`, {
+      const response = await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, {
         reportingto: {
           status: true
         }
@@ -17,6 +20,7 @@ const SwalComp = ({ leaveId,fetchLeave }) => {
       }
     } catch (error) {
       console.log(error);
+      error &&  showToast('error', error.message, 'Message Content');
     }
   };
 
@@ -33,7 +37,7 @@ const SwalComp = ({ leaveId,fetchLeave }) => {
       updateLeaveStatus();
     }
   });
-  return null;
+  return <Toast ref={toast} />;
 };
 
 export default SwalComp;
