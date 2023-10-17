@@ -4,6 +4,8 @@ import { useTheme, styled } from '@mui/material/styles';
 import { Box, Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#12486B',
@@ -42,7 +44,48 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 }));
 
 const Card2 = ({ isLoading }) => {
+ 
+  
+  const [employee, setEmployee] = useState("");
+  console.log("count",employee);
+  const [employeeCount, setEmployeeCount] = useState(0);
+
+  const fetchEmployee = async () => {
+    try {
+      const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
+      const today = new Date(); // Get today's date
+      const allEmployeeData = res.data.map(matchingEmployee => {
+        const clockData = matchingEmployee.clockid || [];
+        return clockData.map(clockData => ({
+          name: matchingEmployee.name,
+          date: clockData.date,
+          checkInTime: clockData.checkInTime,
+          checkOutTime: clockData.checkOutTime,
+          breakin: clockData.break.map(data => data.breakin),
+          breakout: (clockData.checkInTime, clockData.checkOutTime, clockData.break),
+        }));
+      });
+      const flattenedEmployeeData = [].concat(...allEmployeeData);
+      
+      // Filter the data for today's date
+      const todayData = flattenedEmployeeData.filter(item => {
+        const itemDate = new Date(item.date);
+        return itemDate.toDateString() === today.toDateString();
+      });
+  
+      setEmployee(todayData); // Set today's data
+      setEmployeeCount(todayData.length); // Set the count for today's data
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployee();
+  }, []);
+
   const theme = useTheme();
+ 
 
   const [timeValue, setTimeValue] = useState(false);
   console.log(timeValue)
@@ -50,6 +93,9 @@ const Card2 = ({ isLoading }) => {
     setTimeValue(newValue);
   };
 console.log(handleChangeTime)
+
+
+  
   return (
     <>
       {isLoading ? (
@@ -71,7 +117,7 @@ console.log(handleChangeTime)
                     >
                       PRESENT
                     </Button> */}
-                    <Typography sx={{fontSize:"15px",fontWeight:'bold'}}>PRESENT</Typography> 
+                    <Typography sx={{fontSize:"15px",fontWeight:'bold'}}> TODAY PRESENT</Typography> 
                   </Grid>
                 </Grid>
               </Grid>
@@ -84,8 +130,8 @@ console.log(handleChangeTime)
                           <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>15</Typography>
                         ) : ( */}
                         {(
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>10</Typography>
-                        )}
+                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}> {employeeCount}</Typography>
+                        )} 
                       </Grid>
                       <Grid item xs={12}>
                         <Typography
