@@ -49,8 +49,7 @@ const Goals = () => {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/goal/getgoal/${empId[0]}`);
 
       
-      console.log('this is for testing', response);
-      console.log("summa", response.data.result)
+
       setGoals(response.data.result);
 
     } catch (error) {
@@ -73,7 +72,7 @@ const Goals = () => {
       <div style={{ display: 'flex', flexWrap: 'wrap' }}>
         {goals.map((goal) => (
           <div style={{ width: '50%' }} key={goal._id}>
-            <Progressbar goal={goal} onClick={() => navigate(`/board/${goal._id}`)} />
+            <Progressbar goal={goal} reloadGoals={reloadGoals} onClick={() => navigate(`/board/${goal._id}`)} />
           </div>
         ))}
       </div>
