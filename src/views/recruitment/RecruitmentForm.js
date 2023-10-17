@@ -11,7 +11,8 @@ import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import { Skill } from './Consts';
 import { Educations } from './Consts';
 import {Locations} from './Consts';
-
+import useToast from 'views/leavemanagement/useToast';
+import { Toast } from 'primereact/toast';
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -40,7 +41,7 @@ const RecruitmentForm = () => {
   const [errors, setErrors] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
- 
+  const { toast, showToast } = useToast();
   const handleApplicationLink = (e) => {
     setApplicationLink(e.target.value);
     setErrors((prev) => ({
@@ -495,6 +496,8 @@ console.log(Emplist)
           setErrors(validationErrors);
         } else {
           console.log(error);
+      error &&  showToast('error', error.message, 'Message Content');
+          
         }
       }
     }
@@ -888,6 +891,7 @@ console.log(Emplist)
             </Tooltip>
           </Button>
         </Box>
+        <Toast ref={toast} />
     </MainCard>
   );
 };

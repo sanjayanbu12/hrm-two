@@ -1,25 +1,12 @@
-
 import React, { useState, useEffect } from 'react';
 import MainCard from 'ui-component/cards/MainCard';
-import {
-  Grid,
-  TextField,
-  FormControl,
-  InputLabel,
-  FormHelperText,
-  Select,
-  InputAdornment,
-  Button,
-  Box,
-  MenuItem,
-} from '@mui/material';
+import { Grid, TextField, FormControl, InputLabel, FormHelperText, Select, InputAdornment, Button, Box, MenuItem } from '@mui/material';
 import * as yup from 'yup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
 import { useSelector } from 'react-redux';
-
 
 const validationSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
@@ -30,9 +17,7 @@ const validationSchema = yup.object().shape({
     .required('Start Date is required')
     .nullable()
     .min(new Date(), 'Start Date must be today or later')
-    .test('startDate', 'Start Date must be earlier than End Date', function (
-      startDate
-    ) {
+    .test('startDate', 'Start Date must be earlier than End Date', function (startDate) {
       const { endDate } = this.parent;
       if (!startDate || !endDate) {
         return true; // Skip validation if either date is not set
@@ -50,20 +35,16 @@ const validationSchema = yup.object().shape({
     .required('Number of Days is required')
     .positive('Number of Days must be positive')
     .integer('Number of Days must be an integer')
-    .test('numberOfDays', 'Number of Days must match the selected dates', function (
-      numberOfDays
-    ) {
+    .test('numberOfDays', 'Number of Days must match the selected dates', function (numberOfDays) {
       const { startDate, endDate } = this.parent;
       if (!startDate || !endDate) {
         return true; // Skip validation if either date is not set
       }
-      const daysDiff = Math.floor(
-        (new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24)
-      );
+      const daysDiff = Math.floor((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
       return numberOfDays === daysDiff;
     }),
   attachments: yup.array().of(yup.string()),
-  reason: yup.string().required('Reason is required'),
+  reason: yup.string().required('Reason is required')
 });
 
 const RequestLeave = () => {
@@ -79,9 +60,11 @@ const RequestLeave = () => {
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [employeeDetails, setEmployeeDetails] = useState({});
-const employee = useSelector((state)=>state.customization.authId)
-console.log(employeeId)
-console.log(employeeName)
+  const [edata, setedata] = useState([]);
+  const [report, setReport] = useState([]);
+  const employee = useSelector((state) => state.customization.authId);
+  console.log(employee);
+  console.log(employeeName);
   const leaveTypes = [
     'Casual Leave (CL)',
     'Sick Leave (SL)',
@@ -94,7 +77,7 @@ console.log(employeeName)
     'One Day Leave',
     'Half Day Leave',
     'Annual Leave',
-    'Other Leave',
+    'Other Leave'
   ];
 
   useEffect(() => {
@@ -102,48 +85,49 @@ console.log(employeeName)
       const startDateObj = new Date(startDate);
       const endDateObj = new Date(endDate);
       if (!isNaN(startDateObj) && !isNaN(endDateObj)) {
-        const daysDiff = Math.floor(
-          (endDateObj - startDateObj) / (1000 * 60 * 60 * 24)
-        );
+        const daysDiff = Math.floor((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
         setNumberOfDays(daysDiff.toString());
         setErrors((prevErrors) => ({
           ...prevErrors,
-          numberOfDays: '',
+          numberOfDays: ''
         }));
       }
     } else {
       setNumberOfDays('');
     }
   }, [startDate, endDate]);
-
+  useEffect(() => {
+    fetchEmployeesData();
+  }, []);
   useEffect(() => {
     // Define the API endpoint for fetching all employee details
     const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
 
     // Make an API call to fetch all employee details
-    axios.get(apiUrl)
+    axios
+      .get(apiUrl)
       .then((response) => {
         // Assuming the response data contains an array of employee details
         const allEmployeeData = response.data;
-        
+
         // Find the specific employee based on the employee ID
         const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === employee);
-        
+
         // Update the employeeDetails state with the specific employee details
         setEmployeeDetails(specificEmployee);
-      
+
         console.log(specificEmployee);
-        console.log(employeeDetails)
+        console.log(employeeDetails);
       })
       .catch((error) => {
         console.error('Error fetching employee details:', error);
         // Handle errors here, e.g., show an error message to the user
       });
   }, []);
-useEffect(()=>{
-  setEmployeeId(employeeDetails.employeeid)
-  setEmployeeName(employeeDetails.name);
-})
+  useEffect(() => {
+    setEmployeeId(employeeDetails.employeeid);
+    setEmployeeName(employeeDetails.name);
+  });
 
   const handleLeaveTypeChange = (e) => {
     setLeaveType(e.target.value);
@@ -163,8 +147,17 @@ useEffect(()=>{
     const filesArray = Array.from(selectedFiles);
     setAttachments(filesArray);
   };
-
+  const fetchEmployeesData = async () => {
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const employees = response.data;
+      setedata(employees);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleSubmit = async (e) => {
+    console.log(report)
     e.preventDefault(); // Prevent the default form submission behavior
     try {
       await validationSchema.validate(
@@ -176,7 +169,7 @@ useEffect(()=>{
           endDate,
           numberOfDays,
           reason,
-          attachments,
+          attachments
         },
         { abortEarly: false }
       );
@@ -190,16 +183,13 @@ useEffect(()=>{
       data.append('numberOfDays', numberOfDays);
       data.append('reason', reason);
       data.append('attachments', attachments[0]);
-
-      const response = await axios.post(
-        'https://hrm-backend-square.onrender.com/api/leave/',
-        data,
-        {
-          headers: {
-            'Content-Type': 'multipart/form-data', // Set content type to multipart/form-data
-          },
+      data.append('reportingto',report.id)
+   
+      const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave/', data, {
+        headers: {
+          'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
         }
-      );
+      });
 
       if (response.status === 201) {
         setEmployeeId('');
@@ -215,7 +205,7 @@ useEffect(()=>{
 
         Swal.fire({
           icon: 'success',
-          text: 'Leave request submitted successfully!',
+          text: 'Leave request submitted successfully!'
         }).then(() => {
           navigate('/viewleave');
         });
@@ -224,8 +214,7 @@ useEffect(()=>{
         Swal.fire({
           icon: 'error',
           title: 'Leave request failed!',
-          text:
-            'An error occurred while submitting the request. Please try again later.',
+          text: 'An error occurred while submitting the request. Please try again later.'
         });
       }
     } catch (error) {
@@ -236,6 +225,7 @@ useEffect(()=>{
         });
         setErrors(validationErrors);
       } else {
+        alert(error.message)
         console.log(error);
       }
     }
@@ -245,18 +235,25 @@ useEffect(()=>{
     const { name } = e.target;
     setErrors((prevErrors) => ({
       ...prevErrors,
-      [name]: '',
+      [name]: ''
     }));
   };
-
+  const handleReport = (e) => {
+    const selectedValue = e.target.value;
+    const [reportId, reportName] = selectedValue.split(',');
+    setReport({ id: reportId, name: reportName });
+    setErrors((prev) => ({
+      ...prev,
+      report: ''
+    }));
+  };
   return (
     <MainCard title="Leave Tracker">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}
-          
+
           <Grid item xs={6}>
-            
             <TextField
               fullWidth
               id="employeeId"
@@ -264,14 +261,11 @@ useEffect(()=>{
               label="Employee ID"
               variant="outlined"
               value={employeeId}
-              
               // error={Boolean(errors.employeeId)}
               // helperText={errors.employeeId}
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"></InputAdornment>
-                ),
-                shrink: true,
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+                shrink: true
               }}
             />
           </Grid>
@@ -284,24 +278,17 @@ useEffect(()=>{
               label="Employee Name"
               variant="outlined"
               value={employeeName}
-              
               // error={Boolean(errors.employeeName)}
               // helperText={errors.employeeName}
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"></InputAdornment>
-                ),
-                shrink: true,
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+                shrink: true
               }}
             />
           </Grid>
           {/* Leave Type */}
           <Grid item xs={6}>
-            <FormControl
-              fullWidth
-              variant="outlined"
-              error={Boolean(errors.leaveType)}
-            >
+            <FormControl fullWidth variant="outlined" error={Boolean(errors.leaveType)}>
               <InputLabel id="leaveType-label">Leave Type</InputLabel>
               <Select
                 labelId="leaveType-label"
@@ -340,7 +327,7 @@ useEffect(()=>{
               error={Boolean(errors.startDate)}
               helperText={errors.startDate}
               InputLabelProps={{
-                shrink: true,
+                shrink: true
               }}
             />
           </Grid>
@@ -361,7 +348,7 @@ useEffect(()=>{
               error={Boolean(errors.endDate)}
               helperText={errors.endDate}
               InputLabelProps={{
-                shrink: true,
+                shrink: true
               }}
             />
           </Grid>
@@ -381,10 +368,8 @@ useEffect(()=>{
               error={Boolean(errors.numberOfDays)}
               helperText={errors.numberOfDays || '\u00A0'}
               InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start"></InputAdornment>
-                ),
-                shrink: true,
+                startAdornment: <InputAdornment position="start"></InputAdornment>,
+                shrink: true
               }}
             />
           </Grid>
@@ -420,6 +405,28 @@ useEffect(()=>{
               helperText={errors.reason}
             />
           </Grid>
+          <Grid item xs={4}>
+                  <FormControl sx={{ minWidth: '100%' }}>
+                    <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
+                    <Select
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Reporting To"
+                      value={report.id ? `${report.id},${report.name}` : ''}
+                      // error={errors && errors.report}
+                      // helperText={errors && errors.report}
+                      onChange={(e) => handleReport(e)}
+                    >
+                      {edata.map((item) => (
+                        <MenuItem key={item._id} value={`${item._id},${item.name}`}>
+                          {item.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+
+                    <FormHelperText>{errors && errors.report}</FormHelperText>
+                  </FormControl>
+                </Grid>
           {/* Submit Button */}
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">

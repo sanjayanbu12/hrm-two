@@ -11,7 +11,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID} from 'store/actions';
+import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID,USER_ID} from 'store/actions';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
@@ -72,9 +72,11 @@ const AuthLogin = () => {
 
       dispatch({ type: LOGGED_IN });
       dispatch({type: AUTH_ID, payload: response.data.existingUser.employeeId})
+      dispatch({type:USER_ID,payload: response.data.existingUser._id})
       const role = response.data.existingUser.role;
       if (role === 'Admin') {
         dispatch({ type: ADMIN_OR_NOT });
+     
         navigate('/dashboard/default');
       } else {
         dispatch({ type: USER_OR_NOT });
