@@ -8,7 +8,7 @@ import Search from './layout/Search';
 import Overview from './layout/Overview';
 import TabQuiz from './layout/TabQuiz';
 
-const BaseLayout = ({ courseName, courseDescription }) => {
+const BaseLayout = ({ courseName, courseDescription, courseid}) => {
   return (
     <>
       <TabView>
@@ -31,7 +31,7 @@ const BaseLayout = ({ courseName, courseDescription }) => {
           <Announcement />
         </TabPanel>
         <TabPanel header={<div style={{ marginLeft: 6 }}>Quiz</div>} leftIcon="pi pi-exclamation-circle mr-2">
-          <TabQuiz/>
+          <TabQuiz  courseid={courseid}/>
         </TabPanel>
       </TabView>
     </>

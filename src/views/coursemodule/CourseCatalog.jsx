@@ -27,6 +27,7 @@ const CourseCatalog=()=> {
   }, []);
 
   const openMediaDialog = (media) => {
+    console.log(media)
     setSelectedMedia(media);
   };
 

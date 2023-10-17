@@ -6,7 +6,7 @@ import { RadioButton } from 'primereact/radiobutton';
 import axios from 'axios';
 import { Skeleton } from 'primereact/skeleton';
 
-const Quiz = () => {
+const Quiz = ({courseid}) => {
   const toast = useRef(null);
 
   const [quizData, setQuizData] = useState([]);
@@ -51,16 +51,17 @@ const Quiz = () => {
   useEffect(() => {
     // Fetch quiz data from your backend API
     axios
-      .get('http://localhost:3001/quiz/getall') // Replace with your actual API endpoint
+      .get(`https://hrm-backend-square.onrender.com/media/get/${courseid}`) // Replace with your actual API endpoint
       .then((response) => {
-        setQuizData(response.data);
+        // Extract quiz data from the course data
+        setQuizData(response.data.quiz);
         setIsLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching quiz data:', error);
         setIsLoading(false);
       });
-  }, []);
+  }, [courseid]);
 
   return (
     <>
@@ -79,7 +80,7 @@ const Quiz = () => {
             </div>
           ) : (
             quizData.map((question, index) => (
-              <div key={index} className="flex flex-column gap-2">
+              <div key={question._id} className="flex flex-column gap-2">
                 <div style={{ marginBottom: 7 }}>{question.question}</div>
                 <Controller
                   name={`answer${index}`}

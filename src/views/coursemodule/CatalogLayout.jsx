@@ -212,6 +212,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                 <BaseLayout
                   courseName={selectedMedia.courseName}
                   courseDescription={selectedMedia.courseDescription}
+                  courseid={selectedMedia._id}
                 />
               </>
             ) : (
