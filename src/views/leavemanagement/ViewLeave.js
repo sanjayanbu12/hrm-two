@@ -62,9 +62,10 @@ const ViewLeave = () => {
 
   const fetchAts = async () => {
     try {
-      setLoader(false);
+      setLoader(true);
       const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
-      const filldata = res.data.map((item) => ({
+      console.log(res)
+      const filldata = res.data.leaveRequests.map((item) => ({
         ...item,
         startDate: formatDate(item.startDate), // Format the start date
         endDate: formatDate(item.endDate), // Format the end date
@@ -73,6 +74,8 @@ const ViewLeave = () => {
       setAdata(filldata);
       setLoader(false);
       console.log(res.data);
+      console.log(Adata);
+      
     } catch (err) {
       console.log(err);
     }
