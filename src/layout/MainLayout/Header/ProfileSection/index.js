@@ -28,7 +28,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 // import UpgradePlanCard from './UpgradePlanCard';
-import User1 from 'assets/images/users/user-round.svg';
+// import User1 from 'assets/images/users/user-round.svg';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
@@ -44,16 +44,17 @@ const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
   const navigate = useNavigate();
-const dispatch = useDispatch();
-const [rotationAngle, setRotationAngle] = useState(0);
+  const dispatch = useDispatch();
+  const [rotationAngle, setRotationAngle] = useState(0);
   // const [sdm, setSdm] = useState(true);
   // const [notification, setNotification] = useState(false);
-  
-  const [open, setOpen] = useState(false);
-  const[matched,setMatched]=useState("");
-  console.log("",matched)
-  const authId = useSelector((state) => state.customization.authId);
 
+  const [open, setOpen] = useState(false);
+  const [matched, setMatched] = useState("");
+  console.log("", matched)
+  const authId = useSelector((state) => state.customization.authId);
+  
+const[profileimage,setProfileimage]=useState('');
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
@@ -65,21 +66,21 @@ const [rotationAngle, setRotationAngle] = useState(0);
 
   const anchorRef = useRef(null);
   const handleLogout = async () => {
-    dispatch({type:LOGGED_OUT})
-    dispatch({type:USER_OR_NOT})
+    dispatch({ type: LOGGED_OUT })
+    dispatch({ type: USER_OR_NOT })
     localStorage.clear()
     navigate('/pages/login/login3');
-    
+
   };
   const now = new Date();
   const currentHour = now.getHours();
-  
+
   let greeting;
-  
+
   if (currentHour >= 4 && currentHour < 12) {
     greeting = "Good Morning";
   }
-  else if (currentHour >= 12 && currentHour <15) {
+  else if (currentHour >= 12 && currentHour < 15) {
     greeting = "Good Afternoon";
   } else if (currentHour >= 15 && currentHour < 19) {
     greeting = "Good Evening";
@@ -95,7 +96,7 @@ const [rotationAngle, setRotationAngle] = useState(0);
   };
 
 
-  
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -112,7 +113,8 @@ const [rotationAngle, setRotationAngle] = useState(0);
   const WhoLog = async () => {
     try {
       const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
-      const users = res.data.user; 
+      const users = res.data.user;
+
       const matchedUser = users.find(user => user.employeeId === authId);
       if (matchedUser) {
         setMatched(matchedUser);
@@ -123,16 +125,32 @@ const [rotationAngle, setRotationAngle] = useState(0);
       console.log(error);
     }
   };
-  useEffect(()=>{
-WhoLog();
-  },[])
 
-  const handleAccount=()=>{
-navigate('/Accountsetting')
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`)
+      const allEmployeeData = response.data;
+      console.log(allEmployeeData)
+      const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === authId);
+      console.log(specificEmployee.profilepic?.url)
+      setProfileimage(specificEmployee.profilepic?.url);
+    }
+    catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    WhoLog();
+    fetchUser();
+  }, [])
+
+  const handleAccount = () => {
+    navigate('/Accountsetting')
   }
   return (
     <>
-  
+
       <Chip
         sx={{
           height: '48px',
@@ -155,7 +173,7 @@ navigate('/Accountsetting')
         }}
         icon={
           <Avatar
-            src={User1}
+            src={profileimage}
             sx={{
               ...theme.typography.mediumAvatar,
               margin: '8px 0 8px 8px !important',
@@ -199,39 +217,39 @@ navigate('/Accountsetting')
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Box sx={{ p: 2 }}>
-                  <Typography display='flex'justifyContent='center' variant="h4">{greeting}
-                  <WbSunnyTwoToneIcon
-  sx={{
-    ml: '7px',
-    color: 'red',
-    mb:'8px',
-    transform: `rotate(${rotationAngle}deg)`,
-    transition: 'transform 0.8s ease-in-out',
-  }}
-/>
-                  </Typography>
-                  
-                   
-                      <Stack sx={{ml:'20px',mt:'10px'}} direction="row" spacing={2} alignItems="center">
-                        <div>
-                      <Avatar
-        alt="Remy Sharp"
-       
-        sx={{ width: 56, height: 56 }}
-      />  
-      </div>
-                          <div>
-                        <Typography component="span" variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px' }}>
-                        {matched.firstname}
+                    <Typography display='flex' justifyContent='center' variant="h4">{greeting}
+                      <WbSunnyTwoToneIcon
+                        sx={{
+                          ml: '7px',
+                          color: 'red',
+                          mb: '8px',
+                          transform: `rotate(${rotationAngle}deg)`,
+                          transition: 'transform 0.8s ease-in-out',
+                        }}
+                      />
+                    </Typography>
+
+
+                    <Stack sx={{ ml: '20px', mt: '10px' }} direction="row" spacing={2} alignItems="center">
+                      <div>
+                        <Avatar
+                          alt="Remy Sharp"
+
+                          sx={{ width: 56, height: 56 }}
+                        />
+                      </div>
+                      <div>
+                        <Typography component="span" variant="h4" sx={{ fontWeight: 400, paddingLeft: '0px' }}>
+                          {matched.firstname}
                         </Typography>
-                        <Typography   variant="h4" sx={{ fontWeight: 400,paddingLeft:'0px',mt:'3px' }}>
-                        {matched.email}
+                        <Typography variant="h4" sx={{ fontWeight: 400, paddingLeft: '0px', mt: '3px' }}>
+                          {matched.email}
                         </Typography>
-                        </div>
-                        </Stack>
-                  
-                      {/* <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>{matched.role}</Typography> */}
-                    
+                      </div>
+                    </Stack>
+
+                    {/* <Typography variant="subtitle2" sx={{marginTop:'3%',fontSize:'15px',fontWeight:'bold',marginBottom:'3%'}}>{matched.role}</Typography> */}
+
                     {/* <OutlinedInput
                       sx={{ width: '100%', pr: 1, pl: 2, my: 2 }}
                       id="input-search-profile"
@@ -313,7 +331,7 @@ navigate('/Accountsetting')
                           }
                         }}
                       >
-                      
+
                         {/* <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 1}
@@ -344,12 +362,12 @@ navigate('/Accountsetting')
                           />
                         </ListItemButton> */}
                         <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}
-                        onClick={handleAccount}>
+                          onClick={handleAccount}>
                           <ListItemText primary={<Typography variant='body2'>Account Setting</Typography>} />
                         </ListItemButton>
                         <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
-                         
+
                           onClick={handleLogout}
                         >
                           <ListItemIcon >
