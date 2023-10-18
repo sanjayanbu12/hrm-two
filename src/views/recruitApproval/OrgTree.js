@@ -121,8 +121,8 @@ const OrgTree = () => {
           id: data._id
         }
       };
-      const id = orgMems.map((data) => data._id);
-      await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, manData);
+      // const id = orgMems.map((data) => data._id);
+      await axios.post(`https://hrm-backend-square.onrender.com/org/createorg`, manData);
       await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
       fetchOrgData();
     } catch (error) {
@@ -354,6 +354,7 @@ const OrgTree = () => {
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
+                                    
                                   </Menu>
                                 </div>
                               )}
