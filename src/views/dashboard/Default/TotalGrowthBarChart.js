@@ -56,7 +56,6 @@ const TotalGrowthBarChart = ({ isLoading }) => {
       }
     };
 
-    // do not load chart when loading
     if (!isLoading) {
       ApexCharts.exec(`bar-chart`, 'updateOptions', newChartData);
     }
@@ -67,7 +66,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalGrowthBarChart />
       ) : (
-        <Card elevation={3} style={{marginTop:'40px'}}>
+        <Card elevation={3} style={{marginTop:'10px'}}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
               <Grid container alignItems="center" justifyContent="space-between">

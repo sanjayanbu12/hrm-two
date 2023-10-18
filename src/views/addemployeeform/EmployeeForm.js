@@ -1,6 +1,18 @@
 import MainCard from 'ui-component/cards/MainCard';
-import { Grid, TextField, Box, Button, MenuItem, Select, FormControl, InputLabel, InputAdornment, FormHelperText } from '@mui/material';
-// import { useTheme } from '@mui/material/styles';
+import {
+  Grid,
+  TextField,
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Tooltip,
+  InputAdornment,
+  FormHelperText
+} from '@mui/material';
+import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { validationSchema } from './Validation';
@@ -8,10 +20,10 @@ import * as yup from 'yup';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import { updatevalidationSchema } from './updateValidate';
-import TableViewIcon from '@mui/icons-material/TableView';
 import Card from '@mui/material/Card';
+import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 const EmployeeForm = () => {
-  // const theme = useTheme();
+  const theme = useTheme();
   const [name, setName] = useState([]);
   const [lastname, setLastname] = useState('');
   const [gender, setGender] = useState('');
@@ -488,21 +500,6 @@ const EmployeeForm = () => {
 
   return (
     <Card>
-      <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-        <Button
-          onClick={() => navigate(`/basictable`)}
-          sx={{
-            background: 'rgba(33, 150, 243, 0.04)',
-            display: 'flex',
-            justifyContent: 'flex-end',
-            marginTop: '0px',
-            marginBottom: '0px'
-          }}
-        >
-          <TableViewIcon />
-          Employees
-        </Button>
-      </Box>
       <MainCard title="Employee Information">
         <form>
           <Box sx={{ flexGrow: 1 }}>
@@ -737,11 +734,11 @@ const EmployeeForm = () => {
                     // helperText={errors && errors.desi}
                     onChange={(e) => handleDesi(e)}
                   >
-                    <MenuItem value="HR">Front-End Developer</MenuItem>
-                    <MenuItem value="Software Developer">Back-End Software Developer</MenuItem>
+                    <MenuItem value="Front-End Developer">Front-End Developer</MenuItem>
+                    <MenuItem value="Back-End Developer">Back-End Developer</MenuItem>
                     <MenuItem value="AWS">AWS</MenuItem>
-                    <MenuItem value="Data Analyst">Figma</MenuItem>
-                    <MenuItem value="Data Analyst">HR</MenuItem>
+                    <MenuItem value="Figma">Figma</MenuItem>
+                    <MenuItem value="HR">HR</MenuItem>
                   </Select>
                   <FormHelperText>{errors && errors.desi}</FormHelperText>
                 </FormControl>
@@ -840,31 +837,51 @@ const EmployeeForm = () => {
                   <FormHelperText>{errors && errors.type}</FormHelperText>
                 </FormControl>
               </Grid>
-
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  sx={{
-                    boxShadow: 'none',
-                    minWidth: '100%',
-                    // borderRadius: 2,
-                    marginTop: '60px',
-                    padding: 1.5,
-                    // background: theme.palette.secondary.dark,
-                    // color: theme.palette.secondary.light,
-                    '&:hover': {
-                      // background: theme.palette.secondary.dark,
-                      // color: theme.palette.secondary.light
-                    }
-                  }}
-                  onClick={(e) => finalSubmit(e)}
-                >
-                  {id ? 'Update' : 'Save'}
-                </Button>
-              </Grid>
             </Grid>
           </Box>
         </form>
+
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '50px' }}>
+          <Button
+            variant="contained"
+            sx={{
+              width: '300px',
+              height: '40px',
+              borderRadius: '10px',
+              padding: 0.6,
+              background: '#673ab7',
+              color: '#efebe9',
+              '&:hover': {
+                color: theme.palette.secondary.light,
+                background: '#673ab7'
+              }
+            }}
+            onClick={(e) => finalSubmit(e)}
+          >
+            {id ? 'Update' : 'Save'}
+          </Button>
+          <Button
+            onClick={() => {
+              navigate('/basictable');
+            }}
+            sx={{
+              width: '100px',
+              height: '40px',
+              borderRadius: '10px',
+              padding: 0.6,
+              background: '#673ab7',
+              color: '#f5f5f5',
+              '&:hover': {
+                background: '#673ab7',
+                color: '#f5f5f5'
+              }
+            }}
+          >
+            <Tooltip title="Employee List">
+              <WysiwygIcon />
+            </Tooltip>
+          </Button>
+        </Box>
       </MainCard>
     </Card>
   );

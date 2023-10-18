@@ -44,7 +44,7 @@ const Newevent = () => {
       const event = {
         title: name,
         startDate: eventStartDate,
-        endDate: eventEndDate,
+        endDate: eventEndDate
       };
 
       try {
@@ -64,10 +64,11 @@ const Newevent = () => {
   };
 
   useEffect(() => {
-    fetchdata()
+    fetchdata();
   }, []);
+  
   const fetchdata = async () => {
-    const apiurl = 'https://hrm-backend-square.onrender.com/event/getall'; 
+    const apiurl = 'https://hrm-backend-square.onrender.com/event/getall';
     axios
       .get(apiurl)
       .then((response) => {
@@ -75,7 +76,7 @@ const Newevent = () => {
           id: event._id,
           title: event.title,
           start: event.startDate,
-          end: event.endDate,
+          end: event.endDate
         }));
         console.log(alldata);
         setFetcheddata(alldata);
@@ -83,7 +84,7 @@ const Newevent = () => {
       .catch((error) => {
         console.error('Error in fetching calendar:', error);
       });
-  }
+  };
 
   const customTitle = (args) => {
     const { event } = args;
@@ -101,10 +102,10 @@ const Newevent = () => {
             border: 'none',
             padding: '0',
             font: 'inherit',
-            cursor: 'pointer',
+            cursor: 'pointer'
           }}
         >
-          <h3 style={{color:'white'}}>{event.title}</h3>
+          <h3 style={{ color: 'white' }}>{event.title}</h3>
         </button>
       </div>
     );
@@ -117,9 +118,8 @@ const Newevent = () => {
       id: event.id,
       title: event.title,
       startDate: event.start,
-      endDate: event.end,
+      endDate: event.end
     };
-
 
     axios
       .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
@@ -133,13 +133,39 @@ const Newevent = () => {
       });
   };
 
+  const handleUpdate = () => {
+    if (selectedEvent) {
+      const updatedEvent = {
+        id: selectedEvent.id,
+        startDate: selectedEvent.start.toISOString(),
+        endDate: selectedEvent.end.toISOString(),
+        title: name
+      };
+
+      axios
+        .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log('Event updated successfully:', response.data);
+            setEvents((prevEvents) => prevEvents.map((event) => (event.id === selectedEvent.id ? updatedEvent : event)));
+          }
+        })
+        .catch((error) => {
+          console.error('Error updating event:', error);
+        });
+
+      setVisible(false);
+      setSelectedEvent(null);
+      setName('');
+    }
+  };
   const handleEventClick = (event) => {
     setSelectedEvent(event);
     setVisible(true);
+    setName(event.title);
   };
 
   const handleDeleteEvent = () => {
-
     if (selectedEvent) {
       axios
         .delete(`https://hrm-backend-square.onrender.com/event/delete/${selectedEvent.id}`)
@@ -147,7 +173,7 @@ const Newevent = () => {
           if (response.status === 200) {
             console.log('Event deleted successfully:', response.data);
             setEvents(events.filter((e) => e.id !== selectedEvent.id));
-            fetchdata()
+            fetchdata();
           }
         })
         .catch((error) => {
@@ -168,13 +194,13 @@ const Newevent = () => {
         headerToolbar={{
           start: 'prev,next today',
           center: 'title',
-          end: 'dayGridMonth,dayGridWeek',
+          end: 'dayGridMonth,dayGridWeek'
         }}
         plugins={[dayGridPlugin, interactionPlugin]}
         views={['dayGridMonth', 'dayGridWeek', 'dayGridDay']}
         eventContent={customTitle}
-        eventBackgroundColor='red'
-        eventBorderColor='red'
+        eventBackgroundColor="red"
+        eventBorderColor="red"
         eventDrop={handleEventDrop}
       />
       <div className="card flex justify-content-center">
@@ -191,7 +217,7 @@ const Newevent = () => {
           <div style={flexStyle} className="flex flex-column gap-2">
             <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setName(e.target.value)} />
             {selectedEvent ? (
-              <Button label="Update" icon="pi pi-check" onClick={() => handleEventDrop()} />
+              <Button label="Update" icon="pi pi-check" onClick={() => handleUpdate()} />
             ) : (
               <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
             )}

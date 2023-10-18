@@ -1,7 +1,4 @@
 import * as React from 'react';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
@@ -29,10 +26,6 @@ const images = [
     imgPath:
       'https://drive.google.com/uc?id=1nQnNJxPl33X3eAeBZ9ULL4DtXZw_cQTk',
   },
-  // {
-  //   imgPath:
-  //     'https://drive.google.com/uc?id=1qUukx6adszNon4CmZD6Hjz1Ot33Y-vgB',
-  // },
 ];
 
 export default function PopularCard() {
@@ -53,7 +46,7 @@ export default function PopularCard() {
   };
   return (
     <>
-     <Card elevation={3} style={{marginTop:'40px'}}>
+     <Card elevation={3}>
     <Box sx={{ maxWidth: 400, flexGrow: 1 }}>
     <Paper
       square
@@ -124,11 +117,7 @@ export default function PopularCard() {
     />
   </Box>
   </Card>
-  <Card elevation={3}>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <DateCalendar />
-    </LocalizationProvider>
-    </Card>
+
     </>
   );
 }

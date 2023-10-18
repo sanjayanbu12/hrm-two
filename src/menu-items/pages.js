@@ -32,7 +32,6 @@ const icons = {
   DvrIcon
 };
 
-// ==============================|| EXTRA PAGES MENU ITEMS ||============================== //
 
 const pages = {
   type: 'group',
@@ -61,39 +60,6 @@ const pages = {
           title: 'Interview Process ',
           type: 'item',
           url: '/ApplicationTrackTab',
-          
-          // children:[
-          //   // {
-          //   //   id: 'applicationtracker',
-          //   //   title: 'Application Tracker',
-          //   //   type: 'item',
-          //   //   url: '/applicationtracker',
-          //   // }, 
-          //   {
-          //     id: 'Application Tracker',
-          //     title: 'Interview Process',
-          //     type: 'item',
-          //     url: '/ApplicationTrackTab'
-          //   },     
-          //   {
-          //     id: 'shortlist',
-          //     title: ' Candidates Shortlisting',
-          //     type: 'item',
-          //     url: '/shortlist'
-          //   },
-          //   {
-          //     id: 'interviewboard',
-          //     title: 'Interview Board',
-          //     type: 'item',
-          //     url: '/interviewboard'
-          //   },    
-          //   {
-          //     id: 'FeedSelectedTable',
-          //     title: 'Selected Candidates',
-          //     type: 'item',
-          //     url: '/FeedSelectedTable'
-          //   },    
-          // ]
         },       
       ]
     },
@@ -117,37 +83,10 @@ const pages = {
           url: '/basictable'
         },
         {
-          id: 'applicationtracker',
+          id: 'leave',
           title: 'Leave & Attendance',
           type: 'item',
           url: '/leave',
-          // icon: icons.AccountTreeOutlinedIcon,
-      //     children:[
-      //   // {
-      //   //   id: 'requestleave',
-      //   //   title: ' Request Leave',
-      //   //   type: 'item',
-      //   //   url: '/requestleave'
-      //   // },
-      //   // {
-      //   //   id: 'Attendance Regulation',
-      //   //   title: 'Attendance Regulation',
-      //   //   type: 'item',
-      //   //   url: '/attendanceManagement'
-      //   // },
-      //   // {
-      //   //   id: 'viewleave',
-      //   //   title: 'View leave',
-      //   //   type: 'item',
-      //   //   url: '/viewleave'
-      //   // },
-      //   // {
-      //   //   id: 'approveleave',
-      //   //   title: 'Track Leave',
-      //   //   type: 'item',
-      //   //   url: '/approveleave'
-      //   // },
-      // ],
     },
     {
       id: 'Organisation Chart',
@@ -155,18 +94,18 @@ const pages = {
       type: 'item',
       url: '/payroll'
     },
-    // {
-    //   id: 'employeeengagement',
-    //   title: 'Employee Engagement & Surveys',
-    //   type: 'item',
-    //   url: '/employeeengagement'
-    // },
-    // {
-    //   id: 'employeeselfservices',
-    //   title: 'Employee Self Services',
-    //   type: 'item',
-    //   url: '/employeeselfservices'
-    // },
+    {
+      id: 'event',
+      title: 'Event Calendar',
+      type: 'item',
+      url: '/newevent'
+    },
+    {
+      id: 'employeeselfservices',
+      title: 'Employee Self Services',
+      type: 'item',
+      url: '/employeeselfservices'
+    },
       ]
     },
     {
