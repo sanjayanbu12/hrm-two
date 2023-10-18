@@ -6,6 +6,7 @@
   import jsPDF from 'jspdf';
   import MaterialTable from 'material-table';
   import tableIcons from 'views/addemployeetable/MaterialTableIcons';
+  import _ from 'lodash';
 
 
   const AtttendanceTab = () => {
@@ -95,7 +96,7 @@
                 workingHours: calculateWorkingHours(clockData.checkInTime, clockData.checkOutTime, calculateBreakTime(clockData.break)),
               }));
             });
-            const flattenedEmployeeData = [].concat(...allEmployeeData);
+            const flattenedEmployeeData = _.flatten(allEmployeeData);
         
             setEmployee(flattenedEmployeeData);
           } catch (error) {
@@ -142,6 +143,7 @@
       
       //     return formattedData;
       //   };
+   
       const exportCsv = (data) => {
           const csvData = data.map((item) => ({
               name: item.name,
@@ -203,34 +205,52 @@
 
       // const sample = employee?.map((e) => e.checkInTime);
       // console.log("individual", sample);
+      const groupedByDate = _.groupBy(employee, 'date');
 
+      const sortedDates = Object.keys(groupedByDate).sort((a, b) => {
+        const dateA = new Date(a);
+        const dateB = new Date(b);
+        return dateB - dateA; // Sort in descending order (today's date first)
+      });
+
+     const tables = sortedDates.map(date => {
     return (
-      <div>
-      <MaterialTable
-        raised={true}
-        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance</div>}
-        columns={columns}
-      //   data={formatData()} // Pass the 'employee' state as the data
-      data={employee}
-        icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-        options={{
-          actionsColumnIndex: 6,
-          exportButton: true,
-          exportCsv: exportCsv,
-          exportPdf: exportPdf,
-          grouping: true,
-          headerStyle: {
-            background: 'linear-gradient(180deg,#3a59af,#352786)',
-            color: '#fff'
-          },
-          headerCellStyle: {
-            color: 'white'
-          }
-        }}
-      />
+      <div key={date} style={{ marginBottom: '35px' }}>
+        <MaterialTable 
+          columns={columns}
+          title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance : {date}</div>}
+          data={groupedByDate[date]}
+          icons={tableIcons}
+          style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+          options={{
+            actionsColumnIndex: 6,
+            exportButton: true,
+            exportCsv: exportCsv,
+            exportPdf: exportPdf,
+            grouping: true,
+            headerStyle: {
+              background: 'linear-gradient(180deg,pink)',
+              color: '#fff',
+            },
+            headerStyle: {
+              background: '#E754CA',  
+              color: '#fff',
+            },
+            headerCellStyle: {
+              background: '#E754CA', 
+              color: 'white',
+            },
+          }}
+        />
+      </div>
+    );
+  });
+
+  return (
+    <div>
+      {tables}
     </div>
   );
-  };
+};
 
-  export default AtttendanceTab;
+export default AtttendanceTab;

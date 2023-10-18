@@ -53,7 +53,7 @@ const Card2 = ({ isLoading }) => {
   const fetchEmployee = async () => {
     try {
       const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
-      const today = new Date(); // Get today's date
+      const today = new Date();
       const allEmployeeData = res.data.map(matchingEmployee => {
         const clockData = matchingEmployee.clockid || [];
         return clockData.map(clockData => ({
@@ -66,15 +66,13 @@ const Card2 = ({ isLoading }) => {
         }));
       });
       const flattenedEmployeeData = [].concat(...allEmployeeData);
-      
-      // Filter the data for today's date
       const todayData = flattenedEmployeeData.filter(item => {
         const itemDate = new Date(item.date);
         return itemDate.toDateString() === today.toDateString();
       });
   
-      setEmployee(todayData); // Set today's data
-      setEmployeeCount(todayData.length); // Set the count for today's data
+      setEmployee(todayData); 
+      setEmployeeCount(todayData.length); 
     } catch (error) {
       console.log(error);
     }
