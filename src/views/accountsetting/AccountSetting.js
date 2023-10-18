@@ -101,15 +101,21 @@ const Profile = styled(Avatar)`
 const AccountSetting = () => {
     const user = useSelector((state) => state.customization.authId);
     const [userdetails, setUserDetails] = useState({});
+    const data=userdetails.profilepic?.url;
+    console.log(data)
     const [firstname, setfirstName] = useState('');
     const [lastname, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [empId, setEmpId] = useState('');
     const [department, setDepartment] = useState('');
     const [mob, setPhone] = useState('');
+    const [coverimage,setCoverImage]=useState(userdetails.coverpic?.url);
+    const [avatarImage,setAvatarImage]=useState(data);
+    console.log(avatarImage)
     const [id,setId]=useState('');
     console.log(id)
     console.log(userdetails);
+   
     useEffect(() => {
         const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
 
@@ -127,6 +133,8 @@ const AccountSetting = () => {
                 setDepartment(specificEmployee.dept);
                 setPhone(specificEmployee.mob)
                 setId(specificEmployee._id);
+                setAvatarImage(specificEmployee.profilepic?.url);
+                setCoverImage(specificEmployee.coverpic?.url);
             })
             .catch((error) => {
                 console.error('Error fetching employee details:', error);
@@ -139,7 +147,7 @@ const AccountSetting = () => {
                 firstname,
                 lastname,
                 email,
-                mob
+                mob,
             }
             await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/'+id,Updatedata);
         }
@@ -147,6 +155,52 @@ catch(error){
     console.log("Error Updating data",error)
 }
     }
+
+    const handleUploadavatar = async (e) => {
+        const file = e.target.files[0]; // Get the selected file
+        if (file) {
+          // Create a FormData object to send the file to the server
+          const formData = new FormData();
+          formData.append('profile', file);
+    
+          try {
+            // Send the image to the server
+            const response = await axios.put('https://hrm-backend-square.onrender.com/api/profilepic/' + id, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+    console.log(response)
+            // Update the avatarImage state with the new image URL
+            setAvatarImage(response.data.employeeData.profilepic.url);
+          } catch (error) {
+            console.log('Error uploading image', error);
+          }
+        }
+      };
+
+      const handleCoverImageUpload=async(e)=>{
+        const file = e.target.files[0]; // Get the selected file
+        if (file) {
+          // Create a FormData object to send the file to the server
+          const formData = new FormData();
+          formData.append('cover', file);
+    
+          try {
+            // Send the image to the server
+            const response = await axios.put('https://hrm-backend-square.onrender.com/api/coverpic/' + id, formData, {
+              headers: {
+                'Content-Type': 'multipart/form-data'
+              }
+            });
+    console.log(response)
+            // Update the avatarImage state with the new image URL
+            setCoverImage(response.data.employeeData.coverpic.url);
+          } catch (error) {
+            console.log('Error uploading image', error);
+          }
+        }
+      }
     return (
         <>
             {/* <Container>
@@ -165,12 +219,26 @@ catch(error){
                 </TextContent>
             </Container> */}
             <CardContainer style={{ backgroundColor: '#f0f0f0' }}>
+               
+                <CoverImageContainer>
                 <CoverImageUpload
                     type="file"
                     accept=".jpg, .png, .img, .jpeg"
                     id="coverImageInput"
+                    onChange={handleCoverImageUpload}
                 />
-                <CoverImageContainer>
+                {coverimage ? (
+            <img
+              src={coverimage}
+              alt="Cover"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
+          ) : <div
+            style={{
+              width: '100%', height: '100%', background: `linear-gradient(to left, #ffffff 0%)`
+              , objectFit: 'cover'
+            }}
+          />}
 
                 </CoverImageContainer>
                 <AvatarUpload htmlFor="avatarImageInput">
@@ -178,9 +246,11 @@ catch(error){
                         type="file"
                         accept=".jpg, .png, .img,.jpeg"
                         id="avatarImageInput"
+                      onChange={handleUploadavatar}
                         style={{ display: 'none' }}
+                    
                     />
-                    <Profile sx={{ border: "3px solid white", width: 100, height: 100, fontSize: '40px', fontWeight: '800' }}></Profile>
+                    <Profile  src={avatarImage} sx={{ border: "3px solid white", width: 100, height: 100, fontSize: '40px', fontWeight: '800' }}></Profile>
                 </AvatarUpload>
                 <Grid container spacing={2} style={{
                     display: "flex",
