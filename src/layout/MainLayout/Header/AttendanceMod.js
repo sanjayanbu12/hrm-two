@@ -21,6 +21,8 @@ const AttendanceMod = () => {
     console.log("breack in id",breakinID)
     const[parclock,setParclock]=useState("");
     console.log("zzz",parclock)
+    const[check,setCheck]=useState("");
+    console.log("check",check)
     
     
     
@@ -158,24 +160,7 @@ useEffect(()=>{
 },[employee])
  
 
-    const handleCheckOutClick = async() => {    
-        const currentDate = new Date();
-    
-        try {
-            const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock._id}`,{ checkOutTime:currentDate.toISOString()});
-            if (response.status === 200) {
-                console.log("Check-Out successful!");
-                setCheckInDisabled(false);
-                setCheckOutDisabled(true);
-                setBreakDisabled(true);
-                
-            } else {
-                console.log("Failed to check in.");
-            }
-        } catch (error) {
-            console.error("Error while checking in:", error);
-        }
-    };
+  
 
     const zoomInStyle = {
         transform: checkInDisabled ? 'scale(0.6)' : 'scale(1)',
@@ -191,8 +176,64 @@ useEffect(()=>{
         transition: 'transform 0.1s',
     };
    
-  
- 
+    const checkButton = async () => {
+        try {
+            const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
+            const matchingEmployee = res.data.find(emp => emp.employeeid === authId);
+    
+            if (matchingEmployee) {
+                const clockData = matchingEmployee.clockid || [];
+                const currentDate = new Date().toLocaleDateString();
+    
+                // Check if there is a checkInTime entry for today's date
+                const hasCheckInForToday = clockData.some(clockData => {
+                    return new Date(clockData.date).toLocaleDateString() === currentDate && clockData.checkInTime;
+                });
+    
+                const flattenedEmployeeData = clockData.map(clockData => ({
+                    name: matchingEmployee.name,
+                    date: clockData.date,
+                    checkInTime: clockData.checkInTime,
+                    checkOutTime: clockData.checkOutTime,
+                    breakin: clockData.break.map(data => data.breakin),
+                    breakout: clockData.break.map(data => data.breakout),
+                    workingHours: (clockData.checkInTime, clockData.checkOutTime, clockData.break),
+                }));
+    
+                setCheck(flattenedEmployeeData);
+    
+                // Hide the "Check In" button if there is already a checkInTime for today
+                setCheckInDisabled(hasCheckInForToday);
+            } else {
+                console.log("Employee not found for authId:", authId);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    
+    useEffect(() => {
+        checkButton();
+    }, []);
+    const handleCheckOutClick = async() => {    
+        const currentDate = new Date();
+    
+        try {
+            const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock._id}`,{ checkOutTime:currentDate.toISOString()});
+            if (response.status === 200) {
+                console.log("Check-Out successful!");
+                // setCheckInDisabled(false);
+                // setCheckInDisabled(hasCheckInForToday);
+                setCheckOutDisabled(true);
+                setBreakDisabled(true);
+                
+            } else {
+                console.log("Failed to check in.");
+            }
+        } catch (error) {
+            console.error("Error while checking in:", error);
+        }
+    };
 
   
     return (

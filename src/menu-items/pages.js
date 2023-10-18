@@ -95,7 +95,6 @@ const pages = {
       url: '/payroll'
     },
     {
-<<<<<<< Updated upstream
       id: 'event',
       title: 'Event Calendar',
       type: 'item',
@@ -107,25 +106,6 @@ const pages = {
       type: 'item',
       url: '/employeeselfservices'
     },
-=======
-      id: 'Leave Approval',
-      title: 'Leave Approval',
-      type: 'item',
-      url: '/leaveapprove'
-    },
-    // {
-    //   id: 'employeeengagement',
-    //   title: 'Employee Engagement & Surveys',
-    //   type: 'item',
-    //   url: '/employeeengagement'
-    // },
-    // {
-    //   id: 'employeeselfservices',
-    //   title: 'Employee Self Services',
-    //   type: 'item',
-    //   url: '/employeeselfservices'
-    // },
->>>>>>> Stashed changes
       ]
     },
     {
