@@ -4,7 +4,7 @@ import { Grid, TextField, FormControl, InputLabel, FormHelperText, Select, Input
 import * as yup from 'yup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
 import { useSelector } from 'react-redux';
 
@@ -48,7 +48,7 @@ const validationSchema = yup.object().shape({
 });
 
 const RequestLeave = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [employeeId, setEmployeeId] = useState('');
   const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
@@ -206,9 +206,10 @@ const RequestLeave = () => {
         Swal.fire({
           icon: 'success',
           text: 'Leave request submitted successfully!'
-        }).then(() => {
-          navigate('/viewleave');
-        });
+        })
+        // }).then(() => {
+        //   navigate('/viewleave');
+        // });
       } else {
         console.error('Error:', response);
         Swal.fire({
