@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
-import Upcomingevents from './Upcomingevents';
+// import Upcomingevents from './Upcomingevents';
 import PopularCard from './PopularCard';
 import Card1 from './Card1';
 import Card2 from './Card2';
 import Card3 from './Card3';
-import AnnualCard from './AnnualCard'
+import AnnualCard from './AnnualCard';
 import { gridSpacing } from 'store/constant';
 import Card from '@mui/material/Card';
+import Apexchart from './ApexChart';
 import TotalGrowthBarChart from './TotalGrowthBarChart';
+import Calendar from './Calendar'
 
 const Dashboard = () => {
   const [isLoading, setLoading] = useState(true);
@@ -36,9 +38,6 @@ const Dashboard = () => {
             <Grid item xs={12} md={3}>
               <Card3 isLoading={isLoading} />
             </Grid>
-            {/* <Grid item xs={12} md={3}>
-              <Card4 isLoading={isLoading} />
-            </Grid> */}
             <Grid item xs={12} md={3}>
               <AnnualCard isLoading={isLoading} />
             </Grid>
@@ -47,9 +46,9 @@ const Dashboard = () => {
         </Grid>
 
         <Grid item xs={12}>
-          <Grid container spacing={gridSpacing}>
+          <Grid container spacing={gridSpacing} style={{marginTop:'10px',marginBottom:'0px'}}>
             <Grid item xs={12} md={8}>
-              <TotalGrowthBarChart isLoading={isLoading} />
+              <Apexchart isLoading={isLoading} />
             </Grid>
             <Grid item xs={12} md={4}>
               <PopularCard isLoading={isLoading} />
@@ -57,9 +56,20 @@ const Dashboard = () => {
           </Grid>
         </Grid>
 
-        <Grid item xs={12} md={12}>
-          <Upcomingevents isLoading={isLoading} />
+        <Grid item xs={12}>
+          <Grid container spacing={gridSpacing} style={{marginTop:'0px'}}>
+          <Grid item xs={12} md={8}>
+          <TotalGrowthBarChart isLoading={isLoading} />
         </Grid>
+        <Grid item xs={12} md={4}>
+          <Calendar isLoading={isLoading} />
+        </Grid>
+        </Grid>
+        </Grid>
+
+        {/* <Grid item xs={12} md={12}>
+          <Upcomingevents isLoading={isLoading} />
+        </Grid> */}
 
         {/* <Grid item xs={12} md={12}>
           <Newevent isLoading={isLoading} />

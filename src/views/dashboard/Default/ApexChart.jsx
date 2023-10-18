@@ -1,56 +1,59 @@
-import React, { Component } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import React, { useState, useEffect } from "react";
+import { Chart } from "react-google-charts";
+import {Card } from '@mui/material';
 
-class ApexChart extends Component {
-  constructor(props) {
-    super(props);
+export const options = {
+  title: "",
+  is3D: true,
+};
+ 
 
-    this.state = {
-      series: [10, 5, 3, 2],
-      options: {
-        chart: {
-          width: 360,
-          type: 'donut',
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                show: false,
-              },
-            },
-          },
-        ],
-        legend: {
-          show: false,
-        },
-        labels: ['Front End', 'Back End', 'Figma', 'Testing'], // Custom names for series
-      },
-    };
-  }
+const Apexchart = () => {
+  const [designationsData, setDesignationsData] = useState([]);
 
-  render() {
-    const customLabels = this.state.series.map((value, index) => {
-      return `${this.state.options.labels[index]}: ${value}`;
+  useEffect(() => {
+    fetch("https://hrm-backend-square.onrender.com/api/allemployee")
+      .then((response) => response.json())
+      .then((data) => {
+        const designations = data.map((employee) => employee.desi);
+        console.log("desi",designations)
+        const designationCounts = countDesignations(designations);
+        const chartData = convertToChartData(designationCounts);
+        setDesignationsData(chartData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  }, []);
+
+  const countDesignations = (designations) => {
+    const counts = {};
+    designations.forEach((designation) => {
+      counts[designation] = (counts[designation] || 0) + 1;
     });
+    return counts;
+  };
 
-    return (
-      <div>
-      <div className="chart-wrap">
-          <div id="chart">
-            <ReactApexChart options={{ ...this.state.options, labels: customLabels }} series={this.state.series} type="donut" width={380} />
-          </div>
-        </div>
-      </div>
-    );
-  }
-}
+  const convertToChartData = (designationCounts) => {
+    const chartData = [["Designation", "Total employees in Designation"]];
+    for (const designation in designationCounts) {
+      chartData.push([designation, designationCounts[designation]]);
+    }
+    return chartData;
+  };
 
-export default ApexChart;
+  return (
+    <Card elevation={2}>
+    <Chart
+      style={{marginLeft:'0px'}}
+      chartType="PieChart"
+      data={designationsData}
+      options={options}
+      width={"100%"}
+      height={"300px"}
+    />
+    </Card>
+  );
+};
+
+export default Apexchart;
