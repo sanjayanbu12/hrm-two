@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, IconButton, Typography, Card, CardContent, CardMedia, Grid, Paper } from '@mui/material';
+import { Dialog, DialogContent, DialogTitle, IconButton, Typography, Card, CardContent, CardMedia, Grid, Paper, Skeleton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
 import CatalogLayout from './CatalogLayout';
-import './CourseReview.css'
+import './CourseReview.css';
 
-const CourseCatalog=()=> {
+const CourseCatalog = () => {
   const [courseData, setCourseData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -27,7 +27,7 @@ const CourseCatalog=()=> {
   }, []);
 
   const openMediaDialog = (media) => {
-    console.log(media)
+    console.log(media);
     setSelectedMedia(media);
   };
 
@@ -38,7 +38,19 @@ const CourseCatalog=()=> {
   return (
     <MainCard title="Course Overview">
       {loading ? (
-        <p>Loading...</p>
+        <Grid container spacing={3}>
+          {Array.from(new Array(6)).map((_, index) => (
+            <Grid item xs={12} sm={4} md={4} key={index}>
+              <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
+                <Skeleton variant="rectangular" width="100%" height={110} />
+                <CardContent>
+                  <Skeleton width="60%" />
+                  <Skeleton width="80%" />
+                </CardContent>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : (
@@ -64,19 +76,15 @@ const CourseCatalog=()=> {
       )}
       <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
         <DialogTitle>
-         
           Course Details
           <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
             <CloseIcon />
           </IconButton>
-         
         </DialogTitle>
-        <DialogContent >
+        <DialogContent>
           {selectedMedia && (
             <>
-              
               <CatalogLayout selectedMedia={selectedMedia} />
-             
             </>
           )}
         </DialogContent>
@@ -85,4 +93,4 @@ const CourseCatalog=()=> {
   );
 }
 
-export default CourseCatalog
+export default CourseCatalog;
