@@ -6,7 +6,7 @@ import { RadioButton } from 'primereact/radiobutton';
 import axios from 'axios';
 import { Skeleton } from 'primereact/skeleton';
 
-const Quiz = ({courseid}) => {
+const Quiz = ({ courseid }) => {
   const toast = useRef(null);
 
   const [quizData, setQuizData] = useState([]);
@@ -16,7 +16,7 @@ const Quiz = ({courseid}) => {
     control,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   const show = (message, score, totalQuestions) => {
@@ -78,6 +78,8 @@ const Quiz = ({courseid}) => {
                 <p></p>
               </div>
             </div>
+          ) : quizData.length === 0 ? ( // Check if no quiz is available
+            <div>No quiz is available for this course.</div>
           ) : (
             quizData.map((question, index) => (
               <div key={question._id} className="flex flex-column gap-2">
@@ -99,12 +101,15 @@ const Quiz = ({courseid}) => {
                     </div>
                   )}
                 />
+              
                 {getFormErrorMessage(`answer${index}`)}
+                
               </div>
+              
             ))
           )}
-
-          <Button label="Submit Quiz" type="submit" icon="pi pi-check" />
+<Button label="Submit Quiz" type="submit" icon="pi pi-check" style={{marginTop:'10px'}} />
+      
         </div>
       </form>
     </>

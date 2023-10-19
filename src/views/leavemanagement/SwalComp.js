@@ -4,7 +4,6 @@ import 'sweetalert2/src/sweetalert2.scss';
 import useToast from './useToast';
 import { Toast } from 'primereact/toast';
 const SwalComp = ({ leaveId,fetchLeave }) => {
-  console.log(leaveId);
   const { toast, showToast } = useToast();
   const updateLeaveStatus = async () => {
     

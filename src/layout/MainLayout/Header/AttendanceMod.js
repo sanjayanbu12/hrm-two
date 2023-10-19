@@ -125,7 +125,7 @@ const AttendanceMod = () => {
                     }
                 
             } catch (error) {
-                
+                console.log(error)
             }
 
 
@@ -268,4 +268,4 @@ useEffect(()=>{
     )
 }
 
-export default AttendanceMod;
+export default AttendanceMod;
