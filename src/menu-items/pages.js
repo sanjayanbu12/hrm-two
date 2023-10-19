@@ -95,6 +95,12 @@ const pages = {
       url: '/payroll'
     },
     {
+      id: 'Leave Approval',
+      title: 'Leave Approval',
+      type: 'item',
+      url: '/leaveapprove'
+    },
+    {
       id: 'event',
       title: 'Event Calendar',
       type: 'item',
