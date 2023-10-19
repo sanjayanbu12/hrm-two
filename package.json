@@ -64,6 +64,7 @@
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-edit-text": "^5.1.1",
+    "react-google-charts": "^4.0.1",
     "react-hook-form": "^7.47.0",
     "react-icons": "^4.10.1",
     "react-linkedin-share-link": "^1.0.2",
