@@ -16,6 +16,10 @@ const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 const images = [
   {
     imgPath:
+      'https://drive.google.com/uc?id=1vVlVqSIJIhNo7kDXkHHtpvPDBpytCoyJ',
+  },
+  {
+    imgPath:
       'https://drive.google.com/uc?id=1WPRmDLjaCOQGiAB1lvLR6ark3oMh6am3',
   },
   {
