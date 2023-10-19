@@ -1,7 +1,7 @@
 import { createRoot } from 'react-dom/client';
 
 // third party
-import { BrowserRouter } from 'react-router-dom';
+import {  HashRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 // project imports
@@ -21,9 +21,9 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-    <BrowserRouter basename={config.basename}>
+    <HashRouter basename={config.basename}>
       <App />
-    </BrowserRouter>
+    </HashRouter>
     </PersistGate>
   </Provider>
 );
