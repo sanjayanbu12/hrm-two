@@ -10,7 +10,7 @@ import './Progressbar.css';
 const Progressbar = ({ goal, onClick, reloadGoals }) => {
   const [open, setOpen] = React.useState(false);
   const [isPopupOpen, setPopupOpen] = useState(false);
-  const { GoalT, GoalP, goaltrack,goal } = goal;
+  const { GoalT, GoalP, goaltrack,_id } = goal;
   const statusCount = {
     0: 0,
     1: 0,
@@ -130,11 +130,12 @@ const Progressbar = ({ goal, onClick, reloadGoals }) => {
                   e.stopPropagation();
                   openPopup();
                 }}>Edit</MenuItem>
-                {isPopupOpen && <PopupSubGoal onClose={closePopup} reloadGoals={reloadGoals} usrId={empId[0]} />}
+                {isPopupOpen && <PopupSubGoal onClose={closePopup} reloadGoals={reloadGoals} Id={_id} />}
         <MenuItem onClick={(e) => {
                   e.stopPropagation();
                   handleClickMenu();
                 }}>Add Sub-Goal</MenuItem>
+                {/* {isPopupOpen && <PopupSubGoal onClose={closePopup} reloadGoals={reloadGoals} Id={_id} />} */}
       </Menu>
             </Grid>
             <Grid item xs={1} sx={{ marginLeft: '30px' }}>
