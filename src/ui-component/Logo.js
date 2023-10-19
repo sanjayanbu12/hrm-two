@@ -10,13 +10,13 @@
  */
 
 // ==============================|| LOGO SVG ||============================== //
-import LogoPng from './logo.png'
+import Logo1 from './logo.png'
 const Logo = () => {
   return (
     <>
 
     <div style={{display:'flex',flexDirection:'column'}}>
-      <img src={LogoPng} alt="logo" style={{width:"90%"}}/>
+      <img src={Logo1} alt="logo" style={{width:"90%"}}/>
     {/* <div style={{
       fontWeight:'bold',
       fontSize:'20px',
