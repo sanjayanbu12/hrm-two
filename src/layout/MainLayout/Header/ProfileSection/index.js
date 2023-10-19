@@ -53,8 +53,8 @@ const ProfileSection = () => {
   const [matched, setMatched] = useState("");
   console.log("", matched)
   const authId = useSelector((state) => state.customization.authId);
-  
-const[profileimage,setProfileimage]=useState('');
+
+  const [profileimage, setProfileimage] = useState('');
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
@@ -234,12 +234,12 @@ const[profileimage,setProfileimage]=useState('');
                       <div>
                         <Avatar
                           alt="Remy Sharp"
-
+                          src={profileimage}
                           sx={{ width: 56, height: 56 }}
                         />
                       </div>
                       <div>
-                        <Typography component="span" variant="h4" sx={{ fontWeight: 400, paddingLeft: '0px' }}>
+                        <Typography component="span" variant="h4" sx={{ fontWeight: 700, paddingLeft: '0px'}}>
                           {matched.firstname}
                         </Typography>
                         <Typography variant="h4" sx={{ fontWeight: 400, paddingLeft: '0px', mt: '3px' }}>

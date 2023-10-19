@@ -26,10 +26,10 @@ import { Button } from 'primereact/button';
 // `
 const CardContainer = styled.div`
   position: relative;
-  top: 20px;
-  max-width: 620px;
+  
   width: 100%;
-  height: 800px;
+ 
+  padding-bottom:20px;
   margin: 0 auto;
   border: 1px solid #e0e0e0;
   border-radius: 5px;
@@ -101,21 +101,21 @@ const Profile = styled(Avatar)`
 const AccountSetting = () => {
     const user = useSelector((state) => state.customization.authId);
     const [userdetails, setUserDetails] = useState({});
-    const data=userdetails.profilepic?.url;
+    const data = userdetails.profilepic?.url;
     console.log(data)
-    const [firstname, setfirstName] = useState('');
+    const [name, setfirstName] = useState('');
     const [lastname, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [empId, setEmpId] = useState('');
     const [department, setDepartment] = useState('');
     const [mob, setPhone] = useState('');
-    const [coverimage,setCoverImage]=useState(userdetails.coverpic?.url);
-    const [avatarImage,setAvatarImage]=useState(data);
+    const [coverimage, setCoverImage] = useState(userdetails.coverpic?.url);
+    const [avatarImage, setAvatarImage] = useState(data);
     console.log(avatarImage)
-    const [id,setId]=useState('');
+    const [id, setId] = useState('');
     console.log(id)
     console.log(userdetails);
-   
+
     useEffect(() => {
         const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
 
@@ -141,104 +141,90 @@ const AccountSetting = () => {
             });
     }, []);
 
-    const handleUpdate=async()=>{
-        try{
-            const Updatedata={
-                firstname,
+    const handleUpdate = async () => {
+        try {
+            const Updatedata = {
+                name,
                 lastname,
                 email,
                 mob,
             }
-            await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/'+id,Updatedata);
+            await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, Updatedata);
         }
-catch(error){
-    console.log("Error Updating data",error)
-}
+        catch (error) {
+            console.log("Error Updating data", error)
+        }
     }
 
     const handleUploadavatar = async (e) => {
         const file = e.target.files[0]; // Get the selected file
         if (file) {
-          // Create a FormData object to send the file to the server
-          const formData = new FormData();
-          formData.append('profile', file);
-    
-          try {
-            // Send the image to the server
-            const response = await axios.put('https://hrm-backend-square.onrender.com/api/profilepic/' + id, formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            });
-    console.log(response)
-            // Update the avatarImage state with the new image URL
-            setAvatarImage(response.data.employeeData.profilepic.url);
-          } catch (error) {
-            console.log('Error uploading image', error);
-          }
-        }
-      };
+            // Create a FormData object to send the file to the server
+            const formData = new FormData();
+            formData.append('profile', file);
 
-      const handleCoverImageUpload=async(e)=>{
+            try {
+                // Send the image to the server
+                const response = await axios.put('https://hrm-backend-square.onrender.com/api/profilepic/' + id, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response)
+                // Update the avatarImage state with the new image URL
+                setAvatarImage(response.data.employeeData.profilepic.url);
+            } catch (error) {
+                console.log('Error uploading image', error);
+            }
+        }
+    };
+
+    const handleCoverImageUpload = async (e) => {
         const file = e.target.files[0]; // Get the selected file
         if (file) {
-          // Create a FormData object to send the file to the server
-          const formData = new FormData();
-          formData.append('cover', file);
-    
-          try {
-            // Send the image to the server
-            const response = await axios.put('https://hrm-backend-square.onrender.com/api/coverpic/' + id, formData, {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
-            });
-    console.log(response)
-            // Update the avatarImage state with the new image URL
-            setCoverImage(response.data.employeeData.coverpic.url);
-          } catch (error) {
-            console.log('Error uploading image', error);
-          }
+            // Create a FormData object to send the file to the server
+            const formData = new FormData();
+            formData.append('cover', file);
+
+            try {
+                // Send the image to the server
+                const response = await axios.put('https://hrm-backend-square.onrender.com/api/coverpic/' + id, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                console.log(response)
+                // Update the avatarImage state with the new image URL
+                setCoverImage(response.data.employeeData.coverpic.url);
+            } catch (error) {
+                console.log('Error uploading image', error);
+            }
         }
-      }
+    }
     return (
         <>
-            {/* <Container>
-                <div>
-                    <Avatar sx={{ width: 50, height: 50, fontSize: '20px', fontWeight: '800' }}>
-                        {userdetails.name}
-                    </Avatar>
-                </div>
-                <TextContent>
-                    <div style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '5px' }}>
-                        {userdetails.name} {userdetails.lastname}
-                    </div>
-                    <div style={{ fontSize: '13px' }}>
-                        {userdetails.email}
-                    </div>
-                </TextContent>
-            </Container> */}
+
             <CardContainer style={{ backgroundColor: '#f0f0f0' }}>
-               
+
                 <CoverImageContainer>
-                <CoverImageUpload
-                    type="file"
-                    accept=".jpg, .png, .img, .jpeg"
-                    id="coverImageInput"
-                    onChange={handleCoverImageUpload}
-                />
-                {coverimage ? (
-            <img
-              src={coverimage}
-              alt="Cover"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
-          ) : <div
-            style={{
-              width: '100%', height: '100%', background: `linear-gradient(to left, #ffffff 0%)`
-              , objectFit: 'cover'
-            }}
-          />}
+                    <CoverImageUpload
+                        type="file"
+                        accept=".jpg, .png, .img, .jpeg"
+                        id="coverImageInput"
+                        onChange={handleCoverImageUpload}
+                    />
+                    {coverimage ? (
+                        <img
+                            src={coverimage}
+                            alt="Cover"
+                            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        />
+                    ) : <div
+                        style={{
+                            width: '100%', height: '100%', background: `linear-gradient(to left, #ffffff 0%)`
+                            , objectFit: 'cover'
+                        }}
+                    />}
 
                 </CoverImageContainer>
                 <AvatarUpload htmlFor="avatarImageInput">
@@ -246,11 +232,11 @@ catch(error){
                         type="file"
                         accept=".jpg, .png, .img,.jpeg"
                         id="avatarImageInput"
-                      onChange={handleUploadavatar}
+                        onChange={handleUploadavatar}
                         style={{ display: 'none' }}
-                    
+
                     />
-                    <Profile  src={avatarImage} sx={{ border: "3px solid white", width: 100, height: 100, fontSize: '40px', fontWeight: '800' }}></Profile>
+                    <Profile src={avatarImage} sx={{ border: "3px solid white", width: 100, height: 100, fontSize: '40px', fontWeight: '800' }}></Profile>
                 </AvatarUpload>
                 <Grid container spacing={2} style={{
                     display: "flex",
@@ -267,7 +253,7 @@ catch(error){
                     }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <div style={{ fontSize: '18px', fontWeight: "bold", color: '#4D4C7D' }}>First Name</div>
-                            <InputText value={firstname} onChange={(e)=>setfirstName(e.target.value)} />
+                            <InputText value={name} onChange={(e) => setfirstName(e.target.value)} />
                         </div>
 
                     </Grid>
@@ -279,19 +265,19 @@ catch(error){
                     }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <div style={{ fontSize: '18px', fontWeight: "bold", color: '#4D4C7D' }}>Last Name</div>
-                            <InputText value={lastname} onChange={(e)=>setLastName(e.target.value)}/>
+                            <InputText value={lastname} onChange={(e) => setLastName(e.target.value)} />
                         </div>
                     </Grid>
-                    <Grid item xs={12} style={{
+                    <Grid item xs={4} md={5} style={{
                         padding: "0px",
                         display: 'flex',
-                        marginLeft: '23px',
+                        // marginLeft: '47px',
                         justifyContent: "start",
                         marginBottom: '40px',
                     }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <div style={{ fontSize: '18px', fontWeight: "bold", color: '#4D4C7D' }}>Email</div>
-                            <InputText value={email} onChange={(e)=>setEmail(e.target.value)} style={{ width: '400px' }} />
+                            <InputText value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
                     </Grid>
                     <Grid item xs={6} md={5} style={{
@@ -305,7 +291,7 @@ catch(error){
                             <InputText value={empId} />
                         </div>
                     </Grid>
-                
+
                     <Grid item xs={6} md={5} style={{
                         padding: "0px",
                         display: 'flex',
@@ -317,6 +303,7 @@ catch(error){
                             <InputText value={department} />
                         </div>
                     </Grid>
+
                     <Grid item xs={12} md={5} style={{
                         padding: "0px",
                         display: 'flex',
@@ -325,14 +312,23 @@ catch(error){
                     }}>
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                             <div style={{ fontSize: '18px', fontWeight: "bold", color: '#4D4C7D' }}>Phone No</div>
-                            <InputText value={mob} onChange={(e)=>setPhone(e.target.value)} />
+                            <InputText value={mob} onChange={(e) => {
+                                // Get the input value and remove non-digit characters
+                                let inputText = e.target.value.replace(/\D/g, '');
+
+                                // Limit the input to 10 characters
+                                if (inputText.length <= 10) {
+                                    setPhone(inputText);
+                                }
+                            }} />
                         </div>
                     </Grid>
+
                 </Grid>
-                <div style={{display:'flex',justifyContent:'center'}}>
-                <Button label='Save' style={{width:'100px'}} onClick={handleUpdate} />
+                <div style={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}>
+                    <Button label='Save' style={{ width: '150px', borderRadius: '5px', backgroundColor: '#4D4C7D', borderColor: '#4D4C7D' }} onClick={handleUpdate} />
                 </div>
-                
+
             </CardContainer>
         </>
     )

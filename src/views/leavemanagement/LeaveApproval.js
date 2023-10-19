@@ -12,11 +12,10 @@ const LeaveApproval = () => {
   const [leaveData, setLeaveData] = useState([]);
   const [showSwal, setShowSwal] = useState(false);
   const [leaveId, setLeaveId] = useState(null);
-  console.log(authId);
+  
   const fetchLeave = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave');
-      console.log(response.data.leaveRequests)
       setLeaveData(response.data.leaveRequests.filter((leave) => leave.reportingto.status === false && leave.reportingto.reporterid.employeeid===authId));
     } catch (error) {
       console.log(error);
