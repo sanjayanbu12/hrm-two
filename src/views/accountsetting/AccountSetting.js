@@ -101,7 +101,7 @@ const Profile = styled(Avatar)`
 const AccountSetting = () => {
     const user = useSelector((state) => state.customization.authId);
     const [userdetails, setUserDetails] = useState({});
-    const data = userdetails.profilepic?.url;
+    const data = userdetails?.profilepic?.url;
     console.log(data)
     const [name, setfirstName] = useState('');
     const [lastname, setLastName] = useState('');
@@ -109,7 +109,7 @@ const AccountSetting = () => {
     const [empId, setEmpId] = useState('');
     const [department, setDepartment] = useState('');
     const [mob, setPhone] = useState('');
-    const [coverimage, setCoverImage] = useState(userdetails.coverpic?.url);
+    const [coverimage, setCoverImage] = useState(userdetails?.coverpic?.url);
     const [avatarImage, setAvatarImage] = useState(data);
     console.log(avatarImage)
     const [id, setId] = useState('');
@@ -134,7 +134,7 @@ const AccountSetting = () => {
                 setPhone(specificEmployee.mob)
                 setId(specificEmployee._id);
                 setAvatarImage(specificEmployee.profilepic?.url);
-                setCoverImage(specificEmployee.coverpic?.url);
+                setCoverImage(specificEmployee?.coverpic?.url);
             })
             .catch((error) => {
                 console.error('Error fetching employee details:', error);
@@ -195,7 +195,7 @@ const AccountSetting = () => {
                 });
                 console.log(response)
                 // Update the avatarImage state with the new image URL
-                setCoverImage(response.data.employeeData.coverpic.url);
+                setCoverImage(response.data.employeeData?.coverpic?.url);
             } catch (error) {
                 console.log('Error uploading image', error);
             }
