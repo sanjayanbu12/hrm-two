@@ -66,7 +66,7 @@ const Goals = () => {
     <Paper style={{ padding: '20px', height: 'fit-content', maxWidth: '100%' }}>
       <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
         <Button variant="contained" color="secondary" onClick={openPopup}>
-          ADD New Goal
+          Add New Goal
         </Button>
         {isPopupOpen && <PopupGoal onClose={closePopup} reloadGoals={reloadGoals} usrId={empId[0]} />}
       </div>
