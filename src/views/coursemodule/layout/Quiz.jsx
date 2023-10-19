@@ -101,13 +101,13 @@ const Quiz = ({ courseid }) => {
                     </div>
                   )}
                 />
-                 <Button label="Submit Quiz" type="submit" icon="pi pi-check" />
+               <Button label="Submit Quiz" type="submit" icon="pi pi-check" />
                 {getFormErrorMessage(`answer${index}`)}
               </div>
             ))
           )}
 
-         
+      
         </div>
       </form>
     </>

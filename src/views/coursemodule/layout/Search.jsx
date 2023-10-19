@@ -18,7 +18,7 @@ import React from 'react'
 
 const Search = () => {
   return (
-    <h1 style={{display:'flex',justifyContent:'center',alignItems:'center'}}>Under Development</h1>
+    <h1 style={{display:'flex',justifyContent:'center',alignItems:'center',color:'black'}}>Under Development</h1>
   )
 }
 
