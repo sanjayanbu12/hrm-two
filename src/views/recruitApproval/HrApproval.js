@@ -12,7 +12,7 @@ import { useSelector } from 'react-redux';
 // import MaterialTable from "material-table";
 import Lottie from 'react-lottie';
 import { Carousel } from 'primereact/carousel';
-import {  defaultOptions, defaultOptions1, responsiveOptions } from './Const';
+import { defaultOptions, defaultOptions1, responsiveOptions } from './Const';
 import MainCard from 'ui-component/cards/MainCard';
 const HrApproval = () => {
   const [data, setRecData] = useState([]);
@@ -29,7 +29,7 @@ const HrApproval = () => {
   useEffect(() => {
     const fetchDataOnMount = async () => {
       try {
-        const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+        const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
         setedata(response.data);
       } catch (error) {
         console.log(error);
@@ -40,7 +40,7 @@ const HrApproval = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const res = await axios.get(`https://pulsehr-express-server.onrender.com/rec/getRec`);
       console.log(res.data.getData);
 
       const filteredData = res.data.getData.filter((item) => {
@@ -78,7 +78,7 @@ const HrApproval = () => {
   const jobTemplete = (data) => {
     return (
       <>
-        <Card raised={true} key={data._id} sx={{ width: '90%',margin:'20px',height:'300px' }}>
+        <Card raised={true} key={data._id} sx={{ width: '90%', margin: '20px', height: '300px' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant="h1" gutterBottom>
               {data.Company}
@@ -126,16 +126,15 @@ const HrApproval = () => {
   };
 
   return (
-    <MainCard title='Job Requests' >
-      {!loading ?  (
-        data.length>0?(
+    <MainCard title="Job Requests">
+      {!loading ? (
+        data.length > 0 ? (
           <Carousel value={data} numVisible={2} numScroll={2} responsiveOptions={responsiveOptions} itemTemplate={jobTemplete} />
-        ):(
+        ) : (
           <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <Lottie options={defaultOptions} height={500} width={500} />
-        </Box>
+            <Lottie options={defaultOptions} height={500} width={500} />
+          </Box>
         )
-     
       ) : (
         <Box sx={{ height: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <Lottie options={defaultOptions1} height={100} width={100} />

@@ -36,8 +36,8 @@ import {
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2'
-import 'sweetalert2/src/sweetalert2.scss'
+import Swal from 'sweetalert2';
+import 'sweetalert2/src/sweetalert2.scss';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -65,7 +65,7 @@ const OrgTree = () => {
 
   const fetchOrgData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/org/getorg');
       const orgData = response.data.orgData;
       setorgMems(orgData);
       if (orgData) {
@@ -79,13 +79,13 @@ const OrgTree = () => {
 
       setLoaderStatus(false);
     } catch (error) {
-      console.log(error); 
+      console.log(error);
       setLoaderStatus(false);
     }
   };
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
     } catch (error) {
@@ -122,8 +122,8 @@ const OrgTree = () => {
         }
       };
       // const id = orgMems.map((data) => data._id);
-      await axios.post(`https://hrm-backend-square.onrender.com/org/createorg`, manData);
-      await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
+      await axios.post(`https://pulsehr-express-server.onrender.com/org/createorg`, manData);
+      await axios.put(`https://pulsehr-express-server.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
       fetchOrgData();
     } catch (error) {
       console.log(error);
@@ -137,7 +137,7 @@ const OrgTree = () => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
     });
     const id = orgMems.map((data) => data._id);
-    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+    await axios.put(`https://pulsehr-express-server.onrender.com/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });
@@ -150,9 +150,9 @@ const OrgTree = () => {
       const employeeIdsToDelete = dta.employeeid;
       const foundEmployees = orgMems.map((org) => org.hrName.filter((emp) => employeeIdsToDelete.includes(emp.employeeId))).flat();
       const idToDel = foundEmployees.map((empid) => empid._id);
-      await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
+      await axios.delete(`https://pulsehr-express-server.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
       fetchOrgData();
-    }  catch (error) {
+    } catch (error) {
       console.log(error);
     }
   };
@@ -168,11 +168,7 @@ const OrgTree = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         handleDeleteMan(data);
-        Swal.fire(
-          'Deleted!',
-          'Employee has been deleted.',
-          'success'
-        )
+        Swal.fire('Deleted!', 'Employee has been deleted.', 'success');
       }
     });
   };
@@ -185,23 +181,18 @@ const OrgTree = () => {
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Delete'
-    }).then(async(result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         await handledeltop();
         await fetchOrgData();
-        navigate('/payroll')
-        Swal.fire(
-          'Deleted!',
-          'Employee has been deleted.',
-          'success'
-        )
+        navigate('/payroll');
+        Swal.fire('Deleted!', 'Employee has been deleted.', 'success');
       }
     });
   };
   const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
-    await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
-
+    await axios.delete(`https://pulsehr-express-server.onrender.com/org/deleteorg/${orgId}/toptier`);
   };
 
   return (
@@ -350,11 +341,10 @@ const OrgTree = () => {
                                           TransitionComponent={Fade}
                                           TransitionProps={{ timeout: 600 }}
                                         >
-                                             <GroupRemoveOutlinedIcon onClick={() => handleDeleteWithConfirmation(data)} />
+                                          <GroupRemoveOutlinedIcon onClick={() => handleDeleteWithConfirmation(data)} />
                                         </Tooltip>
                                       </IconButton>
                                     </MenuItem>
-                                    
                                   </Menu>
                                 </div>
                               )}

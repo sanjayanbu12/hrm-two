@@ -33,7 +33,7 @@ const RecruitmentView = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+      const res = await axios.get(`https://pulsehr-express-server.onrender.com/rec/getRec/${id}`);
       console.log(res.data.data.orgData.find((data) => data.employeeId === authId));
       const Job = res.data.data;
       const abc = JSON.stringify(Job);
@@ -48,7 +48,7 @@ const RecruitmentView = () => {
   }
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
       const employees = response.data;
       setTopTierData(employees.filter((data) => data.isTopTier === true));
     } catch (error) {
@@ -95,7 +95,7 @@ const RecruitmentView = () => {
   };
   const fetchApp = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      const res = await axios.get(`https://pulsehr-express-server.onrender.com/ats/`);
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
@@ -107,7 +107,7 @@ const RecruitmentView = () => {
   };
   const deleteJob = async () => {
     try {
-      await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${selectedJob._id}`);
+      await axios.delete(`https://pulsehr-express-server.onrender.com/rec/getRec/${selectedJob._id}`);
       navigate(`/hrapproval/${authId}`);
     } catch (error) {
       console.log(error);
@@ -178,7 +178,7 @@ const RecruitmentView = () => {
         ...selectedJob,
         orgData: updatedOrgData
       };
-      await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
+      await axios.put('https://pulsehr-express-server.onrender.com/rec/getRec/' + id, updatedData);
       setTimeout(() => {
         navigate(`/hrapproval/${authId}`);
       }, 2000);
@@ -187,7 +187,7 @@ const RecruitmentView = () => {
     }
   };
   const hanldeApproveMan = async () => {
-    await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
+    await axios.put('https://pulsehr-express-server.onrender.com/rec/getRec/' + id, {
       jobApproved: true
     });
     setTimeout(() => {
@@ -384,7 +384,7 @@ const RecruitmentView = () => {
                       <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
                         Approve
                       </HrBtn>
-                      <Reject onClick={() => setVisible2(true)}  size="small" icon="pi pi-check" label="Confirm">
+                      <Reject onClick={() => setVisible2(true)} size="small" icon="pi pi-check" label="Confirm">
                         Reject
                       </Reject>
                     </ButtonGroup>

@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle, IconButton, Typography, Card, CardContent, CardMedia, Grid, Paper, Skeleton } from '@mui/material';
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Typography,
+  Card,
+  CardContent,
+  CardMedia,
+  Grid,
+  Paper,
+  Skeleton
+} from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import MainCard from 'ui-component/cards/MainCard';
 import axios from 'axios';
@@ -14,7 +26,7 @@ const CourseCatalog = () => {
 
   useEffect(() => {
     axios
-      .get('https://hrm-backend-square.onrender.com/media/getAll')
+      .get('https://pulsehr-express-server.onrender.com/media/getAll')
       .then((response) => {
         setCourseData(response.data);
         setLoading(false);
@@ -91,6 +103,6 @@ const CourseCatalog = () => {
       </Dialog>
     </MainCard>
   );
-}
+};
 
 export default CourseCatalog;

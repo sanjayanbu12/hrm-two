@@ -7,7 +7,6 @@ import { EditText } from 'react-edit-text';
 import PopupTask from './PopupTask';
 import { useParams } from 'react-router';
 
-
 const YourGoalTab = () => {
   const id = useParams();
 
@@ -18,10 +17,9 @@ const YourGoalTab = () => {
   const [specificIdd, setSpecificIdd] = useState([]);
   const [specificIdc, setSpecificIdc] = useState([]);
 
-
   const fetchGoals = async () => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/task/getall/${id.id}`);
+      const response = await axios.get(`https://pulsehr-express-server.onrender.com/task/getall/${id.id}`);
       setTasks(response.data.getData);
     } catch (error) {
       console.error('Error fetching goals:', error);
@@ -59,7 +57,6 @@ const YourGoalTab = () => {
         items: []
       }
     ];
-
 
     tasks.forEach((getData) => {
       if (getData.status == 0) {
@@ -109,7 +106,7 @@ const YourGoalTab = () => {
       newItems[destinationGroupIndex].items.splice(result.destination.index, 0, movedItem);
       setItems(newItems);
       try {
-        await axios.put(`https://hrm-backend-square.onrender.com/task/update/${movedItem.id}`, {
+        await axios.put(`https://pulsehr-express-server.onrender.com/task/update/${movedItem.id}`, {
           status: destinationGroupIndex
         });
       } catch (error) {
@@ -128,27 +125,24 @@ const YourGoalTab = () => {
     setSpecificIdd(item);
   };
 
-  const handleSavec = async () =>  { 
+  const handleSavec = async () => {
     try {
-      await axios.put(`https://hrm-backend-square.onrender.com/task/update/${specificIdc}`, {
+      await axios.put(`https://pulsehr-express-server.onrender.com/task/update/${specificIdc}`, {
         title: textc
-        
       });
     } catch (error) {
       console.log('error', error);
     }
   };
-  const handleSaved = async () =>  { 
+  const handleSaved = async () => {
     try {
-      await axios.put(`https://hrm-backend-square.onrender.com/task/update/${specificIdd}`, {
+      await axios.put(`https://pulsehr-express-server.onrender.com/task/update/${specificIdd}`, {
         description: textd
       });
     } catch (error) {
       console.log('error', error);
     }
   };
- 
-
 
   // };
 
@@ -183,18 +177,13 @@ const YourGoalTab = () => {
                               transition: 'width 0.3s ease',
                               color: snapshot.isDraggingOver ? 'rgba(0, 0, 0, 1)' : 'rgba(0, 0, 0, 0)',
                               tarnsition: 'color 0.6 ease'
-                                                           
-                             
                             }
                           : null),
-                        ...(groupIndex === 0 || groupIndex === 1 || groupIndex === 2 || groupIndex === 3 
+                        ...(groupIndex === 0 || groupIndex === 1 || groupIndex === 2 || groupIndex === 3
                           ? {
                               // Apply specific CSS for groupIndex 4
-
-
-                             
                             }
-                          : null),
+                          : null)
                       }}
                     >
                       <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '10px' }}>

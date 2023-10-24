@@ -32,7 +32,7 @@ const Card3 = ({ isLoading }) => {
   const [Openening, setOpening] = useState('');
 
   const totalopeen = async () => {
-    const res = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
+    const res = await axios.get('https://pulsehr-express-server.onrender.com/rec/getRec');
     const count = res.data.getData.length;
     setOpening(count);
     console.log('count', count);

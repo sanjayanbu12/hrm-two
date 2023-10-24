@@ -28,9 +28,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const QuizForm = ({courseid}) => {
+const QuizForm = ({ courseid }) => {
   const classes = useStyles();
-  const [options, setOptions] = useState(['','','','']);
+  const [options, setOptions] = useState(['', '', '', '']);
   const [question, setQuestion] = useState('');
   const [correctAnswer, setCorrectAnswer] = useState('');
 
@@ -51,12 +51,11 @@ const QuizForm = ({courseid}) => {
         question,
         options,
         correctAnswer,
-        courseId:courseid
-
+        courseId: courseid
       };
 
       // Send a POST request to create a new quiz
-      const response = await axios.post('https://hrm-backend-square.onrender.com/quiz/create', data); // Replace with your actual API endpoint
+      const response = await axios.post('https://pulsehr-express-server.onrender.com/quiz/create', data); // Replace with your actual API endpoint
       console.log('Quiz created:', response.data);
 
       // Reset the form

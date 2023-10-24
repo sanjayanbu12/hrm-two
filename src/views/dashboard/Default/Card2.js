@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useTheme, styled } from '@mui/material/styles';
-import { Box, Grid, Typography,Card } from '@mui/material';
+import { Box, Grid, Typography, Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import { useEffect } from 'react';
@@ -18,7 +18,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     width: 210,
     height: 210,
     background: theme.palette.secondary[800],
-    borderRadius: 15 ,
+    borderRadius: 15,
     // top: -85,
     // right: -95,
     [theme.breakpoints.down('sm')]: {
@@ -32,7 +32,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     width: 210,
     height: 210,
     // background: theme.palette.secondary[800],
-    borderRadius:100,
+    borderRadius: 100,
     top: -125,
     right: -15,
     opacity: 0.5,
@@ -44,35 +44,33 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 }));
 
 const Card2 = ({ isLoading }) => {
- 
-  
-  const [employee, setEmployee] = useState("");
-  console.log("count",employee);
+  const [employee, setEmployee] = useState('');
+  console.log('count', employee);
   const [employeeCount, setEmployeeCount] = useState(0);
 
   const fetchEmployee = async () => {
     try {
-      const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
+      const res = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
       const today = new Date();
-      const allEmployeeData = res.data.map(matchingEmployee => {
+      const allEmployeeData = res.data.map((matchingEmployee) => {
         const clockData = matchingEmployee.clockid || [];
-        return clockData.map(clockData => ({
+        return clockData.map((clockData) => ({
           name: matchingEmployee.name,
           date: clockData.date,
           checkInTime: clockData.checkInTime,
           checkOutTime: clockData.checkOutTime,
-          breakin: clockData.break.map(data => data.breakin),
-          breakout: (clockData.checkInTime, clockData.checkOutTime, clockData.break),
+          breakin: clockData.break.map((data) => data.breakin),
+          breakout: (clockData.checkInTime, clockData.checkOutTime, clockData.break)
         }));
       });
       const flattenedEmployeeData = [].concat(...allEmployeeData);
-      const todayData = flattenedEmployeeData.filter(item => {
+      const todayData = flattenedEmployeeData.filter((item) => {
         const itemDate = new Date(item.date);
         return itemDate.toDateString() === today.toDateString();
       });
-  
-      setEmployee(todayData); 
-      setEmployeeCount(todayData.length); 
+
+      setEmployee(todayData);
+      setEmployeeCount(todayData.length);
     } catch (error) {
       console.log(error);
     }
@@ -83,30 +81,27 @@ const Card2 = ({ isLoading }) => {
   }, []);
 
   const theme = useTheme();
- 
 
   const [timeValue, setTimeValue] = useState(false);
-  console.log(timeValue)
+  console.log(timeValue);
   const handleChangeTime = (event, newValue) => {
     setTimeValue(newValue);
   };
-console.log(handleChangeTime)
+  console.log(handleChangeTime);
 
-
-  
   return (
     <>
       {isLoading ? (
         <SkeletonTotalOrderCard />
       ) : (
         <Card elevation={10}>
-        <CardWrapper border={false} content={false}>
-          <Box sx={{ p: 2.25 }}>
-            <Grid container direction="column">
-              <Grid item>
-                <Grid container justifyContent="space-between">
-                  <Grid item>
-                    {/* <Button
+          <CardWrapper border={false} content={false}>
+            <Box sx={{ p: 2.25 }}>
+              <Grid container direction="column">
+                <Grid item>
+                  <Grid container justifyContent="space-between">
+                    <Grid item>
+                      {/* <Button
                       disableElevation
                       variant={timeValue ? 'contained' : 'text'}
                       size="small"
@@ -115,40 +110,43 @@ console.log(handleChangeTime)
                     >
                       PRESENT
                     </Button> */}
-                    <Typography sx={{fontSize:"15px",fontWeight:'bold'}}> TODAY PRESENT</Typography> 
+                      <Typography sx={{ fontSize: '15px', fontWeight: 'bold' }}> TODAY PRESENT</Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
-              </Grid>
-              <Grid item sx={{ mb: 0.75 }}>
-                <Grid container alignItems="center">
-                  <Grid item xs={6}>
-                    <Grid container alignItems="center">
-                      <Grid item>
-                        {/* {timeValue ? (
+                <Grid item sx={{ mb: 0.75 }}>
+                  <Grid container alignItems="center">
+                    <Grid item xs={6}>
+                      <Grid container alignItems="center">
+                        <Grid item>
+                          {/* {timeValue ? (
                           <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>15</Typography>
                         ) : ( */}
-                        {(
-                          <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}> {employeeCount}</Typography>
-                        )} 
-                      </Grid>
-                      <Grid item xs={12}>
-                        <Typography
-                          sx={{
-                            fontSize: '1rem',
-                            fontWeight: 500,
-                            color: theme.palette.primary[100]
-                          }}
-                        >
-                          {/* Projects */}
-                        </Typography>
+                          {
+                            <Typography sx={{ fontSize: '2.125rem', fontWeight: 500, mr: 1, mt: 1.75, mb: 0.75 }}>
+                              {' '}
+                              {employeeCount}
+                            </Typography>
+                          }
+                        </Grid>
+                        <Grid item xs={12}>
+                          <Typography
+                            sx={{
+                              fontSize: '1rem',
+                              fontWeight: 500,
+                              color: theme.palette.primary[100]
+                            }}
+                          >
+                            {/* Projects */}
+                          </Typography>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </Box>
-        </CardWrapper>
+            </Box>
+          </CardWrapper>
         </Card>
       )}
     </>

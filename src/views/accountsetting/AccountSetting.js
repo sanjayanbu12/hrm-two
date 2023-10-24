@@ -114,7 +114,7 @@ const AccountSetting = () => {
   const [id, setId] = useState('');
 
   useEffect(() => {
-    const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
+    const apiUrl = `https://pulsehr-express-server.onrender.com/api/allemployee`;
 
     axios
       .get(apiUrl)
@@ -147,7 +147,7 @@ const AccountSetting = () => {
         email,
         mob
       };
-      await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, Updatedata);
+      await axios.put('https://pulsehr-express-server.onrender.com/api/updateemployee/' + id, Updatedata);
     } catch (error) {
       console.log('Error Updating data', error);
     }
@@ -162,7 +162,7 @@ const AccountSetting = () => {
 
       try {
         // Send the image to the server
-        const response = await axios.put('https://hrm-backend-square.onrender.com/api/profilepic/' + id, formData, {
+        const response = await axios.put('https://pulsehr-express-server.onrender.com/api/profilepic/' + id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -185,7 +185,7 @@ const AccountSetting = () => {
 
       try {
         // Send the image to the server
-        const response = await axios.put('https://hrm-backend-square.onrender.com/api/coverpic/' + id, formData, {
+        const response = await axios.put('https://pulsehr-express-server.onrender.com/api/coverpic/' + id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }

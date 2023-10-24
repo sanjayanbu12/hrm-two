@@ -29,9 +29,9 @@ const OrgTree = () => {
   useEffect(() => {
     fetchOrgData();
   }, [Tier2Data]);
-  useEffect(()=>{
+  useEffect(() => {
     fetchEmployeesData();
-  },[])
+  }, []);
   useEffect(() => {
     if (orgMems.length > 0 && edata.length > 0) {
       getDataUseeff();
@@ -43,25 +43,25 @@ const OrgTree = () => {
     const manData = edata.filter((data) => data._id === manId[0]);
     setmanagerData(manData);
   };
-const fetchOrgData = async () => {
-  try {
-    const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorgs');
-    const orgData = response.data.orgData; // Store the fetched data in a variable
-    setorgMems(orgData);
+  const fetchOrgData = async () => {
+    try {
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/org/getorgs');
+      const orgData = response.data.orgData; // Store the fetched data in a variable
+      setorgMems(orgData);
 
-    const x = orgData.map((data) => data.hrName);
-    const ids = x[0].map((data) => data.id);
-    setTier2Data(edata.filter((data) => ids.includes(data._id)));
-    setLoaderStatus(false);
-  } catch (error) {
-    console.log(error);
-  }
-};
+      const x = orgData.map((data) => data.hrName);
+      const ids = x[0].map((data) => data.id);
+      setTier2Data(edata.filter((data) => ids.includes(data._id)));
+      setLoaderStatus(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  console.log(Tier2Data.map(data=>data.name));
+  console.log(Tier2Data.map((data) => data.name));
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
     } catch (error) {
@@ -81,7 +81,7 @@ const fetchOrgData = async () => {
         id: data._id
       }
     };
-    await axios.post('https://hrm-backend-square.onrender.com/org/createorg', manData);
+    await axios.post('https://pulsehr-express-server.onrender.com/org/createorg', manData);
     fetchOrgData();
   };
   const handleChange = (e, value) => {
@@ -94,7 +94,7 @@ const fetchOrgData = async () => {
     });
     const id = orgMems.map((data) => data._id);
     console.log(id);
-    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
+    await axios.put(`https://pulsehr-express-server.onrender.com/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });

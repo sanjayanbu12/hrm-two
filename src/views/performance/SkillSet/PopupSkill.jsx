@@ -14,13 +14,12 @@ const PopupSkill = ({ onClose, reloadSkills }) => {
   const handleSubmit = async () => {
     try {
       if (skill && currentSkillLevel && requiredSkillLevel && skillGoal) {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/skill/addskill/64f01e76aecb5d1da5126707', {
+        const response = await axios.post('https://pulsehr-express-server.onrender.com/skill/addskill/64f01e76aecb5d1da5126707', {
           employeeId: '64f01e76aecb5d1da5126707',
           skillset: skill,
           current: currentSkillLevel,
           requi: requiredSkillLevel,
-          goal: skillGoal,
-  
+          goal: skillGoal
         });
         console.log('Skill added:', response.data);
 

@@ -19,7 +19,7 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.secondary
 }));
 
 const twoColors = { '0%': '#108ee9', '100%': '#87d068' };
@@ -31,22 +31,17 @@ const CatalogLayout = ({ selectedMedia }) => {
   const [videoCompletion, setVideoCompletion] = useState({});
   const [videoProgress, setVideoProgress] = useState(0);
   const [panelMenuModel, setPanelMenuModel] = useState([]);
-  
+
   const userId = useSelector((state) => state.customization.authId);
-  
+
   console.log(userId);
-
- 
-
 
   useEffect(() => {
     if (selectedMedia) {
       axios
-        .get('https://hrm-backend-square.onrender.com/videos/getall')
+        .get('https://pulsehr-express-server.onrender.com/videos/getall')
         .then((response) => {
-          const moduleVideoData = response.data.filter(
-            (module) => module.courseName === selectedMedia.courseName
-          );
+          const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);
         })
         .catch((error) => {
@@ -65,20 +60,16 @@ const CatalogLayout = ({ selectedMedia }) => {
           label: (
             <>
               <div style={{ marginRight: '8px' }}>{`Video ${index + 1}`}</div>
-              <Progress
-                style={{ maxWidth: '100%' }}
-                percent={videoCompletion[videoUrl] ? 100 : 0}
-                strokeColor={twoColors}
-              />
+              <Progress style={{ maxWidth: '100%' }} percent={videoCompletion[videoUrl] ? 100 : 0} strokeColor={twoColors} />
             </>
           ),
           icon: 'pi pi-fw pi-youtube',
           style: {
             backgroundColor: selectedVideoUrl === videoUrl ? '#D8D8D8' : 'white',
-            color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black',
+            color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black'
           },
-          command: () => handleVideoSelection(videoUrl, module),
-        })),
+          command: () => handleVideoSelection(videoUrl, module)
+        }))
       }));
 
       setPanelMenuModel([
@@ -86,8 +77,8 @@ const CatalogLayout = ({ selectedMedia }) => {
           label: selectedMedia.courseName || 'Course name',
           icon: 'pi pi-fw pi-bars',
           expanded: true,
-          items: menuItems.filter((item) => item !== null),
-        },
+          items: menuItems.filter((item) => item !== null)
+        }
       ]);
     } else {
       setPanelMenuModel([]);
@@ -97,11 +88,11 @@ const CatalogLayout = ({ selectedMedia }) => {
   useEffect(() => {
     if (selectedVideoUrl) {
       axios
-        .get('https://hrm-backend-square.onrender.com/video-progress/get', {
+        .get('https://pulsehr-express-server.onrender.com/video-progress/get', {
           params: {
             userId: userId,
-            videoUrl: selectedVideoUrl,
-          },
+            videoUrl: selectedVideoUrl
+          }
         })
         .then((response) => {
           const progressData = response.data;
@@ -123,14 +114,14 @@ const CatalogLayout = ({ selectedMedia }) => {
   const handleVideoEnd = (videoUrl) => {
     setVideoCompletion((prevCompletion) => ({
       ...prevCompletion,
-      [videoUrl]: true,
+      [videoUrl]: true
     }));
 
     axios
-      .post('https://hrm-backend-square.onrender.com/video-progress/save', {
+      .post('https://pulsehr-express-server.onrender.com/video-progress/save', {
         userId: userId,
         videoUrl: videoUrl,
-        progress: 100,
+        progress: 100
       })
       .then((response) => {
         console.log(response);
@@ -144,7 +135,6 @@ const CatalogLayout = ({ selectedMedia }) => {
     setVideoProgress(Math.floor(state.played * 100));
   };
 
- 
   return (
     <div style={{ width: '100%' }}>
       {selectedMedia ? (
@@ -155,10 +145,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                 <Item>
                   {selectedMedia._id ? (
                     <>
-                      <PanelMenu
-                        model={panelMenuModel}
-                        className="w-full md:w-25rem"
-                      />
+                      <PanelMenu model={panelMenuModel} className="w-full md:w-25rem" />
                     </>
                   ) : (
                     <div>No course available</div>
@@ -174,8 +161,6 @@ const CatalogLayout = ({ selectedMedia }) => {
                       width="100%"
                       onEnded={() => handleVideoEnd(selectedVideoUrl)}
                       onProgress={(state) => handleVideoProgress(state)}
-                    
-                     
                     />
                     <Progress
                       percent={videoProgress}
@@ -200,7 +185,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                         green[5],
                         green[5],
                         green[5],
-                        green[5],
+                        green[5]
                       ]}
                     />
                   </>

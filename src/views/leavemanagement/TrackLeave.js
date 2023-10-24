@@ -7,7 +7,7 @@ import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
-import { format } from 'date-fns'; 
+import { format } from 'date-fns';
 
 const columns = [
   { title: 'Employee ID', field: 'employeeId', editable: true, width: '50px' },
@@ -23,15 +23,12 @@ const columns = [
     field: 'status',
     sorting: true,
     editable: true,
-    render: (rowData) => (
+    render: (rowData) =>
       rowData.status === 'Approved' || rowData.status === 'Rejected' ? (
-        <span style={{ color: rowData.status === 'Approved' ? 'green' : 'red' }}>
-          {rowData.status}
-        </span>
+        <span style={{ color: rowData.status === 'Approved' ? 'green' : 'red' }}>{rowData.status}</span>
       ) : (
         <span style={{ color: 'orange' }}>Pending</span>
       )
-    ),
   },
   {
     sorting: false,
@@ -46,13 +43,13 @@ const columns = [
         );
       }
       return null;
-    },
-  },
+    }
+  }
 ];
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return format(date, 'MM/dd/yyyy'); 
+  return format(date, 'MM/dd/yyyy');
 };
 
 const TrackLeave = () => {
@@ -63,11 +60,11 @@ const TrackLeave = () => {
   const fetchAts = async () => {
     try {
       setLoader(false);
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
+      const res = await axios.get(`https://pulsehr-express-server.onrender.com/api/leave/`);
       const filldata = res.data.map((item) => ({
         ...item,
-        startDate: formatDate(item.startDate), 
-        endDate: formatDate(item.endDate), 
+        startDate: formatDate(item.startDate),
+        endDate: formatDate(item.endDate)
       }));
       console.log(filldata);
       setAdata(filldata);
@@ -80,8 +77,8 @@ const TrackLeave = () => {
 
   const handleAttachments = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/${id}`, {
-        responseType: 'arraybuffer',
+      const response = await axios.get(`https://pulsehr-express-server.onrender.com/api/leave/${id}`, {
+        responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'attachments/pdf' });
@@ -99,11 +96,21 @@ const TrackLeave = () => {
       'Start Date': item.startDate,
       'End Date': item.endDate,
       'Number of Days': item.numberOfDays,
-      'Attachments': item.attachments,
-      'Reason': item.reason,
-      'Status': item.status,
+      Attachments: item.attachments,
+      Reason: item.reason,
+      Status: item.status
     }));
-    const csvHeaders = ['Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'End Date', 'Number of Days', 'Attachments', 'Reason', 'Status'];
+    const csvHeaders = [
+      'Employee ID',
+      'Employee Name',
+      'Leave Type',
+      'Start Date',
+      'End Date',
+      'Number of Days',
+      'Attachments',
+      'Reason',
+      'Status'
+    ];
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -123,13 +130,13 @@ const TrackLeave = () => {
       item.numberOfDays,
       item.attachments,
       item.reason,
-      item.status,
+      item.status
     ]);
 
     pdf.autoTable({
       head: [columns.map((column) => column.title)],
       body: rows,
-      startY: 20,
+      startY: 20
     });
 
     pdf.save('list.pdf');
@@ -138,12 +145,12 @@ const TrackLeave = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#757575',
+        main: '#757575'
       },
       secondary: {
-        main: '#7e57c2',
-      },
-    },
+        main: '#7e57c2'
+      }
+    }
   });
 
   const handleView = async (e, data) => {
@@ -174,7 +181,7 @@ const TrackLeave = () => {
                         <TextSnippet style={{ color: '#616161' }} />
                       </Tooltip>
                     </a>
-                  ),
+                  )
                 };
               }
               return column;
@@ -186,8 +193,8 @@ const TrackLeave = () => {
                 icon: tableIcons.View,
                 tooltip: 'View Details',
                 onClick: (event, rowData) => handleView(event, rowData),
-                disabled: rowData.length !== 1,
-              }),
+                disabled: rowData.length !== 1
+              })
             ]}
             options={{
               actionsColumnIndex: -3,
@@ -199,8 +206,8 @@ const TrackLeave = () => {
               columnsButton: true,
               headerStyle: {
                 backgroundColor: '#42a5f5',
-                color: 'black',
-              },
+                color: 'black'
+              }
             }}
           />
         )}

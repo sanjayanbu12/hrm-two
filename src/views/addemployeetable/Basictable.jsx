@@ -37,10 +37,10 @@ export const BasicTable = () => {
   const navigate = useNavigate();
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
       const employees = response.data.reverse(); // Reverse the data if needed
       setedata(employees);
-      console.log('all emp',employees)
+      console.log('all emp', employees);
     } catch (error) {
       console.log(error);
     }
@@ -178,10 +178,10 @@ export const BasicTable = () => {
           },
           {
             icon: tableIcons.Add,
-            tooltip: "New Employee",
+            tooltip: 'New Employee',
             isFreeAction: true,
-            onClick: () => navigate("/newemployee"),
-          },
+            onClick: () => navigate('/newemployee')
+          }
         ]}
         style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
         options={{

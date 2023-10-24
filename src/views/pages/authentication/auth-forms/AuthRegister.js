@@ -24,7 +24,7 @@ const FirebaseRegister = () => {
       setPasswordMismatchAlert('Passwords do not match');
       return;
     }
-  
+
     // Clear the password mismatch alert if passwords match
     setPasswordMismatchAlert('');
 
@@ -42,7 +42,7 @@ const FirebaseRegister = () => {
       if (userExist) {
         setErr((prev) => ({ ...prev, email: 'user aldready exist' }));
       } else {
-        await axios.post('https://hrm-backend-square.onrender.com/auth/createUser', dataVar); //using axios to set data to json server
+        await axios.post('https://pulsehr-express-server.onrender.com/auth/createUser', dataVar); //using axios to set data to json server
         setFirstname('');
         setEmail('');
         setLastname('');
@@ -65,7 +65,7 @@ const FirebaseRegister = () => {
   };
   const checkUserExist = async (email) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/Users`);
+      const response = await axios.get(`https://pulsehr-express-server.onrender.com/Users`);
       const resData = response.data;
       const userExist = resData.some((x) => x.email === email);
       return userExist;
@@ -95,14 +95,12 @@ const FirebaseRegister = () => {
     setPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, password: '' }));
   };
-  const handlecheckConfirmPass=(e)=>{
+  const handlecheckConfirmPass = (e) => {
     setConfirmPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, confirmPassword: '' }));
-
-  }
+  };
   return (
     <div className="signup-wrapper">
-     
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Grid item xs={6}>
@@ -156,18 +154,18 @@ const FirebaseRegister = () => {
             />
           </Grid>
           <Grid item xs={12}>
-  <TextField
-    sx={{ minWidth: '100%' }}
-    variant="outlined"
-    id="outlined-required"
-    label="Confirm Password"
-    type="password"
-    value={confirmPassword}
-    onChange={(e) => handlecheckConfirmPass(e)}
-    error={passwordMismatchAlert !== ''}
-    helperText={passwordMismatchAlert}
-  />
-</Grid>
+            <TextField
+              sx={{ minWidth: '100%' }}
+              variant="outlined"
+              id="outlined-required"
+              label="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => handlecheckConfirmPass(e)}
+              error={passwordMismatchAlert !== ''}
+              helperText={passwordMismatchAlert}
+            />
+          </Grid>
         </Grid>
       </Box>
       <Box sx={{ flexGrow: 1, marginTop: 2 }}>

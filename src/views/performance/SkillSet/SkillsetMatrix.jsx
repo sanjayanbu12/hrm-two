@@ -22,7 +22,7 @@ const SkillsetMatrix = () => {
 
   const fetchSkills = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/skill/getskills');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/skill/getskills');
       setSkills(response.data.skill); // Update the state with the skill array
     } catch (error) {
       console.error('Error fetching skills:', error);
@@ -39,9 +39,9 @@ const SkillsetMatrix = () => {
 
   return (
     <>
-      <MainCard title="SkillSet Matrix" sx={{ height: '99%', paddingTop:"0px"}}>
+      <MainCard title="SkillSet Matrix" sx={{ height: '99%', paddingTop: '0px' }}>
         <div>
-          <List 
+          <List
             sx={{
               paddingTop: 0,
               display: 'flex',
@@ -103,23 +103,17 @@ const SkillsetMatrix = () => {
               {isPopupOpen && <PopupSkill onClose={closePopup} reloadSkills={reloadSkills} />}
             </ListItem>
           </List>
-          <List sx={{display:"flex", marginLeft:"55px"}}>
-            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Not Aware</ListItem>
-            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Awareness</ListItem>
-            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px", marginLeft:"-10px"}}>Novice</ListItem>
-            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Competent</ListItem>
-            <ListItem sx={{justifyContent:"flex-end", paddingRight:"0px"}}>Expert</ListItem>
+          <List sx={{ display: 'flex', marginLeft: '55px' }}>
+            <ListItem sx={{ justifyContent: 'flex-end', paddingRight: '0px' }}>Not Aware</ListItem>
+            <ListItem sx={{ justifyContent: 'flex-end', paddingRight: '0px' }}>Awareness</ListItem>
+            <ListItem sx={{ justifyContent: 'flex-end', paddingRight: '0px', marginLeft: '-10px' }}>Novice</ListItem>
+            <ListItem sx={{ justifyContent: 'flex-end', paddingRight: '0px' }}>Competent</ListItem>
+            <ListItem sx={{ justifyContent: 'flex-end', paddingRight: '0px' }}>Expert</ListItem>
           </List>
         </div>
         <div>
           {skills.map((skill) => (
-            <HorizontalNonLinearStepper
-              key={skill._id}
-              size={skill.current}
-              size1={skill.requi}
-              size2={skill.goal}
-              name={skill.skillset}
-            />
+            <HorizontalNonLinearStepper key={skill._id} size={skill.current} size1={skill.requi} size2={skill.goal} name={skill.skillset} />
           ))}
         </div>
       </MainCard>

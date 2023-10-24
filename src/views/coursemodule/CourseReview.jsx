@@ -30,7 +30,7 @@ import ReactPlayer from 'react-player/lazy';
 import Select from 'react-select';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Lottie from 'react-lottie'; 
+import Lottie from 'react-lottie';
 import nodata from '../lottie/nodata.json';
 
 const nodataavalible = {
@@ -60,7 +60,7 @@ const CourseReview = () => {
 
   const fetchMediaList = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/media/getAll');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/media/getAll');
       setMediaList(response.data);
     } catch (error) {
       console.error(error);
@@ -147,7 +147,7 @@ const CourseReview = () => {
         console.log('Selected Video URLs:', selectedVideoUrls);
 
         // Send a POST request to your backend to create a new video
-        const response = await axios.post('https://hrm-backend-square.onrender.com/videos/create', {
+        const response = await axios.post('https://pulsehr-express-server.onrender.com/videos/create', {
           moduleId: selectedMedia._id,
           moduleName: formText,
           videoUrls: selectedVideoUrls,
@@ -170,7 +170,7 @@ const CourseReview = () => {
   };
 
   return (
-    <MainCard title="Media List" >
+    <MainCard title="Media List">
       <Dialog open={isVideoOpen} onClose={closeVideoDialog} maxWidth="md" fullWidth>
         <DialogTitle>
           Video Player
@@ -196,11 +196,11 @@ const CourseReview = () => {
       </Dialog>
       <Grid container spacing={3}>
         {mediaList.length === 0 ? (
-           <Lottie
-           options={nodataavalible}
-           height='100%' // Set the desired fixed height
-           width="100%"
-         />
+          <Lottie
+            options={nodataavalible}
+            height="100%" // Set the desired fixed height
+            width="100%"
+          />
         ) : (
           mediaList.map((media) => (
             <Grid item xs={12} sm={4} md={4} key={media._id}>
@@ -224,10 +224,10 @@ const CourseReview = () => {
 
       {selectedMedia && (
         <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
-          <DialogTitle sx={{background:'black',color:'white'}}>
+          <DialogTitle sx={{ background: 'black', color: 'white' }}>
             All Uploaded Videos
             <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
-              <CloseIcon sx={{background:'white'}} />
+              <CloseIcon sx={{ background: 'white' }} />
             </IconButton>
           </DialogTitle>
           <DialogContent style={{ maxHeight: '70vh', overflowY: 'auto' }}>

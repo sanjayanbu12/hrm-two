@@ -14,13 +14,13 @@ const PopupGoal = ({ onClose, reloadGoals, usrId }) => {
   const [GoalType, setGoalType] = useState('');
   const [GoalWhy, setGoalWhy] = useState('');
   const [GoalDes, setGoalDes] = useState('');
-const authId=useSelector(state=>state.customization.authId)
-console.log(authId)
-console.log(usrId)
+  const authId = useSelector((state) => state.customization.authId);
+  console.log(authId);
+  console.log(usrId);
   const handleSubmit = async () => {
     try {
       if (GoalTit && GoalPer && GoalType && GoalWhy && GoalDes) {
-        const response = await axios.post(`https://hrm-backend-square.onrender.com/goal/addgoal/${usrId}`, {
+        const response = await axios.post(`https://pulsehr-express-server.onrender.com/goal/addgoal/${usrId}`, {
           employeeId: usrId,
           GoalT: GoalTit,
           GoalP: GoalPer,

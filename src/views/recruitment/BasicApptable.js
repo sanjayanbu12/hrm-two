@@ -11,7 +11,7 @@ import {
   Tooltip,
   Checkbox,
   TableSortLabel,
-  Button,
+  Button
 } from '@mui/material';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
@@ -41,15 +41,15 @@ const BasicApptable = () => {
     '&:hover': {
       backgroundColor: 'blue',
       color: 'white',
-      boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)',
-    },
+      boxShadow: '0 0 5px rgba(0, 0, 0, 0.3)'
+    }
   };
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/ats/');
       const newData = response.data.getData;
-      console.log(newData)
+      console.log(newData);
       setData(newData);
       setLoader(false);
     } catch (error) {
@@ -57,19 +57,17 @@ const BasicApptable = () => {
     }
   };
 
-
-  const handleView= (id) => {
+  const handleView = (id) => {
     console.log(id + 'job id');
     const selectedId = Data.find((item) => item.id === id);
-   
+
     navigate(`/view/${id}`, { state: { data: selectedId } });
   };
 
-
   const handleResume = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
-        responseType: 'arraybuffer',
+      const response = await axios.get(`https://pulsehr-express-server.onrender.com/ats/resume/${id}`, {
+        responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
@@ -81,8 +79,8 @@ const BasicApptable = () => {
 
   const handlePhotoDown = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
-        responseType: 'arraybuffer',
+      const response = await axios.get(`https://pulsehr-express-server.onrender.com/ats/photo/${id}`, {
+        responseType: 'arraybuffer'
       });
       const contentType = response.headers['Content-Type'];
       const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
@@ -105,10 +103,7 @@ const BasicApptable = () => {
     } else if (selectedIndex === selectedItems.length - 1) {
       newSelected = newSelected.concat(selectedItems.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selectedItems.slice(0, selectedIndex),
-        selectedItems.slice(selectedIndex + 1)
-      );
+      newSelected = newSelected.concat(selectedItems.slice(0, selectedIndex), selectedItems.slice(selectedIndex + 1));
     }
 
     setSelectedItems(newSelected);
@@ -139,9 +134,7 @@ const BasicApptable = () => {
   };
 
   const getComparator = (order, orderBy) => {
-    return order === 'desc'
-      ? (a, b) => descendingComparator(a, b, orderBy)
-      : (a, b) => -descendingComparator(a, b, orderBy);
+    return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
   };
 
   const descendingComparator = (a, b, orderBy) => {
@@ -159,21 +152,21 @@ const BasicApptable = () => {
   return (
     <MainCard title="Application Tracker">
       <CSVLink data={Data}>
-       <Button
-        sx={{
-          position: 'absolute',
-          top: '128px',
-          right: '50px',
-          color: '#5e35b1',
-          '&:hover': {
-            backgroundColor: '#ede7f6',
-          },
-        }}
-        
-      >
-       Export Excel
-      </Button></CSVLink>
-     
+        <Button
+          sx={{
+            position: 'absolute',
+            top: '128px',
+            right: '50px',
+            color: '#5e35b1',
+            '&:hover': {
+              backgroundColor: '#ede7f6'
+            }
+          }}
+        >
+          Export Excel
+        </Button>
+      </CSVLink>
+
       <TableContainer component={Paper}>
         {loader ? (
           <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
@@ -219,30 +212,21 @@ const BasicApptable = () => {
               {sortedData.map((x) => (
                 <TableRow key={x._id}>
                   <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedItems.indexOf(x._id) !== -1}
-                      onChange={() => handleSelect(x._id)}
-                    />
+                    <Checkbox checked={selectedItems.indexOf(x._id) !== -1} onChange={() => handleSelect(x._id)} />
                   </TableCell>
                   <TableCell>{x.name}</TableCell>
                   <TableCell>{x.position}</TableCell>
                   <TableCell>
                     {x.photo && (
                       <Tooltip title="Download Photo">
-                        <InsertPhotoIcon
-                          style={downloadStyles}
-                          onClick={() => handlePhotoDown(x._id, x.name)}
-                        />
+                        <InsertPhotoIcon style={downloadStyles} onClick={() => handlePhotoDown(x._id, x.name)} />
                       </Tooltip>
                     )}
                   </TableCell>
                   <TableCell>
                     {x.resume && (
                       <Tooltip title="Download Resume">
-                        <TextSnippetIcon
-                          style={downloadStyles}
-                          onClick={() => handleResume(x._id, x.name)}
-                        />
+                        <TextSnippetIcon style={downloadStyles} onClick={() => handleResume(x._id, x.name)} />
                       </Tooltip>
                     )}
                   </TableCell>

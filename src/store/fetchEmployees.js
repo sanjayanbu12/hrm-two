@@ -5,18 +5,18 @@ import { FETCH_EMPLOYEES } from './actions';
 export const fetchEmployeesSuccess = (employees) => {
   return {
     type: FETCH_EMPLOYEES,
-    payload: employees,
+    payload: employees
   };
 };
 
 export const fetchEmployees = () => {
   return async (dispatch) => {
-   try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+    try {
+      const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
       const employees = response.data.reverse(); // Reverse the data if needed
       dispatch(fetchEmployeesSuccess(employees));
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
-  }; 
+  };
 };

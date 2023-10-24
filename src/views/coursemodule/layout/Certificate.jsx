@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import logo from '../layout/SquareLogo.jpeg';
 import { useSelector } from 'react-redux';
@@ -14,7 +13,7 @@ const Certificate = ({ name }) => {
 
   const WhoLog = async () => {
     try {
-      const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+      const res = await axios.get('https://pulsehr-express-server.onrender.com/auth/getalldata');
       const users = res.data.user;
       const matchedUser = users.find((user) => user.employeeId === authId);
       if (matchedUser) {
@@ -40,7 +39,7 @@ const Certificate = ({ name }) => {
       const imgData = canvas.toDataURL('image/png');
 
       // Create a PDF document
-      const pdf = new jsPDF('l', 'mm', [282, 467]); 
+      const pdf = new jsPDF('l', 'mm', [282, 467]);
 
       // Add the captured image to the PDF
       pdf.addImage(imgData, 'PNG', 0, 0);
@@ -74,7 +73,7 @@ const Certificate = ({ name }) => {
                     style={{
                       display: 'flex',
                       marginLeft: 45,
-                      alignItems: 'center',
+                      alignItems: 'center'
                     }}
                   >
                     <div
@@ -83,7 +82,7 @@ const Certificate = ({ name }) => {
                         padding: '10px',
                         color: 'yellow',
                         fontSize: 20,
-                        fontFamily: 'monospace',
+                        fontFamily: 'monospace'
                       }}
                     >
                       {name}

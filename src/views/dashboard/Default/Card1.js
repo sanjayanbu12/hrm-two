@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import { useTheme, styled } from '@mui/material/styles';
-import { Box,  Grid, Typography, Card } from '@mui/material';
+import { Box, Grid, Typography, Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import axios from 'axios';
@@ -20,10 +20,9 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
     borderRadius: 15,
     [theme.breakpoints.down('sm')]: {
       top: -105,
-      right: -140,
-    },
-  },
-  
+      right: -140
+    }
+  }
 }));
 
 const Card1 = ({ isLoading }) => {
@@ -34,9 +33,7 @@ const Card1 = ({ isLoading }) => {
   useEffect(() => {
     const fetchTotalEmployees = async () => {
       try {
-        const response = await axios.get(
-          'https://hrm-backend-square.onrender.com/api/allemployee'
-        );
+        const response = await axios.get('https://pulsehr-express-server.onrender.com/api/allemployee');
         if (response.data) {
           const total = response.data.length;
           setTotalEmployees(total);
@@ -46,7 +43,7 @@ const Card1 = ({ isLoading }) => {
       }
     };
 
-    fetchTotalEmployees(); 
+    fetchTotalEmployees();
   }, []);
 
   // const handleChangeTime = (event, newValue) => {
@@ -65,8 +62,7 @@ const Card1 = ({ isLoading }) => {
                 <Grid item>
                   <Grid container justifyContent="space-between">
                     <Grid item>
-                      
-                      <Typography sx={{fontSize:"15px",fontWeight:'bold'}}>TOTAL EMPLOYEES</Typography> 
+                      <Typography sx={{ fontSize: '15px', fontWeight: 'bold' }}>TOTAL EMPLOYEES</Typography>
                     </Grid>
                   </Grid>
                 </Grid>
@@ -75,14 +71,14 @@ const Card1 = ({ isLoading }) => {
                     <Grid item xs={6}>
                       <Grid container alignItems="center">
                         <Grid item>
-                          {totalEmployees !== 0 ? ( 
+                          {totalEmployees !== 0 ? (
                             <Typography
                               sx={{
                                 fontSize: '2.125rem',
                                 fontWeight: 500,
                                 mr: 1,
                                 mt: 1.75,
-                                mb: 0.75,
+                                mb: 0.75
                               }}
                             >
                               {totalEmployees}
@@ -93,7 +89,7 @@ const Card1 = ({ isLoading }) => {
                               sx={{
                                 fontSize: '1rem',
                                 fontWeight: 500,
-                                color: theme.palette.primary[100],
+                                color: theme.palette.primary[100]
                               }}
                             >
                               Loading...
@@ -105,10 +101,9 @@ const Card1 = ({ isLoading }) => {
                             sx={{
                               fontSize: '1rem',
                               fontWeight: 500,
-                              color: theme.palette.primary[100],
+                              color: theme.palette.primary[100]
                             }}
-                          >
-                          </Typography>
+                          ></Typography>
                         </Grid>
                       </Grid>
                     </Grid>
@@ -124,7 +119,7 @@ const Card1 = ({ isLoading }) => {
 };
 
 Card1.propTypes = {
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 export default Card1;

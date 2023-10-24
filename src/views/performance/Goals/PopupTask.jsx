@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, IconButton, } from '@mui/material';
+import { TextField, Button, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import '../Feedback/PopupCard.css';
@@ -8,21 +8,19 @@ import { useParams } from 'react-router';
 const PopupTask = ({ onClose, reloadTasks }) => {
   const [TaskTitle, setTaskTit] = useState('');
   const [TaskDescription, setTaskDes] = useState('');
-  const id=useParams()
+  const id = useParams();
   const handleSubmit = async () => {
     try {
       if (TaskTitle && TaskDescription) {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/task/create', {
-
+        const response = await axios.post('https://pulsehr-express-server.onrender.com/task/create', {
           title: TaskTitle,
           description: TaskDescription,
-          goalid: id.id,
+          goalid: id.id
         });
         console.log('Task added:', response.data);
 
         setTaskTit('');
         setTaskDes('');
-
 
         // Reload skills in the parent component
         reloadTasks();
@@ -60,8 +58,7 @@ const PopupTask = ({ onClose, reloadTasks }) => {
             id="outlined-basic"
             label="Task Description"
             variant="outlined"
-            sx={{ width: '100%', height:"", marginTop: '10px' }}
-
+            sx={{ width: '100%', height: '', marginTop: '10px' }}
             multiline
             rowsMax={6}
             value={TaskDescription}

@@ -16,7 +16,7 @@ const Quiz = ({ courseid }) => {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors }
   } = useForm();
 
   const show = (message, score, totalQuestions) => {
@@ -51,7 +51,7 @@ const Quiz = ({ courseid }) => {
   useEffect(() => {
     // Fetch quiz data from your backend API
     axios
-      .get(`https://hrm-backend-square.onrender.com/media/get/${courseid}`) // Replace with your actual API endpoint
+      .get(`https://pulsehr-express-server.onrender.com/media/get/${courseid}`) // Replace with your actual API endpoint
       .then((response) => {
         // Extract quiz data from the course data
         setQuizData(response.data.quiz);
@@ -101,15 +101,12 @@ const Quiz = ({ courseid }) => {
                     </div>
                   )}
                 />
-              
+
                 {getFormErrorMessage(`answer${index}`)}
-                
               </div>
-              
             ))
           )}
-<Button label="Submit Quiz" type="submit" icon="pi pi-check" style={{marginTop:'10px'}} />
-      
+          <Button label="Submit Quiz" type="submit" icon="pi pi-check" style={{ marginTop: '10px' }} />
         </div>
       </form>
     </>

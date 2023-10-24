@@ -4,21 +4,17 @@ import { Autocomplete, Rating, TextField, Button, IconButton } from '@mui/materi
 import CloseIcon from '@mui/icons-material/Close';
 import './PopupCard.css';
 
-
 const PopupCard = ({ onClose, updateComments }) => {
-
   const [rating, setRating] = useState(null);
   const [comment, setComment] = useState('');
 
-
-
   const handleSubmit = async () => {
     try {
-      if ( rating && comment) {
-        const response = await axios.post(`https://hrm-backend-square.onrender.com/feed/addcomment/64f01e76aecb5d1da5126707`, {
-          employeeId: "64f01e76aecb5d1da5126707",
+      if (rating && comment) {
+        const response = await axios.post(`https://pulsehr-express-server.onrender.com/feed/addcomment/64f01e76aecb5d1da5126707`, {
+          employeeId: '64f01e76aecb5d1da5126707',
           comment: comment,
-          star: rating,
+          star: rating
         });
         console.log('Comment added:', response.data);
 
@@ -27,8 +23,6 @@ const PopupCard = ({ onClose, updateComments }) => {
 
         updateComments();
         onClose();
-        
-
       } else {
         console.log('Please fill in all fields.');
       }
@@ -37,15 +31,13 @@ const PopupCard = ({ onClose, updateComments }) => {
     }
   };
 
-
-
   const empnames = [
     { label: 'Sridhar S' },
     { label: 'Ajay S' },
     { label: 'Ajay B' },
     { label: 'Naveena ' },
     { label: 'Varadharajan' },
-    { label: 'Sanjay' },
+    { label: 'Sanjay' }
   ];
 
   return (

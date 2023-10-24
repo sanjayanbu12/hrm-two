@@ -21,7 +21,7 @@ const Feedback = () => {
 
   const fetchComments = async () => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/feed/getcomment/64f01e76aecb5d1da5126707`);
+      const response = await axios.get(`https://pulsehr-express-server.onrender.com/feed/getcomment/64f01e76aecb5d1da5126707`);
       setComments(response.data.reverse());
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -30,7 +30,6 @@ const Feedback = () => {
 
   useEffect(() => {
     fetchComments();
-
   }, []);
 
   const updateComments = () => {
@@ -79,7 +78,7 @@ const Feedback = () => {
           <Button variant="contained" color="secondary" onClick={openPopup}>
             Give Feedback
           </Button>
-          {isPopupOpen && <PopupCard onClose={closePopup} updateComments={updateComments}/>}
+          {isPopupOpen && <PopupCard onClose={closePopup} updateComments={updateComments} />}
         </Item>
         <Item></Item>
       </Stack>
@@ -127,7 +126,7 @@ const Feedback = () => {
         }}
       >
         {comments.map((comments) => (
-        <FeedbackCard key={comments._id} comm={comments.comment} rating={comments.star}/>
+          <FeedbackCard key={comments._id} comm={comments.comment} rating={comments.star} />
         ))}
       </Stack>
     </MainCard>

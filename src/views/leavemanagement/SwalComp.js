@@ -3,12 +3,11 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import useToast from './useToast';
 import { Toast } from 'primereact/toast';
-const SwalComp = ({ leaveId,fetchLeave }) => {
+const SwalComp = ({ leaveId, fetchLeave }) => {
   const { toast, showToast } = useToast();
   const updateLeaveStatus = async () => {
-    
     try {
-      const response = await axios.put(`https://hrm-backend-square.onrender.com/api/leave/${leaveId}`, {
+      const response = await axios.put(`https://pulsehr-express-server.onrender.com/api/leave/${leaveId}`, {
         reportingto: {
           status: true
         }
@@ -19,7 +18,7 @@ const SwalComp = ({ leaveId,fetchLeave }) => {
       }
     } catch (error) {
       console.log(error);
-      error &&  showToast('error', error.message, 'Message Content');
+      error && showToast('error', error.message, 'Message Content');
     }
   };
 

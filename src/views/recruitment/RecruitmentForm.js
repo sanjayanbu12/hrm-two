@@ -1,5 +1,18 @@
 import MainCard from 'ui-component/cards/MainCard';
-import {Grid,TextField,Box,Button,MenuItem,Select,FormControl,InputLabel,InputAdornment,FormHelperText,Tooltip,Autocomplete} from '@mui/material';
+import {
+  Grid,
+  TextField,
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  InputAdornment,
+  FormHelperText,
+  Tooltip,
+  Autocomplete
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -10,7 +23,7 @@ import Swal from 'sweetalert2';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
 import { Skill } from './Consts';
 import { Educations } from './Consts';
-import {Locations} from './Consts';
+import { Locations } from './Consts';
 import useToast from 'views/leavemanagement/useToast';
 import { Toast } from 'primereact/toast';
 const RecruitmentForm = () => {
@@ -32,8 +45,8 @@ const RecruitmentForm = () => {
   const [Hrcontact, setHrcontact] = useState('');
   const [proct, setproct] = useState([]);
   const [Interviewrounds, setInterviewrounds] = useState('');
-   const [Interview, setInterview] = useState([]);
-   const [orgData, setOrgData] = useState([]);
+  const [Interview, setInterview] = useState([]);
+  const [orgData, setOrgData] = useState([]);
   const [Education, setEducation] = useState('');
   const [Location, setLocation] = useState('');
   const [Emp, setEmp] = useState([]);
@@ -89,21 +102,21 @@ const RecruitmentForm = () => {
     }));
   };
 
-  const handleHrname = (e,value) => {
+  const handleHrname = (e, value) => {
     setHrname(value.join(','));
     setErrors((prev) => ({
       ...prev,
       Hrname: ''
     }));
   };
-  const handleProct = (e,value) => {
-    console.log(value)
-    const selectedData = value.map(item => ({
+  const handleProct = (e, value) => {
+    console.log(value);
+    const selectedData = value.map((item) => ({
       name: item.name,
       id: item.id,
-      employeeId:item.employeeId
+      employeeId: item.employeeId
     }));
-    setproct(selectedData)
+    setproct(selectedData);
     setErrors((prev) => ({
       ...prev,
       Hrname: ''
@@ -120,7 +133,7 @@ const RecruitmentForm = () => {
       setErrors({ Hrcontact: 'Please enter a valid 10-digit phone number' });
     }
   };
-  
+
   const handleInterview = (e, index) => {
     const newInterview = [...Interview];
     newInterview[index] = e.target.value;
@@ -133,7 +146,7 @@ const RecruitmentForm = () => {
 
   const handleInterviewrounds = (e) => {
     const round = parseInt(e.target.value, 10);
-    if (round > 0 && round <=10) {
+    if (round > 0 && round <= 10) {
       setInterviewrounds(round);
       setErrors((prev) => ({
         ...prev,
@@ -163,9 +176,9 @@ const RecruitmentForm = () => {
     }
   };
 
-  const handleCompany = e => {
-    setCompany(e.target.value)
-    setErrors(prev => ({
+  const handleCompany = (e) => {
+    setCompany(e.target.value);
+    setErrors((prev) => ({
       ...prev,
       Company: ''
     }));
@@ -182,13 +195,12 @@ const RecruitmentForm = () => {
   const handleOthereducation = (e) => {
     setOthereducation(e.target.value);
   };
-  
-  
+
   const handleYear = (e) => {
     setYear(e.target.value);
     setErrors((prev) => ({
       ...prev,
-    Year: ''
+      Year: ''
     }));
   };
 
@@ -199,7 +211,7 @@ const RecruitmentForm = () => {
       skills: ''
     }));
   };
-  
+
   const handleDescription = (e) => {
     setDescription(e.target.value);
     setErrors((prev) => ({
@@ -208,20 +220,19 @@ const RecruitmentForm = () => {
     }));
   };
   const handleExperienceFrom = (e) => {
-    const a=e.target.value;
-    if(0<=a){
-    setExperienceFrom(a);
-    setErrors((prev) => ({
-      ...prev,
-      ExperienceFrom: ''
-    }));
-  }
-  else{
-    setErrors((prev) => ({
-      ...prev,
-      ExperienceFrom: 'Select 0 and above'
-    }));
-  }
+    const a = e.target.value;
+    if (0 <= a) {
+      setExperienceFrom(a);
+      setErrors((prev) => ({
+        ...prev,
+        ExperienceFrom: ''
+      }));
+    } else {
+      setErrors((prev) => ({
+        ...prev,
+        ExperienceFrom: 'Select 0 and above'
+      }));
+    }
   };
 
   const handleExperienceTo = (e) => {
@@ -255,35 +266,34 @@ const RecruitmentForm = () => {
       }));
     }
   };
-useEffect(()=>{
-  fetchEmp()
-},[]);
-useEffect(()=>{
-  fetchOrgData()
-},[]);
+  useEffect(() => {
+    fetchEmp();
+  }, []);
+  useEffect(() => {
+    fetchOrgData();
+  }, []);
 
-const fetchOrgData = async () =>{
-  const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
-  setOrgData(response.data.orgData.map(x=>x.hrName))
-  console.log(response.data.orgData.map(x=>x.hrName))
-}
-const fetchEmp=async()=>{
-  try {
-    const res =await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
-    console.log(res)
-     setEmp(res.data.reverse());
-     console.log(Emp)
-  } catch (error) {
-    console.log(error);
-  }
-}
-const Emplist=Emp.map((item)=>item.name)
-console.log(Emplist)
-
+  const fetchOrgData = async () => {
+    const response = await axios.get('https://pulsehr-express-server.onrender.com/org/getorg');
+    setOrgData(response.data.orgData.map((x) => x.hrName));
+    console.log(response.data.orgData.map((x) => x.hrName));
+  };
+  const fetchEmp = async () => {
+    try {
+      const res = await axios.get(`https://pulsehr-express-server.onrender.com/api/allemployee`);
+      console.log(res);
+      setEmp(res.data.reverse());
+      console.log(Emp);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const Emplist = Emp.map((item) => item.name);
+  console.log(Emplist);
 
   useEffect(() => {
     axios
-      .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
+      .get('https://pulsehr-express-server.onrender.com/rec/getRec/' + id)
       .then((res) => {
         console.log('This is res data', res.data.data);
 
@@ -368,7 +378,7 @@ console.log(Emplist)
             abortEarly: false
           }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedtask);
+        await axios.put('https://pulsehr-express-server.onrender.com/rec/getRec/' + id, updatedtask);
         setJobrole('');
         setClientname('');
         setClientcompany('');
@@ -430,7 +440,7 @@ console.log(Emplist)
           Education,
           Year,
           Location,
-          orgData:proct
+          orgData: proct
         };
         console.log('task', task);
 
@@ -458,7 +468,7 @@ console.log(Emplist)
           },
           { abortEarly: false }
         );
-        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
+        await axios.post('https://pulsehr-express-server.onrender.com/rec/createRec', task);
 
         setJobrole('');
         setClientname('');
@@ -496,8 +506,7 @@ console.log(Emplist)
           setErrors(validationErrors);
         } else {
           console.log(error);
-      error &&  showToast('error', error.message, 'Message Content');
-          
+          error && showToast('error', error.message, 'Message Content');
         }
       }
     }
@@ -505,393 +514,393 @@ console.log(Emplist)
 
   return (
     <MainCard>
-    <MainCard title="Job Posting Form">
-      <form>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
+      <MainCard title="Job Posting Form">
+        <form>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Jobrole"
+                    value={Jobrole}
+                    error={errors && errors.Jobrole}
+                    helperText={errors && errors.Jobrole}
+                    onChange={(e) => handleJobrole(e)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Jobrole"
-                  value={Jobrole}
-                  error={errors && errors.Jobrole}
-                  helperText={errors && errors.Jobrole}
-                  onChange={(e) => handleJobrole(e)}
+                  sx={{ minWidth: '100%' }}
+                  id="outlined-basic"
+                  label="No of Openings"
+                  variant="outlined"
+                  value={Openings}
+                  type="number"
+                  error={errors && errors.Openings}
+                  helperText={errors && errors.Openings}
+                  onChange={(e) => handleOpenings(e)}
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="No of Openings"
-                variant="outlined"
-                value={Openings}
-                type="number"
-                error={errors && errors.Openings}
-                helperText={errors && errors.Openings}
-                onChange={(e) => handleOpenings(e)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
-                <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Work Type"
-                  value={Worktype}
-                  // error={errors && errors.Status}
-                  // helperText={errors && errors.Status}
-                  onChange={(e) => handleWorktype(e)}
-                >
-                  <MenuItem value=""></MenuItem>
-                  <MenuItem value="Internship">Internship</MenuItem>
-                  <MenuItem value="Full time">Full Time</MenuItem>
-                  <MenuItem value="Part time">Part time</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.Worktype}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Company}>
-                <InputLabel id="demo-simple-select-label">Company</InputLabel>
-                <Select
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Company"
-                  value={Company}
-                  onChange={(e) => handleCompany(e)}
-                >
-                  <MenuItem value="Sns Square">SNS Square</MenuItem>
-                </Select>
-                <FormHelperText>{errors && errors.Company}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <Autocomplete
-                  multiple
-                  options={Locations}
-                  limitTags={1}
-                  disableCloseOnSelect
-                  value={Location ? String(Location).split(',') : []}
-                  onChange={(e, value) => handleLocation(e, value)}
-                  renderInput={(params) => <TextField {...params} label="Location" value={Location} error={errors && errors.Location} />}
-                />
-                <FormHelperText>{errors && errors.Location}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-start-adornment"
-                label="Deadline"
-                variant="outlined"
-                type="date"
-                value={Deadline}
-                error={errors && errors.Deadline}
-                helperText={errors && errors.Deadline}
-                onChange={(e) => handleDeadline(e)}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start"></InputAdornment>
-                }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-  <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
-    <InputLabel id="demo-simple-select-label"></InputLabel>
-    <Autocomplete
-      multiple
-      options={Educations}
-      limitTags={1}
-      disableCloseOnSelect
-      value={Education.includes('Others') ? ['Others'] :  Education ? String(Education).split(',') : []}
-      onChange={(e, newValue) => handleEducation(e, newValue)}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Education"
-          value={Education.includes('Others') ? 'Others' : Education}
-          error={errors && errors.Education}
-        />
-      )}
-    />
-    <FormHelperText>{errors && errors.Education}</FormHelperText>
-  </FormControl>
-</Grid>
-
- {Education && Education.includes('Others') &&(
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Worktype}>
+                  <InputLabel id="demo-simple-select-label">Work Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Work Type"
+                    value={Worktype}
+                    // error={errors && errors.Status}
+                    // helperText={errors && errors.Status}
+                    onChange={(e) => handleWorktype(e)}
+                  >
+                    <MenuItem value=""></MenuItem>
+                    <MenuItem value="Internship">Internship</MenuItem>
+                    <MenuItem value="Full time">Full Time</MenuItem>
+                    <MenuItem value="Part time">Part time</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors && errors.Worktype}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Company}>
+                  <InputLabel id="demo-simple-select-label">Company</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Company"
+                    value={Company}
+                    onChange={(e) => handleCompany(e)}
+                  >
+                    <MenuItem value="Sns Square">SNS Square</MenuItem>
+                  </Select>
+                  <FormHelperText>{errors && errors.Company}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <Autocomplete
+                    multiple
+                    options={Locations}
+                    limitTags={1}
+                    disableCloseOnSelect
+                    value={Location ? String(Location).split(',') : []}
+                    onChange={(e, value) => handleLocation(e, value)}
+                    renderInput={(params) => <TextField {...params} label="Location" value={Location} error={errors && errors.Location} />}
+                  />
+                  <FormHelperText>{errors && errors.Location}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Other"
-                  value={Othereducation}
-                  error={errors && errors.Jobrole}
-                  helperText={errors && errors.Jobrole}
-                  onChange={(e) => handleOthereducation(e)}
-                />
-              </FormControl>
-            </Grid>
- )}
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Year of Passing"
-                  value={Year}
-                  type='text'
-                  error={errors && errors.Year}
-                  helperText={errors && errors.Year}
-                  onChange={(e) => handleYear(e)}
-                  onInput={(e) => {
-                    // Remove non-numeric characters
-                    e.target.value = e.target.value.replace(/[^0-9,]/g, '');
+                  sx={{ minWidth: '100%' }}
+                  id="outlined-start-adornment"
+                  label="Deadline"
+                  variant="outlined"
+                  type="date"
+                  value={Deadline}
+                  error={errors && errors.Deadline}
+                  helperText={errors && errors.Deadline}
+                  onChange={(e) => handleDeadline(e)}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start"></InputAdornment>
                   }}
                 />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceFrom}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Experience From"
-                  type="number"
-                  value={ExperienceFrom}
-                  error={errors && errors.ExperienceFrom}
-                  helperText={errors && errors.ExperienceFrom}
-                  onChange={(e) => handleExperienceFrom(e)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceTo}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Experience To"
-                  type="number"
-                  value={ExperienceTo}
-                  error={errors && errors.ExperienceTo}
-                  helperText={errors && errors.ExperienceTo}
-                  onChange={(e) => handleExperienceTo(e)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <Autocomplete
-                  multiple
-                  options={Skill}
-                  limitTags={1}
-                  disableCloseOnSelect
-                  value={Skills ? String(Skills).split(',') : []}
-                  onChange={(e, Value) => handleSkills(e, Value)}
-                  renderInput={(params) => <TextField {...params} label="Skills" value={Skills} error={errors && errors.Skills} />}
-                />
-                <FormHelperText>{errors && errors.Skills}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <TextField
-                sx={{ minWidth: '100%' }}
-                id="outlined-basic"
-                label="Application Link"
-                variant="outlined"
-                value={ApplicationLink}
-                type="Value"
-                error={errors && errors.ApplicationLink}
-                helperText={errors && errors.ApplicationLink}
-                onChange={(e) => handleApplicationLink(e)}
-              />
-            </Grid>
-            <Grid item xs={12} sm={12} md={12} lg={12}>
-              <FormControl fullWidth>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Description"
-                  value={Description}
-                  multiline
-                  rows={3}
-                  onChange={(e) => handleDescription(e)}
-                />
-                <FormHelperText>{errors && errors.skills}</FormHelperText>
-              </FormControl>
-            </Grid>
-          </Grid>
-        </Box>
-      </form>
-    </MainCard>
-    <MainCard title="Interviewer Details" style={{marginTop:'20px'}}>
-    <form>
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-          <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Client Name"
-                  value={Clientname}
-                  onChange={(e) => handleClientname(e)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="Client Company"
-                  value={Clientcompany}
-                  onChange={(e) => handleClientcompany(e)}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Hrname}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <Autocomplete
-                  multiple
-                  options={Emplist}
-                  limitTags={1}
-                  disableCloseOnSelect
-                  value={Hrname ? String(Hrname).split(',') : []}
-                  onChange={(e, value) => handleHrname(e, value)}
-                  renderInput={(params) => <TextField {...params} label="HR Name" value={Hrname} error={errors && errors.Hrname} />}
-                />
-                <FormHelperText>{errors && errors.Hrname}</FormHelperText>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-  <FormControl sx={{ minWidth: '100%' }}>
-    <InputLabel id="demo-simple-select-label"></InputLabel>
-    {orgData && orgData[0] ? (
-      <Autocomplete
-        multiple
-        id="tags-outlined"
-        options={orgData[0]}
-        getOptionLabel={(option) => option.name}
-        defaultValue={[]}
-        onChange={handleProct}
-        filterSelectedOptions
-        renderInput={(params) => <TextField {...params} label="Add Proctared" placeholder="Add" />}
-      />
-    ) : (
-      <div>Loading or no data available.</div>
-    )}
-  </FormControl>
-</Grid>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Education}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <Autocomplete
+                    multiple
+                    options={Educations}
+                    limitTags={1}
+                    disableCloseOnSelect
+                    value={Education.includes('Others') ? ['Others'] : Education ? String(Education).split(',') : []}
+                    onChange={(e, newValue) => handleEducation(e, newValue)}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="Education"
+                        value={Education.includes('Others') ? 'Others' : Education}
+                        error={errors && errors.Education}
+                      />
+                    )}
+                  />
+                  <FormHelperText>{errors && errors.Education}</FormHelperText>
+                </FormControl>
+              </Grid>
 
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
+              {Education && Education.includes('Others') && (
+                <Grid item xs={12} sm={6} md={4} lg={3}>
+                  <FormControl sx={{ minWidth: '100%' }}>
+                    <InputLabel id="demo-simple-select-label"></InputLabel>
+                    <TextField
+                      labelId="demo-simple-select-label"
+                      id="demo-simple-select"
+                      label="Other"
+                      value={Othereducation}
+                      error={errors && errors.Jobrole}
+                      helperText={errors && errors.Jobrole}
+                      onChange={(e) => handleOthereducation(e)}
+                    />
+                  </FormControl>
+                </Grid>
+              )}
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Year}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Year of Passing"
+                    value={Year}
+                    type="text"
+                    error={errors && errors.Year}
+                    helperText={errors && errors.Year}
+                    onChange={(e) => handleYear(e)}
+                    onInput={(e) => {
+                      // Remove non-numeric characters
+                      e.target.value = e.target.value.replace(/[^0-9,]/g, '');
+                    }}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceFrom}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Experience From"
+                    type="number"
+                    value={ExperienceFrom}
+                    error={errors && errors.ExperienceFrom}
+                    helperText={errors && errors.ExperienceFrom}
+                    onChange={(e) => handleExperienceFrom(e)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.ExperienceTo}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Experience To"
+                    type="number"
+                    value={ExperienceTo}
+                    error={errors && errors.ExperienceTo}
+                    helperText={errors && errors.ExperienceTo}
+                    onChange={(e) => handleExperienceTo(e)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Skills}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <Autocomplete
+                    multiple
+                    options={Skill}
+                    limitTags={1}
+                    disableCloseOnSelect
+                    value={Skills ? String(Skills).split(',') : []}
+                    onChange={(e, Value) => handleSkills(e, Value)}
+                    renderInput={(params) => <TextField {...params} label="Skills" value={Skills} error={errors && errors.Skills} />}
+                  />
+                  <FormHelperText>{errors && errors.Skills}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="HR Contact No"
-                  type='tel'
-                  value={Hrcontact}
-                  inputProps={{
-                    maxLength:10,
-                  }}
-                  onChange={(e) => handleHrcontact(e)}
+                  sx={{ minWidth: '100%' }}
+                  id="outlined-basic"
+                  label="Application Link"
+                  variant="outlined"
+                  value={ApplicationLink}
+                  type="Value"
+                  error={errors && errors.ApplicationLink}
+                  helperText={errors && errors.ApplicationLink}
+                  onChange={(e) => handleApplicationLink(e)}
                 />
-              </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={12}>
+                <FormControl fullWidth>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Description"
+                    value={Description}
+                    multiline
+                    rows={3}
+                    onChange={(e) => handleDescription(e)}
+                  />
+                  <FormHelperText>{errors && errors.skills}</FormHelperText>
+                </FormControl>
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6} md={4} lg={3}>
-              <FormControl sx={{ minWidth: '100%' }}>
-                <InputLabel id="demo-simple-select-label"></InputLabel>
-                <TextField
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="No of Interview Rounds"
-                  value={Interviewrounds}
-                  type='number'
-                  error={errors && errors.Interviewrounds}
-                  helperText={errors && errors.Interviewrounds}
-                  onChange={(e) => handleInterviewrounds(e)}
-                />
-              </FormControl>
+          </Box>
+        </form>
+      </MainCard>
+      <MainCard title="Interviewer Details" style={{ marginTop: '20px' }}>
+        <form>
+          <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Client Name"
+                    value={Clientname}
+                    onChange={(e) => handleClientname(e)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Client Company"
+                    value={Clientcompany}
+                    onChange={(e) => handleClientcompany(e)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Hrname}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <Autocomplete
+                    multiple
+                    options={Emplist}
+                    limitTags={1}
+                    disableCloseOnSelect
+                    value={Hrname ? String(Hrname).split(',') : []}
+                    onChange={(e, value) => handleHrname(e, value)}
+                    renderInput={(params) => <TextField {...params} label="HR Name" value={Hrname} error={errors && errors.Hrname} />}
+                  />
+                  <FormHelperText>{errors && errors.Hrname}</FormHelperText>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  {orgData && orgData[0] ? (
+                    <Autocomplete
+                      multiple
+                      id="tags-outlined"
+                      options={orgData[0]}
+                      getOptionLabel={(option) => option.name}
+                      defaultValue={[]}
+                      onChange={handleProct}
+                      filterSelectedOptions
+                      renderInput={(params) => <TextField {...params} label="Add Proctared" placeholder="Add" />}
+                    />
+                  ) : (
+                    <div>Loading or no data available.</div>
+                  )}
+                </FormControl>
+              </Grid>
+
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="HR Contact No"
+                    type="tel"
+                    value={Hrcontact}
+                    inputProps={{
+                      maxLength: 10
+                    }}
+                    onChange={(e) => handleHrcontact(e)}
+                  />
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                  <TextField
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="No of Interview Rounds"
+                    value={Interviewrounds}
+                    type="number"
+                    error={errors && errors.Interviewrounds}
+                    helperText={errors && errors.Interviewrounds}
+                    onChange={(e) => handleInterviewrounds(e)}
+                  />
+                </FormControl>
+              </Grid>
+              {Array.from({ length: Interviewrounds }).map((_, index) => (
+                <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
+                  <FormControl sx={{ minWidth: '100%' }}>
+                    <InputLabel id={`interview-label-${index}`}></InputLabel>
+                    <TextField
+                      labelId={`interview-label-${index}`}
+                      id={`interview-textfield-${index}`}
+                      label={`Interview Rounds ${index + 1}`}
+                      value={Interview[index] || ''}
+                      // error={errors && errors.Interview}
+                      // helperText={errors && errors.Interview}
+                      onChange={(e) => handleInterview(e, index)}
+                    />
+                  </FormControl>
+                </Grid>
+              ))}
             </Grid>
-        {Array.from({ length: Interviewrounds }).map((_, index) => (
-          <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-            <FormControl sx={{ minWidth: '100%' }}>
-              <InputLabel id={`interview-label-${index}`}></InputLabel>
-              <TextField
-                labelId={`interview-label-${index}`}
-                id={`interview-textfield-${index}`}
-                label={`Interview Rounds ${index + 1}`}
-                value={Interview[index] || ''}
-                // error={errors && errors.Interview}
-                // helperText={errors && errors.Interview}
-                onChange={(e) => handleInterview(e, index)}
-              />
-            </FormControl>
-          </Grid>
-        ))}
-            </Grid>
-            </Box>
-          </form>
-    </MainCard>
-    <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
-          <Button
-            variant="contained"
-            sx={{
-              width: '300px',
-              height: '40px',
-              borderRadius: '10px',
-              padding: 0.6,
+          </Box>
+        </form>
+      </MainCard>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+        <Button
+          variant="contained"
+          sx={{
+            width: '300px',
+            height: '40px',
+            borderRadius: '10px',
+            padding: 0.6,
+            background: '#673ab7',
+            color: '#efebe9',
+            '&:hover': {
+              color: theme.palette.secondary.light,
+              background: '#673ab7'
+            }
+          }}
+          onClick={(e) => finalSubmit(e)}
+        >
+          {id ? 'Update' : 'Save'}
+        </Button>{' '}
+        <Button
+          onClick={() => {
+            navigate('/jobtable');
+          }}
+          sx={{
+            width: '100px',
+            height: '40px',
+            borderRadius: '10px',
+            padding: 0.6,
+            background: '#673ab7',
+            color: '#f5f5f5',
+            '&:hover': {
               background: '#673ab7',
-              color: '#efebe9',
-              '&:hover': {
-                color: theme.palette.secondary.light,
-                background: '#673ab7'
-              }
-            }}
-            onClick={(e) => finalSubmit(e)}
-          >
-            {id ? 'Update' : 'Save'}
-          </Button>{' '}
-          <Button
-            onClick={() => {
-              navigate('/jobtable');
-            }}
-            sx={{
-              width: '100px',
-              height: '40px',
-              borderRadius: '10px',
-              padding: 0.6,
-              background: '#673ab7',
-              color: '#f5f5f5',
-              '&:hover': {
-                background: '#673ab7',
-                color: '#f5f5f5'
-              }
-            }}
-          >
-            <Tooltip title="view table">
-              <WysiwygIcon />
-            </Tooltip>
-          </Button>
-        </Box>
-        <Toast ref={toast} />
+              color: '#f5f5f5'
+            }
+          }}
+        >
+          <Tooltip title="view table">
+            <WysiwygIcon />
+          </Tooltip>
+        </Button>
+      </Box>
+      <Toast ref={toast} />
     </MainCard>
   );
 };

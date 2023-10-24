@@ -48,7 +48,7 @@ const Newevent = () => {
       };
 
       try {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/event/create', event);
+        const response = await axios.post('https://pulsehr-express-server.onrender.com/event/create', event);
         if (response.status === 200) {
           console.log('Event created successfully:', response.data);
           setEvents([...events, event]);
@@ -66,9 +66,9 @@ const Newevent = () => {
   useEffect(() => {
     fetchdata();
   }, []);
-  
+
   const fetchdata = async () => {
-    const apiurl = 'https://hrm-backend-square.onrender.com/event/getall';
+    const apiurl = 'https://pulsehr-express-server.onrender.com/event/getall';
     axios
       .get(apiurl)
       .then((response) => {
@@ -122,7 +122,7 @@ const Newevent = () => {
     };
 
     axios
-      .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
+      .put(`https://pulsehr-express-server.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
       .then((response) => {
         if (response.status === 200) {
           console.log('Event updated successfully:', response.data);
@@ -143,7 +143,7 @@ const Newevent = () => {
       };
 
       axios
-        .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
+        .put(`https://pulsehr-express-server.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
         .then((response) => {
           if (response.status === 200) {
             console.log('Event updated successfully:', response.data);
@@ -168,7 +168,7 @@ const Newevent = () => {
   const handleDeleteEvent = () => {
     if (selectedEvent) {
       axios
-        .delete(`https://hrm-backend-square.onrender.com/event/delete/${selectedEvent.id}`)
+        .delete(`https://pulsehr-express-server.onrender.com/event/delete/${selectedEvent.id}`)
         .then((response) => {
           if (response.status === 200) {
             console.log('Event deleted successfully:', response.data);
