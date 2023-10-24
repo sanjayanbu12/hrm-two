@@ -15,7 +15,7 @@ import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID,USER_ID} from 'store/acti
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
-
+axios.defaults.withCredentials = true;
 const AuthLogin = () => {
   const [value1, setvalue1] = useState('');
   const [value2, setvalue2] = useState('');
