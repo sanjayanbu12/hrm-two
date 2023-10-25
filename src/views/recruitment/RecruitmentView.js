@@ -13,6 +13,8 @@ import { Toast } from 'primereact/toast';
 import { useRef } from 'react';
 import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
@@ -27,6 +29,7 @@ const RecruitmentView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
+  const {employeeContextData}=useContext(ApiContext)
   useEffect(() => {
     fetchData();
   }, []);
@@ -48,7 +51,7 @@ const RecruitmentView = () => {
   }
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = employeeContextData;
       const employees = response.data;
       setTopTierData(employees.filter((data) => data.isTopTier === true));
     } catch (error) {
@@ -57,7 +60,7 @@ const RecruitmentView = () => {
   };
   useEffect(() => {
     fetchEmployeesData();
-  }, []);
+  }, [employeeContextData]);
   useEffect(() => {
     fetchApp();
   }, [selectedJob, selectedAts]);

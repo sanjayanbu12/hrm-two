@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 // import { Box, Button } from '@mui/material';
 // import TableViewIcon from '@mui/icons-material/TableView';
-import jsPDF from 'jspdf';
-
-import axios from 'axios';
+import jsPDF from 'jspdf';  
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 const columns = [
   { title: 'EmployeeId', field: 'employeeid' },
   { title: 'Name', field: 'name' },
@@ -35,9 +35,11 @@ const csvColumns = [
 export const BasicTable = () => {
   const [edata, setedata] = useState([]);
   const navigate = useNavigate();
+  const {employeeContextData}=useContext(ApiContext)
+
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response =employeeContextData;
       const employees = response.data.reverse(); // Reverse the data if needed
       setedata(employees);
       console.log('all emp',employees)
@@ -52,7 +54,7 @@ export const BasicTable = () => {
   };
   useEffect(() => {
     fetchEmployeesData();
-  }, []);
+  }, [employeeContextData]);
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
       EmployeeId: item.employeeid,

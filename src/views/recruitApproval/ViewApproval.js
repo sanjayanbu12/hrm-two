@@ -17,6 +17,8 @@ import IconButton from '@mui/material/IconButton';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from 'antd';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [orgMems, setorgMems] = useState([]);
@@ -26,12 +28,14 @@ const OrgTree = () => {
   const [Tier2Data, setTier2Data] = useState([]);
   const [autoComData, setautoComData] = useState([]);
   const navigate = useNavigate();
+  const {employeeContextData}=useContext(ApiContext)
+
   useEffect(() => {
     fetchOrgData();
   }, [Tier2Data]);
   useEffect(()=>{
     fetchEmployeesData();
-  },[])
+  },[employeeContextData])
   useEffect(() => {
     if (orgMems.length > 0 && edata.length > 0) {
       getDataUseeff();
@@ -61,7 +65,7 @@ const fetchOrgData = async () => {
   console.log(Tier2Data.map(data=>data.name));
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = employeeContextData
       const employees = response.data;
       setedata(employees);
     } catch (error) {
