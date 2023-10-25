@@ -7,12 +7,13 @@ import { Provider } from 'react-redux';
 // project imports
 import * as serviceWorker from 'serviceWorker';
 import App from 'App';
-import { store,persistor } from './store';
+import { store, persistor } from './store';
 
 // style + assets
 import 'assets/scss/style.scss';
 import config from './config';
-import { PersistGate } from 'redux-persist/integration/react'
+import { PersistGate } from 'redux-persist/integration/react';
+import ApiContextProvider from 'context/api/ApiContextProvider';
 // import {persistor} from './store/index'
 // ==============================|| REACT DOM RENDER  ||============================== //
 
@@ -21,9 +22,11 @@ const root = createRoot(container); // createRoot(container!) if you use TypeScr
 root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-    <BrowserRouter basename={config.basename}>
-      <App />
-    </BrowserRouter>
+      <BrowserRouter basename={config.basename}>
+        <ApiContextProvider>
+          <App />
+        </ApiContextProvider>
+      </BrowserRouter>
     </PersistGate>
   </Provider>
 );

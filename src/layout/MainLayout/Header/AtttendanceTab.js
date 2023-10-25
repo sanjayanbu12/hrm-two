@@ -1,19 +1,20 @@
 import React from 'react'
 import { useState,useEffect } from 'react';
 // import { useSelector } from 'react-redux';
-import axios from 'axios';
 // import {TextSnippet } from '@mui/icons-material';
 import jsPDF from 'jspdf';
 import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import _ from 'lodash';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 
 
 const AtttendanceTab = () => {
     // const authId = useSelector((state) => state.customization.authId);
 
     const [employee, setEmployee] = useState([]);
-    
+    const { employeeContextData } = useContext(ApiContext);
   
     console.log("Attendance Table",employee)
   
@@ -82,7 +83,7 @@ const AtttendanceTab = () => {
       };
       const fetchEmployee = async () => {
         try {
-          const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
+          const res = employeeContextData
           
           const allEmployeeData = res.data.map(matchingEmployee => {
             const clockData = matchingEmployee.clockid || [];
@@ -116,7 +117,7 @@ const AtttendanceTab = () => {
 
     useEffect(() => {
         fetchEmployee();
-    }, []);
+    }, [employeeContextData]);
     // const formatData = () => {
     //     const formattedData = [];
     //     // Add employee data to formattedData

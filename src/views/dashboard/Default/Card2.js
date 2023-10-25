@@ -5,7 +5,8 @@ import { Box, Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import { useEffect } from 'react';
-import axios from 'axios';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#12486B',
@@ -49,10 +50,10 @@ const Card2 = ({ isLoading }) => {
   const [employee, setEmployee] = useState("");
   console.log("count",employee);
   const [employeeCount, setEmployeeCount] = useState(0);
-
+  const {employeeContextData}=useContext(ApiContext)
   const fetchEmployee = async () => {
     try {
-      const res = await axios.get("https://hrm-backend-square.onrender.com/api/allemployee");
+      const res =employeeContextData
       const today = new Date();
       const allEmployeeData = res.data.map(matchingEmployee => {
         const clockData = matchingEmployee.clockid || [];
@@ -80,7 +81,7 @@ const Card2 = ({ isLoading }) => {
 
   useEffect(() => {
     fetchEmployee();
-  }, []);
+  }, [employeeContextData]);
 
   const theme = useTheme();
  
