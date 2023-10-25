@@ -20,7 +20,6 @@ import {
 
 import WbSunnyTwoToneIcon from '@mui/icons-material/WbSunnyTwoTone';
 
-
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
@@ -35,11 +34,13 @@ import { IconLogout, IconSettings } from '@tabler/icons';
 import { useDispatch } from 'react-redux';
 import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
 import axios from 'axios';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 // import { userSchema } from 'validation/Validation';
 // import { clearConfigCache } from 'prettier';
 
 // ==============================|| PROFILE MENU ||============================== //
-axios.defaults.withCredentials=true
+axios.defaults.withCredentials = true;
 const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
@@ -50,14 +51,15 @@ const ProfileSection = () => {
   // const [notification, setNotification] = useState(false);
 
   const [open, setOpen] = useState(false);
-  const [matched, setMatched] = useState("");
-  console.log("", matched)
+  const [matched, setMatched] = useState('');
+  console.log('', matched);
   const authId = useSelector((state) => state.customization.authId);
 
   const [profileimage, setProfileimage] = useState('');
   /**
    * anchorRef is used on different componets and specifying one type leads to other components throwing an error
    * */
+  const { employeeContextData } = useContext(ApiContext);
 
   useEffect(() => {
     const newRotationAngle = open ? 180 : 0;
@@ -66,16 +68,15 @@ const ProfileSection = () => {
 
   const anchorRef = useRef(null);
   const handleLogout = async () => {
-try {
-  dispatch({ type: LOGGED_OUT })
-  dispatch({ type: USER_OR_NOT })
-  localStorage.clear()
-  await axios.post('https://hrm-backend-square.onrender.com/auth/logout')
-} catch (error) {
-  alert(error && error.message)
-}
+    try {
+      dispatch({ type: LOGGED_OUT });
+      dispatch({ type: USER_OR_NOT });
+      localStorage.clear();
+      await axios.post('https://hrm-backend-square.onrender.com/auth/logout');
+    } catch (error) {
+      alert(error && error.message);
+    }
     // navigate('/pages/login/login3');
-
   };
   const now = new Date();
   const currentHour = now.getHours();
@@ -83,14 +84,13 @@ try {
   let greeting;
 
   if (currentHour >= 4 && currentHour < 12) {
-    greeting = "Good Morning";
-  }
-  else if (currentHour >= 12 && currentHour < 15) {
-    greeting = "Good Afternoon";
+    greeting = 'Good Morning';
+  } else if (currentHour >= 12 && currentHour < 15) {
+    greeting = 'Good Afternoon';
   } else if (currentHour >= 15 && currentHour < 19) {
-    greeting = "Good Evening";
+    greeting = 'Good Evening';
   } else {
-    greeting = "Good Night";
+    greeting = 'Good Night';
   }
 
   const handleClose = (event) => {
@@ -99,8 +99,6 @@ try {
     }
     setOpen(false);
   };
-
-
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -120,11 +118,11 @@ try {
       const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
       const users = res.data.user;
 
-      const matchedUser = users.find(user => user.employeeId === authId);
+      const matchedUser = users.find((user) => user.employeeId === authId);
       if (matchedUser) {
         setMatched(matchedUser);
       } else {
-        console.log("No user found with the provided authId.");
+        console.log('No user found with the provided authId.');
       }
     } catch (error) {
       console.log(error);
@@ -133,29 +131,27 @@ try {
 
   const fetchUser = async () => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`)
+      const response = employeeContextData;
       const allEmployeeData = response.data;
-      console.log(allEmployeeData)
+      console.log(allEmployeeData);
       const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === authId);
-      console.log(specificEmployee.profilepic?.url)
+      console.log(specificEmployee.profilepic?.url);
       setProfileimage(specificEmployee.profilepic?.url);
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  };
 
   useEffect(() => {
     WhoLog();
     fetchUser();
-  }, [])
+  }, [employeeContextData]);
 
   const handleAccount = () => {
-    navigate('/Accountsetting')
-  }
+    navigate('/Accountsetting');
+  };
   return (
     <>
-
       <Chip
         sx={{
           height: '48px',
@@ -222,29 +218,25 @@ try {
               <ClickAwayListener onClickAway={handleClose}>
                 <MainCard border={false} elevation={16} content={false} boxShadow shadow={theme.shadows[16]}>
                   <Box sx={{ p: 2 }}>
-                    <Typography display='flex' justifyContent='center' variant="h4">{greeting}
+                    <Typography display="flex" justifyContent="center" variant="h4">
+                      {greeting}
                       <WbSunnyTwoToneIcon
                         sx={{
                           ml: '7px',
                           color: 'red',
                           mb: '8px',
                           transform: `rotate(${rotationAngle}deg)`,
-                          transition: 'transform 0.8s ease-in-out',
+                          transition: 'transform 0.8s ease-in-out'
                         }}
                       />
                     </Typography>
 
-
                     <Stack sx={{ ml: '20px', mt: '10px' }} direction="row" spacing={2} alignItems="center">
                       <div>
-                        <Avatar
-                          alt="Remy Sharp"
-                          src={profileimage}
-                          sx={{ width: 56, height: 56 }}
-                        />
+                        <Avatar alt="Remy Sharp" src={profileimage} sx={{ width: 56, height: 56 }} />
                       </div>
                       <div>
-                        <Typography component="span" variant="h4" sx={{ fontWeight: 700, paddingLeft: '0px'}}>
+                        <Typography component="span" variant="h4" sx={{ fontWeight: 700, paddingLeft: '0px' }}>
                           {matched.firstname}
                         </Typography>
                         <Typography variant="h4" sx={{ fontWeight: 400, paddingLeft: '0px', mt: '3px' }}>
@@ -336,7 +328,6 @@ try {
                           }
                         }}
                       >
-
                         {/* <ListItemButton
                           sx={{ borderRadius: `${customization.borderRadius}px` }}
                           selected={selectedIndex === 1}
@@ -366,17 +357,12 @@ try {
                             }
                           />
                         </ListItemButton> */}
-                        <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }}
-                          onClick={handleAccount}>
-                          <ListItemText primary={<Typography variant='body2'>Account Setting</Typography>} />
+                        <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleAccount}>
+                          <ListItemText primary={<Typography variant="body2">Account Setting</Typography>} />
                         </ListItemButton>
-                        <ListItemButton
-                          sx={{ borderRadius: `${customization.borderRadius}px` }}
-
-                          onClick={handleLogout}
-                        >
-                          <ListItemIcon >
-                            <IconLogout color='black' stroke={1.5} size="1.3rem" />
+                        <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleLogout}>
+                          <ListItemIcon>
+                            <IconLogout color="black" stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Logout</Typography>} />
                         </ListItemButton>

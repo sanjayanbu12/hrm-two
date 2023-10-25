@@ -11,14 +11,15 @@ import { Grid } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { TextField, InputAdornment } from '@mui/material';
 import { Pagination } from '@mui/lab';
-import { CSVLink } from "react-csv";
+import { CSVLink } from 'react-csv';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 const Addemployeetable = () => {
   const [isLoading, setLoading] = useState(true);
   console.log(isLoading);
-useEffect(() => {
-  setLoading(false);
-}, []);
-
+  useEffect(() => {
+    setLoading(false);
+  }, []);
 
   const theme = useTheme();
   const navigate = useNavigate();
@@ -26,17 +27,19 @@ useEffect(() => {
   const [searchText, setSearchText] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const rowsPerPage = 5;
+  const { employeeContextData } = useContext(ApiContext);
+
   // const[loader,setLoader]=useState(true)
 
   const fetchEmployees = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/api/allemployee`);
+    const res = employeeContextData;
     console.log(res.data);
     setedata(res.data.reverse());
   };
 
   useEffect(() => {
     fetchEmployees();
-  }, []);
+  }, [employeeContextData]);
 
   const handleSearch = (event) => {
     setSearchText(event.target.value);
@@ -64,73 +67,73 @@ useEffect(() => {
 
   return (
     <>
-  <MainCard title="Employee Information Management">
-
-  <Grid container spacing={gridSpacing}>
-      <Grid item xs={12}>
-        <Grid container spacing={gridSpacing} sx={{
-          gap:'50px',
-          margin:' 0px 10px',
-        }}>
-          
-          {/* <Grid item lg={4} md={4} sm={6} xs={12}>
+      <MainCard title="Employee Information Management">
+        <Grid container spacing={gridSpacing}>
+          <Grid item xs={12}>
+            <Grid
+              container
+              spacing={gridSpacing}
+              sx={{
+                gap: '50px',
+                margin: ' 0px 10px'
+              }}
+            >
+              {/* <Grid item lg={4} md={4} sm={6} xs={12}>
             <EarningCard isLoading={isLoading} />
           </Grid> */}
-          {/* <Grid item lg={4} md={6} sm={6} xs={12}>
+              {/* <Grid item lg={4} md={6} sm={6} xs={12}>
             <TotalOrderLineChartCard isLoading={isLoading} />
           </Grid> */}
-          {/* <Grid item lg={4} md={12} sm={12} xs={12}>
+              {/* <Grid item lg={4} md={12} sm={12} xs={12}>
             <Grid container spacing={gridSpacing}>
               <Grid item lg={80} md={64} sm={44} xs={32}>
                 <TotalIncomeDarkCard isLoading={isLoading} />
               </Grid>
             </Grid>
           </Grid> */}
+            </Grid>
+          </Grid>
         </Grid>
-      </Grid>
-      </Grid>
 
-<div>
-  <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
-    <Button
-      onClick={() => navigate(`/newemployee`)}
-      sx={{
-        padding: 1.5,
-        background: 'rgba(33, 150, 243, 0.04)',
-        color: theme.palette.secondary.dark,
-        '&:hover': {
-          color: theme.palette.secondary.dark,
-        },
-        top:'40px'
-      }}   
-    >
-      <AddIcon />
-      Add
-    </Button>
-    <CSVLink data={edata}>
-      Export
-    </CSVLink>
-  </Box>
-  <Box sx={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center', mb: 2, display: 'flex' }}>
-    <TextField
-      label="Search"
-      variant="outlined"
-      value={searchText}
-      onChange={handleSearch}
-      size="small"
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <SearchIcon />
-          </InputAdornment>
-        ),
-      }}
-      sx={{
-        top:'-20px',
-      }}
-    />
-  </Box>
-</div>
+        <div>
+          <Box sx={{ flexGrow: 1, justifyContent: 'flex-end', display: 'flex' }}>
+            <Button
+              onClick={() => navigate(`/newemployee`)}
+              sx={{
+                padding: 1.5,
+                background: 'rgba(33, 150, 243, 0.04)',
+                color: theme.palette.secondary.dark,
+                '&:hover': {
+                  color: theme.palette.secondary.dark
+                },
+                top: '40px'
+              }}
+            >
+              <AddIcon />
+              Add
+            </Button>
+            <CSVLink data={edata}>Export</CSVLink>
+          </Box>
+          <Box sx={{ flexGrow: 1, justifyContent: 'flex-start', alignItems: 'center', mb: 2, display: 'flex' }}>
+            <TextField
+              label="Search"
+              variant="outlined"
+              value={searchText}
+              onChange={handleSearch}
+              size="small"
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <SearchIcon />
+                  </InputAdornment>
+                )
+              }}
+              sx={{
+                top: '-20px'
+              }}
+            />
+          </Box>
+        </div>
 
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
@@ -147,17 +150,27 @@ useEffect(() => {
               {currentEmployees.length > 0 ? (
                 currentEmployees.map((x) => (
                   <TableRow key={x.id}>
-                    <TableCell component="th" scope="row" align="center" onClick={() => idclick(x._id)}
-                  sx={{"&:hover":{cursor:'pointer'}}}
-                     >
+                    <TableCell
+                      component="th"
+                      scope="row"
+                      align="center"
+                      onClick={() => idclick(x._id)}
+                      sx={{ '&:hover': { cursor: 'pointer' } }}
+                    >
                       {x.employeeid}
                     </TableCell>
-                    <TableCell align="center" onClick={() => idclick(x._id)}  sx={{"&:hover":{cursor:'pointer'}}}>
+                    <TableCell align="center" onClick={() => idclick(x._id)} sx={{ '&:hover': { cursor: 'pointer' } }}>
                       {x.name}
                     </TableCell>
-                    <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.dept}</TableCell>
-                    <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.desi}</TableCell>
-                    <TableCell align="center" sx={{"&:hover":{cursor:'pointer'}}}>{x.type}</TableCell>
+                    <TableCell align="center" sx={{ '&:hover': { cursor: 'pointer' } }}>
+                      {x.dept}
+                    </TableCell>
+                    <TableCell align="center" sx={{ '&:hover': { cursor: 'pointer' } }}>
+                      {x.desi}
+                    </TableCell>
+                    <TableCell align="center" sx={{ '&:hover': { cursor: 'pointer' } }}>
+                      {x.type}
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (
@@ -170,19 +183,20 @@ useEffect(() => {
             </TableBody>
           </Table>
         </TableContainer>
-        <Box sx={{ display: 'flex', justifyContent: 'end', mt: 2,
-        padding: 1.5,
-        background: 'rgba(33, 150, 243, 0.04)',
-        color: theme.palette.secondary.dark,
-        '&:hover': {
-          color: theme.palette.secondary.dark,
-        },
-      }}>
-          <Pagination
-            count={Math.ceil(filteredEmployees.length / rowsPerPage)}
-            page={currentPage}
-            onChange={handlePageChange}
-          />
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'end',
+            mt: 2,
+            padding: 1.5,
+            background: 'rgba(33, 150, 243, 0.04)',
+            color: theme.palette.secondary.dark,
+            '&:hover': {
+              color: theme.palette.secondary.dark
+            }
+          }}
+        >
+          <Pagination count={Math.ceil(filteredEmployees.length / rowsPerPage)} page={currentPage} onChange={handlePageChange} />
         </Box>
       </MainCard>
     </>
@@ -190,5 +204,3 @@ useEffect(() => {
 };
 
 export default Addemployeetable;
-
-
