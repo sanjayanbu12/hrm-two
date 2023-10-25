@@ -9,7 +9,7 @@ const ApiContextProvider = ({ children }) => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       setEmployeeContextData(response);
-      console.log('response', response);
+      console.log('responsecontext', response);
     } catch (error) {
       console.log(error);
     }

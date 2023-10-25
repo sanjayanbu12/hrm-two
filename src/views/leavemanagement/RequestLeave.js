@@ -7,6 +7,8 @@ import Swal from 'sweetalert2';
 // import { useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
 import { useSelector } from 'react-redux';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const validationSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
@@ -65,6 +67,7 @@ const RequestLeave = () => {
   const employee = useSelector((state) => state.customization.authId);
   console.log(employee);
   console.log(employeeName);
+  const {employeeContextData}=useContext(ApiContext)
   const leaveTypes = [
     'Casual Leave (CL)',
     'Sick Leave (SL)',
@@ -100,30 +103,21 @@ const RequestLeave = () => {
     fetchEmployeesData();
   }, []);
   useEffect(() => {
-    // Define the API endpoint for fetching all employee details
-    const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
-
-    // Make an API call to fetch all employee details
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        // Assuming the response data contains an array of employee details
+    const fetchData = async () => {
+      try {
+        const response = employeeContextData
         const allEmployeeData = response.data;
-
-        // Find the specific employee based on the employee ID
         const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === employee);
-
-        // Update the employeeDetails state with the specific employee details
         setEmployeeDetails(specificEmployee);
-
         console.log(specificEmployee);
         console.log(employeeDetails);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching employee details:', error);
-        // Handle errors here, e.g., show an error message to the user
-      });
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, [employeeContextData]);
   useEffect(() => {
     setEmployeeId(employeeDetails.employeeid);
     setEmployeeName(employeeDetails.name);
@@ -149,7 +143,7 @@ const RequestLeave = () => {
   };
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response =employeeContextData;
       const employees = response.data;
       setedata(employees);
     } catch (error) {
@@ -157,7 +151,7 @@ const RequestLeave = () => {
     }
   };
   const handleSubmit = async (e) => {
-    console.log(report)
+    console.log(report);
     e.preventDefault(); // Prevent the default form submission behavior
     try {
       await validationSchema.validate(
@@ -183,8 +177,8 @@ const RequestLeave = () => {
       data.append('numberOfDays', numberOfDays);
       data.append('reason', reason);
       data.append('attachments', attachments[0]);
-      data.append('reportingto',report.id)
-   
+      data.append('reportingto', report.id);
+
       const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave/', data, {
         headers: {
           'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
@@ -206,7 +200,7 @@ const RequestLeave = () => {
         Swal.fire({
           icon: 'success',
           text: 'Leave request submitted successfully!'
-        })
+        });
         // }).then(() => {
         //   navigate('/viewleave');
         // });
@@ -226,7 +220,7 @@ const RequestLeave = () => {
         });
         setErrors(validationErrors);
       } else {
-        alert(error.message)
+        alert(error.message);
         console.log(error);
       }
     }
@@ -407,27 +401,27 @@ const RequestLeave = () => {
             />
           </Grid>
           <Grid item xs={4}>
-                  <FormControl sx={{ minWidth: '100%' }}>
-                    <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
-                    <Select
-                      labelId="demo-simple-select-label"
-                      id="demo-simple-select"
-                      label="Reporting To"
-                      value={report.id ? `${report.id},${report.name}` : ''}
-                      // error={errors && errors.report}
-                      // helperText={errors && errors.report}
-                      onChange={(e) => handleReport(e)}
-                    >
-                      {edata.map((item) => (
-                        <MenuItem key={item._id} value={`${item._id},${item.name}`}>
-                          {item.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+            <FormControl sx={{ minWidth: '100%' }}>
+              <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                label="Reporting To"
+                value={report.id ? `${report.id},${report.name}` : ''}
+                // error={errors && errors.report}
+                // helperText={errors && errors.report}
+                onChange={(e) => handleReport(e)}
+              >
+                {edata.map((item) => (
+                  <MenuItem key={item._id} value={`${item._id},${item.name}`}>
+                    {item.name}
+                  </MenuItem>
+                ))}
+              </Select>
 
-                    <FormHelperText>{errors && errors.report}</FormHelperText>
-                  </FormControl>
-                </Grid>
+              <FormHelperText>{errors && errors.report}</FormHelperText>
+            </FormControl>
+          </Grid>
           {/* Submit Button */}
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">

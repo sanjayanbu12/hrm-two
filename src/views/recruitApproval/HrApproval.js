@@ -14,6 +14,8 @@ import Lottie from 'react-lottie';
 import { Carousel } from 'primereact/carousel';
 import {  defaultOptions, defaultOptions1, responsiveOptions } from './Const';
 import MainCard from 'ui-component/cards/MainCard';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 const HrApproval = () => {
   const [data, setRecData] = useState([]);
   const [edata, setedata] = useState([]);
@@ -22,6 +24,7 @@ const HrApproval = () => {
   const { id } = useParams();
   console.log(id);
   const authId = useSelector((state) => state.customization.authId);
+  const {employeeContextData}=useContext(ApiContext)
   useEffect(() => {
     fetchData();
   }, [edata]);
@@ -29,7 +32,7 @@ const HrApproval = () => {
   useEffect(() => {
     const fetchDataOnMount = async () => {
       try {
-        const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+        const response = employeeContextData;
         setedata(response.data);
       } catch (error) {
         console.log(error);

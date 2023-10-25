@@ -6,15 +6,15 @@ import Progressbar from './Progressbar';
 import PopupGoal from './PopupGoal';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const Goals = () => {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [goals, setGoals] = useState([]);
   const [empId, setEmpId] = useState([]);
   const authId = useSelector((state) => state.customization.authId);
-
-
-
+  const {employeeContextData}=useContext(ApiContext)
 
   useEffect(() => {
     fetchEmployee();
@@ -26,7 +26,7 @@ const Goals = () => {
 
   const fetchEmployee = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = employeeContextData;
       const employees = response.data.filter((data) => data.employeeid === authId);
       setEmpId(employees.map((data) => data._id));
     } catch (error) {
