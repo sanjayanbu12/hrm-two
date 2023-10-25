@@ -40,10 +40,9 @@ const EmployeeForm = () => {
   const [dob, setDob] = useState('');
   const [type, setType] = useState('');
   const [errors, setErrors] = useState('');
-  const [title, setTitle] = useState('');
   const [fathername, setFathername] = useState('');
+  const [emergencyContact, setEmergencyContact] = useState('');
   const [nationality, setNationality] = useState('');
-  const [religion, setReligion] = useState('');
   const [regData, setRegData] = useState([]);
   const [edata, setedata] = useState([]);
   const [AuthData, setAuthData] = useState([]);
@@ -139,6 +138,15 @@ const EmployeeForm = () => {
       altmob: ''
     }));
   };
+
+  const handleemergencyContact = (e) => {
+    setEmergencyContact(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      emergencyContact: ''
+    }));
+  };
+
   const fetchEmployeesData = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -180,6 +188,7 @@ const EmployeeForm = () => {
       report: ''
     }));
   };
+
   const handleDob = (e) => {
     const selectedDate = e.target.value;
     const currentDate = new Date();
@@ -206,13 +215,6 @@ const EmployeeForm = () => {
       type: ''
     }));
   };
-  const handleTitle = (e) => {
-    setTitle(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      title: ''
-    }));
-  };
   const handleFathername = (e) => {
     setFathername(e.target.value);
     setErrors((prev) => ({
@@ -225,13 +227,6 @@ const EmployeeForm = () => {
     setErrors((prev) => ({
       ...prev,
       nationality: ''
-    }));
-  };
-  const handleReligion = (e) => {
-    setReligion(e.target.value);
-    setErrors((prev) => ({
-      ...prev,
-      religion: ''
     }));
   };
   const fetchRegData = async () => {
@@ -261,34 +256,13 @@ const EmployeeForm = () => {
         setDob(data.dob);
         setFathername(data.fathername);
         setNationality(data.nationality);
-        setReligion(data.religion);
         setType(data.type);
-        setTitle(data.title);
+        setEmergencyContact(data.type);
       })
       .catch((err) => {
         console.log(err.message);
       });
   }, []);
-
-  // useEffect(() => {
-  //   // Set default values for all form fields
-  //   setName('John');
-  //   setLastname('Doe');
-  //   setGender('MALE');
-  //   setDept('HR');
-  //   setDesi('HR');
-  //   seteMail('johndoe@example.com');
-  //   setMob('1234567890');
-  //   setaltMob('9876543210');
-  //   setperAddress('123 Main St');
-  //   settemAddress('456 Temp St');
-  //   setBloodgroup('A+VE');
-  //   setJoin('2023-01-01'); // Format should match the date input type (yyyy-MM-dd)
-  //   setDob('1990-01-01'); // Format should match the date input type (yyyy-MM-dd)
-  //   setFathername('Ajay');
-  //   setNationality('Indian');
-  //   setReligion('Hindu');
-  // }, []);
 
   const finalSubmit = async () => {
     if (id) {
@@ -315,7 +289,8 @@ const EmployeeForm = () => {
           nationality,
           religion,
           type,
-          title
+          title,
+          emergencyContact
         };
 
         await updatevalidationSchema.validate(
@@ -336,11 +311,8 @@ const EmployeeForm = () => {
             dob,
             fathername,
             nationality,
-
-            religion,
             type,
-
-            title
+            emergencyContact
           },
           { abortEarly: false }
         );
@@ -354,19 +326,16 @@ const EmployeeForm = () => {
         seteMail('');
         setMob('');
         setaltMob(''),
-          setperAddress(''),
-          settemAddress(''),
-          setBloodgroup(''),
-          //  setPassword(''), setconfirmPassword(''),
-          setJoin('');
+        setperAddress(''),
+        settemAddress(''), 
+        setBloodgroup(''), 
+        setJoin('');
         setReport('');
         setDob('');
         setFathername('');
         setNationality('');
-        setReligion('');
         setType('');
-
-        setTitle('');
+        setEmergencyContact('');
 
         Swal.fire({
           icon: 'success',
@@ -404,9 +373,9 @@ const EmployeeForm = () => {
           join,
           fathername,
           nationality,
-          religion,
           type,
-          title
+          emergencyContact
+
           // employeeid: 'ID: ' + Math.floor(Math.random() * 100000)
         };
         console.log('task', task);
@@ -424,25 +393,21 @@ const EmployeeForm = () => {
             peraddress,
             temaddress,
             bloodgroup,
-            // password,
-            // confirmPassword,
             join,
             report,
             dob,
             fathername,
             nationality,
-            religion,
             type,
-            title
+            emergencyContact
           },
           { abortEarly: false }
         );
         const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
-        const newEmployeeId = res.data.data._id; // Extract the newly created employee's _id
+        const newEmployeeId = res.data.data._id; 
         const empId = res.data.data.employeeid;
         await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`, { employeeId: empId, isEmployee: true });
         if (report.id) {
-          // Check if report.id exists
           const reportUpdateData = {
             report: {
               name: res.data.data.name,
@@ -463,23 +428,19 @@ const EmployeeForm = () => {
         seteMail('');
         setMob('');
         setaltMob(''),
-          setperAddress(''),
-          settemAddress(''),
-          setBloodgroup(''),
-          // setPassword(''), setconfirmPassword(''),
-          setJoin('');
+        setperAddress(''),
+        settemAddress(''),
+        setBloodgroup(''),
+        setJoin('');
         setReport('');
         setDob('');
         setFathername('');
         setNationality('');
-
-        setReligion('');
         setType('');
-
-        setTitle('');
+        setEmergencyContact('');
         Swal.fire({
           icon: 'success',
-          text: 'Employee Information'
+          text: 'Employee Information Created Sucessfully'
         }).then(() => {
           navigate('/basictable');
         });
@@ -505,25 +466,6 @@ const EmployeeForm = () => {
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={4} style={{ marginBottom: 10 }}>
-                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.title}>
-                  <InputLabel id="demo-simple-select-label">Title</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    label="Title"
-                    value={title}
-                    error={errors && errors.title}
-                    helperText={errors && errors.title}
-                    onChange={(e) => handleTitle(e)}
-                  >
-                    <MenuItem value="MR">MR</MenuItem>
-                    <MenuItem value="MRS">MRS</MenuItem>
-                  </Select>
-                  <FormHelperText>{errors && errors.title}</FormHelperText>
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={4}>
                 <FormControl sx={{ minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-label">First Name</InputLabel>
                   <Select labelId="demo-simple-select-label" id="demo-simple-select" label="First Name" onChange={(e) => handleName(e)}>
@@ -534,7 +476,7 @@ const EmployeeForm = () => {
                     ))}
                   </Select>
 
-                  <FormHelperText>{errors && errors.report}</FormHelperText>
+                  <FormHelperText>{errors && errors.name}</FormHelperText>
                 </FormControl>
               </Grid>
               <Grid item xs={4}>
@@ -598,6 +540,7 @@ const EmployeeForm = () => {
                   sx={{ minWidth: '100%' }}
                   id="outlined-basic"
                   label="Email"
+                  placeholder='john@gmail.com'
                   variant="outlined"
                   value={email}
                   error={errors && errors.email}
@@ -663,25 +606,25 @@ const EmployeeForm = () => {
                 <TextField
                   sx={{ minWidth: '100%' }}
                   id="outlined-basic"
+                  label="Emergency Contact"
+                  variant="outlined"
+                  value={emergencyContact}
+                  error={errors && errors.emergencyContact}
+                  helperText={errors && errors.emergencyContact}
+                  onChange={(e) => handleemergencyContact(e)}
+                />
+              </Grid>
+
+              <Grid item xs={4}>
+                <TextField
+                  sx={{ minWidth: '100%' }}
+                  id="outlined-basic"
                   label="Nationality"
                   variant="outlined"
                   value={nationality}
                   error={errors && errors.nationality}
                   helperText={errors && errors.nationality}
                   onChange={(e) => handleNationality(e)}
-                />
-              </Grid>
-
-              <Grid item xs={4} style={{ marginBottom: 10 }}>
-                <TextField
-                  sx={{ minWidth: '100%' }}
-                  id="outlined-basic"
-                  label="Religion"
-                  variant="outlined"
-                  value={religion}
-                  error={errors && errors.religion}
-                  helperText={errors && errors.religion}
-                  onChange={(e) => handleReligion(e)}
                 />
               </Grid>
 
