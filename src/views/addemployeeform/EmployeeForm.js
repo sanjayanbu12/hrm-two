@@ -726,8 +726,8 @@ const EmployeeForm = () => {
                       id="demo-simple-select"
                       label="Reporting To"
                       value={report.id ? `${report.id},${report.name}` : ''}
-                      // error={errors && errors.report}
-                      // helperText={errors && errors.report}
+                      error={errors && errors.report}
+                      helperText={errors && errors.report}
                       onChange={(e) => handleReport(e)}
                     >
                       {regData.map((item) => (
@@ -749,8 +749,8 @@ const EmployeeForm = () => {
                       id="demo-simple-select"
                       label="Reporting To"
                       value={report.id ? `${report.id},${report.name}` : ''}
-                      // error={errors && errors.report}
-                      // helperText={errors && errors.report}
+                      error={errors && errors.report}
+                      helperText={errors && errors.report}
                       onChange={(e) => handleReport(e)}
                     >
                       {edata.map((item) => (
@@ -759,8 +759,6 @@ const EmployeeForm = () => {
                         </MenuItem>
                       ))}
                     </Select>
-
-                    <FormHelperText>{errors && errors.report}</FormHelperText>
                   </FormControl>
                 </Grid>
               )}
