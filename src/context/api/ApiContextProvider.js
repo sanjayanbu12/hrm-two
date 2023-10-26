@@ -1,26 +1,17 @@
 import React from 'react';
 import ApiContext from './ApiContext';
 import { useState } from 'react';
-import { useEffect } from 'react';
-import axios from 'axios';
+import ApiContainer from './ApiContainer';
 const ApiContextProvider = ({ children }) => {
   const [employeeContextData, setEmployeeContextData] = useState([]);
-  const fetchEmployee = async () => {
-    try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
-      setEmployeeContextData(response);
-      console.log('responsecontext', response);
-    } catch (error) {
-      console.log(error);
-    }
+  const value = {
+    employeeContextData,
+    setEmployeeContextData
   };
-
-  useEffect(() => {
-    fetchEmployee();
-  }, []);
   return (
     <div>
-      <ApiContext.Provider value={{ employeeContextData }}>{children}</ApiContext.Provider>
+      <ApiContainer employeeContextData={employeeContextData} setEmployeeContextData={setEmployeeContextData} />
+      <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
     </div>
   );
 };
