@@ -4,9 +4,9 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData } = props;
-  const { formStatus, recStatus, atsStatus, leaveStatus } = useContext(FormSubmittedContext);
-  console.log('leaveStatus', leaveStatus);
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData } = props;
+  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus } = useContext(FormSubmittedContext);
+  console.log('orgStatus', orgStatus);
   const fetchEmployee = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -40,6 +40,14 @@ const ApiContainer = (props) => {
       console.log(err);
     }
   };
+  const fetchOrg = async () => {
+    try {
+      const res = await axios.get('https://hrm-backend-square.onrender.com/org/getorg')
+      setorgContextData(res)
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     fetchEmployee();
@@ -53,6 +61,9 @@ const ApiContainer = (props) => {
   useEffect(() => {
     fetchLeave();
   }, [leaveStatus]);
+  useEffect(() => {
+    fetchOrg();
+  }, [orgStatus]);
   return null;
 };
 

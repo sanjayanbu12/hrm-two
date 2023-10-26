@@ -39,7 +39,7 @@ const HrApproval = () => {
     };
 
     fetchDataOnMount();
-  }, []);
+  }, [employeeContextData ]);
   const fetchData = async () => {
     try {
       const res = await recruitmentContextData;

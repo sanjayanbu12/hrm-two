@@ -28,11 +28,11 @@ const OrgTree = () => {
   const [Tier2Data, setTier2Data] = useState([]);
   const [autoComData, setautoComData] = useState([]);
   const navigate = useNavigate();
-  const {employeeContextData}=useContext(ApiContext)
+  const {employeeContextData,orgContextData}=useContext(ApiContext)
 
   useEffect(() => {
     fetchOrgData();
-  }, [Tier2Data]);
+  }, [Tier2Data,orgContextData]);
   useEffect(()=>{
     fetchEmployeesData();
   },[employeeContextData])
@@ -49,7 +49,7 @@ const OrgTree = () => {
   };
 const fetchOrgData = async () => {
   try {
-    const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorgs');
+    const response = await orgContextData
     const orgData = response.data.orgData; // Store the fetched data in a variable
     setorgMems(orgData);
 

@@ -7,14 +7,16 @@ const ApiContextProvider = ({ children }) => {
   const [atsContextData, setatsContextData] = useState([]);
   const [recruitmentContextData, setrecruitmentContextData] = useState([]);
   const [leaveContextData, setleaveContextData] = useState([]);
+  const [orgContextData, setorgContextData] = useState([]);
   const value = {
     employeeContextData,
     setEmployeeContextData,
     atsContextData,
     recruitmentContextData,
-    leaveContextData
+    leaveContextData,
+    orgContextData
   };
-  console.log('leaveContextData',leaveContextData)
+  console.log('orgContextData',orgContextData)
   return (
     <div>
       <ApiContainer
@@ -22,6 +24,7 @@ const ApiContextProvider = ({ children }) => {
         setatsContextData={setatsContextData}
         setrecruitmentContextData={setrecruitmentContextData}
         setleaveContextData={setleaveContextData}
+        setorgContextData={setorgContextData}
       />
       <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
     </div>

@@ -58,7 +58,7 @@ const RecruitmentForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast, showToast } = useToast();
-  const { employeeContextData } = useContext(ApiContext);
+  const { employeeContextData,orgContextData } = useContext(ApiContext);
  const {recStatus, setrecStatus}=useContext(FormSubmittedContext)
   const handleApplicationLink = (e) => {
     setApplicationLink(e.target.value);
@@ -276,10 +276,10 @@ const RecruitmentForm = () => {
   }, [employeeContextData]);
   useEffect(() => {
     fetchOrgData();
-  }, []);
+  }, [orgContextData]);
 
   const fetchOrgData = async () => {
-    const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
+    const response = orgContextData
     setOrgData(response.data.orgData.map((x) => x.hrName));
     console.log(response.data.orgData.map((x) => x.hrName));
   };

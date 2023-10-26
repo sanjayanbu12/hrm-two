@@ -15,6 +15,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const RecruitmentView = () => {
   const [selectedJob, setSelectedJob] = useState();
@@ -30,6 +31,7 @@ const RecruitmentView = () => {
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
   const { employeeContextData, atsContextData } = useContext(ApiContext);
+  const { orgStatus, setorgStatus } = useContext(FormSubmittedContext);
   console.log(atsContextData);
   useEffect(() => {
     fetchData();
@@ -183,6 +185,7 @@ const RecruitmentView = () => {
         orgData: updatedOrgData
       };
       await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
+      setorgStatus(!orgStatus)
       setTimeout(() => {
         navigate(`/hrapproval/${authId}`);
       }, 2000);
@@ -194,6 +197,7 @@ const RecruitmentView = () => {
     await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
       jobApproved: true
     });
+    setorgStatus(!orgStatus)
     setTimeout(() => {
       navigate(`/managerapproval/${authId}`);
     }, 2000);

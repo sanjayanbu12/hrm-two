@@ -51,11 +51,11 @@ const OrgTree = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [anchorEl1, setAnchorEl1] = useState(null);
   const navigate = useNavigate();
-  const { employeeContextData } = useContext(ApiContext);
+  const { employeeContextData,orgContextData } = useContext(ApiContext);
 
   useEffect(() => {
     fetchOrgData();
-  }, [edata]);
+  }, [edata,orgContextData]);
   useEffect(() => {
     fetchEmployeesData();
   }, [employeeContextData]);
@@ -69,7 +69,7 @@ const OrgTree = () => {
 
   const fetchOrgData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
+      const response = await orgContextData
       const orgData = response.data.orgData;
       setorgMems(orgData);
       if (orgData) {
