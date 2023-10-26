@@ -8,6 +8,8 @@ import Swal from 'sweetalert2';
 import jsPDF from 'jspdf';
 import {  Card, ThemeProvider, createMuiTheme } from '@mui/material';
 import './Css/table.css';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const columns = [
  
@@ -24,9 +26,11 @@ const RecruitmentTable = () => {
   const [Adata, setAdata] = useState([]);
   const[Loader,setLoader]=useState(true)
 const navigate=useNavigate()
+const {recruitmentContextData}=useContext(ApiContext)
+
   const fetchData = async () => {
     setLoader(true)
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+    const res = await recruitmentContextData;
     setAdata(res.data.getData.filter(data=>data.jobApproved===true  ));
     setLoader(false)
     console.log(res.data.getData );
@@ -44,7 +48,7 @@ const navigate=useNavigate()
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [recruitmentContextData]);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({

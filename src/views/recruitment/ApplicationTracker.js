@@ -7,27 +7,28 @@ import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const columns = [
-  { title: 'Name', field: 'name', editable: false,Width:'50px'},
-  { title: 'Jobrole', field: 'position', editable: false},
+  { title: 'Name', field: 'name', editable: false, Width: '50px' },
+  { title: 'Jobrole', field: 'position', editable: false },
   { title: 'Mobile No', field: 'phone', sorting: false, editable: false },
   { title: 'Email', field: 'email', sorting: false, editable: false },
   { title: 'Resume', field: 'resume', sorting: false, editable: false },
   { title: 'Photo', field: 'photo', sorting: false, editable: false },
-  { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false},
-  
+  { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false }
 ];
 
 const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
-  
+  const { atsContextData } = useContext(ApiContext);
   const fetchAts = async () => {
     try {
       setLoader(true);
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      const res = atsContextData;
       const filldata = res.data.getData;
       setAdata(filldata);
       setLoader(false);
@@ -40,7 +41,7 @@ const ApplicationTracker = () => {
   const handleResume = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
-        responseType: 'arraybuffer',
+        responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
@@ -53,7 +54,7 @@ const ApplicationTracker = () => {
   const handlePhotoDown = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
-        responseType: 'arraybuffer',
+        responseType: 'arraybuffer'
       });
       const contentType = response.headers['Content-Type'];
       const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
@@ -67,7 +68,7 @@ const ApplicationTracker = () => {
 
   useEffect(() => {
     fetchAts();
-  }, []);
+  }, [atsContextData]);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({
@@ -77,13 +78,25 @@ const ApplicationTracker = () => {
       Email: item.email,
       Qualification: item.department,
       College: item.college,
-      CGPA:item.cgpa,
+      CGPA: item.cgpa,
       YearOfPassing: item.graduationYear,
-      Experience:item.experience,
+      Experience: item.experience,
       SSLCPercentage: item.sslc,
-      HSCPercentage: item.hsc,
+      HSCPercentage: item.hsc
     }));
-    const csvHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College', 'CGPA','Year of Passing','Experience' ,'SSLC Percentage', 'HSC Percentage'];
+    const csvHeaders = [
+      'Name',
+      'Jobrole',
+      'Mobile No',
+      'Email',
+      'Qualification',
+      'College',
+      'CGPA',
+      'Year of Passing',
+      'Experience',
+      'SSLC Percentage',
+      'HSC Percentage'
+    ];
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -109,30 +122,42 @@ const ApplicationTracker = () => {
       item.graduationYear,
       item.experience,
       item.sslc,
-      item.hsc,
+      item.hsc
     ]);
-    const columnStyle={
-      0:{columnWidth:20},
-      1:{columnWidth:20},
-      2:{columnWidth:35},
-      3:{columnWidth:20},
-      4:{columnWidth:20},
-      5:{columnWidth:40},
-      6:{columnWidth:30},
-      7:{columnWidth:20},
-      8:{columnWidth:20},
-      9:{columnWidth:23},
-      10:{columnWidth:30},
-      11:{columnWidth:25},
-      12:{columnWidth:20},
-    }
-    const pdfHeaders = ['Name', 'Jobrole', 'Mobile No', 'Email', 'Qualification', 'College','CGPA' ,'Year of Passing','Experience' ,'SSLC Percentage', 'HSC Percentage'];
+    const columnStyle = {
+      0: { columnWidth: 20 },
+      1: { columnWidth: 20 },
+      2: { columnWidth: 35 },
+      3: { columnWidth: 20 },
+      4: { columnWidth: 20 },
+      5: { columnWidth: 40 },
+      6: { columnWidth: 30 },
+      7: { columnWidth: 20 },
+      8: { columnWidth: 20 },
+      9: { columnWidth: 23 },
+      10: { columnWidth: 30 },
+      11: { columnWidth: 25 },
+      12: { columnWidth: 20 }
+    };
+    const pdfHeaders = [
+      'Name',
+      'Jobrole',
+      'Mobile No',
+      'Email',
+      'Qualification',
+      'College',
+      'CGPA',
+      'Year of Passing',
+      'Experience',
+      'SSLC Percentage',
+      'HSC Percentage'
+    ];
     pdf.autoTable({
       head: [pdfHeaders],
       body: rows,
       startY: 20,
-      columnStyle:columnStyle,
-      theme:'grid',
+      columnStyle: columnStyle,
+      theme: 'grid'
     });
 
     pdf.save('Applied_Candidates_list.pdf');
@@ -141,90 +166,89 @@ const ApplicationTracker = () => {
   const theme = createMuiTheme({
     palette: {
       primary: {
-        main: '#757575',
+        main: '#757575'
       },
       secondary: {
-        main: '#7e57c2',
-      },
-    },
+        main: '#7e57c2'
+      }
+    }
   });
 
- const handleView = async(e,data) =>{
-    const id=data.map(x=>x._id)
-    console.log(data)
+  const handleView = async (e, data) => {
+    const id = data.map((x) => x._id);
+    console.log(data);
     navigate(`/applicationview1/${id[0]}`);
-  }
+  };
 
   return (
     <Card raised={true}>
-    <ThemeProvider theme={theme}>
-      {Loader ? (
-        <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
-      ) : (
-        <MaterialTable
-          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Application Tracker</div>}
-          columns={columns.map(column => {
-            if (column.field === 'resume') {
-              return {
-                ...column,
-                render: rowData => (
-                  <a href="#" onClick={() => handleResume(rowData._id, rowData.Name)}>
-                    <Tooltip title="Download Resume">
-                      <TextSnippet style={{ color: '#616161' }} />
-                    </Tooltip>
-                  </a>
-                ),
-              };
-            } else if (column.field === 'photo') {
-              return {
-                ...column,
-                render: rowData => (
-                  <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.Name)}>
-                    <Tooltip title="Download Photo">
-                      <Image style={{ color: '#616161' }} />
-                    </Tooltip>
-                  </a>
-                ),
-              };
-            }
-            return column;
-          })}
-          data={Adata}
-          icons={tableIcons}
-          actions={[
-            rowData => ({
-              icon: tableIcons.View,
-              tooltip: 'View Details',
-              onClick: (event, rowData) => handleView(event, rowData),
-              disabled: rowData.length !== 1,
-            }),
-          ]}
-          options={{
-            actionsColumnIndex: -1,
-            exportButton: true,
-            exportCsv: exportCsv,
-            exportPdf: exportPdf,
-            grouping: true,
-            selection: true,
-            columnsButton: true,
-            // headerStyle: {
-            //   backgroundColor: '#42a5f5',
-            //   color: 'black',
-            // },
-            headerStyle: {
-              background: 'linear-gradient(180deg,#3a59af,#352786)',
-              color: '#fff', // Text color
-            },
-            headerCellStyle: {
-              color: 'white', // Text color for header cells
-            },
-          }}
-        />
-      )}
-    </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        {Loader ? (
+          <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
+        ) : (
+          <MaterialTable
+            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Application Tracker</div>}
+            columns={columns.map((column) => {
+              if (column.field === 'resume') {
+                return {
+                  ...column,
+                  render: (rowData) => (
+                    <a href="#" onClick={() => handleResume(rowData._id, rowData.Name)}>
+                      <Tooltip title="Download Resume">
+                        <TextSnippet style={{ color: '#616161' }} />
+                      </Tooltip>
+                    </a>
+                  )
+                };
+              } else if (column.field === 'photo') {
+                return {
+                  ...column,
+                  render: (rowData) => (
+                    <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.Name)}>
+                      <Tooltip title="Download Photo">
+                        <Image style={{ color: '#616161' }} />
+                      </Tooltip>
+                    </a>
+                  )
+                };
+              }
+              return column;
+            })}
+            data={Adata}
+            icons={tableIcons}
+            actions={[
+              (rowData) => ({
+                icon: tableIcons.View,
+                tooltip: 'View Details',
+                onClick: (event, rowData) => handleView(event, rowData),
+                disabled: rowData.length !== 1
+              })
+            ]}
+            options={{
+              actionsColumnIndex: -1,
+              exportButton: true,
+              exportCsv: exportCsv,
+              exportPdf: exportPdf,
+              grouping: true,
+              selection: true,
+              columnsButton: true,
+              // headerStyle: {
+              //   backgroundColor: '#42a5f5',
+              //   color: 'black',
+              // },
+              headerStyle: {
+                background: 'linear-gradient(180deg,#3a59af,#352786)',
+                color: '#fff' // Text color
+              },
+              headerCellStyle: {
+                color: 'white' // Text color for header cells
+              }
+            }}
+          />
+        )}
+      </ThemeProvider>
     </Card>
   );
-
 };
 
 export default ApplicationTracker;

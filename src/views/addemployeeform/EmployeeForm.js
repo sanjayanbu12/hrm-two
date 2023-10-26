@@ -22,6 +22,8 @@ import Swal from 'sweetalert2';
 import { updatevalidationSchema } from './updateValidate';
 import Card from '@mui/material/Card';
 import WysiwygIcon from '@mui/icons-material/Wysiwyg';
+import { useContext } from 'react';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 const EmployeeForm = () => {
   const theme = useTheme();
   const [name, setName] = useState([]);
@@ -49,6 +51,7 @@ const EmployeeForm = () => {
   const [AuthData, setAuthData] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { formStatus, setStatus } = useContext(FormSubmittedContext);
   useEffect(() => {
     fetchEmployeesData();
   }, []);
@@ -481,6 +484,7 @@ const EmployeeForm = () => {
           icon: 'success',
           text: 'Employee Information'
         }).then(() => {
+          setStatus(!formStatus);
           navigate('/basictable');
         });
       } catch (error) {

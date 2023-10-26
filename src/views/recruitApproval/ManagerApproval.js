@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -11,21 +10,22 @@ import { Stack, Box } from '@mui/material';
 import { useNavigate } from 'react-router';
 import { motion } from 'framer-motion';
 import Lottie from 'react-lottie';
-import { defaultOptions1,defaultOptions, responsiveOptions,cardAnimation } from './Const';
+import { defaultOptions1, defaultOptions, responsiveOptions, cardAnimation } from './Const';
 import MainCard from 'ui-component/cards/MainCard';
 import { Carousel } from 'primereact/carousel';
-
-
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const ManagerApproval = () => {
   const [loading, setLoading] = useState(true);
   const [data, setRecData] = useState([]);
   const navigate = useNavigate();
+  const { recruitmentContextData } = useContext(ApiContext);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [recruitmentContextData]);
   const fetchData = async () => {
-    const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+    const res = await recruitmentContextData;
     const filteredData = res.data.getData.filter((data) => {
       const orgApproval = data.orgData.some((orgItem) => orgItem.approved === true);
       const overallApproval = data.jobApproved === false;
@@ -46,7 +46,7 @@ const ManagerApproval = () => {
         animate="show"
         transition={{ stiffness: 50, type: 'spring', delay: 0.2 }}
       >
-        <Card raised={true} sx={{ width:'90%',margin:'20px',height:'300px' }}>
+        <Card raised={true} sx={{ width: '90%', margin: '20px', height: '300px' }}>
           <CardContent sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <Typography textAlign={'center'} sx={{ fontSize: 20 }} color="secondary" variant="h1" gutterBottom>
               {item.Company}
@@ -98,7 +98,7 @@ const ManagerApproval = () => {
     <MainCard title="Job Requests">
       {!loading ? (
         data.length > 0 ? (
-          <Carousel value={data}  numVisible={2} numScroll={2} responsiveOptions={responsiveOptions} itemTemplate={jobTemplete} />
+          <Carousel value={data} numVisible={2} numScroll={2} responsiveOptions={responsiveOptions} itemTemplate={jobTemplete} />
         ) : (
           <Box sx={{ height: '70vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <Lottie options={defaultOptions} height={500} width={500} />

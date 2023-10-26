@@ -10,9 +10,9 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import FeedbackInfo from './FeedbackInfo';
 import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 // import { FeedSelectedTable } from './FeedSelectedTable';
-
-
 
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
@@ -25,7 +25,7 @@ const InterviewBoard = () => {
   const [selectedCandidateName, setSelectedCandidateName] = useState(null);
   const [selectedCandidateTitle, setSelectedCandidateTitle] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const { recruitmentContextData,atsContextData } = useContext(ApiContext);
   const handleOpenFeedback = (candidateId, candidateName, title) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
 
@@ -34,8 +34,7 @@ const InterviewBoard = () => {
       setFeedbackOpen(true);
       setSelectedCandidateName(candidateName);
       setSelectedCandidateTitle(title);
-      console.log("person iddddd", candidateId)
-
+      console.log('person iddddd', candidateId);
     } else {
       console.error(`Candidate with ID ${candidateId} not found.`);
     }
@@ -49,22 +48,20 @@ const InterviewBoard = () => {
       setSelectedCandidate(selectedCandidate);
       setSelectedCandidateName(candidateName);
       setSelectedCandidateTitle(title);
-
-   
     } else {
       console.error(`Candidate with ID ${candidateId} not found.`);
     }
   };
-  
+
   const handleCloseFeedback = () => {
     setSelectedCandidate(null);
     setFeedbackOpen(false);
   };
 
-  const handleCloseInfo=()=>{
+  const handleCloseInfo = () => {
     setSelectedCandidate(null);
-    setInfoOpen(false)
-  }
+    setInfoOpen(false);
+  };
 
   const handleSubmitFeedback = (feedbackText) => {
     console.log(`Feedback for ${selectedCandidate.Name}: ${feedbackText}`);
@@ -74,13 +71,13 @@ const InterviewBoard = () => {
     try {
       // Show the loader
       setLoading(true);
-  
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+
+      const res = await atsContextData
       const filldata = res.data.getData;
-  
+
       setAdata(filldata);
       console.log(res.data.getData);
-      
+
       // Hide the loader when data is fetched
       setLoading(false);
     } catch (err) {
@@ -92,7 +89,7 @@ const InterviewBoard = () => {
 
   const fetchRec = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const res = await recruitmentContextData;
       const data = res.data.getData;
       setFilter(data);
       console.log('data', data);
@@ -102,10 +99,10 @@ const InterviewBoard = () => {
   };
 
   const handleResume = async (id, name) => {
-    console.log(id + 'ID RESUME')
+    console.log(id + 'ID RESUME');
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
-        responseType: 'arraybuffer',
+        responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'application/pdf' });
@@ -119,7 +116,7 @@ const InterviewBoard = () => {
   useEffect(() => {
     fetchEmployees();
     fetchRec();
-  }, []);
+  }, [recruitmentContextData]);
 
   useEffect(() => {
     const matched = [];
@@ -141,14 +138,14 @@ const InterviewBoard = () => {
             Resume: data.resume,
             Photo: data.photo,
             AppliedAt: data.appliedAt,
-            Status: data.Status == "null" ? "Shortlist" : data.Status,
+            Status: data.Status == 'null' ? 'Shortlist' : data.Status,
             Qualification: data.department,
             YearOfPassing: data.graduationYear,
             Skills: data.skills,
             Experience: data.experience,
             College: data.college,
             sslc: data.sslc,
-            hsc: data.hsc,
+            hsc: data.hsc
           });
         }
       }
@@ -176,7 +173,7 @@ const InterviewBoard = () => {
       try {
         await axios.put(`https://hrm-backend-square.onrender.com/ats/updateats/${updatedItem._id}`, {
           _id: updatedItem._id,
-          Status: newStatus,
+          Status: newStatus
         });
         console.log('Status updated successfully.');
       } catch (err) {
@@ -186,125 +183,150 @@ const InterviewBoard = () => {
     }
   };
   useEffect(() => {
-    const str = JSON.stringify(matchedResults)
-    console.log(JSON.parse(str))
-  }, [matchedResults])
+    const str = JSON.stringify(matchedResults);
+    console.log(JSON.parse(str));
+  }, [matchedResults]);
   return (
     <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
-
-      
-        {loading ? (
-           <Stack sx={{ color: 'grey.500',display:'flex',justifyContent:'center',mt:'20%'}} spacing={2} direction="row">
-           <CircularProgress color="inherit" />
-         </Stack> // Replace with your loader component
-          ) : (
-      <div style={{ display: 'flex', overflowX: 'auto' }}>
-        <DragDropContext onDragEnd={handleDragEnd}>
-          {allStatuses.map((title, columnIndex) => {
-            const columnResults = matchedResults.filter((x) => x.Status === title);
-            return (
-              <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '60px' }}>
-                <Paper elevation={3} sx={{ padding: '16px' }}>
-                  <CardHeader
-                    title={title}
-                    sx={{
-                      color: '#00695f',
-                      marginBottom: '-30px',
-                      marginTop: '-20px',
-                      height: '10px',
-                      minWidth: '100px',
-                      maxWidth: '150px',
-                    }}
-                  />
-                  <Droppable droppableId={title} index={columnIndex}>
-                    {(provided, snapshot) => (
-                      <CardContent
-                        ref={provided.innerRef}
-                        {...provided.droppableProps}
-                        style={{
-                          backgroundColor: snapshot.isDraggingOver ? 'lightblue' : 'white',
-                        }}
-                      >
-                        {columnResults.map((x, index) => (
-                          <Draggable key={x._id} draggableId={x._id.toString()} index={index}>
-                            {(provided, snapshot) => (
-                              <Card
-                                ref={provided.innerRef}
-                                {...provided.draggableProps}
-                                {...provided.dragHandleProps}
-                                key={x._id}
-                                sx={{
-                                  marginTop: '10px',
-                                  padding: '10px',
-                                  border: '1px solid #ddd',
-                                  borderRadius: '5px',
-                                  cursor: 'pointer',
-                                  minWidth: '180px',
-                                  backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
-                                }}
-                              >
-                                <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
-                                  <Tooltip title='Send Mail'>
-                                    <Send sx={{ marginRight: '10px', fontSize: '15px', cursor: 'pointer',display:'none' }} /></Tooltip>
-                                </div>
-                                <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
-                                  {x.Name}
-                                </Typography>
-                                <Typography variant="body2">{x.Jobrole}</Typography>
-                                <Typography variant="body2"><b>Qualification:</b>{x.Qualification}</Typography>
-                                <Typography variant="body2"><b>Skills:</b>{x.Skills}</Typography>
-                                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'flex-end', cursor: "pointer", marginBottom: '5px' }}>
-                                  <div style={{ display: 'flex', marginRight: '40%' }}>
-                                    {(title !== 'Shortlist' && title !== 'Selected' && title !== 'Hold' && title !== 'Rejected') && (
-                                      <Tooltip title='Feedback'>
-                                        <Feedback onClick={() => handleOpenFeedback(x._id, x.Name, title)} sx={{ marginRight: '10px', marginTop: '13px' }} />
-                                      </Tooltip>
-                                    )}
-
-                                    {x.Resume && (
-                                      <Tooltip title='Download Resume'>
-                                        <TextSnippet onClick={() => handleResume(x._id, x.Name)} sx={{ marginRight: '13px', marginTop: '11px' }} /></Tooltip>)}
-                                    {(title === 'Selected' || title === 'Hold' || title === 'Rejected') && (
-                                      <Tooltip title='Interview feedback'>
-                                        <ErrorOutlineIcon onClick={() => handleOpenInfo(x._id, x.Name, title)} sx={{ marginTop: '11px' }} />
-                                      </Tooltip>
-                                    )}
-
+      {loading ? (
+        <Stack sx={{ color: 'grey.500', display: 'flex', justifyContent: 'center', mt: '20%' }} spacing={2} direction="row">
+          <CircularProgress color="inherit" />
+        </Stack> // Replace with your loader component
+      ) : (
+        <div style={{ display: 'flex', overflowX: 'auto' }}>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            {allStatuses.map((title, columnIndex) => {
+              const columnResults = matchedResults.filter((x) => x.Status === title);
+              return (
+                <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '60px' }}>
+                  <Paper elevation={3} sx={{ padding: '16px' }}>
+                    <CardHeader
+                      title={title}
+                      sx={{
+                        color: '#00695f',
+                        marginBottom: '-30px',
+                        marginTop: '-20px',
+                        height: '10px',
+                        minWidth: '100px',
+                        maxWidth: '150px'
+                      }}
+                    />
+                    <Droppable droppableId={title} index={columnIndex}>
+                      {(provided, snapshot) => (
+                        <CardContent
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          style={{
+                            backgroundColor: snapshot.isDraggingOver ? 'lightblue' : 'white'
+                          }}
+                        >
+                          {columnResults.map((x, index) => (
+                            <Draggable key={x._id} draggableId={x._id.toString()} index={index}>
+                              {(provided, snapshot) => (
+                                <Card
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                  key={x._id}
+                                  sx={{
+                                    marginTop: '10px',
+                                    padding: '10px',
+                                    border: '1px solid #ddd',
+                                    borderRadius: '5px',
+                                    cursor: 'pointer',
+                                    minWidth: '180px',
+                                    backgroundColor: snapshot.isDragging ? 'lightblue' : 'white'
+                                  }}
+                                >
+                                  <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
+                                    <Tooltip title="Send Mail">
+                                      <Send sx={{ marginRight: '10px', fontSize: '15px', cursor: 'pointer', display: 'none' }} />
+                                    </Tooltip>
                                   </div>
-                                  <Tooltip title={x.Name} >
-                                    <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>{x.Name[0]}</Avatar>
-                                  </Tooltip>
-                                </div>
-                              </Card>
-                            )}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </CardContent>
-                    )}
-                  </Droppable>
-                </Paper>
-              </div>
-            );
-          })}
-        </DragDropContext>
-      </div>
-          )}
+                                  <Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+                                    {x.Name}
+                                  </Typography>
+                                  <Typography variant="body2">{x.Jobrole}</Typography>
+                                  <Typography variant="body2">
+                                    <b>Qualification:</b>
+                                    {x.Qualification}
+                                  </Typography>
+                                  <Typography variant="body2">
+                                    <b>Skills:</b>
+                                    {x.Skills}
+                                  </Typography>
+                                  <div
+                                    style={{
+                                      display: 'flex',
+                                      alignItems: 'flex-end',
+                                      justifyContent: 'flex-end',
+                                      cursor: 'pointer',
+                                      marginBottom: '5px'
+                                    }}
+                                  >
+                                    <div style={{ display: 'flex', marginRight: '40%' }}>
+                                      {title !== 'Shortlist' && title !== 'Selected' && title !== 'Hold' && title !== 'Rejected' && (
+                                        <Tooltip title="Feedback">
+                                          <Feedback
+                                            onClick={() => handleOpenFeedback(x._id, x.Name, title)}
+                                            sx={{ marginRight: '10px', marginTop: '13px' }}
+                                          />
+                                        </Tooltip>
+                                      )}
+
+                                      {x.Resume && (
+                                        <Tooltip title="Download Resume">
+                                          <TextSnippet
+                                            onClick={() => handleResume(x._id, x.Name)}
+                                            sx={{ marginRight: '13px', marginTop: '11px' }}
+                                          />
+                                        </Tooltip>
+                                      )}
+                                      {(title === 'Selected' || title === 'Hold' || title === 'Rejected') && (
+                                        <Tooltip title="Interview feedback">
+                                          <ErrorOutlineIcon
+                                            onClick={() => handleOpenInfo(x._id, x.Name, title)}
+                                            sx={{ marginTop: '11px' }}
+                                          />
+                                        </Tooltip>
+                                      )}
+                                    </div>
+                                    <Tooltip title={x.Name}>
+                                      <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>
+                                        {x.Name[0]}
+                                      </Avatar>
+                                    </Tooltip>
+                                  </div>
+                                </Card>
+                              )}
+                            </Draggable>
+                          ))}
+                          {provided.placeholder}
+                        </CardContent>
+                      )}
+                    </Droppable>
+                  </Paper>
+                </div>
+              );
+            })}
+          </DragDropContext>
+        </div>
+      )}
       <FeedbackPopup
         open={feedbackOpen}
         onClose={handleCloseFeedback}
         onSubmit={handleSubmitFeedback}
         Name={selectedCandidateName}
         Title={selectedCandidateTitle}
-        matchedResults={matchedResults} 
+        matchedResults={matchedResults}
       />
-     <FeedbackInfo
-  open={infoOpen}
-  onClose={handleCloseInfo}
-  Name={selectedCandidateName}
-  Title={selectedCandidateTitle}
-  selectedCandidate={selectedCandidate} 
-/>
+      <FeedbackInfo
+        open={infoOpen}
+        onClose={handleCloseInfo}
+        Name={selectedCandidateName}
+        Title={selectedCandidateTitle}
+        selectedCandidate={selectedCandidate}
+      />
     </MainCard>
   );
 };
