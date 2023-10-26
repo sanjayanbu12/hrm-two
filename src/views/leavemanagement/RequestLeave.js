@@ -9,6 +9,7 @@ import FormData from 'form-data';
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const validationSchema = yup.object().shape({
   employeeId: yup.string().required('Employee ID is required'),
@@ -68,6 +69,7 @@ const RequestLeave = () => {
   console.log(employee);
   console.log(employeeName);
   const {employeeContextData}=useContext(ApiContext)
+  const {leaveStatus, setleaveStatus}=useContext(FormSubmittedContext)
   const leaveTypes = [
     'Casual Leave (CL)',
     'Sick Leave (SL)',
@@ -101,7 +103,7 @@ const RequestLeave = () => {
   }, [startDate, endDate]);
   useEffect(() => {
     fetchEmployeesData();
-  }, []);
+  }, [employeeContextData]);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -196,7 +198,7 @@ const RequestLeave = () => {
         setReason('');
         setErrors({});
         setSuccess(true);
-
+        setleaveStatus(!leaveStatus)
         Swal.fire({
           icon: 'success',
           text: 'Leave request submitted successfully!'

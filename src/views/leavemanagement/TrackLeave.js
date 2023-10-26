@@ -8,6 +8,8 @@ import { TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { format } from 'date-fns'; 
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const columns = [
   { title: 'Employee ID', field: 'employeeId', editable: true, width: '50px' },
@@ -59,11 +61,11 @@ const TrackLeave = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
-
+  const {leaveContextData}=useContext(ApiContext)
   const fetchAts = async () => {
     try {
       setLoader(false);
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/`);
+      const res = await leaveContextData
       const filldata = res.data.map((item) => ({
         ...item,
         startDate: formatDate(item.startDate), 
@@ -154,7 +156,7 @@ const TrackLeave = () => {
 
   useEffect(() => {
     fetchAts();
-  }, []);
+  }, [leaveContextData]);
 
   return (
     <Card raised={true}>

@@ -2,20 +2,21 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { StyledContainer, StyledCard, parentStyle, StyledTypography } from './styled';
 import { useEffect } from 'react';
-import axios from 'axios';
 import { useState } from 'react';
 import Grid from '@mui/material/Grid';
 import { Button } from 'primereact/button';
 import SwalComp from './SwalComp';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 const LeaveApproval = () => {
   const authId = useSelector((state) => state.customization.authId);
   const [leaveData, setLeaveData] = useState([]);
   const [showSwal, setShowSwal] = useState(false);
   const [leaveId, setLeaveId] = useState(null);
-  
+  const {leaveContextData}=useContext(ApiContext)
   const fetchLeave = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/leave');
+      const response = await leaveContextData
       setLeaveData(response.data.leaveRequests.filter((leave) => leave.reportingto.status === false && leave.reportingto.reporterid.employeeid===authId));
     } catch (error) {
       console.log(error);
@@ -28,7 +29,7 @@ const LeaveApproval = () => {
   };
   useEffect(() => {
     fetchLeave();
-  }, []);
+  }, [leaveContextData]);
   return (
     <div>
       <StyledContainer title="Leave Request">

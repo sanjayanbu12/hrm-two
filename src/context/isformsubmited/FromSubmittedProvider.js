@@ -6,13 +6,16 @@ const FromSubmittedProvider = ({ children }) => {
   const [formStatus, setStatus] = useState(false);
   const [recStatus, setrecStatus] = useState(false);
   const [atsStatus, setatsStatus] = useState(false);
+  const [leaveStatus, setleaveStatus] = useState(false);
   const value = {
     formStatus,
     setStatus,
     recStatus,
     setrecStatus,
     atsStatus,
-    setatsStatus
+    setatsStatus,
+    leaveStatus,
+    setleaveStatus
   };
   return (
     <div>
