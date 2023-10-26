@@ -5,11 +5,14 @@ import FormSubmittedContext from './FormSubmittedContext';
 const FromSubmittedProvider = ({ children }) => {
   const [formStatus, setStatus] = useState(false);
   const [recStatus, setrecStatus] = useState(false);
+  const [atsStatus, setatsStatus] = useState(false);
   const value = {
     formStatus,
     setStatus,
     recStatus,
-    setrecStatus
+    setrecStatus,
+    atsStatus,
+    setatsStatus
   };
   return (
     <div>

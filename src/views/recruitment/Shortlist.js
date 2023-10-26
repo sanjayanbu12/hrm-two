@@ -34,12 +34,12 @@ const Shortlist = () => {
   const [fil, setFil] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
   const navigate = useNavigate();
-  const {recruitmentContextData}=useContext(ApiContext)
+  const {recruitmentContextData,atsContextData}=useContext(ApiContext)
 
   const fetchEmployees = async () => {
     try {
       setLoader(true);
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      const res = await atsContextData
       const filldata = res.data.getData;
       setAdata(filldata);
       setLoader(false);
@@ -91,7 +91,7 @@ const Shortlist = () => {
   useEffect(() => {
     fetchEmployees();
     fetchRec();
-  }, [recruitmentContextData]);
+  }, [recruitmentContextData,atsContextData]);
 
  let rating,roundrating;
 

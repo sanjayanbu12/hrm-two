@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
   const { setEmployeeContextData, setatsContextData, setrecruitmentContextData } = props;
-  const { formStatus, recStatus } = useContext(FormSubmittedContext);
+  const { formStatus, recStatus, atsStatus } = useContext(FormSubmittedContext);
   console.log(recStatus);
   const fetchEmployee = async () => {
     try {
@@ -37,7 +37,7 @@ const ApiContainer = (props) => {
   }, [formStatus]);
   useEffect(() => {
     fetchAts();
-  }, []);
+  }, [atsStatus]);
   useEffect(() => {
     fetchRec();
   }, [recStatus]);

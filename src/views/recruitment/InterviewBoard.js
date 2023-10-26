@@ -12,6 +12,7 @@ import Stack from '@mui/material/Stack';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 // import { FeedSelectedTable } from './FeedSelectedTable';
 
 const InterviewBoard = () => {
@@ -25,7 +26,8 @@ const InterviewBoard = () => {
   const [selectedCandidateName, setSelectedCandidateName] = useState(null);
   const [selectedCandidateTitle, setSelectedCandidateTitle] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { recruitmentContextData,atsContextData } = useContext(ApiContext);
+  const { recruitmentContextData, atsContextData } = useContext(ApiContext);
+  const { atsStatus, setatsStatus } = useContext(FormSubmittedContext);
   const handleOpenFeedback = (candidateId, candidateName, title) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
 
@@ -72,7 +74,7 @@ const InterviewBoard = () => {
       // Show the loader
       setLoading(true);
 
-      const res = await atsContextData
+      const res = await atsContextData;
       const filldata = res.data.getData;
 
       setAdata(filldata);
@@ -175,6 +177,7 @@ const InterviewBoard = () => {
           _id: updatedItem._id,
           Status: newStatus
         });
+        setatsStatus(!atsStatus)
         console.log('Status updated successfully.');
       } catch (err) {
         console.log(err);

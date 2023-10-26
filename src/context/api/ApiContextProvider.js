@@ -12,11 +12,13 @@ const ApiContextProvider = ({ children }) => {
     atsContextData,
     recruitmentContextData
   };
-  console.log('recruitmentContextData',recruitmentContextData);
+  console.log('recruitmentContextData', recruitmentContextData);
   return (
     <div>
-      <ApiContainer setEmployeeContextData={setEmployeeContextData} setatsContextData={setatsContextData}
-      setrecruitmentContextData={setrecruitmentContextData}
+      <ApiContainer
+        setEmployeeContextData={setEmployeeContextData}
+        setatsContextData={setatsContextData}
+        setrecruitmentContextData={setrecruitmentContextData}
       />
       <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
     </div>
