@@ -14,6 +14,7 @@ import 'assets/scss/style.scss';
 import config from './config';
 import { PersistGate } from 'redux-persist/integration/react';
 import ApiContextProvider from 'context/api/ApiContextProvider';
+import FromSubmittedProvider from 'context/isformsubmited/FromSubmittedProvider';
 // import {persistor} from './store/index'
 // ==============================|| REACT DOM RENDER  ||============================== //
 
@@ -23,9 +24,11 @@ root.render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <BrowserRouter basename={config.basename}>
-        <ApiContextProvider>
-          <App />
-        </ApiContextProvider>
+        <FromSubmittedProvider>
+          <ApiContextProvider>
+            <App />
+          </ApiContextProvider>
+        </FromSubmittedProvider>
       </BrowserRouter>
     </PersistGate>
   </Provider>
