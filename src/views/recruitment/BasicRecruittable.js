@@ -29,6 +29,8 @@ import Swal from 'sweetalert2'
 import { AddCircleOutlineOutlined, DownloadForOfflineOutlined, Edit } from '@mui/icons-material'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { CSVLink } from 'react-csv'
+import { useContext } from 'react'
+import ApiContext from 'context/api/ApiContext'
 
 const BasicRecruittable = () => {
   const [recruitmentList, setRecruitmentList] = useState([])
@@ -42,14 +44,15 @@ const BasicRecruittable = () => {
   const rowsPerPage = 5
   const [anchorEl, setAnchorEl] = useState(null)
   const [anchorEl1, setAnchorEl1] = useState(null)
-
+  const {recruitmentContextData}=useContext(ApiContext)
+ console.log(recruitmentContextData)
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [recruitmentContextData])
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec')
+      const response = await recruitmentContextData
       const newData = response.data.getData
       setRecruitmentList(newData.reverse())
       setLoader(false)

@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
@@ -24,10 +23,10 @@ const HrApproval = () => {
   const { id } = useParams();
   console.log(id);
   const authId = useSelector((state) => state.customization.authId);
-  const {employeeContextData}=useContext(ApiContext)
+  const {employeeContextData,recruitmentContextData}=useContext(ApiContext)
   useEffect(() => {
     fetchData();
-  }, [edata]);
+  }, [edata,recruitmentContextData]);
 
   useEffect(() => {
     const fetchDataOnMount = async () => {
@@ -43,7 +42,7 @@ const HrApproval = () => {
   }, []);
   const fetchData = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const res = await recruitmentContextData;
       console.log(res.data.getData);
 
       const filteredData = res.data.getData.filter((item) => {

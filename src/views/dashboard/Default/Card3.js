@@ -4,8 +4,9 @@ import { useTheme, styled } from '@mui/material/styles';
 import { Box, Grid, Typography, Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-import axios from 'axios';
 import { useState } from 'react';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
   backgroundColor: '#12486B',
@@ -28,18 +29,22 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const Card3 = ({ isLoading }) => {
   const theme = useTheme();
-
+  const {recruitmentContextData}=useContext(ApiContext)
   const [Openening, setOpening] = useState('');
 
   const totalopeen = async () => {
-    const res = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
-    const count = res.data.getData.length;
-    setOpening(count);
-    console.log('count', count);
+ try {
+  const res = await recruitmentContextData
+  const count = res.data.getData.length;
+  setOpening(count);
+  console.log('count', count);
+ } catch (error) {
+  console.log(error)
+ }
   };
   useEffect(() => {
     totalopeen();
-  });
+  },[recruitmentContextData]);
 
   // const handleChangeTime = (event, newValue) => {
   //   // Your code for handling time change.

@@ -29,8 +29,8 @@ const RecruitmentView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
-  const {employeeContextData,recruitmentContextData}=useContext(ApiContext)
-  console.log(recruitmentContextData)
+  const { employeeContextData, atsContextData } = useContext(ApiContext);
+  console.log(atsContextData);
   useEffect(() => {
     fetchData();
   }, []);
@@ -64,7 +64,7 @@ const RecruitmentView = () => {
   }, [employeeContextData]);
   useEffect(() => {
     fetchApp();
-  }, [selectedJob, selectedAts,recruitmentContextData]);
+  }, [selectedJob, selectedAts, atsContextData]);
   const accept = () => {
     hanldeApprove();
     toast.current.show({
@@ -99,7 +99,7 @@ const RecruitmentView = () => {
   };
   const fetchApp = async () => {
     try {
-      const res = recruitmentContextData
+      const res = atsContextData;
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
@@ -388,7 +388,7 @@ const RecruitmentView = () => {
                       <HrBtn size="small" onClick={() => setVisible1(true)} icon="pi pi-check" label="Confirm">
                         Approve
                       </HrBtn>
-                      <Reject onClick={() => setVisible2(true)}  size="small" icon="pi pi-check" label="Confirm">
+                      <Reject onClick={() => setVisible2(true)} size="small" icon="pi pi-check" label="Confirm">
                         Reject
                       </Reject>
                     </ButtonGroup>

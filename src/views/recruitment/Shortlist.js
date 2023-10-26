@@ -8,6 +8,8 @@ import { Image, TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { Badge } from 'primereact/badge';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const columns = [
   { title: 'Name', field: 'Name', editable: false,Width:'50px'},
@@ -32,6 +34,7 @@ const Shortlist = () => {
   const [fil, setFil] = useState([]);
   const [matchedResults, setMatchedResults] = useState([]);
   const navigate = useNavigate();
+  const {recruitmentContextData}=useContext(ApiContext)
 
   const fetchEmployees = async () => {
     try {
@@ -48,7 +51,7 @@ const Shortlist = () => {
 
   const fetchRec = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec`);
+      const res = await recruitmentContextData
       const data = res.data.getData;
       setFil(data);
     } catch (err) {
@@ -88,7 +91,7 @@ const Shortlist = () => {
   useEffect(() => {
     fetchEmployees();
     fetchRec();
-  }, []);
+  }, [recruitmentContextData]);
 
  let rating,roundrating;
 
