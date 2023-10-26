@@ -12,7 +12,6 @@ const ApiContextProvider = ({ children }) => {
     atsContextData,
     recruitmentContextData
   };
-  console.log('recruitmentContextData', recruitmentContextData);
   return (
     <div>
       <ApiContainer
