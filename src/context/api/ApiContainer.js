@@ -5,7 +5,8 @@ import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
   const { setEmployeeContextData, setatsContextData, setrecruitmentContextData } = props;
-  const { formStatus } = useContext(FormSubmittedContext);
+  const { formStatus, recStatus } = useContext(FormSubmittedContext);
+  console.log(recStatus);
   const fetchEmployee = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -25,7 +26,7 @@ const ApiContainer = (props) => {
   const fetchRec = async () => {
     try {
       const res = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
-      console.log(res)
+      console.log(res);
       setrecruitmentContextData(res);
     } catch (err) {
       console.log(err);
@@ -39,7 +40,7 @@ const ApiContainer = (props) => {
   }, []);
   useEffect(() => {
     fetchRec();
-  }, []);
+  }, [recStatus]);
   return null;
 };
 

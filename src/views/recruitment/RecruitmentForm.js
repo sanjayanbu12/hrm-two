@@ -28,6 +28,7 @@ import useToast from 'views/leavemanagement/useToast';
 import { Toast } from 'primereact/toast';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -58,7 +59,7 @@ const RecruitmentForm = () => {
   const navigate = useNavigate();
   const { toast, showToast } = useToast();
   const { employeeContextData } = useContext(ApiContext);
-
+ const {recStatus, setrecStatus}=useContext(FormSubmittedContext)
   const handleApplicationLink = (e) => {
     setApplicationLink(e.target.value);
     setErrors((prev) => ({
@@ -498,6 +499,7 @@ const RecruitmentForm = () => {
           icon: 'success',
           text: 'Add Recruitment'
         }).then(() => {
+          setrecStatus(!recStatus)
           navigate('/JobTable');
         });
       } catch (error) {

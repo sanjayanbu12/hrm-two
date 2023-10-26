@@ -2,17 +2,18 @@ import React from 'react';
 import { useState } from 'react';
 import FormSubmittedContext from './FormSubmittedContext';
 
-const FromSubmittedProvider = ({children}) => {
+const FromSubmittedProvider = ({ children }) => {
   const [formStatus, setStatus] = useState(false);
+  const [recStatus, setrecStatus] = useState(false);
   const value = {
     formStatus,
-    setStatus
+    setStatus,
+    recStatus,
+    setrecStatus
   };
   return (
     <div>
-      <FormSubmittedContext.Provider value={value}>
-        {children}
-      </FormSubmittedContext.Provider>
+      <FormSubmittedContext.Provider value={value}>{children}</FormSubmittedContext.Provider>
     </div>
   );
 };
