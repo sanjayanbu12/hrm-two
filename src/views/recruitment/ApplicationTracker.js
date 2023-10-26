@@ -7,6 +7,8 @@ import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const columns = [
   { title: 'Name', field: 'name', editable: false,Width:'50px'},
@@ -23,11 +25,11 @@ const ApplicationTracker = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
   const navigate = useNavigate();
-  
+  const {recruitmentContextData}=useContext(ApiContext)
   const fetchAts = async () => {
     try {
       setLoader(true);
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      const res = recruitmentContextData
       const filldata = res.data.getData;
       setAdata(filldata);
       setLoader(false);
@@ -67,7 +69,7 @@ const ApplicationTracker = () => {
 
   useEffect(() => {
     fetchAts();
-  }, []);
+  }, [recruitmentContextData ]);
 
   const exportCsv = (columns, data) => {
     const csvData = data.map((item) => ({

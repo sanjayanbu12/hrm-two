@@ -6,6 +6,8 @@ import { Tooltip} from '@mui/material';
 import {TextSnippet } from '@mui/icons-material';
 import { saveAs } from 'file-saver'; 
 import axios from 'axios';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 
 
 
@@ -54,11 +56,11 @@ export const FeedSelectedTable = () => {
   const [loading, setLoading] = useState(true); 
  
   console.log("xxxxx",edata)
-
+  const {recruitmentContextData}=useContext(ApiContext)
 
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
+      const response = recruitmentContextData;
       const employees = response.data.getData.filter(item => item.Status === 'Selected');
       setedata(employees);
       setLoading(false); // Set loading to false when data is fetched
@@ -70,7 +72,7 @@ export const FeedSelectedTable = () => {
   
   useEffect(() => {
     fetchEmployeesData();
-  }, []);
+  }, [recruitmentContextData]);
 
  
   const handleResume = async (id, name) => {

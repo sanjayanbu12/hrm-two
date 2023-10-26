@@ -3,21 +3,31 @@ import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 import { useContext } from 'react';
 import { useEffect } from 'react';
 
-const ApiContainer = ({ setEmployeeContextData }) => {
+const ApiContainer = (props) => {
+  const {setEmployeeContextData,setRecruitmentContextData}=props
   const {formStatus}=useContext(FormSubmittedContext)
-  console.log(formStatus)
   const fetchEmployee = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       setEmployeeContextData(response);
-      console.log('responsecontext', response);
     } catch (error) {
       console.log(error);
     } 
   };
+  const fetchAts = async () => {
+    try {
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      setRecruitmentContextData(res)
+    } catch (err) {
+      console.log(err);
+    }
+  };
   useEffect(() => {
     fetchEmployee();
   }, [formStatus]);
+  useEffect(() => {
+    fetchAts();
+  }, []);
   return null;
 };
 

@@ -29,7 +29,8 @@ const RecruitmentView = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const authId = useSelector((state) => state.customization.authId);
-  const {employeeContextData}=useContext(ApiContext)
+  const {employeeContextData,recruitmentContextData}=useContext(ApiContext)
+  console.log(recruitmentContextData)
   useEffect(() => {
     fetchData();
   }, []);
@@ -63,7 +64,7 @@ const RecruitmentView = () => {
   }, [employeeContextData]);
   useEffect(() => {
     fetchApp();
-  }, [selectedJob, selectedAts]);
+  }, [selectedJob, selectedAts,recruitmentContextData]);
   const accept = () => {
     hanldeApprove();
     toast.current.show({
@@ -98,7 +99,7 @@ const RecruitmentView = () => {
   };
   const fetchApp = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+      const res = recruitmentContextData
       const Job1 = res.data.getData.filter((job) => job.position == jobrole);
       const Job2 = res.data.getData.filter((job) => job.position == jobrole && job.Status === 'Selected');
       setSelectedAts(Job1.length);
