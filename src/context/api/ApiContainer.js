@@ -4,66 +4,79 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData } = props;
-  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus } = useContext(FormSubmittedContext);
-  console.log('orgStatus', orgStatus);
-  const fetchEmployee = async () => {
-    try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
-      setEmployeeContextData(response);
-    } catch (error) {
-      console.log(error);
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData, setorgContextData } = props;
+  const { formStatus, recStatus, atsStatus, leaveStatus, orgStatus, loginData } = useContext(FormSubmittedContext);
+  if (loginData.status === 200) {
+    const fetchEmployee = async () => {
+      try {
+        const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+        setEmployeeContextData(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    {
+      ('');
     }
-  };
-  const fetchAts = async () => {
-    try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
-      setatsContextData(res);
-    } catch (err) {
-      console.log(err);
+    const fetchAts = async () => {
+      try {
+        const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
+        setatsContextData(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    {
+      ('');
     }
-  };
-  const fetchRec = async () => {
-    try {
-      const res = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
-      setrecruitmentContextData(res);
-    } catch (err) {
-      console.log(err);
+    const fetchRec = async () => {
+      try {
+        const res = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
+        setrecruitmentContextData(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    {
+      ('');
     }
-  };
+    const fetchLeave = async () => {
+      try {
+        const res = await axios.get('https://hrm-backend-square.onrender.com/api/leave/');
+        setleaveContextData(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    {
+      ('');
+    }
+    const fetchOrg = async () => {
+      try {
+        const res = await axios.get('https://hrm-backend-square.onrender.com/org/getorg');
+        setorgContextData(res);
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
-  const fetchLeave = async () => {
-    try {
-      const res = await axios.get('https://hrm-backend-square.onrender.com/api/leave/');
-      setleaveContextData(res);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-  const fetchOrg = async () => {
-    try {
-      const res = await axios.get('https://hrm-backend-square.onrender.com/org/getorg')
-      setorgContextData(res)
-    } catch (err) {
-      console.log(err);
-    }
-  };
+    useEffect(() => {
+      fetchEmployee();
+    }, [formStatus]);
+    useEffect(() => {
+      fetchAts();
+    }, [atsStatus]);
+    useEffect(() => {
+      fetchRec();
+    }, [recStatus]);
+    useEffect(() => {
+      fetchLeave();
+    }, [leaveStatus]);
+    useEffect(() => {
+      fetchOrg();
+    }, [orgStatus]);
+  }
 
-  useEffect(() => {
-    fetchEmployee();
-  }, [formStatus]);
-  useEffect(() => {
-    fetchAts();
-  }, [atsStatus]);
-  useEffect(() => {
-    fetchRec();
-  }, [recStatus]);
-  useEffect(() => {
-    fetchLeave();
-  }, [leaveStatus]);
-  useEffect(() => {
-    fetchOrg();
-  }, [orgStatus]);
   return null;
 };
 

@@ -8,6 +8,8 @@ const FromSubmittedProvider = ({ children }) => {
   const [atsStatus, setatsStatus] = useState(false);
   const [leaveStatus, setleaveStatus] = useState(false);
   const [orgStatus, setorgStatus] = useState(false);
+  const [loginData, setloginData] = useState([]);
+  console.log('loginData', loginData);
   const value = {
     formStatus,
     setStatus,
@@ -18,7 +20,9 @@ const FromSubmittedProvider = ({ children }) => {
     leaveStatus,
     setleaveStatus,
     orgStatus,
-    setorgStatus
+    setorgStatus,
+    loginData,
+    setloginData
   };
   return (
     <div>
