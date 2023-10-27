@@ -1,25 +1,56 @@
-// import React from 'react';
-// import { InputText } from 'primereact/inputtext';
+import React, { useState } from 'react';
+import { InputText } from 'primereact/inputtext';
+import styled from 'styled-components';
 
-// const Search = () => {
-//   return (
-//     <div>
-//       <span className="p-input-icon-left">
-//         <i className="pi pi-search" />
-//         <InputText placeholder="Search" />
-//       </span>
-//     </div>
-//   );
-// };
+const SearchContainer = styled.div`
+  display: flex;
+  align-items: center;
+`;
 
-// export default Search;
+const SearchInput = styled(InputText)`
+  flex: 0.3;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  font-size: 14px;
+`;
 
-import React from 'react'
+const SearchButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
 
-const Search = () => {
+  &:hover {
+    background-color: #0056b3;
+  }
+`;
+
+const Search = ({ onSearch }) => {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = () => {
+    onSearch(searchQuery);
+  };
+
   return (
-    <h1 style={{display:'flex',justifyContent:'center',alignItems:'center',color:'black'}}>Under Development</h1>
-  )
-}
+    <SearchContainer>
+      <SearchInput
+        placeholder="Search"
+        value={searchQuery}
+        onChange={(e) => setSearchQuery(e.target.value)}
+        onKeyUp={(e) => {
+          if (e.key === 'Enter') {
+            handleSearch();
+          }
+        }}
+      />
+      <SearchButton onClick={handleSearch}>Search</SearchButton>
+    </SearchContainer>
+  );
+};
 
-export default Search
+export default Search;

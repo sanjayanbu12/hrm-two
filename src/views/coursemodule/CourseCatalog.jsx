@@ -74,14 +74,16 @@ const CourseCatalog = () => {
           ))}
         </Grid>
       )}
-      <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
+      <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen
+      style={{ overflow: 'auto' }}
+      >
         <DialogTitle>
           Course Details
           <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent>
+        <DialogContent style={{ overflowY: 'visible',}}>
           {selectedMedia && (
             <>
               <CatalogLayout selectedMedia={selectedMedia} />

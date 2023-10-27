@@ -52,6 +52,7 @@ const ApiContainer = (props) => {
   const fetchMediaList = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/media/getAll');
+      console.log(response)
       setmedialistContextData(response)
     } catch (error) {
       console.error(error);
