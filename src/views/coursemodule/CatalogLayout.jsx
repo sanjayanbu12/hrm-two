@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import 'primereact/resources/primereact.min.css';
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primeicons/primeicons.css';
 import axios from 'axios';
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import ReactPlayer from 'react-player/lazy';
-import { PanelMenu } from 'primereact/panelmenu';
 import BaseLayout from './BaseLayout';
+import { PanelMenu } from 'primereact/panelmenu';
 import { Progress } from 'antd';
 import { red, orange, green } from '@ant-design/colors';
 import { useSelector } from 'react-redux';
@@ -31,13 +28,9 @@ const CatalogLayout = ({ selectedMedia }) => {
   const [videoCompletion, setVideoCompletion] = useState({});
   const [videoProgress, setVideoProgress] = useState(0);
   const [panelMenuModel, setPanelMenuModel] = useState([]);
-  
+  const [searchQuery, setSearchQuery] = useState('');
+
   const userId = useSelector((state) => state.customization.authId);
-  
-  console.log(userId);
-
- 
-
 
   useEffect(() => {
     if (selectedMedia) {
@@ -56,64 +49,51 @@ const CatalogLayout = ({ selectedMedia }) => {
   }, [selectedMedia]);
 
   useEffect(() => {
-    if (moduleVideoData.length > 0 && selectedMedia._id) {
-      const menuItems = moduleVideoData.map((module) => ({
+    const filteredModuleVideoData = moduleVideoData.filter((module) =>
+      module.moduleName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    const menuItems = filteredModuleVideoData.map((module) => {
+      return {
         label: module.moduleName,
         icon: 'pi pi-box',
         expanded: currentlyPlayingModule === module,
-        items: module.videoUrls.map((videoUrl, index) => ({
-          label: (
-            <>
-              <div style={{ marginRight: '8px' }}>{`Video ${index + 1}`}</div>
-              <Progress
-                style={{ maxWidth: '100%' }}
-                percent={videoCompletion[videoUrl] ? 100 : 0}
-                strokeColor={twoColors}
-              />
-            </>
-          ),
-          icon: 'pi pi-fw pi-youtube',
-          style: {
-            backgroundColor: selectedVideoUrl === videoUrl ? '#D8D8D8' : 'white',
-            color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black',
-          },
-          command: () => handleVideoSelection(videoUrl, module),
-        })),
-      }));
+        items: module.videoUrls.map((videoUrl, index) => {
+          return {
+            label: (
+              <>
+                <div style={{ marginRight: '8px' }}>{`Video ${index + 1}`}</div>
+                <Progress
+                  style={{ maxWidth: '100%' }}
+                  percent={videoCompletion[videoUrl] ? 100 : 0}
+                  strokeColor={twoColors}
+                />
+              </>
+            ),
+            icon: 'pi pi-fw pi-youtube',
+            style: {
+              backgroundColor: selectedVideoUrl === videoUrl ? '#D8D8D8' : 'white',
+              color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black',
+            },
+            command: () => handleVideoSelection(videoUrl, module),
+          };
+        }),
+      };
+    });
 
-      setPanelMenuModel([
-        {
-          label: selectedMedia.courseName || 'Course name',
-          icon: 'pi pi-fw pi-bars',
-          expanded: true,
-          items: menuItems.filter((item) => item !== null),
-        },
-      ]);
-    } else {
-      setPanelMenuModel([]);
-    }
-  }, [moduleVideoData, selectedMedia, currentlyPlayingModule, videoCompletion, selectedVideoUrl]);
+    setPanelMenuModel([
+      {
+        label: selectedMedia.courseName || 'Course name',
+        icon: 'pi pi-fw pi-bars',
+        expanded: true,
+        items: menuItems.filter((item) => item !== null),
+      },
+    ]);
+  }, [moduleVideoData, selectedMedia, currentlyPlayingModule, videoCompletion, selectedVideoUrl, searchQuery]);
 
-  useEffect(() => {
-    if (selectedVideoUrl) {
-      axios
-        .get('https://hrm-backend-square.onrender.com/video-progress/get', {
-          params: {
-            userId: userId,
-            videoUrl: selectedVideoUrl,
-          },
-        })
-        .then((response) => {
-          const progressData = response.data;
-          if (progressData && progressData.progress) {
-            setVideoProgress(progressData.progress);
-          }
-        })
-        .catch((error) => {
-          console.error('Error fetching video progress data:', error);
-        });
-    }
-  }, [selectedVideoUrl]);
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
 
   const handleVideoSelection = (videoUrl, module) => {
     setSelectedVideoUrl(videoUrl);
@@ -144,11 +124,11 @@ const CatalogLayout = ({ selectedMedia }) => {
     setVideoProgress(Math.floor(state.played * 100));
   };
 
- 
   return (
     <div style={{ width: '100%' }}>
       {selectedMedia ? (
         <>
+         
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={5}>
@@ -174,8 +154,6 @@ const CatalogLayout = ({ selectedMedia }) => {
                       width="100%"
                       onEnded={() => handleVideoEnd(selectedVideoUrl)}
                       onProgress={(state) => handleVideoProgress(state)}
-                    
-                     
                     />
                     <Progress
                       percent={videoProgress}
@@ -213,6 +191,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                   courseName={selectedMedia.courseName}
                   courseDescription={selectedMedia.courseDescription}
                   courseid={selectedMedia._id}
+                  onSearch={handleSearch}
                 />
               </>
             ) : (

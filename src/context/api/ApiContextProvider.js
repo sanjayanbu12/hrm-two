@@ -18,7 +18,7 @@ const ApiContextProvider = ({ children }) => {
     orgContextData,
     medialistContextData
   };
-
+console.log('medialistContextData',medialistContextData)
   return (
     <div>
       <ApiContainer

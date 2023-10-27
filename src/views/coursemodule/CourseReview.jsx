@@ -30,7 +30,7 @@ import ReactPlayer from 'react-player/lazy';
 import Select from 'react-select';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
-import Lottie from 'react-lottie'; 
+import Lottie from 'react-lottie';
 import nodata from '../lottie/nodata.json';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
@@ -59,11 +59,12 @@ const CourseReview = () => {
   });
   const [isSuccessSnackbarOpen, setIsSuccessSnackbarOpen] = useState(false);
   const [isErrorSnackbarOpen, setIsErrorSnackbarOpen] = useState(false);
-const {medialistContextData}=useContext(ApiContext)
+
+  const { medialistContextData } = useContext(ApiContext);
   const fetchMediaList = async () => {
     try {
-      const response = await medialistContextData
-      console.log(response)
+      const response = await medialistContextData;
+      console.log(response);
       setMediaList(response.data);
     } catch (error) {
       console.error(error);
@@ -124,7 +125,7 @@ const {medialistContextData}=useContext(ApiContext)
       isValid = false;
     }
 
-    if (selectedVideoIndexes.length === 0) {
+    if (selectedVideoIndexes?.length === 0) {
       errors.selectedVideos = 'Please select at least one video';
       isValid = false;
     }
@@ -145,8 +146,8 @@ const {medialistContextData}=useContext(ApiContext)
 
     try {
       // Continue with form submission if all validations pass
-      if (selectedVideoIndexes.length > 0 && selectedMedia && selectedMedia.videos) {
-        const selectedVideoUrls = selectedVideoIndexes.map((index) => selectedMedia.videos[index]);
+      if (selectedVideoIndexes?.length > 0 && selectedMedia && selectedMedia.videos) {
+        const selectedVideoUrls = selectedVideoIndexes?.map((index) => selectedMedia.videos[index]);
         console.log('Selected Video URLs:', selectedVideoUrls);
 
         // Send a POST request to your backend to create a new video
@@ -173,7 +174,7 @@ const {medialistContextData}=useContext(ApiContext)
   };
 
   return (
-    <MainCard title="Media List" >
+    <MainCard title="Media List">
       <Dialog open={isVideoOpen} onClose={closeVideoDialog} maxWidth="md" fullWidth>
         <DialogTitle>
           Video Player
@@ -198,14 +199,14 @@ const {medialistContextData}=useContext(ApiContext)
         </DialogContent>
       </Dialog>
       <Grid container spacing={3}>
-        {mediaList.length === 0 ? (
-           <Lottie
-           options={nodataavalible}
-           height='100%' // Set the desired fixed height
-           width="100%"
-         />
+        {mediaList?.length === 0 ? (
+          <Lottie
+            options={nodataavalible}
+            height="100%" // Set the desired fixed height
+            width="100%"
+          />
         ) : (
-          mediaList.map((media) => (
+          mediaList?.map((media) => (
             <Grid item xs={12} sm={4} md={4} key={media._id}>
               <Paper elevation={2} sx={{ maxWidth: 300, borderRadius: '12px', height: 300 }}>
                 <Card onClick={() => openMediaDialog(media)} style={{ cursor: 'pointer', height: '100%' }}>
@@ -227,16 +228,16 @@ const {medialistContextData}=useContext(ApiContext)
 
       {selectedMedia && (
         <Dialog open={selectedMedia !== null} onClose={closeMediaDialog} fullScreen>
-          <DialogTitle sx={{background:'black',color:'white'}}>
+          <DialogTitle sx={{ background: 'black', color: 'white' }}>
             All Uploaded Videos
             <IconButton aria-label="close" onClick={closeMediaDialog} sx={{ position: 'absolute', right: 8, top: 8 }}>
-              <CloseIcon sx={{background:'white'}} />
+              <CloseIcon sx={{ background: 'white' }} />
             </IconButton>
           </DialogTitle>
           <DialogContent style={{ maxHeight: '70vh', overflowY: 'auto' }}>
             <Grid container spacing={0}>
               {selectedMedia.videos ? (
-                selectedMedia.videos.map((videoUrl, index) => (
+                selectedMedia.videos?.map((videoUrl, index) => (
                   <Grid item xs={12} key={index} style={{ marginBottom: '3px' }}>
                     <MovieIcon onClick={() => openVideoDialog(videoUrl)} style={{ cursor: 'pointer', fontSize: 40 }} />
                     <Typography variant="body2" sx={{ marginTop: 1 }}>
@@ -295,7 +296,7 @@ const {medialistContextData}=useContext(ApiContext)
               placeholder="Select Videos"
               options={
                 selectedMedia && selectedMedia.videos
-                  ? selectedMedia.videos.map((videoUrl, index) => ({
+                  ? selectedMedia.videos?.map((videoUrl, index) => ({
                       value: index,
                       label: (
                         <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -305,9 +306,9 @@ const {medialistContextData}=useContext(ApiContext)
                     }))
                   : []
               }
-              value={selectedVideoIndexes.map((index) => ({ value: index, label: `Video ${index + 1}` }))}
+              value={selectedVideoIndexes?.map((index) => ({ value: index, label: `Video ${index + 1}` }))}
               onChange={(selectedOptions) => {
-                const selectedIndexes = selectedOptions.map((option) => option.value);
+                const selectedIndexes = selectedOptions?.map((option) => option.value);
                 setSelectedVideoIndexes(selectedIndexes);
 
                 // Clear the selected videos error when the user makes a selection
