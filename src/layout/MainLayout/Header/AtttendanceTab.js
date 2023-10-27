@@ -208,66 +208,43 @@ const AtttendanceTab = () => {
     // console.log("individual", sample);
     const groupedByDate = _.groupBy(employee, 'date');
 
-    const sortedDates = Object.keys(groupedByDate).sort((a, b) => {
-      const dateA = new Date(a);
-      const dateB = new Date(b);
-      return dateB - dateA; 
-    });
-
-    
-    const renderTable = () => {
-      if (employee.length === 0) {
-        return <p>    <MaterialTable
-        columns={columns}
-        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance</div>}
-        icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-        options={{
-          actionsColumnIndex: 6,
-          exportButton: true,
-          grouping: true,
-          headerStyle: {
-            background: '#E754CA',  
-            color: '#fff',
-          },
-          headerCellStyle: {
-            background: '#E754CA', 
-            color: 'white',
-          },
-        }}
-      /></p>;
-      } else {
-        return sortedDates.map((date) => (
-          <div key={date} style={{ marginBottom: '35px' }}>
-             <MaterialTable 
-        columns={columns}
-        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance : {date}</div>}
-        data={groupedByDate[date]}
-        icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-        options={{
-          actionsColumnIndex: 6,
-          exportButton: true,
-          exportCsv: exportCsv,
-          exportPdf: exportPdf,
-          grouping: true,
-        
-          headerStyle: {
-            background: '#E754CA',  
-            color: '#fff',
-          },
-          headerCellStyle: {
-            background: '#E754CA', 
-            color: 'white',
-          },
-        }}
-      />
-          </div>
-        ));
+    const renderTableForToday = () => {
+      const today = formatDate(new Date()); // Get today's date in the same format you use in your data
+  
+      const dataForToday = groupedByDate[today];
+  
+      if (!dataForToday || dataForToday.length === 0) {
+        return <p>No data available for today.</p>;
       }
+  
+      return (
+        <MaterialTable 
+          columns={columns}
+          title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance : {today}</div>}
+          data={dataForToday}
+          icons={tableIcons}
+          style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+          options={{
+            actionsColumnIndex: 6,
+            exportButton: true,
+            exportCsv: exportCsv,
+            exportPdf: exportPdf,
+            grouping: true,
+          
+            headerStyle: {
+              background: '#E754CA',  
+              color: '#fff',
+            },
+            headerCellStyle: {
+              background: '#E754CA', 
+              color: 'white',
+            },
+          }}
+        />
+      );
     };
   
-    return <div>{renderTable()}</div>;
+    return <div>{renderTableForToday()}</div>;
   };
   
   export default AtttendanceTab;
