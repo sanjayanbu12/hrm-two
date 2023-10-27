@@ -15,7 +15,8 @@ const ApiContextProvider = ({ children }) => {
     atsContextData,
     recruitmentContextData,
     leaveContextData,
-    orgContextData
+    orgContextData,
+    medialistContextData
   };
 
   return (
