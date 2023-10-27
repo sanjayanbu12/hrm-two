@@ -32,6 +32,8 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Lottie from 'react-lottie'; 
 import nodata from '../lottie/nodata.json';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const nodataavalible = {
   loop: true,
@@ -57,10 +59,11 @@ const CourseReview = () => {
   });
   const [isSuccessSnackbarOpen, setIsSuccessSnackbarOpen] = useState(false);
   const [isErrorSnackbarOpen, setIsErrorSnackbarOpen] = useState(false);
-
+const {medialistContextData}=useContext(ApiContext)
   const fetchMediaList = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/media/getAll');
+      const response = await medialistContextData
+      console.log(response)
       setMediaList(response.data);
     } catch (error) {
       console.error(error);
@@ -69,7 +72,7 @@ const CourseReview = () => {
 
   useEffect(() => {
     fetchMediaList();
-  }, []);
+  }, [medialistContextData]);
 
   const openVideoDialog = (videoUrl) => {
     setCurrentVideo(videoUrl);

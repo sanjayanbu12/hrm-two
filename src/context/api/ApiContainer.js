@@ -4,9 +4,15 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
+<<<<<<< Updated upstream
   const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData } = props;
   const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus } = useContext(FormSubmittedContext);
   console.log('orgStatus', orgStatus);
+=======
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData ,setmedialistContextData} = props;
+  const { formStatus, recStatus, atsStatus } = useContext(FormSubmittedContext);
+  console.log(recStatus);
+>>>>>>> Stashed changes
   const fetchEmployee = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -31,6 +37,7 @@ const ApiContainer = (props) => {
       console.log(err);
     }
   };
+<<<<<<< Updated upstream
 
   const fetchLeave = async () => {
     try {
@@ -49,6 +56,21 @@ const ApiContainer = (props) => {
     }
   };
 
+=======
+  const fetchMediaList = async () => {
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/media/getAll');
+      setmedialistContextData(response)
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMediaList();
+  }, []);
+
+>>>>>>> Stashed changes
   useEffect(() => {
     fetchEmployee();
   }, [formStatus]);
