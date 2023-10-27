@@ -4,7 +4,7 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData } = props;
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData } = props;
   const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus } = useContext(FormSubmittedContext);
   console.log('orgStatus', orgStatus);
   const fetchEmployee = async () => {
