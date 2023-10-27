@@ -88,7 +88,7 @@ const LandingPage = () => {
               <h3 className="section-title mt-0">About Our Tool</h3>
               <div className="cta-cta">
                 <a className="button button-primary button-wide-mobile" href="#">
-                  Link
+                 Youtube Link
                 </a>
               </div>
             </div>
@@ -157,20 +157,23 @@ const LandingPage = () => {
                 <Logos />
               </Link>
             </div>
-            {/* <ul className="footer-links list-reset">
+            <ul className="footer-links list-reset">
                         <li>
-                            <a href="#">Contact</a>
+                            <a href="https://snssquare.com/">Home</a>
                         </li>
                         <li>
-                            <a href="#">About us</a>
+                            <a href="https://snssquare.com/aboutussnssquare">About us</a>
+                        </li>
+                        {/* <li>
+                            <a href="#">Contact</a>
                         </li>
                         <li>
                             <a href="#">FAQ`s</a>
                         </li>
                         <li>
                             <a href="#">Support</a>
-                        </li>
-                    </ul> */}
+                        </li> */}
+                    </ul>
             <ul className="footer-social-links list-reset">
               <li>
                 <a href="https://www.facebook.com/profile.php?id=100090133719937&mibextid=ZbWKwL">
