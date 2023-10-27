@@ -414,7 +414,7 @@ const RequestLeave = () => {
                 // helperText={errors && errors.report}
                 onChange={(e) => handleReport(e)}
               >
-                {edata.map((item) => (
+                {edata?.map((item) => (
                   <MenuItem key={item._id} value={`${item._id},${item.name}`}>
                     {item.name}
                   </MenuItem>

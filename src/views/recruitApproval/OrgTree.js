@@ -40,6 +40,7 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/src/sweetalert2.scss';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 const OrgTree = () => {
   const [loader, setLoaderStatus] = useState(true);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,11 +52,11 @@ const OrgTree = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [anchorEl1, setAnchorEl1] = useState(null);
   const navigate = useNavigate();
-  const { employeeContextData,orgContextData } = useContext(ApiContext);
-
+  const { employeeContextData, orgContextData } = useContext(ApiContext);
+  const { orgStatus, setorgStatus } = useContext(FormSubmittedContext);
   useEffect(() => {
     fetchOrgData();
-  }, [edata,orgContextData]);
+  }, [edata, orgContextData]);
   useEffect(() => {
     fetchEmployeesData();
   }, [employeeContextData]);
@@ -69,7 +70,7 @@ const OrgTree = () => {
 
   const fetchOrgData = async () => {
     try {
-      const response = await orgContextData
+      const response = await orgContextData;
       const orgData = response.data.orgData;
       setorgMems(orgData);
       if (orgData) {
@@ -146,6 +147,7 @@ const OrgTree = () => {
       managerName: managerData
     });
     handleModalClose();
+    setorgStatus(!orgStatus)
     fetchOrgData();
   };
   const handleDeleteMan = async (dta) => {
@@ -155,6 +157,7 @@ const OrgTree = () => {
       const foundEmployees = orgMems.map((org) => org.hrName.filter((emp) => employeeIdsToDelete.includes(emp.employeeId))).flat();
       const idToDel = foundEmployees.map((empid) => empid._id);
       await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
+      setorgStatus(!orgStatus);
       fetchOrgData();
     } catch (error) {
       console.log(error);
@@ -197,6 +200,8 @@ const OrgTree = () => {
   const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
     await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
+    setorgStatus(!orgStatus);
+    
   };
 
   return (
@@ -213,8 +218,8 @@ const OrgTree = () => {
                   lineBorderRadius={'10px'}
                   label={
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                      {managerData.length > 0 ? (
-                        managerData.map((data) => (
+                      {managerData?.length > 0 ? (
+                        managerData?.map((data) => (
                           <StyledNodeManager key={data._id} raised={true}>
                             <StyledContainer disableGutters={true}>
                               <div>
@@ -281,7 +286,7 @@ const OrgTree = () => {
                               <AddIcon />
                             </IconButton>
                             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-                              {edata.map((data) => (
+                              {edata?.map((data) => (
                                 <MenuItem onClick={() => handleEmp(data)} key={data._id}>
                                   {data.name}
                                 </MenuItem>
@@ -293,7 +298,7 @@ const OrgTree = () => {
                     </div>
                   }
                 >
-                  {Tier2Data.map((data) => (
+                  {Tier2Data?.map((data) => (
                     <TreeNode
                       key={data._id}
                       label={
@@ -358,8 +363,8 @@ const OrgTree = () => {
                       }
                     >
                       {edata
-                        .filter((item) => data.report && data.report.some((reportItem) => reportItem?.id === item._id))
-                        .map((x) => (
+                        ?.filter((item) => data.report && data.report?.some((reportItem) => reportItem?.id === item._id))
+                        ?.map((x) => (
                           <TreeNode
                             key={x._id}
                             label={
@@ -454,11 +459,11 @@ const OrgTree = () => {
             <Autocomplete
               multiple
               id="tags-outlined"
-              options={edata.filter(
+              options={edata?.filter(
                 (option) =>
-                  !managerData.some((data) => data._id === option._id) &&
-                  !Tier2Data.some((tierMem) => tierMem._id === option._id) &&
-                  Tier2Data.map((item) => item.report) &&
+                  !managerData?.some((data) => data._id === option._id) &&
+                  !Tier2Data?.some((tierMem) => tierMem._id === option._id) &&
+                  Tier2Data?.map((item) => item.report) &&
                   option.isReported === false
               )}
               getOptionLabel={(option) => option.name}
