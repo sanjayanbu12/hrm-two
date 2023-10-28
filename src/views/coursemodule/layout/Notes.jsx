@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { MdDelete } from 'react-icons/md';
+import { MdDelete, MdEdit } from 'react-icons/md';
 import { IoIosAdd } from 'react-icons/io';
-
+import SaveIcon from '@mui/icons-material/Save';
 
 const Container = styled.div`
-  /* Global styles */
   * {
     padding: 20;
     margin: 20;
@@ -22,7 +21,6 @@ const Container = styled.div`
 `;
 
 const Form = styled.form`
-  /* Form styles */
   position: relative;
   width: 600px;
   margin: 32px auto 50px auto;
@@ -33,7 +31,6 @@ const Form = styled.form`
 `;
 
 const FormInput = styled.input`
-  /* Form input styles */
   width: 100%;
   border: none;
   padding: 4px 10px;
@@ -44,7 +41,6 @@ const FormInput = styled.input`
 `;
 
 const FormTextArea = styled.textarea`
-  /* Form textarea styles */
   width: 100%;
   border: none;
   padding: 4px 10px;
@@ -54,7 +50,6 @@ const FormTextArea = styled.textarea`
 `;
 
 const FormButton = styled.button`
-  /* Form button styles */
   position: absolute;
   display: flex;
   justify-content: center;
@@ -73,7 +68,6 @@ const FormButton = styled.button`
 `;
 
 const Note = styled.div`
-  /* Note styles */
   background: #ffffff;
   width: 240px;
   border-radius: 7px;
@@ -82,19 +76,32 @@ const Note = styled.div`
   margin: 16px;
   float: left;
   margin-right: 0;
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   padding: 30px;
+  position: relative;
+`;
+
+const EditButton = styled.button`
+  position: relative;
+  float: right;
+  margin-right: 10px;
+  color: #0074d9;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+`;
+
+const EditableNote = styled(Note)`
+  background: #f5f5f5;
 `;
 
 const NoteTitle = styled.h1`
-  /* Note title styles */
   font-size: 1rem;
   margin-bottom: 6px;
-
 `;
 
 const NoteContent = styled.p`
-  /* Note content styles */
   font-size: 1rem;
   color: #6f212b;
   margin-bottom: 10px;
@@ -103,7 +110,6 @@ const NoteContent = styled.p`
 `;
 
 const DeleteButton = styled.button`
-  /* Delete button styles */
   position: relative;
   float: right;
   color: #f88651;
@@ -114,15 +120,12 @@ const DeleteButton = styled.button`
 `;
 
 const Count = styled.div`
-  /* Count styles */
   display: flex;
   margin-top: 20px;
   align-items: center;
   justify-content: center;
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 `;
-
-
 
 const CreateArea = ({ onAdd }) => {
   const [isExpanded, setExpanded] = useState(false);
@@ -134,7 +137,7 @@ const CreateArea = ({ onAdd }) => {
 
   function handleChange(e) {
     const { name, value } = e.target;
-    setNote(prevValue => {
+    setNote((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
@@ -147,7 +150,7 @@ const CreateArea = ({ onAdd }) => {
   }
 
   function submitButton(event) {
-    onAdd(note); // Call the onAdd function to add the note
+    onAdd(note);
     setNote({
       title: '',
       content: '',
@@ -185,39 +188,82 @@ const CreateArea = ({ onAdd }) => {
 
 const App = () => {
   const [notes, setNotes] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [editingIndex, setEditingIndex] = useState(null);
 
   function addNote(newNote) {
-    setNotes(prevValue => {
+    setNotes((prevValue) => {
       return [...prevValue, newNote];
     });
   }
 
   function deleteNotes(id) {
-    setNotes(prevValue => {
+    setNotes((prevValue) => {
       return [...prevValue.filter((note, index) => index !== id)];
     });
   }
 
+  function editNote(index) {
+    setEditingIndex(index);
+    setEditMode(true);
+  }
+
+  function saveEditedNote() {
+    setEditingIndex(null);
+    setEditMode(false);
+  }
+
   return (
     <Container>
-      
       <Count
         count={
           notes.length === 0 ? 'Empty' : `Showing ${notes.length} Notes in Database`
         }
       />
-      <CreateArea  onAdd={addNote} />
+      <CreateArea onAdd={addNote} />
       {notes.map((note, index) => (
-        <Note  key={index} >
-          <NoteTitle>{note.title}</NoteTitle>
-          <NoteContent>{note.content}</NoteContent>
-          <DeleteButton onClick={() => deleteNotes(index)}>
-            <MdDelete size={25} />
-          </DeleteButton>
-        </Note>
-       
+        <div key={index}>
+          {editMode && editingIndex === index ? (
+            <EditableNote>
+              <FormInput
+                value={note.title}
+                type="text"
+                placeholder="Title"
+                name="title"
+                onChange={(e) => {
+                  const newNotes = [...notes];
+                  newNotes[index].title = e.target.value;
+                  setNotes(newNotes);
+                }}
+              />
+              <FormTextArea
+                value={note.content}
+                name="content"
+                placeholder="Edit your note..."
+                onChange={(e) => {
+                  const newNotes = [...notes];
+                  newNotes[index].content = e.target.value;
+                  setNotes(newNotes);
+                }}
+              />
+              <FormButton onClick={saveEditedNote}>
+                <SaveIcon/>
+              </FormButton>
+            </EditableNote>
+          ) : (
+            <Note>
+              <NoteTitle>{note.title}</NoteTitle>
+              <NoteContent>{note.content}</NoteContent>
+              <EditButton onClick={() => editNote(index)}>
+                <MdEdit size={25} /> Edit
+              </EditButton>
+              <DeleteButton onClick={() => deleteNotes(index)}>
+                <MdDelete size={25} />
+              </DeleteButton>
+            </Note>
+          )}
+        </div>
       ))}
-     
     </Container>
   );
 };
