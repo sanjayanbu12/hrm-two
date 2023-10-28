@@ -280,8 +280,8 @@ const RecruitmentForm = () => {
 
   const fetchOrgData = async () => {
     const response = orgContextData
-    setOrgData(response.data.orgData.map((x) => x.hrName));
-    console.log(response.data.orgData.map((x) => x.hrName));
+    setOrgData(response?.data?.orgData?.map((x) => x.hrName));
+    console.log(response?.data?.orgData?.map((x) => x.hrName));
   };
   const fetchEmp = async () => {
     try {
