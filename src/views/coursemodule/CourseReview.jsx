@@ -234,7 +234,7 @@ const CourseReview = () => {
               <CloseIcon sx={{ background: 'white' }} />
             </IconButton>
           </DialogTitle>
-          <DialogContent style={{ maxHeight: '70vh', overflowY: 'auto' }}>
+          <DialogContent style={{ maxHeight: '100vh', overflowY: 'visible' }}>
             <Grid container spacing={0}>
               {selectedMedia.videos ? (
                 selectedMedia.videos?.map((videoUrl, index) => (
