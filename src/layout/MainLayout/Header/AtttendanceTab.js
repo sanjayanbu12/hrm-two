@@ -8,13 +8,31 @@ import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import _ from 'lodash';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
+// import DatePicker from '@mui/lab/DatePicker';
+import nodata from '/Users/surya/Documents/GitHub/hrm-two/src/views/pages/authentication/authentication3/Lotties/NoDataTab'
+// C:\Users\surya\Documents\GitHub\hrm-two\src\views\pages\authentication\authentication3\Lotties
+import Lottie from 'react-lottie';
 
-
+const lt1={
+  animationData: nodata,
+}
 const AtttendanceTab = () => {
     // const authId = useSelector((state) => state.customization.authId);
 
     const [employee, setEmployee] = useState([]);
     const { employeeContextData } = useContext(ApiContext);
+    const [selectedDate, setSelectedDate] = useState(new Date()); 
+    
+
+    // const containerStyle = {
+    
+    // };
+    
+    // const containerStyle = {
+    //   position: 'relative',
+    // };
+  
+
   
     console.log("Attendance Table",employee)
   
@@ -80,7 +98,8 @@ const AtttendanceTab = () => {
         });
       
         return totalBreakTimeMinutes;
-      };
+      }; 
+
       const fetchEmployee = async () => {
         try {
           const res = employeeContextData
@@ -208,44 +227,93 @@ const AtttendanceTab = () => {
     // console.log("individual", sample);
     const groupedByDate = _.groupBy(employee, 'date');
 
-    const renderTableForToday = () => {
-      const today = formatDate(new Date()); // Get today's date in the same format you use in your data
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
+
+    const renderTableForSelectedDate = () => {
+      const formattedSelectedDate = formatDate(selectedDate);
+      const dataForSelectedDate = groupedByDate[formattedSelectedDate];
+    
+      if (!dataForSelectedDate || dataForSelectedDate.length === 0) {
+        return (
+          <div>
+           <input
+             max={formatDate(new Date())}
+  type='date'
+  value={selectedDate}
+  onChange={(event) => setSelectedDate(event.target.value)}
   
-      const dataForToday = groupedByDate[today];
-  
-      if (!dataForToday || dataForToday.length === 0) {
-        return <p>No data available for today.</p>;
+/>
+<div style={{ marginTop: '100px' }}>
+  <Lottie
+    options={lt1}
+    height="400px"
+    width="400px"
+  />
+</div>
+          </div>
+        );
       }
   
       return (
-        <MaterialTable 
-          columns={columns}
-          title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance : {today}</div>}
-          data={dataForToday}
-          icons={tableIcons}
-          style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-          options={{
-            actionsColumnIndex: 6,
-            exportButton: true,
-            exportCsv: exportCsv,
-            exportPdf: exportPdf,
-            grouping: true,
-          
-            headerStyle: {
-              background: '#E754CA',  
-              color: '#fff',
-            },
-            headerCellStyle: {
-              background: '#E754CA', 
-              color: 'white',
-            },
-          }}
+       
+
+     
+        <div >
+          <input
+          type='date'
+          value={selectedDate}
+          onChange={(event) => setSelectedDate(event.target.value)}
+          max={getCurrentDate()} 
         />
+               {/* <DatePicker
+                  label="Select Date"
+                  value={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  renderInput={(params) => <TextField {...params} />}
+                 
+                /> */}
+          <MaterialTable
+            columns={columns}
+            title={
+              <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
+                Attendance : {formattedSelectedDate}
+           
+              </div>
+            }
+            data={dataForSelectedDate}
+            icons={tableIcons}
+            style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+            options={{
+              actionsColumnIndex: 6,
+              exportButton: true,
+              exportCsv: exportCsv,
+              exportPdf: exportPdf,
+              grouping: true,
+              headerStyle: {
+                background: '#E754CA',
+                color: '#fff',
+              },
+              headerCellStyle: {
+                background: '#E754CA',
+                color: 'white',
+              },
+            }}
+          />
+        </div>
       );
     };
   
-    return <div>{renderTableForToday()}</div>;
+    return (
+      <div>
+        {renderTableForSelectedDate()}
+      </div>
+    );
   };
   
   export default AtttendanceTab;
-  
