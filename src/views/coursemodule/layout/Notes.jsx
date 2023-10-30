@@ -130,12 +130,14 @@ const Count = styled.div`
   font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 `;
 
-const CreateArea = ({ onAdd }) => {
+const CreateArea = ({ onAdd,courseid }) => {
   const [isExpanded, setExpanded] = useState(false);
-
+console.log(courseid.courseid)
   const [note, setNote] = useState({
     title: '',
-    content: ''
+    content: '',
+    courseId:courseid.courseid
+    
   });
 
   function handleChange(e) {
@@ -181,7 +183,7 @@ const CreateArea = ({ onAdd }) => {
   );
 };
 
-const Notes = () => {
+const Notes = (courseid) => {
   const [notes, setNotes] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [editingIndex, setEditingIndex] = useState(null);
@@ -189,10 +191,11 @@ const Notes = () => {
   // Function to fetch all notes from the backend
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`${backendBaseUrl}/notes`); // Replace with your backend API endpoint
-      setNotes(response.data);
+      const response = await axios.get(`http://localhost:3001/media/get/${courseid.courseid}`);
+      console.log(response.data.notes)// Replace with your backend API endpoint
+      setNotes(response.data.notes);
     } catch (error) {
-      console.error('Error fetching notes:', error);
+      console.error('Error fetching notes', error);
     }
   };
 
@@ -203,7 +206,7 @@ const Notes = () => {
   // Function to add a new note
   const addNote = async (newNote) => {
     try {
-      const response = await axios.post(`${backendBaseUrl}/notes`, newNote); // Replace with your backend API endpoint
+      const response = await axios.post(`http://localhost:3001/notes/`, newNote); // Replace with your backend API endpoint
       fetchNotes();
       console.log(response); // Fetch updated notes after adding a new one
     } catch (error) {
@@ -239,7 +242,7 @@ const Notes = () => {
   return (
     <Container>
       <Count count={notes.length === 0 ? 'Empty' : `Showing ${notes.length} Notes in Database`} />
-      <CreateArea onAdd={addNote} />
+      <CreateArea onAdd={addNote} courseid={courseid}/>
       {notes.map((note, index) => (
         <div key={index}>
           {editMode && editingIndex === index ? (

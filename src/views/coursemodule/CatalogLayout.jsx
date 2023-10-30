@@ -10,6 +10,7 @@ import { PanelMenu } from 'primereact/panelmenu';
 import { Progress } from 'antd';
 import { red, orange, green } from '@ant-design/colors';
 import { useSelector } from 'react-redux';
+import Search from './Search';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -130,6 +131,7 @@ const CatalogLayout = ({ selectedMedia }) => {
         <>
          
           <Box sx={{ flexGrow: 1 }}>
+          <Search onSearch={handleSearch}/>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={5}>
                 <Item>
@@ -191,7 +193,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                   courseName={selectedMedia.courseName}
                   courseDescription={selectedMedia.courseDescription}
                   courseid={selectedMedia._id}
-                  onSearch={handleSearch}
+                  
                 />
               </>
             ) : (

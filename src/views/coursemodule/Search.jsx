@@ -5,14 +5,18 @@ import styled from 'styled-components';
 const SearchContainer = styled.div`
   display: flex;
   align-items: center;
+ 
 `;
 
 const SearchInput = styled(InputText)`
   flex: 0.3;
+  border: none;
   border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   font-size: 14px;
+  margin-left: 10px;
+ 
 `;
 
 const SearchButton = styled.button`
