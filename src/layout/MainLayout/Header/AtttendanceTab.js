@@ -12,6 +12,8 @@ import { useContext } from 'react';
 import nodata from '/Users/surya/Documents/GitHub/hrm-two/src/views/pages/authentication/authentication3/Lotties/NoDataTab'
 // C:\Users\surya\Documents\GitHub\hrm-two\src\views\pages\authentication\authentication3\Lotties
 import Lottie from 'react-lottie';
+import { Calendar } from 'primereact/calendar';
+
 
 const lt1={
   animationData: nodata,
@@ -235,42 +237,45 @@ const AtttendanceTab = () => {
       return `${year}-${month}-${day}`;
     };
 
-    const renderTableForSelectedDate = () => {
-      const formattedSelectedDate = formatDate(selectedDate);
-      const dataForSelectedDate = groupedByDate[formattedSelectedDate];
-    
-      if (!dataForSelectedDate || dataForSelectedDate.length === 0) {
-        return (
-          <div>
-           <input
-             max={formatDate(new Date())}
-  type='date'
-  value={selectedDate}
-  onChange={(event) => setSelectedDate(event.target.value)}
-  
-/>
-<div style={{ marginTop: '100px' }}>
-  <Lottie
-    options={lt1}
-    height="400px"
-    width="400px"
-  />
-</div>
-          </div>
-        );
-      }
-  
-      return (
-       
+   const renderTableForSelectedDate = () => {
+  const formattedSelectedDate = formatDate(selectedDate);
+  const dataForSelectedDate = groupedByDate[formattedSelectedDate];
 
+  if (!dataForSelectedDate || dataForSelectedDate.length === 0) {
+    return (
+      <div>
+        <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
+        
+          <Calendar
+            value={selectedDate}
+            onChange={(event) => setSelectedDate(event.target.value)}
+            maxDate={new Date()} // Set the maximum selectable date to the current date
+            className="p-invalid"
+          />
      
-        <div >
-          <input
-          type='date'
+        </div>
+        <div style={{ marginTop: '100px' }}>
+          <Lottie
+            options={lt1}
+            height="400px"
+            width="400px"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
+      
+        <Calendar
           value={selectedDate}
           onChange={(event) => setSelectedDate(event.target.value)}
-          max={getCurrentDate()} 
+          maxDate={new Date()} // Set the maximum selectable date to the current date
+          className="p-invalid"
         />
+        </div>
                {/* <DatePicker
                   label="Select Date"
                   value={selectedDate}
@@ -283,7 +288,6 @@ const AtttendanceTab = () => {
             title={
               <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
                 Attendance : {formattedSelectedDate}
-           
               </div>
             }
             data={dataForSelectedDate}

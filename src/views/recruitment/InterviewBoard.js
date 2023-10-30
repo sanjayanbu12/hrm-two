@@ -237,8 +237,9 @@ const InterviewBoard = () => {
                                     border: '1px solid #ddd',
                                     borderRadius: '5px',
                                     cursor: 'pointer',
-                                    minWidth: '180px',
-                                    backgroundColor: snapshot.isDragging ? 'lightblue' : 'white'
+                                    minWidth: '120px',
+                                    backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
+                                    
                                   }}
                                 >
                                   <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
