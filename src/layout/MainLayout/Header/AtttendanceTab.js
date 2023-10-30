@@ -105,7 +105,7 @@ const AtttendanceTab = () => {
         }
       };
       const formatDate = (timestamp) => {
-        if (!timestamp) return ''; // Handle cases where timestamp is not available
+        if (!timestamp) return ''; // Handle ca ses where timestamp is not available
       
         const date = new Date(timestamp);
         const year = date.getFullYear();

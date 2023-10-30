@@ -6,6 +6,9 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const Newevent = () => {
   const [events, setEvents] = useState([]);
@@ -15,6 +18,8 @@ const Newevent = () => {
   const [eventEndDate, setEventEndDate] = useState(null);
   const [fetcheddata, setFetcheddata] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const { eventContextData } = useContext(ApiContext);
+  const { eventStatus, seteventStatus } = useContext(FormSubmittedContext);
 
   const flexStyle = {
     display: 'flex',
@@ -49,6 +54,7 @@ const Newevent = () => {
 
       try {
         const response = await axios.post('https://hrm-backend-square.onrender.com/event/create', event);
+        seteventStatus(!eventStatus);
         if (response.status === 200) {
           console.log('Event created successfully:', response.data);
           setEvents([...events, event]);
@@ -65,25 +71,22 @@ const Newevent = () => {
 
   useEffect(() => {
     fetchdata();
-  }, []);
-  
+  }, [eventContextData]);
+
   const fetchdata = async () => {
-    const apiurl = 'https://hrm-backend-square.onrender.com/event/getall';
-    axios
-      .get(apiurl)
-      .then((response) => {
-        const alldata = response.data.data.map((event) => ({
-          id: event._id,
-          title: event.title,
-          start: event.startDate,
-          end: event.endDate
-        }));
-        console.log(alldata);
-        setFetcheddata(alldata);
-      })
-      .catch((error) => {
-        console.error('Error in fetching calendar:', error);
-      });
+    try {
+      const response = await eventContextData;
+      const alldata = response.data.data.map((event) => ({
+        id: event._id,
+        title: event.title,
+        start: event.startDate,
+        end: event.endDate
+      }));
+      console.log(alldata);
+      setFetcheddata(alldata);
+    } catch (error) {
+      console.error('Error in fetching calendar:', error);
+    }
   };
 
   const customTitle = (args) => {
@@ -125,6 +128,7 @@ const Newevent = () => {
       .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
       .then((response) => {
         if (response.status === 200) {
+          seteventStatus(!eventStatus);
           console.log('Event updated successfully:', response.data);
         }
       })
@@ -146,6 +150,7 @@ const Newevent = () => {
         .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
         .then((response) => {
           if (response.status === 200) {
+            seteventStatus(!eventStatus);
             console.log('Event updated successfully:', response.data);
             setEvents((prevEvents) => prevEvents.map((event) => (event.id === selectedEvent.id ? updatedEvent : event)));
           }
@@ -171,6 +176,7 @@ const Newevent = () => {
         .delete(`https://hrm-backend-square.onrender.com/event/delete/${selectedEvent.id}`)
         .then((response) => {
           if (response.status === 200) {
+            seteventStatus(!eventStatus);
             console.log('Event deleted successfully:', response.data);
             setEvents(events.filter((e) => e.id !== selectedEvent.id));
             fetchdata();
