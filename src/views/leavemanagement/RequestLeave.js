@@ -15,12 +15,11 @@ const validationSchema = yup.object().shape({
     .date()
     .required('Start Date is required')
     .nullable()
-    .min(new Date(new Date().setHours(0, 0, 0, 0)), 'Start Date must be today or later')
-    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
-    .test('futureDate', 'Leave Date cannot be in the past', function (value) {
-      return value && value >= new Date(new Date().setHours(0, 0, 0, 0));
+    .min(new Date(), 'Start Date must be today or later')
+    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one month from today')
+    .test('futureDate', 'Start Date cannot be in the past', function (value) {
+      return value && value >= new Date();
     }),
-
   numberOfDays: yup
     .number()
     .required('Number of Days is required')
