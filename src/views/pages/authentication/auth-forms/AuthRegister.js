@@ -18,7 +18,7 @@ const FirebaseRegister = () => {
   const [passwordMismatchAlert, setPasswordMismatchAlert] = useState('');
   //use to route to another page
   const navigate = useNavigate();
-  //func define
+
   const handle = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -153,7 +153,7 @@ const FirebaseRegister = () => {
               value={password}
               onChange={(e) => handlePasswordChange(e)}
             />
-            <PasswordValidator />
+            {password && <PasswordValidator password={password}/>}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -171,8 +171,7 @@ const FirebaseRegister = () => {
         </Grid>
       </Box>
       <Box sx={{ flexGrow: 1, marginTop: 2 }}>
-        <Grid container spacing={2}>
-        </Grid>
+        <Grid container spacing={2}></Grid>
       </Box>
       <AnimateButton>
         <Button onClick={handle} disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">

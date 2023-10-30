@@ -1,4 +1,5 @@
 export const checkPasswordStrength = (password) => {
+  console.log('password',password)
     const hasLowercase = /[a-z]/.test(password);
     const hasUppercase = /[A-Z]/.test(password);
     const hasNumeric = /\d/.test(password);
@@ -13,5 +14,3 @@ export const checkPasswordStrength = (password) => {
       hasSpecialChar,
     };
   };
-  export const marg0 = { margin: 0, padding: 0 };
-  export const marg1 = { margin: 0, padding: 0,listStyle: 'none' };
