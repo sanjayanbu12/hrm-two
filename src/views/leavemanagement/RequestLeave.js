@@ -4,7 +4,6 @@ import { Grid, TextField, FormControl, InputLabel, FormHelperText, Select, Input
 import * as yup from 'yup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-// import { useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
@@ -20,51 +19,40 @@ const validationSchema = yup.object().shape({
     .required('Start Date is required')
     .nullable()
     .min(new Date(), 'Start Date must be today or later')
-    .test('startDate', 'Start Date must be earlier than End Date', function (startDate) {
-      const { endDate } = this.parent;
-      if (!startDate || !endDate) {
-        return true; // Skip validation if either date is not set
-      }
-      return new Date(startDate) < new Date(endDate);
+    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one month from today')
+    .test('futureDate', 'Start Date cannot be in the past', function (value) {
+      return value && value >= new Date();
     }),
-  endDate: yup
-    .date()
-    .required('End Date is required')
-    .nullable()
-    .min(yup.ref('startDate'), 'End Date must be after or equal to Start Date'),
   numberOfDays: yup
     .number()
     .typeError('Number of Days must be a number')
     .required('Number of Days is required')
     .positive('Number of Days must be positive')
     .integer('Number of Days must be an integer')
-    .test('numberOfDays', 'Number of Days must match the selected dates', function (numberOfDays) {
-      const { startDate, endDate } = this.parent;
-      if (!startDate || !endDate) {
-        return true; // Skip validation if either date is not set
+    .test('Number of Days must match the selected dates', function () {
+      const { startDate } = this.parent;
+      if (!startDate) {
+        return true;
       }
-      const daysDiff = Math.floor((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
-      return numberOfDays === daysDiff;
+      return true;
     }),
   attachments: yup.array().of(yup.string()),
   reason: yup.string().required('Reason is required')
 });
 
 const RequestLeave = () => {
-  // const navigate = useNavigate();
   const [employeeId, setEmployeeId] = useState('');
   const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const [numberOfDays, setNumberOfDays] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [employeeDetails, setEmployeeDetails] = useState({});
-  const [edata, setedata] = useState([]);
   const [report, setReport] = useState([]);
+  const [regData, setRegData] = useState([]);
   const employee = useSelector((state) => state.customization.authId);
   console.log(employee);
   console.log(employeeName);
@@ -86,28 +74,17 @@ const RequestLeave = () => {
   ];
 
   useEffect(() => {
-    if (startDate && endDate) {
-      const startDateObj = new Date(startDate);
-      const endDateObj = new Date(endDate);
-      if (!isNaN(startDateObj) && !isNaN(endDateObj)) {
-        const daysDiff = Math.floor((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
-        setNumberOfDays(daysDiff.toString());
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          numberOfDays: ''
-        }));
-      }
-    } else {
-      setNumberOfDays('');
+    if (startDate) {
+      const selectedStartDate = new Date(startDate);
+      const newEndDate = new Date(selectedStartDate);
+      newEndDate.setDate(newEndDate.getDate() + parseInt(numberOfDays) - 1);
     }
-  }, [startDate, endDate]);
-  useEffect(() => {
-    fetchEmployeesData();
-  }, [employeeContextData]);
+  }, [startDate, numberOfDays]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = employeeContextData
+        const response = employeeContextData;
         const allEmployeeData = response.data;
         const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === employee);
         setEmployeeDetails(specificEmployee);
@@ -134,24 +111,20 @@ const RequestLeave = () => {
     setStartDate(newStartDate);
   };
 
-  const handleEndDateChange = (e) => {
-    const newEndDate = e.target.value;
-    setEndDate(newEndDate);
+  const fetchRegData = async () => {
+    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+    setRegData(res.data.user);
   };
+
+  useEffect(() => {
+    fetchRegData();
+  }, []);
 
   const handleFileChange = (selectedFiles) => {
     const filesArray = Array.from(selectedFiles);
     setAttachments(filesArray);
   };
-  const fetchEmployeesData = async () => {
-    try {
-      const response =employeeContextData;
-      const employees = response.data;
-      setedata(employees);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const handleSubmit = async (e) => {
     console.log(report);
     e.preventDefault(); // Prevent the default form submission behavior
@@ -162,7 +135,6 @@ const RequestLeave = () => {
           employeeName,
           leaveType,
           startDate,
-          endDate,
           numberOfDays,
           reason,
           attachments
@@ -175,7 +147,6 @@ const RequestLeave = () => {
       data.append('employeeName', employeeName);
       data.append('leaveType', leaveType);
       data.append('startDate', startDate);
-      data.append('endDate', endDate);
       data.append('numberOfDays', numberOfDays);
       data.append('reason', reason);
       data.append('attachments', attachments[0]);
@@ -192,7 +163,6 @@ const RequestLeave = () => {
         setEmployeeName('');
         setLeaveType('');
         setStartDate(null);
-        setEndDate(null);
         setNumberOfDays('');
         setAttachments([]);
         setReason('');
@@ -249,7 +219,6 @@ const RequestLeave = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}
-
           <Grid item xs={6}>
             <TextField
               fullWidth
@@ -258,8 +227,6 @@ const RequestLeave = () => {
               label="Employee ID"
               variant="outlined"
               value={employeeId}
-              // error={Boolean(errors.employeeId)}
-              // helperText={errors.employeeId}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
                 shrink: true
@@ -275,8 +242,6 @@ const RequestLeave = () => {
               label="Employee Name"
               variant="outlined"
               value={employeeName}
-              // error={Boolean(errors.employeeName)}
-              // helperText={errors.employeeName}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
                 shrink: true
@@ -323,27 +288,6 @@ const RequestLeave = () => {
               }}
               error={Boolean(errors.startDate)}
               helperText={errors.startDate}
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
-          {/* End Date */}
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              id="endDate"
-              name="endDate"
-              label="End Date"
-              variant="outlined"
-              type="date"
-              value={endDate || ''}
-              onChange={(e) => {
-                handleFieldChange(e);
-                handleEndDateChange(e);
-              }}
-              error={Boolean(errors.endDate)}
-              helperText={errors.endDate}
               InputLabelProps={{
                 shrink: true
               }}
@@ -402,6 +346,7 @@ const RequestLeave = () => {
               helperText={errors.reason}
             />
           </Grid>
+          {/* Reporting to */}
           <Grid item xs={4}>
             <FormControl sx={{ minWidth: '100%' }}>
               <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
@@ -410,13 +355,11 @@ const RequestLeave = () => {
                 id="demo-simple-select"
                 label="Reporting To"
                 value={report.id ? `${report.id},${report.name}` : ''}
-                // error={errors && errors.report}
-                // helperText={errors && errors.report}
                 onChange={(e) => handleReport(e)}
               >
-                {edata?.map((item) => (
-                  <MenuItem key={item._id} value={`${item._id},${item.name}`}>
-                    {item.name}
+                {regData.map((item) => (
+                  <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
+                    {item.firstname}
                   </MenuItem>
                 ))}
               </Select>
