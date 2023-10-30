@@ -9,6 +9,7 @@ import CoffeeSharpIcon from '@mui/icons-material/CoffeeSharp';
 import MeetingRoomSharpIcon from '@mui/icons-material/MeetingRoomSharp';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const AttendanceMod = () => {
   const authId = useSelector((state) => state.customization.authId);
@@ -26,12 +27,13 @@ const AttendanceMod = () => {
   console.log('check', check);
 
   const { employeeContextData } = useContext(ApiContext);
+  const { formStatus, setStatus } = useContext(FormSubmittedContext);
 
   console.log('clockid', clockid);
 
   const fetchEmployee = async () => {
     try {
-      const res = employeeContextData;
+      const res = await employeeContextData;
       const matchingEmployee = res.data.find((emp) => emp.employeeid === authId);
       if (matchingEmployee) {
         setEmployee(matchingEmployee);
@@ -45,7 +47,7 @@ const AttendanceMod = () => {
 
   useEffect(() => {
     fetchEmployee();
-  }, []);
+  }, [employeeContextData]);
 
   const handleCheckInClick = async () => {
     const currentDate = new Date();
@@ -65,7 +67,7 @@ const AttendanceMod = () => {
 
       if (response.status === 200) {
         console.log('Check-in successful!');
-
+        setStatus(!formStatus);
         // Disable the "Check In" button
         setCheckInDisabled(true);
 
@@ -91,6 +93,7 @@ const AttendanceMod = () => {
           breakin: currentDate.toISOString(),
           attid: parclock._id
         });
+        setStatus(!formStatus);
         setBreackinId(response.data.savedData._id);
 
         if (response.status === 200) {
@@ -111,6 +114,7 @@ const AttendanceMod = () => {
         });
         if (response.status === 200) {
           console.log('Break Out successful!', response);
+          setStatus(!formStatus);
         } else {
           console.log('Failed to Break Out');
         }
@@ -199,7 +203,7 @@ const AttendanceMod = () => {
 
   useEffect(() => {
     checkButton();
-  }, []);
+  }, [employeeContextData]);
   const handleCheckOutClick = async () => {
     const currentDate = new Date();
 
@@ -211,6 +215,8 @@ const AttendanceMod = () => {
         console.log('Check-Out successful!');
         // setCheckInDisabled(false);
         // setCheckInDisabled(hasCheckInForToday);
+        setStatus(!formStatus);
+
         setCheckOutDisabled(true);
         setBreakDisabled(true);
       } else {
