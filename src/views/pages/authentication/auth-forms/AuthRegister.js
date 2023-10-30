@@ -7,6 +7,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 
 import axios from 'axios';
 import { signupSchema } from 'Valdidation/SignupValidation';
+import PasswordValidator from './PasswordValidator';
 const FirebaseRegister = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -24,7 +25,7 @@ const FirebaseRegister = () => {
       setPasswordMismatchAlert('Passwords do not match');
       return;
     }
-  
+
     // Clear the password mismatch alert if passwords match
     setPasswordMismatchAlert('');
 
@@ -95,14 +96,12 @@ const FirebaseRegister = () => {
     setPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, password: '' }));
   };
-  const handlecheckConfirmPass=(e)=>{
+  const handlecheckConfirmPass = (e) => {
     setConfirmPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, confirmPassword: '' }));
-
-  }
+  };
   return (
     <div className="signup-wrapper">
-     
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
           <Grid item xs={6}>
@@ -154,25 +153,25 @@ const FirebaseRegister = () => {
               value={password}
               onChange={(e) => handlePasswordChange(e)}
             />
+            <PasswordValidator />
           </Grid>
           <Grid item xs={12}>
-  <TextField
-    sx={{ minWidth: '100%' }}
-    variant="outlined"
-    id="outlined-required"
-    label="Confirm Password"
-    type="password"
-    value={confirmPassword}
-    onChange={(e) => handlecheckConfirmPass(e)}
-    error={passwordMismatchAlert !== ''}
-    helperText={passwordMismatchAlert}
-  />
-</Grid>
+            <TextField
+              sx={{ minWidth: '100%' }}
+              variant="outlined"
+              id="outlined-required"
+              label="Confirm Password"
+              type="password"
+              value={confirmPassword}
+              onChange={(e) => handlecheckConfirmPass(e)}
+              error={passwordMismatchAlert !== ''}
+              helperText={passwordMismatchAlert}
+            />
+          </Grid>
         </Grid>
       </Box>
       <Box sx={{ flexGrow: 1, marginTop: 2 }}>
         <Grid container spacing={2}>
-          <Grid item xs={4}></Grid>
         </Grid>
       </Box>
       <AnimateButton>
