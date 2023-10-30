@@ -77,6 +77,12 @@ const pages = {
         //   url: '/newemployee'
         // },
         {
+          id: 'Organisation Chart',
+          title: 'Organisation Chart',
+          type: 'item',
+          url: '/payroll'
+        },
+        {
           id: 'basictable',
           title: 'Employee Information Management',
           type: 'item',
@@ -87,12 +93,6 @@ const pages = {
           title: 'Leave & Attendance',
           type: 'item',
           url: '/leave',
-    },
-    {
-      id: 'Organisation Chart',
-      title: 'Organisation Chart',
-      type: 'item',
-      url: '/payroll'
     },
     {
       id: 'Leave Approval',

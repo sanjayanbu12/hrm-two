@@ -147,7 +147,8 @@ const AccountSetting = () => {
         name,
         lastname,
         email,
-        mob
+        mob,
+        emergencyContact
       };
       await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, Updatedata);
     } catch (error) {
