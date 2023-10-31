@@ -4,10 +4,11 @@ import { Button, Grid, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-
+import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { signupSchema } from 'Valdidation/SignupValidation';
 import PasswordValidator from './PasswordValidator';
+import useToast from 'views/leavemanagement/useToast';
 const FirebaseRegister = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -18,6 +19,7 @@ const FirebaseRegister = () => {
   const [passwordMismatchAlert, setPasswordMismatchAlert] = useState('');
   //use to route to another page
   const navigate = useNavigate();
+  const { toast, showToast } = useToast();
 
   const handle = async (e) => {
     e.preventDefault();
@@ -43,7 +45,7 @@ const FirebaseRegister = () => {
       if (userExist) {
         setErr((prev) => ({ ...prev, email: 'user aldready exist' }));
       } else {
-        await axios.post('https://hrm-backend-square.onrender.com/auth/createUser', dataVar); //using axios to set data to json server
+        await axios.post('http://localhost:3001/auth/createUser', dataVar); //using axios to set data to json server
         setFirstname('');
         setEmail('');
         setLastname('');
@@ -61,6 +63,7 @@ const FirebaseRegister = () => {
         console.log(ValidationErrors);
       } else {
         console.log(error);
+        error &&  showToast('error', error.response.data.message, 'Message Content');
       }
     }
   };
@@ -153,7 +156,7 @@ const FirebaseRegister = () => {
               value={password}
               onChange={(e) => handlePasswordChange(e)}
             />
-            {password && <PasswordValidator password={password}/>}
+            {password && <PasswordValidator password={password} />}
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -178,6 +181,7 @@ const FirebaseRegister = () => {
           Sign up
         </Button>
       </AnimateButton>
+      <Toast ref={toast} />;
     </div>
   );
 };
