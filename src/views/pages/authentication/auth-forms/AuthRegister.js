@@ -45,7 +45,7 @@ const FirebaseRegister = () => {
       if (userExist) {
         setErr((prev) => ({ ...prev, email: 'user aldready exist' }));
       } else {
-        await axios.post('http://localhost:3001/auth/createUser', dataVar); //using axios to set data to json server
+        await axios.post('https://hrm-backend-square.onrender.com/auth/createUser', dataVar); //using axios to set data to json server
         setFirstname('');
         setEmail('');
         setLastname('');
@@ -63,7 +63,7 @@ const FirebaseRegister = () => {
         console.log(ValidationErrors);
       } else {
         console.log(error);
-        error &&  showToast('error', error.response.data.message, 'Message Content');
+        error && showToast('error', error.response.data.message, 'Message Content');
       }
     }
   };
@@ -173,15 +173,14 @@ const FirebaseRegister = () => {
           </Grid>
         </Grid>
       </Box>
-      <Box sx={{ flexGrow: 1, marginTop: 2 }}>
-        <Grid container spacing={2}></Grid>
-      </Box>
+
+      <Toast ref={toast} style={{ width: '100%', maxWidth: '100%' }} position="bottom-center" />
+
       <AnimateButton>
         <Button onClick={handle} disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">
           Sign up
         </Button>
       </AnimateButton>
-      <Toast ref={toast} />
     </div>
   );
 };
