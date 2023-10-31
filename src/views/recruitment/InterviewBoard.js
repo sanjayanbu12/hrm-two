@@ -14,6 +14,8 @@ import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 // import { FeedSelectedTable } from './FeedSelectedTable';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
@@ -190,7 +192,23 @@ const InterviewBoard = () => {
     console.log(JSON.parse(str));
   }, [matchedResults]);
   return (
-    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
+    <MainCard
+    title="Interview Board"
+    sx={{
+      width: '100%',
+      height: 'auto',
+      minHeight: '480px',
+      backgroundColor:'red',
+      backgroundImage: `linear-gradient(purple, yellow,purple)`, // Set the background image
+      backgroundSize: 'cover',
+      '& .MuiCardHeader-title': {
+        fontWeight: 'bold', // Make the title bold
+        display: 'flex',
+        alignItems: 'center', // Center title vertically
+        justifyContent: 'center', // Center title horizontally
+      },
+    }}
+  >
       {loading ? (
         <Stack sx={{ color: 'grey.500', display: 'flex', justifyContent: 'center', mt: '20%' }} spacing={2} direction="row">
           <CircularProgress color="inherit" />
@@ -200,9 +218,11 @@ const InterviewBoard = () => {
           <DragDropContext onDragEnd={handleDragEnd}>
             {allStatuses.map((title, columnIndex) => {
               const columnResults = matchedResults.filter((x) => x.Status === title);
+             
               return (
                 <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '60px' }}>
-                  <Paper elevation={3} sx={{ padding: '16px' }}>
+                  <Paper
+                  elevation={3} sx={{ padding: '16px' }}>
                     <CardHeader
                       title={title}
                       sx={{
@@ -211,7 +231,7 @@ const InterviewBoard = () => {
                         marginTop: '-20px',
                         height: '10px',
                         minWidth: '100px',
-                        maxWidth: '150px'
+                        maxWidth: '150px',
                       }}
                     />
                     <Droppable droppableId={title} index={columnIndex}>
@@ -238,7 +258,10 @@ const InterviewBoard = () => {
                                     borderRadius: '5px',
                                     cursor: 'pointer',
                                     minWidth: '120px',
+                                    maxWidth:'200px',
                                     backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
+                                overflow:'auto',
+                                
                                     
                                   }}
                                 >
@@ -255,20 +278,19 @@ const InterviewBoard = () => {
                                     <b>Qualification:</b>
                                     {x.Qualification}
                                   </Typography>
-                                  <Typography variant="body2">
-                                    <b>Skills:</b>
-                                    {x.Skills}
-                                  </Typography>
+                                 
                                   <div
                                     style={{
                                       display: 'flex',
                                       alignItems: 'flex-end',
                                       justifyContent: 'flex-end',
                                       cursor: 'pointer',
-                                      marginBottom: '5px'
+                                      marginBottom: '5px',
+                                      overflow: 'hidden',
                                     }}
                                   >
-                                    <div style={{ display: 'flex', marginRight: '40%' }}>
+                                    <div style={{ display: 'flex'}}>
+                                  
                                       {title !== 'Shortlist' && title !== 'Selected' && title !== 'Hold' && title !== 'Rejected' && (
                                         <Tooltip title="Feedback">
                                           <Feedback
@@ -290,10 +312,16 @@ const InterviewBoard = () => {
                                         <Tooltip title="Interview feedback">
                                           <ErrorOutlineIcon
                                             onClick={() => handleOpenInfo(x._id, x.Name, title)}
-                                            sx={{ marginTop: '11px' }}
+                                            sx={{ marginTop: '11px',marginRight:'15px' }}
                                           />
                                         </Tooltip>
                                       )}
+                                      <Tooltip title="View Details">
+                                          <VisibilityIcon
+                                            // onClick={() => handleOpenInfo(x._id, x.Name, title)}
+                                            sx={{ marginTop: '11px',marginRight:'15px' }}
+                                          />
+                                        </Tooltip>
                                     </div>
                                     <Tooltip title={x.Name}>
                                       <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>
