@@ -27,7 +27,7 @@ export default function PasswordValidator({ password }) {
   return (
     <Grid container spacing={2}>
       {[lightTheme].map((theme, index) => (
-        <Grid item xs={6} lg={12} key={index}>
+       <Grid item xs={12} key={index}>
           <ThemeProvider theme={theme}>
             <PasswordStrengthBar password={password} />
             <Box>
