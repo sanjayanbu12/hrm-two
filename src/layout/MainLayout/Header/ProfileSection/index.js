@@ -40,7 +40,6 @@ import { useContext } from 'react';
 // import { clearConfigCache } from 'prettier';
 
 // ==============================|| PROFILE MENU ||============================== //
-axios.defaults.withCredentials = true;
 const ProfileSection = () => {
   const theme = useTheme();
   const customization = useSelector((state) => state.customization);
@@ -72,7 +71,7 @@ const ProfileSection = () => {
       dispatch({ type: LOGGED_OUT });
       dispatch({ type: USER_OR_NOT });
       localStorage.clear();
-      await axios.post('https://hrm-backend-square.onrender.com/auth/logout');
+      // await axios.post('https://hrm-backend-square.onrender.com/auth/logout');
     } catch (error) {
       alert(error && error.message);
     }
