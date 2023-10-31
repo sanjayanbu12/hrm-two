@@ -199,13 +199,13 @@ const InterviewBoard = () => {
       height: 'auto',
       minHeight: '480px',
       backgroundColor:'red',
-      backgroundImage: `linear-gradient(purple, yellow,purple)`, // Set the background image
+      backgroundImage: `linear-gradient(#FF1D58, yellow,#FF1D58)`,
       backgroundSize: 'cover',
       '& .MuiCardHeader-title': {
-        fontWeight: 'bold', // Make the title bold
+        fontWeight: 'bold', 
         display: 'flex',
-        alignItems: 'center', // Center title vertically
-        justifyContent: 'center', // Center title horizontally
+        alignItems: 'center', 
+        justifyContent: 'center',
       },
     }}
   >
