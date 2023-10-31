@@ -106,8 +106,8 @@ const FirebaseRegister = () => {
   return (
     <div className="signup-wrapper">
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Grid item xs={6}>
+        <Grid container spacing={2}  sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Grid item xs={12} md={12} sm={6} lg={6}  >
             <TextField
               sx={{ minWidth: '100%' }}
               variant="outlined"
@@ -119,7 +119,7 @@ const FirebaseRegister = () => {
               onChange={(e) => handleFirstname(e)}
             />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} md={12} sm={6}  lg={6}>
             <TextField
               sx={{ minWidth: '100%' }}
               variant="outlined"
@@ -171,16 +171,17 @@ const FirebaseRegister = () => {
               helperText={passwordMismatchAlert}
             />
           </Grid>
+          <Grid item xs={12}>
+            <AnimateButton>
+              <Button onClick={handle} disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">
+                Sign up
+              </Button>
+            </AnimateButton>
+          </Grid>
         </Grid>
       </Box>
 
       <Toast ref={toast} style={{ width: '100%', maxWidth: '100%' }} position="bottom-center" />
-
-      <AnimateButton>
-        <Button onClick={handle} disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">
-          Sign up
-        </Button>
-      </AnimateButton>
     </div>
   );
 };
