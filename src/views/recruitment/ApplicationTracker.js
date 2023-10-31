@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
-import { Image, TextSnippet } from '@mui/icons-material';
+import { TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 import { useContext } from 'react';
@@ -16,8 +16,8 @@ const columns = [
   { title: 'Mobile No', field: 'phone', sorting: false, editable: false },
   { title: 'Email', field: 'email', sorting: false, editable: false },
   { title: 'Resume', field: 'resume', sorting: false, editable: false },
-  { title: 'Photo', field: 'photo', sorting: false, editable: false },
-  { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false }
+  // { title: 'Photo', field: 'photo', sorting: false, editable: false },
+  { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false}, 
 ];
 
 const ApplicationTracker = () => {
@@ -51,20 +51,20 @@ const ApplicationTracker = () => {
     }
   };
 
-  const handlePhotoDown = async (id, name) => {
-    try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
-        responseType: 'arraybuffer'
-      });
-      const contentType = response.headers['Content-Type'];
-      const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
-      const byteArray = new Uint8Array(response.data);
-      const blob = new Blob([byteArray], { type: contentType });
-      saveAs(blob, `${name}.${extension}`);
-    } catch (error) {
-      console.log('Error downloading photo:', error);
-    }
-  };
+  // const handlePhotoDown = async (id, name) => {
+  //   try {
+  //     const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
+  //       responseType: 'arraybuffer',
+  //     });
+  //     const contentType = response.headers['Content-Type'];
+  //     const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
+  //     const byteArray = new Uint8Array(response.data);
+  //     const blob = new Blob([byteArray], { type: contentType });
+  //     saveAs(blob, `${name}.${extension}`);
+  //   } catch (error) {
+  //     console.log('Error downloading photo:', error);
+  //   }
+  // };
 
   useEffect(() => {
     fetchAts();
@@ -182,71 +182,68 @@ const ApplicationTracker = () => {
 
   return (
     <Card raised={true}>
-      <ThemeProvider theme={theme}>
-        {Loader ? (
-          <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
-        ) : (
-          <MaterialTable
-            title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Application Tracker</div>}
-            columns={columns.map((column) => {
-              if (column.field === 'resume') {
-                return {
-                  ...column,
-                  render: (rowData) => (
-                    <a href="#" onClick={() => handleResume(rowData._id, rowData.Name)}>
-                      <Tooltip title="Download Resume">
-                        <TextSnippet style={{ color: '#616161' }} />
-                      </Tooltip>
-                    </a>
-                  )
-                };
-              } else if (column.field === 'photo') {
-                return {
-                  ...column,
-                  render: (rowData) => (
-                    <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.Name)}>
-                      <Tooltip title="Download Photo">
-                        <Image style={{ color: '#616161' }} />
-                      </Tooltip>
-                    </a>
-                  )
-                };
-              }
-              return column;
-            })}
-            data={Adata}
-            icons={tableIcons}
-            actions={[
-              (rowData) => ({
-                icon: tableIcons.View,
-                tooltip: 'View Details',
-                onClick: (event, rowData) => handleView(event, rowData),
-                disabled: rowData.length !== 1
-              })
-            ]}
-            options={{
-              actionsColumnIndex: -1,
-              exportButton: true,
-              exportCsv: exportCsv,
-              exportPdf: exportPdf,
-              grouping: true,
-              selection: true,
-              columnsButton: true,
-              // headerStyle: {
-              //   backgroundColor: '#42a5f5',
-              //   color: 'black',
-              // },
-              headerStyle: {
-                background: 'linear-gradient(180deg,#3a59af,#352786)',
-                color: '#fff' // Text color
-              },
-              headerCellStyle: {
-                color: 'white' // Text color for header cells
-              }
-            }}
-          />
-        )}
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      {Loader ? (
+        <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />
+      ) : (
+        <MaterialTable
+          title={<div style={{ fontSize: '20px', marginTop: '10px', marginBottom: '10px' }}>Application Tracker</div>}
+          columns={columns.map(column => {
+            if (column.field === 'resume') {
+              return {
+                ...column,
+                render: rowData => (
+                  <a href="#" onClick={() => handleResume(rowData._id, rowData.Name)}>
+                    <Tooltip title="Download Resume">
+                      <TextSnippet style={{ color: '#616161' }} />
+                    </Tooltip>
+                  </a>
+                ),
+              };
+            }
+            // } else if (column.field === 'photo') {
+            //   return {
+            //     ...column,
+            //     render: rowData => (
+            //       <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.Name)}>
+            //         <Tooltip title="Download Photo">
+            //           <Image style={{ color: '#616161' }} />
+            //         </Tooltip>
+            //       </a>
+            //     ),
+            //   };
+            // }
+            return column;
+          })}
+          data={Adata}
+          icons={tableIcons}
+          actions={[
+            rowData => ({
+              icon: tableIcons.View,
+              tooltip: 'View Details',
+              onClick: (event, rowData) => handleView(event, rowData),
+              disabled: rowData.length !== 1,
+            }),
+          ]}
+          options={{
+            actionsColumnIndex: -1,
+            exportButton: true,
+            exportCsv: exportCsv,
+            exportPdf: exportPdf,
+            grouping: true,
+            selection: true,
+            columnsButton: true,
+            headerStyle: {
+              background: 'linear-gradient(180deg,#3a59af,#352786)',
+              color: '#fff',
+            },
+            headerCellStyle: {
+              color: 'white', 
+            },
+          }}
+        />
+      )}
+    </ThemeProvider>
     </Card>
   );
 };

@@ -49,7 +49,7 @@ const LandingPage = () => {
         <div className="container">
           <div className="hero-inner">
             <div className="hero-copy">
-              <h1 className="hero-title mt-0">Human Resource Management</h1>
+              <h1 className="hero-title mt-0">HR Management</h1>
               <p className="hero-paragraph">
                 Your gateway to seamless HR operations. Embark on a journey of streamlined processes, team empowerment, and elevated
                 organizational efficiency with us
