@@ -18,16 +18,12 @@ const Item = styled(Paper)(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   background: 'rgba(300, 244, 239, 0.5)',
-  // color: "black" 
 }));
 
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 
 export default function PasswordValidator({ password }) {
-  console.log('passwords', password);
   const passwordStrength = checkPasswordStrength(password);
-  console.log('passwordStrength', passwordStrength);
-
   return (
     <Grid container spacing={2}>
       {[lightTheme].map((theme, index) => (

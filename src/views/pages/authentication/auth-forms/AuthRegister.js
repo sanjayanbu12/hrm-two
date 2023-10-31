@@ -181,7 +181,7 @@ const FirebaseRegister = () => {
           Sign up
         </Button>
       </AnimateButton>
-      <Toast ref={toast} />;
+      <Toast ref={toast} />
     </div>
   );
 };
