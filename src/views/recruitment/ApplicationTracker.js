@@ -3,7 +3,7 @@ import MaterialTable from 'material-table';
 import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
-import { Image, TextSnippet } from '@mui/icons-material';
+import { TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
