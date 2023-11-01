@@ -12,6 +12,7 @@ import Logos from 'ui-component/Logos';
 import Lottie from 'react-lottie';
 import lottie1 from './Lotties/Lottie4.json'
 import lottie2 from './Lotties/Lottie6.json'
+
 // import Logo from 'ui-component/Logo';
 
 

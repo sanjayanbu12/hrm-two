@@ -11,10 +11,13 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID,USER_ID} from 'store/actions';
+import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID, USER_ID } from 'store/actions';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 const AuthLogin = () => {
   const [value1, setvalue1] = useState('');
   const [value2, setvalue2] = useState('');
@@ -22,11 +25,16 @@ const AuthLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // State variable for loader
   const [emailValidationAlert, setEmailValidationAlert] = useState(false);
-  const [passworderror,setPassworderror]=useState(false);
+  const [passworderror, setPassworderror] = useState(false);
   const [emptyFieldsAlert, setEmptyFieldsAlert] = useState(false);
+  const [incorrectPasswordAlert, setIncorrectPasswordAlert] = useState(false);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
 
 
   const validateLogin = async (e) => {
@@ -34,11 +42,12 @@ const AuthLogin = () => {
     setIsLoading(true); // Start loader
 
     // Validation for empty email field
-    if (!value1 && !value2) {
-      setEmptyFieldsAlert(true); // Show the alert
+    if (!value1 || !value2) {
+      setEmptyFieldsAlert(true);
       setIsLoading(false);
       setEmailValidationAlert(false);
-      setPassworderror(false); // Stop loader
+      setPassworderror(false);
+      setIncorrectPasswordAlert(false);
       return;
     } else {
       setEmptyFieldsAlert(false); // Hide the alert if not empty
@@ -61,7 +70,7 @@ const AuthLogin = () => {
     } else {
       setEmailValidationAlert(false);
     }
-    
+
 
     try {
       const response = await axios.post('https://hrm-backend-square.onrender.com/auth/login', {
@@ -70,12 +79,12 @@ const AuthLogin = () => {
       });
 
       dispatch({ type: LOGGED_IN });
-      dispatch({type: AUTH_ID, payload: response.data.existingUser.employeeId})
-      dispatch({type:USER_ID,payload: response.data.existingUser._id})
+      dispatch({ type: AUTH_ID, payload: response.data.existingUser.employeeId })
+      dispatch({ type: USER_ID, payload: response.data.existingUser._id })
       const role = response.data.existingUser.role;
       if (role === 'Admin') {
         dispatch({ type: ADMIN_OR_NOT });
-     
+
         navigate('/dashboard/default');
       } else {
         dispatch({ type: USER_OR_NOT });
@@ -86,16 +95,19 @@ const AuthLogin = () => {
     } catch (error) {
       if (error.response && error.response.data && error.response.data.error) {
         if (error.response.data.error === 'Invalid password') {
-          seterror({ password: 'Wrong password' }); // Password error
+          seterror({ password: 'Wrong password' });
+          setIncorrectPasswordAlert(true); // Password error
         } else {
           seterror({ email: error.response.data.error }); // Email error
         }
       } else {
-        seterror({ password: 'Wrong password' }); // Generic password error
+        seterror({ password: 'Wrong password' });
+        setIncorrectPasswordAlert(true); // Generic password error
       }
 
       setTimeout(() => {
         seterror({});
+        setIncorrectPasswordAlert(false);
       }, 5000);
 
       setIsLoading(false); // Stop loader
@@ -109,9 +121,9 @@ const AuthLogin = () => {
       email: '',
     }));
     setEmptyFieldsAlert(false);
-      setEmailValidationAlert(false);
-      setPassworderror(false);
-     
+    setEmailValidationAlert(false);
+    setPassworderror(false);
+
   };
 
   const handlePass = (e) => {
@@ -132,92 +144,107 @@ const AuthLogin = () => {
 
   return (
     <>
-    <div>
-      <Grid>
-        <TextField
-          sx={{ mb: 0, height: "8vh", marginTop: "0px", marginBottom: "20px" }}
-          id="outlined-adornment-email-login"
-          label="Email Address"
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          name="email"
-          autoComplete="email"
-          placeholder="abc@gmail.com"
-          type="email"
-          autoFocus
-          value={value1}
-          onChange={(e) => handleEmail(e)}
-        />
-       
-      </Grid>
-      <Grid>
-        <TextField
-          sx={{
-            height: "8vh",
-            mb: 2,
-          }}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-          id="outlined-adornment-password-login"
-          label="Password"
-          margin="normal"
-          required
-          fullWidth
-          name="password"
-          type={showPassword ? 'text' : 'password'}
-          placeholder="Enter your password"
-          autoComplete="current-password"
-          error={error && error.password}
-          value={value2}
-          onChange={(e) => handlePass(e)}
-        />
-       
-      </Grid>
-      <Grid>
-        <AnimateButton>
-          <Button
-            style={{ marginTop: '10px' }}
-            disableElevation
+      <div>
+        <Grid>
+          <TextField
+            sx={{ mb: 0, height: "8vh", marginTop: "0px", marginBottom: "20px" }}
+            id="outlined-adornment-email-login"
+            label="Email Address"
+            variant="outlined"
+            margin="normal"
+            required
             fullWidth
-            size="large"
-            type="submit"
-            variant="contained"
-            color="secondary"
-            onClick={validateLogin}
-            disabled={isLoading}
-          >
-            {isLoading ? <CircularProgress size={24} /> : 'Sign in'}
-          </Button>
-        </AnimateButton>
-       
-      </Grid>
+            name="email"
+            autoComplete="email"
+            placeholder="abc@gmail.com"
+            type="email"
+            autoFocus
+            value={value1}
+            onChange={(e) => handleEmail(e)}
+          />
 
-    </div>
-    {emptyFieldsAlert && (
-  <Stack sx={{ width: '100%',mt:'20px' }} spacing={2}>
-<Alert sx={{mt:'20px'}} variant="filled" severity="error">Please enter email and password</Alert>
-</Stack>
-)} 
- {emailValidationAlert && (
-    <Stack sx={{ width: '100%',mt:'20px' }} spacing={2}>
-         <Alert variant="filled" severity="error">Please enter your email.</Alert>
-         </Stack>
-        )} 
-         {passworderror && (
-            <Stack sx={{ width: '100%',mt:'20px' }} spacing={2}>
-         <Alert variant="filled" severity="error">Please enter password</Alert>
-         </Stack>
-        )}
-</>
+        </Grid>
+        <Grid>
+          <TextField
+            sx={{
+              height: "8vh",
+              mb: 2,
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
+                    {showPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            id="outlined-adornment-password-login"
+            label="Password"
+            margin="normal"
+            required
+            fullWidth
+            name="password"
+            type={showPassword ? 'text' : 'password'}
+            placeholder="Enter your password"
+            autoComplete="current-password"
+            error={error && error.password}
+            value={value2}
+            onChange={(e) => handlePass(e)}
+          />
+
+        </Grid>
+        <Grid>
+          <AnimateButton>
+            <Button
+              style={{ marginTop: '10px' }}
+              disableElevation
+              fullWidth
+              size="large"
+              type="submit"
+              variant="contained"
+              color="secondary"
+              onClick={validateLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? <CircularProgress size={24} /> : 'Sign in'}
+            </Button>
+          </AnimateButton>
+
+        </Grid>
+
+      </div>
+      {emptyFieldsAlert && (
+        <Stack spacing={2} sx={{ width: '100%' }}>
+          <Snackbar open={open} autoHideDuration={6000}>
+            <Alert sx={{ mt: '20px' }} variant="filled" severity="error">Please enter email and password</Alert>
+          </Snackbar>
+        </Stack>
+      )}
+      {emailValidationAlert && (
+        <Stack spacing={2} sx={{ width: '100%' }}>
+          <Snackbar open={open} autoHideDuration={6000}>
+            <Alert variant="filled" severity="error">Please enter your email.</Alert>
+          </Snackbar>
+        </Stack>
+      )}
+      {passworderror && (
+        <Stack spacing={2} sx={{ width: '100%' }}>
+          <Snackbar open={open} autoHideDuration={6000}>
+            <Alert variant="filled" severity="error">Please enter password</Alert>
+          </Snackbar>
+        </Stack>
+      )}
+      {incorrectPasswordAlert && (
+        <Stack spacing={2} sx={{ width: '100%' }}>
+          <Snackbar open={incorrectPasswordAlert} autoHideDuration={6000}>
+            <Alert sx={{ mt: '20px' }} variant="filled" severity="error">
+              oops! Your Password is Incorrect
+            </Alert>  
+          </Snackbar>
+        </Stack>
+      )}
+    </>
   );
 };
 
