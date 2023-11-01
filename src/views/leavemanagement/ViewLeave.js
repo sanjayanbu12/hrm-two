@@ -178,14 +178,14 @@ const ViewLeave = () => {
             })}
             data={Adata}
             icons={tableIcons}
-            actions={[
-              (rowData) => ({
-                icon: tableIcons.View,
-                tooltip: 'View Details',
-                onClick: (event, rowData) => handleView(event, rowData),
-                disabled: rowData.length !== 1
-              })
-            ]}
+            // actions={[
+            //   (rowData) => ({
+            //     icon: tableIcons.View,
+            //     tooltip: 'View Details',
+            //     onClick: (event, rowData) => handleView(event, rowData),
+            //     disabled: rowData.length !== 1
+            //   })
+            // ]}
             options={{
               actionsColumnIndex: -3,
               exportButton: true,
