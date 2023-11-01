@@ -31,6 +31,7 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
+import { UserCircle } from 'tabler-icons-react';
 import { useDispatch } from 'react-redux';
 import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
 import axios from 'axios';
@@ -38,7 +39,6 @@ import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 // import { userSchema } from 'validation/Validation';
 // import { clearConfigCache } from 'prettier';
-
 // ==============================|| PROFILE MENU ||============================== //
 const ProfileSection = () => {
   const theme = useTheme();
@@ -142,9 +142,11 @@ const ProfileSection = () => {
   };
 
   useEffect(() => {
-    WhoLog();
     fetchUser();
   }, [employeeContextData]);
+  useEffect(() => {
+    WhoLog();
+  }, []);
 
   const handleAccount = () => {
     navigate('/Accountsetting');
@@ -357,6 +359,9 @@ const ProfileSection = () => {
                           />
                         </ListItemButton> */}
                         <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleAccount}>
+                          <ListItemIcon color="green">
+                            <UserCircle size="1.3rem" strokeWidth={2} color={'black'} />
+                          </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Account Setting</Typography>} />
                         </ListItemButton>
                         <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleLogout}>
