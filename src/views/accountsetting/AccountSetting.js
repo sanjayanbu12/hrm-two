@@ -8,6 +8,9 @@ import { useState } from 'react';
 import { Grid } from '@mui/material';
 import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
+import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 // const Container = styled.div`
 // display: flex;
@@ -112,13 +115,12 @@ const AccountSetting = () => {
   const [avatarImage, setAvatarImage] = useState(data);
   console.log(avatarImage);
   const [id, setId] = useState('');
-
+  const { employeeContextData } = useContext(ApiContext);
+  const { formStatus, setStatus } = useContext(FormSubmittedContext);
   useEffect(() => {
-    const apiUrl = `https://hrm-backend-square.onrender.com/api/allemployee`;
-
-    axios
-      .get(apiUrl)
-      .then((response) => {
+    const fetchData = async () => {
+      try {
+        const response = await employeeContextData;
         const allEmployeeData = response.data;
 
         const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === user);
@@ -133,11 +135,13 @@ const AccountSetting = () => {
         setId(specificEmployee._id);
         setAvatarImage(specificEmployee.profilepic?.url);
         setCoverImage(specificEmployee?.coverpic?.url);
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error('Error fetching employee details:', error);
-      });
-  }, []);
+      }
+    };
+
+    fetchData();
+  }, [employeeContextData]);
 
   const handleUpdate = async () => {
     try {
@@ -148,6 +152,7 @@ const AccountSetting = () => {
         mob
       };
       await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, Updatedata);
+      setStatus(!formStatus);
     } catch (error) {
       console.log('Error Updating data', error);
     }
@@ -168,6 +173,7 @@ const AccountSetting = () => {
           }
         });
         console.log(response);
+        setStatus(!formStatus);
         // Update the avatarImage state with the new image URL
         setAvatarImage(response.data.employeeData.profilepic.url);
       } catch (error) {
@@ -191,6 +197,8 @@ const AccountSetting = () => {
           }
         });
         console.log(response);
+        setStatus(!formStatus);
+
         // Update the avatarImage state with the new image URL
         setCoverImage(response.data.employeeData?.coverpic?.url);
       } catch (error) {
@@ -286,7 +294,7 @@ const AccountSetting = () => {
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#4D4C7D' }}>Email</div>
-              <InputText value={email} onChange={(e) => setEmail(e.target.value)} />
+              <InputText value={email}  />
             </div>
           </Grid>
           <Grid
@@ -302,7 +310,7 @@ const AccountSetting = () => {
           >
             <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#4D4C7D' }}>Employee ID</div>
-              <InputText value={empId} />
+              <InputText value={empId}  />
             </div>
           </Grid>
 
