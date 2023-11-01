@@ -51,7 +51,7 @@ const ApplicationView = () => {
     <MainCard title=" Candidate Application View" variant='h2' align='left'>
 
     <Button onClick={() => {
-              navigate('/shortlist');
+              navigate('/ApplicationTrackTab');
             }}
         sx={{
           position: 'absolute',

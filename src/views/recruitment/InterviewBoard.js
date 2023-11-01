@@ -15,6 +15,7 @@ import ApiContext from 'context/api/ApiContext';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 // import { FeedSelectedTable } from './FeedSelectedTable';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
 
 
 const InterviewBoard = () => {
@@ -30,8 +31,11 @@ const InterviewBoard = () => {
   const [loading, setLoading] = useState(true);
   const { recruitmentContextData, atsContextData } = useContext(ApiContext);
   const { atsStatus, setatsStatus } = useContext(FormSubmittedContext);
+  const navigate=useNavigate();
+
   const handleOpenFeedback = (candidateId, candidateName, title) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
+
 
     if (selectedCandidate) {
       setSelectedCandidate(selectedCandidate);
@@ -191,6 +195,10 @@ const InterviewBoard = () => {
     const str = JSON.stringify(matchedResults);
     console.log(JSON.parse(str));
   }, [matchedResults]);
+
+  const handleView = async (candidateId) => { 
+    navigate(`/applicationview/${candidateId}`); 
+  }
   return (
     <MainCard
     title="Interview Board"
@@ -231,7 +239,7 @@ const InterviewBoard = () => {
                         marginTop: '-20px',
                         height: '10px',
                         minWidth: '100px',
-                        maxWidth: '150px',
+                        maxWidth: '150px',  
                       }}
                     />
                     <Droppable droppableId={title} index={columnIndex}>
@@ -318,7 +326,7 @@ const InterviewBoard = () => {
                                       )}
                                       <Tooltip title="View Details">
                                           <VisibilityIcon
-                                            // onClick={() => handleOpenInfo(x._id, x.Name, title)}
+                                            onClick={() => handleView(x._id)}
                                             sx={{ marginTop: '11px',marginRight:'15px' }}
                                           />
                                         </Tooltip>

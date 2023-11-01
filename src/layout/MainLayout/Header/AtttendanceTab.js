@@ -300,11 +300,11 @@ const AtttendanceTab = () => {
               exportPdf: exportPdf,
               grouping: true,
               headerStyle: {
-                background: '#E754CA',
+                background: 'linear-gradient(180deg,#3a59af,#352786)',
                 color: '#fff',
               },
               headerCellStyle: {
-                background: '#E754CA',
+                background: 'linear-gradient(180deg,#3a59af,#352786)',
                 color: 'white',
               },
             }}

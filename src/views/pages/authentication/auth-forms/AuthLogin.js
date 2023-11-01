@@ -6,10 +6,12 @@ import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { LOGGED_IN, ADMIN_OR_NOT, USER_OR_NOT, AUTH_ID, USER_ID } from 'store/actions';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const AuthLogin = () => {
   const [value1, setvalue1] = useState('');
@@ -108,6 +110,7 @@ const AuthLogin = () => {
 
       setTimeout(() => {
         seterror({});
+        setIncorrectPasswordAlert(false);
       }, 5000);
 
       setIsLoading(false);
