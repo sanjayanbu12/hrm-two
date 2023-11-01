@@ -1,101 +1,170 @@
 import React, { useState } from 'react';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { Paper, Rating,  TextField, IconButton, Typography, Stack,Avatar} from '@mui/material';
+import Paper from '@mui/material/Paper';
+import {Grid, Avatar, TextField} from '@mui/material/';
 
-import User1 from 'assets/images/users/user-round.svg';
-import Item from 'antd/es/list/Item';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import styled from 'styled-components';
+import Badge from '@mui/material/Badge';
+
+const StyledTypographyHeading = styled.div`
+  color: #000;
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+const StyledTypographyDesignation = styled.div`
+  color: #808080;
+  font-family: Roboto;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+const StyledTypographyContent = styled.div`
+  color: #4e4e4e;
+  font-family: Roboto;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 10px;
+  line-height: 1.5;
+`;
+
+const StyledBadge = styled(Badge)`
+  & .MuiBadge-badge {
+    right: 11px;
+    top: 7px;
+  }
+`;
+
+const PaperFlipContainer = styled(Paper)`
+  /* width: 300px; */
+  min-height: 180px;
+  perspective: 1000px;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border-radius: 6px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
 
 
+  &.flipped {
+    transform: rotateY(180deg);
+  }
+`;
 
-const FeedbackCard = ({comm,rating}) => {
-    const [Comment, setComment] = useState('');
+const Face = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 6px;
+  background: #fff;
+  display: flex;
+  /* justify-content: center;
+align-items: center; */
+  font: 16px/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-    const handleInputChange = (event) => {
-      setComment(event.target.value);
-    };
-  
-    const handleSubmit = () => {
-      // Handle form submission or any other action
-      console.log('Comment:', Comment);
-    };
-  
+  color: #47525D;
+
+  &.back {
+    transform: rotateY(180deg);
+  }
+`;
+
+const FeedbackCard = () => {
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleCardClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+  const [text, setText] = useState('');
+  const maxWords = 36;
+
+  const handleChange = (e) => {
+    const inputValue = e.target.value;
+    const words = inputValue.split(/\s+/);
+    if (words.length <= maxWords) {
+      setText(inputValue);
+    }
+  };
+
+
   return (
-    <Item>
-    <Paper display="flex"
-  sx={{
-    marginTop: '20px',
-    width: 290,
-    padding: '15px',
-    fontWeight: 800,
-    paddingBottom: '20px',
-    
-  }}
-  title="Feedbacks given to you"
-  elevation={9}
->
-  <Stack
-    direction="row"
-    useFlexGap
-    flexWrap="wrap"
-    spacing={2}
-    sx={{
-      listStyleType: 'none',
-      height: 250,
-      display: 'flex',
-      marginTop: '5px'
-    }}
-  >
-    <Item>
-      <Avatar
-        sx={{
-          width: '40px',
-          height: '40px'
-        }}
-        src={User1}
-      ></Avatar>
-    </Item>
-    {/* This for review  */}
-    <Item>
-      <Typography
-        variant="h4"
-        body1="span"
-        sx={{
-          fontWeight: 800,
-          fontSize: 'medium'
-        }}
-      >
-        Kannan S
-      </Typography>
-      <Typography variant="subtitle2">Project Admin</Typography>
-    </Item>
-    <Item>
-      <Rating alignItems="left" name="read-only" value={rating} readOnly />
-      <Typography
-        component="legend"
-        sx={{
-          marginTop: '5px',
-          fontWeight: 300
-        }}
-      >
-        {comm}
-      </Typography>
-    </Item>
-    <Item>
-      <div style={{ display: 'flex' }}>
-        <TextField label="Enter your comment" variant="outlined" fullWidth value={Comment} onChange={handleInputChange}>
-          {' '}
-        </TextField>
-        <div>
-          <IconButton sx={{ marginLeft: '15px' }} onClick={handleSubmit} aria-label="SVG Icon Button">
-            <ReplyIcon />
-          </IconButton>
-        </div>
-      </div>
-    </Item>
-  </Stack>
-</Paper>
-</Item>
-  )
-}
+    <PaperFlipContainer elevation={5} className={isFlipped ? 'flipped' : ''} >
+      <Face className="front">
+        <Grid container sx={{ padding: '16px' }}>
+          {/* Front side content */}
+          <Grid item xs={3} sm={3}>
+            <Avatar alt="Remy Sharp" sx={{ width: 45, height: 45 }} />
+          </Grid>
+          <Grid item xs={8} sx={{ display: 'flex', alignItems: 'center' }}>
+            <div>
+              <StyledTypographyHeading>Sridhar S</StyledTypographyHeading>
+              <StyledTypographyDesignation>Manager</StyledTypographyDesignation>
+            </div>
+          </Grid>
+          <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+            <StyledBadge sx={{  cursor: "pointer"}} variant="dot" color="info" onClick={handleCardClick}>
+              <ChevronRightIcon />
+            </StyledBadge>
+          </Grid>
+          <Grid item sm={12}>
+            <StyledTypographyContent>
+              {' '}
+              The sun dipped below the horizon, painting the sky in hues of orange and pink. A gentle breeze swayed the trees,
+              creating a soothing melody. They sat by the fire, savoring each moment.
+            </StyledTypographyContent>
+          </Grid>
+        </Grid>
+      </Face>
+      <Face className="back">
+        <Grid container sx={{ padding: '16px' }}>
+          {/* Back side content */}
+          <Paper sx={{ height: "100%", width: "100%", backgroundColor: "white" }}>
+            <Grid container spacing={2} sx={{display:"flex", alignItems:"center", }}>
+            <Grid item xs={10}>
+            <StyledTypographyHeading>Comments</StyledTypographyHeading>
+            </Grid>
+            <Grid item xs={1} sx={{ display: 'flex', alignItems: 'center' }}>
+              <StyledBadge sx={{  cursor: "pointer", top:"12px", left:"8px" }} variant="dot" color="info" onClick={handleCardClick}>
+                <ChevronLeftIcon />
+              </StyledBadge>
+            </Grid>
+            <Grid item xs={1.5}>
+            <Avatar alt="Remy Sharp" sx={{ width: 24, height: 24 }} />
+            </Grid>
+            <Grid item xs={10}>
+            <StyledTypographyDesignation>Add Comment</StyledTypographyDesignation>
+            </Grid>
+            <Grid item xs={11}>
+            <StyledTypographyDesignation>Add Comment</StyledTypographyDesignation>
+            </Grid>
+            <TextField
+            id="outlined-basic"
+            label="Task Description"
+            variant="outlined"
+            sx={{ width: '100%', height:"", marginTop: '10px' }}
 
-export default FeedbackCard
+            multiline
+            rowsMax={3}
+            value={text}
+            onChange={handleChange}
+          />
+      />
+      
+            </Grid>
+          </Paper>
+        </Grid>
+      </Face>
+    </PaperFlipContainer>
+  );
+};
+
+export default FeedbackCard;
