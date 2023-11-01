@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
@@ -56,7 +56,7 @@ const formatDate = (dateString) => {
 const ViewLeave = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
  const{leaveContextData}=useContext(ApiContext)
   const fetchAts = async () => {
     try {
@@ -143,11 +143,11 @@ const ViewLeave = () => {
     }
   });
 
-  const handleView = async (e, data) => {
-    const id = data.map((x) => x.id);
-    console.log(data);
-    navigate(`/approveleave/${id[0]}`);
-  };
+  // const handleView = async (e, data) => {
+  //   const id = data.map((x) => x.id);
+  //   console.log(data);
+  //   navigate(`/approveleave/${id[0]}`);
+  // };
 
   useEffect(() => {
     fetchAts();
@@ -178,14 +178,14 @@ const ViewLeave = () => {
             })}
             data={Adata}
             icons={tableIcons}
-            actions={[
-              (rowData) => ({
-                icon: tableIcons.View,
-                tooltip: 'View Details',
-                onClick: (event, rowData) => handleView(event, rowData),
-                disabled: rowData.length !== 1
-              })
-            ]}
+            // actions={[
+            //   (rowData) => ({
+            //     icon: tableIcons.View,
+            //     tooltip: 'View Details',
+            //     onClick: (event, rowData) => handleView(event, rowData),
+            //     disabled: rowData.length !== 1
+            //   })
+            // ]}
             options={{
               actionsColumnIndex: -3,
               exportButton: true,
@@ -195,9 +195,12 @@ const ViewLeave = () => {
               selection: true,
               columnsButton: true,
               headerStyle: {
-                backgroundColor: '#42a5f5',
-                color: 'black'
-              }
+                background: 'linear-gradient(180deg,#3a59af,#352786)',
+                color: '#fff',
+              },
+              headerCellStyle: {
+                color: 'white', 
+              },
             }}
           />
         )}

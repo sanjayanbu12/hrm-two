@@ -15,18 +15,20 @@ const validationSchema = yup.object().shape({
   employeeName: yup.string().required('Employee Name is required'),
   leaveType: yup.string().required('Leave Type is required'),
   startDate: yup
-    .date()
-    .required('Start Date is required')
-    .nullable()
-    .min(new Date(), 'Start Date must be today or later')
-    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one month from today')
-    .test('futureDate', 'Start Date cannot be in the past', function (value) {
-      return value && value >= new Date();
-    }),
+  .date()
+  .required('Start Date is required')
+  .nullable()
+  .min(new Date(new Date().setHours(0,0,0,0)), 'Start Date must be today or later')
+  .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
+  .test('futureDate', 'Leave Date cannot be in the past', function (value) {
+    return value && value >= new Date(new Date().setHours(0,0,0,0)); 
+  }),
+
+
   numberOfDays: yup
     .number()
-    .typeError('Number of Days must be a number')
     .required('Number of Days is required')
+    .typeError('Number of Days must be a number')
     .positive('Number of Days must be positive')
     .integer('Number of Days must be an integer')
     .test('Number of Days must match the selected dates', function () {

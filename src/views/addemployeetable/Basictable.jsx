@@ -193,9 +193,7 @@ export const BasicTable = () => {
           exportPdf: exportPdf,
           grouping: true,
           selection: true,
-          // rowStyle: {
-          //   backgroundColor: '#EEE',
-          // },
+          columnsButton: true,
           headerStyle: {
             background: 'linear-gradient(180deg,#3a59af,#352786)',
             color: '#fff' // Text color
