@@ -235,6 +235,7 @@ const {recruitmentContextData}=useContext(ApiContext)
               exportPdf: exportPdf,
               grouping: true,
               selection: true,
+              columnsButton: true,
               headerStyle: {
                 background: 'linear-gradient(180deg,#3a59af,#352786)',
                 color: '#fff'
