@@ -27,32 +27,32 @@ const Dashboard = () => {
           <p>Dashboard</p>
         </div>
         <Grid container spacing={2}>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={6} sm={6} lg={3}>
             <Card1 isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={6} sm={6} lg={3}>
             <Card2 isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={6} sm={6} lg={3}>
             <Card3 isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={3}>
+          <Grid item xs={12} md={6} sm={6} lg={3}>
             <AnnualCard isLoading={isLoading} />
           </Grid>
 
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={8} sm={12}>
             <Apexchart isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item  xs={12} md={4} sm={6} lg={4}>
             <PopularCard isLoading={isLoading} />
           </Grid>
-
-          <Grid item xs={12} md={8}>
-            <TotalGrowthBarChart isLoading={isLoading} />
-          </Grid>
-          <Grid item xs={12} md={4}>
+          <Grid item  xs={12} md={5} sm={6} lg={4}>
             <Calendar isLoading={isLoading} />
           </Grid>
+          <Grid item xs={12} md={7} lg={8}>
+            <TotalGrowthBarChart isLoading={isLoading} />
+          </Grid>
+ 
 
           {/* <Grid item xs={12} md={12}>
           <Upcomingevents isLoading={isLoading} />
