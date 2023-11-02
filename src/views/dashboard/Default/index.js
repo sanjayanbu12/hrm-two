@@ -20,13 +20,13 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Card>
+    <Card sx={{p:2}} raised={true}>
       <div style={{ overflow: 'hidden' }}>
         <div style={{ fontWeight: 'bolder', fontSize: '25px', marginTop: '10px', marginLeft: '10px' }}>Welcome Admin!</div>
         <div style={{ fontWeight: 'bold', fontSize: '15px', marginLeft: '10px', marginBottom: '10px' }}>
           <p>Dashboard</p>
         </div>
-        <Grid container spacing={2}>
+        <Grid container rowSpacing={2} columnSpacing={2}>
           <Grid item xs={12} md={6} sm={6} lg={3}>
             <Card1 isLoading={isLoading} />
           </Grid>
@@ -46,10 +46,10 @@ const Dashboard = () => {
           <Grid item  xs={12} md={4} sm={6} lg={4}>
             <PopularCard isLoading={isLoading} />
           </Grid>
-          <Grid item  xs={12} md={5} sm={6} lg={4}>
+          <Grid item  xs={12} md={5} sm={6} lg={5}>
             <Calendar isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={7} lg={8}>
+          <Grid item xs={12} md={7} lg={7}>
             <TotalGrowthBarChart isLoading={isLoading} />
           </Grid>
  
