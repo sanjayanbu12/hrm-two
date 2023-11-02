@@ -169,16 +169,16 @@ const AttendanceMod = () => {
     try {
       const res = employeeContextData;
       const matchingEmployee = res.data.find((emp) => emp.employeeid === authId);
-
+  
       if (matchingEmployee) {
         const clockData = matchingEmployee.clockid || [];
         const currentDate = new Date().toLocaleDateString();
-
+  
         // Check if there is a checkInTime entry for today's date
         const hasCheckInForToday = clockData.some((clockData) => {
           return new Date(clockData.date).toLocaleDateString() === currentDate && clockData.checkInTime;
         });
-
+  
         const flattenedEmployeeData = clockData.map((clockData) => ({
           name: matchingEmployee.name,
           date: clockData.date,
@@ -188,11 +188,14 @@ const AttendanceMod = () => {
           breakout: clockData.break.map((data) => data.breakout),
           workingHours: (clockData.checkInTime, clockData.checkOutTime, clockData.break)
         }));
-
+  
         setCheck(flattenedEmployeeData);
-
-        // Hide the "Check In" button if there is already a checkInTime for today
+  
+        // Disable the "Check In" button if there is already a checkInTime for today
         setCheckInDisabled(hasCheckInForToday);
+        
+        // Enable the "Check Out" button if there is a checkInTime for today
+        setCheckOutDisabled(!hasCheckInForToday);
       } else {
         console.log('Employee not found for authId:', authId);
       }
@@ -200,7 +203,7 @@ const AttendanceMod = () => {
       console.log(error);
     }
   };
-
+  
   useEffect(() => {
     checkButton();
   }, [employeeContextData]);
