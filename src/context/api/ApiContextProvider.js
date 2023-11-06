@@ -11,6 +11,7 @@ const ApiContextProvider = ({ children }) => {
   const [medialistContextData, setmedialistContextData] = useState([]);
   const [eventContextData, seteventContextData] = useState([]);
   const [loggedUserData, setloggedUserData] = useState([]);
+  const[getattendance,setGetattendance]=useState([])
   const value = {
     employeeContextData,
     setEmployeeContextData,
@@ -21,7 +22,8 @@ const ApiContextProvider = ({ children }) => {
     medialistContextData,
     eventContextData,
     loggedUserData,
-    setloggedUserData
+    setloggedUserData,
+    getattendance
   };
   console.log('loggedUserData', loggedUserData);
   return (
@@ -34,6 +36,7 @@ const ApiContextProvider = ({ children }) => {
         setorgContextData={setorgContextData}
         setmedialistContextData={setmedialistContextData}
         seteventContextData={seteventContextData}
+        setGetattendance={setGetattendance}
       />
       <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
     </div>
