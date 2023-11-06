@@ -8,11 +8,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 999;
+    z-index: 99999;
   }
   
   .popup-card {
     background-color: white;
+    height: 80vh;
+    width: 55vw;
+
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
