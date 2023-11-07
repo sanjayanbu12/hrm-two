@@ -55,29 +55,29 @@ const AttendanceMod = () => {
   }, [employeeContextData]);
 
   const RectifyCheckout = async () => {
-    try {
-      const response = await getattendance;
+  try {
+    const response = await getattendance;
 
-      // Extract the array of _id values from the response
-      const underid = response.map((data) => data._id);
-      console.log("getting first id", underid);
+    // Extract the array of _id values from the response
+    const underid = response.map((data) => data._id);
+    console.log("getting first id", underid);
 
-      // Check if authId exists in the response array and get its _id
-      const authIdToFind = authId; // Replace with your authId value
-      const matchingItem = response.find((data) => data.authId === authIdToFind);
+    // Check if authId exists in the response array and get the _id of the last matching item
+    const authIdToFind = authId; // Replace with your authId value
+    const matchingItem = response.reverse().find((data) => data.authId === authIdToFind); // Reverse the array and find the first matching item
 
-      if (matchingItem) {
-        const matchingItemId = matchingItem._id;
-        console.log(`Found matching _id for authId`, matchingItemId);
-        setParclock(matchingItemId)
-        // You can use matchingItemId as needed
-      } else {
-        console.log(`No matching item found for authId ${authIdToFind}`);
-      }
-    } catch (error) {
-      console.log(error);
+    if (matchingItem) {
+      const matchingItemId = matchingItem._id;
+      console.log(`Found matching _id for authId`, matchingItemId);
+      setParclock(matchingItemId);
+    
+    } else {
+      console.log(`No matching item found for authId ${authIdToFind}`);
     }
-  };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
   useEffect(() => {
     RectifyCheckout();
