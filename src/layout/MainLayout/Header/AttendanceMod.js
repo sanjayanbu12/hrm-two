@@ -64,16 +64,23 @@ const AttendanceMod = () => {
 
     // Check if authId exists in the response array and get the _id of the last matching item
     const authIdToFind = authId; // Replace with your authId value
-    const matchingItem = response.reverse().find((data) => data.authId === authIdToFind); // Reverse the array and find the first matching item
+    const matchingItem = response.reverse().find((data) => data.authId === authIdToFind); 
+    // Reverse the array and find the first matching item
 
     if (matchingItem) {
       const matchingItemId = matchingItem._id;
-      console.log(`Found matching _id for authId`, matchingItemId);
+      console.log(`Found matching _id for authId`,matchingItemId);
       setParclock(matchingItemId);
     
     } else {
       console.log(`No matching item found for authId ${authIdToFind}`);
     }
+
+const Checkbreak=response.find((data) => data.authId === authIdToFind); 
+setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length - 1]);
+
+
+
   } catch (error) {
     console.log(error);
   }
@@ -116,7 +123,8 @@ const AttendanceMod = () => {
           attid: parclock
         });
         setStatus(!formStatus);
-        setBreackinId(response.data.savedData._id);
+        setAtt(!att);
+        
 
         if (response.status === 200) {
           console.log('Break in successful!', response);
@@ -220,12 +228,13 @@ const AttendanceMod = () => {
 
         // Enable the "Check Out" button if there is a checkInTime for today and the current breakButtonLabel is not "In"
         setCheckOutDisabled(!hasCheckInForToday || breakButtonLabel === 'In');
-
+        setBreakDisabled(!hasCheckInForToday)
         // Disable all buttons if there is a checkOutTime for today
         if (hasCheckOutForToday) {
           setCheckInDisabled(true);
           setCheckOutDisabled(true);
           setBreakDisabled(true);
+          
         }
       } else {
         console.log('Employee not found for authId:', authId);

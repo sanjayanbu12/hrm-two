@@ -161,7 +161,6 @@ const InterviewBoard = () => {
     setMatchedResults(matched);
   }, [Adata, filter]);
 
-  console.log('fff', matchedResults);
 
   const handleDragEnd = async (result) => {
     if (!result.destination) {
@@ -332,7 +331,7 @@ const InterviewBoard = () => {
                                         </Tooltip>
                                     </div>
                                     <Tooltip title={x.Name}>
-                                      <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>
+                                      <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px',backgroundColor:'orangered',color:'yellow' }}>
                                         {x.Name[0]}
                                       </Avatar>
                                     </Tooltip>
