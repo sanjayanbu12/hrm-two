@@ -289,6 +289,14 @@ const RecruitmentView = () => {
                 <b style={{ marginLeft: '245px', paddingRight: '10px' }}>:</b> {selectedJob.Skills}
               </Typography>
               <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Priority</b>
+                <b style={{ marginLeft: '230px', paddingRight: '10px' }}>:</b> {selectedJob.priority}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <b> Job Raiser</b>
+                <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.jobraiser}
+              </Typography>
+              <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
                 <b> Experience</b>
                 <b style={{ marginLeft: '211px', paddingRight: '10px' }}>:</b> {selectedJob.ExperienceFrom} to {selectedJob.ExperienceTo}{' '}
                 Years

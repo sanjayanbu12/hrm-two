@@ -29,6 +29,8 @@ import { Toast } from 'primereact/toast';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
+
+
 const RecruitmentForm = () => {
   const theme = useTheme();
   const [Jobrole, setJobrole] = useState('');
@@ -42,6 +44,9 @@ const RecruitmentForm = () => {
   const [Deadline, setDeadline] = useState('');
   const [Worktype, setWorktype] = useState('');
   const [Skills, setSkills] = useState('');
+  const [priority,setPriority]=useState('');
+  
+  const [jobraiser,setJobraiser]=useState('');
   const [Clientname, setClientname] = useState('');
   const [Clientcompany, setClientcompany] = useState('');
   const [Hrname, setHrname] = useState('');
@@ -82,6 +87,22 @@ const RecruitmentForm = () => {
       Worktype: ''
     }));
   };
+  const handlePriority = (e) => {
+    setPriority(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      priority: ''
+    }));
+  };
+  
+  const handleJobraiser = (e) => {
+    setJobraiser(e.target.value);
+    setErrors((prev) => ({
+      ...prev,
+      jobraiser: ''
+    }));
+  };
+  
 
   const handleJobrole = (e) => {
     setJobrole(e.target.value);
@@ -99,6 +120,7 @@ const RecruitmentForm = () => {
     }));
   };
 
+
   const handleClientcompany = (e) => {
     setClientcompany(e.target.value);
     setErrors((prev) => ({
@@ -114,6 +136,8 @@ const RecruitmentForm = () => {
       Hrname: ''
     }));
   };
+
+
   const handleProct = (e, value) => {
     console.log(value);
     const selectedData = value.map((item) => ({
@@ -164,6 +188,8 @@ const RecruitmentForm = () => {
       }));
     }
   };
+
+ 
 
   const handleOpenings = (e) => {
     const Open = e.target.value;
@@ -216,6 +242,8 @@ const RecruitmentForm = () => {
       skills: ''
     }));
   };
+ 
+
 
   const handleDescription = (e) => {
     setDescription(e.target.value);
@@ -324,6 +352,8 @@ const RecruitmentForm = () => {
         setEducation(responseData.Education.join(','));
         setYear(responseData.Year.join(','));
         setLocation(responseData.Location);
+        setPriority(responseData.priority);
+        setJobraiser(responseData.jobraiser)
       })
       .catch((err) => {
         console.log(err.message);
@@ -353,7 +383,9 @@ const RecruitmentForm = () => {
           Skills,
           Education,
           Year,
-          Location
+          Location,
+          priority,
+          jobraiser
         };
 
         await validationSchema.validate(
@@ -377,7 +409,9 @@ const RecruitmentForm = () => {
             Skills,
             Education,
             Year,
-            Location
+            Location,
+            priority,
+            jobraiser
           },
           {
             abortEarly: false
@@ -403,6 +437,8 @@ const RecruitmentForm = () => {
         setEducation('');
         setYear('');
         setLocation('');
+        setPriority('');
+        setJobraiser('')
 
         Swal.fire({
           icon: 'success',
@@ -445,7 +481,9 @@ const RecruitmentForm = () => {
           Education,
           Year,
           Location,
-          orgData: proct
+          orgData: proct,
+          priority,
+          jobraiser
         };
         console.log('task', task);
 
@@ -469,7 +507,9 @@ const RecruitmentForm = () => {
             Skills,
             Education,
             Year,
-            Location
+            Location,
+            priority,
+            jobraiser
           },
           { abortEarly: false }
         );
@@ -495,6 +535,8 @@ const RecruitmentForm = () => {
         setEducation('');
         setYear('');
         setLocation('');
+        setPriority('');
+        setJobraiser('')
         Swal.fire({
           icon: 'success',
           text: 'Add Recruitment'
@@ -581,11 +623,12 @@ const RecruitmentForm = () => {
                     value={Company}
                     onChange={(e) => handleCompany(e)}
                   >
-                    <MenuItem value="Sns Square">SNS Square</MenuItem>
+                    <MenuItem value="Sns Square">SNS Square</MenuItem> 
                   </Select>
                   <FormHelperText>{errors && errors.Company}</FormHelperText>
                 </FormControl>
               </Grid>
+
               <Grid item xs={12} sm={6} md={4} lg={3}>
                 <FormControl sx={{ minWidth: '100%' }} error={errors && errors.Location}>
                   <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -721,6 +764,45 @@ const RecruitmentForm = () => {
                 </FormControl>
               </Grid>
               <Grid item xs={12} sm={6} md={4} lg={3}>
+                <FormControl sx={{ minWidth: '100%' }} error={errors && errors.priority}>
+                  <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    label="Priority"
+                    value={priority}
+                    // error={errors && errors.Status}
+                    // helperText={errors && errors.Status}
+                    onChange={(e) => handlePriority(e)}
+                  >
+                    <MenuItem value="High">High</MenuItem>
+                    <MenuItem value="Low">Low</MenuItem>
+                    <MenuItem value="Medium">Medium</MenuItem>
+                  
+                  </Select>
+                  <FormHelperText>{errors && errors.priority}</FormHelperText>
+                </FormControl>
+              </Grid>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+  <FormControl sx={{ minWidth: '100%' }} error={errors && errors.jobraiser}>
+    <InputLabel id="demo-simple-select-label">Job raiser</InputLabel>
+    <Select 
+      labelId="demo-simple-select-label"
+      id="demo-simple-select"
+      label="Job Raiser"
+      value={jobraiser}
+      onChange={(e) => handleJobraiser(e)}
+    >
+      {Emplist.map((item) => (
+        <MenuItem  key={item} value={item}>
+          {item}
+        </MenuItem>
+      ))}
+    </Select>
+    <FormHelperText>{errors && errors.jobraiser}</FormHelperText>
+  </FormControl>
+</Grid>
+              <Grid item xs={12} sm={6} md={4} lg={3}>
                 <TextField
                   sx={{ minWidth: '100%' }}
                   id="outlined-basic"
@@ -806,7 +888,7 @@ const RecruitmentForm = () => {
                       defaultValue={[]}
                       onChange={handleProct}
                       filterSelectedOptions
-                      renderInput={(params) => <TextField {...params} label="Add Proctared" placeholder="Add" />}
+                      renderInput={(params) => <TextField {...params} label="Reporting to" placeholder="Add" />}
                     />
                   ) : (
                     <div>Loading or no data available.</div>
