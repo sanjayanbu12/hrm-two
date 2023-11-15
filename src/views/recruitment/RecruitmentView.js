@@ -197,6 +197,7 @@ const RecruitmentView = () => {
     await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
       jobApproved: true
     });
+    
     setorgStatus(!orgStatus)
     setTimeout(() => {
       navigate(`/managerapproval/${authId}`);
@@ -302,7 +303,7 @@ const RecruitmentView = () => {
                 Years
               </Typography>
               {selectedJob.Description ? (
-                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">
+                <Typography sx={{ lineHeight: '4' }} variant="p" component="p">   
                   <b> Description</b>
                   <b style={{ marginLeft: '210px', paddingRight: '12px' }}>:</b>
                   {selectedJob.Description}
