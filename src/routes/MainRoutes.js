@@ -39,7 +39,8 @@ import ApplicationView1 from 'views/recruitment/ApplicationView1';
 import { FeedSelectedTable } from 'views/recruitment/FeedSelectedTable';
 import ApplicationTrackTab from 'views/recruitment/ApplicationTrackTab';
 import AtttendanceTab from 'layout/MainLayout/Header/AtttendanceTab';
-import Precruitment from 'views/Precruitment/Precruitment';
+// import Precruitment from 'views/Precruitment/Precruitment';
+import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
 // dashboard routing
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
@@ -236,8 +237,8 @@ const MainRoutes = {
       element:<LeaveApproval />
     }
     ,{
-      path:'/Precruitment',
-      element:<Precruitment />
+      path:'/Procruitment',
+      element:<ProcruitmentTable />
     }
 
     
