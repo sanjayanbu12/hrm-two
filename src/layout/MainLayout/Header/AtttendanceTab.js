@@ -283,32 +283,32 @@ const AtttendanceTab = () => {
                   renderInput={(params) => <TextField {...params} />}
                  
                 /> */}
-          <MaterialTable
-            columns={columns}
-            title={
-              <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
-                Attendance : {formattedSelectedDate}
-              </div>
-            }
-            data={dataForSelectedDate}
-            icons={tableIcons}
-            style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-            options={{
-              actionsColumnIndex: 6,
-              exportButton: true,
-              exportCsv: exportCsv,
-              exportPdf: exportPdf,
-              grouping: true,
-              headerStyle: {
-                background: 'linear-gradient(180deg,#3a59af,#352786)',
-                color: '#fff',
-              },
-              headerCellStyle: {
-                background: 'linear-gradient(180deg,#3a59af,#352786)',
-                color: 'white',
-              },
-            }}
-          />
+            <MaterialTable
+              columns={columns}
+              title={
+                <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
+                  Attendance : {formattedSelectedDate}
+                </div>
+              }
+              data={dataForSelectedDate}
+              icons={tableIcons}
+              style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+              options={{
+                actionsColumnIndex: 6,
+                exportButton: true,
+                exportCsv: exportCsv,
+                exportPdf: exportPdf,
+                grouping: true,
+                headerStyle: {
+                  background: 'linear-gradient(180deg,#3a59af,#352786)',
+                  color: '#fff',
+                },
+                headerCellStyle: {
+                  background: 'linear-gradient(180deg,#3a59af,#352786)',
+                  color: 'white',
+                },
+              }}
+            />
         </div>
       );
     };

@@ -6,11 +6,16 @@ import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
 import Check from '@mui/icons-material/Check';
-import SettingsIcon from '@mui/icons-material/Settings';
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
-import VideoLabelIcon from '@mui/icons-material/VideoLabel';
+import { Bs1CircleFill } from "react-icons/bs";
+import { Bs2CircleFill } from "react-icons/bs";
+import { BsBucketFill } from "react-icons/bs";
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
-
+import Button from '@mui/material/Button';
+import SendIcon from '@mui/icons-material/Send';
+import { useState } from 'react';
+import Firststep from './Firststep';
+import Secondstep from './Secondstep';
+import Finalstep from './Finalstep';
 // const QontoConnector = styled(StepConnector)(({ theme }) => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
 //     top: 10,
@@ -133,15 +138,17 @@ function ColorlibStepIcon(props) {
   const { active, completed, className } = props;
 
   const icons = {
-    1: <SettingsIcon />,
-    2: <GroupAddIcon />,
-    3: <VideoLabelIcon />,
+    1: <Bs1CircleFill style={{fontSize:'20px'}} />,
+    2: <Bs2CircleFill style={{fontSize:'20px'}}/>,
+    3: <BsBucketFill style={{fontSize:'20px'}} />,
   };
 
-  return (
+  return (<>
     <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
       {icons[String(props.icon)]}
     </ColorlibStepIconRoot>
+
+   </>
   );
 }
 
@@ -165,23 +172,65 @@ ColorlibStepIcon.propTypes = {
 
 const steps = ['1st step', '2nd Step', 'Final step'];
 
+const CustomizedSteppersContainer = styled('div')({
+  display: 'flex',
+  flexDirection: 'column',
+  minHeight: '75vh',
+});
+
+const ButtonContainer = styled('div')({
+  marginTop: 'auto',
+  alignSelf: 'flex-end',
+  // marginBottom: '20px',
+  marginRight:'30px',
+});
+
 export default function CustomizedSteppers() {
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+  const renderStepComponent = () => {
+    switch (activeStep) {
+      case 0:
+        return <Firststep />;
+      case 1:
+        return <Secondstep />;
+      case 2:
+        return <Finalstep />;
+      default:
+        return null;
+    }
+  };
   return (
-    <Stack sx={{ width: '100%' }} spacing={4}>
-      {/* <Stepper alternativeLabel activeStep={1} connector={<QontoConnector />}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper> */}
-      <Stepper alternativeLabel activeStep={1} connector={<ColorlibConnector />}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-    </Stack>
+    
+    <>
+      <CustomizedSteppersContainer>
+        <Stack sx={{ width: '100%' }} spacing={4}>
+          <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel StepIconComponent={ColorlibStepIcon}>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Stack>
+        {renderStepComponent()}
+        <ButtonContainer>
+          <Button
+            variant="contained"
+            endIcon={<SendIcon />}
+            onClick={handleNext}
+            disabled={activeStep === steps.length - 1}
+          >
+            Next
+          </Button>
+        </ButtonContainer>
+      </CustomizedSteppersContainer>
+  
+    </>
+    
+
   );
 }
