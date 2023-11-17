@@ -16,6 +16,7 @@ import { useState } from 'react';
 import Firststep from './Firststep';
 import Secondstep from './Secondstep';
 import Finalstep from './Finalstep';
+import CancelIcon from '@mui/icons-material/Cancel';
 // const QontoConnector = styled(StepConnector)(({ theme }) => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
 //     top: 10,
@@ -117,8 +118,8 @@ const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
   zIndex: 1,
   color: '#fff',
-  width: 50,
-  height: 50,
+  width: 40,
+  height: 40,
   display: 'flex',
   borderRadius: '50%',
   justifyContent: 'center',
@@ -176,21 +177,38 @@ const CustomizedSteppersContainer = styled('div')({
   display: 'flex',
   flexDirection: 'column',
   minHeight: '75vh',
+  position: 'relative',
 });
 
 const ButtonContainer = styled('div')({
   marginTop: 'auto',
   alignSelf: 'flex-end',
-  // marginBottom: '20px',
-  marginRight:'30px',
+  marginBottom: '20px',
+  marginRight:'10px',
 });
 
-export default function CustomizedSteppers() {
+const CancelIconContainer = styled('div')({
+  margin: '0px 3px 0px auto', 
+  color:'red',
+  cursor:'pointer',
+ 
+});
+
+export default function CustomizedSteppers({ handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    if (activeStep === steps.length - 1) {
+      // If on the last step, setSubmitClicked to true to disable the button
+      setSubmitClicked(true);
+      handleClose();
+    } else {
+      // If not on the last step, proceed to the next step
+      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    }
   };
+
   const renderStepComponent = () => {
     switch (activeStep) {
       case 0:
@@ -203,10 +221,16 @@ export default function CustomizedSteppers() {
         return null;
     }
   };
+
+  const isLastStep = activeStep === steps.length - 1;
+
   return (
-    
     <>
       <CustomizedSteppersContainer>
+      <CancelIconContainer onClick={handleClose}>
+          <CancelIcon />
+        </CancelIconContainer>
+      
         <Stack sx={{ width: '100%' }} spacing={4}>
           <Stepper alternativeLabel activeStep={activeStep} connector={<ColorlibConnector />}>
             {steps.map((label) => (
@@ -220,17 +244,14 @@ export default function CustomizedSteppers() {
         <ButtonContainer>
           <Button
             variant="contained"
-            endIcon={<SendIcon />}
+            endIcon={isLastStep ? null : <SendIcon /> }
             onClick={handleNext}
-            disabled={activeStep === steps.length - 1}
+            disabled={submitClicked}
           >
-            Next
+            {isLastStep ? 'Submit' : 'Next'}
           </Button>
         </ButtonContainer>
       </CustomizedSteppersContainer>
-  
     </>
-    
-
   );
 }
