@@ -1,51 +1,54 @@
 import React from 'react';
-import MaterialTable, { MTableToolbar } from 'material-table';
+import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
+import { useState } from 'react';
+import Precruitment from './Precruitment';
+import { Modal } from '@material-ui/core'
 
 const ProcruitmentTable = () => {
+const[open,setOpen]=useState(false);
+
   const columns = [
-    { title: 'Name', field: 'name' },
-    { title: 'Date', field: 'date' },
-    { title: 'Checkin Time', field: 'checkInTime' },
-    { title: 'Checkout Time', field: 'checkOutTime' },
-    { title: 'Working Hours', field: 'workingHours' },
+    { title: 'Description', field: '' },
+    { title: 'Qty', field: '' },
+    { title: 'Approximate Budget', field: '' },
+    { title: 'Requested on', field: '' },
+    { title: 'Priority', field: 'workingHours' },
+    { title: 'Status', field: '' },
   ];
 
   const handleAddEmployee = () => {
     // Implement the logic to add an employee here
     console.log('Add employee logic');
+    setOpen(true)
   };
 
+  const handleClose=()=>{
+    setOpen(false)
+  }
   return (
     <div>
       <MaterialTable
         columns={columns}
-        components={{
-            Toolbar: (props) => (
-                <>
-         
-                <MTableToolbar {...props} />
-                <div style={{ textAlign: 'right', paddingRight: '10px' }}>
-                  <button onClick={handleAddEmployee} style={{ color: '#fff', background: '#3a59af', border: 'none', padding: '10px', borderRadius: '5px', cursor: 'pointer' }}>
-                    Add New Request
-                  </button>
-                </div>
-                </>
-            ),
-          }}
-
+       
         title={
           <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
             Procruitment
           </div>
         }
-    
-       
+        actions={[
+          {
+            icon: tableIcons.AddNewRequest, // Use your custom icon for Add
+            tooltip: 'Add New Request',
+            isFreeAction: true,
+            onClick: handleAddEmployee,
+          },
+        ]}
         icons={tableIcons}
         style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
         options={{
           actionsColumnIndex: 6,
-          exportButton: true,
+          exportButton: false,
           grouping: true,
           headerStyle: {
             background: 'linear-gradient(180deg,#3a59af,#352786)',
@@ -58,6 +61,33 @@ const ProcruitmentTable = () => {
         }}
        
       />
+     <Modal
+  open={open}
+ 
+  style={{
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }}
+>
+  <div
+    style={{
+      minWidth: '498px',
+      minHeight: '502px',
+      backgroundColor: 'white',
+      padding: 10,
+      boxShadow:
+        '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+      borderRadius: '10px',
+      marginTop: '20px',
+    }}
+  >
+    {/* Content of your modal */}
+    <div>
+      <Precruitment handleClose={handleClose} />
+    </div>
+  </div>
+</Modal>
     </div>
   );
 };
