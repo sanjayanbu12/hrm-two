@@ -1,18 +1,21 @@
 import { Box } from '@mui/system';
 import './authreg.css';
-import { Button, Grid, TextField } from '@mui/material';
+import { Button, Grid, TextField,InputAdornment ,IconButton} from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { signupSchema } from 'Valdidation/SignupValidation';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
+// import {  CircularProgress} from '@mui/material';
 import PasswordValidator from './PasswordValidator';
 import useToast from 'views/leavemanagement/useToast';
 const FirebaseRegister = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState('');
   const [err, setErr] = useState({});
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -103,6 +106,10 @@ const FirebaseRegister = () => {
     setConfirmPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, confirmPassword: '' }));
   };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
   return (
     <div className="signup-wrapper">
       <Box sx={{ flexGrow: 1 }}>
@@ -147,12 +154,21 @@ const FirebaseRegister = () => {
           <Grid item xs={12}>
             <TextField
               sx={{ minWidth: '100%' }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
               variant="outlined"
               error={err && err.password}
               helperText={err && err.password}
               id="outlined-required"
               label="Password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => handlePasswordChange(e)}
             />
