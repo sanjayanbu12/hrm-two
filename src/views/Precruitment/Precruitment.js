@@ -17,6 +17,8 @@ import Firststep from './Firststep';
 import Secondstep from './Secondstep';
 import Finalstep from './Finalstep';
 import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
+import Grid from '@mui/material/Grid';
 // const QontoConnector = styled(StepConnector)(({ theme }) => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
 //     top: 10,
@@ -191,7 +193,6 @@ const CancelIconContainer = styled('div')({
   margin: '0px 3px 0px auto', 
   color:'red',
   cursor:'pointer',
- 
 });
 
 export default function CustomizedSteppers({ handleClose }) {
@@ -200,11 +201,9 @@ export default function CustomizedSteppers({ handleClose }) {
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
-      // If on the last step, setSubmitClicked to true to disable the button
       setSubmitClicked(true);
       handleClose();
     } else {
-      // If not on the last step, proceed to the next step
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
@@ -241,8 +240,21 @@ export default function CustomizedSteppers({ handleClose }) {
           </Stepper>
         </Stack>
         {renderStepComponent()}
+     <Grid  sx={{display:"flex",justifyContent:'space-between',marginTop: 'auto'}}>
+        <ButtonContainer>
+        <Button
+         sx={{ml:'15px'}}
+                variant="contained"
+                startIcon={<ArrowBackOutlinedIcon />}
+                onClick={() => setActiveStep((prev) => Math.max(prev - 1, 0))}
+                disabled={activeStep === 0 || submitClicked}
+              >
+                Back
+              </Button>
+          </ButtonContainer>
         <ButtonContainer>
           <Button
+            sx={{mr:'15px'}}
             variant="contained"
             endIcon={isLastStep ? null : <SendIcon /> }
             onClick={handleNext}
@@ -250,7 +262,9 @@ export default function CustomizedSteppers({ handleClose }) {
           >
             {isLastStep ? 'Submit' : 'Next'}
           </Button>
+         
         </ButtonContainer>
+        </Grid>
       </CustomizedSteppersContainer>
     </>
   );
