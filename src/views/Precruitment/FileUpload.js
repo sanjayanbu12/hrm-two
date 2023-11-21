@@ -11,14 +11,46 @@ import 'primeicons/primeicons.css';
 export default function TemplateDemo() {
     const toast = useRef(null);
     const [totalSize, setTotalSize] = useState(0);
-    const fileUploadRef = useRef(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
     
+    const fileUploadRef = useRef(null);
+
     const onTemplateSelect = (e) => {
         let _totalSize = totalSize;
-        let files = e.files;
-        Object.keys(files).forEach((key) => {
-            _totalSize += files[key].size || 0;
+        let files = Array.from(e.files);
+        let duplicateFiles = [];
+    
+        // Use the functional form of set state to ensure the latest state
+        setSelectedFiles(prevSelectedFiles => {
+            // Filter out files that are already selected
+            files = files.filter((file) => !prevSelectedFiles.some((selectedFile) => selectedFile.name === file.name && selectedFile.size === file.size));
+    
+            for (const file of files) {
+                if (prevSelectedFiles.some((selectedFile) => selectedFile.name === file.name && selectedFile.size === file.size)) {
+                    duplicateFiles.push(file);
+                }
+            }
+    
+            if (duplicateFiles.length > 0) {
+                duplicateFiles.forEach((file) => {
+                    toast.current.show({
+                        severity: 'warn',
+                        summary: 'Warning',
+                        detail: `File '${file.name}' Already Selected`,
+                    });
+                });
+    
+                return prevSelectedFiles; // Return the previous state to prevent adding duplicate files
+            }
+    
+            // If no duplicates, update the state
+            return [...prevSelectedFiles, ...files];
         });
+    
+        files.forEach((file) => {
+            _totalSize += file.size || 0;
+        });
+    
         setTotalSize(_totalSize);
     };
 
@@ -32,6 +64,9 @@ export default function TemplateDemo() {
     };
 
     const onTemplateRemove = (file, callback) => {
+        const updatedFiles = selectedFiles.filter((selectedFile) => !(selectedFile.name === file.name && selectedFile.size === file.size));
+        setSelectedFiles(updatedFiles);
+
         setTotalSize(totalSize - file.size);
         callback();
     };
@@ -57,18 +92,27 @@ export default function TemplateDemo() {
             </div>
         );
     };
+ 
 
     const itemTemplate = (file, props) => {
+        console.log(file.name)
         return (
-            <div className="flex align-items-center flex-wrap">
-                <div className="flex align-items-center" style={{ width: '40%' }}>
-                    <span className="flex flex-column text-left ml-3">
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <div style={{ width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <span>
                         {file.name}
                         <small>{new Date().toLocaleDateString()}</small>
                     </span>
                 </div>
-                <Tag value={props.formatSize} severity="warning" className="px-3 py-2" />
-                <Button type="button" icon="pi pi-times" className="p-button-outlined p-button-rounded p-button-danger ml-auto" onClick={() => onTemplateRemove(file, props.onRemove)} />
+                <div>
+                    <Tag style={{ marginBottom: '7px' }} value={props.formatSize} severity="warning" className="px-3 py-2" />
+                    <Button
+                        type="button"
+                        icon="pi pi-times"
+                        className="p-button-outlined p-button-rounded p-button-danger ml-auto"
+                        onClick={() => onTemplateRemove(file, props.onRemove)}
+                    />
+                </div>
             </div>
         );
     };
@@ -83,11 +127,12 @@ export default function TemplateDemo() {
             </div>
         );
     };
+    
 
     const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
     const uploadOptions = { icon: 'pi pi-fw pi-cloud-upload', iconOnly: true, className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined' };
     const cancelOptions = { icon: 'pi pi-fw pi-times', iconOnly: true, className: 'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined' };
-
+   
     return (
         <div>
             <Toast ref={toast}></Toast>
@@ -98,7 +143,7 @@ export default function TemplateDemo() {
             <FileUpload ref={fileUploadRef} name="demo[]" url="/api/upload" multiple accept="image/*" maxFileSize={1000000}
                 onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
                 headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
-                chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}/>
+                chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}  style={{ height:'250px', overflowY: 'auto' }} />
         </div>
     )
 }
