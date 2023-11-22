@@ -7,11 +7,20 @@ import { Button } from 'primereact/button';
 import { Tooltip } from 'primereact/tooltip';
 import { Tag } from 'primereact/tag';
 import 'primeicons/primeicons.css';
+import Lottie from 'react-lottie';
+import Completd from './Completd.json';
+
 
 export default function TemplateDemo() {
     const toast = useRef(null);
     const [totalSize, setTotalSize] = useState(0);
     const [selectedFiles, setSelectedFiles] = useState([]);
+    const [showLottie, setShowLottie] = useState(false);
+    
+    const lt1={
+        animationData: Completd,
+      }
+    
     
     const fileUploadRef = useRef(null);
 
@@ -63,6 +72,9 @@ export default function TemplateDemo() {
         toast.current.show({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
     };
 
+   
+
+
     const onTemplateRemove = (file, callback) => {
         const updatedFiles = selectedFiles.filter((selectedFile) => !(selectedFile.name === file.name && selectedFile.size === file.size));
         setSelectedFiles(updatedFiles);
@@ -73,6 +85,8 @@ export default function TemplateDemo() {
 
     const onTemplateClear = () => {
         setTotalSize(0);
+        // Set showLottie to true after clearing files
+        setShowLottie(true);
     };
 
     const headerTemplate = (options) => {
@@ -120,10 +134,16 @@ export default function TemplateDemo() {
     const emptyTemplate = () => {
         return (
             <div className="flex align-items-center flex-column">
-                <i  style={{ fontSize: '5em', borderRadius: '50%', backgroundColor: 'var(--surface-b)', color: 'var(--surface-d)' }}></i>
-                <span style={{ fontSize: '1em', color: 'var(--text-color-secondary)' }} className="my-5">
-                    Drag and Drop Image Here
-                </span>
+                {showLottie ? (
+                    <Lottie options={lt1} height="100px" width="100px"/>
+                ) : (
+                    <>
+                        <i style={{ fontSize: '5em', borderRadius: '50%', backgroundColor: 'var(--surface-b)', color: 'var(--surface-d)' }}></i>
+                        <span style={{ fontSize: '1em', color: 'var(--text-color-secondary)' }} className="my-5">
+                            Drag and Drop Image Here
+                        </span>
+                    </>
+                )}
             </div>
         );
     };
