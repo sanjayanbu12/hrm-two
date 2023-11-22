@@ -205,8 +205,8 @@ const InterviewBoard = () => {
       width: '100%',
       height: 'auto',
       minHeight: '480px',
-      backgroundColor:'red',
-      backgroundImage: `linear-gradient(#FF1D58, yellow,#FF1D58)`,
+      backgroundColor:'#F8F8F8',
+      // backgroundImage: `linear-gradient(#FF1D58, yellow,#FF1D58)`,
       backgroundSize: 'cover',
       '& .MuiCardHeader-title': {
         fontWeight: 'bold', 

@@ -14,6 +14,7 @@ import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const AttendanceMod = () => {
   const authId = useSelector((state) => state.customization.authId);
+  console.log("eee",authId)
   const [employee, setEmployee] = useState('');
   const [clockid, setClockid] = useState('');
   const [checkInDisabled, setCheckInDisabled] = useState(false);
@@ -57,16 +58,10 @@ const AttendanceMod = () => {
   const RectifyCheckout = async () => {
   try {
     const response = await getattendance;
-
-    // Extract the array of _id values from the response
     const underid = response.map((data) => data._id);
     console.log("getting first id", underid);
-
-    // Check if authId exists in the response array and get the _id of the last matching item
-    const authIdToFind = authId; // Replace with your authId value
+    const authIdToFind = authId; 
     const matchingItem = response.reverse().find((data) => data.authId === authIdToFind); 
-    // Reverse the array and find the first matching item
-
     if (matchingItem) {
       const matchingItemId = matchingItem._id;
       console.log(`Found matching _id for authId`,matchingItemId);
