@@ -7,19 +7,23 @@ import Grid from '@mui/material/Grid';
 import ReactPlayer from 'react-player/lazy';
 import BaseLayout from './BaseLayout';
 import { PanelMenu } from 'primereact/panelmenu';
-// import { useSelector } from 'react-redux';
+import { red, green } from '@ant-design/colors';
+import { Progress } from 'antd';
+import { useSelector } from 'react-redux';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import DehazeIcon from '@mui/icons-material/Dehaze';
 import Search from './Search';
+import PropTypes from 'prop-types';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary
+  color: theme.palette.text.secondary,
 }));
+
 const CatalogLayout = ({ selectedMedia }) => {
   const [moduleVideoData, setModuleVideoData] = useState([]);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
@@ -27,26 +31,46 @@ const CatalogLayout = ({ selectedMedia }) => {
   const [videoCompletion, setVideoCompletion] = useState({});
   const [panelMenuModel, setPanelMenuModel] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-
-  // const userId = useSelector((state) => state.customization.authId);
-
+  const [loading, setLoading] = useState(false);
+ const userId = useSelector((state) => state.customization.authId);
 
   useEffect(() => {
     if (selectedMedia) {
+      setLoading(true);
+      axios
+        .get(`https://hrm-backend-square.onrender.com/progress/get/${userId}`)
+        .then((response) => {
+          setVideoCompletion(response.data);
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching progress data:', error);
+          setLoading(false);
+        });
+    }
+  }, [selectedMedia, userId]);
+
+  useEffect(() => {
+    if (selectedMedia) {
+      setLoading(true);
       axios
         .get('https://hrm-backend-square.onrender.com/videos/getall')
         .then((response) => {
           const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);
+          setLoading(false);
         })
         .catch((error) => {
           console.error('Error fetching module and video data:', error);
+          setLoading(false);
         });
     }
   }, [selectedMedia]);
 
   useEffect(() => {
-    const filteredModuleVideoData = moduleVideoData.filter((module) => module.moduleName.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredModuleVideoData = moduleVideoData.filter((module) =>
+      module.moduleName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
     const menuItems = filteredModuleVideoData.map((module) => {
       return {
@@ -57,17 +81,25 @@ const CatalogLayout = ({ selectedMedia }) => {
           return {
             label: (
               <>
-                <div style={{ marginRight: '8px' }}>{`Video ${index + 1}`}</div>
+                <div style={{ display: 'flex', marginBottom: '10px' }}>
+                  <div style={{ marginRight: '8px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <YouTubeIcon />
+                    {`Video ${index + 1}`}
+                  </div>
+                </div>
+                <div>
+                  <Progress percent={videoCompletion[videoUrl] ? 100 : 0} steps={1} strokeColor={[green[7], green[8]]} />
+                </div>
               </>
             ),
-            icon: <YouTubeIcon />,
             style: {
-              backgroundColor: selectedVideoUrl === videoUrl ? '#D8D8D8' : 'white',
-              color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black'
+              backgroundColor: selectedVideoUrl === videoUrl ? '#F0F0F0' : 'white',
+              color: selectedVideoUrl === videoUrl ? '#333' : 'black',
             },
-            command: () => handleVideoSelection(videoUrl, module)
+            command: () => handleVideoSelection(videoUrl, module),
+            key: `${module.moduleName}_${index}`, // Add a unique key
           };
-        })
+        }),
       };
     });
 
@@ -76,8 +108,8 @@ const CatalogLayout = ({ selectedMedia }) => {
         label: selectedMedia.courseName || 'Course name',
         icon: <DehazeIcon />,
         expanded: true,
-        items: menuItems.filter((item) => item !== null)
-      }
+        items: menuItems.filter((item) => item !== null),
+      },
     ]);
   }, [moduleVideoData, selectedMedia, currentlyPlayingModule, videoCompletion, selectedVideoUrl, searchQuery]);
 
@@ -93,11 +125,22 @@ const CatalogLayout = ({ selectedMedia }) => {
   const handleVideoEnd = (videoUrl) => {
     setVideoCompletion((prevCompletion) => ({
       ...prevCompletion,
-      [videoUrl]: true
+      [videoUrl]: true,
     }));
-  };
 
-  
+    axios
+      .post('https://hrm-backend-square.onrender.com/progress/store', {
+        videoUrl: videoUrl,
+        userId: userId,
+        completed: true,
+      })
+      .then((response) => {
+        console.log('Progress stored successfully:', response.data);
+      })
+      .catch((error) => {
+        console.error('Error storing progress:', error);
+      });
+  };
 
   return (
     <div style={{ width: '100%' }}>
@@ -105,39 +148,38 @@ const CatalogLayout = ({ selectedMedia }) => {
         <>
           <Box sx={{ flexGrow: 1 }}>
             <Search onSearch={handleSearch} />
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={5}>
-                <Item>
-                  {selectedMedia._id ? (
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={5}>
+                  <Item>
+                    {selectedMedia._id ? (
+                      <>
+                        <PanelMenu model={panelMenuModel} className="w-full md:w-25rem" />
+                      </>
+                    ) : (
+                      <div>No course available</div>
+                    )}
+                  </Item>
+                </Grid>
+                <Grid item xs={12} sm={7}>
+                  {selectedVideoUrl && (
                     <>
-                      <PanelMenu model={panelMenuModel} className="w-full md:w-25rem" />
+                      <ReactPlayer url={selectedVideoUrl} controls={true} width="100%" onEnded={() => handleVideoEnd(selectedVideoUrl)} />
+                      <Progress
+                        percent={videoCompletion[selectedVideoUrl] ? 100 : 0}
+                        steps={10}
+                        strokeColor={[red[5], red[4], red[2], green[2], green[3], green[4], green[5], green[6], green[7], green[8]]}
+                      />
                     </>
-                  ) : (
-                    <div>No course available</div>
                   )}
-                </Item>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={7}>
-                {selectedVideoUrl && (
-                  <>
-                    <ReactPlayer
-                      url={selectedVideoUrl}
-                      controls={true}
-                      width="100%"
-                      onEnded={() => handleVideoEnd(selectedVideoUrl)}
-                     
-                    />
-                  </>
-                )}
-              </Grid>
-            </Grid>
+            )}
             {selectedMedia._id ? (
               <>
-                <BaseLayout
-                  courseName={selectedMedia.courseName}
-                  courseDescription={selectedMedia.courseDescription}
-                  courseid={selectedMedia._id}
-                />
+                <BaseLayout courseName={selectedMedia.courseName} courseDescription={selectedMedia.courseDescription} courseid={selectedMedia._id} />
               </>
             ) : (
               <div>No Description available</div>
@@ -149,6 +191,10 @@ const CatalogLayout = ({ selectedMedia }) => {
       )}
     </div>
   );
+};
+
+CatalogLayout.propTypes = {
+  selectedMedia: PropTypes.object,
 };
 
 export default CatalogLayout;
