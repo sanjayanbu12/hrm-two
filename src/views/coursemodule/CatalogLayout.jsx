@@ -7,9 +7,10 @@ import Grid from '@mui/material/Grid';
 import ReactPlayer from 'react-player/lazy';
 import BaseLayout from './BaseLayout';
 import { PanelMenu } from 'primereact/panelmenu';
-import { Progress } from 'antd';
-import { red, orange, green } from '@ant-design/colors';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import DehazeIcon from '@mui/icons-material/Dehaze';
 import Search from './Search';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -17,30 +18,25 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary,
+  color: theme.palette.text.secondary
 }));
-
-const twoColors = { '0%': '#108ee9', '100%': '#87d068' };
-
 const CatalogLayout = ({ selectedMedia }) => {
   const [moduleVideoData, setModuleVideoData] = useState([]);
   const [selectedVideoUrl, setSelectedVideoUrl] = useState('');
   const [currentlyPlayingModule, setCurrentlyPlayingModule] = useState(null);
   const [videoCompletion, setVideoCompletion] = useState({});
-  const [videoProgress, setVideoProgress] = useState(0);
   const [panelMenuModel, setPanelMenuModel] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
-  const userId = useSelector((state) => state.customization.authId);
+  // const userId = useSelector((state) => state.customization.authId);
+
 
   useEffect(() => {
     if (selectedMedia) {
       axios
         .get('https://hrm-backend-square.onrender.com/videos/getall')
         .then((response) => {
-          const moduleVideoData = response.data.filter(
-            (module) => module.courseName === selectedMedia.courseName
-          );
+          const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);
         })
         .catch((error) => {
@@ -50,45 +46,38 @@ const CatalogLayout = ({ selectedMedia }) => {
   }, [selectedMedia]);
 
   useEffect(() => {
-    const filteredModuleVideoData = moduleVideoData.filter((module) =>
-      module.moduleName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const filteredModuleVideoData = moduleVideoData.filter((module) => module.moduleName.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const menuItems = filteredModuleVideoData.map((module) => {
       return {
         label: module.moduleName,
-        icon: 'pi pi-box',
+        icon: <CheckBoxOutlineBlankIcon />,
         expanded: currentlyPlayingModule === module,
         items: module.videoUrls.map((videoUrl, index) => {
           return {
             label: (
               <>
                 <div style={{ marginRight: '8px' }}>{`Video ${index + 1}`}</div>
-                <Progress
-                  style={{ maxWidth: '100%' }}
-                  percent={videoCompletion[videoUrl] ? 100 : 0}
-                  strokeColor={twoColors}
-                />
               </>
             ),
-            icon: 'pi pi-fw pi-youtube',
+            icon: <YouTubeIcon />,
             style: {
               backgroundColor: selectedVideoUrl === videoUrl ? '#D8D8D8' : 'white',
-              color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black',
+              color: selectedVideoUrl === videoUrl ? '#FFFF00' : 'black'
             },
-            command: () => handleVideoSelection(videoUrl, module),
+            command: () => handleVideoSelection(videoUrl, module)
           };
-        }),
+        })
       };
     });
 
     setPanelMenuModel([
       {
         label: selectedMedia.courseName || 'Course name',
-        icon: 'pi pi-fw pi-bars',
+        icon: <DehazeIcon />,
         expanded: true,
-        items: menuItems.filter((item) => item !== null),
-      },
+        items: menuItems.filter((item) => item !== null)
+      }
     ]);
   }, [moduleVideoData, selectedMedia, currentlyPlayingModule, videoCompletion, selectedVideoUrl, searchQuery]);
 
@@ -104,43 +93,24 @@ const CatalogLayout = ({ selectedMedia }) => {
   const handleVideoEnd = (videoUrl) => {
     setVideoCompletion((prevCompletion) => ({
       ...prevCompletion,
-      [videoUrl]: true,
+      [videoUrl]: true
     }));
-
-    axios
-      .post('https://hrm-backend-square.onrender.com/video-progress/save', {
-        userId: userId,
-        videoUrl: videoUrl,
-        progress: 100,
-      })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error('Error saving video progress:', error);
-      });
   };
 
-  const handleVideoProgress = (state) => {
-    setVideoProgress(Math.floor(state.played * 100));
-  };
+  
 
   return (
     <div style={{ width: '100%' }}>
       {selectedMedia ? (
         <>
-         
           <Box sx={{ flexGrow: 1 }}>
-          <Search onSearch={handleSearch}/>
+            <Search onSearch={handleSearch} />
             <Grid container spacing={2}>
               <Grid item xs={12} sm={5}>
                 <Item>
                   {selectedMedia._id ? (
                     <>
-                      <PanelMenu
-                        model={panelMenuModel}
-                        className="w-full md:w-25rem"
-                      />
+                      <PanelMenu model={panelMenuModel} className="w-full md:w-25rem" />
                     </>
                   ) : (
                     <div>No course available</div>
@@ -155,33 +125,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                       controls={true}
                       width="100%"
                       onEnded={() => handleVideoEnd(selectedVideoUrl)}
-                      onProgress={(state) => handleVideoProgress(state)}
-                    />
-                    <Progress
-                      percent={videoProgress}
-                      steps={20}
-                      strokeColor={[
-                        red[5],
-                        red[5],
-                        red[5],
-                        red[5],
-                        red[5],
-                        orange[5],
-                        orange[5],
-                        orange[5],
-                        orange[5],
-                        orange[5],
-                        '#FEFFAC',
-                        '#FEFFAC',
-                        '#FEFFAC',
-                        '#FEFFAC',
-                        '#FEFFAC',
-                        green[5],
-                        green[5],
-                        green[5],
-                        green[5],
-                        green[5],
-                      ]}
+                     
                     />
                   </>
                 )}
@@ -193,7 +137,6 @@ const CatalogLayout = ({ selectedMedia }) => {
                   courseName={selectedMedia.courseName}
                   courseDescription={selectedMedia.courseDescription}
                   courseid={selectedMedia._id}
-                  
                 />
               </>
             ) : (
