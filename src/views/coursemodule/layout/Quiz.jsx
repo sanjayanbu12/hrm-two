@@ -11,7 +11,7 @@ const Quiz = ({ courseid }) => {
 
   const [quizData, setQuizData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
+  console.log(courseid,"This is Quiz")
   const {
     control,
     handleSubmit,
@@ -49,11 +49,10 @@ const Quiz = ({ courseid }) => {
   };
 
   useEffect(() => {
-    // Fetch quiz data from your backend API
     axios
-      .get(`https://hrm-backend-square.onrender.com/media/get/${courseid}`) // Replace with your actual API endpoint
+      .get(`https://hrm-backend-square.onrender.com/media/get/${courseid.courseid}`)
       .then((response) => {
-        // Extract quiz data from the course data
+        console.log('Quiz data response:', response.data);
         setQuizData(response.data.quiz);
         setIsLoading(false);
       })
@@ -61,7 +60,8 @@ const Quiz = ({ courseid }) => {
         console.error('Error fetching quiz data:', error);
         setIsLoading(false);
       });
-  }, [courseid]);
+      
+  }, [courseid.courseid]);
 
   return (
     <>
