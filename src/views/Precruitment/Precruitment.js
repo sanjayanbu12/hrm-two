@@ -65,6 +65,7 @@ const QontoStepIconRoot = styled('div')(({ theme, ownerState }) => ({
 
 function QontoStepIcon(props) {
   const { active, completed, className } = props;
+  
 
   return (
     <QontoStepIconRoot ownerState={{ active }} className={className}>
@@ -141,7 +142,7 @@ function ColorlibStepIcon(props) {
   const { active, completed, className } = props;
 
   const icons = {
-    1: <Bs1CircleFill style={{fontSize:'20px'}} />,
+    1: <Bs1CircleFill style={{fontSize:'20px'}}/>,
     2: <Bs2CircleFill style={{fontSize:'20px'}}/>,
     3: <BsBucketFill style={{fontSize:'20px'}} />,
   };
@@ -197,25 +198,27 @@ const CancelIconContainer = styled('div')({
 
 export default function CustomizedSteppers({ handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
-  const [submitClicked, setSubmitClicked] = useState(false);
-
+  const [submitClicked, setSubmitClicked] = useState(false); 
+  const [formData, setFormData] = useState({});
+ 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
       setSubmitClicked(true);
+      // Handle form submission, e.g., send formData to the server
+      console.log(formData);
       handleClose();
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
-
   const renderStepComponent = () => {
     switch (activeStep) {
       case 0:
-        return <Firststep />;
+        return <Firststep setFormData={setFormData} formData={formData}/>;
       case 1:
-        return <Secondstep />;
+        return <Secondstep setFormData={setFormData} formData={formData}/>;
       case 2:
-        return <Finalstep />;
+        return <Finalstep setFormData={setFormData} formData={formData}/>;
       default:
         return null;
     }
