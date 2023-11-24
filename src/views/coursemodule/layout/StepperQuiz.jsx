@@ -98,7 +98,7 @@ const StepperQuiz = (courseid) => {
             </div>
           ) : (
             <div>
-              {activeStep === 0 && <Quiz courseid={courseid} />}
+              {activeStep === 0 && <Quiz courseid={courseid} onNextStep={handleNext} />}
               {activeStep === 1 && <Component2 />}
               {activeStep === 2 && <Component3 />}
             </div>
@@ -111,9 +111,13 @@ const StepperQuiz = (courseid) => {
             </Button>
           </Grid>
           <Grid item>
-            <Button variant="contained" color="primary" onClick={handleNext} endIcon={<ArrowForwardIcon />}>
-              {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-            </Button>
+            <Grid item>
+              {activeStep !== 0 && (
+                <Button variant="contained" color="primary" onClick={handleNext} endIcon={<ArrowForwardIcon />}>
+                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                </Button>
+              )}
+            </Grid>
           </Grid>
         </Grid>
       </Paper>
@@ -121,7 +125,7 @@ const StepperQuiz = (courseid) => {
   );
 };
 
-const Quiz = ({ courseid }) => {
+const Quiz = ({ courseid, onNextStep }) => {
   const toast = useRef(null);
 
   const [quizData, setQuizData] = useState([]);
@@ -157,6 +161,7 @@ const Quiz = ({ courseid }) => {
     const totalQuestions = quizData.length;
     show(`Your score: ${score}/${totalQuestions}`, score, totalQuestions);
     reset();
+    onNextStep();
   };
 
   const getFormErrorMessage = (name) => {
@@ -205,9 +210,9 @@ const Quiz = ({ courseid }) => {
                   render={({ field }) => (
                     <div className="flex">
                       {question.options.map((option, optionIndex) => (
-                        <div style={{ marginTop:15 }} key={optionIndex}>
+                        <div style={{ marginTop: 15 }} key={optionIndex}>
                           <RadioButton inputId={`q${index}o${optionIndex}`} {...field} value={option} checked={field.value === option} />
-                          <label style={{marginLeft:10}} htmlFor={`q${index}o${optionIndex}`} className="ml-1">
+                          <label style={{ marginLeft: 10 }} htmlFor={`q${index}o${optionIndex}`} className="ml-1">
                             {option}
                           </label>
                         </div>
