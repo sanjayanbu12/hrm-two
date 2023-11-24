@@ -5,7 +5,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { IoIosAdd } from 'react-icons/io';
 import SaveIcon from '@mui/icons-material/Save';
 
-const backendBaseUrl = 'http://localhost:3001';
+const backendBaseUrl = 'https://hrm-backend-square.onrender.com';
 
 const Container = styled.div`
   * {
