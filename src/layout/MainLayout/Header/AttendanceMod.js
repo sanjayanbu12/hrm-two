@@ -33,6 +33,7 @@ const AttendanceMod = () => {
 
 
   const { employeeContextData } = useContext(ApiContext);
+  console.log("emoloyeeContextData",employeeContextData)
   const { formStatus, setStatus, att,setAtt } = useContext(FormSubmittedContext);
 
   console.log('clockid', clockid);

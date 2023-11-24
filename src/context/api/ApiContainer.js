@@ -4,9 +4,9 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,setGetattendance } = props;
-  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,att } = useContext(FormSubmittedContext);
-  console.log('eventStatus', eventStatus);
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,setGetattendance,setCreateProcruitment} = props;
+  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,att,procpost } = useContext(FormSubmittedContext);
+
 
   const fetchEmployee = async () => {
     try {
@@ -78,6 +78,14 @@ const ApiContainer = (props) => {
       console.error('Error fetching attendance:', error);
     }
   };
+  const ProcruitmentPost = async () => {
+    try {
+      const api = await axios.post('https://hrm-backend-square.onrender.com/proc/createdata');
+      setCreateProcruitment(api); 
+    } catch (error) {
+      console.error('Error for post', error);
+    }
+  };
 
   useEffect(() => {
     fetchMediaList();
@@ -103,6 +111,10 @@ const ApiContainer = (props) => {
   useEffect(() => {
     fetchAttendance();
   }, [att]);
+  useEffect(() => {
+    ProcruitmentPost();
+  }, [procpost]);
+
   return null;
 };
 
