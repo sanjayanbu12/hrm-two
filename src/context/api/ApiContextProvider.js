@@ -11,7 +11,7 @@ const ApiContextProvider = ({ children }) => {
   const [medialistContextData, setmedialistContextData] = useState([]);
   const [eventContextData, seteventContextData] = useState([]);
   const [loggedUserData, setloggedUserData] = useState([]);
-  const[getattendance,setGetattendance]=useState([])
+  const[getattendance,setGetattendance]=useState([]);
   const value = {
     employeeContextData,
     setEmployeeContextData,
@@ -37,6 +37,7 @@ const ApiContextProvider = ({ children }) => {
         setmedialistContextData={setmedialistContextData}
         seteventContextData={seteventContextData}
         setGetattendance={setGetattendance}
+        createProcruitment={setCreateProcruitment}
       />
       <ApiContext.Provider value={value}>{children}</ApiContext.Provider>
     </div>

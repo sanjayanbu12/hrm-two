@@ -12,13 +12,18 @@ import { BsBucketFill } from "react-icons/bs";
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
-import { useState } from 'react';
+import { useState} from 'react';
 import Firststep from './Firststep';
 import Secondstep from './Secondstep';
 import Finalstep from './Finalstep';
 import CancelIcon from '@mui/icons-material/Cancel';
 import ArrowBackOutlinedIcon from '@mui/icons-material/ArrowBackOutlined';
 import Grid from '@mui/material/Grid';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+
 // const QontoConnector = styled(StepConnector)(({ theme }) => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
 //     top: 10,
@@ -200,17 +205,32 @@ export default function CustomizedSteppers({ handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
   const [submitClicked, setSubmitClicked] = useState(false); 
   const [formData, setFormData] = useState({});
- 
+  const { employeeContextData } = useContext(ApiContext);
+  // const { createProcruitment } = useContext(ApiContext);
+  const authId = useSelector((state) => state.customization.authId);
+
+  useEffect(() => {
+    const fetchingCorrect = async () => {
+      const response = employeeContextData.data;
+      if (response && response.length > 0) {
+        const filteredData = response.filter(item => item.employeeid === authId);
+        const employeeId=filteredData.map((data)=>data._id);
+        console.log(employeeId)
+      }
+    };
+  
+    fetchingCorrect();
+  }, [authId, employeeContextData.data]);
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
       setSubmitClicked(true);
-      // Handle form submission, e.g., send formData to the server
       console.log(formData);
       handleClose();
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
   };
+
   const renderStepComponent = () => {
     switch (activeStep) {
       case 0:

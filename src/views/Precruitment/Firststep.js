@@ -6,7 +6,7 @@ import Grid from '@mui/material/Grid';
 const Firststep = ({ setFormData, formData }) => {
   const handleNameChange = (e) => {
     setFormData({ ...formData, name: e.target.value });
-  };
+  }; 
 
   const handleEmailChange = (e) => {
     setFormData({ ...formData, email: e.target.value });
