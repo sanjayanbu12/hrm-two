@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { Image, TextSnippet } from '@mui/icons-material';
 import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
-import { saveAs } from 'file-saver';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 
@@ -16,7 +14,7 @@ const columns = [
   { title: 'Mobile No', field: 'phone', sorting: false, editable: false },
   { title: 'Email', field: 'email', sorting: false, editable: false },
   { title: 'Resume', field: 'resume', sorting: false, editable: false },
-  { title: 'Photo', field: 'photo', sorting: false, editable: false },
+
   { title: 'Applying Date', field: 'appliedAt', type: 'date', sorting: false, editable: false }
 ];
 
@@ -30,42 +28,18 @@ const ApplicationTracker = () => {
       setLoader(true);
       const res = atsContextData;
       const filldata = res.data.getData;
+
       setAdata(filldata);
       setLoader(false);
-      console.log(res.data.getData);
+      console.log('atsdata', res.data.getData);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleResume = async (id, name) => {
-    try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
-        responseType: 'arraybuffer'
-      });
-      const byteArray = new Uint8Array(response.data);
-      const blob = new Blob([byteArray], { type: 'application/pdf' });
-      saveAs(blob, `${name} resume.pdf`);
-    } catch (error) {
-      console.log('Error downloading resume:', error);
-    }
+  const handleDownloadResume = (resumeUrl,) => {
+    window.open(resumeUrl, '_blank');
   };
-
-  const handlePhotoDown = async (id, name) => {
-    try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
-        responseType: 'arraybuffer'
-      });
-      const contentType = response.headers['Content-Type'];
-      const extension = contentType === 'image/jpeg' ? 'jpeg' : 'png';
-      const byteArray = new Uint8Array(response.data);
-      const blob = new Blob([byteArray], { type: contentType });
-      saveAs(blob, `${name}.${extension}`);
-    } catch (error) {
-      console.log('Error downloading photo:', error);
-    }
-  };
-
   useEffect(() => {
     fetchAts();
   }, [atsContextData]);
@@ -193,7 +167,7 @@ const ApplicationTracker = () => {
                 return {
                   ...column,
                   render: (rowData) => (
-                    <a href="#" onClick={() => handleResume(rowData._id, rowData.Name)}>
+                    <a href="#" onClick={() => handleDownloadResume(rowData.resume.url)}>
                       <Tooltip title="Download Resume">
                         <TextSnippet style={{ color: '#616161' }} />
                       </Tooltip>
