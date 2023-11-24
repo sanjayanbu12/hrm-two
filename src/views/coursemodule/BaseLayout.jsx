@@ -24,7 +24,7 @@ const BaseLayout = ({ courseName, courseDescription, courseid }) => {
           <Notes courseid={courseid}/>
         </TabPanel>
         <TabPanel header={<div className="tab-panel-header"><QuizIcon /> Quiz</div>}>
-          <TabQuiz courseid={courseid} />
+          <TabQuiz courseid={courseid} name={courseName} />
         </TabPanel>
         <TabPanel header={<div className="tab-panel-header"><ProgressIcon /> Progress</div>}>
           <Progress />
