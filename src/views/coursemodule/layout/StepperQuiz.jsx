@@ -12,50 +12,53 @@ import { Toast } from 'primereact/toast';
 import { RadioButton } from 'primereact/radiobutton';
 import axios from 'axios';
 import { Skeleton } from 'primereact/skeleton';
-// import Quiz from './Quiz';
+import { List, ListItem, ListItemText ,Divider} from '@mui/material';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
     padding: theme.spacing(3),
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   stepper: {
     background: 'transparent',
-    padding: theme.spacing(3, 0, 5)
+    padding: theme.spacing(3, 0, 5),
   },
   stepLabel: {
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
   },
   stepContent: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(2),
   },
   buttonGroup: {
     display: 'flex',
     justifyContent: 'space-between',
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   iconButton: {
     backgroundColor: theme.palette.primary.main,
     color: theme.palette.common.white,
     '&:hover': {
-      backgroundColor: theme.palette.primary.dark
-    }
+      backgroundColor: theme.palette.primary.dark,
+    },
   },
   icon: {
-    fontSize: 32
-  }
+    fontSize: 32,
+  },
 }));
 
 const steps = [
   { label: 'Quiz', icon: <FeedIcon /> },
   { label: 'Quiz Score', icon: <ImportContactsIcon /> },
-  { label: 'Certificate', icon: <CardMembershipIcon /> }
+  { label: 'Certificate', icon: <CardMembershipIcon /> },
 ];
 
 const StepperQuiz = (courseid) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
+  const [userAnswers, setUserAnswers] = useState([]);
+  const [score, setScore] = useState(0);
+  const [quizData, setQuizData] = useState([]); // Add state for quizData
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -67,6 +70,8 @@ const StepperQuiz = (courseid) => {
 
   const handleReset = () => {
     setActiveStep(0);
+    setUserAnswers([]);
+    setScore(0);
   };
 
   return (
@@ -98,8 +103,8 @@ const StepperQuiz = (courseid) => {
             </div>
           ) : (
             <div>
-              {activeStep === 0 && <Quiz courseid={courseid} onNextStep={handleNext} />}
-              {activeStep === 1 && <Component2 />}
+              {activeStep === 0 && <Quiz courseid={courseid} onNextStep={handleNext} onQuizSubmit={(answers, userScore, data) => { setUserAnswers(answers); setScore(userScore); setQuizData(data); }} />}
+              {activeStep === 1 && <Component2 quizData={quizData} userAnswers={userAnswers} score={score} />}
               {activeStep === 2 && <Component3 />}
             </div>
           )}
@@ -125,7 +130,7 @@ const StepperQuiz = (courseid) => {
   );
 };
 
-const Quiz = ({ courseid, onNextStep }) => {
+const Quiz = ({ courseid, onNextStep, onQuizSubmit }) => {
   const toast = useRef(null);
 
   const [quizData, setQuizData] = useState([]);
@@ -135,25 +140,28 @@ const Quiz = ({ courseid, onNextStep }) => {
     control,
     handleSubmit,
     reset,
-    formState: { errors }
+    formState: { errors },
   } = useForm();
 
   const show = (message, score, totalQuestions) => {
-    let severity = 'success'; // Default to green color
+    let severity = 'success';
 
     if ((score / totalQuestions) * 100 < 60) {
-      severity = 'error'; // Change to red color for scores below 60%
+      severity = 'error';
     }
 
     toast.current.show({ severity, summary: 'Quiz Submitted', detail: message });
   };
 
-  const onSubmit = (data) => {
+  const onSubmitQuiz = (data) => {
     let score = 0;
+    const userAnswers = [];
 
-    // Calculate the user's score based on their answers
     quizData.forEach((question, index) => {
-      if (data[`answer${index}`] === question.correctAnswer) {
+      const userAnswer = data[`answer${index}`];
+      userAnswers.push(userAnswer);
+
+      if (userAnswer === question.correctAnswer) {
         score += 1;
       }
     });
@@ -162,6 +170,7 @@ const Quiz = ({ courseid, onNextStep }) => {
     show(`Your score: ${score}/${totalQuestions}`, score, totalQuestions);
     reset();
     onNextStep();
+    onQuizSubmit(userAnswers, score, quizData);
   };
 
   const getFormErrorMessage = (name) => {
@@ -184,7 +193,7 @@ const Quiz = ({ courseid, onNextStep }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmitQuiz)}>
         <div className="flex flex-column gap-2">
           <Toast ref={toast} />
 
@@ -197,7 +206,7 @@ const Quiz = ({ courseid, onNextStep }) => {
                 <p></p>
               </div>
             </div>
-          ) : quizData.length === 0 ? ( // Check if no quiz is available
+          ) : quizData.length === 0 ? (
             <div>No quiz is available for this course.</div>
           ) : (
             quizData.map((question, index) => (
@@ -234,10 +243,50 @@ const Quiz = ({ courseid, onNextStep }) => {
   );
 };
 
-const Component2 = () => {
-  return <Typography variant="body1">Provide information about your team</Typography>;
+const Component2 = ({ quizData, userAnswers, score }) => {
+  return (
+    <>
+      <Typography variant="h5" gutterBottom>
+        Quiz Summary
+      </Typography>
+      <Typography variant="body1">Your Score: {score}</Typography>
+      <Divider style={{ margin: '10px 0' }} />
+      <List>
+        {quizData.map((question, index) => (
+          <ListItem key={index} alignItems="flex-start">
+            <ListItemText
+              primary={
+                <Typography variant="body1" style={{ fontWeight: 'bold', marginBottom: '5px' }}>
+                  Question {index + 1}
+                </Typography>
+              }
+              secondary={
+                <>
+                  <Typography variant="body2" component="div" color="textSecondary">
+                    {question.question}
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    component="div"
+                    style={{
+                      color: userAnswers[index] === question.correctAnswer ? 'green' : 'red',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Your Answer: {userAnswers[index]}
+                  </Typography>
+                  <Typography variant="body2" component="div" color="textSecondary">
+                    Correct Answer: {question.correctAnswer}
+                  </Typography>
+                </>
+              }
+            />
+          </ListItem>
+        ))}
+      </List>
+    </>
+  );
 };
-
 const Component3 = () => {
   return <Typography variant="body1">Share details about your work</Typography>;
 };
