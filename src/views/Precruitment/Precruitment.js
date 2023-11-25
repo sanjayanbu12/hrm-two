@@ -23,6 +23,7 @@ import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 // const QontoConnector = styled(StepConnector)(({ theme }) => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -205,27 +206,52 @@ export default function CustomizedSteppers({ handleClose }) {
   const [activeStep, setActiveStep] = useState(0);
   const [submitClicked, setSubmitClicked] = useState(false); 
   const [formData, setFormData] = useState({});
+  console.log(formData)
   const { employeeContextData } = useContext(ApiContext);
   // const { createProcruitment } = useContext(ApiContext);
   const authId = useSelector((state) => state.customization.authId);
+  const [employeeId, setEmployeeId] = useState(null);
 
   useEffect(() => {
     const fetchingCorrect = async () => {
       const response = employeeContextData.data;
       if (response && response.length > 0) {
         const filteredData = response.filter(item => item.employeeid === authId);
-        const employeeId=filteredData.map((data)=>data._id);
-        console.log(employeeId)
+        const employeeIds = filteredData.map((data) => data._id);
+        setEmployeeId(employeeIds[0]); // Set the employeeId state
+        console.log(employeeIds[0]);
       }
     };
-  
+
     fetchingCorrect();
   }, [authId, employeeContextData.data]);
-  const handleNext = () => {
+  
+  const handleNext = async () => {
     if (activeStep === steps.length - 1) {
       setSubmitClicked(true);
-      console.log(formData);
-      handleClose();
+  
+      try {
+        // Create a new FormData object
+        const formDataToSend = new FormData();
+  
+        // Add employeeId to the formData
+        formDataToSend.append('employeeid', employeeId);
+  
+        // Loop through the properties of formData and append them to formDataToSend
+        for (const property in formData) {
+          formDataToSend.append(property, formData[property]);
+        }
+  
+        // Send formDataToSend to the server
+        const response = await axios.post(
+          'http://localhost:3001/proc/createdata',
+          formDataToSend
+        );
+  
+        // Handle the response as needed
+      } catch (error) {
+        console.error('Error submitting form data:', error);
+      }
     } else {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
     }
