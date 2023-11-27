@@ -11,7 +11,7 @@ import Lottie from 'react-lottie';
 import Completd from './Completd.json';
 
 
-export default function TemplateDemo() {
+export default function TemplateDemo({ onFileSelect }) {
     const toast = useRef(null);
     const [totalSize, setTotalSize] = useState(0);
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -61,6 +61,7 @@ export default function TemplateDemo() {
         });
     
         setTotalSize(_totalSize);
+        onFileSelect(files);
     };
 
     const onTemplateUpload = (e) => {
@@ -70,6 +71,7 @@ export default function TemplateDemo() {
         });
         setTotalSize(_totalSize);
         toast.current.show({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+        onFileSelect(files);
     };
 
    
@@ -109,7 +111,7 @@ export default function TemplateDemo() {
  
 
     const itemTemplate = (file, props) => {
-        console.log(file.name)
+       
         return (
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <div style={{ width: '50%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -160,7 +162,7 @@ export default function TemplateDemo() {
             <Tooltip target=".custom-upload-btn" content="Upload" position="bottom" />
             <Tooltip target=".custom-cancel-btn" content="Clear" position="bottom" />
 
-            <FileUpload ref={fileUploadRef} name="demo[]" url="/api/upload" multiple accept="image/*" maxFileSize={1000000}
+            <FileUpload ref={fileUploadRef} name="attachments"   maxFileSize={1000000}
                 onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
                 headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
                 chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}  style={{ height:'250px', overflowY: 'auto' }} />

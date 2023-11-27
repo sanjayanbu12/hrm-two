@@ -16,6 +16,12 @@ const Finalstep = ({ setFormData, formData }) => {
   const handleProductLinkChange = (e) => {
     setFormData({ ...formData, productLink: e.target.value });
   };
+  
+  const handleFileSelect = (files) => {
+    console.log('fileupload',files)
+    setFormData({ ...formData, attachments: files[0] });
+  };
+
   return (
     <>
       <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={3}>
@@ -46,7 +52,7 @@ const Finalstep = ({ setFormData, formData }) => {
           />
         </Grid>
         <Grid sx={{ mt: '10px' }} item xs={11}>
-          <TemplateDemo />
+          <TemplateDemo onFileSelect={handleFileSelect} />
         </Grid>
       </Grid>
     </>
