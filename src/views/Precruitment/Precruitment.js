@@ -24,6 +24,7 @@ import ApiContext from 'context/api/ApiContext';
 import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import CircularProgress from '@mui/material/CircularProgress';
 
 // const QontoConnector = styled(StepConnector)(({ theme }) => ({
 //   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -211,6 +212,7 @@ export default function CustomizedSteppers({ handleClose }) {
   // const { createProcruitment } = useContext(ApiContext);
   const authId = useSelector((state) => state.customization.authId);
   const [employeeId, setEmployeeId] = useState(null);
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     const fetchingCorrect = async () => {
@@ -229,6 +231,7 @@ export default function CustomizedSteppers({ handleClose }) {
   const handleNext = async () => {
     if (activeStep === steps.length - 1) {
       setSubmitClicked(true);
+      setLoading(true);
   
       try {
         // Create a new FormData object
@@ -247,16 +250,23 @@ export default function CustomizedSteppers({ handleClose }) {
           'http://localhost:3001/proc/createdata',
           formDataToSend
         );
+        handleClose();
   
         // Handle the response as needed
       } catch (error) {
         console.error('Error submitting form data:', error);
+      } finally {
+        setLoading(false); // Set loading back to false after API call completes
       }
     } else {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      // Check if the required fields are filled
+      if (formData.isValid) {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+      } else {
+        console.error('Please fill in all required fields.');
+      }
     }
   };
-
   const renderStepComponent = () => {
     switch (activeStep) {
       case 0:
@@ -302,15 +312,14 @@ export default function CustomizedSteppers({ handleClose }) {
               </Button>
           </ButtonContainer>
         <ButtonContainer>
-          <Button
-            sx={{mr:'15px'}}
-            variant="contained"
-            endIcon={isLastStep ? null : <SendIcon /> }
-            onClick={handleNext}
-            disabled={submitClicked}
-          >
-            {isLastStep ? 'Submit' : 'Next'}
-          </Button>
+        <Button
+  variant="contained"
+  endIcon={isLastStep ? null : <SendIcon />}
+  onClick={handleNext}
+  disabled={submitClicked || !formData.isValid}
+>
+  {loading ? <CircularProgress size={24} /> : isLastStep ? 'Submit' : 'Next'}
+</Button>
          
         </ButtonContainer>
         </Grid>
