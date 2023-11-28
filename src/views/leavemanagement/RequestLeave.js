@@ -8,22 +8,18 @@ import FormData from 'form-data';
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
-import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const validationSchema = yup.object().shape({
-  employeeId: yup.string().required('Employee ID is required'),
-  employeeName: yup.string().required('Employee Name is required'),
   leaveType: yup.string().required('Leave Type is required'),
   startDate: yup
-  .date()
-  .required('Start Date is required')
-  .nullable()
-  .min(new Date(new Date().setHours(0,0,0,0)), 'Start Date must be today or later')
-  .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
-  .test('futureDate', 'Leave Date cannot be in the past', function (value) {
-    return value && value >= new Date(new Date().setHours(0,0,0,0)); 
-  }),
-
+    .date()
+    .required('Start Date is required')
+    .nullable()
+    .min(new Date(new Date().setHours(0, 0, 0, 0)), 'Start Date must be today or later')
+    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
+    .test('futureDate', 'Leave Date cannot be in the past', function (value) {
+      return value && value >= new Date(new Date().setHours(0, 0, 0, 0));
+    }),
 
   numberOfDays: yup
     .number()
@@ -38,8 +34,26 @@ const validationSchema = yup.object().shape({
       }
       return true;
     }),
-  attachments: yup.array().of(yup.string()),
-  reason: yup.string().required('Reason is required')
+  attachments: yup
+    .array()
+    .min(1,' Attachment is required')
+    .required(' Attachment is required')
+    .of(yup.mixed().required())
+    .test('fileType', 'Invalid file format', (value) => {
+      if (!value || value.length === 0) {
+        return true;
+      }
+      return value.every((file) => {
+        const acceptedFormats = ['image/jpeg', 'image/png', 'application/pdf'];
+        return acceptedFormats.includes(file.type);
+      });
+    }),
+  reason: yup.string().required('Reason is required'),
+  // reportingTo: yup.string().when('report', {
+  //   is: (report) => !report || report.length === 0, // Check if 'report' is empty or undefined
+  //   then: yup.string().required('Reporting To is required'), // Validation required if 'report' is empty
+  //   otherwise: yup.string().notRequired(), // No validation required if 'report' has a value
+  // }), 
 });
 
 const RequestLeave = () => {
@@ -58,8 +72,7 @@ const RequestLeave = () => {
   const employee = useSelector((state) => state.customization.authId);
   console.log(employee);
   console.log(employeeName);
-  const {employeeContextData}=useContext(ApiContext)
-  const {leaveStatus, setleaveStatus}=useContext(FormSubmittedContext)
+  const { employeeContextData } = useContext(ApiContext);
   const leaveTypes = [
     'Casual Leave (CL)',
     'Sick Leave (SL)',
@@ -126,20 +139,28 @@ const RequestLeave = () => {
     const filesArray = Array.from(selectedFiles);
     setAttachments(filesArray);
   };
+  const clearAttachmentError = () => {
+    if (errors.attachments) {
+      setErrors({ ...errors, attachments: '' });
+    }
+  };
 
+  const clearReportingtoError = () => {
+    if (errors.reportingTo) {
+      setErrors({ ...errors, reportingTo: '' });
+    }
+  };
   const handleSubmit = async (e) => {
     console.log(report);
     e.preventDefault(); // Prevent the default form submission behavior
     try {
       await validationSchema.validate(
         {
-          employeeId,
-          employeeName,
           leaveType,
           startDate,
           numberOfDays,
           reason,
-          attachments
+          attachments,
         },
         { abortEarly: false }
       );
@@ -170,7 +191,6 @@ const RequestLeave = () => {
         setReason('');
         setErrors({});
         setSuccess(true);
-        setleaveStatus(!leaveStatus)
         Swal.fire({
           icon: 'success',
           text: 'Leave request submitted successfully!'
@@ -326,9 +346,12 @@ const RequestLeave = () => {
               onChange={(e) => {
                 handleFieldChange(e);
                 handleFileChange(e.target.files);
+                clearAttachmentError();
               }}
             />
+            {errors.attachments && <span style={{ color: 'red' }}>{errors.attachments}</span>}
           </Grid>
+
           {/* Reason */}
           <Grid item xs={6}>
             <TextField
@@ -350,7 +373,7 @@ const RequestLeave = () => {
           </Grid>
           {/* Reporting to */}
           <Grid item xs={4}>
-            <FormControl sx={{ minWidth: '100%' }}>
+            <FormControl sx={{ minWidth: '100%' }} error={Boolean(errors.reportingTo)}>
               <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -358,6 +381,7 @@ const RequestLeave = () => {
                 label="Reporting To"
                 value={report.id ? `${report.id},${report.name}` : ''}
                 onChange={(e) => handleReport(e)}
+                onClick={clearReportingtoError}
               >
                 {regData.map((item) => (
                   <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
@@ -366,9 +390,10 @@ const RequestLeave = () => {
                 ))}
               </Select>
 
-              <FormHelperText>{errors && errors.report}</FormHelperText>
+              <FormHelperText>{errors.reportingTo}</FormHelperText>
             </FormControl>
           </Grid>
+
           {/* Submit Button */}
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">

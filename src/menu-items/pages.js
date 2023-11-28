@@ -32,7 +32,6 @@ const icons = {
   DvrIcon
 };
 
-
 const pages = {
   type: 'group',
   children: [
@@ -59,8 +58,8 @@ const pages = {
           id: 'applicationtracker',
           title: 'Interview Process ',
           type: 'item',
-          url: '/ApplicationTrackTab',
-        },       
+          url: '/ApplicationTrackTab'
+        }
       ]
     },
     {
@@ -92,26 +91,26 @@ const pages = {
           id: 'leave',
           title: 'Leave & Attendance',
           type: 'item',
-          url: '/leave',
-    },
-    {
-      id: 'Leave Approval',
-      title: 'Leave Approval',
-      type: 'item',
-      url: '/leaveapprove'
-    },
-    {
-      id: 'event',
-      title: 'Event Calendar',
-      type: 'item',
-      url: '/newevent'
-    },
-    // {
-    //   id: 'employeeselfservices',
-    //   title: 'Employee Self Services',
-    //   type: 'item',
-    //   url: '/employeeselfservices'
-    // },
+          url: '/leave'
+        },
+        {
+          id: 'Leave Approval',
+          title: 'Leave Approval',
+          type: 'item',
+          url: '/leaveapprove'
+        },
+        {
+          id: 'event',
+          title: 'Event Calendar',
+          type: 'item',
+          url: '/newevent'
+        }
+        // {
+        //   id: 'employeeselfservices',
+        //   title: 'Employee Self Services',
+        //   type: 'item',
+        //   url: '/employeeselfservices'
+        // },
       ]
     },
     {
@@ -138,7 +137,7 @@ const pages = {
           title: 'Course Catalog',
           type: 'item',
           url: '/coursecatalog'
-        },
+        }
       ]
     },
     {
@@ -153,7 +152,7 @@ const pages = {
           title: 'Goals',
           type: 'item',
           url: '/goals'
-        },
+        }
         // {
         //   id: 'feedbacks',
         //   title: 'Feedbacks',
@@ -165,9 +164,24 @@ const pages = {
         //   title: 'Skill Matrix',
         //   type: 'item',
         //   url: '/skillsetmatrix'
-        // },  
+        // },
       ]
     },
+    {
+      id: 'travel&',
+      title: 'Travel & Expenses',
+      type: 'collapse',
+      icon: icons.IconKey,
+
+      children: [
+        {
+          id: 'travel',
+          title: 'Travel & Claim',
+          type: 'item',
+          url: '/travel'
+        }
+      ]
+    }
   ]
 };
 
