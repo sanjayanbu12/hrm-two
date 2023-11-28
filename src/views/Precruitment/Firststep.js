@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 
-const Firststep = ({ setFormData, formData }) => {
+const Firststep = ({ setFormData, formData,name,email }) => {
   const handleNameChange = (e) => {
     setFormData({ ...formData, name: e.target.value });
   }; 
@@ -23,6 +23,7 @@ const Firststep = ({ setFormData, formData }) => {
   const validateEmail = (email) => {
     // Regular expression for basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     
     if (!emailRegex.test(email)) {
       setFormData((prevData) => ({ ...prevData, emailError: 'Invalid email format' }));
@@ -39,17 +40,17 @@ const Firststep = ({ setFormData, formData }) => {
     setFormData({ ...formData, businessJustification: e.target.value });
   };
   const isValid = () => {
-    return !!formData.name && !!formData.email && !!formData.productDescription && !!formData.businessJustification;
+    return formData.productDescription && !!formData.businessJustification;
   };
   useEffect(() => {
     setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
-  }, [formData.name, formData.email, formData.productDescription, formData.businessJustification]);
+  }, [ formData.productDescription, formData.businessJustification]);
 
   return (
     <>
       <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={4}>
         <Grid item xs={10}>
-          <TextField sx={{ width: '100%' }} label="Name" onChange={handleNameChange}  value={formData.name || ''} />
+          <TextField sx={{ width: '100%' }}  label="Name" onChange={handleNameChange}  value={formData.name || name} />
         </Grid>
         <Grid item xs={10}>
         <TextField
@@ -57,9 +58,10 @@ const Firststep = ({ setFormData, formData }) => {
             label="Email"
             onChange={handleEmailChange}
             onBlur={handleEmailBlur}
-            value={formData.email || ''}
+            value={formData.email || email}
             error={!!formData.emailError}
             helperText={formData.emailError}
+
           />
         </Grid>
         <Grid item xs={10}>
