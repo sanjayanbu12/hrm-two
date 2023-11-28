@@ -12,15 +12,14 @@ import ApiContext from 'context/api/ApiContext';
 const validationSchema = yup.object().shape({
   leaveType: yup.string().required('Leave Type is required'),
   startDate: yup
-  .date()
-  .required('Start Date is required')
-  .nullable()
-  .min(new Date(new Date().setHours(0,0,0,0)), 'Start Date must be today or later')
-  .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
-  .test('futureDate', 'Leave Date cannot be in the past', function (value) {
-    return value && value >= new Date(new Date().setHours(0,0,0,0)); 
-  }),
-
+    .date()
+    .required('Start Date is required')
+    .nullable()
+    .min(new Date(new Date().setHours(0, 0, 0, 0)), 'Start Date must be today or later')
+    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
+    .test('futureDate', 'Leave Date cannot be in the past', function (value) {
+      return value && value >= new Date(new Date().setHours(0, 0, 0, 0));
+    }),
 
   numberOfDays: yup
     .number()
