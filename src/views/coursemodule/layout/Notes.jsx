@@ -133,12 +133,12 @@ const Count = styled.div`
 const CreateArea = ({ onAdd,courseid }) => {
   const [isExpanded, setExpanded] = useState(false);
 console.log(courseid.courseid)
-  const [note, setNote] = useState({
-    title: '',
-    content: '',
-    courseId:courseid.courseid
-    
-  });
+const [note, setNote] = useState({
+  title: '',
+  content: '',
+  courseId: courseid.courseid || '',
+});
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -158,7 +158,8 @@ console.log(courseid.courseid)
     onAdd(note);
     setNote({
       title: '',
-      content: ''
+      content: '',
+      courseId: courseid.courseid || '',
     });
     event.preventDefault();
   }
