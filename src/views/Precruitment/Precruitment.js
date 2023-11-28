@@ -209,19 +209,26 @@ export default function CustomizedSteppers({ handleClose }) {
   const [formData, setFormData] = useState({});
   console.log(formData)
   const { employeeContextData } = useContext(ApiContext);
-  // const { createProcruitment } = useContext(ApiContext);
   const authId = useSelector((state) => state.customization.authId);
   const [employeeId, setEmployeeId] = useState(null);
   const [loading, setLoading] = useState(false); 
+  const[name,setName]=useState("");
+  console.log("name",name)
+  const[email,setEmail]=useState("");
+  console.log("email",email)
+  
 
   useEffect(() => {
     const fetchingCorrect = async () => {
       const response = employeeContextData.data;
       if (response && response.length > 0) {
         const filteredData = response.filter(item => item.employeeid === authId);
+        console.log("filteredData",filteredData)
         const employeeIds = filteredData.map((data) => data._id);
-        setEmployeeId(employeeIds[0]); // Set the employeeId state
+        setEmployeeId(employeeIds[0]); 
         console.log(employeeIds[0]);
+        setName(filteredData.map((data) => data.name))
+        setEmail(filteredData.map((data) => data.email))
       }
     };
 
@@ -270,7 +277,7 @@ export default function CustomizedSteppers({ handleClose }) {
   const renderStepComponent = () => {
     switch (activeStep) {
       case 0:
-        return <Firststep setFormData={setFormData} formData={formData}/>;
+        return <Firststep name={name} email={email} setFormData={setFormData} formData={formData}/>;
       case 1:
         return <Secondstep setFormData={setFormData} formData={formData}/>;
       case 2:

@@ -18,10 +18,10 @@ const[open,setOpen]=useState(false);
   ];
 
   const handleAddEmployee = () => {
-    // Implement the logic to add an employee here
+   
     console.log('Add employee logic');
     setOpen(true)
-  };
+  };  
 
   const handleClose=()=>{
     setOpen(false)
@@ -45,7 +45,7 @@ const[open,setOpen]=useState(false);
           },
         ]}
         icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)'}}
         options={{
           actionsColumnIndex: 6,
           exportButton: false,

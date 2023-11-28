@@ -10,6 +10,7 @@ import { pink } from '@mui/material/colors';
 import { yellow } from '@mui/material/colors';
 import { green } from '@mui/material/colors';
 import InputAdornment from '@mui/material/InputAdornment';
+import { useEffect } from 'react';
 
 
 const Secondstep = ({ setFormData, formData }) => {
@@ -29,6 +30,12 @@ const Secondstep = ({ setFormData, formData }) => {
   const handleQuoteComparisonChange = (e) => {
     setFormData({ ...formData, quoteComparison: e.target.value });
   };
+  const isValid = () => {
+    return !!formData.quantity && !!formData.approximateBudget && !!formData.priority && !!formData.quoteComparison;
+  };
+  useEffect(() => {
+    setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
+  }, [formData.quantity, formData.approximateBudget, formData.priority, formData.quoteComparison]);
  return (
     <>
       <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={4}>
