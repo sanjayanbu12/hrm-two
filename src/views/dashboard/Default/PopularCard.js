@@ -3,13 +3,13 @@ import { useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MobileStepper from '@mui/material/MobileStepper';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Card } from '@mui/material';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -35,6 +35,16 @@ const images = [
 export default function PopularCard() {
   const theme = useTheme();
   const [activeStep, setActiveStep] = React.useState(0);
+  const [images, setImages] = React.useState([
+    // Your initial images
+    {
+      imgPath: 'https://drive.google.com/uc?id=1vVlVqSIJIhNo7kDXkHHtpvPDBpytCoyJ'
+    },
+    {
+      imgPath: 'https://drive.google.com/uc?id=1WPRmDLjaCOQGiAB1lvLR6ark3oMh6am3'
+    }
+    // ... Add more initial images as needed
+  ]);
   const maxSteps = images.length;
 
   const handleNext = () => {
@@ -48,6 +58,17 @@ export default function PopularCard() {
   const handleStepChange = (step) => {
     setActiveStep(step);
   };
+
+  const handleFileChange = (event) => {
+    const fileList = event.target.files;
+    const imageArray = [];
+    for (let i = 0; i < fileList.length; i++) {
+      const objectUrl = URL.createObjectURL(fileList[i]);
+      imageArray.push({ imgPath: objectUrl });
+    }
+    setImages((prevImages) => [...prevImages, ...imageArray]);
+  };
+
   return (
     <>
      <Card elevation={3}>
