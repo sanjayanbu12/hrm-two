@@ -45,7 +45,6 @@ const RecruitmentForm = () => {
   const [Worktype, setWorktype] = useState('');
   const [Skills, setSkills] = useState('');
   const [priority,setPriority]=useState('');
-  
   const [jobraiser,setJobraiser]=useState('');
   const [Clientname, setClientname] = useState('');
   const [Clientcompany, setClientcompany] = useState('');
@@ -311,6 +310,7 @@ const RecruitmentForm = () => {
     setOrgData(response?.data?.orgData?.map((x) => x.hrName));
     console.log(response?.data?.orgData?.map((x) => x.hrName));
   };
+  
   const fetchEmp = async () => {
     try {
       const res = employeeContextData;
@@ -966,7 +966,7 @@ const RecruitmentForm = () => {
         >
           {id ? 'Update' : 'Save'}
         </Button>{' '}
-        <Button
+        <Button 
           onClick={() => {
             navigate('/jobtable');
           }}

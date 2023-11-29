@@ -241,6 +241,7 @@ export default function CustomizedSteppers({ handleClose }) {
       setLoading(true);
   
       try {
+
         // Create a new FormData object
         const formDataToSend = new FormData();
   
@@ -251,12 +252,13 @@ export default function CustomizedSteppers({ handleClose }) {
         for (const property in formData) {
           formDataToSend.append(property, formData[property]);
         }
-  
+
         // Send formDataToSend to the server
         const response = await axios.post(
           'http://localhost:3001/proc/createdata',
           formDataToSend
         );
+       
         handleClose();
   
         // Handle the response as needed
