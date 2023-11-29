@@ -3,17 +3,24 @@ import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import { useState } from 'react';
 import Precruitment from './Precruitment';
-import { Modal } from '@material-ui/core'
+import { Modal } from '@material-ui/core';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 
 const ProcruitmentTable = () => {
 const[open,setOpen]=useState(false);
+const { getProcruitment } = useContext(ApiContext);
+console.log("getProcruitment",getProcruitment.data.data)
+// const {procget,setProcget } = useContext(FormSubmittedContext);
 
   const columns = [
-    { title: 'Description', field: '' },
-    { title: 'Qty', field: '' },
-    { title: 'Approximate Budget', field: '' },
-    { title: 'Requested on', field: '' },
-    { title: 'Priority', field: 'workingHours' },
+    { title: 'Name', field: '' },
+    { title: 'Email', field: '' },
+    { title: 'Description', field: 'productDescription' },
+    { title: 'Quantity', field: 'quantity' },
+    { title: 'Approximate Budget', field: 'approximateBudget' },
+    { title: 'Requested on', field: '' }, 
+    { title: 'Priority', field: 'priority'},
     { title: 'Status', field: '' },
   ];
 
@@ -44,6 +51,7 @@ const[open,setOpen]=useState(false);
             onClick: handleAddEmployee,
           },
         ]}
+        data={getProcruitment.data.data}
         icons={tableIcons}
         style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)'}}
         options={{

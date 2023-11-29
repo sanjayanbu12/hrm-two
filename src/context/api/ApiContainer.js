@@ -4,8 +4,8 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,setGetattendance,setCreateProcruitment} = props;
-  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,att,procpost } = useContext(FormSubmittedContext);
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,setGetattendance,setGetProcruitment} = props;
+  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,att,procget } = useContext(FormSubmittedContext);
 
 
   const fetchEmployee = async () => {
@@ -78,12 +78,13 @@ const ApiContainer = (props) => {
       console.error('Error fetching attendance:', error);
     }
   };
-  const ProcruitmentPost = async () => {
+  const Procruitmentget = async () => {
     try {
-      const api = await axios.post('https://hrm-backend-square.onrender.com/proc/createdata');
-      setCreateProcruitment(api); 
+      const api = await axios.get('https://hrm-backend-square.onrender.com/proc/getall');
+      console.log("procget",api)
+      setGetProcruitment(api); 
     } catch (error) {
-      console.error('Error for post', error);
+      console.error('Error for get', error);
     }
   };
 
@@ -112,8 +113,8 @@ const ApiContainer = (props) => {
     fetchAttendance();
   }, [att]);
   useEffect(() => {
-    ProcruitmentPost();
-  }, [procpost]);
+    Procruitmentget();
+  }, [procget]);
 
   return null;
 };
