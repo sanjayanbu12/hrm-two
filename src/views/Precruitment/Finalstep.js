@@ -3,7 +3,6 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import InputAdornment from '@mui/material/InputAdornment';
 import TemplateDemo from './FileUpload';
-import { useEffect } from 'react';
 
 const Finalstep = ({ setFormData, formData }) => {
   const handleVendorNameChange = (e) => {
@@ -22,12 +21,7 @@ const Finalstep = ({ setFormData, formData }) => {
     console.log('fileupload',files)
     setFormData({ ...formData, attachments: files[0] });
   };
-  const isValid = () => {
-    return !!formData.vendorName && !!formData.vendorNumber && !!formData.productLink;
-  };
-  useEffect(() => {
-    setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
-  }, [formData.vendorName, formData.vendorNumber, formData.productLink]);
+ 
 
   return (
     <>
