@@ -35,17 +35,21 @@ const Secondstep = ({ setFormData, formData }) => {
   const handleProct = (e, value) => {
     const selectedData = value.map((item) => ({
       employee: item._id,
+      approved: false,
     }));
     setFormData((prevData) => ({ ...prevData, reportingTo: selectedData }));
+    console.log("formDatas",formData)
   };
 
+
+
   const isValid = () => {
-    return !!formData.quantity && !!formData.approximateBudget && !!formData.priority;
+    return !!formData.quantity && !!formData.approximateBudget && !!formData.priority&& !!formData.reportingTo;
   };
   
   useEffect(() => {
     setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
-  }, [formData.quantity, formData.approximateBudget, formData.priority]);
+  }, [formData.quantity, formData.approximateBudget, formData.priority,formData.reportingTo]);
  return (
     <>
       <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={4}>

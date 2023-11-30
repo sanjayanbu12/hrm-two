@@ -250,7 +250,12 @@ export default function CustomizedSteppers({ handleClose }) {
   
         // Loop through the properties of formData and append them to formDataToSend
         for (const property in formData) {
-          formDataToSend.append(property, formData[property]);
+          if (property === 'reportingTo') {
+            // Convert reportingTo array to JSON string before appending
+            formDataToSend.append(property, JSON.stringify(formData[property]));
+          } else {
+            formDataToSend.append(property, formData[property]);
+          }
         }
 
         // Send formDataToSend to the server
@@ -258,10 +263,7 @@ export default function CustomizedSteppers({ handleClose }) {
           'http://localhost:3001/proc/createdata',
           formDataToSend
         );
-       
         handleClose();
-  
-        // Handle the response as needed
       } catch (error) {
         console.error('Error submitting form data:', error);
       } finally {

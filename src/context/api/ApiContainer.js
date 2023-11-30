@@ -82,7 +82,7 @@ const ApiContainer = (props) => {
     try {
       const api = await axios.get('https://hrm-backend-square.onrender.com/proc/getall');
       console.log("procget",api)
-      setGetProcruitment(api); 
+      setGetProcruitment(api.data.data); 
     } catch (error) {
       console.error('Error for get', error);
     }

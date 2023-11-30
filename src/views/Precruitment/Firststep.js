@@ -32,7 +32,7 @@ const Firststep = ({ setFormData, formData,name,email }) => {
     }
   };
 
-  const handleProductDescriptionChange = (e) => {
+  const handleProductDescriptionChange = (e) => { 
     setFormData({ ...formData, productDescription: e.target.value });
   };
 
