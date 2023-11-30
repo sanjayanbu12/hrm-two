@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Grid, TextField, InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Radio from '@mui/material/Radio';
@@ -7,11 +7,9 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormLabel from '@mui/material/FormLabel';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import { Toast } from 'primereact/toast';
 import { FileUpload } from 'primereact/fileupload';
 import axios from 'axios';
 import FormData from 'form-data';
-import Swal from 'sweetalert2';
 
 const Popup = ({ handleClose }) => {
   const [from, setFrom] = useState('');
@@ -68,28 +66,27 @@ const Popup = ({ handleClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  };
 
-  const data = new FormData();
-  data.append('from', from);
-  data.append('to', to);
-  data.append('startdate', startdate);
-  data.append('enddate', enddate);
-  data.append('days', days);
-  data.append('budget', budget);
-  data.append('business', business);
-  data.append('claimtype', claimtype);
-  data.append('transport', transport);
-  data.append('attachments', attachments[0]);
+    try {
+      const data = new FormData();
+      data.append('from', from);
+      data.append('to', to);
+      data.append('startdate', startdate);
+      data.append('enddate', enddate);
+      data.append('days', days);
+      data.append('budget', budget);
+      data.append('business', business);
+      data.append('claimtype', claimtype);
+      data.append('transport', transport);
+      data.append('attachments', attachments[0]);
 
-  const response = axios.post('https://hrm-backend-square.onrender.com/travel/createdata', data, {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/travel/createdata', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
       if (response.status === 201) {
-
         setFrom('');
         setTo('');
         setStartdate('');
@@ -100,26 +97,15 @@ const Popup = ({ handleClose }) => {
         setClaimtype('');
         setTransport('');
         setAttachments([]);
-        setReason('');
         setSuccess(true);
-        Swal.fire({
-          icon: 'success',
-          text: 'Travel request submitted successfully!'
-        });
       } else {
         console.error('Error:', response);
-        Swal.fire({
-          icon: 'error',
-          title: 'Travel request failed!',
-          text: 'An error occurred while submitting the request. Please try again later.'
-        });
       }
-
-  const toast = useRef(null);
-
-  const onUpload = () => {
-    toast.current.show({ severity: 'info', summary: 'Success', detail: 'File Uploaded' });
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
 
   return (
     <div style={{ padding: '0px', margin: '0px' }}>
@@ -227,11 +213,7 @@ const Popup = ({ handleClose }) => {
             <FormLabel id="demo-row-radio-buttons-group-label" value={claimtype} onChange={(e) => handleClaimtype(e)}>
               Claim Type
             </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
+            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
               <FormControlLabel value="claim" style={{ marginBottom: '0px' }} control={<Radio size="small" />} label="Claim" />
               <FormControlLabel value="advance" control={<Radio size="small" />} label="Need Advance" />
             </RadioGroup>
@@ -241,11 +223,7 @@ const Popup = ({ handleClose }) => {
             <FormLabel id="demo-row-radio-buttons-group-label" value={transport} onChange={(e) => handleTransport(e)}>
               Mode of Transport
             </FormLabel>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-            >
+            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
               <FormControlLabel value="Own" control={<Radio size="small" />} label="Own Vehicle" />
               <FormControlLabel value="Public" control={<Radio size="small" />} label="Public Transport" />
             </RadioGroup>
@@ -253,14 +231,12 @@ const Popup = ({ handleClose }) => {
         </Grid>
 
         <Grid justifyContent="flex-start" display="flex" maxWidth="498px" marginLeft="20px" marginBottom="10px">
-          <Toast ref={toast}></Toast>
           <FileUpload
             mode="basic"
             name="demo[]"
             url="/api/upload"
-            accept="image/*"
+            accept="pdf/image/word/*"
             maxFileSize={1000000}
-            onUpload={onUpload}
             value={attachments}
             onChange={(e) => handleFile(e)}
           />
@@ -270,7 +246,7 @@ const Popup = ({ handleClose }) => {
             <Button onClick={handleClose} variant="text" size="small">
               Cancel
             </Button>
-            <Button variant="contained" size="small">
+            <Button type="submit" variant="contained" size="small">
               Submit
             </Button>
           </Stack>
