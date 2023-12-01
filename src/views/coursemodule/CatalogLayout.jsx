@@ -58,6 +58,7 @@ const CatalogLayout = ({ selectedMedia }) => {
         .then((response) => {
           const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);
+          console.log("tesla",moduleVideoData)
           setLoading(false);
         })
         .catch((error) => {
@@ -119,6 +120,7 @@ const CatalogLayout = ({ selectedMedia }) => {
 
   const handleVideoSelection = (videoUrl, module) => {
     setSelectedVideoUrl(videoUrl);
+    console.log("1",videoUrl);
     setCurrentlyPlayingModule(module);
   };
 

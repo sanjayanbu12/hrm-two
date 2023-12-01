@@ -148,13 +148,14 @@ const CourseReview = () => {
       // Continue with form submission if all validations pass
       if (selectedVideoIndexes?.length > 0 && selectedMedia && selectedMedia.videos) {
         const selectedVideoUrls = selectedVideoIndexes?.map((index) => selectedMedia.videos[index]);
-        console.log('Selected Video URLs:', selectedVideoUrls);
+        console.log('Selected Video URLs:', selectedVideoUrls.map(video => video.url));
 
         // Send a POST request to your backend to create a new video
         const response = await axios.post('https://hrm-backend-square.onrender.com/videos/create', {
           moduleId: selectedMedia._id,
           moduleName: formText,
-          videoUrls: selectedVideoUrls,
+          videoUrls: selectedVideoUrls.map(video => video.url),
+          duration:selectedVideoUrls.map(video => video.duration),
           courseName: selectedMedia.courseName
         });
 
