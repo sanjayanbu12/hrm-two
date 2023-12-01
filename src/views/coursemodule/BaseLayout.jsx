@@ -13,26 +13,62 @@ import OverviewIcon from '@mui/icons-material/Description';
 import QuizIcon from '@mui/icons-material/HelpOutline';
 import CampaignIcon from '@mui/icons-material/Campaign';
 
-const BaseLayout = ({ courseName, courseDescription, courseid }) => {
+const BaseLayout = ({ courseName, courseDescription, courseid,moduleVideoData, videoCompletion }) => {
   return (
     <div className="base-layout-container">
       <TabView>
-        <TabPanel header={<div className="tab-panel-header"><OverviewIcon /> Overview</div>}>
+        <TabPanel
+          header={
+            <div className="tab-panel-header">
+              <OverviewIcon /> Overview
+            </div>
+          }
+        >
           <Overview name={courseName} description={courseDescription} />
         </TabPanel>
-        <TabPanel header={<div className="tab-panel-header"><NotesIcon /> Notes</div>}>
-          <Notes courseid={courseid}/>
+        <TabPanel
+          header={
+            <div className="tab-panel-header">
+              <NotesIcon /> Notes
+            </div>
+          }
+        >
+          <Notes courseid={courseid} />
         </TabPanel>
-        <TabPanel header={<div className="tab-panel-header"><QuizIcon /> Quiz</div>}>
+        <TabPanel
+          header={
+            <div className="tab-panel-header">
+              <QuizIcon /> Quiz
+            </div>
+          }
+        >
           <TabQuiz courseid={courseid} name={courseName} />
         </TabPanel>
-        <TabPanel header={<div className="tab-panel-header"><ProgressIcon /> Progress</div>}>
-          <Progress />
+        <TabPanel
+          header={
+            <div className="tab-panel-header">
+              <ProgressIcon /> Progress
+            </div>
+          }
+        >
+          <Progress moduleVideoData={moduleVideoData} videoCompletion={videoCompletion} />
         </TabPanel>
-        <TabPanel header={<div className="tab-panel-header"><CertificateIcon /> Certificate</div>}>
+        <TabPanel
+          header={
+            <div className="tab-panel-header">
+              <CertificateIcon /> Certificate
+            </div>
+          }
+        >
           <Certificate name={courseName} />
         </TabPanel>
-        <TabPanel header={<div className="tab-panel-header"><CampaignIcon /> Announcement</div>}>
+        <TabPanel
+          header={
+            <div className="tab-panel-header">
+              <CampaignIcon /> Announcement
+            </div>
+          }
+        >
           <Announcement />
         </TabPanel>
       </TabView>

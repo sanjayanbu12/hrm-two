@@ -41,6 +41,7 @@ const CatalogLayout = ({ selectedMedia }) => {
         .get(`https://hrm-backend-square.onrender.com/progress/get/${userId}`)
         .then((response) => {
           setVideoCompletion(response.data);
+          console.log(response)
           setLoading(false);
         })
         .catch((error) => {
@@ -58,7 +59,7 @@ const CatalogLayout = ({ selectedMedia }) => {
         .then((response) => {
           const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);
-          console.log("tesla",moduleVideoData)
+          console.log("moduleVideoData",moduleVideoData)
           setLoading(false);
         })
         .catch((error) => {
@@ -89,7 +90,7 @@ const CatalogLayout = ({ selectedMedia }) => {
                   </div>
                 </div>
                 <div>
-                  <Progress percent={videoCompletion[videoUrl] ? 100 : 0} steps={1} strokeColor={[green[7], green[8]]} />
+                  <Progress percent={videoCompletion[videoUrl] ? 100 : 0} steps={1} strokeColor={[green[6], green[8]]} />
                 </div>
               </>
             ),
@@ -181,7 +182,7 @@ const CatalogLayout = ({ selectedMedia }) => {
             )}
             {selectedMedia._id ? (
               <>
-                <BaseLayout courseName={selectedMedia.courseName} courseDescription={selectedMedia.courseDescription} courseid={selectedMedia._id} />
+                <BaseLayout courseName={selectedMedia.courseName} courseDescription={selectedMedia.courseDescription} courseid={selectedMedia._id} moduleVideoData={moduleVideoData} videoCompletion={videoCompletion} />
               </>
             ) : (
               <div>No Description available</div>
