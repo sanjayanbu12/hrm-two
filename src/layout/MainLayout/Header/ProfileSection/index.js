@@ -31,7 +31,6 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
-import { UserCircle } from 'tabler-icons-react';
 import { useDispatch } from 'react-redux';
 import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
 import axios from 'axios';
