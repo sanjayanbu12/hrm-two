@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import jsPDF from 'jspdf';
 import { TextSnippet } from '@mui/icons-material';
@@ -16,7 +16,6 @@ const columns = [
   { title: 'Employee Name', field: 'employeeName', editable: true },
   { title: 'Leave Type', field: 'leaveType', sorting: true, editable: true },
   { title: 'Start Date', field: 'startDate', sorting: true, editable: true },
-  { title: 'End Date', field: 'endDate', sorting: true, editable: true },
   { title: 'Number of Days', field: 'numberOfDays', sorting: true, editable: true },
   { title: 'Attachments', field: 'attachments', sorting: true, editable: true },
   { title: 'Reason', field: 'reason', sorting: true, editable: true },
@@ -25,15 +24,12 @@ const columns = [
     field: 'status',
     sorting: true,
     editable: true,
-    render: (rowData) => (
+    render: (rowData) =>
       rowData.status === 'Approved' || rowData.status === 'Rejected' ? (
-        <span style={{ color: rowData.status === 'Approved' ? 'green' : 'red' }}>
-          {rowData.status}
-        </span>
+        <span style={{ color: rowData.status === 'Approved' ? 'green' : 'red' }}>{rowData.status}</span>
       ) : (
         <span style={{ color: 'orange' }}>Pending</span>
       )
-    ),
   },
   {
     sorting: false,
@@ -48,8 +44,8 @@ const columns = [
         );
       }
       return null;
-    },
-  },
+    }
+  }
 ];
 
 const formatDate = (dateString) => {
@@ -60,7 +56,7 @@ const formatDate = (dateString) => {
 const ViewLeave = () => {
   const [Adata, setAdata] = useState([]);
   const [Loader, setLoader] = useState(true);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
  const{leaveContextData}=useContext(ApiContext)
   const fetchAts = async () => {
     try {
@@ -69,15 +65,13 @@ const ViewLeave = () => {
       console.log(res)
       const filldata = res.data.leaveRequests.map((item) => ({
         ...item,
-        startDate: formatDate(item.startDate), // Format the start date
-        endDate: formatDate(item.endDate), // Format the end date
+        startDate: formatDate(item.startDate) // Format the start date
       }));
       console.log(filldata);
       setAdata(filldata);
       setLoader(false);
       console.log(res.data);
       console.log(Adata);
-      
     } catch (err) {
       console.log(err);
     }
@@ -86,7 +80,7 @@ const ViewLeave = () => {
   const handleAttachments = async (id, name) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/${id}`, {
-        responseType: 'arraybuffer',
+        responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);
       const blob = new Blob([byteArray], { type: 'attachments/pdf' });
@@ -102,13 +96,12 @@ const ViewLeave = () => {
       'Employee Name': item.employeeName,
       'Leave Type': item.leaveType,
       'Start Date': item.startDate,
-      'End Date': item.endDate,
       'Number of Days': item.numberOfDays,
-      'Attachments': item.attachments,
-      'Reason': item.reason,
-      'Status': item.status,
+      Attachments: item.attachments,
+      Reason: item.reason,
+      Status: item.status
     }));
-    const csvHeaders = ['Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'End Date', 'Number of Days', 'Attachments', 'Reason', 'Status'];
+    const csvHeaders = ['Employee ID', 'Employee Name', 'Leave Type', 'Start Date', 'Number of Days', 'Attachments', 'Reason', 'Status'];
     const csvRows = [csvHeaders, ...csvData.map((item) => Object.values(item).map((value) => `"${value}"`))];
     const csvContent = csvRows.map((row) => row.join(',')).join('\n');
     const blob = new Blob([csvContent], { type: 'text/csv' });
@@ -124,17 +117,16 @@ const ViewLeave = () => {
       item.employeeId,
       item.leaveType,
       item.startDate,
-      item.endDate,
       item.numberOfDays,
       item.attachments,
       item.reason,
-      item.status,
+      item.status
     ]);
 
     pdf.autoTable({
       head: [columns.map((column) => column.title)],
       body: rows,
-      startY: 20,
+      startY: 20
     });
 
     pdf.save('list.pdf');
@@ -143,19 +135,19 @@ const ViewLeave = () => {
   const theme = createTheme({
     palette: {
       primary: {
-        main: '#757575',
+        main: '#757575'
       },
       secondary: {
-        main: '#7e57c2',
-      },
-    },
+        main: '#7e57c2'
+      }
+    }
   });
 
-  const handleView = async (e, data) => {
-    const id = data.map((x) => x.id);
-    console.log(data);
-    navigate(`/approveleave/${id[0]}`);
-  };
+  // const handleView = async (e, data) => {
+  //   const id = data.map((x) => x.id);
+  //   console.log(data);
+  //   navigate(`/approveleave/${id[0]}`);
+  // };
 
   useEffect(() => {
     fetchAts();
@@ -179,21 +171,21 @@ const ViewLeave = () => {
                         <TextSnippet style={{ color: '#616161' }} />
                       </Tooltip>
                     </a>
-                  ),
+                  )
                 };
               }
               return column;
             })}
             data={Adata}
             icons={tableIcons}
-            actions={[
-              (rowData) => ({
-                icon: tableIcons.View,
-                tooltip: 'View Details',
-                onClick: (event, rowData) => handleView(event, rowData),
-                disabled: rowData.length !== 1,
-              }),
-            ]}
+            // actions={[
+            //   (rowData) => ({
+            //     icon: tableIcons.View,
+            //     tooltip: 'View Details',
+            //     onClick: (event, rowData) => handleView(event, rowData),
+            //     disabled: rowData.length !== 1
+            //   })
+            // ]}
             options={{
               actionsColumnIndex: -3,
               exportButton: true,
@@ -203,8 +195,11 @@ const ViewLeave = () => {
               selection: true,
               columnsButton: true,
               headerStyle: {
-                backgroundColor: '#42a5f5',
-                color: 'black',
+                background: 'linear-gradient(180deg,#3a59af,#352786)',
+                color: '#fff',
+              },
+              headerCellStyle: {
+                color: 'white', 
               },
             }}
           />

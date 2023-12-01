@@ -4,72 +4,75 @@ import { Grid, TextField, FormControl, InputLabel, FormHelperText, Select, Input
 import * as yup from 'yup';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-// import { useNavigate } from 'react-router-dom';
 import FormData from 'form-data';
 import { useSelector } from 'react-redux';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
-import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
 const validationSchema = yup.object().shape({
-  employeeId: yup.string().required('Employee ID is required'),
-  employeeName: yup.string().required('Employee Name is required'),
   leaveType: yup.string().required('Leave Type is required'),
   startDate: yup
     .date()
     .required('Start Date is required')
     .nullable()
-    .min(new Date(), 'Start Date must be today or later')
-    .test('startDate', 'Start Date must be earlier than End Date', function (startDate) {
-      const { endDate } = this.parent;
-      if (!startDate || !endDate) {
-        return true; // Skip validation if either date is not set
-      }
-      return new Date(startDate) < new Date(endDate);
+    .min(new Date(new Date().setHours(0, 0, 0, 0)), 'Start Date must be today or later')
+    .max(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), 'Start Date cannot exceed one year from today')
+    .test('futureDate', 'Leave Date cannot be in the past', function (value) {
+      return value && value >= new Date(new Date().setHours(0, 0, 0, 0));
     }),
-  endDate: yup
-    .date()
-    .required('End Date is required')
-    .nullable()
-    .min(yup.ref('startDate'), 'End Date must be after or equal to Start Date'),
+
   numberOfDays: yup
     .number()
-    .typeError('Number of Days must be a number')
     .required('Number of Days is required')
+    .typeError('Number of Days must be a number')
     .positive('Number of Days must be positive')
     .integer('Number of Days must be an integer')
-    .test('numberOfDays', 'Number of Days must match the selected dates', function (numberOfDays) {
-      const { startDate, endDate } = this.parent;
-      if (!startDate || !endDate) {
-        return true; // Skip validation if either date is not set
+    .test('Number of Days must match the selected dates', function () {
+      const { startDate } = this.parent;
+      if (!startDate) {
+        return true;
       }
-      const daysDiff = Math.floor((new Date(endDate) - new Date(startDate)) / (1000 * 60 * 60 * 24));
-      return numberOfDays === daysDiff;
+      return true;
     }),
-  attachments: yup.array().of(yup.string()),
-  reason: yup.string().required('Reason is required')
+  attachments: yup
+    .array()
+    .min(1,' Attachment is required')
+    .required(' Attachment is required')
+    .of(yup.mixed().required())
+    .test('fileType', 'Invalid file format', (value) => {
+      if (!value || value.length === 0) {
+        return true;
+      }
+      return value.every((file) => {
+        const acceptedFormats = ['image/jpeg', 'image/png', 'application/pdf'];
+        return acceptedFormats.includes(file.type);
+      });
+    }),
+  reason: yup.string().required('Reason is required'),
+  // reportingTo: yup.string().when('report', {
+  //   is: (report) => !report || report.length === 0, // Check if 'report' is empty or undefined
+  //   then: yup.string().required('Reporting To is required'), // Validation required if 'report' is empty
+  //   otherwise: yup.string().notRequired(), // No validation required if 'report' has a value
+  // }), 
 });
 
 const RequestLeave = () => {
-  // const navigate = useNavigate();
   const [employeeId, setEmployeeId] = useState('');
   const [employeeName, setEmployeeName] = useState('');
   const [leaveType, setLeaveType] = useState('');
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const [numberOfDays, setNumberOfDays] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [reason, setReason] = useState('');
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
   const [employeeDetails, setEmployeeDetails] = useState({});
-  const [edata, setedata] = useState([]);
   const [report, setReport] = useState([]);
+  const [regData, setRegData] = useState([]);
   const employee = useSelector((state) => state.customization.authId);
   console.log(employee);
   console.log(employeeName);
-  const {employeeContextData}=useContext(ApiContext)
-  const {leaveStatus, setleaveStatus}=useContext(FormSubmittedContext)
+  const { employeeContextData } = useContext(ApiContext);
   const leaveTypes = [
     'Casual Leave (CL)',
     'Sick Leave (SL)',
@@ -86,28 +89,17 @@ const RequestLeave = () => {
   ];
 
   useEffect(() => {
-    if (startDate && endDate) {
-      const startDateObj = new Date(startDate);
-      const endDateObj = new Date(endDate);
-      if (!isNaN(startDateObj) && !isNaN(endDateObj)) {
-        const daysDiff = Math.floor((endDateObj - startDateObj) / (1000 * 60 * 60 * 24));
-        setNumberOfDays(daysDiff.toString());
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          numberOfDays: ''
-        }));
-      }
-    } else {
-      setNumberOfDays('');
+    if (startDate) {
+      const selectedStartDate = new Date(startDate);
+      const newEndDate = new Date(selectedStartDate);
+      newEndDate.setDate(newEndDate.getDate() + parseInt(numberOfDays) - 1);
     }
-  }, [startDate, endDate]);
-  useEffect(() => {
-    fetchEmployeesData();
-  }, [employeeContextData]);
+  }, [startDate, numberOfDays]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = employeeContextData
+        const response = employeeContextData;
         const allEmployeeData = response.data;
         const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === employee);
         setEmployeeDetails(specificEmployee);
@@ -134,22 +126,28 @@ const RequestLeave = () => {
     setStartDate(newStartDate);
   };
 
-  const handleEndDateChange = (e) => {
-    const newEndDate = e.target.value;
-    setEndDate(newEndDate);
+  const fetchRegData = async () => {
+    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+    setRegData(res.data.user);
   };
+
+  useEffect(() => {
+    fetchRegData();
+  }, []);
 
   const handleFileChange = (selectedFiles) => {
     const filesArray = Array.from(selectedFiles);
     setAttachments(filesArray);
   };
-  const fetchEmployeesData = async () => {
-    try {
-      const response =employeeContextData;
-      const employees = response.data;
-      setedata(employees);
-    } catch (error) {
-      console.log(error);
+  const clearAttachmentError = () => {
+    if (errors.attachments) {
+      setErrors({ ...errors, attachments: '' });
+    }
+  };
+
+  const clearReportingtoError = () => {
+    if (errors.reportingTo) {
+      setErrors({ ...errors, reportingTo: '' });
     }
   };
   const handleSubmit = async (e) => {
@@ -158,14 +156,11 @@ const RequestLeave = () => {
     try {
       await validationSchema.validate(
         {
-          employeeId,
-          employeeName,
           leaveType,
           startDate,
-          endDate,
           numberOfDays,
           reason,
-          attachments
+          attachments,
         },
         { abortEarly: false }
       );
@@ -175,7 +170,6 @@ const RequestLeave = () => {
       data.append('employeeName', employeeName);
       data.append('leaveType', leaveType);
       data.append('startDate', startDate);
-      data.append('endDate', endDate);
       data.append('numberOfDays', numberOfDays);
       data.append('reason', reason);
       data.append('attachments', attachments[0]);
@@ -192,13 +186,11 @@ const RequestLeave = () => {
         setEmployeeName('');
         setLeaveType('');
         setStartDate(null);
-        setEndDate(null);
         setNumberOfDays('');
         setAttachments([]);
         setReason('');
         setErrors({});
         setSuccess(true);
-        setleaveStatus(!leaveStatus)
         Swal.fire({
           icon: 'success',
           text: 'Leave request submitted successfully!'
@@ -249,7 +241,6 @@ const RequestLeave = () => {
       <form onSubmit={handleSubmit}>
         <Grid container spacing={3}>
           {/* Employee ID */}
-
           <Grid item xs={6}>
             <TextField
               fullWidth
@@ -258,8 +249,6 @@ const RequestLeave = () => {
               label="Employee ID"
               variant="outlined"
               value={employeeId}
-              // error={Boolean(errors.employeeId)}
-              // helperText={errors.employeeId}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
                 shrink: true
@@ -275,8 +264,6 @@ const RequestLeave = () => {
               label="Employee Name"
               variant="outlined"
               value={employeeName}
-              // error={Boolean(errors.employeeName)}
-              // helperText={errors.employeeName}
               InputProps={{
                 startAdornment: <InputAdornment position="start"></InputAdornment>,
                 shrink: true
@@ -328,27 +315,6 @@ const RequestLeave = () => {
               }}
             />
           </Grid>
-          {/* End Date */}
-          <Grid item xs={6}>
-            <TextField
-              fullWidth
-              id="endDate"
-              name="endDate"
-              label="End Date"
-              variant="outlined"
-              type="date"
-              value={endDate || ''}
-              onChange={(e) => {
-                handleFieldChange(e);
-                handleEndDateChange(e);
-              }}
-              error={Boolean(errors.endDate)}
-              helperText={errors.endDate}
-              InputLabelProps={{
-                shrink: true
-              }}
-            />
-          </Grid>
           {/* Number of Days */}
           <Grid item xs={6}>
             <TextField
@@ -380,9 +346,12 @@ const RequestLeave = () => {
               onChange={(e) => {
                 handleFieldChange(e);
                 handleFileChange(e.target.files);
+                clearAttachmentError();
               }}
             />
+            {errors.attachments && <span style={{ color: 'red' }}>{errors.attachments}</span>}
           </Grid>
+
           {/* Reason */}
           <Grid item xs={6}>
             <TextField
@@ -402,28 +371,29 @@ const RequestLeave = () => {
               helperText={errors.reason}
             />
           </Grid>
+          {/* Reporting to */}
           <Grid item xs={4}>
-            <FormControl sx={{ minWidth: '100%' }}>
+            <FormControl sx={{ minWidth: '100%' }} error={Boolean(errors.reportingTo)}>
               <InputLabel id="demo-simple-select-label">Reporting to</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 label="Reporting To"
                 value={report.id ? `${report.id},${report.name}` : ''}
-                // error={errors && errors.report}
-                // helperText={errors && errors.report}
                 onChange={(e) => handleReport(e)}
+                onClick={clearReportingtoError}
               >
-                {edata?.map((item) => (
-                  <MenuItem key={item._id} value={`${item._id},${item.name}`}>
-                    {item.name}
+                {regData.map((item) => (
+                  <MenuItem key={item._id} value={`${item._id},${item.firstname}`}>
+                    {item.firstname}
                   </MenuItem>
                 ))}
               </Select>
 
-              <FormHelperText>{errors && errors.report}</FormHelperText>
+              <FormHelperText>{errors.reportingTo}</FormHelperText>
             </FormControl>
           </Grid>
+
           {/* Submit Button */}
           <Grid item xs={12}>
             <Button type="submit" variant="contained" color="primary">

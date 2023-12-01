@@ -111,6 +111,7 @@ const AccountSetting = () => {
   const [empId, setEmpId] = useState('');
   const [department, setDepartment] = useState('');
   const [mob, setPhone] = useState('');
+  const [emergencyContact, setemergencyContact] = useState('');
   const [coverimage, setCoverImage] = useState(userdetails?.coverpic?.url);
   const [avatarImage, setAvatarImage] = useState(data);
   console.log(avatarImage);
@@ -132,6 +133,7 @@ const AccountSetting = () => {
         setEmpId(specificEmployee.employeeid);
         setDepartment(specificEmployee.dept);
         setPhone(specificEmployee.mob);
+        setemergencyContact(specificEmployee.emergencyContact);
         setId(specificEmployee._id);
         setAvatarImage(specificEmployee.profilepic?.url);
         setCoverImage(specificEmployee?.coverpic?.url);
@@ -149,7 +151,8 @@ const AccountSetting = () => {
         name,
         lastname,
         email,
-        mob
+        mob,
+        emergencyContact
       };
       await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, Updatedata);
       setStatus(!formStatus);
@@ -353,6 +356,34 @@ const AccountSetting = () => {
                   // Limit the input to 10 characters
                   if (inputText.length <= 10) {
                     setPhone(inputText);
+                  }
+                }}
+              />
+            </div>
+          </Grid>
+
+          <Grid
+            item
+            xs={12}
+            md={5}
+            style={{
+              padding: '0px',
+              display: 'flex',
+              justifyContent: 'start',
+              marginBottom: '40px'
+            }}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#4D4C7D' }}>Emergency No</div>
+              <InputText
+                value={emergencyContact}
+                onChange={(e) => {
+                  // Get the input value and remove non-digit characters
+                  let inputText = e.target.value.replace(/\D/g, '');
+
+                  // Limit the input to 10 characters
+                  if (inputText.length <= 10) {
+                    setemergencyContact(inputText);
                   }
                 }}
               />

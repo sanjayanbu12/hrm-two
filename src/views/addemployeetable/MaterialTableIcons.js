@@ -15,8 +15,10 @@ import SaveAlt from '@material-ui/icons/SaveAlt';
 import Search from '@material-ui/icons/Search';
 import ViewColumn from '@material-ui/icons/ViewColumn';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import Button from '@mui/material/Button';
 import { Send } from '@mui/icons-material';
 const tableIcons = {
+
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
   View: forwardRef((props, ref) => <VisibilityIcon {...props} ref={ref} />),
   Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -35,7 +37,21 @@ const tableIcons = {
     Share: forwardRef((props, ref) => <Send {...props} ref={ref} />),
     SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
     ThirdStateCheck: forwardRef((props, ref) => <Remove {...props} ref={ref} />),
-    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />)
+    ViewColumn: forwardRef((props, ref) => <ViewColumn {...props} ref={ref} />),
+    AddNewRequest: forwardRef((props, ref) => (   
+      <Button
+      variant='contained'
+      {...props}
+      ref={ref}
+      sx={{
+        '&:hover': {
+          backgroundColor: '#778899',
+        },
+      }}
+    >
+      Add New Request
+    </Button>
+    )),
   };
 
 

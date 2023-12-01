@@ -31,7 +31,6 @@ import Transitions from 'ui-component/extended/Transitions';
 
 // assets
 import { IconLogout, IconSettings } from '@tabler/icons';
-import { UserCircle } from 'tabler-icons-react';
 import { useDispatch } from 'react-redux';
 import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
 import axios from 'axios';
@@ -75,7 +74,7 @@ const ProfileSection = () => {
     } catch (error) {
       alert(error && error.message);
     }
-    // navigate('/pages/login/login3');
+    navigate('/pages/login/login3');
   };
   const now = new Date();
   const currentHour = now.getHours();
@@ -88,9 +87,7 @@ const ProfileSection = () => {
     greeting = 'Good Afternoon';
   } else if (currentHour >= 15 && currentHour < 19) {
     greeting = 'Good Evening';
-  } else {
-    greeting = 'Good Night';
-  }
+  } 
 
   const handleClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -359,8 +356,8 @@ const ProfileSection = () => {
                           />
                         </ListItemButton> */}
                         <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleAccount}>
-                          <ListItemIcon color="green">
-                            <UserCircle size="1.3rem" strokeWidth={2} color={'black'} />
+                        <ListItemIcon>
+                            <IconLogout color="black" stroke={1.5} size="1.3rem" />
                           </ListItemIcon>
                           <ListItemText primary={<Typography variant="body2">Account Setting</Typography>} />
                         </ListItemButton>
