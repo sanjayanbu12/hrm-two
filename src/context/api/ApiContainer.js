@@ -78,6 +78,7 @@ const ApiContainer = (props) => {
       console.error('Error fetching attendance:', error);
     }
   };
+  
   const Procruitmentget = async () => {
     try {
       const api = await axios.get('https://hrm-backend-square.onrender.com/proc/getall');
