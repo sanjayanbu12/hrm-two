@@ -10,48 +10,56 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+
 const AuthLogin = () => {
   const [value1, setvalue1] = useState('');
   const [value2, setvalue2] = useState('');
   const [error, seterror] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false); // State variable for loader
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailNotExistAlert, setEmailNotExistAlert] = useState(false);
   const [emailValidationAlert, setEmailValidationAlert] = useState(false);
-  const [passworderror, setPassworderror] = useState(false);
+  const [passwordError, setPasswordError] = useState(false);
   const [emptyFieldsAlert, setEmptyFieldsAlert] = useState(false);
-  
+  const [emailNotVerifiedAlert, setEmailNotVerifiedAlert] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { setloggedUserData } = useContext(ApiContext);
-  
+
   const validateLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loader
+    setIsLoading(true);
 
-    // Validation for empty email field
     if (!value1 && !value2) {
-      setEmptyFieldsAlert(true); // Show the alert
+      setEmptyFieldsAlert(true);
       setIsLoading(false);
       setEmailValidationAlert(false);
-      setPassworderror(false); // Stop loader
+      setPasswordError(false);
+      setEmailNotExistAlert(false);
+      setEmailNotVerifiedAlert(false);
       return;
     } else {
-      setEmptyFieldsAlert(false); // Hide the alert if not empty
+      setEmptyFieldsAlert(false);
     }
     if (!value2) {
-      setPassworderror(true);
+      setPasswordError(true);
       setIsLoading(false);
       setEmptyFieldsAlert(false);
-      setEmailValidationAlert(false); // Stop loader
+      setEmailValidationAlert(false);
+      setEmailNotExistAlert(false);
+      setEmailNotVerifiedAlert(false);
       return;
     } else {
-      setPassworderror(false);
+      setPasswordError(false);
     }
     if (!value1) {
       setEmailValidationAlert(true);
       setIsLoading(false);
       setEmptyFieldsAlert(false);
-      setPassworderror(false); // Stop loader
+      setPasswordError(false);
+      setEmailNotExistAlert(false);
+      setEmailNotVerifiedAlert(false);
       return;
     } else {
       setEmailValidationAlert(false);
@@ -62,37 +70,47 @@ const AuthLogin = () => {
         email: value1,
         password: value2
       });
+
       setloggedUserData(response);
       dispatch({ type: LOGGED_IN });
       dispatch({ type: AUTH_ID, payload: response.data.existingUser.employeeId });
       dispatch({ type: USER_ID, payload: response.data.existingUser._id });
+
       const role = response.data.existingUser.role;
       if (role === 'Admin') {
         dispatch({ type: ADMIN_OR_NOT });
-
         navigate('/dashboard/default');
       } else {
         dispatch({ type: USER_OR_NOT });
         navigate('/dashboard/default');
       }
 
-      setIsLoading(false); // Stop loader
+      setIsLoading(false);
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.error) {
-        if (error.response.data.error === 'Invalid password') {
-          seterror({ password: 'Wrong password' }); // Password error
+      console.error('Login Error:', error.response.data.message);
+
+      if (error.response && error.response.data && error.response.data.message) {
+        const errorMessage = error.response.data.message;
+
+        if (errorMessage === "Email Id doesn't exist. Please SignUp") {
+          setEmailNotExistAlert(true);
+        } else if (errorMessage === 'Email is not verified. Please verify your email first.') {
+          setEmailNotVerifiedAlert(true);
+        } else if (errorMessage === 'Password is incorrect') {
+          setPasswordError(true);
         } else {
-          seterror({ email: error.response.data.error }); // Email error
+          seterror({ email: errorMessage });
         }
       } else {
-        seterror({ password: 'Wrong password' }); // Generic password error
+        // Display a generic password error alert
+        setPasswordError(true);
       }
 
       setTimeout(() => {
         seterror({});
       }, 5000);
 
-      setIsLoading(false); // Stop loader
+      setIsLoading(false);
     }
   };
 
@@ -104,7 +122,9 @@ const AuthLogin = () => {
     }));
     setEmptyFieldsAlert(false);
     setEmailValidationAlert(false);
-    setPassworderror(false);
+    setPasswordError(false);
+    setEmailNotExistAlert(false);
+    setEmailNotVerifiedAlert(false);
   };
 
   const handlePass = (e) => {
@@ -116,7 +136,9 @@ const AuthLogin = () => {
 
     setEmptyFieldsAlert(false);
     setEmailValidationAlert(false);
-    setPassworderror(false);
+    setPasswordError(false);
+    setEmailNotExistAlert(false);
+    setEmailNotVerifiedAlert(false);
   };
 
   const togglePasswordVisibility = () => {
@@ -205,10 +227,25 @@ const AuthLogin = () => {
           </Alert>
         </Stack>
       )}
-      {passworderror && (
+      {passwordError && (
+  <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
+    <Alert variant="filled" severity="error">
+      {value2 ? 'Password is incorrect' : 'Please enter your password'}
+    </Alert>
+  </Stack>
+)}
+
+      {emailNotExistAlert && (
         <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
           <Alert variant="filled" severity="error">
-            Please enter password
+            Email Id doesn&apos;t exist. Please SignUp
+          </Alert>
+        </Stack>
+      )}
+      {emailNotVerifiedAlert && (
+        <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
+          <Alert variant="filled" severity="error">
+            Email is not verified. Please verify your email first.
           </Alert>
         </Stack>
       )}
