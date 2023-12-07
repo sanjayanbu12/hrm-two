@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import './authreg.css';
-import { Button, Grid, TextField,InputAdornment ,IconButton} from '@mui/material';
+import { Button, Grid, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -8,9 +8,9 @@ import { Toast } from 'primereact/toast';
 import axios from 'axios';
 import { signupSchema } from 'Valdidation/SignupValidation';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-// import {  CircularProgress} from '@mui/material';
 import PasswordValidator from './PasswordValidator';
 import useToast from 'views/leavemanagement/useToast';
+
 const FirebaseRegister = () => {
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
@@ -20,7 +20,7 @@ const FirebaseRegister = () => {
   const [err, setErr] = useState({});
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMismatchAlert, setPasswordMismatchAlert] = useState('');
-  //use to route to another page
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast, showToast } = useToast();
 
@@ -31,7 +31,6 @@ const FirebaseRegister = () => {
       return;
     }
 
-    // Clear the password mismatch alert if passwords match
     setPasswordMismatchAlert('');
 
     const dataVar = {
@@ -43,18 +42,23 @@ const FirebaseRegister = () => {
     };
 
     try {
+      // Set loading to true when the form is being submitted
+      setIsLoading(true);
+
       await signupSchema.validate(dataVar, { abortEarly: false });
       const userExist = await checkUserExist(email);
       if (userExist) {
         setErr((prev) => ({ ...prev, email: 'user aldready exist' }));
       } else {
-        await axios.post('https://hrm-backend-square.onrender.com/auth/createUser', dataVar); //using axios to set data to json server
+        await axios.post('http://localhost:3001/auth/createUser', dataVar);
         setFirstname('');
         setEmail('');
         setLastname('');
         setPassword('');
         setErr({});
+        showToast('success', 'Welcome! Please go and verify your email.', 'Message Content');
         navigate('/pages/login/login3');
+       
       }
     } catch (error) {
       if (error.name === 'ValidationError') {
@@ -63,13 +67,15 @@ const FirebaseRegister = () => {
           ValidationErrors[err.path] = err.message;
         });
         setErr(ValidationErrors);
-        console.log(ValidationErrors);
       } else {
-        console.log(error);
         error && showToast('error', error.response.data.message, 'Message Content');
       }
+    } finally {
+      // Clear loading state after submission (success or error)
+      setIsLoading(false);
     }
   };
+
   const checkUserExist = async (email) => {
     try {
       const response = await axios.get(`https://hrm-backend-square.onrender.com/Users`);
@@ -88,6 +94,7 @@ const FirebaseRegister = () => {
       firstname: ''
     }));
   };
+
   const handleLastNameChange = (e) => {
     setLastname(e.target.value);
     setErr((prevErr) => ({ ...prevErr, lastname: '' }));
@@ -102,6 +109,7 @@ const FirebaseRegister = () => {
     setPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, password: '' }));
   };
+
   const handlecheckConfirmPass = (e) => {
     setConfirmPassword(e.target.value);
     setErr((prevErr) => ({ ...prevErr, confirmPassword: '' }));
@@ -110,11 +118,12 @@ const FirebaseRegister = () => {
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
+
   return (
     <div className="signup-wrapper">
       <Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}  sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Grid item xs={12} md={12} sm={6} lg={6}  >
+        <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
+          <Grid item xs={12} md={12} sm={6} lg={6}>
             <TextField
               sx={{ minWidth: '100%' }}
               variant="outlined"
@@ -126,7 +135,7 @@ const FirebaseRegister = () => {
               onChange={(e) => handleFirstname(e)}
             />
           </Grid>
-          <Grid item xs={12} md={12} sm={6}  lg={6}>
+          <Grid item xs={12} md={12} sm={6} lg={6}>
             <TextField
               sx={{ minWidth: '100%' }}
               variant="outlined"
@@ -180,7 +189,6 @@ const FirebaseRegister = () => {
               variant="outlined"
               id="outlined-required"
               label="Confirm Password"
-              type="password"
               value={confirmPassword}
               onChange={(e) => handlecheckConfirmPass(e)}
               error={passwordMismatchAlert !== ''}
@@ -189,8 +197,17 @@ const FirebaseRegister = () => {
           </Grid>
           <Grid item xs={12}>
             <AnimateButton>
-              <Button onClick={handle} disableElevation fullWidth size="large" type="submit" variant="contained" color="secondary">
-                Sign up
+              <Button
+                onClick={handle}
+                disableElevation
+                fullWidth
+                size="large"
+                type="submit"
+                variant="contained"
+                color="secondary"
+                disabled={isLoading}
+              >
+                {isLoading ? <CircularProgress size={24} /> : 'Sign up'}
               </Button>
             </AnimateButton>
           </Grid>
