@@ -13,6 +13,8 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 // import InsightsIcon from '@mui/icons-material/Insights';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
 import DvrIcon from '@mui/icons-material/Dvr';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 // import { useSelector,useDispatch } from 'react-redux';
 // const isAdmin = (state=>state.customi)
 // constant
@@ -140,19 +142,19 @@ const pages = {
         }
       ]
     },
-    {
-      id: 'performance',
-      title: 'Performance Management',
-      type: 'collapse',
-      icon: icons.IconKey,
+    // {
+    //   id: 'performance',
+    //   title: 'Performance Management',
+    //   type: 'collapse',
+    //   icon: icons.IconKey,
 
-      children: [
-        {
-          id: 'goals',
-          title: 'Goals',
-          type: 'item',
-          url: '/goals'
-        }
+    //   children: [
+    //     {
+    //       id: 'goals',
+    //       title: 'Goals',
+    //       type: 'item',
+    //       url: '/goals'
+    //     }
         // {
         //   id: 'feedbacks',
         //   title: 'Feedbacks',
@@ -165,8 +167,8 @@ const pages = {
         //   type: 'item',
         //   url: '/skillsetmatrix'
         // },
-      ]
-    },
+    //   ]
+    // },
     {
       id: 'travel&',
       title: 'Travel & Expenses',
@@ -179,6 +181,20 @@ const pages = {
           title: 'Travel & Claim',
           type: 'item',
           url: '/travel'
+        }
+      ]
+    },
+    {
+      id: 'Procurement',
+      title: 'procurement',
+      type: 'collapse',
+      icon: ShoppingCartIcon, 
+      children: [
+        {
+          id: 'travel',
+          title: 'Procurement Table',
+          type: 'item',
+          url:'/Procruitment'
         }
       ]
     }

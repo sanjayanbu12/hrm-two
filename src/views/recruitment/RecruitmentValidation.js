@@ -14,6 +14,8 @@ export const validationSchema = yup.object().shape({
   Year: yup.string().required('Year is required'),
   Hrname: yup.string().required('HR Name is required'),
   Interviewrounds: yup.string().required('Interview Rounds is required'),
+  priority: yup.string().required('Priority is required'),
+  jobraiser: yup.string().required('Jobraiser is required'),
 
 });
 export default validationSchema;

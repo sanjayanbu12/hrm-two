@@ -8,13 +8,33 @@ import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import _ from 'lodash';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
+// import DatePicker from '@mui/lab/DatePicker';
+import nodata from '/Users/surya/Documents/GitHub/hrm-two/src/views/pages/authentication/authentication3/Lotties/NoDataTab'
+// C:\Users\surya\Documents\GitHub\hrm-two\src\views\pages\authentication\authentication3\Lotties
+import Lottie from 'react-lottie';
+import { Calendar } from 'primereact/calendar';
 
 
+const lt1={
+  animationData: nodata,
+}
 const AtttendanceTab = () => {
     // const authId = useSelector((state) => state.customization.authId);
 
     const [employee, setEmployee] = useState([]);
     const { employeeContextData } = useContext(ApiContext);
+    const [selectedDate, setSelectedDate] = useState(new Date()); 
+    
+
+    // const containerStyle = {
+    
+    // };
+    
+    // const containerStyle = {
+    //   position: 'relative',
+    // };
+  
+
   
     console.log("Attendance Table",employee)
   
@@ -80,7 +100,8 @@ const AtttendanceTab = () => {
         });
       
         return totalBreakTimeMinutes;
-      };
+      }; 
+
       const fetchEmployee = async () => {
         try {
           const res = employeeContextData
@@ -208,67 +229,95 @@ const AtttendanceTab = () => {
     // console.log("individual", sample);
     const groupedByDate = _.groupBy(employee, 'date');
 
-    const sortedDates = Object.keys(groupedByDate).sort((a, b) => {
-      const dateA = new Date(a);
-      const dateB = new Date(b);
-      return dateB - dateA; 
-    });
+    const getCurrentDate = () => {
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const day = String(today.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
+    };
 
-    
-    const renderTable = () => {
-      if (employee.length === 0) {
-        return <p>    <MaterialTable
-        columns={columns}
-        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance</div>}
-        icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-        options={{
-          actionsColumnIndex: 6,
-          exportButton: true,
-          grouping: true,
-          headerStyle: {
-            background: '#E754CA',  
-            color: '#fff',
-          },
-          headerCellStyle: {
-            background: '#E754CA', 
-            color: 'white',
-          },
-        }}
-      /></p>;
-      } else {
-        return sortedDates.map((date) => (
-          <div key={date} style={{ marginBottom: '35px' }}>
-             <MaterialTable 
-        columns={columns}
-        title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Attendance : {date}</div>}
-        data={groupedByDate[date]}
-        icons={tableIcons}
-        style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
-        options={{
-          actionsColumnIndex: 6,
-          exportButton: true,
-          exportCsv: exportCsv,
-          exportPdf: exportPdf,
-          grouping: true,
+   const renderTableForSelectedDate = () => {
+  const formattedSelectedDate = formatDate(selectedDate);
+  const dataForSelectedDate = groupedByDate[formattedSelectedDate];
+
+  if (!dataForSelectedDate || dataForSelectedDate.length === 0) {
+    return (
+      <div>
+        <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
         
-          headerStyle: {
-            background: '#E754CA',  
-            color: '#fff',
-          },
-          headerCellStyle: {
-            background: '#E754CA', 
-            color: 'white',
-          },
-        }}
-      />
-          </div>
-        ));
-      }
+          <Calendar
+            value={selectedDate}
+            onChange={(event) => setSelectedDate(event.target.value)}
+            maxDate={new Date()} // Set the maximum selectable date to the current date
+            className="p-invalid"
+          />
+     
+        </div>
+        <div style={{ marginTop: '100px' }}>
+          <Lottie
+            options={lt1}
+            height="400px"
+            width="400px"
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div style={{display:'flex',justifyContent:'flex-end',marginBottom:'20px'}}>
+      
+        <Calendar
+          value={selectedDate}
+          onChange={(event) => setSelectedDate(event.target.value)}
+          maxDate={new Date()} // Set the maximum selectable date to the current date
+          className="p-invalid"
+        />
+        </div>
+               {/* <DatePicker
+                  label="Select Date"
+                  value={selectedDate}
+                  onChange={(date) => setSelectedDate(date)}
+                  renderInput={(params) => <TextField {...params} />}
+                 
+                /> */}
+            <MaterialTable
+              columns={columns}
+              title={
+                <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
+                  Attendance : {formattedSelectedDate}
+                </div>
+              }
+              data={dataForSelectedDate}
+              icons={tableIcons}
+              style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+              options={{
+                actionsColumnIndex: 6,
+                exportButton: true,
+                exportCsv: exportCsv,
+                exportPdf: exportPdf,
+                grouping: true,
+                headerStyle: {
+                  background: 'linear-gradient(180deg,#3a59af,#352786)',
+                  color: '#fff',
+                },
+                headerCellStyle: {
+                  background: 'linear-gradient(180deg,#3a59af,#352786)',
+                  color: 'white',
+                },
+              }}
+            />
+        </div>
+      );
     };
   
-    return <div>{renderTable()}</div>;
+    return (
+      <div>
+        {renderTableForSelectedDate()}
+      </div>
+    );
   };
   
   export default AtttendanceTab;
-  

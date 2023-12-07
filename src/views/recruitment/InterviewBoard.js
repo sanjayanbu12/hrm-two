@@ -14,6 +14,9 @@ import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 // import { FeedSelectedTable } from './FeedSelectedTable';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { useNavigate } from 'react-router-dom';
+
 
 const InterviewBoard = () => {
   const [Adata, setAdata] = useState([]);
@@ -28,8 +31,11 @@ const InterviewBoard = () => {
   const [loading, setLoading] = useState(true);
   const { recruitmentContextData, atsContextData } = useContext(ApiContext);
   const { atsStatus, setatsStatus } = useContext(FormSubmittedContext);
+  const navigate=useNavigate();
+
   const handleOpenFeedback = (candidateId, candidateName, title) => {
     const selectedCandidate = matchedResults.find((candidate) => candidate._id === candidateId);
+
 
     if (selectedCandidate) {
       setSelectedCandidate(selectedCandidate);
@@ -155,7 +161,6 @@ const InterviewBoard = () => {
     setMatchedResults(matched);
   }, [Adata, filter]);
 
-  console.log('fff', matchedResults);
 
   const handleDragEnd = async (result) => {
     if (!result.destination) {
@@ -189,8 +194,28 @@ const InterviewBoard = () => {
     const str = JSON.stringify(matchedResults);
     console.log(JSON.parse(str));
   }, [matchedResults]);
+
+  const handleView = async (candidateId) => { 
+    navigate(`/applicationview/${candidateId}`); 
+  }
   return (
-    <MainCard title="Interview Board" sx={{ width: '100%', height: 'auto', minHeight: '480px' }}>
+    <MainCard
+    title="Interview Board"
+    sx={{
+      width: '100%',
+      height: 'auto',
+      minHeight: '480px',
+      backgroundColor:'#F8F8F8',
+      // backgroundImage: `linear-gradient(#FF1D58, yellow,#FF1D58)`,
+      backgroundSize: 'cover',
+      '& .MuiCardHeader-title': {
+        fontWeight: 'bold', 
+        display: 'flex',
+        alignItems: 'center', 
+        justifyContent: 'center',
+      },
+    }}
+  >
       {loading ? (
         <Stack sx={{ color: 'grey.500', display: 'flex', justifyContent: 'center', mt: '20%' }} spacing={2} direction="row">
           <CircularProgress color="inherit" />
@@ -200,9 +225,11 @@ const InterviewBoard = () => {
           <DragDropContext onDragEnd={handleDragEnd}>
             {allStatuses.map((title, columnIndex) => {
               const columnResults = matchedResults.filter((x) => x.Status === title);
+             
               return (
                 <div key={title} style={{ flex: '0 0 auto', marginRight: '20px', marginBottom: '60px' }}>
-                  <Paper elevation={3} sx={{ padding: '16px' }}>
+                  <Paper
+                  elevation={3} sx={{ padding: '16px' }}>
                     <CardHeader
                       title={title}
                       sx={{
@@ -211,7 +238,7 @@ const InterviewBoard = () => {
                         marginTop: '-20px',
                         height: '10px',
                         minWidth: '100px',
-                        maxWidth: '150px'
+                        maxWidth: '150px',  
                       }}
                     />
                     <Droppable droppableId={title} index={columnIndex}>
@@ -237,8 +264,12 @@ const InterviewBoard = () => {
                                     border: '1px solid #ddd',
                                     borderRadius: '5px',
                                     cursor: 'pointer',
-                                    minWidth: '180px',
-                                    backgroundColor: snapshot.isDragging ? 'lightblue' : 'white'
+                                    minWidth: '120px',
+                                    maxWidth:'200px',
+                                    backgroundColor: snapshot.isDragging ? 'lightblue' : 'white',
+                                overflow:'auto',
+                                
+                                    
                                   }}
                                 >
                                   <div style={{ display: 'flex', alignItems: 'end', justifyContent: 'flex-end' }}>
@@ -254,20 +285,19 @@ const InterviewBoard = () => {
                                     <b>Qualification:</b>
                                     {x.Qualification}
                                   </Typography>
-                                  <Typography variant="body2">
-                                    <b>Skills:</b>
-                                    {x.Skills}
-                                  </Typography>
+                                 
                                   <div
                                     style={{
                                       display: 'flex',
                                       alignItems: 'flex-end',
                                       justifyContent: 'flex-end',
                                       cursor: 'pointer',
-                                      marginBottom: '5px'
+                                      marginBottom: '5px',
+                                      overflow: 'hidden',
                                     }}
                                   >
-                                    <div style={{ display: 'flex', marginRight: '40%' }}>
+                                    <div style={{ display: 'flex'}}>
+                                  
                                       {title !== 'Shortlist' && title !== 'Selected' && title !== 'Hold' && title !== 'Rejected' && (
                                         <Tooltip title="Feedback">
                                           <Feedback
@@ -289,13 +319,19 @@ const InterviewBoard = () => {
                                         <Tooltip title="Interview feedback">
                                           <ErrorOutlineIcon
                                             onClick={() => handleOpenInfo(x._id, x.Name, title)}
-                                            sx={{ marginTop: '11px' }}
+                                            sx={{ marginTop: '11px',marginRight:'15px' }}
                                           />
                                         </Tooltip>
                                       )}
+                                      <Tooltip title="View Details">
+                                          <VisibilityIcon
+                                            onClick={() => handleView(x._id)}
+                                            sx={{ marginTop: '11px',marginRight:'15px' }}
+                                          />
+                                        </Tooltip>
                                     </div>
                                     <Tooltip title={x.Name}>
-                                      <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px' }}>
+                                      <Avatar sx={{ fontSize: '15px', fontWeight: 'Bold', height: '25px', width: '25px',backgroundColor:'orangered',color:'yellow' }}>
                                         {x.Name[0]}
                                       </Avatar>
                                     </Tooltip>

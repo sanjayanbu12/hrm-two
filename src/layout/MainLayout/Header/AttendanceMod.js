@@ -11,8 +11,10 @@ import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 
+
 const AttendanceMod = () => {
   const authId = useSelector((state) => state.customization.authId);
+  console.log("eee",authId)
   const [employee, setEmployee] = useState('');
   const [clockid, setClockid] = useState('');
   const [checkInDisabled, setCheckInDisabled] = useState(false);
@@ -25,9 +27,14 @@ const AttendanceMod = () => {
   console.log('zzz', parclock);
   const [check, setCheck] = useState('');
   console.log('check', check);
+  const { getattendance } = useContext(ApiContext);
+  console.log("2nd attendance", getattendance);
+
+
 
   const { employeeContextData } = useContext(ApiContext);
-  const { formStatus, setStatus } = useContext(FormSubmittedContext);
+  console.log("emoloyeeContextData",employeeContextData)
+  const { formStatus, setStatus, att,setAtt } = useContext(FormSubmittedContext);
 
   console.log('clockid', clockid);
 
@@ -49,35 +56,53 @@ const AttendanceMod = () => {
     fetchEmployee();
   }, [employeeContextData]);
 
+  const RectifyCheckout = async () => {
+  try {
+    const response = await getattendance;
+    const underid = response.map((data) => data._id);
+    console.log("getting first id", underid);
+    const authIdToFind = authId; 
+    const matchingItem = response.reverse().find((data) => data.authId === authIdToFind); 
+    if (matchingItem) {
+      const matchingItemId = matchingItem._id;
+      console.log(`Found matching _id for authId`,matchingItemId);
+      setParclock(matchingItemId);
+    
+    } else {
+      console.log(`No matching item found for authId ${authIdToFind}`);
+    }
+
+const Checkbreak=response.find((data) => data.authId === authIdToFind); 
+setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length - 1]);
+
+
+
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+  useEffect(() => {
+    RectifyCheckout();
+  }, [getattendance]);
+
   const handleCheckInClick = async () => {
     const currentDate = new Date();
-
-    // Create the check-in data
     const checkInData = {
       date: currentDate.toISOString(),
       checkInTime: currentDate.toISOString(),
       employeeId: employee._id,
       authId: authId
     };
-
     try {
-      // Send a POST request to create the check-in record
       const response = await axios.post('https://hrm-backend-square.onrender.com/clock/create', checkInData);
-      setParclock(response.data.savedData);
-
       if (response.status === 200) {
         console.log('Check-in successful!');
         setStatus(!formStatus);
-        // Disable the "Check In" button
+        setAtt(!att);
         setCheckInDisabled(true);
-
-        // Enable the "Check Out" and "Break" buttons
         setCheckOutDisabled(false);
         setBreakDisabled(false);
-
-        // Store the check-in date in a cookie to prevent further check-ins on the same day
-        const currentDate = new Date().toLocaleDateString();
-        Cookies.set('lastCheckInDate', currentDate, { expires: 1 }); // Cookie expires after 1 day
       } else {
         console.log('Failed to check in');
       }
@@ -91,10 +116,11 @@ const AttendanceMod = () => {
       try {
         const response = await axios.post(`https://hrm-backend-square.onrender.com/break/create`, {
           breakin: currentDate.toISOString(),
-          attid: parclock._id
+          attid: parclock
         });
         setStatus(!formStatus);
-        setBreackinId(response.data.savedData._id);
+        setAtt(!att);
+        
 
         if (response.status === 200) {
           console.log('Break in successful!', response);
@@ -104,7 +130,6 @@ const AttendanceMod = () => {
       } catch (error) {
         console.log(error);
       }
-
       setCheckOutDisabled(true);
     } else if (breakButtonLabel === 'In') {
       const currentDate = new Date();
@@ -121,7 +146,6 @@ const AttendanceMod = () => {
       } catch (error) {
         console.log(error);
       }
-
       setCheckOutDisabled(false);
     }
     setBreakButtonLabel((currentLabel) => (currentLabel === 'Break' ? 'In' : 'Break'));
@@ -179,6 +203,10 @@ const AttendanceMod = () => {
           return new Date(clockData.date).toLocaleDateString() === currentDate && clockData.checkInTime;
         });
 
+        const hasCheckOutForToday = clockData.some((clockData) => {
+          return new Date(clockData.date).toLocaleDateString() === currentDate && clockData.checkOutTime;
+        });
+
         const flattenedEmployeeData = clockData.map((clockData) => ({
           name: matchingEmployee.name,
           date: clockData.date,
@@ -191,8 +219,19 @@ const AttendanceMod = () => {
 
         setCheck(flattenedEmployeeData);
 
-        // Hide the "Check In" button if there is already a checkInTime for today
+        // Disable the "Check In" button if there is already a checkInTime for today
         setCheckInDisabled(hasCheckInForToday);
+
+        // Enable the "Check Out" button if there is a checkInTime for today and the current breakButtonLabel is not "In"
+        setCheckOutDisabled(!hasCheckInForToday || breakButtonLabel === 'In');
+        setBreakDisabled(!hasCheckInForToday)
+        // Disable all buttons if there is a checkOutTime for today
+        if (hasCheckOutForToday) {
+          setCheckInDisabled(true);
+          setCheckOutDisabled(true);
+          setBreakDisabled(true);
+          
+        }
       } else {
         console.log('Employee not found for authId:', authId);
       }
@@ -204,11 +243,12 @@ const AttendanceMod = () => {
   useEffect(() => {
     checkButton();
   }, [employeeContextData]);
+
   const handleCheckOutClick = async () => {
     const currentDate = new Date();
 
     try {
-      const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock._id}`, {
+      const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock}`, {
         checkOutTime: currentDate.toISOString()
       });
       if (response.status === 200) {
@@ -226,6 +266,8 @@ const AttendanceMod = () => {
       console.error('Error while checking in:', error);
     }
   };
+  console.log("checkin id ", parclock)
+
 
   return (
     <>
