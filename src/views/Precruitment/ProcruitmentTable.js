@@ -116,9 +116,8 @@ const columns = [
           actionsColumnIndex: 8,
           exportButton: false,
           grouping: true,
-          headerStyle: {
-            background: 'linear-gradient(180deg,#3a59af,#352786)',
-            color: '#fff',
+          headerStyle: {  
+            background: 'linear-gradient(180deg, rgba(64, 224, 208, 0.7), rgba(64, 224, 208, 1))'
           },
           headerCellStyle: {
             background: 'linear-gradient(180deg,#3a59af,#352786)',
