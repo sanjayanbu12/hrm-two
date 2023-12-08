@@ -8,6 +8,8 @@ import { Card, ThemeProvider, Tooltip, createMuiTheme } from '@mui/material';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 
+
+
 const columns = [
   { title: 'Name', field: 'name', editable: false, Width: '50px' },
   { title: 'Jobrole', field: 'position', editable: false },
@@ -180,7 +182,7 @@ const ApplicationTracker = () => {
                   render: (rowData) => (
                     <a href="#" onClick={() => handlePhotoDown(rowData._id, rowData.Name)}>
                       <Tooltip title="Download Photo">
-                        <Image style={{ color: '#616161' }} />
+                        {/* <Image style={{ color: '#616161' }} /> */}
                       </Tooltip>
                     </a>
                   )

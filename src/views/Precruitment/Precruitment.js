@@ -263,6 +263,7 @@ export default function CustomizedSteppers({ handleClose }) {
           'https://hrm-backend-square.onrender.com/proc/createdata',
           formDataToSend
         );
+        console.log(response);
         handleClose();
       } catch (error) {
         console.error('Error submitting form data:', error);

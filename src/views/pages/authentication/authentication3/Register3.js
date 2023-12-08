@@ -38,7 +38,7 @@ const Register = () => {
         <Grid item xs={12}>
         
           <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
-          <Lottie   options={lt1} height="400px" width="400px" />
+          <Lottie   options={lt1} height="400px" width="300px" />
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                 <Grid >
@@ -84,7 +84,7 @@ const Register = () => {
                 </Grid>
               
               </AuthCardWrapper>
-              <Lottie style={{marginTop:'70px'}}   options={lt2} height="400px" width="400px" />
+              <Lottie style={{marginTop:'70px'}}   options={lt2} height="400px" width="300px" />
           </Grid>
         </Grid>
       </Grid>
