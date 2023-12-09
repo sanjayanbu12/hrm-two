@@ -20,9 +20,7 @@ const Secondstep = ({ setFormData, formData }) => {
   const { employeeContextData } = useContext(ApiContext);
   console.log("employeeContextData",employeeContextData.data)
 
-  const handleQuantityChange = (e) => {
-    setFormData({ ...formData, quantity: e.target.value });
-  };
+ 
 
   const handleBudgetChange = (e) =>{
     setFormData({ ...formData, approximateBudget: e.target.value });
@@ -44,7 +42,7 @@ const Secondstep = ({ setFormData, formData }) => {
 
 
   const isValid = () => {
-    return !!formData.quantity && !!formData.approximateBudget && !!formData.priority&& !!formData.reportingTo;
+    return  !!formData.approximateBudget && !!formData.priority&& !!formData.reportingTo;
   };
   
   useEffect(() => {
@@ -53,18 +51,7 @@ const Secondstep = ({ setFormData, formData }) => {
  return (
     <>
       <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={4}>
-        <Grid item xs={10}>
-          <TextField
-            sx={{ width: '100%' }}
-            label="Quantity"
-            type="number"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleQuantityChange}
-            value={formData.quantity || ''}
-          />
-        </Grid>
+        
         <Grid item xs={10}>
           <TextField
             sx={{ width: '100%' }}

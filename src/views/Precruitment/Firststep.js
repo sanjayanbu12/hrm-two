@@ -39,6 +39,9 @@ const Firststep = ({ setFormData, formData,name,email }) => {
   const handleBusinessJustificationChange = (e) => {
     setFormData({ ...formData, businessJustification: e.target.value });
   };
+  const handleQuantityChange = (e) => {
+    setFormData({ ...formData, quantity: e.target.value });
+  };
   const isValid = () => {
     return formData.productDescription && !!formData.businessJustification;
   };
@@ -48,11 +51,11 @@ const Firststep = ({ setFormData, formData,name,email }) => {
 
   return (
     <>
-      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={4}>
-        <Grid item xs={10}>
+      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px',paddingLeft:'10px',paddingRight:'10px'}} container spacing={4}>
+        <Grid item xs={6}>
           <TextField sx={{ width: '100%' }}  label="Name" onChange={handleNameChange}  value={formData.name || name} />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={6}>
         <TextField
             sx={{ width: '100%' }}
             label="Email"
@@ -69,6 +72,18 @@ const Firststep = ({ setFormData, formData,name,email }) => {
         </Grid>
         <Grid item xs={10}>
           <TextField sx={{ width: '100%' }} label="Business justification" onChange={handleBusinessJustificationChange}  value={formData.businessJustification || ''} />
+        </Grid>
+        <Grid item xs={10}>
+          <TextField
+            sx={{ width: '100%' }}
+            label="Quantity"
+            type="number"
+            InputLabelProps={{
+              shrink: true,
+            }}
+            onChange={handleQuantityChange}
+            value={formData.quantity || ''}
+          />
         </Grid>
       </Grid>
     </>
