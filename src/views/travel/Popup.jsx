@@ -80,7 +80,7 @@ const Popup = ({ handleClose }) => {
       data.append('transport', transport);
       data.append('attachments', attachments[0]);
 
-      const response = await axios.post('https://hrm-backend-square.onrender.com/travel/createdata', data, {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/travel/createData', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -105,7 +105,6 @@ const Popup = ({ handleClose }) => {
       console.error('Error:', error);
     }
   };
-
 
   return (
     <div style={{ padding: '0px', margin: '0px' }}>
