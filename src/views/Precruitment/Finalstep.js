@@ -1,20 +1,22 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
-import InputAdornment from '@mui/material/InputAdornment';
 import TemplateDemo from './FileUpload';
+import {InputLabel, Autocomplete} from '@mui/material';
+import FormControl from '@mui/material/FormControl';
+import { useContext } from 'react';
+import ApiContext from 'context/api/ApiContext';
 
 const Finalstep = ({ setFormData, formData }) => {
-  const handleVendorNameChange = (e) => {
-    setFormData({ ...formData, vendorName: e.target.value });
-  };
+  const { employeeContextData } = useContext(ApiContext);
 
-  const handleVendorNumberChange = (e) => {
-    setFormData({ ...formData, vendorNumber: e.target.value });
-  };
-
-  const handleProductLinkChange = (e) => {
-    setFormData({ ...formData, productLink: e.target.value });
+  const handleProct = (e, value) => {
+    const selectedData = value.map((item) => ({
+      employee: item._id,
+      approved: false,
+    }));
+    setFormData((prevData) => ({ ...prevData, reportingTo: selectedData }));
+    console.log("formDatas",formData)
   };
   
   const handleFileSelect = (files) => {
@@ -25,33 +27,26 @@ const Finalstep = ({ setFormData, formData }) => {
 
   return (
     <>
-      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={3}>
-        <Grid item xs={5}>
-          <TextField sx={{ width: '100%', ml: '10px' }} label="Vendor Name" onChange={handleVendorNameChange}  value={formData.vendorName || ''}/>
-        </Grid>
-        <Grid item xs={7}>
-          <TextField
-            sx={{ width: '100%' }}
-            label="If Quote Available, Vendor Number"
-            InputProps={{
-              startAdornment: <InputAdornment position="start">+91 </InputAdornment>,
-            }}
-            onChange={handleVendorNumberChange}
-            value={formData.vendorNumber || ''}
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            sx={{ width: '98%', ml: '10px' }}
-            label="Product Link"
-            type="link"
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange={handleProductLinkChange}
-            value={formData.productLink || ''}
-          />
-        </Grid>
+      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }}  spacing={2}>
+      <Grid item xs={12}>
+                <FormControl sx={{ minWidth: '100%' }}>
+                  <InputLabel id="demo-simple-select-label"></InputLabel>
+                    <Autocomplete
+                      multiple
+                      id="tags-outlined"
+                      options={employeeContextData.data}
+                      getOptionLabel={(option) => option.name}
+                      defaultValue={[]}
+                      onChange={handleProct}
+                      filterSelectedOptions
+                      renderInput={(params) => <TextField {...params} label="Reporting to" placeholder="Add" />}
+                    />
+                 
+                </FormControl>
+              </Grid>
+      
+    
+
         <Grid sx={{ mt: '10px' }} item xs={11}>
           <TemplateDemo onFileSelect={handleFileSelect} />
         </Grid>
