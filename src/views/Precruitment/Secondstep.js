@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@mui/material/TextField';
-import {InputLabel, Autocomplete} from '@mui/material';
+// import {InputLabel, Autocomplete} from '@mui/material';
 import Grid from '@mui/material/Grid';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -14,6 +14,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+
 
 
 const Secondstep = ({ setFormData, formData }) => {
@@ -30,19 +31,19 @@ const Secondstep = ({ setFormData, formData }) => {
     setFormData({ ...formData, priority: e.target.value });
   };
 
-  const handleProct = (e, value) => {
-    const selectedData = value.map((item) => ({
-      employee: item._id,
-      approved: false,
-    }));
-    setFormData((prevData) => ({ ...prevData, reportingTo: selectedData }));
-    console.log("formDatas",formData)
+
+
+  const handleVendorNameChange = (e) => {
+    setFormData({ ...formData, vendorName: e.target.value });
+  };
+
+  const handleVendorNumberChange = (e) => {
+    setFormData({ ...formData, vendorNumber: e.target.value });
   };
 
 
-
   const isValid = () => {
-    return  !!formData.approximateBudget && !!formData.priority&& !!formData.reportingTo;
+    return  !!formData.approximateBudget ;
   };
   
   useEffect(() => {
@@ -50,9 +51,25 @@ const Secondstep = ({ setFormData, formData }) => {
   }, [formData.quantity, formData.approximateBudget, formData.priority,formData.reportingTo]);
  return (
     <>
-      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }} container spacing={4}>
-        
-        <Grid item xs={10}>
+      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px',paddingLeft:'10px',paddingRight:'10px' }} container spacing={2}>
+      <Grid item xs={5}>
+          <TextField sx={{ width: '100%'}} label="Vendor Name" onChange={handleVendorNameChange}  value={formData.vendorName || ''}/>
+        </Grid>
+        <Grid item xs={7}>
+          <TextField
+            sx={{ width: '100%' }}
+            label="If Quote Available, Vendor Number"
+            InputProps={{
+              startAdornment: <InputAdornment position="start">+91 </InputAdornment>,
+            }}
+            onChange={handleVendorNumberChange}
+            value={formData.vendorNumber || ''}
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField sx={{ width: '100%' }} label="Reason for choosing this "  />
+        </Grid>
+        <Grid item xs={12}>
           <TextField
             sx={{ width: '100%' }}
             label="Approximate Budget"
@@ -64,7 +81,7 @@ const Secondstep = ({ setFormData, formData }) => {
             value={formData.approximateBudget || ''}
           />
         </Grid>
-        <Grid item xs={10}>
+        <Grid item xs={11}>
           <FormControl>
             <FormLabel id="demo-row-radio-buttons-group-label">Priority</FormLabel>
             <RadioGroup
@@ -80,24 +97,7 @@ const Secondstep = ({ setFormData, formData }) => {
             </RadioGroup>
           </FormControl>
         </Grid>
-        <Grid item xs={10}>
-                <FormControl sx={{ minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-label"></InputLabel>
-                    <Autocomplete
-                      multiple
-                      id="tags-outlined"
-                      options={employeeContextData.data}
-                      getOptionLabel={(option) => option.name}
-                      defaultValue={[]}
-                      onChange={handleProct}
-                      filterSelectedOptions
-                      renderInput={(params) => <TextField {...params} label="Reporting to" placeholder="Add" />}
-                    />
-                 
-                   
-                
-                </FormControl>
-              </Grid>
+        
       </Grid>
     </>
   );
