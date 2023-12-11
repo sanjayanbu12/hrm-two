@@ -33,7 +33,7 @@ const Firststep = ({ setFormData, formData,name,email }) => {
   };
 
   const handleProductDescriptionChange = (e) => { 
-    setFormData({ ...formData, productDescription: e.target.value });
+    setFormData({ ...formData, productname: e.target.value });
   };
   const handleSPecificationChange = (e) => { 
     setFormData({ ...formData, Specification: e.target.value });
@@ -49,15 +49,15 @@ const Firststep = ({ setFormData, formData,name,email }) => {
     setFormData({ ...formData, productLink: e.target.value });
   };
   const isValid = () => {
-    return formData.productDescription;
+    return formData.productname;
   };
   useEffect(() => {
     setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
-  }, [ formData.productDescription, formData.businessJustification]);
+  }, [ formData.productname, formData.businessJustification]);
 
   return (
     <>
-      <Grid  sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px',paddingLeft:'10px',paddingRight:'10px'}} container spacing={2}>
+      <Grid  sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px',paddingLeft:'10px',paddingRight:'10px'}} container spacing={3}>
         <Grid item xs={6} >
           <TextField sx={{ width: '100%' }}  label="Name" onChange={handleNameChange}  value={formData.name || name} />
         </Grid>
@@ -74,7 +74,7 @@ const Firststep = ({ setFormData, formData,name,email }) => {
           />
         </Grid>
         <Grid item xs={6}> 
-          <TextField sx={{ width: '100%' }} label="Product Name" onChange={handleProductDescriptionChange}  value={formData.productDescription || ''}/>
+          <TextField sx={{ width: '100%' }} label="Product Name" onChange={handleProductDescriptionChange}  value={formData.productname || ''}/>
         </Grid>
         <Grid item xs={6}>
           <TextField
