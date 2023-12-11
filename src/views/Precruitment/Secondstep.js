@@ -40,6 +40,9 @@ const Secondstep = ({ setFormData, formData }) => {
   const handleVendorNumberChange = (e) => {
     setFormData({ ...formData, vendorNumber: e.target.value });
   };
+  const handleReason = (e) => {
+    setFormData({ ...formData, Reason: e.target.value });
+  };
 
 
   const isValid = () => {
@@ -51,7 +54,7 @@ const Secondstep = ({ setFormData, formData }) => {
   }, [formData.quantity, formData.approximateBudget, formData.priority,formData.reportingTo]);
  return (
     <>
-      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px',paddingLeft:'10px',paddingRight:'10px' }} container spacing={2}>
+      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px',paddingLeft:'10px',paddingRight:'10px' }} container spacing={3}>
       <Grid item xs={5}>
           <TextField sx={{ width: '100%'}} label="Vendor Name" onChange={handleVendorNameChange}  value={formData.vendorName || ''}/>
         </Grid>
@@ -67,7 +70,10 @@ const Secondstep = ({ setFormData, formData }) => {
           />
         </Grid>
         <Grid item xs={12}>
-          <TextField sx={{ width: '100%' }} label="Reason for choosing this "  />
+          <TextField 
+           onChange={handleReason}
+           value={formData.Reason || ''}
+          sx={{ width: '100%' }} label="Reason for choosing this "  />
         </Grid>
         <Grid item xs={12}>
           <TextField
@@ -81,7 +87,7 @@ const Secondstep = ({ setFormData, formData }) => {
             value={formData.approximateBudget || ''}
           />
         </Grid>
-        <Grid item xs={11}>
+        <Grid item xs={11} sx={{mt:'15px'}}>
           <FormControl>
             <FormLabel id="demo-row-radio-buttons-group-label">Priority</FormLabel>
             <RadioGroup

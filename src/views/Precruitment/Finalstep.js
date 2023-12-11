@@ -23,11 +23,14 @@ const Finalstep = ({ setFormData, formData }) => {
     console.log('fileupload',files)
     setFormData({ ...formData, attachments: files[0] });
   };
+  const handleIssuesChange = (e) => { 
+    setFormData({ ...formData, issues: e.target.value });
+  };
  
 
   return (
     <>
-      <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '600px' }}  spacing={2}>
+       <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '580px',paddingLeft:'10px',paddingRight:'10px' }} container spacing={1}>
       <Grid item xs={12}>
                 <FormControl sx={{ minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -42,12 +45,15 @@ const Finalstep = ({ setFormData, formData }) => {
                       renderInput={(params) => <TextField {...params} label="Reporting to" placeholder="Add" />}
                     />
                  
+                   
+                 
                 </FormControl>
-              </Grid>
+              </Grid>
+     <Grid item xs={12}> 
+          <TextField sx={{ width: '100%' }} label="Any Other Issues?" onChange={handleIssuesChange}  value={formData.issues|| ''}/>
+        </Grid>
       
-    
-
-        <Grid sx={{ mt: '10px' }} item xs={11}>
+        <Grid sx={{ mt: '5px' }} item xs={12}>
           <TemplateDemo onFileSelect={handleFileSelect} />
         </Grid>
       </Grid>
