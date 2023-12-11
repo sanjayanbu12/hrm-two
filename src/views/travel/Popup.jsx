@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import ApiContext from 'context/api/ApiContext';
 import { Grid, TextField, InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Radio from '@mui/material/Radio';
@@ -22,6 +24,10 @@ const Popup = ({ handleClose }) => {
   const [claimtype, setClaimtype] = useState('');
   const [transport, setTransport] = useState('');
   const [attachments, setAttachments] = useState([]);
+
+  const { employeeContextData } = useContext(ApiContext);
+  const authId = useSelector((state) => state.customization.authId);
+  const [employeeId, setEmployeeId] = useState(null);
 
   const handleFrom = (e) => {
     setFrom(e.target.value);
@@ -59,8 +65,8 @@ const Popup = ({ handleClose }) => {
     setTransport(e.target.value);
   };
 
-  const handleFile = (selectedFiles) => {
-    const filesArray = Array.from(selectedFiles);
+  const handleFile = (e) => {
+    const filesArray = e.files;
     setAttachments(filesArray);
   };
 
@@ -69,6 +75,7 @@ const Popup = ({ handleClose }) => {
 
     try {
       const data = new FormData();
+      data.append('employeeid', employeeId);
       data.append('from', from);
       data.append('to', to);
       data.append('startdate', startdate);
@@ -85,8 +92,8 @@ const Popup = ({ handleClose }) => {
           'Content-Type': 'multipart/form-data'
         }
       });
-
       if (response.status === 201) {
+        setEmployeeId('');
         setFrom('');
         setTo('');
         setStartdate('');
@@ -97,7 +104,6 @@ const Popup = ({ handleClose }) => {
         setClaimtype('');
         setTransport('');
         setAttachments([]);
-        setSuccess(true);
       } else {
         console.error('Error:', response);
       }
@@ -105,6 +111,21 @@ const Popup = ({ handleClose }) => {
       console.error('Error:', error);
     }
   };
+
+  useEffect(() => {
+    const fetchingCorrect = async () => {
+      const response = employeeContextData.data;
+      if (response && response.length > 0) {
+        const filteredData = response.filter((item) => item.employeeid === authId);
+        console.log('filteredData', filteredData);
+        const employeeIds = filteredData.map((data) => data._id);
+        setEmployeeId(employeeIds[0]);
+        console.log(employeeIds[0]);
+      }
+    };
+
+    fetchingCorrect();
+  }, [authId, employeeContextData.data]);
 
   return (
     <div style={{ padding: '0px', margin: '0px' }}>
@@ -211,35 +232,34 @@ const Popup = ({ handleClose }) => {
           <Grid item xs={5} style={{ marginBottom: '10px' }}>
             <FormLabel id="demo-row-radio-buttons-group-label" value={claimtype} onChange={(e) => handleClaimtype(e)}>
               Claim Type
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                <FormControlLabel value="Claim" style={{ marginBottom: '0px' }} control={<Radio size="small" />} label="Claim" />
+                <FormControlLabel value="Need Advance" control={<Radio size="small" />} label="Need Advance" />
+              </RadioGroup>
             </FormLabel>
-            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-              <FormControlLabel value="claim" style={{ marginBottom: '0px' }} control={<Radio size="small" />} label="Claim" />
-              <FormControlLabel value="advance" control={<Radio size="small" />} label="Need Advance" />
-            </RadioGroup>
           </Grid>
 
           <Grid item xs={5} style={{ marginBottom: '10px' }}>
             <FormLabel id="demo-row-radio-buttons-group-label" value={transport} onChange={(e) => handleTransport(e)}>
               Mode of Transport
+              <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
+                <FormControlLabel value="Own Vehicle" control={<Radio size="small" />} label="Own Vehicle" />
+                <FormControlLabel value="Public Vehicle" control={<Radio size="small" />} label="Public Transport" />
+              </RadioGroup>
             </FormLabel>
-            <RadioGroup row aria-labelledby="demo-row-radio-buttons-group-label" name="row-radio-buttons-group">
-              <FormControlLabel value="Own" control={<Radio size="small" />} label="Own Vehicle" />
-              <FormControlLabel value="Public" control={<Radio size="small" />} label="Public Transport" />
-            </RadioGroup>
           </Grid>
         </Grid>
 
         <Grid justifyContent="flex-start" display="flex" maxWidth="498px" marginLeft="20px" marginBottom="10px">
           <FileUpload
             mode="basic"
-            name="demo[]"
-            url="/api/upload"
-            accept="pdf/image/word/*"
-            maxFileSize={1000000}
-            value={attachments}
-            onChange={(e) => handleFile(e)}
+            chooseOptions={{ label: 'Choose', icon: 'pi pi-fw pi-plus' }}
+            multiple
+            customUpload
+            uploadHandler={handleFile}
           />
         </Grid>
+
         <Grid style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '12px', marginBottom: '0px' }}>
           <Stack spacing={2} direction="row">
             <Button onClick={handleClose} variant="text" size="small">
