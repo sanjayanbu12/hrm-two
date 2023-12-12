@@ -247,6 +247,9 @@ const MainRoutes = {
     {
       path:'/Procruitment',
       element:<ProcruitmentTable />
+    },{
+      path:'/ApproovalCard',
+      element:<ApproovalCard />
     }
 
 
