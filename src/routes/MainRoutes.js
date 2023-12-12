@@ -45,7 +45,8 @@ import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
-import Travel from 'views/travel/Travel'
+import Travel from 'views/travel/Travel';
+import ApproovalCard from 'views/Approvals/ApproovalCard';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -239,6 +240,9 @@ const MainRoutes = {
     ,{
       path:'/Procruitment',
       element:<ProcruitmentTable />
+    },{
+      path:'/ApproovalCard',
+      element:<ApproovalCard />
     }
 
     
