@@ -47,6 +47,7 @@ import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
 import Travel from 'views/travel/Travel';
 import ApproovalCard from 'views/Approvals/ApproovalCard';
+import ApprovalDetails from 'views/Approvals/ApprovalDetails';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -243,7 +244,11 @@ const MainRoutes = {
     },{
       path:'/ApproovalCard',
       element:<ApproovalCard />
+    },{
+      path:'/ApprovalDetails',
+      element:<ApprovalDetails />
     }
+
 
     
   ]

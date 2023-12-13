@@ -61,7 +61,7 @@ const columns = [
       return (
         <Tooltip title={rowData.priority} arrow>
           <div style={{ backgroundColor, borderRadius: '50%', width: '20px', height: '20px' }}></div>
-        </Tooltip>
+        </Tooltip> 
       );
     },
   },

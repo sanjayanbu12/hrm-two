@@ -16,6 +16,7 @@ align-items:center ;
 `
 export const StyledTypography=styled(Typography)`
 padding-bottom: 20px;
+
 `
 export const parentStyle={
     margin:" 20px 20px 0 0",

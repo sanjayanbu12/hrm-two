@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 
 const Finalstep = ({ setFormData, formData }) => {
+
   const { employeeContextData } = useContext(ApiContext);
 
   const handleProct = (e, value) => {
@@ -23,6 +24,7 @@ const Finalstep = ({ setFormData, formData }) => {
     console.log('fileupload',files)
     setFormData({ ...formData, attachments: files[0] });
   };
+
   const handleIssuesChange = (e) => { 
     setFormData({ ...formData, issues: e.target.value });
   };
@@ -44,11 +46,8 @@ const Finalstep = ({ setFormData, formData }) => {
                       filterSelectedOptions
                       renderInput={(params) => <TextField {...params} label="Reporting to" placeholder="Add" />}
                     />
-                 
-                   
-                 
                 </FormControl>
-              </Grid>
+    </Grid>
      <Grid item xs={12}> 
           <TextField sx={{ width: '100%' }} label="Any Other Issues?" onChange={handleIssuesChange}  value={formData.issues|| ''}/>
         </Grid>
