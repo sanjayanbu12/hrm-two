@@ -1,41 +1,49 @@
 import React from 'react';
-import { Card } from 'primereact/card';
-import { Button } from 'primereact/button';
+import './Approval.css';
+import ApiContext from 'context/api/ApiContext';
+import { useContext } from 'react';
 
 const ApproovalCard = () => {
+    const { getProcruitment } = useContext(ApiContext);
+    
+console.log("Approvalsss",getProcruitment);
 
-    const header = (
-        <img style={{width:'100%',maxHeight:'70px'}} alt="Card" src="https://primefaces.org/cdn/primereact/images/usercard.png" />
-    );
-  
-    const footer = (
-        <> <div style={{display:'flex',justifyContent:'space-between'}}>
-              <Button style={{marginRight:'10px'}} label="Accept" severity="primary" icon="pi pi-check"  />
-            <Button style={{marginRight:'10px'}} label="Reject" severity="secondary" icon="pi pi-times"  />
-            </div>
-        </>
-    );
+ 
   return (
-    <div>
-    <Card style={{maxWidth:'300px',maxHeight:'350px'}} footer={footer} header={header}>
-        <div>
-            <div>
-                <div>
-<h3 ><b>Product Name : </b></h3>
-</div>
-<p> <b>Approval To : </b></p>
-
-            </div>
-            <div></div>
+    // <div style={{display:'flex'}}>
+    <div className="movie-cards-container">
+    <>
+    {getProcruitment.map((item, index) => (
+        
+      <article  className="movie-card" key={index}>
+        {/* <img src="" alt="Avatar wallpaper" /> */}
+      
+        <div style={{ display: 'flex', justifyContent: 'end', marginRight: '20px', marginTop: '7px' }}>
+          <h2>₹{item.approximateBudget}</h2>    
         </div>
-        <p>
-            <b>Raised From :</b>
-        </p>
-        <p>
-            <b>Date :</b>
-        </p>
-         
-    </Card>
+        <div className="content">
+          <h1>{item.productname}</h1>
+
+          <div>
+            <h2>{item.customerName}</h2>
+            <span>&nbsp;{new Date(item.createdAt).toLocaleDateString()}&nbsp;&nbsp;·&nbsp;&nbsp;{new Date(item.createdAt).toLocaleTimeString()}</span>
+          </div>
+          <div style={{marginTop:'20px'}} className="synopsis">
+            <b>Specification : {item.productname} </b>
+            <b style={{ display: 'block', marginTop: '10px' }}>Prority: {item.priority}</b>
+          </div>
+
+          <div className="icons">
+            {/* <b>Budget : </b> */}
+          </div>
+        </div>
+       
+      </article>
+     
+    ))}
+{/* //   </div> */}
+
+</>
 </div>
   )
 }

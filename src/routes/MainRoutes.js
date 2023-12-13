@@ -250,6 +250,9 @@ const MainRoutes = {
     },{
       path:'/ApproovalCard',
       element:<ApproovalCard />
+    },{
+      path:'/ApprovalDetails',
+      element:<ApprovalDetails />
     }
 
 
