@@ -32,16 +32,21 @@ const LeaveApproval = () => {
   }, [leaveContextData]);
   return (
     <div>
-      <StyledContainer title="Leave Request">
-        <Grid container spacing={2} rowSpacing={3} style={parentStyle}>
-          {leaveData.map((leave) => (
-            <Grid
-              key={leave._id}
-              xs={12}
-              sm={leaveData.length < 2 ? 10 : 6}
-              md={leaveData.length < 2 ? 10 : 6}
-              lg={leaveData.length < 2 ? 10 : 6}
-            >
+    <StyledContainer title="Leave Request">
+        {leaveData.length === 0 ? (
+          <div style={{ textAlign: 'center' }}>
+            <h2>No data available</h2>
+          </div>
+        ) : (
+          <Grid container spacing={2} rowSpacing={3} style={parentStyle}>
+            {leaveData.map((leave) => (
+              <Grid
+                key={leave._id}
+                xs={12}
+                sm={leaveData.length < 2 ? 10 : 6}
+                md={leaveData.length < 2 ? 10 : 6}
+                lg={leaveData.length < 2 ? 10 : 6}
+              >
               <StyledCard key={leave._id}>
                 <StyledTypography variant="h4">
                   Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
@@ -70,13 +75,14 @@ const LeaveApproval = () => {
                       aria-label="Filter"
                       onClick={() => handleApprove(leave._id)}
                     />
-                    <Button text raised icon="pi pi-times" rounded outlined severity="danger" aria-label="Cancel" />
-                  </>
-                )}
-              </StyledCard>
-            </Grid>
-          ))}
-        </Grid>
+                   <Button text raised icon="pi pi-times" rounded outlined severity="danger" aria-label="Cancel" />
+                    </>
+                  )}
+                </StyledCard>
+              </Grid>
+            ))}
+          </Grid>
+        )}
       </StyledContainer>
       {showSwal && <SwalComp leaveId={leaveId} fetchLeave={fetchLeave} />}
     </div>
