@@ -27,15 +27,15 @@ const Newevent = () => {
     gap: '15px'
   };
 
-  const eventStyle = {
-    width: '80px',
-    height: '40px',
-    color: 'white',
-    borderRadius: '5px',
-    textAlign: 'center',
-    margin: '0',
-    padding: '0'
-  };
+  // const eventStyle = {
+  //   width: '80px',
+  //   height: '40px',
+  //   color: 'white',
+  //   borderRadius: '5px',
+  //   textAlign: 'center',
+  //   margin: '0',
+  //   padding: '0'
+  // };
 
   const handleSelect = (info) => {
     const { start, end } = info;
@@ -57,7 +57,16 @@ const Newevent = () => {
         seteventStatus(!eventStatus);
         if (response.status === 200) {
           console.log('Event created successfully:', response.data);
-          setEvents([...events, event]);
+
+          // Update the events state to include the newly created event
+          const newEvent = {
+            id: response.data.id, // Assuming your response contains the new event's ID
+            title: event.title,
+            start: event.startDate,
+            end: event.endDate
+          };
+
+          setEvents([...events, newEvent]); // Add the new event to the events state
           setVisible(false);
           setName('');
           setEventStartDate(null);
@@ -91,10 +100,15 @@ const Newevent = () => {
 
   const customTitle = (args) => {
     const { event } = args;
+    const isOneDayEvent = event.start.toDateString() === event.end.toDateString();
+    const eventStyle = {
+      backgroundColor: isOneDayEvent ? 'blue' : 'red',
+    };
 
     const handleClick = () => {
       handleEventClick(event);
     };
+
 
     return (
       <div style={eventStyle}>
@@ -178,8 +192,14 @@ const Newevent = () => {
           if (response.status === 200) {
             seteventStatus(!eventStatus);
             console.log('Event deleted successfully:', response.data);
-            setEvents(events.filter((e) => e.id !== selectedEvent.id));
-            fetchdata();
+  
+            // Remove the deleted event from the frontend state
+            const updatedEvents = events.filter((e) => e.id !== selectedEvent.id);
+            setEvents(updatedEvents);
+  
+            // Update fetched data to reflect the deleted event
+            const updatedFetchedData = fetcheddata.filter((e) => e.id !== selectedEvent.id);
+            setFetcheddata(updatedFetchedData);
           }
         })
         .catch((error) => {
@@ -189,13 +209,15 @@ const Newevent = () => {
       setSelectedEvent(null);
     }
   };
+  
+  
 
   return (
-    <div>
+    <div style={{ padding: '0', margin: '0' }}>
       <FullCalendar
-        editable
-        selectable
-        events={events.concat(fetcheddata)}
+       editable
+       selectable
+       events={events.concat(fetcheddata)}
         select={handleSelect}
         headerToolbar={{
           start: 'prev,next today',
@@ -208,30 +230,34 @@ const Newevent = () => {
         eventBackgroundColor="red"
         eventBorderColor="red"
         eventDrop={handleEventDrop}
+        eventClassNames={(args) => {
+          const isOneDayEvent = args.event.start.toDateString() === args.event.end.toDateString();
+          return isOneDayEvent ? 'one-day-event' : '';
+        }}
       />
-      <div className="card flex justify-content-center">
-        <Dialog
-          header={selectedEvent ? 'Update Event' : 'Add Event'}
-          visible={visible}
-          onHide={() => {
-            setVisible(false);
-            setSelectedEvent(null);
-          }}
-          style={{ width: '30vw' }}
-          breakpoints={{ '960px': '75vw', '641px': '100vw' }}
-        >
-          <div style={flexStyle} className="flex flex-column gap-2">
-            <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setName(e.target.value)} />
-            {selectedEvent ? (
-              <Button label="Update" icon="pi pi-check" onClick={() => handleUpdate()} />
-            ) : (
-              <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
-            )}
-            {selectedEvent ? <Button label="Delete" onClick={handleDeleteEvent} /> : ''}
-          </div>
-        </Dialog>
-      </div>
+      {/* <div className="card flex justify-content-center"> */}
+      <Dialog
+        header={selectedEvent ? 'Update Event' : 'Add Event'}
+        visible={visible}
+        onHide={() => {
+          setVisible(false);
+          setSelectedEvent(null);
+        }}
+        style={{ width: '30vw' }}
+        breakpoints={{ '960px': '75vw', '641px': '100vw' }}
+      >
+        <div style={flexStyle} className="flex flex-column gap-2">
+          <InputText id="username" aria-describedby="username-help" value={name} onChange={(e) => setName(e.target.value)} />
+          {selectedEvent ? (
+            <Button label="Update" icon="pi pi-check" onClick={() => handleUpdate()} />
+          ) : (
+            <Button label="Submit" icon="pi pi-check" onClick={handleSubmitEvent} />
+          )}
+          {selectedEvent ? <Button label="Delete" onClick={handleDeleteEvent} /> : ''}
+        </div>
+      </Dialog>
     </div>
+    // </div>
   );
 };
 

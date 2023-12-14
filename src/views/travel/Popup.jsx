@@ -102,22 +102,15 @@ const Popup = ({ handleClose }) => {
     setAttachments(filesArray);
   };
 
-  const handleReportingTo = (e, value) => {
-    if (Array.isArray(value)) {
-      const selectedData = value.map((item) => ({
-        employee: item._id,
-        approved: false,
-      }));
-      setReportingTo((prevData) => ({ ...prevData, reportingTo: selectedData }));
+  const handleReportingTo = (e) => {
+    const value = e.target.value;
+    if (value) {
+      setReportingTo(value);
     } else {
-      // Handle the case when value is not an array (null or undefined)
       console.error('Invalid value for reportingTo:', value);
-      // You might want to set a default value or handle this case differently
     }
     console.log('employeeContextData:', employeeContextData);
   };
-  
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -349,7 +342,7 @@ const Popup = ({ handleClose }) => {
             inputProps={{ style: { height: '10px' } }}
           />
         </Grid>
-{/* 
+        {/* 
         <Grid item xs={5} style={{ marginBottom: 20, marginLeft: '26px', marginRight: '33px' }}>
                 <FormControl sx={{ minWidth: '100%' }}>
                   <InputLabel id="demo-simple-select-label"></InputLabel>
@@ -367,29 +360,29 @@ const Popup = ({ handleClose }) => {
                 </FormControl>
        </Grid> */}
 
-       <Grid item xs={5} style={{ marginBottom: 18, marginLeft: '26px', marginRight: '33px' }}>
-  <TextField
-    id="filled-select-currency-native"
-    select
-    label="Reporting To"
-    defaultValue={[]}
-    onChange={handleReportingTo}
-    SelectProps={{
-      native: true,
-    }}
-    variant="filled"
-    fullWidth
-    inputProps={{ style: { height: '15px' } }}
-  >
-     <option aria-label="None" value="" />
-    {employeeContextData.data && employeeContextData.data.map((option) => (
-      <option key={option.id} value={option.id}>
-        {option.name}
-      </option>     
-    ))}
-  </TextField>
-</Grid>
-
+        <Grid item xs={5} style={{ marginBottom: 18, marginLeft: '26px', marginRight: '33px' }}>
+          <TextField
+            id="filled-select-currency-native"
+            select
+            label="Reporting To"
+            defaultValue={''}
+            onChange={handleReportingTo}
+            SelectProps={{
+              native: true
+            }}
+            variant="filled"
+            fullWidth
+            inputProps={{ style: { height: '15px' } }}
+          >
+            <option aria-label="None" value="" />
+            {employeeContextData.data &&
+              employeeContextData.data.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {option.name}
+                </option>
+              ))}
+          </TextField>
+        </Grid>
 
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
           <Grid item xs={5} style={{ marginBottom: '8px' }}>
