@@ -245,8 +245,8 @@ const MainRoutes = {
       path:'/ApproovalCard',
       element:<ApproovalCard />
     },{
-      path:'/ApprovalDetails',
-      element:<ApprovalDetails />
+      path: '/ApprovalDetails/:index', 
+      element: <ApprovalDetails />,
     }
 
 

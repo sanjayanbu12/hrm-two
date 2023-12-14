@@ -2,9 +2,10 @@ import React from 'react';
 import './Approval.css';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 const ApproovalCard = () => {
-    const { getProcruitment } = useContext(ApiContext);
+      const { getProcruitment } = useContext(ApiContext);
     
 console.log("Approvalsss",getProcruitment);
 
@@ -14,7 +15,7 @@ console.log("Approvalsss",getProcruitment);
     <div className="movie-cards-container">
     <>
     {getProcruitment.map((item, index) => (
-        
+         <Link to={`/ApprovalDetails/${index}`} key={index}>
       <article  className="movie-card" key={index}>
         {/* <img src="" alt="Avatar wallpaper" /> */}
       
@@ -39,6 +40,7 @@ console.log("Approvalsss",getProcruitment);
         </div>
        
       </article>
+      </Link>
      
     ))}
 {/* //   </div> */}
