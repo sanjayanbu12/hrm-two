@@ -5,10 +5,11 @@ export const StyledContainer=styled(Card)`
 display: flex;
 flex-wrap: wrap;
 width: 100%;
+
 `
 export const StyledCard=styled(Card)`
 background-color: antiquewhite;
-margin:10px 20px 10px 0;
+margin:10px 10px 10px 0;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -19,6 +20,6 @@ padding-bottom: 20px;
 
 `
 export const parentStyle={
-    margin:" 20px 20px 0 0",
+    // margin:" 10px 10px 0 0",
     padding: '10px'
 }
