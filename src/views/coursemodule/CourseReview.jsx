@@ -60,6 +60,8 @@ const CourseReview = () => {
   const [isSuccessSnackbarOpen, setIsSuccessSnackbarOpen] = useState(false);
   const [isErrorSnackbarOpen, setIsErrorSnackbarOpen] = useState(false);
 
+  console.log("current",currentVideo.url)
+
   const { medialistContextData } = useContext(ApiContext);
   const fetchMediaList = async () => {
     try {
@@ -76,9 +78,12 @@ const CourseReview = () => {
   }, [medialistContextData]);
 
   const openVideoDialog = (videoUrl) => {
-    setCurrentVideo(videoUrl);
+    console.log("new",)
+    setCurrentVideo(videoUrl.url);
+    
     setIsVideoOpen(true);
   };
+
 
   const closeVideoDialog = () => {
     setCurrentVideo('');
