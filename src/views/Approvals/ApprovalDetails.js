@@ -63,7 +63,7 @@ const ApprovalDetails = () => {
               </StyledTypography>
               <StyledTypography variant="h4">
                 Photos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href={item?.attachments?.url} target="_blank" rel="noopener noreferrer">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href={item?.attachments?.url} target="_blank" rel="noopener noreferrer">
                   {item?.attachments?.url}
                 </a>
               </StyledTypography>
