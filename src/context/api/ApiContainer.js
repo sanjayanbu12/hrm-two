@@ -4,8 +4,8 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData } = props;
-  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus } = useContext(FormSubmittedContext);
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,settravelData } = props;
+  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,travelget} = useContext(FormSubmittedContext);
   console.log('eventStatus', eventStatus);
   const fetchEmployee = async () => {
     try {
@@ -67,6 +67,16 @@ const ApiContainer = (props) => {
     }
   };
 
+  const fetchTravel = async () => {
+    try {
+      const response = await axios.get('https://hrm-backend-square.onrender.com/travel/getall');
+     console.log("responsezzz",response.data.data)
+      settravelData(response.data.data)
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchMediaList();
   }, [eventStatus]);
@@ -88,6 +98,9 @@ const ApiContainer = (props) => {
   useEffect(() => {
     fetchOrg();
   }, [orgStatus]);
+  useEffect(() => {
+    fetchTravel();
+  }, [travelget]);
   return null;
 };
 

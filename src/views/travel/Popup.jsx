@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import { FileUpload } from 'primereact/fileupload';
 import axios from 'axios';
 import FormData from 'form-data';
-import Swal from 'sweetalert2';
+// import Swal from 'sweetalert2';
 // import { Select} from '@mui/material';
 
 const Popup = ({ handleClose }) => {
@@ -27,7 +27,6 @@ const Popup = ({ handleClose }) => {
   const [claimtype, setClaimtype] = useState('');
   const [transport, setTransport] = useState('');
   const [attachments, setAttachments] = useState([]);
-  const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
 
   const { employeeContextData } = useContext(ApiContext);
@@ -97,15 +96,28 @@ const Popup = ({ handleClose }) => {
     setErrors((prevState) => ({ ...prevState, transport: '' }));
   };
 
+  // const handleFile = (e) => {
+  //   const filesArray = e.files;
+  //   setAttachments(filesArray);
+  // };
+
   const handleFile = (e) => {
-    const filesArray = e.files;
-    setAttachments(filesArray);
+    const filesArray = e.files || e.target.files;
+    setAttachments([...filesArray]);
   };
+  
+  // const handleFile = (e) => {
+  //   const filesArray = e.files;
+  //   if (filesArray && filesArray.length > 0) {
+  //     setAttachments(filesArray);
+  //   }
+  // };
 
   const handleReportingTo = (e) => {
     const value = e.target.value;
     if (value) {
       setReportingTo(value);
+      setErrors((prevState) => ({ ...prevState, reportingTo: '' }));
     } else {
       console.error('Invalid value for reportingTo:', value);
     }
@@ -145,6 +157,10 @@ const Popup = ({ handleClose }) => {
       formErrors.budget = 'Budget field is required';
     }
 
+    if (!reportingTo.trim()) {
+      formErrors.reportingTo = 'ReportingTo field is required';
+    }
+
     if (!business.trim()) {
       formErrors.business = 'Business Justification field is required';
     }
@@ -177,7 +193,7 @@ const Popup = ({ handleClose }) => {
       data.append('transport', transport);
       data.append('attachments', attachments[0]);
 
-      const response = await axios.post('http://localhost:3001/travel/createData', data, {
+      const response = await axios.post('http://localhost:3000/travel/createData', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -195,21 +211,11 @@ const Popup = ({ handleClose }) => {
         setClaimtype('');
         setTransport('');
         setAttachments([]);
-        setSuccess(true);
-        // Swal.fire({
-        //   icon: 'success',
-        //   text: 'Travel request submitted successfully!'
-        // });
       } else {
         console.error('Error:', response);
       }
     } catch (error) {
       console.error('Error:', error);
-      Swal.fire({
-        icon: 'error',
-        title: 'Travel request failed!',
-        text: 'An error occurred while submitting the request. Please try again later.'
-      });
     }
   };
 
@@ -245,9 +251,9 @@ const Popup = ({ handleClose }) => {
           <CancelIcon onClick={handleClose} />
         </div>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} style={{padding:'0px'}}>
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
-          <Grid item xs={5} style={{ marginBottom: 8 }}>
+          <Grid item xs={5} >
             <TextField
               id="filled-basic"
               label="From"
@@ -259,7 +265,7 @@ const Popup = ({ handleClose }) => {
               inputProps={{ style: { height: '10px' } }}
             />
           </Grid>
-          <Grid item xs={5} style={{ marginBottom: 10 }}>
+          <Grid item xs={5}>
             <TextField
               id="filled-basic"
               label="To"
@@ -272,7 +278,7 @@ const Popup = ({ handleClose }) => {
             />
           </Grid>
 
-          <Grid item xs={5} style={{ marginBottom: 8 }}>
+          <Grid item xs={5} >
             <TextField
               id="filled-basic"
               variant="filled"
@@ -284,7 +290,7 @@ const Popup = ({ handleClose }) => {
               inputProps={{ style: { height: '10px', width: '160px' } }}
             />
           </Grid>
-          <Grid item xs={5} style={{ marginBottom: 8 }}>
+          <Grid item xs={5} >
             <TextField
               id="filled-basic"
               variant="filled"
@@ -297,7 +303,7 @@ const Popup = ({ handleClose }) => {
             />
           </Grid>
 
-          <Grid item xs={5} style={{ marginBottom: 8 }}>
+          <Grid item xs={5} >
             <TextField
               id="filled-basic"
               label="Days"
@@ -311,7 +317,7 @@ const Popup = ({ handleClose }) => {
             />
           </Grid>
 
-          <Grid item xs={5} style={{ marginBottom: 18 }}>
+          <Grid item xs={5} style={{ marginBottom: 10 }}>
             <TextField
               id="filled-basic"
               label="Estimated Budget"
@@ -329,7 +335,7 @@ const Popup = ({ handleClose }) => {
           </Grid>
         </Grid>
 
-        <Grid item xs={5} style={{ marginBottom: 18, marginLeft: '26px', marginRight: '33px' }}>
+        <Grid item xs={5} style={{ marginBottom: 10, marginLeft: '26px', marginRight: '33px' }}>
           <TextField
             id="filled-basic"
             label="Business Justification"
@@ -360,13 +366,15 @@ const Popup = ({ handleClose }) => {
                 </FormControl>
        </Grid> */}
 
-        <Grid item xs={5} style={{ marginBottom: 18, marginLeft: '26px', marginRight: '33px' }}>
+        <Grid item xs={5} style={{ marginBottom: 10, marginLeft: '26px', marginRight: '33px' }}>
           <TextField
             id="filled-select-currency-native"
             select
             label="Reporting To"
             defaultValue={''}
             onChange={handleReportingTo}
+            helperText={errors.reportingTo}
+            error={!!errors.reportingTo}
             SelectProps={{
               native: true
             }}
@@ -385,7 +393,7 @@ const Popup = ({ handleClose }) => {
         </Grid>
 
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
-          <Grid item xs={5} style={{ marginBottom: '8px' }}>
+          <Grid item xs={5} >
             <FormLabel
               id="demo-row-radio-buttons-group-label"
               value={claimtype}
@@ -401,7 +409,7 @@ const Popup = ({ handleClose }) => {
             </FormLabel>
           </Grid>
 
-          <Grid item xs={5} style={{ marginBottom: '8px' }}>
+          <Grid item xs={5} style={{marginBottom:'5px'}}>
             <FormLabel
               id="demo-row-radio-buttons-group-label"
               value={transport}
@@ -428,7 +436,7 @@ const Popup = ({ handleClose }) => {
           />
         </Grid>
 
-        <Grid style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '10px', marginBottom: '0px' }}>
+        <Grid style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '5px', marginBottom: '0px' }}>
           <Stack spacing={2} direction="row">
             <Button onClick={handleClose} variant="text" size="small">
               Cancel
@@ -438,13 +446,6 @@ const Popup = ({ handleClose }) => {
             </Button>
           </Stack>
         </Grid>
-        {success && (
-          <Grid item xs={12}>
-            <Box bgcolor="success.main" color="white" p={2} borderRadius={4}>
-              Travel request submitted successfully!
-            </Box>
-          </Grid>
-        )}
       </form>
     </div>
   );

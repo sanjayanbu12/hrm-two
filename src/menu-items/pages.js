@@ -179,6 +179,12 @@ const pages = {
           title: 'Travel & Claim',
           type: 'item',
           url: '/travel'
+        },
+        {
+          id: 'card',
+          title: 'Approval Card',
+          type: 'item',
+          url: '/card/travel'
         }
       ]
     }
