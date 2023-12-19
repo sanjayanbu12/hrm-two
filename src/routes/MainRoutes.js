@@ -46,6 +46,8 @@ import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
 import Travel from 'views/travel/Travel'
+import Card from 'views/travel/Card'
+import Travelapproval from 'views/travel/Travelapproval';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
