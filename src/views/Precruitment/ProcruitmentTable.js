@@ -19,8 +19,8 @@ console.log("getProcruitment",getProcruitment);
 // const {procget,setProcget } = useContext(FormSubmittedContext);
 
 const data = getProcruitment.map(item => ({
-  name: item.employeeid.name,
-  email: item.employeeid.email,
+  name: item.employeeid?.name,
+  email: item.employeeid?.email,
   productDescription: item.productDescription,   
   quantity: item.quantity,
   approximateBudget: item.approximateBudget,

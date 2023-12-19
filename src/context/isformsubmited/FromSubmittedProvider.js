@@ -29,7 +29,7 @@ const FromSubmittedProvider = ({ children }) => {
     setAtt,
     procget,
     setProcget
-  };
+  }; 
   return (
     <div>
       <FormSubmittedContext.Provider value={value}>{children}</FormSubmittedContext.Provider>

@@ -9,6 +9,7 @@ import SwalComp from './SwalComp';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 const LeaveApproval = () => {
+  
   const authId = useSelector((state) => state.customization.authId);
   const [leaveData, setLeaveData] = useState([]);
   const [showSwal, setShowSwal] = useState(false);
