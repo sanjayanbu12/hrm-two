@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ApiContext from 'context/api/ApiContext';
-import { Grid, TextField, InputAdornment } from '@mui/material';
+import { Grid, TextField, InputAdornment, FormControl,InputLabel,Autocomplete } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -23,7 +23,7 @@ const Popup = ({ handleClose }) => {
   const [days, setDays] = useState('');
   const [budget, setBudget] = useState('');
   const [business, setBusiness] = useState('');
-  const [reportingTo, setReportingTo] = useState('');
+  const [reportingTo, setReportingTo] = useState([]);
   const [claimtype, setClaimtype] = useState('');
   const [transport, setTransport] = useState('');
   const [attachments, setAttachments] = useState([]);
@@ -96,16 +96,16 @@ const Popup = ({ handleClose }) => {
     setErrors((prevState) => ({ ...prevState, transport: '' }));
   };
 
+  const handleFile = (e) => {
+    const filesArray = e.files;
+    setAttachments(filesArray);
+  };
+
   // const handleFile = (e) => {
-  //   const filesArray = e.files;
-  //   setAttachments(filesArray);
+  //   const filesArray = e.files || e.target.files;
+  //   setAttachments([...filesArray]);
   // };
 
-  const handleFile = (e) => {
-    const filesArray = e.files || e.target.files;
-    setAttachments([...filesArray]);
-  };
-  
   // const handleFile = (e) => {
   //   const filesArray = e.files;
   //   if (filesArray && filesArray.length > 0) {
@@ -113,15 +113,13 @@ const Popup = ({ handleClose }) => {
   //   }
   // };
 
-  const handleReportingTo = (e) => {
-    const value = e.target.value;
-    if (value) {
-      setReportingTo(value);
-      setErrors((prevState) => ({ ...prevState, reportingTo: '' }));
-    } else {
-      console.error('Invalid value for reportingTo:', value);
-    }
-    console.log('employeeContextData:', employeeContextData);
+  const handleReportingTo = (e, value) => {
+    const selectedData = value.map((item) => ({
+      employee: item._id,
+      approved: false
+    }));
+    setReportingTo((prevData) => ({ ...prevData, reportingTo: selectedData }));
+    console.log('formDatas', reportingTo);
   };
 
   const handleSubmit = async (e) => {
@@ -157,9 +155,9 @@ const Popup = ({ handleClose }) => {
       formErrors.budget = 'Budget field is required';
     }
 
-    if (!reportingTo.trim()) {
-      formErrors.reportingTo = 'ReportingTo field is required';
-    }
+    // if (!reportingTo.trim()) {
+    //   formErrors.reportingTo = 'ReportingTo field is required';
+    // }
 
     if (!business.trim()) {
       formErrors.business = 'Business Justification field is required';
@@ -180,7 +178,7 @@ const Popup = ({ handleClose }) => {
 
     try {
       const data = new FormData();
-      data.append('employeeid', authId);
+      data.append('employeeid', employeeId);
       data.append('from', from);
       data.append('to', to);
       data.append('startdate', startdate);
@@ -188,12 +186,12 @@ const Popup = ({ handleClose }) => {
       data.append('days', days);
       data.append('budget', budget);
       data.append('business', business);
-      data.append('reportingTo', reportingTo);
+      data.append('reportingTo', JSON.stringify(reportingTo));
       data.append('claimtype', claimtype);
       data.append('transport', transport);
       data.append('attachments', attachments[0]);
 
-      const response = await axios.post('http://localhost:3000/travel/createData', data, {
+      const response = await axios.post('http://localhost:3001/travel/createData', data, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
@@ -251,9 +249,9 @@ const Popup = ({ handleClose }) => {
           <CancelIcon onClick={handleClose} />
         </div>
       </div>
-      <form onSubmit={handleSubmit} style={{padding:'0px'}}>
+      <form onSubmit={handleSubmit} style={{ padding: '0px' }}>
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
-          <Grid item xs={5} >
+          <Grid item xs={5}>
             <TextField
               id="filled-basic"
               label="From"
@@ -278,7 +276,7 @@ const Popup = ({ handleClose }) => {
             />
           </Grid>
 
-          <Grid item xs={5} >
+          <Grid item xs={5}>
             <TextField
               id="filled-basic"
               variant="filled"
@@ -290,7 +288,7 @@ const Popup = ({ handleClose }) => {
               inputProps={{ style: { height: '10px', width: '160px' } }}
             />
           </Grid>
-          <Grid item xs={5} >
+          <Grid item xs={5}>
             <TextField
               id="filled-basic"
               variant="filled"
@@ -303,7 +301,7 @@ const Popup = ({ handleClose }) => {
             />
           </Grid>
 
-          <Grid item xs={5} >
+          <Grid item xs={5}>
             <TextField
               id="filled-basic"
               label="Days"
@@ -366,34 +364,46 @@ const Popup = ({ handleClose }) => {
                 </FormControl>
        </Grid> */}
 
-        <Grid item xs={5} style={{ marginBottom: 10, marginLeft: '26px', marginRight: '33px' }}>
-          <TextField
-            id="filled-select-currency-native"
-            select
-            label="Reporting To"
-            defaultValue={''}
-            onChange={handleReportingTo}
-            helperText={errors.reportingTo}
-            error={!!errors.reportingTo}
-            SelectProps={{
-              native: true
-            }}
-            variant="filled"
-            fullWidth
-            inputProps={{ style: { height: '15px' } }}
-          >
-            <option aria-label="None" value="" />
-            {employeeContextData.data &&
-              employeeContextData.data.map((option) => (
-                <option key={option.id} value={option.id}>
-                  {option.name}
-                </option>
-              ))}
-          </TextField>
-        </Grid>
+        <Grid item xs={12}>
+          <FormControl sx={{ minWidth: '100%' }}>
+            <InputLabel id="demo-simple-select-label"></InputLabel>
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              options={employeeContextData.data}
+              getOptionLabel={(option) => option.name}
+              defaultValue={[]}
+              onChange={handleReportingTo}
+              filterSelectedOptions
+              renderInput={(params) => <TextField {...params} label="Requesting to" placeholder="Add" />}
+            />
+          </FormControl>
+        </Grid> 
+
+        {/* <Grid item xs={12}>
+
+  <FormControl sx={{ minWidth: '100%' }}>
+    <TextField
+      id="filled-select-currency-native"
+      select
+      label="Native select"
+      defaultValue={[]}
+      SelectProps={{
+        native: true,
+      }}
+      variant="filled"
+    >
+      {reportingTo.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
+      ))}
+    </TextField>
+  </FormControl>
+</Grid> */}
 
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
-          <Grid item xs={5} >
+          <Grid item xs={5}>
             <FormLabel
               id="demo-row-radio-buttons-group-label"
               value={claimtype}
@@ -409,7 +419,7 @@ const Popup = ({ handleClose }) => {
             </FormLabel>
           </Grid>
 
-          <Grid item xs={5} style={{marginBottom:'5px'}}>
+          <Grid item xs={5} style={{ marginBottom: '5px' }}>
             <FormLabel
               id="demo-row-radio-buttons-group-label"
               value={transport}
@@ -429,7 +439,7 @@ const Popup = ({ handleClose }) => {
         <Grid justifyContent="flex-start" display="flex" maxWidth="498px" marginLeft="20px" marginBottom="8px">
           <FileUpload
             mode="basic"
-            chooseOptions={{ label: 'Choose', icon: 'pi pi-fw pi-plus' }}
+            chooseOptions={{ label: 'Attachments', icon: 'pi pi-fw pi-plus' }}
             multiple
             customUpload
             uploadHandler={handleFile}
