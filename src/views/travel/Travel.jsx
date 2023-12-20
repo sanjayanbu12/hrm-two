@@ -24,7 +24,7 @@ const Travel = () => {
   ];
 
   const data = tableData.map((item) => ({
-    employeeid: item.employeeid.employeeid,
+    employeeid: item.employeeid ? item.employeeid.employeeid : '',
     from: item.from,
     to: item.to,
     startdate: new Date(item.startdate).toLocaleDateString(),
