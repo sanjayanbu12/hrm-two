@@ -1,20 +1,41 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import './Approval.css';
 import ApiContext from 'context/api/ApiContext';
-import { useContext } from 'react';
+import { useContext} from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 
 const ApproovalCard = () => {
       const { getProcruitment } = useContext(ApiContext);
+      const { employeeContextData } = useContext(ApiContext);
+      const authId = useSelector((state) => state.customization.authId);
+      console.log(authId)
+
+      const[firtsMemberCard,setFristMemberCard]=useState('');
+      const[secondMemberCard,setSecondMemberCard]=useState("");
+      const[loginId,setLoginId]=useState('');
+     
+      useEffect(() => {
+        setLoginId(getProcruitment.map((data) => data._id))
+        setSecondMemberCard(getProcruitment.map((data) => data.reportingTo.map((data) => data.employee)))
+        setFristMemberCard(getProcruitment.map((data) => data.SecondRequest.map((data) => data.employee)))
+      }, [getProcruitment]);
+    
+      console.log("firtsMemberCard",firtsMemberCard);
+      console.log("secondMemberCard",secondMemberCard);
+      console.log("loginId",loginId);
     
 console.log("Approvalsss",getProcruitment);
-
- 
+console.log("employeeeeeez",employeeContextData);
+const isMemberCard = loginId === firtsMemberCard || loginId === secondMemberCard;
   return (
     // <div style={{display:'flex'}}>
     <div className="movie-cards-container">
     <>
     {getProcruitment.map((item, index) => (
+      
+        isMemberCard ? (
          <Link to={`/ApprovalDetails/${index}`} key={index}>
       <article  className="movie-card" key={index}>
         {/* <img src="" alt="Avatar wallpaper" /> */}
@@ -41,6 +62,7 @@ console.log("Approvalsss",getProcruitment);
        
       </article>
       </Link>
+       ): null
      
     ))}
 {/* //   </div> */}
