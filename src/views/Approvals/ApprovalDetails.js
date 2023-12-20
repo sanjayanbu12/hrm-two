@@ -1,16 +1,20 @@
-import React ,{useState} from 'react';
+import React, { useState } from 'react';
 import { StyledContainer, StyledCard, parentStyle, StyledTypography } from '../leavemanagement/styled';
 import Grid from '@mui/material/Grid';
-import { Button } from 'primereact/button';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'; // Import Dialog components
 import { useParams } from 'react-router-dom';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import SecondApproval from './SecondApproval';
+import { Button } from 'primereact/button';
+import axios from 'axios';
 
 const ApprovalDetails = () => {
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const { getProcruitment } = useContext(ApiContext);
   const { index } = useParams();
-  const[modalOpen,setModalOpen]=useState(false)
+  const[modalOpen,setModalOpen]=useState(false);
+  // http://localhost:3001/proc/update-rejected/:id
 
   const handleOpen=()=>{
     setModalOpen(true)
@@ -20,6 +24,37 @@ const ApprovalDetails = () => {
   }
 
   const item = getProcruitment[index];
+  const handleOpenConfirmModal = () => {
+    setConfirmModalOpen(true);
+  };
+
+  const handleCloseConfirmModal = () => {
+    setConfirmModalOpen(false);
+  };
+
+  const handleRejectConfirmation = async() => {
+    
+try {
+  const updatedReportingTo = item.reportingTo.map(report => ({
+    ...report,
+    rejected: true,
+  }));
+
+  // Update the local state with the modified reportingTo array
+  const updatedItem = {
+    ...item,
+    reportingTo: updatedReportingTo,
+  };
+
+    await axios.put(`http://localhost:3001/proc/update-rejected/${item._id}`,updatedItem)
+  handleCloseConfirmModal();
+} catch (error) {
+   console.error('Error updating data', error);
+  
+}
+  
+  
+  };
 
 
   console.log("index_id",item._id)
@@ -85,8 +120,33 @@ const ApprovalDetails = () => {
                   aria-label="Filter"
                   onClick={handleOpen}
                 />
-                <Button text raised icon="pi pi-times" rounded outlined severity="danger" aria-label="Cancel" />
+                <Button
+          text
+          raised
+          icon="pi pi-times"
+          rounded
+          outlined
+          severity="danger"
+          aria-label="Cancel"
+          onClick={handleOpenConfirmModal}
+        />
               </>
+              <Dialog open={confirmModalOpen} onClose={handleCloseConfirmModal}>
+        <DialogTitle>Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Are you sure you want to reject this request?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseConfirmModal} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={handleRejectConfirmation} color="primary">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
 
             </StyledCard>
           </Grid>
