@@ -21,7 +21,7 @@ console.log("getProcruitment",getProcruitment);
 const data = getProcruitment.map(item => ({
   name: item.employeeid?.name,
   email: item.employeeid?.email,
-  productDescription: item.productDescription,   
+  productname: item.productname,   
   quantity: item.quantity,
   approximateBudget: item.approximateBudget,
   createdAt: new Date(item.createdAt).toLocaleDateString(),
@@ -32,7 +32,7 @@ const data = getProcruitment.map(item => ({
 const columns = [
   { title: 'Name', field: 'name' },
   { title: 'Email', field: 'email' },
-  { title: 'Description', field: 'productDescription' },
+  { title: 'Product Name', field: 'productname' },
   { title: 'Quantity', field: 'quantity' },
   {
     title: 'Approximate Budget',
@@ -98,7 +98,7 @@ const columns = [
        
         title={
           <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
-            Procruitment
+            Procurement Table
           </div>
         }
         actions={[
