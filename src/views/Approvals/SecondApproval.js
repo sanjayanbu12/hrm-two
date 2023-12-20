@@ -8,11 +8,14 @@ import {InputLabel, Autocomplete} from '@mui/material';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
 import { useContext } from 'react';
-import ApiContext from 'context/api/ApiContext';
+import ApiContext from 'context/api/ApiContext';  
+import axios from 'axios';
+// http://localhost:3001/proc/updatedata/:id
 
-const SecondApproval = ({modalOpen, handleClose}) => {
+const SecondApproval = ({modalOpen, handleClose,itemId}) => {
     const[request,SetRequest]=useState("");
     const[secJustification,setSecJustification]=useState([]);
+    console.log("itemiddd",itemId)
 
 
     const { employeeContextData } = useContext(ApiContext);
@@ -35,6 +38,39 @@ const SecondApproval = ({modalOpen, handleClose}) => {
       const handloeSecondJustification = (e) => { 
         setSecJustification({ ...secJustification, SecondJustification: e.target.value });
       };
+
+      const handleSend = async () => {
+        try {
+            const CardId = itemId;
+            const requestData = {
+                SecondRequest: request.SecondRequest,
+                SecondJustification: secJustification.SecondJustification,
+                reportingTo: request.SecondRequest.map((item) => ({
+                    employee: item.employee,
+                    // approved: true, // Set approved to true
+              
+                })),
+            };
+    
+            // Update reportingTo property
+            requestData.reportingTo = requestData.reportingTo.map((item) => ({
+                ...item,
+                employee: item.employee._id, // Update employee property to use employee ID
+            }));
+    
+            console.log("requestData", requestData);
+    
+            const response = await axios.put(
+                `http://localhost:3001/proc/updatedata/${CardId}`,
+                requestData
+            );
+    
+            console.log('Data updated successfully', response.data);
+            handleClose();
+        } catch (error) {
+            console.error('Error updating data', error);
+        }
+    };
   const ButtonContainer = styled('div')({
     marginTop: 'auto',
     alignSelf: 'flex-end',
@@ -103,7 +139,7 @@ const SecondApproval = ({modalOpen, handleClose}) => {
               </Button>
             </ButtonContainer>
             <ButtonContainer>
-              <Button style={{marginRight:'10px'}} variant="contained" >
+            <Button style={{ marginRight: '10px' }} variant="contained" onClick={handleSend}>
                 Send
               </Button>
             </ButtonContainer>

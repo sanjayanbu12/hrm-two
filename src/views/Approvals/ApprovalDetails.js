@@ -20,6 +20,9 @@ const ApprovalDetails = () => {
   }
 
   const item = getProcruitment[index];
+
+
+  console.log("index_id",item._id)
   return (
     <div>
       <StyledContainer title="Procurement Request">
@@ -90,7 +93,7 @@ const ApprovalDetails = () => {
 
         </Grid>
       </StyledContainer>
-      <SecondApproval handleOpen={handleOpen} handleClose={handleClose} modalOpen={modalOpen} />
+      <SecondApproval handleOpen={handleOpen} handleClose={handleClose} modalOpen={modalOpen} itemId={item?._id} />
 
     </div>
   )
