@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ApiContext from 'context/api/ApiContext';
-import { Grid, TextField, InputAdornment, FormControl,InputLabel,Autocomplete } from '@mui/material';
+import { Grid, TextField, InputAdornment, FormControl, InputLabel, Autocomplete } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
@@ -100,18 +100,6 @@ const Popup = ({ handleClose }) => {
     const filesArray = e.files;
     setAttachments(filesArray);
   };
-
-  // const handleFile = (e) => {
-  //   const filesArray = e.files || e.target.files;
-  //   setAttachments([...filesArray]);
-  // };
-
-  // const handleFile = (e) => {
-  //   const filesArray = e.files;
-  //   if (filesArray && filesArray.length > 0) {
-  //     setAttachments(filesArray);
-  //   }
-  // };
 
   const handleReportingTo = (e, value) => {
     const selectedData = value.map((item) => ({
@@ -253,73 +241,73 @@ const Popup = ({ handleClose }) => {
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
           <Grid item xs={5}>
             <TextField
-              id="filled-basic"
+              id="outlined-basic"
               label="From"
-              variant="filled"
+              variant="outlined"
               value={from}
               onChange={(e) => handleFrom(e)}
               helperText={errors.from}
               error={!!errors.from}
-              inputProps={{ style: { height: '10px' } }}
+              inputProps={{ style: { height: '15px' } }}
             />
           </Grid>
           <Grid item xs={5}>
             <TextField
-              id="filled-basic"
+              id="outlined-basic"
               label="To"
-              variant="filled"
+              variant="outlined"
               value={to}
               onChange={(e) => handleTo(e)}
               helperText={errors.to}
               error={!!errors.to}
-              inputProps={{ style: { height: '10px' } }}
+              inputProps={{ style: { height: '15px' } }}
             />
           </Grid>
 
           <Grid item xs={5}>
             <TextField
-              id="filled-basic"
-              variant="filled"
+              id="outlined-basic"
+              variant="outlined"
               type="date"
               value={startdate}
               onChange={(e) => handleStartdate(e)}
               helperText={errors.startdate}
               error={!!errors.startdate}
-              inputProps={{ style: { height: '10px', width: '160px' } }}
+              inputProps={{ style: { height: '15px', width: '160px' } }}
             />
           </Grid>
           <Grid item xs={5}>
             <TextField
-              id="filled-basic"
-              variant="filled"
+              id="outlined-basic"
+              variant="outlined"
               type="date"
               value={enddate}
               onChange={(e) => handleEnddate(e)}
               helperText={errors.enddate}
               error={!!errors.enddate}
-              inputProps={{ style: { height: '10px', width: '160px' } }}
+              inputProps={{ style: { height: '15px', width: '160px' } }}
             />
           </Grid>
 
           <Grid item xs={5}>
             <TextField
-              id="filled-basic"
+              id="outlined-basic"
               label="Days"
               type="number"
-              variant="filled"
+              variant="outlined"
               value={days}
               // onChange={(e) => handleDays(e)}
               helperText={errors.days}
               error={!!errors.days}
-              inputProps={{ style: { height: '10px' } }}
+              inputProps={{ style: { height: '15px' } }}
             />
           </Grid>
 
-          <Grid item xs={5} style={{ marginBottom: 10 }}>
+          <Grid item xs={5} style={{ marginBottom: 15, marginTop: 5 }}>
             <TextField
-              id="filled-basic"
+              id="outlined-basic"
               label="Estimated Budget"
-              variant="filled"
+              variant="outlined"
               value={budget}
               onChange={(e) => handleBudget(e)}
               helperText={errors.budget}
@@ -327,7 +315,7 @@ const Popup = ({ handleClose }) => {
               fullwidth
               InputProps={{
                 startAdornment: <InputAdornment position="start">₹</InputAdornment>,
-                style: { height: '45px', marginRight: '7px' }
+                style: { height: '42px', marginRight: '7px' }
               }}
             />
           </Grid>
@@ -335,36 +323,19 @@ const Popup = ({ handleClose }) => {
 
         <Grid item xs={5} style={{ marginBottom: 10, marginLeft: '26px', marginRight: '33px' }}>
           <TextField
-            id="filled-basic"
+            id="outlined-basic"
             label="Business Justification"
-            variant="filled"
+            variant="outlined"
             value={business}
             onChange={(e) => handleBusiness(e)}
             helperText={errors.business}
             error={!!errors.business}
             fullWidth
-            inputProps={{ style: { height: '10px' } }}
+            inputProps={{ style: { height: '17px' } }}
           />
         </Grid>
-        {/* 
-        <Grid item xs={5} style={{ marginBottom: 20, marginLeft: '26px', marginRight: '33px' }}>
-                <FormControl sx={{ minWidth: '100%' }}>
-                  <InputLabel id="demo-simple-select-label"></InputLabel>
-                    <Autocomplete
-                      multiple
-                      id="filled-basic"
-                      variant="filled"
-                      options={employeeContextData.data}
-                      getOptionLabel={(option) => option.name}
-                      defaultValue={[]}
-                      onChange={handleReportingTo}
-                      filterSelectedOptions
-                      renderInput={(params) => <TextField {...params} label="Reporting to" placeholder="Add" />}
-                    />        
-                </FormControl>
-       </Grid> */}
 
-        <Grid item xs={12}>
+        <Grid item xs={5} style={{ marginBottom: 10, marginLeft: '26px', marginRight: '33px' }}>
           <FormControl sx={{ minWidth: '100%' }}>
             <InputLabel id="demo-simple-select-label"></InputLabel>
             <Autocomplete
@@ -374,33 +345,12 @@ const Popup = ({ handleClose }) => {
               getOptionLabel={(option) => option.name}
               defaultValue={[]}
               onChange={handleReportingTo}
+              inputProps={{ style: { height: '2px' } }}
               filterSelectedOptions
               renderInput={(params) => <TextField {...params} label="Requesting to" placeholder="Add" />}
             />
           </FormControl>
-        </Grid> 
-
-        {/* <Grid item xs={12}>
-
-  <FormControl sx={{ minWidth: '100%' }}>
-    <TextField
-      id="filled-select-currency-native"
-      select
-      label="Native select"
-      defaultValue={[]}
-      SelectProps={{
-        native: true,
-      }}
-      variant="filled"
-    >
-      {reportingTo.map((option) => (
-        <option key={option.value} value={option.value}>
-          {option.label}
-        </option>
-      ))}
-    </TextField>
-  </FormControl>
-</Grid> */}
+        </Grid>
 
         <Grid container spacing={2} justifyContent="space-evenly" display="flex" maxWidth="498px">
           <Grid item xs={5}>
@@ -442,7 +392,7 @@ const Popup = ({ handleClose }) => {
             chooseOptions={{ label: 'Attachments', icon: 'pi pi-fw pi-plus' }}
             multiple
             customUpload
-            uploadHandler={handleFile}
+            onSelect={(e) => handleFile(e)}
           />
         </Grid>
 
