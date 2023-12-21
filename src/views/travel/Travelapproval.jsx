@@ -59,6 +59,12 @@ const Travelapproval = () => {
                 Transport&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.transport}
               </StyledTypography>
+              <StyledTypography variant="h4">
+                Attachments&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href={item?.attachments?.url} target="_blank" rel="noopener noreferrer">
+                {item?.attachments?.url}
+                </a>
+              </StyledTypography>
               <>
                 <Button text raised style={{ marginRight: 12 }} icon="pi pi-check" rounded outlined aria-label="Filter" />
                 <Button text raised icon="pi pi-times" rounded outlined severity="danger" aria-label="Cancel" />
