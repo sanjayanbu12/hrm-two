@@ -144,3 +144,6 @@
   gap: 50px;
   flex-wrap: wrap; /* Allows cards to wrap to the next line if they exceed the container width */
 }
+.border{
+border-bottom: none
+};
