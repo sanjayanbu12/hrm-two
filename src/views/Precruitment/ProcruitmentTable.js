@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import { useState } from 'react';
@@ -12,9 +12,11 @@ import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 const ProcruitmentTable = () => {
 const[open,setOpen]=useState(false);
-
+let procData=null
 const { getProcruitment } = useContext(ApiContext);
-console.log("getProcruitment",getProcruitment);
+useEffect(()=>{
+  procData=getProcruitment
+},[procData])
 
 // const {procget,setProcget } = useContext(FormSubmittedContext);
 

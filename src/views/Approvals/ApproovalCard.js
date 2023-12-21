@@ -1,75 +1,95 @@
-import React, { useState,useEffect } from 'react';
-import './Approval.css';
+import React, { useState, useEffect, useContext } from 'react';
+// import './Approval.css';
 import ApiContext from 'context/api/ApiContext';
-import { useContext} from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import './Approval.css'
 
+const ApprovalCard = () => {
+  const { getProcruitment } = useContext(ApiContext);
+  const authId = useSelector((state) => state.customization.authId);
+  const USER_ID = whologin._id;
+  const { employeeContextData } = useContext(ApiContext);
+  let procData=null
+  useEffect(()=>{
+    procData=USER_ID
+  },[procData])
 
-const ApproovalCard = () => {
-      const { getProcruitment } = useContext(ApiContext);
-      const { employeeContextData } = useContext(ApiContext);
-      const authId = useSelector((state) => state.customization.authId);
-      console.log(authId)
+  const [firtsMemberCard, setFristMemberCard] = useState([]);
+  const [secondMemberCard, setSecondMemberCard] = useState([]);
+  const[whologin,setWhologin]=useState("")
+  console.log("firstMemberData",firtsMemberCard)
+  console.log("secondMemberCard",secondMemberCard)
+  console.log("MEMID",USER_ID)
+  console.log("WhoLogedIN",whologin._id)
 
-      const[firtsMemberCard,setFristMemberCard]=useState('');
-      const[secondMemberCard,setSecondMemberCard]=useState("");
-      const[loginId,setLoginId]=useState('');
-     
-      useEffect(() => {
-        setLoginId(getProcruitment.map((data) => data._id))
-        setSecondMemberCard(getProcruitment.map((data) => data.reportingTo.map((data) => data.employee)))
-        setFristMemberCard(getProcruitment.map((data) => data.SecondRequest.map((data) => data.employee)))
-      }, [getProcruitment]);
-    
-      console.log("firtsMemberCard",firtsMemberCard);
-      console.log("secondMemberCard",secondMemberCard);
-      console.log("loginId",loginId);
-    
-console.log("Approvalsss",getProcruitment);
-console.log("employeeeeeez",employeeContextData);
-const isMemberCard = loginId === firtsMemberCard || loginId === secondMemberCard;
+  const fetchEmployee = async () => {
+    try {
+      const res = await employeeContextData;
+      const matchingEmployee = res.data.find((emp) => emp.employeeid === authId);
+      if (matchingEmployee) {
+        setWhologin(matchingEmployee);
+      } else {
+        console.log('Employee not found for authId:', authId);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEmployee();
+  }, [employeeContextData]);
+
+  useEffect(() => {
+    const firstMemberData = getProcruitment.flatMap(data => data.reportingTo.map(employeeData => employeeData.employee));
+    setFristMemberCard(firstMemberData[0]);
+
+    const secondMemberData = getProcruitment.flatMap(data => data.SecondRequest.map(employeeData => employeeData.employee));
+    setSecondMemberCard(secondMemberData[0]);
+  }, [getProcruitment]);
+
   return (
-    // <div style={{display:'flex'}}>
     <div className="movie-cards-container">
-    <>
-    {getProcruitment.map((item, index) => (
-      
-        isMemberCard ? (
-         <Link to={`/ApprovalDetails/${index}`} key={index}>
-      <article  className="movie-card" key={index}>
-        {/* <img src="" alt="Avatar wallpaper" /> */}
-      
-        <div style={{ display: 'flex', justifyContent: 'end', marginRight: '20px', marginTop: '7px' }}>
-          <h2>₹{item.approximateBudget}</h2>    
-        </div>
-        <div className="content">
-          <h1>{item.productname}</h1>
+      <>
+        {getProcruitment.map((item, index) => {
+          const isUserAuthorized = USER_ID === firtsMemberCard || USER_ID === secondMemberCard;
+          const isApproved = getProcruitment
+            .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
+            .some(approved => approved);
 
-          <div>
-            <h2>{item.customerName}</h2>
-            <span>&nbsp;{new Date(item.createdAt).toLocaleDateString()}&nbsp;&nbsp;·&nbsp;&nbsp;{new Date(item.createdAt).toLocaleTimeString()}</span>
-          </div>
-          <div style={{marginTop:'20px'}} className="synopsis">
-            <b>Specification : {item.productname} </b>
-            <b style={{ display: 'block', marginTop: '10px' }}>Prority: {item.priority}</b>
-          </div>
+          if (isUserAuthorized) {
+            return (
+              <Link to={`/ApprovalDetails/${index}`} key={index}>
+                <article className="movie-card" key={index}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px' }}>
+                  <div style={{marginLeft:'20px',color:'#00FF00'}}>
+                    <h2>{isApproved ? '1st Level Approved' : ''}</h2></div><div><h2> ₹{item.approximateBudget}</h2></div>
+                  </div>
+                  <div className="content">
+                    <h1>{item.productname}</h1>
+                    <div>
+                      <h2>{item.customerName}</h2>
+                      <span>
+                        &nbsp;{new Date(item.createdAt).toLocaleDateString()}&nbsp;&nbsp;·&nbsp;&nbsp;{new Date(item.createdAt).toLocaleTimeString()}
+                      </span>
+                    </div>
+                    <div style={{ marginTop: '20px' }} className="synopsis">
+                      <b>Specification : {item.productname} </b>
+                      <b style={{ display: 'block', marginTop: '10px' }}>Priority: {item.priority}</b>
+                    </div>
+                    <div className="icons">{/* Add your icons or additional content here */}</div>
+                  </div>
+                </article>
+              </Link>
+            );
+          }
 
-          <div className="icons">
-            {/* <b>Budget : </b> */}
-          </div>
-        </div>
-       
-      </article>
-      </Link>
-       ): null
-     
-    ))}
-{/* //   </div> */}
+          return null;
+        })}
+      </>
+    </div>
+  );
+};
 
-</>
-</div>
-  )
-}
-
-export default ApproovalCard
+export default ApprovalCard;
