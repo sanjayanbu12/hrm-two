@@ -17,5 +17,5 @@ export const validationSchema = yup.object().shape({
   emergencyContact: yup.string().required('Emergency Contact is required'),
   nationality: yup.string().required('Nationality is required'),
   type: yup.string().required('Work Type is required'),
-  report: yup.string().required('Reporting to is required'),
+  // report: yup.string().required('Reporting to is required'),
 });
