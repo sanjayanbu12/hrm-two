@@ -315,7 +315,7 @@ const Popup = ({ handleClose }) => {
               fullwidth
               InputProps={{
                 startAdornment: <InputAdornment position="start">₹</InputAdornment>,
-                style: { height: '42px', marginRight: '7px' }
+                style: { height: '42px', marginRight: '6px' }
               }}
             />
           </Grid>
