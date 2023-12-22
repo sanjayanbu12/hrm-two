@@ -7,7 +7,7 @@ import Listimage from '../style/img/list-view.webp';
 const LandingPageThree = () => {
   return (
     <>
-      <SecondContainers >
+      <SecondContainers>
         <Container style={{ paddingLeft: '0px', paddingRight: '0px' }}>
           <Grid container className="third-page" alignItems={'center'}>
             <Grid className="spacing" item lg={6} md={10}>
