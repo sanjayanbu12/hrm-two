@@ -20,6 +20,10 @@ const SecondApproval = ({modalOpen, handleClose,itemId}) => {
 
     const { employeeContextData } = useContext(ApiContext);
 
+    // const isApproved = getProcruitment
+    // .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
+    // .some(approved => approved);
+
     const handleSecondApproval = (event, value) => {
         // Check if value is an array before mapping
         if (Array.isArray(value)) {
@@ -51,7 +55,6 @@ const SecondApproval = ({modalOpen, handleClose,itemId}) => {
               
                 })),
             };
-    
             // Update reportingTo property
             requestData.reportingTo = requestData.reportingTo.map((item) => ({
                 ...item,
@@ -71,6 +74,8 @@ const SecondApproval = ({modalOpen, handleClose,itemId}) => {
             console.error('Error updating data', error);
         }
     };
+
+
   const ButtonContainer = styled('div')({
     marginTop: 'auto',
     alignSelf: 'flex-end',
