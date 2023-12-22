@@ -38,8 +38,6 @@ const Navbar = () => {
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', boxShadow: 'none' }}
           sx={{ p: '6px' }}
           position="fixed"
-          color="primary"
-          enableColorOnDark
         >
           <Stack
             direction={'row'}

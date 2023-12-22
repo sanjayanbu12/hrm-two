@@ -1,5 +1,5 @@
 import React from 'react';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { Box, Stack, Zoom, Typography } from '@mui/material';
 import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
@@ -79,7 +79,7 @@ const WhyHrm = () => {
               label={
                 <Box style={{ display: 'flex', alignItems: 'center' }}>
                   Why Gestion?
-                  <KeyboardArrowDownIcon style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
+                  {/* <KeyboardArrowDownIcon style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" /> */}
                 </Box>
               }
               value="1"
@@ -90,11 +90,9 @@ const WhyHrm = () => {
         <Popper id={id} open={openPopper === 'WhyHrm'} anchorEl={anchorEl} transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps}>
-              <Box height={'100vh'} width={'100vw'} sx={{ backgroundColor: 'rgba(0,0,0,0.9)' }}>
+              <Box height={'100vh'} width={'100vw'} sx={{ position: 'relative', top: '6px', backgroundColor: 'rgba(0,0,0,0.9)' }}>
                 <Box
                   sx={{
-                    mt: 0.8,
-                    bgcolor: 'rgba(22, 22, 23, .88)',
                     padding: '20px 64px',
                     display: 'flex'
                   }}
