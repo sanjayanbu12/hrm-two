@@ -54,6 +54,7 @@ export const SecondContainers = styled.div`
   top: 52px;
   width: 100%;
   background-color: #eeeeee;
+  
   @media screen and (max-width: 1000px) {
     height: 100%;
     top: 0px;
