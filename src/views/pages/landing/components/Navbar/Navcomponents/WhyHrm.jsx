@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Stack, Zoom, Typography } from '@mui/material';
 import Popper from '@mui/material/Popper';
 import Fade from '@mui/material/Fade';
-import { NewButton, StyledTablist , StyledTab } from '../Styled';
+import { NewButton, StyledTablist, StyledTab } from '../Styled';
 import EastIcon from '@mui/icons-material/East';
 import TabContext from '@mui/lab/TabContext';
 import { CustomContextHook } from '../../usecontext/CustomContextHook';
@@ -33,7 +33,12 @@ const WhyHrm = () => {
     <>
       <Box className="WhrHrm-Hide">
         <TabContext value={value}>
-          <StyledTablist sx={{marginRight:'20px' ,marginLeft: '20px'}} value="1" onChange={handleChange} aria-label="lab API tabs example">
+          <StyledTablist
+            sx={{ marginRight: '20px', marginLeft: '20px' }}
+            value="1"
+            onChange={handleChange}
+            aria-label="lab API tabs example"
+          >
             {/* <Button
               variant="contained"
               onClick={(e) => handleClick(e, 'WhyHrm')}
@@ -58,8 +63,8 @@ const WhyHrm = () => {
             >
               Why Gestion?
             </Button> */}
-            <StyledTab 
-            disableRipple
+            <StyledTab
+              disableRipple
               sx={{
                 color: 'rgba(255, 255, 255, .8)',
                 fontSize: '1rem',
@@ -71,8 +76,8 @@ const WhyHrm = () => {
                   background: 'none',
                   color: 'rgba(255, 255, 255, 1)'
                 },
-                '&Mui-selected ':{  
-                  color:' white !important',
+                '&Mui-selected ': {
+                  color: ' white !important'
                 }
               }}
               onClick={(e) => handleClick(e, 'WhyHrm')}

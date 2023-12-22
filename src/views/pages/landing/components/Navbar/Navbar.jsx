@@ -12,12 +12,22 @@ import NavBarMenu from './Navcomponents/NavBarMenu';
 import { Link } from 'react-router-dom';
 import Logo from '../../images/logo.svg';
 import { useNavigate } from 'react-router-dom';
+import { CustomContextHook } from '../usecontext/CustomContextHook';
 
 const Navbar = () => {
+  const { openPopper, setValue, setOpenPopper } = CustomContextHook();
   const FirstPage = useNavigate();
 
-  const FirstPageNavigation = () => {
+  const FirstPageNavigation = (popperName) => {
     FirstPage('/');
+    if (openPopper !== popperName) {
+      setOpenPopper(null);
+      document.body.style.overflow = 'unset';
+      handleChange();
+    }
+  };
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   const Theme = createTheme({
@@ -28,7 +38,6 @@ const Navbar = () => {
     //   }
     // }
   });
-
 
   return (
     <>
@@ -70,7 +79,7 @@ const Navbar = () => {
                   fontWeight: '600',
                   fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
                   '&:hover': {
-                    background: 'none',
+                    background: 'none'
                   }
                 }}
               >
