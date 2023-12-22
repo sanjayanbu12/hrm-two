@@ -3,10 +3,11 @@ import { SecondContainers } from '../Navbar/Styled';
 import { ButtonBase, Grid, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import LanguageIcon from '@mui/icons-material/Language';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import YouTubeIcon from '@mui/icons-material/YouTube';
+import XIcon from '../style/svgs/XIcon';
+import '../Navbar/style.css';
 
 const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
   const navigate = useNavigate();
@@ -116,7 +117,7 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
                 key={3}
                 sx={{ fontSize: '17px', display: 'flex', justifyContent: 'flex-start', '&:hover': { color: '#F06A6A' } }}
               >
-                Procurment
+                procurement
               </ButtonBase>
               <ButtonBase
                 disableRipple
@@ -152,10 +153,11 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
             </Typography>
 
             <Grid item display={'flex'} gap={'8px'}>
-              <ButtonBase sx={{ cursor: 'pointer', '&:hover': { color: '#1D9BF0' } }} color={'white'}>
-                <TwitterIcon />
+              <ButtonBase disableRipple sx={{ cursor: 'pointer', '&:hover': { color: '#1D9BF0' } }} color={'white'}>
+                <XIcon />
               </ButtonBase>
               <ButtonBase
+                disableRipple
                 href="https://in.linkedin.com/company/snssquare?trk=public_post_feed-actor-name"
                 sx={{ cursor: 'pointer', '&:hover': { color: '#0A66C2' } }}
                 color={'white'}
@@ -163,6 +165,7 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
                 <LinkedInIcon />
               </ButtonBase>
               <ButtonBase
+                disableRipple
                 href="https://www.instagram.com/squaresns/"
                 sx={{ cursor: 'pointer', '&:hover': { color: '#C13584' } }}
                 color={'white'}
@@ -170,6 +173,7 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
                 <InstagramIcon />
               </ButtonBase>
               <ButtonBase
+                disableRipple
                 href="https://www.youtube.com/@snssquare"
                 sx={{ cursor: 'pointer', '&:hover': { color: '#FF0000' } }}
                 color={'white'}

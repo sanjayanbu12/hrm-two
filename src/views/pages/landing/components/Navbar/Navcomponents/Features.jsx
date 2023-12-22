@@ -2,24 +2,28 @@ import { React } from "react";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import Popper from "@mui/material/Popper";
 import Fade from "@mui/material/Fade";
-import { Box, Zoom, Typography , Button, Stack } from "@mui/material";
-import { NewButton } from "../Styled";
+import { Box, Zoom, Typography , Stack } from "@mui/material";
+import { NewButton , StyledTablist , StyledTab } from "../Styled";
+import TabContext from '@mui/lab/TabContext';
+import { CustomContextHook } from '../../usecontext/CustomContextHook';
 
-const Features = ({anchorEl,setAnchorEl,openPopper , setOpenPopper}) => {
+const Features = () => {
+  const { value, setValue, anchorEl, setAnchorEl, openPopper, setOpenPopper } = CustomContextHook();
 
   const handleClick = (event, popperName) => {
     if (openPopper === popperName) {
       setOpenPopper(null);
       document.body.style.overflow = 'unset';
-      // const arrow = document.querySelector(".Arrow-down2");
-      // arrow.style.transform = "none"
+      handleChange();
     } else {
       setAnchorEl(event.currentTarget);
       setOpenPopper(popperName);
       document.body.style.overflow = 'hidden';
-      // const arrow = document.querySelector(".Arrow-down2");
-      // arrow.style.transform = "rotate(180deg)"
     }
+  };
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
 
   const canBeOpen = Boolean(anchorEl);
@@ -28,7 +32,9 @@ const Features = ({anchorEl,setAnchorEl,openPopper , setOpenPopper}) => {
   return (
     <>
     <Box className="Features-hide">
-      <Button
+          <TabContext value={value}>
+          <StyledTablist  value="2" onChange={handleChange} aria-label="lab API tabs example">
+      {/* <Button
         variant="contained"
         onClick={(e) => {handleClick(e , "Features")}}
         // isButtonClicked={openPopper}
@@ -51,7 +57,32 @@ const Features = ({anchorEl,setAnchorEl,openPopper , setOpenPopper}) => {
         }}
       >
         Features
-      </Button>
+      </Button> */}
+            <StyledTab
+              disableRipple
+              sx={{
+                color: 'rgba(255, 255, 255, .8)',
+                fontSize: '1rem',
+                letterSpacing: '0.02857em',
+                paddingLeft: '0px',
+                paddingRight: '0px',
+                textTransform: 'none',
+                '&:hover': {
+                  background: 'none',
+                  color: 'rgba(255, 255, 255, 1)'
+                }
+              }}
+              onClick={(e) => {handleClick(e , "Features")}}
+              label={
+                <Box style={{ display: 'flex', alignItems: 'center' }}>
+                  Features
+                  <KeyboardArrowDownIcon style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
+                </Box>
+              }
+              value="2"
+            />          
+        </StyledTablist>
+        </TabContext>
 
       <Popper id={id} open={openPopper === "Features"} anchorEl={anchorEl} transition>
         {({ TransitionProps }) => (
