@@ -8,7 +8,7 @@ import './Approval.css'
 const ApprovalCard = () => {
   const { getProcruitment } = useContext(ApiContext);
   const authId = useSelector((state) => state.customization.authId);
-  const USER_ID = whologin._id;
+
   const { employeeContextData } = useContext(ApiContext);
   let procData=null
   useEffect(()=>{
@@ -17,9 +17,11 @@ const ApprovalCard = () => {
 
   const [firtsMemberCard, setFristMemberCard] = useState([]);
   const [secondMemberCard, setSecondMemberCard] = useState([]);
+  const [secondLevelApproved, setSecondLevelApproved] = useState(false);
   const[whologin,setWhologin]=useState("")
   console.log("firstMemberData",firtsMemberCard)
   console.log("secondMemberCard",secondMemberCard)
+  const USER_ID = whologin._id;
   console.log("MEMID",USER_ID)
   console.log("WhoLogedIN",whologin._id)
 
@@ -47,24 +49,39 @@ const ApprovalCard = () => {
 
     const secondMemberData = getProcruitment.flatMap(data => data.SecondRequest.map(employeeData => employeeData.employee));
     setSecondMemberCard(secondMemberData[0]);
+
+    const isSecondApproved = getProcruitment
+      .flatMap(data => data.SecondRequest.map(employeeData => employeeData.approved))
+      .some(approved => approved);
+
+    setSecondLevelApproved(isSecondApproved);
   }, [getProcruitment]);
 
   return (
     <div className="movie-cards-container">
       <>
-        {getProcruitment.map((item, index) => {
-          const isUserAuthorized = USER_ID === firtsMemberCard || USER_ID === secondMemberCard;
-          const isApproved = getProcruitment
-            .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
-            .some(approved => approved);
+      {getProcruitment.map((item, index) => {
+  const isUserAuthorized = USER_ID === firtsMemberCard || USER_ID === secondMemberCard;
+  const isApproved = getProcruitment
+    .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
+    .some(approved => approved);
+    const isFirstApproved = getProcruitment
+    .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
+    .some(approved => approved);
+    const isCardApproved = isFirstApproved && secondLevelApproved;
 
-          if (isUserAuthorized) {
-            return (
-              <Link to={`/ApprovalDetails/${index}`} key={index}>
+  // Check if the conditions for the link to work are met
+  const isLinkAccessible = isUserAuthorized && (!isApproved || USER_ID === secondMemberCard) ||  (!isCardApproved);
+  
+
+  return (
+    <div key={index}>
+      {isUserAuthorized && (
+         <Link to={isLinkAccessible ? `/ApprovalDetails/${index}` : '#'}>
                 <article className="movie-card" key={index}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px' }}>
                   <div style={{marginLeft:'20px',color:'#00FF00'}}>
-                    <h2>{isApproved ? '1st Level Approved' : ''}</h2></div><div><h2> ₹{item.approximateBudget}</h2></div>
+                    <h2>{isFirstApproved && !secondLevelApproved ? '1st Level Approved' : isCardApproved ? 'Card Approved' : ''}</h2></div><div><h2> ₹{item.approximateBudget}</h2></div>
                   </div>
                   <div className="content">
                     <h1>{item.productname}</h1>
@@ -81,11 +98,11 @@ const ApprovalCard = () => {
                     <div className="icons">{/* Add your icons or additional content here */}</div>
                   </div>
                 </article>
-              </Link>
-            );
-          }
-
-          return null;
+                </Link>
+      )}
+    </div>
+  )
+          // return null;
         })}
       </>
     </div>

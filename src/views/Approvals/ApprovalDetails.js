@@ -8,6 +8,7 @@ import { useContext } from 'react';
 import SecondApproval from './SecondApproval';
 import { Button } from 'primereact/button';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const ApprovalDetails = () => {
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
@@ -15,10 +16,45 @@ const ApprovalDetails = () => {
   const { index } = useParams();
   const[modalOpen,setModalOpen]=useState(false);
   // http://localhost:3001/proc/update-rejected/:id
+  const [acceptConfirmModalOpen, setAcceptConfirmModalOpen] = useState(false);
+  const isApproved = getProcruitment
+  .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
+  .some(approved => approved);
+const navigate=useNavigate();
 
-  const handleOpen=()=>{
-    setModalOpen(true)
+
+const handleCloseAcceptConfirmModal = () => {
+  setAcceptConfirmModalOpen(false);
+};
+
+const handleAcceptConfirmation = async () => {
+  try {
+    const updatedReportingTo = item.SecondRequest.map(report => ({
+      ...report,
+      approved:true,
+    }));
+    const updatedItem = {
+      ...item,
+      SecondRequest: updatedReportingTo,
+    };
+    await axios.put(`http://localhost:3001/proc/updatedata/${item._id}`,updatedItem)
+
+    handleCloseAcceptConfirmModal();
+    navigate("/ApproovalCard")
+  } catch (error) {
+    console.error('Error accepting request', error);
   }
+};
+
+const handleOpen = () => {
+  if (isApproved) {
+    // Open the acceptance confirmation modal
+    setAcceptConfirmModalOpen(true);
+  } else {
+    // Open the regular modal
+    setModalOpen(true);
+  }
+};
   const handleClose=()=>{
     setModalOpen(false)
   }
@@ -52,9 +88,9 @@ try {
    console.error('Error updating data', error);
   
 }
-  
-  
+
   };
+   
 
 
   console.log("index_id",item._id)
@@ -110,16 +146,17 @@ try {
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.createdAt}
               </StyledTypography>
               <>
-                <Button
-                  text
-                  raised
-                  style={{ marginRight: 12 }}
-                  icon="pi pi-check"
-                  rounded
-                  outlined
-                  aria-label="Filter"
-                  onClick={handleOpen}
-                />
+              <Button
+  text
+  raised
+  style={{ marginRight: 12 }}
+  icon="pi pi-check"
+  rounded
+  outlined
+  severity={isApproved ? 'success' : 'primary'}
+  aria-label={isApproved ? 'Accept' : 'Filter'}
+  onClick={handleOpen}
+/>
                 <Button
           text
           raised
@@ -131,6 +168,27 @@ try {
           onClick={handleOpenConfirmModal}
         />
               </>
+              {isApproved && (
+  <Dialog
+    open={acceptConfirmModalOpen}
+    onClose={handleCloseAcceptConfirmModal}
+  >
+    <DialogTitle>Acceptance Confirmation</DialogTitle>
+    <DialogContent>
+      <DialogContentText>
+        Are you sure you want to accept this request?
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleCloseAcceptConfirmModal} color="primary">
+        Cancel
+      </Button>
+      <Button onClick={handleAcceptConfirmation} color="primary">
+        OK
+      </Button>
+    </DialogActions>
+  </Dialog>
+)}
               <Dialog open={confirmModalOpen} onClose={handleCloseConfirmModal}>
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>
