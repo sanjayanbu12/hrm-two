@@ -95,7 +95,7 @@ const WhyHrm = () => {
         <Popper id={id} open={openPopper === 'WhyHrm'} anchorEl={anchorEl} transition>
           {({ TransitionProps }) => (
             <Fade {...TransitionProps}>
-              <Box height={'100vh'} width={'100vw'} sx={{ position: 'relative', top: '4px', backgroundColor: 'rgba(0,0,0,0.9)' }}>
+              <Box height={'100vh'} width={'100vw'} sx={{ position: 'relative', top: '4px', backgroundColor: 'rgba(0,0,0,1)' }}>
                 <Box
                   sx={{
                     padding: '20px 64px',

@@ -7,7 +7,7 @@ import LandingPageThree from './LandingPageThree';
 import LandingPageFour from './LandingPageFour';
 import LandingPageFive from './LandingPageFive';
 // import LandingPageSix from './LandingPageSix';
-import LandingPageSeven from './LandingPageSeven';
+// import LandingPageSeven from './LandingPageSeven';
 // import LandingPageEight from "./LandingPageEight";
 import FooterPage from '../footer/FooterPage';
 import Navbar from '../Navbar/Navbar';
@@ -234,7 +234,7 @@ const Landingpage = () => {
       <LandingPageFour />
       <LandingPageFive />
       {/* <LandingPageSix /> */}
-      <LandingPageSeven />
+      {/* <LandingPageSeven /> */}
       {/* <LandingPageEight /> */}
       <FooterPage scrollToSection={scrollToSection} redirect={redirect} expanded={expanded} handleChange={handleChange} />
     </>
