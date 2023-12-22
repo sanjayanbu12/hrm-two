@@ -3,6 +3,9 @@
     margin: 0;
 }
 
+.Xicon:hover{
+    fill: #1D9BF0;
+}
 /* body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 } */

@@ -9,10 +9,11 @@ import MuiAccordion from "@mui/material/Accordion";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import { CustomContextHook } from "../../usecontext/CustomContextHook";
 
-const NavBarMenu = ({ anchorEl, setAnchorEl, openPopper, setOpenPopper }) => {
+const NavBarMenu = () => {
   const [expanded, setExpanded] = useState(" ");
-
+  const { anchorEl, setAnchorEl, openPopper, setOpenPopper } = CustomContextHook();
   const handleClick = (event, popperName) => {
     if (openPopper === popperName) {
       setOpenPopper(null);

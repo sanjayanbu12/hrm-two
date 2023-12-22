@@ -1,49 +1,25 @@
-
 import { Box, Button, Container, Typography } from '@mui/material';
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { FirstContainers } from '../Navbar/Styled';
-import { useState } from 'react';
 import LandingPageTwo from './LandingPageTwo';
 import LandingPageThree from './LandingPageThree';
 import LandingPageFour from './LandingPageFour';
-import LandingPageFive from "./LandingPageFive";
+import LandingPageFive from './LandingPageFive';
 // import LandingPageSix from './LandingPageSix';
 import LandingPageSeven from './LandingPageSeven';
 // import LandingPageEight from "./LandingPageEight";
 import FooterPage from '../footer/FooterPage';
 import Navbar from '../Navbar/Navbar';
 import { Link } from 'react-router-dom';
+import { CustomContextHook } from '../usecontext/CustomContextHook';
 
 const Landingpage = () => {
-  const memoizedPlaylistItems = useMemo(
-    () => [
-      {
-        movieUrl: 'https://assets.asana.biz/m/71c4e0669724c7eb/original/custom-fields.mp4',
-        moviePoster: ''
-      },
-      {
-        movieUrl: 'http://grochtdreis.de/fuer-jsfiddle/video/sintel_trailer-480.mp4'
-      },
-      {
-        movieUrl: 'https://assets.codepen.io/6093409/river.mp4'
-      },
-      {
-        movieUrl: 'http://www.ioncannon.net/examples/vp8-webm/big_buck_bunny_480p.webm'
-      },
-      {
-        movieUrl: 'http://www.ioncannon.net/examples/vp8-webm/big_buck_bunny_480p.webm'
-      }
-    ],
-    []
-  );
+  const { setVideoSrc, setPosterSrc, isPlaying, setIsPlaying, expanded, setExpanded, videoIndex, memoizedPlaylistItems } =
+    CustomContextHook();
 
-  const [videoSrc, setVideoSrc] = useState(memoizedPlaylistItems[0].movieUrl);
-  const [posterSrc, setPosterSrc] = useState(memoizedPlaylistItems[0].moviePoster);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [expanded, setExpanded] = useState('panel1');
-  const [videoIndex, setVideoIndex] = useState(0);
   const redirect = useRef();
+  const video = useRef();
   const onPlaylistItemClick = (event, index) => {
     const selectedVideo = memoizedPlaylistItems[index];
     setVideoSrc(selectedVideo?.movieUrl);
@@ -71,28 +47,26 @@ const Landingpage = () => {
     setExpanded(`panel${videoIndex + 1}`);
   }, [videoIndex, memoizedPlaylistItems]);
 
-  // const togglePlay = () => {
-  //   const video = document.getElementById("Video");
+  const togglePlay = () => {
+    // const video = document.getElementById('Video');
 
-  //   if (video) {
-  //     if (isPlaying) {
-  //       video.pause();
-  //     } else {
-  //       video.play();
-  //     }
-  //     setIsPlaying(!isPlaying);
-  //   }
-  // };
+    if (video.current) {
+      if (isPlaying) {
+        video.current.pause();
+      } else {
+        video.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
 
   const handleVideoClick = () => {
-    const video = document.getElementById('Video');
-
-    if (video) {
-      if (video.paused) {
-        video.play();
+    if (video.current) {
+      if (video.current.paused) {
+        video.current.play();
         setIsPlaying(true);
       } else {
-        video.pause();
+        video.current.pause();
         setIsPlaying(false);
       }
     }
@@ -182,19 +156,19 @@ const Landingpage = () => {
             <Grid item xs={12} lg={6.8} sm={8} md={10} display={'flex'} justifyContent={'flex-end'}>
               <Box className="video_container" style={{ position: 'relative' }}>
                 <video
+                  ref={video}
                   id="Video"
                   width={'100%'}
                   height={'100%'}
                   preload="auto"
                   tabIndex={-1}
                   muted
-                  poster="https://imgs.search.brave.com/iaJfqTOEvF2VKCcCWVs6_5IEJ_GzngyMaD0mrPzSBlM/rs:fit:500:0:0/g:ce/aHR0cDovL3d3dy50/cmF2ZWxjaGFyYWN0/ZXIuY29tL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDE4LzExL2dv/Ymxpbi1mb3Jlc3Qt/MS5qcGc"
+                  src="https://assets.codepen.io/6093409/river.mp4"
+                  poster="https://assets.asana.biz/transform/6699f91d-5b61-41fd-9898-be5c43c8e01a/Its-Time-for-Asana-video-still?io=transform:fill,width:1680&format=webp"
                   onClick={handleVideoClick}
-                >
-                  <source src="https://assets.codepen.io/6093409/river.mp4" type="video/mp4" />
-                </video>
+                ></video>
                 {!isPlaying && (
-                  <div
+                  <Box
                     style={{
                       position: 'absolute',
                       top: '50%',
@@ -202,12 +176,24 @@ const Landingpage = () => {
                       transform: 'translate(-50%, -50%)',
                       cursor: 'pointer'
                     }}
-                    // onClick={togglePlay}
+                    onClick={togglePlay}
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 24 24" fill="white" stroke="#ffffff">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
+                    <Box
+                      sx={{
+                        backgroundColor: '#000000',
+                        borderRadius: '50%',
+                        width: '100px',
+                        height: '100px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="70" height="70" viewBox="0 0 24 24" fill="white" stroke="#ffffff">
+                        <path d="M8 5v14l11-7z" />
+                      </svg>
+                    </Box>
+                  </Box>
                 )}
               </Box>
             </Grid>
@@ -241,14 +227,8 @@ const Landingpage = () => {
       <LandingPageTwo
         scrollToSection={scrollToSection}
         redirect={redirect}
-        videoSrc={videoSrc}
-        posterSrc={posterSrc}
         onPlaylistItemClick={onPlaylistItemClick}
-        memoizedPlaylistItems={memoizedPlaylistItems}
-        expanded={expanded}
         handleChange={handleChange}
-        videoIndex={videoIndex}
-        setVideoIndex={setVideoIndex}
       />
       <LandingPageThree />
       <LandingPageFour />
