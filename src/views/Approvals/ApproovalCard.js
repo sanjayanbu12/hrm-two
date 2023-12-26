@@ -21,6 +21,7 @@ const ApprovalCard = () => {
   const[whologin,setWhologin]=useState("")
   console.log("firstMemberData",firtsMemberCard)
   console.log("secondMemberCard",secondMemberCard)
+  console.log("secondMemberCard",secondLevelApproved)
   const USER_ID = whologin._id;
   console.log("MEMID",USER_ID)
   console.log("WhoLogedIN",whologin._id)
@@ -61,27 +62,29 @@ const ApprovalCard = () => {
     <div className="movie-cards-container">
       <>
       {getProcruitment.map((item, index) => {
-  const isUserAuthorized = USER_ID === firtsMemberCard || USER_ID === secondMemberCard;
-  const isApproved = getProcruitment
-    .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
-    .some(approved => approved);
-    const isFirstApproved = getProcruitment
-    .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
-    .some(approved => approved);
-    const isCardApproved = isFirstApproved && secondLevelApproved;
+        const firstMemberData = item.reportingTo.map(employeeData => employeeData.employee);
+        const secondMemberData = item.SecondRequest.map(employeeData => employeeData.employee);
+        const isUserAuthorized = USER_ID === firstMemberData[0] || USER_ID === secondMemberData[0];
+        
+        const isFirstApproved = item.reportingTo.some(employeeData => employeeData.approved);
+        const isRejected = item.reportingTo.some(employeeData => employeeData.rejected);
+        const isSecondApproved = item.SecondRequest.some(employeeData => employeeData.approved);
+        
+        
+        const isCardApproved = isFirstApproved && isSecondApproved;
+        
 
-  // Check if the conditions for the link to work are met
-  const isLinkAccessible = isUserAuthorized && (!isApproved || USER_ID === secondMemberCard) ||  (!isCardApproved);
-  
-
-  return (
-    <div key={index}>
-      {isUserAuthorized && (
-         <Link to={isLinkAccessible ? `/ApprovalDetails/${index}` : '#'}>
+        // Check if the conditions for the link to work are met
+        const isLinkAccessible = isUserAuthorized && (!isRejected && !isCardApproved || USER_ID === secondMemberData[0]);
+        return (
+          <div key={index}>
+            {isUserAuthorized && (
+              <Link to={isLinkAccessible ? `/ApprovalDetails/${index}` : '#'}>
                 <article className="movie-card" key={index}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px' }}>
-                  <div style={{marginLeft:'20px',color:'#00FF00'}}>
-                    <h2>{isFirstApproved && !secondLevelApproved ? '1st Level Approved' : isCardApproved ? 'Card Approved' : ''}</h2></div><div><h2> ₹{item.approximateBudget}</h2></div>
+                  <div style={{ marginLeft: '20px', color: isRejected ? '#FF0000' : (isFirstApproved || isCardApproved) ? '#00FF00' : '' }}>
+                  <h2>{isRejected ? 'Rejected' : (isFirstApproved && !isSecondApproved) ? '1st Level Approved' : isCardApproved ? 'Card Approved' : ''}</h2>
+                    </div><div><h2> ₹{item.approximateBudget}</h2></div>
                   </div>
                   <div className="content">
                     <h1>{item.productname}</h1>
