@@ -13,14 +13,18 @@ import { useNavigate } from 'react-router-dom';
 const ApprovalDetails = () => {
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const { getProcruitment } = useContext(ApiContext);
+  const navigate=useNavigate();
   const { index } = useParams();
   const[modalOpen,setModalOpen]=useState(false);
   // http://localhost:3001/proc/update-rejected/:id
   const [acceptConfirmModalOpen, setAcceptConfirmModalOpen] = useState(false);
-  const isApproved = getProcruitment
-  .flatMap(data => data.reportingTo.map(employeeData => employeeData.approved))
-  .some(approved => approved);
-const navigate=useNavigate();
+  if (!index) {
+ 
+    return <div>No index provided</div>;
+  }
+  const items = getProcruitment[index];
+  const isApproved = items.reportingTo.some(employeeData => employeeData.approved);
+
 
 
 const handleCloseAcceptConfirmModal = () => {
