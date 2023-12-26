@@ -123,9 +123,18 @@ const FirebaseRegister = () => {
     <div className="signup-wrapper">
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2} sx={{ display: 'flex', justifyContent: 'space-between' }}>
-          <Grid item xs={12} md={12} sm={6} lg={6}>
-            <TextField
-              sx={{ minWidth: '100%' }}
+          <Grid item xs={12} md={12} sm={6} lg={6} style={{paddingTop:"0px"}}>
+            <TextField 
+              sx={{
+                mb: 0,
+                height: '8vh',
+                width:"100%",
+                marginTop: '0px',
+                marginBottom: '20px',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: '4px'
+                }
+              }}
               variant="outlined"
               id="outlined-required"
               label="First Name"
@@ -135,9 +144,18 @@ const FirebaseRegister = () => {
               onChange={(e) => handleFirstname(e)}
             />
           </Grid>
-          <Grid item xs={12} md={12} sm={6} lg={6}>
+          <Grid item xs={12} md={12} sm={6} lg={6} style={{paddingTop:"0px"}}>
             <TextField
-              sx={{ minWidth: '100%' }}
+              sx={{
+                mb: 0,
+                height: '8vh',
+                width:"100%",
+                marginTop: '0px',
+                marginBottom: '20px',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: '4px'
+                }
+              }}
               variant="outlined"
               id="outlined-required"
               label="Last Name"
@@ -147,9 +165,18 @@ const FirebaseRegister = () => {
               onChange={(e) => handleLastNameChange(e)}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{paddingTop:"0px"}}>
             <TextField
-              sx={{ minWidth: '100%' }}
+              sx={{
+                mb: 0,
+                height: '8vh',
+                width:"100%",
+                marginTop: '0px',
+                marginBottom: '20px',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: '4px'
+                }
+              }}
               variant="outlined"
               id="outlined-required"
               label="Email"
@@ -160,9 +187,18 @@ const FirebaseRegister = () => {
               onChange={(e) => handleEmailChange(e)}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{paddingTop:"0px"}}>
             <TextField
-              sx={{ minWidth: '100%' }}
+              sx={{
+                mb: 0,
+                height: '8vh',
+                width:"100%",
+                marginTop: '0px',
+                marginBottom: '20px',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: '4px'
+                }
+              }}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -183,9 +219,18 @@ const FirebaseRegister = () => {
             />
             {password && <PasswordValidator password={password} />}
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{paddingTop:"0px"}}>
             <TextField
-              sx={{ minWidth: '100%' }}
+              sx={{
+                mb: 0,
+                width:"100%",
+                height: '8vh',
+                marginTop: '0px',
+                marginBottom: '20px',
+                '& .MuiOutlinedInput-notchedOutline': {
+                  borderRadius: '4px'
+                }
+              }}
               variant="outlined"
               id="outlined-required"
               label="Confirm Password"
@@ -195,7 +240,7 @@ const FirebaseRegister = () => {
               helperText={passwordMismatchAlert}
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} style={{paddingTop:"0px"}}>
             <AnimateButton>
               <Button
                 onClick={handle}

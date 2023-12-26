@@ -93,6 +93,7 @@ export default function themePalette(theme) {
       paper: colors.paper || '#fff',
       default: colors.backgroundDefault || '#f7f7f7',
     },
+
   };
 
   return palette;
