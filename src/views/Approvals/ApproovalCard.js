@@ -3,7 +3,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import './Approval.css'
+import './Approval.css';
+import image1 from './BackgroundImages/bg-1.jpg';
+import image2 from './BackgroundImages/bg-2.jpg';
+import image3 from './BackgroundImages/bg-3.jpg';
+
 
 const ApprovalCard = () => {
   const { getProcruitment } = useContext(ApiContext);
@@ -25,6 +29,11 @@ const ApprovalCard = () => {
   const USER_ID = whologin._id;
   console.log("MEMID",USER_ID)
   console.log("WhoLogedIN",whologin._id)
+
+  const determineBackgroundImage = (index) => {
+    const images = [image1, image2, image3];
+    return images[index % images.length];
+  };
 
   const fetchEmployee = async () => {
     try {
@@ -76,11 +85,15 @@ const ApprovalCard = () => {
 
         // Check if the conditions for the link to work are met
         const isLinkAccessible = isUserAuthorized && (!isRejected && !isCardApproved || USER_ID === secondMemberData[0]);
-        return (
+        return ( 
           <div key={index}>
-            {isUserAuthorized && (
+            {isUserAuthorized && ( 
               <Link to={isLinkAccessible ? `/ApprovalDetails/${index}` : '#'}>
-                <article className="movie-card" key={index}>
+                <article
+                    className={`movie-card`}
+                    style={{ backgroundImage: `url(${determineBackgroundImage(index)})` }}
+                    key={index}
+                  >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px' }}>
                   <div style={{ marginLeft: '20px', color: isRejected ? '#FF0000' : (isFirstApproved || isCardApproved) ? '#00FF00' : '' }}>
                   <h2>{isRejected ? 'Rejected' : (isFirstApproved && !isSecondApproved) ? '1st Level Approved' : isCardApproved ? 'Card Approved' : ''}</h2>

@@ -23,7 +23,7 @@ const ApprovalDetails = () => {
     return <div>No index provided</div>;
   }
   const items = getProcruitment[index];
-  const isApproved = items.reportingTo.some(employeeData => employeeData.approved);
+  const isApproved = items?.reportingTo.some(employeeData => employeeData.approved);
 
 
 
@@ -38,7 +38,7 @@ const handleAcceptConfirmation = async () => {
       approved:true,
     }));
     const updatedItem = {
-      ...item,
+      ...item, 
       SecondRequest: updatedReportingTo,
     };
     await axios.put(`http://localhost:3001/proc/updatedata/${item._id}`,updatedItem)
@@ -95,9 +95,7 @@ try {
 
   };
    
-
-
-  console.log("index_id",item._id)
+  console.log("index_id",item?._id)
   return (
     <div>
       <StyledContainer title="Procurement Request">
@@ -105,50 +103,51 @@ try {
           <Grid xs={12}>
             <StyledCard>
               <StyledTypography variant="h4">
-                Product Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {item?.productname}
+                Product Name&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {item?.productname?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
-                Specification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.Specification}
+                Specification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.Specification?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
                 Business Justification&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.businessJustification}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.businessJustification?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
                 Quantity&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.quantity}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.quantity?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
                 Approximate Budget&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.approximateBudget}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.approximateBudget?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
                 Priority &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.priority}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.priority?? 'null'}
               </StyledTypography>
 
               <StyledTypography variant="h4">
                 product Link&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.productLink}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href={item?.productLink?? 'null'} target="_blank" rel="noopener noreferrer">{item?.productLink}</a>
               </StyledTypography>
               <StyledTypography variant="h4">
                 Vendor Name &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.vendorName}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.vendorName?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
                 Vendor Number &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.vendorNumber}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.vendorNumber?? 'null'}
               </StyledTypography>
               <StyledTypography variant="h4">
                 Photos &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href={item?.attachments?.url} target="_blank" rel="noopener noreferrer">
-                  {item?.attachments?.url}
+                  {item?.attachments?.url?? 'null'}
                 </a>
               </StyledTypography>
               <StyledTypography variant="h4">
                 createdAt &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.createdAt}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{item?.createdAt ?? 'null'}
               </StyledTypography>
+            
               <>
               <Button
   text

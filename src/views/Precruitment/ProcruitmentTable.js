@@ -7,16 +7,17 @@ import { Modal } from '@material-ui/core';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+// import { ProgressSpinner } from 'primereact/progressspinner';
+// import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 const ProcruitmentTable = () => {
 const[open,setOpen]=useState(false);
 let procData=null
 const { getProcruitment } = useContext(ApiContext);
-useEffect(()=>{
-  procData=getProcruitment
-},[procData])
+useEffect(() => {
+  procData = getProcruitment;
+  console.log('procData:', procData);
+}, [procData]);
 
 // const {procget,setProcget } = useContext(FormSubmittedContext);
 
@@ -28,7 +29,7 @@ const data = getProcruitment.map(item => ({
   approximateBudget: item.approximateBudget,
   createdAt: new Date(item.createdAt).toLocaleDateString(),
   priority: item.priority,
-  status: item.status,  
+  reportingTo: item.reportingTo,  
 }));
 
 const columns = [
@@ -69,16 +70,24 @@ const columns = [
   },
   {
     title: 'Status',
-    field: 'status',
+    field: 'reportingTo',
     render: rowData => {
-      if (rowData.status === 'Pending') {
-        return  <div >
-        <ProgressSpinner style={{width: '30px', height: '30px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
-    </div>;
-      } else if (rowData.status === 'Accepted') {
-        return <DoneOutlineIcon style={{ color: 'green' }} />;
+      const reportingTo = rowData.reportingTo || [];
+      const isPending = reportingTo.every(entry => !entry.approved && !entry.rejected);
+      const isRejected = reportingTo.some(entry => entry.rejected);
+      const isApproved = reportingTo.some(entry => entry.approved);
+      console.log('rowData.reportingTo:', rowData.reportingTo);
+      if (isPending) {
+        return (
+          <div>
+            <div style={{ color: 'green' }}>Pending</div>
+          </div>
+        );
+      } else if (isRejected) {
+        return <div style={{ color: 'red' }}>Rejected</div>;
+      } else if (isApproved) {
+        return <div style={{ color: 'green' }}>Accepted</div>;
       } else {
-        // You can handle other status cases here
         return null;
       }
     },
@@ -92,7 +101,7 @@ const columns = [
   const handleClose=()=>{
     setOpen(false)
   }
-
+  
   return (
     <div>
       <MaterialTable

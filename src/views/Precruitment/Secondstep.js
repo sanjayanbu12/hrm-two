@@ -46,7 +46,7 @@ const Secondstep = ({ setFormData, formData }) => {
 
 
   const isValid = () => {
-    return  !!formData.approximateBudget ;
+    return  !!formData.approximateBudget && formData.priority ;
   };
   
   useEffect(() => {
