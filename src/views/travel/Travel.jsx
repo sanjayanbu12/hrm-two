@@ -19,8 +19,9 @@ const Travel = () => {
     { title: 'Days', field: 'days' },
     { title: 'Budget', field: 'budget' },
     { title: 'Business', field: 'business' },
-    { title: 'Claimtype', field: 'claimtype' },
-    { title: 'Transport', field: 'transport' }
+    // { title: 'Claimtype', field: 'claimtype' },
+    // { title: 'Transport', field: 'transport' },
+    { title: 'Status', field: 'reportingTo' }
   ];
 
   const data = tableData.map((item) => ({
@@ -33,7 +34,8 @@ const Travel = () => {
     budget: item.budget,
     business: item.business,
     claimtype: item.claimtype,
-    transport: item.transport
+    transport: item.transport,
+    reportingTo: item.reportingTo.every((data) => data.approved) ? <div style={{color:'green'}}>Accepted</div> :<div style={{color:'orange'}}>Pending</div> 
   }));
 
   useEffect(() => {
@@ -111,7 +113,7 @@ const Travel = () => {
   return (
     <div>
       <MaterialTable
-        columns={columns}
+     columns={columns}
         data={data}
         title={<div style={{ fontWeight: 'bold', fontSize: '20px' }}>Travel & Expenses</div>}
         actions={[
