@@ -12,8 +12,7 @@ import Button from '@mui/material/Button';
 import { FileUpload } from 'primereact/fileupload';
 import axios from 'axios';
 import FormData from 'form-data';
-// import Swal from 'sweetalert2';
-// import { Select} from '@mui/material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Popup = ({ handleClose }) => {
   const [from, setFrom] = useState('');
@@ -23,11 +22,12 @@ const Popup = ({ handleClose }) => {
   const [days, setDays] = useState('');
   const [budget, setBudget] = useState('');
   const [business, setBusiness] = useState('');
-  const [reportingTo, setReportingTo] = useState([]);
+  const [reportingTo, setReportingTo] = useState('');
   const [claimtype, setClaimtype] = useState('');
   const [transport, setTransport] = useState('');
   const [attachments, setAttachments] = useState([]);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); // Add loading state
 
   const { employeeContextData } = useContext(ApiContext);
   const authId = useSelector((state) => state.customization.authId);
@@ -106,13 +106,13 @@ const Popup = ({ handleClose }) => {
       employee: item._id,
       approved: false
     }));
-    setReportingTo((prevData) => ({ ...prevData, reportingTo: selectedData }));
-    console.log('formDatas', reportingTo);
+    console.log('selectedData', selectedData);
+    setReportingTo(selectedData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formErrors = {};
 
     if (!from.trim()) {
@@ -164,6 +164,11 @@ const Popup = ({ handleClose }) => {
       return;
     }
 
+    if (Object.keys(formErrors).length > 0) {
+      setErrors(formErrors);
+      setLoading(false); // Reset loading state
+      return;
+    }
     try {
       const data = new FormData();
       data.append('employeeid', employeeId);
@@ -197,11 +202,14 @@ const Popup = ({ handleClose }) => {
         setClaimtype('');
         setTransport('');
         setAttachments([]);
+        handleClose();
       } else {
         console.error('Error:', response);
       }
     } catch (error) {
       console.error('Error:', error);
+    } finally {
+      setLoading(false); // Reset loading state regardless of success or failure
     }
   };
 
@@ -397,14 +405,18 @@ const Popup = ({ handleClose }) => {
         </Grid>
 
         <Grid style={{ display: 'flex', justifyContent: 'space-evenly', marginTop: '5px', marginBottom: '0px' }}>
-          <Stack spacing={2} direction="row">
-            <Button onClick={handleClose} variant="text" size="small">
-              Cancel
-            </Button>
-            <Button type="submit" variant="contained" size="small">
-              Submit
-            </Button>
-          </Stack>
+          {loading ? (
+            <CircularProgress size={24} /> // Show loader when loading is true
+          ) : (
+            <Stack spacing={2} direction="row">
+              <Button onClick={handleClose} variant="text" size="small">
+                Cancel
+              </Button>
+              <Button type="submit" variant="contained" size="small">
+                Submit
+              </Button>
+            </Stack>
+          )}
         </Grid>
       </form>
     </div>
