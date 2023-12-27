@@ -49,11 +49,11 @@ const Firststep = ({ setFormData, formData,name,email }) => {
     setFormData({ ...formData, productLink: e.target.value });
   };
   const isValid = () => {
-    return formData.productname;
+    return formData.productname &&formData.Specification && formData.businessJustification && formData.quantity;
   };
   useEffect(() => {
     setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
-  }, [ formData.productname, formData.businessJustification]);
+  }, [ formData.productname, formData.businessJustification,formData.Specification,formData.quantity]);
 
   return (
     <>

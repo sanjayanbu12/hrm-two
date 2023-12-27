@@ -29,7 +29,13 @@ const Finalstep = ({ setFormData, formData }) => {
     setFormData({ ...formData, issues: e.target.value });
   };
  
-
+  const isValid = () => {
+    return  formData.reportingTo  && formData.attachments;
+  };
+  
+  useEffect(() => {
+    setFormData((prevData) => ({ ...prevData, isValid: isValid() }));
+  }, [formData.reportingTo,formData.attachments]);
   return (
     <>
        <Grid sx={{ marginTop: '10px', display: 'flex', justifyContent: 'center', maxWidth: '580px',paddingLeft:'10px',paddingRight:'10px' }} container spacing={1}>
