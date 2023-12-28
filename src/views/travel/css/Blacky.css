@@ -12,7 +12,7 @@
     aspect-ratio: 16/9;
     box-shadow: var(--shadow-lg), var(--shadow-lg), var(--shadow-lg);
     transition: transform var(--transition-duration);
-    background-color: black;
+    /* background-color: black; */
     /* max-width: 4000vw; */
     max-height: 20vw;
     
