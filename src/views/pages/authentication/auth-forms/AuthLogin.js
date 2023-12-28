@@ -150,10 +150,18 @@ const AuthLogin = () => {
       <div>
         <Grid>
           <TextField
-            sx={{ mb: 0, height: '8vh', marginTop: '0px', marginBottom: '20px' }}
-            id="outlined-adornment-email-login"
+            sx={{
+              mb: 0,
+              height: '8vh',
+              marginTop: '0px',
+              marginBottom: '20px',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderRadius: '4px'
+              }
+            }}
+            // id="outlined-adornment-email-login"
             label="Email Address"
-            variant="outlined"
+            // variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -161,7 +169,7 @@ const AuthLogin = () => {
             autoComplete="email"
             placeholder="abc@gmail.com"
             type="email"
-            autoFocus
+            // autoFocus
             value={value1}
             onChange={(e) => handleEmail(e)}
           />
@@ -169,10 +177,16 @@ const AuthLogin = () => {
         <Grid>
           <TextField
             sx={{
+              mb: 0,
               height: '8vh',
-              mb: 2
+              marginTop: '0px',
+              marginBottom: '20px',
+              '& .MuiOutlinedInput-notchedOutline': {
+                borderRadius: '4px'
+              }
             }}
             InputProps={{
+              // startAdornment: <InputAdornment position="start">{/* <PassKeyIcon/> */}</InputAdornment>,
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
@@ -181,8 +195,9 @@ const AuthLogin = () => {
                 </InputAdornment>
               )
             }}
-            id="outlined-adornment-password-login"
+            // id="outlined-adornment-password-login"
             label="Password"
+            // variant="outlined"
             margin="normal"
             required
             fullWidth
@@ -228,12 +243,12 @@ const AuthLogin = () => {
         </Stack>
       )}
       {passwordError && (
-  <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
-    <Alert variant="filled" severity="error">
-      {value2 ? 'Password is incorrect' : 'Please enter your password'}
-    </Alert>
-  </Stack>
-)}
+        <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
+          <Alert variant="filled" severity="error">
+            {value2 ? 'Password is incorrect' : 'Please enter your password'}
+          </Alert>
+        </Stack>
+      )}
 
       {emailNotExistAlert && (
         <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
