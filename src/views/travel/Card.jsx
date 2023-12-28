@@ -4,6 +4,8 @@ import { useSelector } from 'react-redux';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import  img1 from './images/img1.jpg';
+import  img2 from './images/img2.jpg'
 
 
 const Card = () => {
@@ -40,6 +42,11 @@ const Card = () => {
 
   console.log('Approvalsss', travelData);
 
+  const BackgroundImage = (index) => {
+    const images = [img1, img2,];
+    return images[index % images.length];
+  };
+
   return (
     <div className="movie-cards-container">
         {travelData.map((item, index) => {
@@ -51,7 +58,11 @@ const Card = () => {
             <>
               {isCardFor && (
                 <Link to={`/Travelapproval/${index}`} key={index}>
-                  <article className="movie-card" key={index}>
+                 <article
+                    className={`movie-card`}
+                    style={{ backgroundImage: `url(${BackgroundImage(index)})` }}
+                    key={index}
+                  >
                     <div style={{ display: 'flex', justifyContent: 'end', marginRight: '20px', marginTop: '7px' }}>
                       <h2>₹{item.budget}</h2>
                     </div>
