@@ -4,9 +4,9 @@ import ApiContext from 'context/api/ApiContext';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import './Approval.css';
-import image1 from './BackgroundImages/bg-1.jpg';
-import image2 from './BackgroundImages/bg-2.jpg';
-import image3 from './BackgroundImages/bg-3.jpg';
+import image1 from './BackgroundImages/bg-2.jpg';
+import image2 from './BackgroundImages/bg-3.jpg';
+// import image3 from './BackgroundImages/bg-3.jpg';
 
 
 const ApprovalCard = () => {
@@ -31,7 +31,7 @@ const ApprovalCard = () => {
   console.log("WhoLogedIN",whologin._id)
 
   const determineBackgroundImage = (index) => {
-    const images = [image1, image2, image3];
+    const images = [image1, image2];
     return images[index % images.length];
   };
 
@@ -94,8 +94,8 @@ const ApprovalCard = () => {
                     style={{ backgroundImage: `url(${determineBackgroundImage(index)})` }}
                     key={index}
                   >
-                  <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px' }}>
-                  <div style={{ marginLeft: '20px', color: isRejected ? '#FF0000' : (isFirstApproved || isCardApproved) ? '#00FF00' : '' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px',textDecoration: 'none' }}>
+                  <div style={{ marginLeft: '20px', color: isRejected ? '#FF0000' : (isFirstApproved || isCardApproved) ? '#00FF00' : '' ,textDecoration:'none'}}>
                   <h2>{isRejected ? 'Rejected' : (isFirstApproved && !isSecondApproved) ? '1st Level Approved' : isCardApproved ? 'Card Approved' : ''}</h2>
                     </div><div><h2> ₹{item.approximateBudget}</h2></div>
                   </div>
