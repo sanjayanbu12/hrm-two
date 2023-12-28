@@ -7,7 +7,7 @@ import LandingPageThree from './LandingPageThree';
 import LandingPageFour from './LandingPageFour';
 import LandingPageFive from './LandingPageFive';
 // import LandingPageSix from './LandingPageSix';
-import LandingPageSeven from './LandingPageSeven';
+// import LandingPageSeven from './LandingPageSeven';
 // import LandingPageEight from "./LandingPageEight";
 import FooterPage from '../footer/FooterPage';
 import Navbar from '../Navbar/Navbar';
@@ -95,12 +95,12 @@ const Landingpage = () => {
                     component={'p'}
                     lineHeight={1.5}
                   >
-                    See plans, check progress, and discuss work in one place. With Asana as your work manager, you’ll stay on top of
+                    See plans, check progress, and discuss work in one place. With Gestion as your work manager, you’ll stay on top of
                     everything the team’s doing.
                   </Typography>
                 </Grid>
                 <Grid container>
-                  <Grid item display={'flex'} justifyContent={'flex-end'} lg={5} md={5.5} sm={5.5} xs={6.7}>
+                  <Grid item display={'flex'} justifyContent={'flex-end'} lg={4.5} md={5.5} sm={5.5} xs={6.7}>
                     <Link to="/pages/register/register3">
                       <Button
                         variant="contained"
@@ -127,28 +127,30 @@ const Landingpage = () => {
                       </Button>
                     </Link>
                   </Grid>
-                  <Grid item lg={5.5} md={3.5} sm={5.5} gap={2} display={'flex'} justifyContent={'flex-end'}>
-                    <Button
-                      variant="outlined"
-                      disableElevation
-                      disableFocusRipple
-                      disableRipple
-                      disableTouchRipple
-                      sx={{
-                        color: 'black',
-                        padding: '8px 25px',
-                        fontSize: '1rem',
-                        fontWeight: '500',
-                        border: '1px solid #0D0E10',
-                        '&:hover': {
-                          backgroundColor: '#F06A6A',
-                          border: '1px solid #F06A6A',
-                          color: 'black'
-                        }
-                      }}
-                    >
-                      See how it works
-                    </Button>
+                  <Grid item lg={4} md={3.5} sm={5.5} gap={2} display={'flex'} justifyContent={'flex-end'}>
+                    <Link to="/pages/login/login3">
+                      <Button
+                        variant="outlined"
+                        disableElevation
+                        disableFocusRipple
+                        disableRipple
+                        disableTouchRipple
+                        sx={{
+                          color: 'black',
+                          padding: '8px 25px',
+                          fontSize: '1rem',
+                          fontWeight: '500',
+                          border: '1px solid #0D0E10',
+                          '&:hover': {
+                            backgroundColor: '#F06A6A',
+                            border: '1px solid #F06A6A',
+                            color: 'black'
+                          }
+                        }}
+                      >
+                        Log in
+                      </Button>
+                    </Link>
                   </Grid>
                 </Grid>
               </Grid>
@@ -234,7 +236,7 @@ const Landingpage = () => {
       <LandingPageFour />
       <LandingPageFive />
       {/* <LandingPageSix /> */}
-      <LandingPageSeven />
+      {/* <LandingPageSeven /> */}
       {/* <LandingPageEight /> */}
       <FooterPage scrollToSection={scrollToSection} redirect={redirect} expanded={expanded} handleChange={handleChange} />
     </>

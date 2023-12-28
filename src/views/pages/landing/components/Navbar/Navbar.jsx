@@ -10,7 +10,7 @@ import LoginStyle from './Navcomponents/LoginStyle';
 import { Button } from '@mui/material';
 import NavBarMenu from './Navcomponents/NavBarMenu';
 import { Link } from 'react-router-dom';
-import Logo from '../../images/logo.svg';
+import Logo from '../../images/Gestion_Logo.svg';
 import { useNavigate } from 'react-router-dom';
 import { CustomContextHook } from '../usecontext/CustomContextHook';
 
