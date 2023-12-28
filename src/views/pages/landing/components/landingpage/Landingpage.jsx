@@ -95,7 +95,7 @@ const Landingpage = () => {
                     component={'p'}
                     lineHeight={1.5}
                   >
-                    See plans, check progress, and discuss work in one place. With Asana as your work manager, you’ll stay on top of
+                    See plans, check progress, and discuss work in one place. With Gestion as your work manager, you’ll stay on top of
                     everything the team’s doing.
                   </Typography>
                 </Grid>

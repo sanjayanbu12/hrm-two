@@ -9,6 +9,7 @@ import YouTubeIcon from '@mui/icons-material/YouTube';
 import XIcon from '../style/svgs/XIcon';
 import '../Navbar/style.css';
 import FooterImage from '../style/img/25579725_job_instructions.png';
+import Logo from '../../images/Gestion_Logo.svg';
 
 const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
   const navigate = useNavigate();
@@ -29,10 +30,14 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
         <Grid container>
           <Grid item lg={12} marginLeft={'70px'} display={'flex'} gap={10}>
             <Grid item>
-              <Typography>Logo</Typography>
+              <Box>
+                <img src={Logo} alt="" />
+              </Box>
             </Grid>
             <Grid item display={'flex'} flexDirection={'column'} flexBasis={'100px'} gap={2}>
-              <Typography fontSize={'15px'} marginBottom={'20px'}>Gestion</Typography>
+              <Typography fontSize={'15px'} marginBottom={'20px'}>
+                Gestion
+              </Typography>
               <ButtonBase
                 disableRipple
                 href="#"
@@ -56,7 +61,9 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
               </ButtonBase>
             </Grid>
             <Grid item display={'flex'} flexDirection={'column'} flexBasis={'100px'} gap={2}>
-              <Typography fontSize={'15px'} marginBottom={'20px'}>About Us</Typography>
+              <Typography fontSize={'15px'} marginBottom={'20px'}>
+                About Us
+              </Typography>
               <ButtonBase
                 href="https://snssquare.com/"
                 disableRipple
@@ -73,7 +80,9 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
               </ButtonBase>
             </Grid>
             <Grid item display={'flex'} flexDirection={'column'} gap={2}>
-              <Typography fontSize={'15px'} marginBottom={'20px'}>Workflow</Typography>
+              <Typography fontSize={'15px'} marginBottom={'20px'}>
+                Workflow
+              </Typography>
               <ButtonBase
                 disableRipple
                 expanded={expanded === 'panel1'}
@@ -130,7 +139,7 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
                   scrollToSection(event, redirect, 4);
                 }}
                 key={4}
-                sx={{ fontSize: '17px', display: 'flex', justifyContent: 'flex-start', '&:hover': { color: '#F06A6A' } }}
+                sx={{ fontSize: '17px', display: 'flex', justifyContent: 'flex-start', '&:hover': { color: '#F06A6A' }, textAlign: 'left' }}
               >
                 Travel & Expense
               </ButtonBase>

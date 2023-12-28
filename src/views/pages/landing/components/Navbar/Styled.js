@@ -54,7 +54,8 @@ export const SecondContainers = styled.div`
   top: 52px;
   width: 100%;
   background-color: #eeeeee;
-  
+  overflow-x: hidden;
+
   @media screen and (max-width: 1000px) {
     height: 100%;
     top: 0px;
@@ -62,7 +63,7 @@ export const SecondContainers = styled.div`
 `;
 
 export const StyledTab = styled(Tab)`
- .Mui-selected {  
+  .Mui-selected {
     color: white !important;
   }
 `;
@@ -71,4 +72,11 @@ export const StyledTablist = styled(TabList)`
   .MuiTabs-indicator {
     background-color: #fff !important;
   }
+`;
+
+export const DashboardContainer = styled.div`
+  height: 100vh;
+  background-color: black;
+  width: 100%;
+  overflow-x: hidden;
 `;
