@@ -202,14 +202,14 @@ const Popup = ({ handleClose }) => {
         setClaimtype('');
         setTransport('');
         setAttachments([]);
-        handleClose();
       } else {
         console.error('Error:', response);
       }
+      handleClose();
     } catch (error) {
       console.error('Error:', error);
     } finally {
-      setLoading(false); // Reset loading state regardless of success or failure
+      setLoading(false);
     }
   };
 
