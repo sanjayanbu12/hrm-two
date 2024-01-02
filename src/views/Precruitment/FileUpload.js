@@ -92,14 +92,13 @@ export default function TemplateDemo({ onFileSelect }) {
     };
 
     const headerTemplate = (options) => {
-        const { className, chooseButton, uploadButton, cancelButton } = options;
+        const { className, chooseButton, cancelButton } = options;
         const value = totalSize / 10000;
         const formatedValue = fileUploadRef && fileUploadRef.current ? fileUploadRef.current.formatSize(totalSize) : '0 B';
 
         return (
             <div className={className} style={{ backgroundColor: 'transparent', display: 'flex', alignItems: 'center' }}>
                 {chooseButton}
-                {uploadButton}
                 {cancelButton}
                 <div className="flex align-items-center gap-3 ml-auto">
                     <span>{formatedValue} / 1 MB</span>
@@ -152,7 +151,7 @@ export default function TemplateDemo({ onFileSelect }) {
     
 
     const chooseOptions = { icon: 'pi pi-fw pi-images', iconOnly: true, className: 'custom-choose-btn p-button-rounded p-button-outlined' };
-    const uploadOptions = { icon: 'pi pi-fw pi-cloud-upload', iconOnly: true, className: 'custom-upload-btn p-button-success p-button-rounded p-button-outlined' };
+    // const uploadOptions = {  iconOnly: false };
     const cancelOptions = { icon: 'pi pi-fw pi-times', iconOnly: true, className: 'custom-cancel-btn p-button-danger p-button-rounded p-button-outlined' };
    
     return (
@@ -165,7 +164,7 @@ export default function TemplateDemo({ onFileSelect }) {
             <FileUpload ref={fileUploadRef} name="attachments"   maxFileSize={1000000}
                 onUpload={onTemplateUpload} onSelect={onTemplateSelect} onError={onTemplateClear} onClear={onTemplateClear}
                 headerTemplate={headerTemplate} itemTemplate={itemTemplate} emptyTemplate={emptyTemplate}
-                chooseOptions={chooseOptions} uploadOptions={uploadOptions} cancelOptions={cancelOptions}  style={{ height:'250px', overflowY: 'auto' }} />
+                chooseOptions={chooseOptions}  cancelOptions={cancelOptions}  style={{ height:'250px', overflowY: 'auto' }} />
         </div>
     )
 }
