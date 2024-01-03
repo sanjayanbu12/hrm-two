@@ -13,12 +13,10 @@ const Features = () => {
   const handleClick = (event, popperName) => {
     if (openPopper === popperName) {
       setOpenPopper(null);
-      document.body.style.overflow = 'unset';
       handleChange();
     } else {
       setAnchorEl(event.currentTarget);
       setOpenPopper(popperName);
-      document.body.style.overflow = 'hidden';
     }
   };
 
@@ -33,31 +31,7 @@ const Features = () => {
     <>
     <Box className="Features-hide">
           <TabContext value={value}>
-          <StyledTablist  value="2" onChange={handleChange} aria-label="lab API tabs example">
-      {/* <Button
-        variant="contained"
-        onClick={(e) => {handleClick(e , "Features")}}
-        // isButtonClicked={openPopper}
-        disableElevation
-        disableFocusRipple
-        disableRipple
-        disableTouchRipple
-        endIcon={<KeyboardArrowDownIcon className="Arrow-down2" htmlColor="rgb(128, 128, 128)" />}
-        sx={{
-          textTransform: 'none',
-          fontSize: "1rem",
-          fontWeight: "600",
-          fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-          background:"none",
-          color: "rgba(255, 255, 255, .8)",
-          "&:hover": {
-            background: "none",
-            color: "rgba(255, 255, 255, 1)",
-          },
-        }}
-      >
-        Features
-      </Button> */}
+          <StyledTablist style={{width:"82px"}} value="2" onChange={handleChange}>
             <StyledTab
               disableRipple
               sx={{

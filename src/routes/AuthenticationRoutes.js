@@ -4,6 +4,7 @@ import { lazy } from 'react';
 import Loadable from 'ui-component/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
 import Context from 'views/pages/landing/components/usecontext/Context';
+import AccountSettingV2 from 'views/accountsetting/accountSettingV2/AccountSettingV2';
 
 // login option 3 routing
 const LandingPage = Loadable(lazy(() => import('views/pages/landing/components/landingpage/Landingpage')));
@@ -24,6 +25,12 @@ const AuthenticationRoutes = {
         <Context>
           <LandingPage />
         </Context>
+      )
+    },
+    {
+      path: '/accountsettingv2',
+      element: (
+        <AccountSettingV2 />
       )
     },
     {

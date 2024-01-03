@@ -18,7 +18,7 @@ const WhyHrm = () => {
     } else {
       setAnchorEl(event.currentTarget);
       setOpenPopper(popperName);
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflowX = 'hidden';
     }
   };
 
@@ -33,36 +33,7 @@ const WhyHrm = () => {
     <>
       <Box className="WhrHrm-Hide">
         <TabContext value={value}>
-          <StyledTablist
-            sx={{ marginRight: '20px', marginLeft: '20px' }}
-            value="1"
-            onChange={handleChange}
-            aria-label="lab API tabs example"
-          >
-            {/* <Button
-              variant="contained"
-              onClick={(e) => handleClick(e, 'WhyHrm')}
-              // isButtonClicked ={openPopper}
-              disableElevation
-              disableFocusRipple
-              disableRipple
-              disableTouchRipple
-              endIcon={<KeyboardArrowDownIcon className="Arrow-down" htmlColor="rgb(128, 128, 128)" />}
-              sx={{
-                textTransform: 'none',
-                fontSize: '1rem',
-                fontWeight: '600',
-                fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-                background: 'none',
-                color: 'rgba(255, 255, 255, .8)',
-                '&:hover': {
-                  background: 'none',
-                  color: 'rgba(255, 255, 255, 1)'
-                }
-              }}
-            >
-              Why Gestion?
-            </Button> */}
+          <StyledTablist sx={{ marginLeft: '20px' }} value="1" onChange={handleChange}>
             <StyledTab
               disableRipple
               sx={{
