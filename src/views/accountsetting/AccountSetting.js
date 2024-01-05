@@ -398,13 +398,13 @@ const AccountSetting = () => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                         <Box>
-                          <AccountBoxIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
-                          <Box component={'span'} style={{ marginLeft: '10px' }}>
+                          <AccountBoxIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="black" />
+                          <Box component={'span'} style={{ marginLeft: '10px' }} color={'black'}>
                             Profile Base
                           </Box>
                         </Box>
                         <Box>
-                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
+                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="black" />
                         </Box>
                       </Box>
                     }
@@ -416,13 +416,13 @@ const AccountSetting = () => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                         <Box>
-                          <PasswordIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
-                          <Box component={'span'} style={{ marginLeft: '10px' }}>
+                          <PasswordIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="black" />
+                          <Box component={'span'} style={{ marginLeft: '10px' }} color={'black'}>
                             Password
                           </Box>
                         </Box>
                         <Box>
-                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
+                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="black" />
                         </Box>
                       </Box>
                     }
@@ -474,7 +474,7 @@ const AccountSetting = () => {
                 <CustomImageStyle src={avatarImage} />
               </CustomImageContainer>
               <Grid ref={hideButton} marginLeft={'25px'} marginTop={'10px'}>
-                <Button onClick={handleDeleteAvatar} disableRipple color="error">
+                <Button onClick={handleDeleteAvatar} disableRipple sx={{ color: 'red' }}>
                   Delete Image
                 </Button>
               </Grid>
