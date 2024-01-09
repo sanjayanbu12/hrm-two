@@ -87,8 +87,8 @@ const LandingPageTwo = ({ redirect, onPlaylistItemClick, handleChange }) => {
   return (
     <>
       <SecondContainers ref={redirect}>
-        <Container style={{ paddingLeft: '0px', paddingRight: '0px' }}>
-          <Grid container gap={11} className="Desktop-only">
+        <Container style={{ paddingLeft: '0px', paddingRight: '0px', overFlow: 'hidden' }}>
+          <Grid container gap={11}  className="Desktop-only">
             <Grid item lg={6} md={10}>
               <video
                 ref={videoRef}
@@ -217,6 +217,9 @@ const LandingPageTwo = ({ redirect, onPlaylistItemClick, handleChange }) => {
       </SecondContainers>
       <style>
         {`
+        .css-110jczz{
+          overflow: hidden !important;
+        }
           @media (max-width: 1000px) {
             .Desktop-only{
               display:flex;
@@ -224,6 +227,7 @@ const LandingPageTwo = ({ redirect, onPlaylistItemClick, handleChange }) => {
               margin-top:40px;
               gap:20px;
             }
+            
           }
         `}
       </style>

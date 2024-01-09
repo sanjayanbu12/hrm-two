@@ -61,7 +61,19 @@ export const SecondContainers = styled.div`
     top: 0px;
   }
 `;
+export const FooterContainers = styled.div`
+  display: flex;
+  height: calc(100vh - 110px);
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  overflow-x: hidden;
 
+  @media screen and (max-width: 1000px) {
+    height: 100%;
+    top: 0px;
+  }
+`;
 export const StyledTab = styled(Tab)`
   .Mui-selected {
     color: white !important;
