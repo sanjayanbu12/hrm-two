@@ -47,7 +47,7 @@ export const PasswordToggle = styled.div`
 
 export const SaveButton = styled.button`
   margin-top: 20px;
-  width: 400px;
+  width: 350px;
   height: 40px;
   border-radius: 7px;
   border: 0.1px ridge lightgrey;
@@ -73,6 +73,7 @@ export const Indicator = styled(Tabs)`
   .MuiTabs-indicator {
     height: 35px !important;
     left: 0;
+    top: auto 6px !important;
   }
 
   .MuiTab-root {
@@ -101,6 +102,7 @@ export const SelectIcon = styled.div`
   transform: translate(-50%, -50%);
   font-size: 24px;
   color: #000;
+  z-index: 999;
   cursor: pointer;
   &:hover {
     color: #ffd84f;

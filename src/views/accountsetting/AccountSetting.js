@@ -1,14 +1,7 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Avatar, Box, Button, Typography } from '@mui/material';
 import { React, useState, useContext } from 'react';
 import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
-import {
-  TopBarText,
-  TopBarSubText,
-  Indicator,
-  SelectIcon,
-  CustomImageContainer,
-  CustomImageStyle
-} from './accountSettingV2/AccountSettingStyled';
+import { TopBarSubText, Indicator, SelectIcon, CustomImageContainer, CustomImageStyle } from './accountSettingV2/AccountSettingStyled';
 import Grid from '@mui/material/Unstable_Grid2';
 import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
@@ -180,9 +173,9 @@ const AccountSetting = () => {
 
   const handleDeleteAvatar = async () => {
     try {
-      // await axios.delete(`https://hrm-backend-square.onrender.com/api/profilepic/${id}`);
+      await axios.delete(`http://localhost:3001/api/deleteProfile/${id}`);
+      
       setStatus(!formStatus);
-      setAvatarImage(null);
     } catch (error) {
       console.log('Error deleting image', error);
     }
@@ -375,8 +368,8 @@ const AccountSetting = () => {
   return (
     <>
       <Box sx={{ overflowX: 'hidden' }}>
-        <TopBarText> Account Settings </TopBarText>
-        <Grid container wrap="nowrap">
+        {/* <TopBarText> Account Settings </TopBarText> */}
+        <Grid container wrap="nowrap" marginTop={'30px'}>
           <Grid xs={5.1} lg={5.1}>
             <TopBarSubText>Account</TopBarSubText>
           </Grid>
@@ -398,7 +391,7 @@ const AccountSetting = () => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                         <Box>
-                          <AccountBoxIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="black" />
+                          <AccountBoxIcon style={{ verticalAlign: 'middle' }} htmlColor="black" />
                           <Box component={'span'} style={{ marginLeft: '10px' }} color={'black'}>
                             Profile Base
                           </Box>
@@ -416,7 +409,7 @@ const AccountSetting = () => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                         <Box>
-                          <PasswordIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="black" />
+                          <PasswordIcon style={{ verticalAlign: 'middle' }} htmlColor="black" />
                           <Box component={'span'} style={{ marginLeft: '10px' }} color={'black'}>
                             Password
                           </Box>
@@ -436,7 +429,7 @@ const AccountSetting = () => {
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                     <Box>
-                      <LogoutIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="red" />
+                      <LogoutIcon fontSize="medium" style={{ verticalAlign: 'middle' }} htmlColor="red" />
                       <Box onClick={handleLogout} component={'span'} style={{ marginLeft: '10px', color: 'red', cursor: 'pointer' }}>
                         Log Out
                       </Box>
@@ -471,7 +464,9 @@ const AccountSetting = () => {
                     <AddAPhotoIcon />
                   </SelectIcon>
                 </label>
-                <CustomImageStyle src={avatarImage} />
+                <div style={{ width: '150px', height: '150px' }}>
+                  {avatarImage === undefined ? <Avatar style={{ width: '150px', height: '150px' }} /> : <CustomImageStyle src={avatarImage} />}
+                </div>
               </CustomImageContainer>
               <Grid ref={hideButton} marginLeft={'25px'} marginTop={'10px'}>
                 <Button onClick={handleDeleteAvatar} disableRipple sx={{ color: 'red' }}>

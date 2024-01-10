@@ -3,9 +3,10 @@ import { React, useState, useEffect, useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 import Grid from '@mui/material/Unstable_Grid2';
-import { StyledSmallText, InputText, SaveButton } from './AccountSettingStyled';
+import { SaveButton } from './AccountSettingStyled';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
+import { TextField } from '@mui/material';
 
 const ProfileBase = () => {
   const user = useSelector((state) => state.customization.authId);
@@ -66,36 +67,79 @@ const ProfileBase = () => {
       <Box>
         <Grid container flexDirection={'column'}>
           <Grid xs={12}>
-            <StyledSmallText>First Name</StyledSmallText>
-            <InputText value={name} onChange={(e) => setfirstName(e.target.value)} type="text" />
+            {/* <StyledSmallText>First Name</StyledSmallText>
+            <InputText value={name} onChange={(e) => setfirstName(e.target.value)} type="text" /> */}
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="First Name"
+              value={name}
+              style={{ width: '350px', marginTop: '8px' }}
+              onChange={(e) => setfirstName(e.target.value)}
+              type="text"
+            />
           </Grid>
           <Grid xs={12}>
-            <StyledSmallText style={{ marginTop: '10px' }}>Last Name</StyledSmallText>
-            <InputText value={lastname} onChange={(e) => setLastName(e.target.value)} type="text" />
+            {/* <StyledSmallText style={{ marginTop: '10px' }}>Last Name</StyledSmallText> */}
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Last Name"
+              value={lastname}
+              style={{ width: '350px', marginTop: '20px' }}
+              onChange={(e) => setLastName(e.target.value)}
+              type="text"
+            />
           </Grid>
           <Grid xs={12}>
-            <StyledSmallText style={{ marginTop: '10px' }}>E-mail</StyledSmallText>
-            <InputText value={email} type="text" disabled="disabled" />
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="E-mail"
+              value={email}
+              style={{ width: '350px', marginTop: '20px' }}
+              onChange={(e) => setLastName(e.target.value)}
+              type="text"
+              disabled
+            />
           </Grid>
           <Grid xs={12}>
-            <StyledSmallText style={{ marginTop: '10px' }}>Employee Id</StyledSmallText>
-            <InputText value={empId} type="text" disabled="disabled" />
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Employee Id"
+              value={empId}
+              style={{ width: '350px', marginTop: '20px' }}
+              onChange={(e) => setLastName(e.target.value)}
+              type="text"
+              disabled
+            />
           </Grid>
           <Grid xs={12}>
-            <StyledSmallText style={{ marginTop: '10px' }}>Department</StyledSmallText>
-            <InputText value={department} type="text" disabled="disabled" />
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Department"
+              value={department}
+              style={{ width: '350px', marginTop: '20px' }}
+              onChange={(e) => setLastName(e.target.value)}
+              disabled
+              type="text"
+            />
           </Grid>
           <Grid xs={12}>
-            <StyledSmallText style={{ marginTop: '10px' }}>Phone No</StyledSmallText>
-            <InputText
+            <TextField
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Phone No"
               value={mob}
+              style={{ width: '350px', marginTop: '20px' }}
               onChange={(e) => {
                 let inputText = e.target.value.replace(/\D/g, '');
                 if (inputText.length <= 10) {
                   setPhone(inputText);
                 }
               }}
-              style={{ marginTop: '10px' }}
               type="text"
             />
           </Grid>
