@@ -2,68 +2,98 @@ import { React, useState } from 'react';
 import Grid from '@mui/material/Unstable_Grid2';
 import { Box } from '@mui/system';
 import { SaveButton } from './AccountSettingStyled';
-// import Alert from '@mui/material/Alert';
-// import Stack from '@mui/material/Stack';
-// import { useContext } from 'react';
-// import ApiContext from 'context/api/ApiContext';
 import axios from 'axios';
-import { IconButton, InputAdornment, TextField } from '@mui/material';
+import { Alert, CircularProgress, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import { useContext } from 'react';
+import { useEffect } from 'react';
+import ApiContext from 'context/api/ApiContext';
+import { useSelector } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
 
 const ChangePassword = () => {
-  // const [value1, setvalue1] = useState('');
-  // const [value2, setvalue2] = useState('');
-  // const [value3, setvalue3] = useState('');
-  // const [error, seterror] = useState({});
   const [showPassword, setShowPassword] = useState(false);
-  const [newShowPassword , setNewShowPassword] = useState(false);
-  const [email , setemail] = useState('');
-  const [password , setpassword] = useState('');
-  const [newpassword , setnewpassword] = useState('');
-  // const [emptyFieldsAlert, setEmptyFieldsAlert] = useState(false);
-  // const [emailValidationAlert, setEmailValidationAlert] = useState(false);
-  // const [passwordError, setPasswordError] = useState(false);
-  // const [emailNotVerifiedAlert, setEmailNotVerifiedAlert] = useState(false);
-  // const [emailNotExistAlert, setEmailNotExistAlert] = useState(false);
+  const [newShowPassword, setNewShowPassword] = useState(false);
+  const [showemail, setShowemail] = useState('');
+  const [password, setpassword] = useState('');
+  const [oldPassword, setOldPassword] = useState('');
+  const [newpassword, setnewpassword] = useState('');
+  const [confirmNewpassword, setConfirmNewpassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { employeeContextData } = useContext(ApiContext);
+  const user = useSelector((state) => state.customization.authId);
+  const [passwordError, setPasswordError] = useState(false);
+  const [passwordMissmatchError, setPasswordMissMatchError] = useState('');
 
-  // const navigate = useNavigate();
-  // const { setloggedUserData } = useContext(ApiContext);
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const response = await employeeContextData;
+        const allEmployeeData = response.data;
+        const specificEmployee = allEmployeeData.find((emp) => emp.employeeid === user);
+        setShowemail(specificEmployee.email);
+      } catch (error) {
+        console.log('error: ', error);
+      }
+    };
+    fetchdata();
+  }, [employeeContextData]);
 
-  const handelemail = (e) =>{
-    setemail(e.target.value)
-  }
+  const handelpassword = (e) => {
+    setpassword(e.target.value);
+  };
 
-  const handelpassword = (e) =>{
-    setpassword(e.target.value)
-  }
+  const handelnewpassword = (e) => {
+    setnewpassword(e.target.value);
+  };
 
-  const handelnewpassword = (e) =>{
-    setnewpassword(e.target.value)
-  }
-  
-  const submitchangepassword = async () =>{
+  const handelconfirmnewpassword = (e) => {
+    setConfirmNewpassword(e.target.value);
+  };
+
+  const submitchangepassword = async () => {
+    setIsLoading(true);
+
+    if (!password) {
+      setIsLoading(false);
+      setPasswordError(true);
+      return;
+    } else {
+      setPasswordError(false);
+    }
+
+    if (confirmNewpassword !== newpassword) {
+      setPasswordMissMatchError('Passwords do not match');
+      setIsLoading(false);
+      return;
+    }
+    setPasswordMissMatchError('');
+
     try {
       const alldata = {
-        email,
+        email: showemail,
         password,
         newpassword
+      };
+
+      const res = await axios.put('http://localhost:3001/auth/updatenewpassword', alldata);
+      if (res.status === 200) {
+        location.reload();
+        toast.success(res.data.message);
       }
-
-      const res = await axios.put('http://localhost:3001/auth/updatenewpassword',alldata)
-      console.log('im here...')
-if(res.status ===200){
-     setemail(" ");
-     setpassword(" ");
-     setnewpassword(" ")
-}
+      setIsLoading(false);
     } catch (error) {
-      setemail("");
-     setpassword("");
-     setnewpassword("")
-      console.error("error: ",error)
-    }     
-  }
+      console.error('error: ', error);
+      if (error.response && error.response.status === 400) {
+        toast.error('Incorrect password. Please try again.');
+      }
+      setIsLoading(false);
+    }
+  };
 
+  const toggleOldPasswordVisibility = () => {
+    setOldPassword((x) => !x);
+  };
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
   };
@@ -78,139 +108,82 @@ if(res.status ===200){
           <Grid xs={12}>
             <TextField
               labelId="demo-simple-select-label"
-              name="email"
+              name="password"
               id="demo-simple-select"
-              label="E-mail"
-              autoComplete="email"
-              placeholder="abc@gmail.com"
-              style={{ width: '350px', fontFamily: "'Poppins', sans-serif" }}
-              onChange={(e) => handelemail(e)}
-              type="email"
+              label="Old Password"
+              autoComplete="current-password"
+              placeholder="Enter your password"
+              style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
+              onChange={(e) => handelpassword(e)}
+              type={oldPassword ? 'text' : 'password'}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={toggleOldPasswordVisibility} edge="end" aria-label="toggle password visibility">
+                      {oldPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
             />
-            {/* <InputText
-              name="email"
-              autoComplete="email"
-              placeholder="abc@gmail.com"
-              type="email"
-              value={value1}
-              onChange={(e) => handleEmail(e)}
-            /> */}
           </Grid>
           <Grid xs={12}>
-            {/* <StyledSmallText style={{ marginTop: '10px' }}>Current Password</StyledSmallText> */}
-              <TextField
-                labelId="demo-simple-select-label"
-                name="password"
-                id="demo-simple-select"
-                label="Current Password"
-                autoComplete="current-password"
-                placeholder="Enter your password"
-                // error={error && error.password}
-                style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
-                onChange={(e) => handelpassword(e)}
-                type={showPassword ? 'text' : 'password'}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
-                        {showPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-              {/* <InputText
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
-                autoComplete="current-password"
-                error={error && error.password}
-                value={value2}
-                onChange={(e) => handlePass(e)}
-              /> */}
-             
+            <TextField
+              labelId="demo-simple-select-label"
+              name="password"
+              id="demo-simple-select"
+              label="New Password"
+              placeholder="Enter your password"
+              style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
+              onChange={(e) => handelnewpassword(e)}
+              type={newShowPassword ? 'text' : 'password'}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={toggleNewPasswordVisibility} edge="end" aria-label="toggle password visibility">
+                      {newShowPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
+          </Grid>
+          <ToastContainer />
+          <Grid xs={12}>
+            <TextField
+              labelId="demo-simple-select-label"
+              name="password"
+              id="demo-simple-select"
+              label="Confirm New Password"
+              placeholder="Enter your password"
+              style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
+              onChange={(e) => handelconfirmnewpassword(e)}
+              error={passwordMissmatchError !== ''}
+              helperText={passwordMissmatchError}
+              type={showPassword ? 'text' : 'password'}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={togglePasswordVisibility} edge="end" aria-label="toggle password visibility">
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                )
+              }}
+            />
           </Grid>
           <Grid xs={12}>
-            {/* <StyledSmallText style={{ marginTop: '10px' }}>New Password</StyledSmallText> */}
-            {/* <Box style={{ position: 'relative' }}> */}
-              <TextField
-                labelId="demo-simple-select-label"
-                name="password"
-                id="demo-simple-select"
-                label="New Password"
-                placeholder="Enter your password"
-                style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
-                onChange={(e) => handelnewpassword(e)}
-                type={newShowPassword ? 'text' : 'password'}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton onClick={toggleNewPasswordVisibility} edge="end" aria-label="toggle password visibility">
-                        {newShowPassword ? <Visibility /> : <VisibilityOff />}
-                      </IconButton>
-                    </InputAdornment>
-                  )
-                }}
-              />
-              {/* <InputText
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Enter your password"
-                autoComplete="current-password"
-                error={error && error.password}
-                value={value3}
-                onChange={(e) => handleNewPass(e)}
-              /> */}
-              {/* <PasswordToggle onClick={togglePasswordVisibility}>
-                {showPassword ? (
-                  <VisibilityIcon style={{ verticalAlign: 'middle' }} />
-                ) : (
-                  <VisibilityOffIcon style={{ verticalAlign: 'middle' }} />
-                )}
-              </PasswordToggle>
-            </Box> */}
-          </Grid>
-          <Grid xs={12}>
-            <SaveButton onClick={submitchangepassword} type="submit">
-              Change Password
+            <SaveButton disabled={isLoading} onClick={() => submitchangepassword()} type="submit">
+              {isLoading ? <CircularProgress style={{ verticalAlign: 'middle' }} size={24} /> : 'Change Password'}
             </SaveButton>
           </Grid>
-          {/* {emptyFieldsAlert && (
-            <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
-              <Alert sx={{ mt: '20px' }} variant="filled" severity="error">
-                Please enter email and password
-              </Alert>
-            </Stack>
-          )}
-          {emailValidationAlert && (
-            <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
-              <Alert variant="filled" severity="error">
-                Please enter your email.
-              </Alert>
-            </Stack>
-          )}
           {passwordError && (
             <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
               <Alert variant="filled" severity="error">
-                {value2 ? 'Password is incorrect' : 'Please enter your password'}
+                {password ? 'Password is incorrect' : 'Please enter your password'}
               </Alert>
             </Stack>
           )}
-
-          {emailNotExistAlert && (
-            <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
-              <Alert variant="filled" severity="error">
-                Email Id doesn&apos;t exist. Please SignUp
-              </Alert>
-            </Stack>
-          )}
-          {emailNotVerifiedAlert && (
-            <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
-              <Alert variant="filled" severity="error">
-                Email is not verified. Please verify your email first.
-              </Alert>
-            </Stack>
-          )} */}
         </Grid>
       </Box>
     </>

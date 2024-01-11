@@ -80,6 +80,10 @@ export const Indicator = styled(Tabs)`
     padding: 0px 16px;
     align-items: flex-start;
   }
+
+  .css-np8rp3-MuiButtonBase-root-MuiTab-root {
+    min-height: 40px;
+  }
 `;
 
 export const CustomImageContainer = styled.div`

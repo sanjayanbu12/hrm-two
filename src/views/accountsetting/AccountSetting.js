@@ -173,8 +173,7 @@ const AccountSetting = () => {
 
   const handleDeleteAvatar = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/deleteProfile/${id}`);
-      
+      await axios.delete(`http://localhost:3001/api/deleteProfile/${id}`);     
       setStatus(!formStatus);
     } catch (error) {
       console.log('Error deleting image', error);
