@@ -46,6 +46,9 @@ import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
 import Travel from 'views/travel/Travel'
+import Admin from 'views/admin/AdminConsole';
+import AdminManager from 'views/admin/ManageAdmins';
+import YetTo from 'views/admin/YetTo';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -239,9 +242,16 @@ const MainRoutes = {
     ,{
       path:'/Procruitment',
       element:<ProcruitmentTable />
+    },{
+      path:'/AdminConsole',
+      element:<Admin />
+    },{
+      path:'/AdminManager',
+      element:<AdminManager />
+    },{
+      path:'/Admin',
+      element:<YetTo />
     }
-
-    
   ]
 };
 
