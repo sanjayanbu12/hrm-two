@@ -46,6 +46,8 @@ import Travel from 'views/travel/Travel'
 import Card from 'views/travel/Card'
 import Travelapproval from 'views/travel/Travelapproval';
 import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
+import ApproovalCard from 'views/Approvals/ApproovalCard';
+import ApprovalDetails from 'views/Approvals/ApprovalDetails';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -253,6 +255,7 @@ const MainRoutes = {
     },{
       path: '/ApprovalDetails/:index', 
       element: <ApprovalDetails />,
+      
     }
 
 
