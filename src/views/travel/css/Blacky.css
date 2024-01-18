@@ -1,4 +1,4 @@
-.movie-card {
+.flim-card {
     --transition-duration: 700ms;
     color: white;
     position: relative;
@@ -40,7 +40,7 @@
     object-position: center;
   }
   
-  .content {
+  .movie {
     z-index: 1;
     position: absolute;
     bottom: min(2.5em, 6vmin);
@@ -75,7 +75,7 @@
     }
   }
   
-  .synopsis {
+  .para {
    
     font-size: 0.8em;
     line-height: 1.4;
@@ -87,7 +87,7 @@
 
   }
   
-  .icons {
+  .symbols {
     display: flex;
     gap: 0.5em;
   
@@ -100,19 +100,19 @@
     }
   }
   
-  .movie-card:hover {
+  .flim-card:hover {
     transform: scale(1.03);
   
     img {
       transform: scale(1.03);
     }
   
-    .synopsis {
+    .para {
       transition-duration: var(--transition-duration);
       transition-delay: calc(var(--transition-duration) / 3);
     }
   
-    .icons svg {
+    .symbols svg {
       &:nth-child(1) {
         transition-delay: calc(var(--transition-duration) / 1.8);
       }
@@ -125,21 +125,21 @@
     }
   }
   
-  .movie-card:not(:hover) {
-    .synopsis {
+  .flim-card:not(:hover) {
+    .para {
       opacity: 0;
       transform: translateY(1em);
     }
-    .icons svg {
+    .symbols svg {
       opacity: 0;
       transform: translateY(50%);
     }
-    .content {
+    .movie {
       transform: translateY(calc(100% - 4.5em));
     }
   }
 
-  .movie-cards-container {
+  .flim-cards-container {
   display: flex;
   gap: 50px;
   flex-wrap: wrap; /* Allows cards to wrap to the next line if they exceed the container width */

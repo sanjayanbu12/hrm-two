@@ -47,7 +47,7 @@ const Card = () => {
   };
 
   return (
-    <div className="movie-cards-container">
+    <div className="flim-cards-container">
         {travelData.map((item, index) => {
           const reportingid = item.reportingTo.map((data) => data.employee);
           console.log('reportingto', reportingid[0]);
@@ -58,14 +58,14 @@ const Card = () => {
               {isCardFor && (
                 <Link to={`/Travelapproval/${index}`} key={index}>
                  <article
-                    className={`movie-card`}
+                    className={`flim-card`}
                     style={{ backgroundImage: `url(${BackgroundImage(index)})` }}
                     key={index}
                   >
                     <div style={{ display: 'flex', justifyContent: 'end', marginRight: '20px', marginTop: '7px' }}>
                       <h2>₹{item.budget}</h2>
                     </div>
-                    <div className="content">
+                    <div className="movie">
                       <h1>
                         {item.from} - {item.to}
                         {item.reportingTo.some((report) => report.approved) && (
@@ -79,12 +79,12 @@ const Card = () => {
                           {new Date(item.enddate).toLocaleDateString()}
                         </span>
                       </div>
-                      <div style={{ marginTop: '20px' }} className="synopsis">
+                      <div style={{ marginTop: '20px', fontSize:'16px',fontWeight:'300px' }} className="para">
                         <b>Business Justification : {item.business} </b>
-                        <b style={{ display: 'block', marginTop: '10px' }}>Claimtype: {item.claimtype}</b>
-                        <b style={{ display: 'block', marginTop: '10px' }}>Transport: {item.transport}</b>
+                        <b style={{ display: 'block', marginTop: '10px',fontWeight:'300px'}}>Claimtype: {item.claimtype}</b>
+                        <b style={{ display: 'block', marginTop: '10px',fontWeight:'300px' }}>Transport: {item.transport}</b>
                       </div>
-                      <div className="icons"></div>
+                      <div className="symbols"></div>
                     </div>
                   </article>
                 </Link>
