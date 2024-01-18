@@ -224,7 +224,7 @@ export const FeedSelectedTable = () => {
           })}
           data={edata}
           icons={tableIcons}
-          style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
+          // style={{ boxShadow: '0px 2px 4px rgba(1, 1, 1, 1)' }}
           options={{
             actionsColumnIndex: 6,
             exportButton: true,

@@ -77,6 +77,7 @@ const AuthLogin = () => {
       dispatch({ type: USER_ID, payload: response.data.existingUser._id });
 
       const role = response.data.existingUser.role;
+      console.log('role: ', role);     
       if (role === 'Admin') {
         dispatch({ type: ADMIN_OR_NOT });
         navigate('/dashboard/default');

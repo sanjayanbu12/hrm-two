@@ -200,6 +200,7 @@ const InterviewBoard = () => {
   }
   return (
     <MainCard
+    
     title="Interview Board"
     sx={{
       width: '100%',

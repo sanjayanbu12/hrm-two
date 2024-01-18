@@ -225,7 +225,7 @@ const Shortlist = () => {
   }
 
   return (
-    <Card raised={true}>
+    <Card elevation={0} raised={true}>
     <ThemeProvider theme={theme}>
       {Loader ? (
         <div className="spinner" style={{ position: 'absolute', bottom: '40%', right: '45%' }} />

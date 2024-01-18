@@ -127,7 +127,7 @@ const Landingpage = () => {
                       </Button>
                     </Link>
                   </Grid>
-                  <Grid item lg={4} md={3.5} sm={5.5} gap={2} display={'flex'} justifyContent={'flex-end'}>
+                  {/* <Grid item lg={4} md={3.5} sm={5.5} gap={2} display={'flex'} justifyContent={'flex-end'}>
                     <Link to="/pages/login/login3">
                       <Button
                         variant="outlined"
@@ -151,7 +151,7 @@ const Landingpage = () => {
                         Log in
                       </Button>
                     </Link>
-                  </Grid>
+                  </Grid> */}
                 </Grid>
               </Grid>
             </Grid>

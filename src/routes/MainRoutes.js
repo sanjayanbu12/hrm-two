@@ -42,12 +42,15 @@ import AtttendanceTab from 'layout/MainLayout/Header/AtttendanceTab';
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
-import Travel from 'views/travel/Travel'
-import Card from 'views/travel/Card'
+import Travel from 'views/travel/Travel';
+import Card from 'views/travel/Card';
 import Travelapproval from 'views/travel/Travelapproval';
 import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
 import ApproovalCard from 'views/Approvals/ApproovalCard';
 import ApprovalDetails from 'views/Approvals/ApprovalDetails';
+import Admin from 'views/admin/AdminConsole';
+import AdminManager from 'views/admin/ManageAdmins';
+import YetTo from 'views/admin/YetTo';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -73,7 +76,7 @@ const MainRoutes = {
       path: '/recruitment',
       element: <Recruitment />
     },
-   
+
     {
       path: '/Requestleave',
       element: <RequestLeave />
@@ -92,15 +95,15 @@ const MainRoutes = {
     },
     {
       path: '/leavecalendar',
-      element: <LeaveCalendar/>
+      element: <LeaveCalendar />
     },
     {
       path: '/travel',
-      element: <Travel/>
+      element: <Travel />
     },
     {
       path: '/attendanceManagement',
-      element: <AttendanceSystem/>
+      element: <AttendanceSystem />
     },
     {
       path: '/goals',
@@ -117,7 +120,7 @@ const MainRoutes = {
     {
       path: '/skillsetmatrix',
       element: <SkillsetMatrix />
-    },   
+    },
     {
       path: '/Jobtable',
       element: <RecruitmentTable />
@@ -153,7 +156,7 @@ const MainRoutes = {
     {
       path: '/coursereview',
       element: <CourseReview />
-    }, 
+    },
     {
       path: '/coursecatalog',
       element: <CourseCatalog />
@@ -167,8 +170,8 @@ const MainRoutes = {
       element: <Shortlist />
     },
     {
-      path:'/interviewboard',
-      element:<InterviewBoard/>
+      path: '/interviewboard',
+      element: <InterviewBoard />
     },
     {
       path: '/newemployee',
@@ -189,7 +192,7 @@ const MainRoutes = {
     {
       path: '/applicationview1/:id',
       element: <ApplicationView1 />
-    },  
+    },
     {
       path: '/applicationview/:id',
       element: <ApplicationView />
@@ -222,7 +225,7 @@ const MainRoutes = {
       path: '/FeedSelectedTable',
       element: <FeedSelectedTable />
     },
-    
+
     {
       path: '/ApplicationTrackTab',
       element: <ApplicationTrackTab />
@@ -234,9 +237,10 @@ const MainRoutes = {
     {
       path: '/AtttendanceTab',
       element: <AtttendanceTab />
-    },{
-      path:'/leaveapprove',
-      element:<LeaveApproval />
+    },
+    {
+      path: '/leaveapprove',
+      element: <LeaveApproval />
     },
     {
       path: '/card/travel',
@@ -247,19 +251,30 @@ const MainRoutes = {
       element: <Travelapproval />
     },
     {
-      path:'/Procruitment',
-      element:<ProcruitmentTable />
-    },{
-      path:'/ApproovalCard',
-      element:<ApproovalCard />
-    },{
-      path: '/ApprovalDetails/:index', 
-      element: <ApprovalDetails />,
-      
+      path: '/Procruitment',
+      element: <ProcruitmentTable />
+    },
+    {
+      path: '/ApproovalCard',
+      element: <ApproovalCard />
+    },
+    {
+      path: '/ApprovalDetails/:index',
+      element: <ApprovalDetails />
+    },
+
+    {
+      path: '/AdminConsole',
+      element: <Admin />
+    },
+    {
+      path: '/AdminManager',
+      element: <AdminManager />
+    },
+    {
+      path: '/Admin',
+      element: <YetTo />
     }
-
-
-    
   ]
 };
 

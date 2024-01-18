@@ -45,7 +45,7 @@ const Navbar = () => {
         <AppBar
           className="darkColor"
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.9)', boxShadow: 'none' }}
-          sx={{ p: '6px' }}
+          sx={{ p: '8px' }}
           position="fixed"
         >
           <Stack
@@ -83,8 +83,10 @@ const Navbar = () => {
                   }
                 }}
               >
-                <img src={Logo} alt="" />
+                <img src={Logo} alt="Site Logo" />
               </Button>
+            </Stack>
+            <Stack direction={'row'} spacing={4} sx={{ alignItems: 'center' }}>
               <WhyHrm />
               <Features />
               {/* <Resources
@@ -94,8 +96,6 @@ const Navbar = () => {
                 setOpenPopper={setOpenPopper}
               /> */}
               <Pricing />
-            </Stack>
-            <Stack direction={'row'} spacing={4} sx={{ alignItems: 'center' }}>
               <LoginStyle />
               <Link to="/pages/register/register3">
                 <Button

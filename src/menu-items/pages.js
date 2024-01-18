@@ -203,6 +203,22 @@ const pages = {
           url:'/Procruitment'
         }
       ]
+    },
+    {
+      id: 'adminConsole',
+      title: 'Admin Console',
+      type: 'collapse',
+      // url: '/Admin',
+      icon: icons.AccountTreeOutlinedIcon,
+      children: [
+
+        {
+          id: 'adminConsole',
+          title: 'Admin Console ',
+          type: 'item',
+          url: '/AdminConsole'
+        }
+      ]
     }
   ]
 };

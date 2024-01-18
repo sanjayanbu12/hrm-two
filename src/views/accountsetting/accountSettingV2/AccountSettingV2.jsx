@@ -1,7 +1,6 @@
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { React, useState, useContext } from 'react';
-import { LOGGED_OUT, USER_OR_NOT } from 'store/actions';
-import { TopBarSubText, Indicator, SelectIcon, CustomImageContainer, CustomImageStyle } from './accountSettingV2/AccountSettingStyled';
+import { TopBarText, TopBarSubText, Indicator, SelectIcon, CustomImageContainer, CustomImageStyle } from './AccountSettingStyled';
 import Grid from '@mui/material/Unstable_Grid2';
 import Tab from '@mui/material/Tab';
 import PropTypes from 'prop-types';
@@ -9,19 +8,17 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import PasswordIcon from '@mui/icons-material/Password';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ProfileBase from './accountSettingV2/ProfileBase';
+import ProfileBase from './ProfileBase';
 import axios from 'axios';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-import ChangePassword from './accountSettingV2/ChangePassword';
+import ChangePassword from './ChangePassword';
 import ApiContext from 'context/api/ApiContext';
 import FormSubmittedContext from 'context/isformsubmited/FormSubmittedContext';
 import { useSelector } from 'react-redux';
 import AddAPhotoIcon from '@mui/icons-material/AddAPhoto';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
-const AccountSetting = () => {
+const AccountSettingV2 = () => {
   const user = useSelector((state) => state.customization.authId);
   const [userdetails, setUserDetails] = useState({});
   const data = userdetails?.profilepic?.url;
@@ -29,15 +26,6 @@ const AccountSetting = () => {
   const [id, setId] = useState('');
   const { employeeContextData } = useContext(ApiContext);
   const { formStatus, setStatus } = useContext(FormSubmittedContext);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const [value, setValue] = useState(0);
-  const hide = useRef();
-  const hideText = useRef();
-  const hidePassText = useRef();
-  const styleoverride = useRef();
-  const hideButton = useRef();
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -55,7 +43,7 @@ const AccountSetting = () => {
     };
 
     fetchData();
-  }, [employeeContextData, user]);
+  }, [employeeContextData]);
 
   const handleUploadavatar = async (e) => {
     const file = e.target.files[0];
@@ -78,22 +66,12 @@ const AccountSetting = () => {
 
   const handleDeleteAvatar = async () => {
     try {
-      await axios.delete(`https://hrm-backend-square.onrender.com/api/deleteProfile/${id}`);
+      await axios.delete('https://hrm-backend-square.onrender.com/api/profilepic/' + id);
       setStatus(!formStatus);
+      setAvatarImage(null);
     } catch (error) {
       console.log('Error deleting image', error);
     }
-  };
-
-  const handleLogout = async () => {
-    try {
-      dispatch({ type: LOGGED_OUT });
-      dispatch({ type: USER_OR_NOT });
-      localStorage.clear();
-    } catch (error) {
-      alert(error && error.message);
-    }
-    navigate('/pages/login/login3');
   };
 
   function TabPanel(props) {
@@ -122,6 +100,13 @@ const AccountSetting = () => {
       'aria-controls': `vertical-tabpanel-${index}`
     };
   }
+
+  const [value, setValue] = useState(0);
+  const hide = useRef();
+  const hideText = useRef();
+  const hidePassText = useRef();
+  const styleoverride = useRef();
+  const hideButton = useRef();
 
   const handleChange = (event, newValue) => {
     if (newValue === 1 || newValue === 2) {
@@ -156,9 +141,9 @@ const AccountSetting = () => {
 
   return (
     <>
-      <Box sx={{ overflowX: 'hidden' }}>
-        {/* <TopBarText> Account Settings </TopBarText> */}
-        <Grid container wrap="nowrap" marginTop={'30px'}>
+      <Box style={{ padding: '20px 40px' }}>
+        <TopBarText> Account Settings </TopBarText>
+        <Grid container wrap="nowrap">
           <Grid xs={5.1} lg={5.1}>
             <TopBarSubText>Account</TopBarSubText>
           </Grid>
@@ -180,13 +165,13 @@ const AccountSetting = () => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                         <Box>
-                          <AccountBoxIcon style={{ verticalAlign: 'middle' }} htmlColor="black" />
-                          <Box component={'span'} style={{ marginLeft: '10px' }} color={'black'}>
+                          <AccountBoxIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
+                          <Box component={'span'} style={{ marginLeft: '10px' }}>
                             Profile Base
                           </Box>
                         </Box>
                         <Box>
-                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="black" />
+                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
                         </Box>
                       </Box>
                     }
@@ -198,13 +183,13 @@ const AccountSetting = () => {
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                         <Box>
-                          <PasswordIcon style={{ verticalAlign: 'middle' }} htmlColor="black" />
-                          <Box component={'span'} style={{ marginLeft: '10px' }} color={'black'}>
+                          <PasswordIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
+                          <Box component={'span'} style={{ marginLeft: '10px' }}>
                             Password
                           </Box>
                         </Box>
                         <Box>
-                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="black" />
+                          <ArrowForwardIosIcon fontSize="small" style={{ verticalAlign: 'middle' }} htmlColor="rgb(128, 128, 128)" />
                         </Box>
                       </Box>
                     }
@@ -218,8 +203,8 @@ const AccountSetting = () => {
                 label={
                   <Box sx={{ display: 'flex', alignItems: 'center', minWidth: '280px', justifyContent: 'space-between' }}>
                     <Box>
-                      <LogoutIcon fontSize="medium" style={{ verticalAlign: 'middle' }} htmlColor="red" />
-                      <Box onClick={handleLogout} component={'span'} style={{ marginLeft: '10px', color: 'red', cursor: 'pointer' }}>
+                      <LogoutIcon fontSize="large" style={{ verticalAlign: 'middle' }} htmlColor="red" />
+                      <Box component={'span'} style={{ marginLeft: '10px', color: 'red' }}>
                         Log Out
                       </Box>
                     </Box>
@@ -239,7 +224,7 @@ const AccountSetting = () => {
                 </Box>
               </TabPanel>
             </Grid>
-            <Grid ref={hide}>
+            <Grid xs={3} ref={hide}>
               <CustomImageContainer>
                 <label htmlFor="avatarImageInput">
                   <SelectIcon>
@@ -253,16 +238,10 @@ const AccountSetting = () => {
                     <AddAPhotoIcon />
                   </SelectIcon>
                 </label>
-                <div style={{ width: '150px', height: '150px' }}>
-                  {avatarImage === undefined ? (
-                    <Avatar style={{ width: '150px', height: '150px' }} />
-                  ) : (
-                    <CustomImageStyle src={avatarImage} />
-                  )}
-                </div>
+                <CustomImageStyle src={avatarImage} alt="Profile Picture" />
               </CustomImageContainer>
-              <Grid ref={hideButton} marginLeft={'25px'} marginTop={'10px'}>
-                <Button onClick={handleDeleteAvatar} disableRipple sx={{ color: 'red' }}>
+              <Grid ref={hideButton} marginLeft={'30px'} marginTop={'10px'}>
+                <Button onClick={handleDeleteAvatar} disableRipple color="error">
                   Delete Image
                 </Button>
               </Grid>
@@ -274,4 +253,4 @@ const AccountSetting = () => {
   );
 };
 
-export default AccountSetting;
+export default AccountSettingV2;

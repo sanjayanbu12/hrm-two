@@ -561,8 +561,8 @@ const RecruitmentForm = () => {
   };
 
   return (
-    <MainCard>
-      <MainCard title="Job Posting Form">
+    <MainCard style={{border : 'none'}}>
+      <MainCard style={{border : 'none'}} title="Job Posting Form">
         <form>
           <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={2}>
