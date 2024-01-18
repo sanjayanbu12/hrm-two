@@ -86,13 +86,16 @@ const ApprovalCard = () => {
         // Check if the conditions for the link to work are met
         const isLinkAccessible = isUserAuthorized && (!isRejected && !isCardApproved || USER_ID === secondMemberData[0]);
         return ( 
-          <div key={index}>
+<>
+          
+         
             {isUserAuthorized && ( 
               <Link to={isLinkAccessible ? `/ApprovalDetails/${index}` : '#'}>
                 <article
+                key={index}
                     className={`movie-card`}
                     style={{ backgroundImage: `url(${determineBackgroundImage(index)})` }}
-                    key={index}
+                   
                   >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px',textDecoration: 'none' }}>
                   <div style={{ marginLeft: '20px', color: isRejected ? '#FF0000' : (isFirstApproved || isCardApproved) ? '#00FF00' : '' ,textDecoration:'none'}}>
@@ -116,7 +119,8 @@ const ApprovalCard = () => {
                 </article>
                 </Link>
       )}
-    </div>
+    
+    </>
   )
           // return null;
         })}
