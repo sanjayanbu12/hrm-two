@@ -13,7 +13,7 @@ const LeaveTab = () => {
   };
   const renderTabContent = () => {
     if (value === 0) {
-      return <RequestLeave />;
+      return <RequestLeave />; 
     } else if (value == 1) {
       return <ViewLeave />;
     // } else if (value === 2) {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import MaterialTable from 'material-table';
 import tableIcons from 'views/addemployeetable/MaterialTableIcons';
 import { useState } from 'react';
@@ -7,32 +7,35 @@ import { Modal } from '@material-ui/core';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import Tooltip from '@material-ui/core/Tooltip';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
+// import { ProgressSpinner } from 'primereact/progressspinner';
+// import DoneOutlineIcon from '@mui/icons-material/DoneOutline';
 
 const ProcruitmentTable = () => {
 const[open,setOpen]=useState(false);
-
+let procData=null
 const { getProcruitment } = useContext(ApiContext);
-console.log("getProcruitment",getProcruitment);
+useEffect(() => {
+  procData = getProcruitment;
+  console.log('procData:', procData);
+}, [procData]);
 
 // const {procget,setProcget } = useContext(FormSubmittedContext);
 
 const data = getProcruitment.map(item => ({
-  name: item.employeeid.name,
-  email: item.employeeid.email,
-  productDescription: item.productDescription,   
+  name: item.employeeid?.name,
+  email: item.employeeid?.email,
+  productname: item.productname,   
   quantity: item.quantity,
   approximateBudget: item.approximateBudget,
   createdAt: new Date(item.createdAt).toLocaleDateString(),
   priority: item.priority,
-  status: item.status,  
+  reportingTo: item.reportingTo,  
 }));
 
 const columns = [
   { title: 'Name', field: 'name' },
   { title: 'Email', field: 'email' },
-  { title: 'Description', field: 'productDescription' },
+  { title: 'Product Name', field: 'productname' },
   { title: 'Quantity', field: 'quantity' },
   {
     title: 'Approximate Budget',
@@ -61,22 +64,30 @@ const columns = [
       return (
         <Tooltip title={rowData.priority} arrow>
           <div style={{ backgroundColor, borderRadius: '50%', width: '20px', height: '20px' }}></div>
-        </Tooltip>
+        </Tooltip> 
       );
     },
   },
   {
     title: 'Status',
-    field: 'status',
+    field: 'reportingTo',
     render: rowData => {
-      if (rowData.status === 'Pending') {
-        return  <div >
-        <ProgressSpinner style={{width: '30px', height: '30px'}} strokeWidth="8" fill="var(--surface-ground)" animationDuration=".5s" />
-    </div>;
-      } else if (rowData.status === 'Accepted') {
-        return <DoneOutlineIcon style={{ color: 'green' }} />;
+      const reportingTo = rowData.reportingTo || [];
+      const isPending = reportingTo.every(entry => !entry.approved && !entry.rejected);
+      const isRejected = reportingTo.some(entry => entry.rejected);
+      const isApproved = reportingTo.some(entry => entry.approved);
+      console.log('rowData.reportingTo:', rowData.reportingTo);
+      if (isPending) {
+        return (
+          <div>
+            <div style={{ color: 'green' }}>Pending</div>
+          </div>
+        );
+      } else if (isRejected) {
+        return <div style={{ color: 'red' }}>Rejected</div>;
+      } else if (isApproved) {
+        return <div style={{ color: 'green' }}>Accepted</div>;
       } else {
-        // You can handle other status cases here
         return null;
       }
     },
@@ -90,7 +101,7 @@ const columns = [
   const handleClose=()=>{
     setOpen(false)
   }
-
+  
   return (
     <div>
       <MaterialTable
@@ -98,12 +109,12 @@ const columns = [
        
         title={
           <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
-            Procruitment
+            Procurement Table
           </div>
         }
         actions={[
           {
-            icon: tableIcons.AddNewRequest, // Use your custom icon for Add
+            icon: tableIcons.AddNewRequest,
             tooltip: 'Add New Request',
             isFreeAction: true,
             onClick: handleAddEmployee,
@@ -122,6 +133,7 @@ const columns = [
           headerCellStyle: {
             background: 'linear-gradient(180deg,#3a59af,#352786)',
             color: 'white',
+            
           },
         }}
        

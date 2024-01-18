@@ -105,14 +105,12 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+      backgroundColor:'#279EFF'
     },
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+     backgroundColor:'#279EFF'
     },
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -135,13 +133,11 @@ const ColorlibStepIconRoot = styled('div')(({ theme, ownerState }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+    backgroundColor:'#279EFF',
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   }),
   ...(ownerState.completed && {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+    backgroundColor:'#279EFF'
   }),
 }));
 
@@ -201,6 +197,7 @@ const CancelIconContainer = styled('div')({
   margin: '0px 3px 0px auto', 
   color:'red',
   cursor:'pointer',
+
 });
 
 export default function CustomizedSteppers({ handleClose }) {
@@ -260,7 +257,7 @@ export default function CustomizedSteppers({ handleClose }) {
 
         // Send formDataToSend to the server
         const response = await axios.post(
-          'https://hrm-backend-square.onrender.com/proc/createdata',
+          'http://localhost:3001/proc/createdata',
           formDataToSend
         );
         console.log(response);
@@ -298,7 +295,7 @@ export default function CustomizedSteppers({ handleClose }) {
     <>
       <CustomizedSteppersContainer>
       <CancelIconContainer onClick={handleClose}>
-          <CancelIcon />
+          <CancelIcon sx={{color:'#279EFF'}}/>
         </CancelIconContainer>
       
         <Stack sx={{ width: '100%' }} spacing={4}>
