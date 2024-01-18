@@ -44,7 +44,7 @@ const Travelapproval = () => {
           reportingTo: updatedReportingTo
         };
 
-        await axios.put(`http://localhost:3001/travel/updateApprovalStatus/${item._id}`, updatedItem);
+        await axios.put(`https://hrm-backend-square.onrender.com/travel/updateApprovalStatus/${item._id}`, updatedItem);
 
         handleClose();
       } else {
