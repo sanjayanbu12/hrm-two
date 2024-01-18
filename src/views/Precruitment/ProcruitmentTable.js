@@ -114,7 +114,7 @@ const columns = [
         }
         actions={[
           {
-            icon: tableIcons.AddNewRequest, // Use your custom icon for Add
+            icon: tableIcons.AddNewRequest,
             tooltip: 'Add New Request',
             isFreeAction: true,
             onClick: handleAddEmployee,
@@ -133,6 +133,7 @@ const columns = [
           headerCellStyle: {
             background: 'linear-gradient(180deg,#3a59af,#352786)',
             color: 'white',
+            
           },
         }}
        

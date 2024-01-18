@@ -31,7 +31,7 @@ const Finalstep = ({ setFormData, formData }) => {
   };
  
   const isValid = () => {
-    return  formData.reportingTo  && formData.attachments;
+    return  formData.reportingTo ;
   };
   
   useEffect(() => {
