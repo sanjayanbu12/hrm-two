@@ -56,7 +56,7 @@ const Card1 = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalOrderCard />
       ) : (
-        <Card elevation={10}>
+        <Card style={{boxShadow: '0px 0px 14px 2px rgba(0, 0, 0, 0.1)'}}>
           <CardWrapper border={false} content={false}>
             <Box sx={{ p: 2.25 }}>
               <Grid container direction="column">

@@ -38,7 +38,7 @@ export const FirstContainers = styled.div`
   align-items: center;
   height: calc(100vh - 52px);
   width: 100%;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   @media screen and (max-width: 1000px) {
     height: 100%;
     top: 0px;
@@ -53,7 +53,7 @@ export const SecondContainers = styled.div`
   position: relative;
   top: 52px;
   width: 100%;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   overflow-x: hidden;
 
   @media screen and (max-width: 1000px) {

@@ -44,7 +44,7 @@ const Apexchart = () => {
   };
 
   return (
-    <Card elevation={2}>
+    <Card elevation={0}>
       {loading ? (
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "300px" }}>
           <CircularProgress />

@@ -66,7 +66,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalGrowthBarChart />
       ) : (
-        <Card elevation={3} style={{marginTop:'10px'}}>
+        <Card style={{marginTop:'10px'}}>
           <Grid container spacing={gridSpacing}>
             <Grid item xs={12}>
               <Grid container alignItems="center" justifyContent="space-between">

@@ -3,7 +3,7 @@ import Grid from '@mui/material/Unstable_Grid2';
 import { Box } from '@mui/system';
 import { SaveButton } from './AccountSettingStyled';
 import axios from 'axios';
-import { Alert, CircularProgress, IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { CircularProgress, IconButton, InputAdornment, TextField } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useContext } from 'react';
 import { useEffect } from 'react';
@@ -22,7 +22,6 @@ const ChangePassword = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { employeeContextData } = useContext(ApiContext);
   const user = useSelector((state) => state.customization.authId);
-  const [passwordError, setPasswordError] = useState(false);
   const [passwordMissmatchError, setPasswordMissMatchError] = useState('');
 
   useEffect(() => {
@@ -56,10 +55,8 @@ const ChangePassword = () => {
 
     if (!password) {
       setIsLoading(false);
-      setPasswordError(true);
+      toast.error('Please enter your password.');
       return;
-    } else {
-      setPasswordError(false);
     }
 
     if (confirmNewpassword !== newpassword) {
@@ -76,9 +73,11 @@ const ChangePassword = () => {
         newpassword
       };
 
-      const res = await axios.put('http://localhost:3001/auth/updatenewpassword', alldata);
+      const res = await axios.put('https://hrm-backend-square.onrender.com/auth/updatenewpassword', alldata);
       if (res.status === 200) {
-        location.reload();
+        document.getElementById('demo-simple-select').value = '';
+        document.getElementById('demo-simple-select1').value = '';
+        document.getElementById('demo-simple-select2').value = '';
         toast.success(res.data.message);
       }
       setIsLoading(false);
@@ -131,7 +130,7 @@ const ChangePassword = () => {
             <TextField
               labelId="demo-simple-select-label"
               name="password"
-              id="demo-simple-select"
+              id="demo-simple-select1"
               label="New Password"
               placeholder="Enter your password"
               style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
@@ -153,7 +152,7 @@ const ChangePassword = () => {
             <TextField
               labelId="demo-simple-select-label"
               name="password"
-              id="demo-simple-select"
+              id="demo-simple-select2"
               label="Confirm New Password"
               placeholder="Enter your password"
               style={{ width: '350px', marginTop: '20px', fontFamily: "'Poppins', sans-serif" }}
@@ -177,13 +176,13 @@ const ChangePassword = () => {
               {isLoading ? <CircularProgress style={{ verticalAlign: 'middle' }} size={24} /> : 'Change Password'}
             </SaveButton>
           </Grid>
-          {passwordError && (
+          {/* {passwordError && (
             <Stack sx={{ width: '100%', mt: '20px' }} spacing={2}>
               <Alert variant="filled" severity="error">
                 {password ? 'Password is incorrect' : 'Please enter your password'}
               </Alert>
             </Stack>
-          )}
+          )} */}
         </Grid>
       </Box>
     </>
