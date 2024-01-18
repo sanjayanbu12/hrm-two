@@ -4,10 +4,9 @@ import { useContext } from 'react';
 import { useEffect } from 'react';
 
 const ApiContainer = (props) => {
-  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,setGetattendance,setGetProcruitment} = props;
-  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,att,procget } = useContext(FormSubmittedContext);
-
-
+  const { setEmployeeContextData, setatsContextData, setrecruitmentContextData, setleaveContextData,setorgContextData,setmedialistContextData,seteventContextData,settravelData } = props;
+  const { formStatus, recStatus, atsStatus, leaveStatus,orgStatus,eventStatus,travelget} = useContext(FormSubmittedContext);
+  console.log('eventStatus', eventStatus);
   const fetchEmployee = async () => {
     try {
       const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
@@ -67,27 +66,6 @@ const ApiContainer = (props) => {
       console.error(error);
     }
   };
-  
-  const fetchAttendance = async () => {
-    try {
-      const today = new Date().toISOString().slice(0, 10);
-      const apiUrl = `https://hrm-backend-square.onrender.com/clock/getall?date=${today}`;
-      const res = await axios.get(apiUrl);
-      setGetattendance(res.data.data);
-    } catch (error) {
-      console.error('Error fetching attendance:', error);
-    }
-  };
-  
-  const Procruitmentget = async () => {
-    try {
-      const api = await axios.get('https://hrm-backend-square.onrender.com/proc/getall');
-      console.log("procget",api)
-      setGetProcruitment(api.data.data); 
-    } catch (error) {
-      console.error('Error for get', error);
-    }
-  };
 
   const fetchTravel = async () => {
     try {
@@ -121,12 +99,8 @@ const ApiContainer = (props) => {
     fetchOrg();
   }, [orgStatus]);
   useEffect(() => {
-    fetchAttendance();
-  }, [att]);
-  useEffect(() => {
-    Procruitmentget();
-  }, [procget]);
-
+    fetchTravel();
+  }, [travelget]);
   return null;
 };
 

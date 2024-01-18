@@ -4,7 +4,7 @@
     position: relative;
     border-radius: 0.6em;
     overflow: hidden;
-    font-size: 120%; 
+    font-size: 100%; 
     height: min(21em, 90vh);
     cursor: pointer;
  

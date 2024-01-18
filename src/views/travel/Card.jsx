@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import ApiContext from 'context/api/ApiContext';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import  img1 from './images/img1.jpg';
 import  img2 from './images/img2.jpg'
 
 
@@ -43,7 +42,7 @@ const Card = () => {
   console.log('Approvalsss', travelData);
 
   const BackgroundImage = (index) => {
-    const images = [img1, img2,];
+    const images = [img2];
     return images[index % images.length];
   };
 
@@ -73,7 +72,7 @@ const Card = () => {
                           <span style={{ color: 'green', marginLeft: '10px' }}>Approved</span>
                         )}
                       </h1>
-                      <div>
+                      <div style={{ marginTop: '10px' }}>
                         <h2>{item.customerName}</h2>
                         <span>
                           &nbsp;{new Date(item.startdate).toLocaleDateString()}&nbsp;&nbsp;·&nbsp;&nbsp;

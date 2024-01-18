@@ -39,15 +39,13 @@ import ApplicationView1 from 'views/recruitment/ApplicationView1';
 import { FeedSelectedTable } from 'views/recruitment/FeedSelectedTable';
 import ApplicationTrackTab from 'views/recruitment/ApplicationTrackTab';
 import AtttendanceTab from 'layout/MainLayout/Header/AtttendanceTab';
-// import Precruitment from 'views/Precruitment/Precruitment';
-import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
-// dashboard routing
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
 import Travel from 'views/travel/Travel'
 import Card from 'views/travel/Card'
 import Travelapproval from 'views/travel/Travelapproval';
+import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -237,11 +235,20 @@ const MainRoutes = {
     },{
       path:'/leaveapprove',
       element:<LeaveApproval />
-    }
-    ,{
+    },
+    {
+      path: '/card/travel',
+      element: <Card />
+    },
+    {
+      path: '/Travelapproval/:index',
+      element: <Travelapproval />
+    },
+    {
       path:'/Procruitment',
       element:<ProcruitmentTable />
     }
+
 
     
   ]
