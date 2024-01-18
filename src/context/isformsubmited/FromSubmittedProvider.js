@@ -9,8 +9,7 @@ const FromSubmittedProvider = ({ children }) => {
   const [leaveStatus, setleaveStatus] = useState(false);
   const [orgStatus, setorgStatus] = useState(false);
   const [eventStatus, seteventStatus] = useState(false);
-  const [att,setAtt]=useState(false);
-  const[procget,setProcget]=useState(false)
+  const [travelget, settravelget] = useState(false);
 
   const value = {
     formStatus,
@@ -25,10 +24,8 @@ const FromSubmittedProvider = ({ children }) => {
     setorgStatus,
     eventStatus,
     seteventStatus,
-    att,
-    setAtt,
-    procget,
-    setProcget
+    travelget,
+    settravelget
   };
   return (
     <div>
