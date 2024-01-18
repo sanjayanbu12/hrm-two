@@ -20,7 +20,7 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Card sx={{p:2}} raised={true}>
+    <Card sx={{p:2}} >
       <div style={{ overflow: 'hidden' }}>
         <div style={{ fontWeight: 'bolder', fontSize: '25px', marginTop: '10px', marginLeft: '10px' }}>Welcome Admin!</div>
         <div style={{ fontWeight: 'bold', fontSize: '15px', marginLeft: '10px', marginBottom: '10px' }}>

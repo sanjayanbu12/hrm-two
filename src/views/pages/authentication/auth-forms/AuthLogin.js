@@ -213,13 +213,17 @@ const AuthLogin = () => {
         <Grid>
           <AnimateButton>
             <Button
-              style={{ marginTop: '10px' }}
+              style={{ marginTop: '10px', backgroundColor:"#222222", transition:"0.3s",
+              ':hover':{
+                backgroundColor: "rgba(255,255,255,0.8)"
+              }
+            
+            }}
               disableElevation
               fullWidth
               size="large"
               type="submit"
               variant="contained"
-              color="secondary"
               onClick={validateLogin}
               disabled={isLoading}
             >

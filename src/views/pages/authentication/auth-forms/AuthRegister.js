@@ -242,14 +242,13 @@ const FirebaseRegister = () => {
           </Grid>
           <Grid item xs={12} style={{paddingTop:"0px"}}>
             <AnimateButton>
-              <Button
+              <Button style={{backgroundColor:"#222222"}}
                 onClick={handle}
                 disableElevation
                 fullWidth
                 size="large"
                 type="submit"
                 variant="contained"
-                color="secondary"
                 disabled={isLoading}
               >
                 {isLoading ? <CircularProgress size={24} /> : 'Sign up'}

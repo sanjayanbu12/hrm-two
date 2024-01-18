@@ -108,15 +108,16 @@ import { useEffect } from 'react';
 // import EmailIcon from '../../../Images/Letter';
 // import BackIcon from '../../../Images/RoundArrowLeft'
 // import PassKeyIcon from '../../../Images/LockKeyhole';
-// import SidePhoto from '../../../Images/SIdeImage'
+import  SidePhoto from '../../../../assets/images/Signin_Sidephoto.svg';
 // import { ReactComponent as GoogleIcon }  from '../../../Images/GoogleIcon.svg';
 import styled from 'styled-components';
 import { ReactComponent as BackIcon } from '../../../../assets/images/icons/BackIcon.svg';
-// import set from "../../../Images/Logo_Square.svg"
+import gestion from "../../landing/images/Gestion_Logo_Black.svg";
 
 // import Background from "../../Background";
 
 import { Grid } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 const TypographyContent = styled.div`
   color: #737373;
@@ -160,18 +161,22 @@ const Login = () => {
         <Grid item xs={12} lg={7} style={{ width: '100%', height: '100vh' }}>
           <Grid container style={{ display: 'flex', padding: '20px', alignItems: 'center' }}>
             <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', padding: '10px' }}>
-              {/* <img src={set} style={{ height: "80px" }} alt="logo" /> */}
+              <img src={gestion} style={{ height: "60px" }} alt="logo" />
             </Grid>
             <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
               <Grid style={{ display: 'flex', alignItems: 'center' }}>
+                <Link to = "../" style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
+
+             
                 <BackIcon />
                 <TypographyContent style={{ marginLeft: '10px', marginTop: '2px' }}>Back</TypographyContent>
+                </Link>
               </Grid>
             </Grid>
             <Grid item xs={12} style={{ height: '80vh', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <Grid container style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Grid item xs={7}>
-                  <TypographyBold style={{ fontSize: '30px', fontWeight: '600', color: '#0d2f81' }}>Get Started Now</TypographyBold>
+                  <TypographyBold style={{ fontSize: '30px', fontWeight: '600', color: '#222222' }}>Get Started Now</TypographyBold>
                 </Grid>
                 <Grid item xs={7}>
                   <TypographyContent style={{ fontSize: '15px' }}>Enter your credentials to access your account</TypographyContent>
@@ -201,7 +206,7 @@ const Login = () => {
                 justifyContent: 'center'
               }}
             >
-              <Grid item xs={10} style={{ marginTop: '45px' }}>
+              <Grid item xs={10} style={{ marginTop: '0px' }}>
                 <TypographyBold style={{ color: 'white', fontWeight: '600', fontSize: '30px' }}>
                   The Simplest way to manage your workspace
                 </TypographyBold>
@@ -209,8 +214,8 @@ const Login = () => {
                   Enter your credentials to access to your account
                 </TypographyContent>
               </Grid>
-              <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-25px' }}>
-                {/* <SidePhoto style={{width:"55%"}}/> */}
+              <Grid item xs={10} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '-85px' }}>
+                <img src={SidePhoto} style={{width:"75%"}} alt='sidephoto'/>
               </Grid>
             </Grid>
           </RightsideWrapper>
