@@ -93,7 +93,7 @@ const ApprovalCard = () => {
               <Link to={isLinkAccessible ? `/ApprovalDetails/${index}` : '#'}>
                 <article
                 key={index}
-                    className={`movie-card`}
+                    className={`movie-cardzz`}
                     style={{ backgroundImage: `url(${determineBackgroundImage(index)})` }}
                    
                   >
@@ -102,19 +102,19 @@ const ApprovalCard = () => {
                   <h2>{isRejected ? 'Rejected' : (isFirstApproved && !isSecondApproved) ? '1st Level Approved' : isCardApproved ? 'Card Approved' : ''}</h2>
                     </div><div><h2> ₹{item.approximateBudget}</h2></div>
                   </div>
-                  <div className="content">
-                    <h1>{item.productname}</h1>
+                  <div className="contentzz">
+                    <h1 className='headerone'>{item.productname}</h1>
                     <div>
-                      <h2>{item.customerName}</h2>
+                      <h2 className='headertwo'>{item.customerName}</h2>
                       <span>
                         &nbsp;{new Date(item.createdAt).toLocaleDateString()}&nbsp;&nbsp;·&nbsp;&nbsp;{new Date(item.createdAt).toLocaleTimeString()}
                       </span>
                     </div>
-                    <div style={{ marginTop: '20px' }} className="synopsis">
-                      <b>Specification : {item.productname} </b>
-                      <b style={{ display: 'block', marginTop: '10px' }}>Priority: {item.priority}</b>
+                    <div style={{ marginTop: '20px',fontWeight:300 }} className="synopsiszz">
+                      <b style={{fontWeight:300}} >Specification : {item.productname} </b>
+                      <b style={{ display: 'block', marginTop: '10px',fontWeight:300 }}>Priority: {item.priority}</b>
                     </div>
-                    <div className="icons">{/* Add your icons or additional content here */}</div>
+                    <div className="iconszz">{/* Add your icons or additional content here */}</div>
                   </div>
                 </article>
                 </Link>
