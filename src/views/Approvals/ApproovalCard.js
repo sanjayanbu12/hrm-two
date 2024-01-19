@@ -68,7 +68,7 @@ const ApprovalCard = () => {
   }, [getProcruitment]);
 
   return (
-    <div className="movie-cards-container">
+    <div className="movie-cardszz-container">
       <>
       {getProcruitment.map((item, index) => {
         const firstMemberData = item.reportingTo.map(employeeData => employeeData.employee);
@@ -95,7 +95,6 @@ const ApprovalCard = () => {
                 key={index}
                     className={`movie-cardzz`}
                     style={{ backgroundImage: `url(${determineBackgroundImage(index)})` }}
-                   
                   >
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginRight: '20px', marginTop: '7px',textDecoration: 'none' }}>
                   <div style={{ marginLeft: '20px', color: isRejected ? '#FF0000' : (isFirstApproved || isCardApproved) ? '#00FF00' : '' ,textDecoration:'none'}}>

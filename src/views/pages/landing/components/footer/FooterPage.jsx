@@ -26,7 +26,7 @@ const FooterPage = ({ scrollToSection, redirect, expanded, handleChange }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:3001/landingform/create', form);
+      await axios.post('https://hrm-backend-square.onrender.com/landingform/create', form);
       setForm({ name: '', email: '', phoneno: '', MarkasRead: false });
     } catch (error) {
       console.error(error);

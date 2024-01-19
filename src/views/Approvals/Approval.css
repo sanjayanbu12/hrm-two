@@ -128,9 +128,9 @@
   }
 
   .movie-cardszz-container {
-  display: flex;
+  display: flex !important;
   gap: 50px;
-  flex-wrap: wrap; /* Allows cards to wrap to the next line if they exceed the container width */
+  flex-wrap: wrap; 
 }
 .border{
 border-bottom: none

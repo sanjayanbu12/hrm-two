@@ -201,6 +201,12 @@ const pages = {
           title: 'Procurement Table',
           type: 'item',
           url:'/Procruitment'
+        },
+        {
+          id: 'travel',
+          title: 'Approval card',
+          type: 'item',
+          url:'/ApproovalCard'
         }
       ]
     },
