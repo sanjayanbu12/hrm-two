@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import 'react-toastify/dist/ReactToastify.css';
 // import Upcomingevents from './Upcomingevents';
-import PopularCard from './PopularCard';
+// import PopularCard from './PopularCard';
 import Card1 from './Card1';
 import Card2 from './Card2';
 import Card3 from './Card3';
@@ -43,9 +43,9 @@ const Dashboard = () => {
           <Grid item xs={12} md={8} sm={12}>
             <Apexchart isLoading={isLoading} />
           </Grid>
-          <Grid item  xs={12} md={4} sm={6} lg={4}>
+          {/* <Grid item  xs={12} md={4} sm={6} lg={4}>
             <PopularCard isLoading={isLoading} />
-          </Grid>
+          </Grid> */}
           <Grid item  xs={12} md={5} sm={6} lg={5}>
             <Calendar isLoading={isLoading} />
           </Grid>
