@@ -27,16 +27,16 @@ const Dashboard = () => {
           <p>Dashboard</p>
         </div>
         <Grid container spacing={2} style={{display:"flex", justifyContent:"space-around"}}>
-          <Grid item style={{width:"fit-content"}}>
+          <Grid item xs={12} md={6} lg={3}>
             <Card1 isLoading={isLoading} />
           </Grid>
-          <Grid item style={{width:"fit-content"}}>
+          <Grid item xs={12} md={6} lg={3}>
             <Card2 isLoading={isLoading} />
           </Grid>
-          <Grid item style={{width:"fit-content"}}>
+          <Grid item xs={12} md={6} lg={3}>
             <Card3 isLoading={isLoading} />
           </Grid>
-          <Grid item style={{width:"fit-content"}}>
+          <Grid item xs={12} md={6} lg={3}>
             <AnnualCard isLoading={isLoading} />
           </Grid>
 

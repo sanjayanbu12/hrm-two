@@ -112,7 +112,7 @@ import  SidePhoto from '../../../../assets/images/Signin_Sidephoto.svg';
 // import { ReactComponent as GoogleIcon }  from '../../../Images/GoogleIcon.svg';
 import styled from 'styled-components';
 import { ReactComponent as BackIcon } from '../../../../assets/images/icons/BackIcon.svg';
-import gestion from "../../landing/images/Gestion_Logo_Black.svg";
+// import gestion from "../../landing/images/Gestion_Logo_Black.svg";
 
 // import Background from "../../Background";
 
@@ -160,10 +160,10 @@ const Login = () => {
       <Grid container style={{ height: '100vh', width: '100vw', borderRadius: '15px' }}>
         <Grid item xs={12} lg={7} style={{ width: '100%', height: '100vh' }}>
           <Grid container style={{ display: 'flex', padding: '20px', alignItems: 'center' }}>
-            <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', padding: '10px' }}>
-              <img src={gestion} style={{ height: "60px" }} alt="logo" />
-            </Grid>
-            <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
+            {/* <Grid item xs={6} style={{ display: 'flex', justifyContent: 'flex-start', padding: '10px', height:"30px" }}>
+              <img src={gestion} style={{}} alt="logo" />
+            </Grid> */}
+            <Grid item xs={12} style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>
               <Grid style={{ display: 'flex', alignItems: 'center' }}>
                 <Link to = "../" style={{display:"flex", alignItems:"center", justifyContent:"center"}}>
 

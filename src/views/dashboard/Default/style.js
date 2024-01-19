@@ -7,7 +7,7 @@ export const MovieCard = styled.div`
   border-radius: 0.6em;
   overflow: hidden;
   font-size: 80%;
-  width: 250px;
+  width: 90%;
   aspect-ratio: 16/9;
   box-shadow: var(--shadow-lg), var(--shadow-lg), var(--shadow-lg);
   transition: transform var(--transition-duration);
@@ -105,6 +105,18 @@ export const Content = styled.div`
     /* opacity: 0; */
     transform: translateY(6em);
   } `}
+`;
+
+
+export const ContentAnnual = styled.div`
+  z-index: 1;
+  position: absolute;
+  bottom: min(4em, 8vmin);
+  left: min(3em, 8vmin);
+  right: min(3em, 8vmin);
+  text-align: left;
+  transition: transform var(--transition-duration);
+
 `;
 
 

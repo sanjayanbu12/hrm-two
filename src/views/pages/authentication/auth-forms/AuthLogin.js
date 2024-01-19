@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, IconButton, InputAdornment, CircularProgress, Grid } from '@mui/material';
+import { Button, TextField, IconButton, InputAdornment, CircularProgress, Grid, Typography } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
@@ -10,6 +10,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+import { Link } from 'react-router-dom';
 
 const AuthLogin = () => {
   const [value1, setvalue1] = useState('');
@@ -231,6 +232,19 @@ const AuthLogin = () => {
               {isLoading ? <CircularProgress size={24} /> : 'Sign in'}
             </Button>
           </AnimateButton>
+          <Grid item xs={12}>
+         
+                  
+         <Typography
+          component={Link}
+           to="/pages/register/register3"
+           variant="subtitle1"
+           sx={{ textDecoration: 'none', }}
+         >
+          New to Gestion? Sign up
+          </Typography>
+        
+</Grid>
         </Grid>
       </div>
       {emptyFieldsAlert && (

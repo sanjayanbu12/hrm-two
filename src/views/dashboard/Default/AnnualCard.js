@@ -485,7 +485,7 @@ else{
 
         <style.MovieCard style={{backgroundColor:"rgba(0, 0, 0, 0.87)"}}>
           
-          <style.Content >
+          <style.ContentAnnual >
             {console.log(checkOutDisabled,'this is checkout')}
             <style.H1>{ContentMessage}</style.H1>
             {/* {checkInDisabled ? (<style.H1>CHECKED IN</style.H1>): <style.H1>CHECK IN</style.H1> } */}
@@ -551,7 +551,7 @@ else{
               
             </style.Synopsis>
 
-          </style.Content>
+          </style.ContentAnnual>
           
           </style.MovieCard>        
 

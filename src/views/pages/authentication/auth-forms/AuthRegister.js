@@ -1,6 +1,6 @@
 import { Box } from '@mui/system';
 import './authreg.css';
-import { Button, Grid, TextField, InputAdornment, IconButton, CircularProgress } from '@mui/material';
+import { Button, Grid, TextField, InputAdornment, IconButton, CircularProgress, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import AnimateButton from 'ui-component/extended/AnimateButton';
@@ -10,6 +10,7 @@ import { signupSchema } from 'Valdidation/SignupValidation';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import PasswordValidator from './PasswordValidator';
 import useToast from 'views/leavemanagement/useToast';
+import { Link } from 'react-router-dom';
 
 const FirebaseRegister = () => {
   const [firstname, setFirstname] = useState('');
@@ -254,6 +255,19 @@ const FirebaseRegister = () => {
                 {isLoading ? <CircularProgress size={24} /> : 'Sign up'}
               </Button>
             </AnimateButton>
+          </Grid>
+          <Grid item xs={12}>
+         
+                  
+                         <Typography
+                          component={Link}
+                           to="/pages/login/login3"
+                           variant="subtitle1"
+                           sx={{ textDecoration: 'none', }}
+                         >
+                          Already have an account? Sign in
+                          </Typography>
+                        
           </Grid>
         </Grid>
       </Box>
