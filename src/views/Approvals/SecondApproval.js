@@ -64,7 +64,7 @@ const SecondApproval = ({modalOpen, handleClose,itemId}) => {
             console.log("requestData", requestData);
     
             const response = await axios.put(
-                `http://localhost:3001/proc/updatedata/${CardId}`,
+                `https://hrm-backend-square.onrender.com/proc/updatedata/${CardId}`,
                 requestData
             );
     
