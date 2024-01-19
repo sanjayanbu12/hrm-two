@@ -5,7 +5,7 @@ import { Box,  Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: '#12486B',
+  backgroundColor: 'rgba(0, 0, 0, 0.87)',
   color: '#fff',
   overflow: 'hidden',
   position: 'relative',
@@ -54,7 +54,7 @@ const Card4 = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalOrderCard />
       ) : (
-        <Card style={{boxShadow: '0px 0px 14px 2px rgba(0, 0, 0, 0.1)'}}>
+        <Card elevation={0}>
         <CardWrapper border={false} content={false}>
           <Box sx={{ p: 2.25 }}>
             <Grid container direction="column">

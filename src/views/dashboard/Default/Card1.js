@@ -1,32 +1,34 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { useTheme, styled } from '@mui/material/styles';
-import { Box, Grid, Typography, Card } from '@mui/material';
-import MainCard from 'ui-component/cards/MainCard';
+import { useTheme  } from '@mui/material/styles';
+import { Box, Grid, Typography,  } from '@mui/material';
+// import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';
+import * as style from './style'
 
-const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: '#12486B',
-  color: '#fff',
-  overflow: 'hidden',
-  position: 'relative',
-  '&:after': {
-    content: '""',
-    position: 'absolute',
-    width: 210,
-    height: 210,
-    background: theme.palette.secondary[800],
-    borderRadius: 15,
-    [theme.breakpoints.down('sm')]: {
-      top: -105,
-      right: -140
-    }
-  }
-}));
+// const CardWrapper = styled(MainCard)(({ theme }) => ({
+//   backgroundColor: '#12486B',
+//   color: '#fff',
+//   overflow: 'hidden',
+//   position: 'relative',
+//   '&:after': {
+//     content: '""',
+//     position: 'absolute',
+//     width: 210,
+//     height: 210,
+//     background: theme.palette.secondary[800],
+//     borderRadius: 15,
+//     [theme.breakpoints.down('sm')]: {
+//       top: -105,
+//       right: -140
+//     }
+//   }
+// }));
 
 const Card1 = ({ isLoading }) => {
+ 
   const theme = useTheme();
 
   const [totalEmployees, setTotalEmployees] = useState(0);
@@ -56,9 +58,11 @@ const Card1 = ({ isLoading }) => {
       {isLoading ? (
         <SkeletonTotalOrderCard />
       ) : (
-        <Card style={{boxShadow: '0px 0px 14px 2px rgba(0, 0, 0, 0.1)'}}>
-          <CardWrapper border={false} content={false}>
-            <Box sx={{ p: 2.25 }}>
+        // <Card elevation={0}>
+        //   <CardWrapper border={false} content={false}>
+        <style.MovieCard style={{backgroundColor:"rgba(0, 0, 0, 0.87)"}}>
+        <style.ContentAddNew >
+            <Box sx={{ p: 2.25}}>
               <Grid container direction="column">
                 <Grid item>
                   <Grid container justifyContent="space-between">
@@ -112,8 +116,10 @@ const Card1 = ({ isLoading }) => {
                 </Grid>
               </Grid>
             </Box>
-          </CardWrapper>
-        </Card>
+            </style.ContentAddNew>
+            </style.MovieCard>
+
+     
       )}
     </>
   );

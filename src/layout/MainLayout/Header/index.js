@@ -9,7 +9,7 @@ import LogoSection from '../LogoSection';
 // import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
-import AttendanceMod from './AttendanceMod';
+// import AttendanceMod from './AttendanceMod';
 
 // assets
 import { IconMenu2 } from '@tabler/icons';
@@ -60,7 +60,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
       </Box>
      
         <Box sx={{ flexGrow: 2.5 }} />
-        <AttendanceMod/>
+        {/* <AttendanceMod/> */}
     
 
       {/* header search */}

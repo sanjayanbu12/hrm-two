@@ -130,7 +130,7 @@ const Upcomingevents = () => {
                           direction="column"
                           alignItems="center"
                           style={{
-                            backgroundColor: '#12486B',
+                            backgroundColor: 'rgba(0, 0, 0, 0.87)',
                             borderRadius: '15px',
                             padding: '15px',
                             height: '100%'
