@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 
 export const MovieCard = styled.div`
   --transition-duration: 400ms;
@@ -92,6 +92,10 @@ export const Content = styled.div`
   text-align: left;
   transition: transform var(--transition-duration);
 
+
+  ${({ checkOutDisabled }) =>
+    !checkOutDisabled &&
+    css`
   ${MovieCard}:hover & {
     transition-duration: var(--transition-duration);
     transition-delay: calc(var(--transition-duration) / 3);
@@ -100,7 +104,7 @@ export const Content = styled.div`
   ${MovieCard}:not(:hover) & {
     /* opacity: 0; */
     transform: translateY(6em);
-  }
+  } `}
 `;
 
 
@@ -113,15 +117,6 @@ export const ContentAddNew = styled.div`
   text-align: left;
   transition: transform var(--transition-duration);
 
-  ${MovieCardAddNew}:hover & {
-    transition-duration: var(--transition-duration);
-    transition-delay: calc(var(--transition-duration) / 3);
-  }
-
-  ${MovieCardAddNew}:not(:hover) & {
-    /* opacity: 0; */
-    transform: translateY(0em);
-  }
 `;
 
 

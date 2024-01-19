@@ -12,7 +12,7 @@
 // import { useContext } from 'react';
 // import ApiContext from 'context/api/ApiContext';
 // const CardWrapper = styled(MainCard)(({ theme }) => ({
-//   backgroundColor: '#12486B',
+//   backgroundColor: 'rgba(0, 0, 0, 0.87)',
 //   color: '#fff',
 //   overflow: 'hidden',
 //   position: 'relative',
@@ -453,7 +453,26 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
   };
   console.log("checkin id ", parclock)
 
+let ContentMessage;
+if(checkInDisabled){
+  ContentMessage = "CHECKED IN"
 
+  if(breakDisabled && !checkOutDisabled){
+    ContentMessage = {breakButtonLabel}
+  }
+
+if(checkOutDisabled && breakDisabled){
+  ContentMessage = "YOU ARE CHECKED OUT"
+}
+}
+
+else{
+  if(!checkInDisabled ){
+    ContentMessage = "CHECK IN"
+  }
+
+
+}
 
 
 
@@ -464,9 +483,12 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
       ) : (
         
 
-        <style.MovieCard style={{backgroundColor:"black"}}>
-          <style.Content>
-            {checkInDisabled ? (<style.H1>CHECK IN</style.H1>): <style.H1></style.H1> } CHECK IN
+        <style.MovieCard style={{backgroundColor:"rgba(0, 0, 0, 0.87)"}}>
+          
+          <style.Content >
+            {console.log(checkOutDisabled,'this is checkout')}
+            <style.H1>{ContentMessage}</style.H1>
+            {/* {checkInDisabled ? (<style.H1>CHECKED IN</style.H1>): <style.H1>CHECK IN</style.H1> } */}
            
             {/* <style.Infos >This is info</style.Infos> */}
             
@@ -514,13 +536,6 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
     ):  
     <Grid item style={{width:"fit-content"}}>
     <Button
-    // icon={
-    //   breakButtonLabel === 'Break' ? (
-    //     <CoffeeSharpIcon sx={{ fontSize: '20px', mr: '8px', mt: '3px' }} />
-    //   ) : (
-    //     <MeetingRoomSharpIcon sx={{ mr: '8px', mt: '3px' }} />
-    //   )
-    // }
     size='small'
 
     variant="contained"

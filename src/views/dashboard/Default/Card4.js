@@ -5,7 +5,7 @@ import { Box,  Grid, Typography,Card } from '@mui/material';
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
 const CardWrapper = styled(MainCard)(({ theme }) => ({
-  backgroundColor: '#12486B',
+  backgroundColor: 'rgba(0, 0, 0, 0.87)',
   color: '#fff',
   overflow: 'hidden',
   position: 'relative',
