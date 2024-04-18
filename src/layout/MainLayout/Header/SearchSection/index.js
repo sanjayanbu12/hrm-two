@@ -16,7 +16,7 @@ const AttendanceTracker = () => {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/attendance');
+        const response = await axios.get('https://hrm-backend-square.onrender.com/attendance');
         const { attendance, isCheckInDone } = response.data;
 
         if (attendance && attendance.checkInTime) {
@@ -41,7 +41,7 @@ const AttendanceTracker = () => {
       const currentTime = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
       const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
 
-      const response = await axios.post('http://localhost:3001/attendance/checkin', {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/attendance/checkin', {
         checkInTime: currentTime,
         checkInDate: currentDate
       });
@@ -65,7 +65,7 @@ const AttendanceTracker = () => {
       const currentTime = new Date().toLocaleTimeString('en-IN', { timeZone: 'Asia/Kolkata' });
       const currentDate = new Date().toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' });
 
-      const response = await axios.post('http://localhost:3001/attendance/checkout', {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/attendance/checkout', {
         checkOutTime: currentTime,
         checkOutDate: currentDate
       });

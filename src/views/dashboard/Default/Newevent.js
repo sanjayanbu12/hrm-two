@@ -53,7 +53,7 @@ const Newevent = () => {
       };
 
       try {
-        const response = await axios.post('http://localhost:3001/event/create', event);
+        const response = await axios.post('https://hrm-backend-square.onrender.com/event/create', event);
         seteventStatus(!eventStatus);
         if (response.status === 200) {
           console.log('Event created successfully:', response.data);
@@ -139,7 +139,7 @@ const Newevent = () => {
     };
 
     axios
-      .put(`http://localhost:3001/event/update/${updatedEvent.id}`, updatedEvent)
+      .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
       .then((response) => {
         if (response.status === 200) {
           seteventStatus(!eventStatus);
@@ -161,7 +161,7 @@ const Newevent = () => {
       };
 
       axios
-        .put(`http://localhost:3001/event/update/${updatedEvent.id}`, updatedEvent)
+        .put(`https://hrm-backend-square.onrender.com/event/update/${updatedEvent.id}`, updatedEvent)
         .then((response) => {
           if (response.status === 200) {
             seteventStatus(!eventStatus);
@@ -187,7 +187,7 @@ const Newevent = () => {
   const handleDeleteEvent = () => {
     if (selectedEvent) {
       axios
-        .delete(`http://localhost:3001/event/delete/${selectedEvent.id}`)
+        .delete(`https://hrm-backend-square.onrender.com/event/delete/${selectedEvent.id}`)
         .then((response) => {
           if (response.status === 200) {
             seteventStatus(!eventStatus);

@@ -96,7 +96,7 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
       authId: authId
     };
     try {
-      const response = await axios.post('http://localhost:3001/clock/create', checkInData);
+      const response = await axios.post('https://hrm-backend-square.onrender.com/clock/create', checkInData);
       if (response.status === 200) {
         console.log('Check-in successful!');
         setStatus(!formStatus);
@@ -115,7 +115,7 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
     if (breakButtonLabel === 'Break') {
       const currentDate = new Date();
       try {
-        const response = await axios.post(`http://localhost:3001/break/create`, {
+        const response = await axios.post(`https://hrm-backend-square.onrender.com/break/create`, {
           breakin: currentDate.toISOString(),
           attid: parclock
         });
@@ -135,7 +135,7 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
     } else if (breakButtonLabel === 'In') {
       const currentDate = new Date();
       try {
-        const response = await axios.put(`http://localhost:3001/break/update/${breakinID}`, {
+        const response = await axios.put(`https://hrm-backend-square.onrender.com/break/update/${breakinID}`, {
           breakout: currentDate.toISOString()
         });
         if (response.status === 200) {
@@ -155,7 +155,7 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
   const getdata = async () => {
     try {
       console.log('ww', employee._id);
-      const resp = await axios.get(`http://localhost:3001/api/getemployee/${employee._id}`);
+      const resp = await axios.get(`https://hrm-backend-square.onrender.com/api/getemployee/${employee._id}`);
       console.log('Total employee data', resp);
       const particulr = resp.data.clockid;
       console.log('zzz', particulr);
@@ -249,7 +249,7 @@ setBreackinId(Checkbreak.break.map((data) => data._id)[Checkbreak.break.length -
     const currentDate = new Date();
 
     try {
-      const response = await axios.put(`http://localhost:3001/clock/update/${parclock}`, {
+      const response = await axios.put(`https://hrm-backend-square.onrender.com/clock/update/${parclock}`, {
         checkOutTime: currentDate.toISOString()
       });
       if (response.status === 200) {

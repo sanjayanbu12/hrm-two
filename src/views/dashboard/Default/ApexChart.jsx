@@ -12,7 +12,7 @@ const Apexchart = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/allemployee")
+    fetch("https://hrm-backend-square.onrender.com/api/allemployee")
       .then((response) => response.json())
       .then((data) => {
         const designations = data.map((employee) => employee.desi);

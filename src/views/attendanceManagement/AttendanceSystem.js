@@ -8,7 +8,7 @@ const AttendanceList = () => {
   useEffect(() => {
     const fetchAttendance = async () => {
       try {
-        const response = await axios.get('http://localhost:3001/attendance');
+        const response = await axios.get('https://hrm-backend-square.onrender.com/attendance');
         setAttendance(response.data);
       } catch (error) {
         console.error('Error fetching attendance:', error);

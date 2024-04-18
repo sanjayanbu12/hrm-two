@@ -38,7 +38,7 @@ const CatalogLayout = ({ selectedMedia }) => {
     if (selectedMedia) {
       setLoading(true);
       axios
-        .get(`http://localhost:3001/progress/get/${userId}`)
+        .get(`https://hrm-backend-square.onrender.com/progress/get/${userId}`)
         .then((response) => {
           setVideoCompletion(response.data);
           console.log(response)
@@ -55,7 +55,7 @@ const CatalogLayout = ({ selectedMedia }) => {
     if (selectedMedia) {
       setLoading(true);
       axios
-        .get('http://localhost:3001/videos/getall')
+        .get('https://hrm-backend-square.onrender.com/videos/getall')
         .then((response) => {
           const moduleVideoData = response.data.filter((module) => module.courseName === selectedMedia.courseName);
           setModuleVideoData(moduleVideoData);
@@ -132,7 +132,7 @@ const CatalogLayout = ({ selectedMedia }) => {
     }));
 
     axios
-      .post('http://localhost:3001/progress/store', {
+      .post('https://hrm-backend-square.onrender.com/progress/store', {
         videoUrl: videoUrl,
         userId: userId,
         completed: true,

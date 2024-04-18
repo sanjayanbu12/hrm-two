@@ -152,7 +152,7 @@ const EmployeeForm = () => {
 
   const fetchEmployeesData = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/allemployee');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
       const employees = response.data;
       setedata(employees);
     } catch (error) {
@@ -161,7 +161,7 @@ const EmployeeForm = () => {
   };
 
   const fetchAuthData = async () => {
-    const res = await axios.get('http://localhost:3001/auth/getalldata');
+    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
     setAuthData(res.data.user);
     console.log(res.data.user.filter((data) => data.isEmployee === false));
   };
@@ -233,11 +233,11 @@ const EmployeeForm = () => {
     }));
   };
   const fetchRegData = async () => {
-    const res = await axios.get('http://localhost:3001/auth/getalldata');
+    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
     setRegData(res.data.user);
   };
   useEffect(() => {
-    fetch('http://localhost:3001/api/getemployee/' + id)
+    fetch('https://hrm-backend-square.onrender.com/api/getemployee/' + id)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
@@ -319,7 +319,7 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.put('http://localhost:3001/api/updateemployee/' + id, updatedtask);
+        await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, updatedtask);
 
         setName('');
         setLastname('');
@@ -406,10 +406,10 @@ const EmployeeForm = () => {
           },
           { abortEarly: false }
         );
-        const res = await axios.post('http://localhost:3001/api/addemployee', task);
+        const res = await axios.post('https://hrm-backend-square.onrender.com/api/addemployee', task);
         const newEmployeeId = res.data.data._id; 
         const empId = res.data.data.employeeid;
-        await axios.put(`http://localhost:3001/auth/updateauth/${name.id}`, { employeeId: empId, isEmployee: true });
+        await axios.put(`https://hrm-backend-square.onrender.com/auth/updateauth/${name.id}`, { employeeId: empId, isEmployee: true });
         if (report.id) {
           const reportUpdateData = {
             report: {
@@ -418,8 +418,8 @@ const EmployeeForm = () => {
             }
           };
           console.log(report.id);
-          await axios.put(`http://localhost:3001/api/updateemployee/${report.id}`, reportUpdateData);
-          await axios.put(`http://localhost:3001/api/updateemployee/${newEmployeeId}`, {
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${report.id}`, reportUpdateData);
+          await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${newEmployeeId}`, {
             isReported: true
           });
         }

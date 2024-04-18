@@ -50,7 +50,7 @@ const Quiz = ({ courseid }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/media/get/${courseid.courseid}`)
+      .get(`https://hrm-backend-square.onrender.com/media/get/${courseid.courseid}`)
       .then((response) => {
         console.log('Quiz data response:', response.data);
         setQuizData(response.data.quiz);

@@ -67,7 +67,7 @@ const AuthLogin = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3001/auth/login', {
+      const response = await axios.post('https://hrm-backend-square.onrender.com/auth/login', {
         email: value1,
         password: value2
       });

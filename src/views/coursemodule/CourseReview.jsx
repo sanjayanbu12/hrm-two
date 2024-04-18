@@ -156,7 +156,7 @@ const CourseReview = () => {
         console.log('Selected Video URLs:', selectedVideoUrls.map(video => video.url));
 
         // Send a POST request to your backend to create a new video
-        const response = await axios.post('http://localhost:3001/videos/create', {
+        const response = await axios.post('https://hrm-backend-square.onrender.com/videos/create', {
           moduleId: selectedMedia._id,
           moduleName: formText,
           videoUrls: selectedVideoUrls.map(video => video.url),

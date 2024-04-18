@@ -127,8 +127,8 @@ const OrgTree = () => {
         }
       };
       // const id = orgMems.map((data) => data._id);
-      await axios.post(`http://localhost:3001/org/createorg`, manData);
-      await axios.put(`http://localhost:3001/api/updateemployee/${data._id}`, { isTopTier: true });
+      await axios.post(`https://hrm-backend-square.onrender.com/org/createorg`, manData);
+      await axios.put(`https://hrm-backend-square.onrender.com/api/updateemployee/${data._id}`, { isTopTier: true });
       fetchOrgData();
     } catch (error) {
       console.log(error);
@@ -142,7 +142,7 @@ const OrgTree = () => {
       return { name: data.name, id: data._id, employeeId: data.employeeid };
     });
     const id = orgMems.map((data) => data._id);
-    await axios.put(`http://localhost:3001/org/updateorg/${id}`, {
+    await axios.put(`https://hrm-backend-square.onrender.com/org/updateorg/${id}`, {
       hrName: membersArray,
       managerName: managerData
     });
@@ -156,7 +156,7 @@ const OrgTree = () => {
       const employeeIdsToDelete = dta.employeeid;
       const foundEmployees = orgMems.map((org) => org.hrName.filter((emp) => employeeIdsToDelete.includes(emp.employeeId))).flat();
       const idToDel = foundEmployees.map((empid) => empid._id);
-      await axios.delete(`http://localhost:3001/org/deleteorg/${orgId}/${idToDel}`);
+      await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/${idToDel}`);
       setorgStatus(!orgStatus);
       fetchOrgData();
     } catch (error) {
@@ -199,7 +199,7 @@ const OrgTree = () => {
   };
   const handledeltop = async () => {
     const orgId = orgMems.map((data) => data._id);
-    await axios.delete(`http://localhost:3001/org/deleteorg/${orgId}/toptier`);
+    await axios.delete(`https://hrm-backend-square.onrender.com/org/deleteorg/${orgId}/toptier`);
     setorgStatus(!orgStatus);
     
   };

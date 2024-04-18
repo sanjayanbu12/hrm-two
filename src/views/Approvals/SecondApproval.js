@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import { useContext } from 'react';
 import ApiContext from 'context/api/ApiContext';  
 import axios from 'axios';
-// http://localhost:3001/proc/updatedata/:id
+// https://hrm-backend-square.onrender.com/proc/updatedata/:id
 
 const SecondApproval = ({modalOpen, handleClose,itemId}) => {
     const[request,SetRequest]=useState("");
@@ -64,7 +64,7 @@ const SecondApproval = ({modalOpen, handleClose,itemId}) => {
             console.log("requestData", requestData);
     
             const response = await axios.put(
-                `http://localhost:3001/proc/updatedata/${CardId}`,
+                `https://hrm-backend-square.onrender.com/proc/updatedata/${CardId}`,
                 requestData
             );
     

@@ -115,7 +115,7 @@ const BasicRecruittable = () => {
     }).then(async result => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:3001/rec/getRec/${id}`)
+          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`)
           await fetchData()
          
           Swal.fire({

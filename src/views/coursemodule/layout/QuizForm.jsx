@@ -56,7 +56,7 @@ const QuizForm = ({courseid}) => {
       };
 
       // Send a POST request to create a new quiz
-      const response = await axios.post('http://localhost:3001/quiz/create', data); // Replace with your actual API endpoint
+      const response = await axios.post('https://hrm-backend-square.onrender.com/quiz/create', data); // Replace with your actual API endpoint
       console.log('Quiz created:', response.data);
 
       // Reset the form

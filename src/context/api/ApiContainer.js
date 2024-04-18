@@ -9,7 +9,7 @@ const ApiContainer = (props) => {
   console.log('eventStatus', eventStatus);
   const fetchEmployee = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/api/allemployee'); 
+      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee'); 
       setEmployeeContextData(response);
     } catch (error) {
       console.log(error);
@@ -17,7 +17,7 @@ const ApiContainer = (props) => {
   };
   const fetchAts = async () => {
     try {
-      const res = await axios.get(`http://localhost:3001/ats/`);
+      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/`);
       setatsContextData(res);
     } catch (err) {
       console.log(err);
@@ -25,7 +25,7 @@ const ApiContainer = (props) => {
   };
   const fetchRec = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/rec/getRec');
+      const res = await axios.get('https://hrm-backend-square.onrender.com/rec/getRec');
       setrecruitmentContextData(res);
     } catch (err) {
       console.log(err);
@@ -34,7 +34,7 @@ const ApiContainer = (props) => {
 
   const fetchLeave = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/api/leave/');
+      const res = await axios.get('https://hrm-backend-square.onrender.com/api/leave/');
       setleaveContextData(res);
     } catch (err) {
       console.log(err);
@@ -42,7 +42,7 @@ const ApiContainer = (props) => {
   };
   const fetchOrg = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/org/getorg')
+      const res = await axios.get('https://hrm-backend-square.onrender.com/org/getorg')
       setorgContextData(res)
     } catch (err) {
       console.log(err);
@@ -51,7 +51,7 @@ const ApiContainer = (props) => {
 
   const fetchMediaList = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/media/getAll');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/media/getAll');
       console.log(response)
       setmedialistContextData(response)
     } catch (error) {
@@ -60,7 +60,7 @@ const ApiContainer = (props) => {
   };
   const fetchEvent = async () => {
     try {
-      const res = await axios.get('http://localhost:3001/event/getall');
+      const res = await axios.get('https://hrm-backend-square.onrender.com/event/getall');
       seteventContextData(res)
     } catch (error) {
       console.error(error);
@@ -69,7 +69,7 @@ const ApiContainer = (props) => {
 
   const fetchTravel = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/travel/getall');
+      const response = await axios.get('https://hrm-backend-square.onrender.com/travel/getall');
      console.log("responsezzz",response.data.data)
       settravelData(response.data.data)
     } catch (error) {
@@ -79,7 +79,7 @@ const ApiContainer = (props) => {
 
   const Procruitmentget = async () => {
     try {
-      const api = await axios.get('http://localhost:3001/proc/getall');
+      const api = await axios.get('https://hrm-backend-square.onrender.com/proc/getall');
       console.log("procget",api)
       setGetProcruitment(api.data.data); 
     } catch (error) {
