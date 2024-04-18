@@ -73,7 +73,7 @@ const ChangePassword = () => {
         newpassword
       };
 
-      const res = await axios.put('https://hrm-backend-square.onrender.com/auth/updatenewpassword', alldata);
+      const res = await axios.put('http://localhost:3001/auth/updatenewpassword', alldata);
       if (res.status === 200) {
         document.getElementById('demo-simple-select').value = '';
         document.getElementById('demo-simple-select1').value = '';

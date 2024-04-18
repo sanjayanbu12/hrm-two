@@ -127,7 +127,7 @@ const RequestLeave = () => {
   };
 
   const fetchRegData = async () => {
-    const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+    const res = await axios.get('http://localhost:3001/auth/getalldata');
     setRegData(res.data.user);
   };
 
@@ -175,7 +175,7 @@ const RequestLeave = () => {
       data.append('attachments', attachments[0]);
       data.append('reportingto', report.id);
 
-      const response = await axios.post('https://hrm-backend-square.onrender.com/api/leave/', data, {
+      const response = await axios.post('http://localhost:3001/api/leave/', data, {
         headers: {
           'Content-Type': 'multipart/form-data' // Set content type to multipart/form-data
         }

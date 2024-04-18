@@ -70,7 +70,7 @@ const ProfileSection = () => {
       dispatch({ type: LOGGED_OUT });
       dispatch({ type: USER_OR_NOT });
       localStorage.clear();
-      // await axios.post('https://hrm-backend-square.onrender.com/auth/logout');
+      // await axios.post('http://localhost:3001/auth/logout');
     } catch (error) {
       alert(error && error.message);
     }
@@ -111,7 +111,7 @@ const ProfileSection = () => {
 
   const WhoLog = async () => {
     try {
-      const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+      const res = await axios.get('http://localhost:3001/auth/getalldata');
       const users = res.data.user;
 
       const matchedUser = users.find((user) => user.employeeId === authId);
@@ -145,9 +145,9 @@ const ProfileSection = () => {
     WhoLog();
   }, []);
 
-  const handleAccount = () => {
-    navigate('/Accountsetting');
-  };
+  // const handleAccount = () => {
+  //   navigate('/Accountsetting');
+  // };
   return (
     <>
       <Chip
@@ -355,12 +355,12 @@ const ProfileSection = () => {
                             }
                           />
                         </ListItemButton> */}
-                        <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleAccount}>
-                        <ListItemIcon>
+                        {/* <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleAccount}> */}
+                        {/* <ListItemIcon>
                             <IconLogout color="black" stroke={1.5} size="1.3rem" />
-                          </ListItemIcon>
-                          <ListItemText primary={<Typography variant="body2">Account Setting</Typography>} />
-                        </ListItemButton>
+                          </ListItemIcon> */}
+                          {/* <ListItemText primary={<Typography variant="body2">Account Setting</Typography>} /> */}
+                        {/* </ListItemButton> */}
                         <ListItemButton sx={{ borderRadius: `${customization.borderRadius}px` }} onClick={handleLogout}>
                           <ListItemIcon>
                             <IconLogout color="black" stroke={1.5} size="1.3rem" />

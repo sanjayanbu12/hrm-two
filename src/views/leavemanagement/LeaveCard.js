@@ -90,7 +90,7 @@ const LeaveCard = () => {
 
   const handleSubmit = async () => {
     try {
-      const apiUrl = `https://hrm-backend-square.onrender.com/api/updateemployee/${EmployeeId}`;
+      const apiUrl = `http://localhost:3001/api/updateemployee/${EmployeeId}`;
       const response = await axios.put(apiUrl, { annualLeave: annualleave });
       console.log(response.data);
       setAnnualLeave('');

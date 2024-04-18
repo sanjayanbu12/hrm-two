@@ -47,7 +47,7 @@ const BasicApptable = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/ats/');
+      const response = await axios.get('http://localhost:3001/ats/');
       const newData = response.data.getData;
       console.log(newData)
       setData(newData);
@@ -68,7 +68,7 @@ const BasicApptable = () => {
 
   const handleResume = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+      const response = await axios.get(`http://localhost:3001/ats/resume/${id}`, {
         responseType: 'arraybuffer',
       });
       const byteArray = new Uint8Array(response.data);
@@ -81,7 +81,7 @@ const BasicApptable = () => {
 
   const handlePhotoDown = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
+      const response = await axios.get(`http://localhost:3001/ats/photo/${id}`, {
         responseType: 'arraybuffer',
       });
       const contentType = response.headers['Content-Type'];

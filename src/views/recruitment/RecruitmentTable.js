@@ -163,7 +163,7 @@ const {recruitmentContextData}=useContext(ApiContext)
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${multidelete[0]}`);
+          await axios.delete(`http://localhost:3001/rec/getRec/${multidelete[0]}`);
           await fetchData();
           Swal.fire({
             icon: 'success',

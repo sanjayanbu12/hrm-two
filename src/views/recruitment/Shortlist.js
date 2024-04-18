@@ -62,7 +62,7 @@ const Shortlist = () => {
 
   const handleResume = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+      const response = await axios.get(`http://localhost:3001/ats/resume/${id}`, {
         responseType: 'arraybuffer',
       });
       const byteArray = new Uint8Array(response.data);
@@ -75,7 +75,7 @@ const Shortlist = () => {
 
   const handlePhotoDown = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/photo/${id}`, {
+      const response = await axios.get(`http://localhost:3001/ats/photo/${id}`, {
         responseType: 'arraybuffer',
       });
       const contentType = response.headers['Content-Type'];

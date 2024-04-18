@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Card1 from './Card1';
 import Card2 from './Card2';
 import Card3 from './Card3';
-import AnnualCard from './AnnualCard';
+// import AnnualCard from './AnnualCard';
 // import { gridSpacing } from 'store/constant';
 import Card from '@mui/material/Card';
 import Apexchart from './ApexChart';
@@ -36,9 +36,9 @@ const Dashboard = () => {
           <Grid item xs={12} md={6} lg={3}>
             <Card3 isLoading={isLoading} />
           </Grid>
-          <Grid item xs={12} md={6} lg={3}>
+          {/* <Grid item xs={12} md={6} lg={3}>
             <AnnualCard isLoading={isLoading} />
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={8} sm={12}>
             <Apexchart isLoading={isLoading} />

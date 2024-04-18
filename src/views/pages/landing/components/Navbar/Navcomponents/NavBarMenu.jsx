@@ -70,7 +70,7 @@ const NavBarMenu = () => {
           },
         }}
       >
-        <MenuRoundedIcon className="rotate" fontSize="large" />
+        <MenuRoundedIcon className="rotate" fontSize="large" /> 
       </Button>
 
       <Popper

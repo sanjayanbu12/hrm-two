@@ -5,7 +5,7 @@ import { MdDelete, MdEdit } from 'react-icons/md';
 import { IoIosAdd } from 'react-icons/io';
 import SaveIcon from '@mui/icons-material/Save';
 
-const backendBaseUrl = 'https://hrm-backend-square.onrender.com';
+const backendBaseUrl = 'http://localhost:3001';
 
 const Container = styled.div`
   * {
@@ -192,7 +192,7 @@ const Notes = (courseid) => {
   // Function to fetch all notes from the backend
   const fetchNotes = async () => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/media/get/${courseid.courseid}`);
+      const response = await axios.get(`http://localhost:3001/media/get/${courseid.courseid}`);
       console.log(response.data.notes)// Replace with your backend API endpoint
       setNotes(response.data.notes);
     } catch (error) {
@@ -207,7 +207,7 @@ const Notes = (courseid) => {
   // Function to add a new note
   const addNote = async (newNote) => {
     try {
-      const response = await axios.post(`https://hrm-backend-square.onrender.com/notes/`, newNote); // Replace with your backend API endpoint
+      const response = await axios.post(`http://localhost:3001/notes/`, newNote); // Replace with your backend API endpoint
       fetchNotes();
       console.log(response); // Fetch updated notes after adding a new one
     } catch (error) {

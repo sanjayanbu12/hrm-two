@@ -12,7 +12,7 @@ export const fetchEmployeesSuccess = (employees) => {
 export const fetchEmployees = () => {
   return async (dispatch) => {
    try {
-      const response = await axios.get('https://hrm-backend-square.onrender.com/api/allemployee');
+      const response = await axios.get('http://localhost:3001/api/allemployee');
       const employees = response.data.reverse(); // Reverse the data if needed
       dispatch(fetchEmployeesSuccess(employees));
     } catch (error) {

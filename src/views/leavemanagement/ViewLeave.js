@@ -79,7 +79,7 @@ const ViewLeave = () => {
 
   const handleAttachments = async (id, name) => {
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/api/leave/${id}`, {
+      const response = await axios.get(`http://localhost:3001/api/leave/${id}`, {
         responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);

@@ -14,7 +14,7 @@ const Certificate = ({ name }) => {
 
   const WhoLog = async () => {
     try {
-      const res = await axios.get('https://hrm-backend-square.onrender.com/auth/getalldata');
+      const res = await axios.get('http://localhost:3001/auth/getalldata');
       const users = res.data.user;
       const matchedUser = users.find((user) => user.employeeId === authId);
       if (matchedUser) {

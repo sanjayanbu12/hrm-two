@@ -10,7 +10,7 @@
  */
 
 // ==============================|| LOGO SVG ||============================== //
-import Logo1 from './logo.png'
+import Logo1 from '../views/pages/landing/images/Gestion_Logo.svg'
 const Logo = () => {
   return (
     <>

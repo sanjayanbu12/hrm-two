@@ -257,7 +257,7 @@ export default function CustomizedSteppers({ handleClose }) {
 
         // Send formDataToSend to the server
         const response = await axios.post(
-          'https://hrm-backend-square.onrender.com/proc/createdata',
+          'http://localhost:3001/proc/createdata',
           formDataToSend
         );
         console.log(response);

@@ -23,7 +23,7 @@ const ApplicationView = () => {
   const fetchData = async () => {
     try {
       setLoader(true);
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/ats/${id}`)
+      const res = await axios.get(`http://localhost:3001/ats/${id}`)
       const Job = res.data.data;
       const abc = JSON.stringify(Job)
       setSelectedJob(JSON.parse(abc))

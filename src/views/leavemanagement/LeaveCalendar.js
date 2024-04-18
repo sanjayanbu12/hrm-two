@@ -51,7 +51,7 @@ const LeaveCalendar = () => {
       }
 
       try {
-        const response = await axios.post('https://hrm-backend-square.onrender.com/cal/createCal', Eventdata);
+        const response = await axios.post('http://localhost:3001/cal/createCal', Eventdata);
 
         if (response.status === 200) {
           console.log('Event created successfully:', response.data);
@@ -71,7 +71,7 @@ const LeaveCalendar = () => {
   };
 
   const fetData = () => {
-    const apiurl = `https://hrm-backend-square.onrender.com/cal/getCal`;
+    const apiurl = `http://localhost:3001/cal/getCal`;
 
     axios
       .get(apiurl)
@@ -119,7 +119,7 @@ const LeaveCalendar = () => {
 
     console.log(updatedEvent);
 
-    axios.put(`https://hrm-backend-square.onrender.com/cal/updateCal/${updatedEvent.id}`, updatedEvent)
+    axios.put(`http://localhost:3001/cal/updateCal/${updatedEvent.id}`, updatedEvent)
       .then((response) => {
         if (response.status === 200) {
           console.log('Event updated successfully:', response.data);
@@ -139,7 +139,7 @@ const LeaveCalendar = () => {
       };
 
       axios
-        .put(`https://hrm-backend-square.onrender.com/cal/updateCal/${updatedEvent.id}`, updatedEvent)
+        .put(`http://localhost:3001/cal/updateCal/${updatedEvent.id}`, updatedEvent)
         .then((response) => {
           if (response.status === 200) {
             console.log('Event updated successfully:', response.data);
@@ -173,7 +173,7 @@ const LeaveCalendar = () => {
   const handleDeleteEvent = () => {
     if (selectedEvent) {
       axios
-        .delete(`https://hrm-backend-square.onrender.com/cal/removeCal/${selectedEvent.id}`)
+        .delete(`http://localhost:3001/cal/removeCal/${selectedEvent.id}`)
 
         .then((response) => {
           if (response.status === 200) {

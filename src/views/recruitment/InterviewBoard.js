@@ -109,7 +109,7 @@ const InterviewBoard = () => {
   const handleResume = async (id, name) => {
     console.log(id + 'ID RESUME');
     try {
-      const response = await axios.get(`https://hrm-backend-square.onrender.com/ats/resume/${id}`, {
+      const response = await axios.get(`http://localhost:3001/ats/resume/${id}`, {
         responseType: 'arraybuffer'
       });
       const byteArray = new Uint8Array(response.data);
@@ -178,7 +178,7 @@ const InterviewBoard = () => {
     if (updatedItem) {
       updatedItem.Status = newStatus;
       try {
-        await axios.put(`https://hrm-backend-square.onrender.com/ats/updateats/${updatedItem._id}`, {
+        await axios.put(`http://localhost:3001/ats/updateats/${updatedItem._id}`, {
           _id: updatedItem._id,
           Status: newStatus
         });

@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 
-// project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import EmployeeForm from 'views/addemployeeform/EmployeeForm';
@@ -30,10 +29,6 @@ import CourseCatalog from 'views/coursemodule/CourseCatalog';
 import ViewApproval from 'views/recruitApproval/ViewApproval';
 import HrApproval from 'views/recruitApproval/HrApproval';
 import ManagerApproval from 'views/recruitApproval/ManagerApproval';
-import Goals from 'views/performance/Goals/Goals';
-import YourGoalTab from 'views/performance/Goals/YourGoalTab';
-import Feedback from 'views/performance/Feedback/Feedback';
-import SkillsetMatrix from 'views/performance/SkillSet/SkillsetMatrix';
 import InterviewBoard from 'views/recruitment/InterviewBoard';
 import ApplicationView1 from 'views/recruitment/ApplicationView1';
 import { FeedSelectedTable } from 'views/recruitment/FeedSelectedTable';
@@ -42,18 +37,12 @@ import AtttendanceTab from 'layout/MainLayout/Header/AtttendanceTab';
 import LeaveTab from 'views/leavemanagement/LeaveTab';
 import AccountSetting from 'views/accountsetting/AccountSetting';
 import LeaveApproval from 'views/leavemanagement/LeaveApproval';
-import Travel from 'views/travel/Travel';
-import Card from 'views/travel/Card';
-import Travelapproval from 'views/travel/Travelapproval';
 import ProcruitmentTable from 'views/Precruitment/ProcruitmentTable';
 import ApproovalCard from 'views/Approvals/ApproovalCard';
 import ApprovalDetails from 'views/Approvals/ApprovalDetails';
-import Admin from 'views/admin/AdminConsole';
-import AdminManager from 'views/admin/ManageAdmins';
-import YetTo from 'views/admin/YetTo';
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
-// ==============================|| MAIN ROUTING ||============================== //
+
 
 const MainRoutes = {
   path: '/',
@@ -98,29 +87,10 @@ const MainRoutes = {
       element: <LeaveCalendar />
     },
     {
-      path: '/travel',
-      element: <Travel />
-    },
-    {
       path: '/attendanceManagement',
       element: <AttendanceSystem />
     },
-    {
-      path: '/goals',
-      element: <Goals />
-    },
-    {
-      path: '/board/:id',
-      element: <YourGoalTab />
-    },
-    {
-      path: '/feedbacks',
-      element: <Feedback />
-    },
-    {
-      path: '/skillsetmatrix',
-      element: <SkillsetMatrix />
-    },
+   
     {
       path: '/Jobtable',
       element: <RecruitmentTable />
@@ -243,14 +213,6 @@ const MainRoutes = {
       element: <LeaveApproval />
     },
     {
-      path: '/card/travel',
-      element: <Card />
-    },
-    {
-      path: '/Travelapproval/:index',
-      element: <Travelapproval />
-    },
-    {
       path: '/Procruitment',
       element: <ProcruitmentTable />
     },
@@ -263,18 +225,6 @@ const MainRoutes = {
       element: <ApprovalDetails />
     },
 
-    {
-      path: '/AdminConsole',
-      element: <Admin />
-    },
-    {
-      path: '/AdminManager',
-      element: <AdminManager />
-    },
-    {
-      path: '/Admin',
-      element: <YetTo />
-    }
   ]
 };
 

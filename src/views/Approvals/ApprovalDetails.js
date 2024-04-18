@@ -43,7 +43,7 @@ const handleAcceptConfirmation = async () => {
       ...item, 
       SecondRequest: updatedReportingTo,
     };
-    await axios.put(`https://hrm-backend-square.onrender.com/proc/updatedata/${item._id}`,updatedItem)
+    await axios.put(`http://localhost:3001/proc/updatedata/${item._id}`,updatedItem)
 
     handleCloseAcceptConfirmModal();
     navigate("/ApproovalCard")
@@ -88,7 +88,7 @@ try {
     reportingTo: updatedReportingTo,
   };
 
-    await axios.put(`https://hrm-backend-square.onrender.com/proc/update-rejected/${item._id}`,updatedItem)
+    await axios.put(`http://localhost:3001/proc/update-rejected/${item._id}`,updatedItem)
   handleCloseConfirmModal();
 } catch (error) {
    console.error('Error updating data', error);

@@ -51,7 +51,7 @@ const AccountSettingV2 = () => {
       const formData = new FormData();
       formData.append('profile', file);
       try {
-        const response = await axios.put('https://hrm-backend-square.onrender.com/api/profilepic/' + id, formData, {
+        const response = await axios.put('http://localhost:3001/api/profilepic/' + id, formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
@@ -66,7 +66,7 @@ const AccountSettingV2 = () => {
 
   const handleDeleteAvatar = async () => {
     try {
-      await axios.delete('https://hrm-backend-square.onrender.com/api/profilepic/' + id);
+      await axios.delete('http://localhost:3001/api/profilepic/' + id);
       setStatus(!formStatus);
       setAvatarImage(null);
     } catch (error) {

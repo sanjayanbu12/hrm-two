@@ -326,7 +326,7 @@ const RecruitmentForm = () => {
 
   useEffect(() => {
     axios
-      .get('https://hrm-backend-square.onrender.com/rec/getRec/' + id)
+      .get('http://localhost:3001/rec/getRec/' + id)
       .then((res) => {
         console.log('This is res data', res.data.data);
 
@@ -417,7 +417,7 @@ const RecruitmentForm = () => {
             abortEarly: false
           }
         );
-        await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedtask);
+        await axios.put('http://localhost:3001/rec/getRec/' + id, updatedtask);
         setJobrole('');
         setClientname('');
         setClientcompany('');
@@ -513,7 +513,7 @@ const RecruitmentForm = () => {
           },
           { abortEarly: false }
         );
-        await axios.post('https://hrm-backend-square.onrender.com/rec/createRec', task);
+        await axios.post('http://localhost:3001/rec/createRec', task);
 
         setJobrole('');
         setClientname('');

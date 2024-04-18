@@ -39,7 +39,7 @@ const RecruitmentView = () => {
 
   const fetchData = async () => {
     try {
-      const res = await axios.get(`https://hrm-backend-square.onrender.com/rec/getRec/${id}`);
+      const res = await axios.get(`http://localhost:3001/rec/getRec/${id}`);
       console.log(res.data.data.orgData.find((data) => data.employeeId === authId));
       const Job = res.data.data;
       const abc = JSON.stringify(Job);
@@ -113,7 +113,7 @@ const RecruitmentView = () => {
   };
   const deleteJob = async () => {
     try {
-      await axios.delete(`https://hrm-backend-square.onrender.com/rec/getRec/${selectedJob._id}`);
+      await axios.delete(`http://localhost:3001/rec/getRec/${selectedJob._id}`);
       navigate(`/hrapproval/${authId}`);
     } catch (error) {
       console.log(error);
@@ -184,7 +184,7 @@ const RecruitmentView = () => {
         ...selectedJob,
         orgData: updatedOrgData
       };
-      await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, updatedData);
+      await axios.put('http://localhost:3001/rec/getRec/' + id, updatedData);
       setorgStatus(!orgStatus)
       setTimeout(() => {
         navigate(`/hrapproval/${authId}`);
@@ -194,7 +194,7 @@ const RecruitmentView = () => {
     }
   };
   const hanldeApproveMan = async () => {
-    await axios.put('https://hrm-backend-square.onrender.com/rec/getRec/' + id, {
+    await axios.put('http://localhost:3001/rec/getRec/' + id, {
       jobApproved: true
     });
     

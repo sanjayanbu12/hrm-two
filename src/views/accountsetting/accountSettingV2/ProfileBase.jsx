@@ -55,7 +55,7 @@ const ProfileBase = () => {
         email,
         mob
       };
-      await axios.put('https://hrm-backend-square.onrender.com/api/updateemployee/' + id, Updatedata);
+      await axios.put('http://localhost:3001/api/updateemployee/' + id, Updatedata);
       setStatus(!formStatus);
     } catch (error) {
       console.log('Error Updating data', error);

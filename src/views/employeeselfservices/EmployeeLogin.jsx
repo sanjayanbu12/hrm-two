@@ -4,10 +4,8 @@ import Tab from '@mui/material/Tab';
 import LeaveTrackerForm from 'views/leavemanagement/RequestLeave';
 import CourseCatalog from 'views/coursemodule/CourseCatalog';
 import Newevent from 'views/dashboard/Default/Newevent';
-import Feedback from 'views/performance/Feedback/Feedback'
+
 import EmployeeHandbook from 'views/employeehandbook/EmployeeHandbook';
-import Goals from 'views/performance/Goals/Goals';
-import OrgChart from 'views/payroll/Payroll';
 const EmployeeLogin = () => {
   const [value, setValue] = React.useState(0);
 
@@ -21,14 +19,8 @@ const EmployeeLogin = () => {
       return <CourseCatalog />;
     } else if (value === 2) {
       return <div ><Newevent /></div> 
-    }else if(value === 3){
-      return <div><Feedback /></div>
     }else if(value === 4){
       return <div><EmployeeHandbook /></div>
-    }else if(value === 5){
-      return <div><Goals /></div>
-    }else if(value === 6){
-      return <div><OrgChart /></div>
     }
 
     return null;
@@ -40,9 +32,7 @@ const EmployeeLogin = () => {
         <Tab  label="Request Leave" />
         <Tab label="Course Catalog" />
         <Tab label="Square  Calendar" />
-        <Tab label="Feedback" />
         <Tab label="HandBook" />
-        <Tab label="Goals" />
         <Tab label="Organization Chart" />
       </Tabs>
       {renderTabContent()}

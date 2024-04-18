@@ -14,7 +14,7 @@ const CourseCatalog = () => {
 
   useEffect(() => {
     axios
-      .get('https://hrm-backend-square.onrender.com/media/getAll')
+      .get('http://localhost:3001/media/getAll')
       .then((response) => {
         setCourseData(response.data);
         setLoading(false);
